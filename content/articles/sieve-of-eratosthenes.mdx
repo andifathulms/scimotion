@@ -1,0 +1,58 @@
+---
+title: "Sieve of Eratosthenes"
+subtitle: "The ancient algorithm that finds every prime — and why it still works."
+topic: "Mathematics"
+slug: "sieve-of-eratosthenes"
+date: "2025-06-18"
+readTime: 8
+featured: true
+description: "Start with every number, then cross out the non-primes. What's left is beautiful."
+---
+
+## What is a prime number?
+
+A prime number is any integer greater than 1 that has exactly two divisors: 1 and itself. The number 7 is prime because the only way to write it as a product of two positive integers is $1 \times 7$. The number 12 is not prime because you can also write $3 \times 4$ or $2 \times 6$.
+
+That seems simple. But the distribution of primes across the number line is one of the deepest mysteries in mathematics. They appear to scatter at random — 2, 3, 5, 7, 11, 13, 17, 19, 23 — with no obvious pattern. Yet some of the most powerful encryption systems in use today depend on the fact that primes are abundant, predictable enough to find, but hard enough to factor that they protect your bank account.
+
+So how do you find them efficiently?
+
+## The sieve
+
+Around 240 BCE, the Greek mathematician Eratosthenes of Cyrene — the same man who calculated the circumference of the Earth — described a beautifully simple method. Start with a list of every integer from 2 to some limit N. Then:
+
+1. Circle the first number (2 — it's prime by definition, having no smaller divisors except 1).
+2. Cross out every multiple of 2: 4, 6, 8, 10 … These are definitively not prime.
+3. Move to the next uncrossed number (3 — it's prime).
+4. Cross out every multiple of 3: 6, 9, 12, 15 …
+5. Repeat until you've processed all numbers up to $\sqrt{N}$.
+
+What remains uncrossed is the complete set of primes up to N. You "sieve" out the composites, and the primes fall through.
+
+<SieveAnimation />
+
+## Why √N is enough
+
+This is the clever part. Suppose a number $n$ is composite — it has a factor $p$ less than $n$. Then $n = p \times q$ for some $q$. If both $p$ and $q$ were greater than $\sqrt{N}$, then $p \times q > N$, which contradicts $n \leq N$. So at least one of $p$ or $q$ must be $\leq \sqrt{N}$.
+
+This means every composite number up to N must have at least one prime factor $p \leq \sqrt{N}$. So if we've eliminated all multiples of all primes up to $\sqrt{N}$, every surviving number must be prime.
+
+In other words: we only need to sieve up to $p \leq \sqrt{N}$, and we're done.
+
+For $N = 100$: $\sqrt{100} = 10$. We only need to process primes 2, 3, 5, and 7. Everything else follows automatically.
+
+## How fast is it?
+
+The sieve runs in time $O(n \log \log n)$ — very close to linear. The reason this unusual-looking bound appears is that the work done is proportional to the sum of harmonic series of the primes, and by a result called Mertens' theorem, that sum grows like $\log \log n$.
+
+In practical terms: sieving the first million numbers takes about 3.5 million operations. Sieving the first billion takes about 4 billion. It scales almost perfectly, which is why the Sieve of Eratosthenes — invented over two thousand years ago — remains in use today in both competitive programming and cryptographic applications.
+
+The formula $O(n \log \log n)$ makes it one of the few genuinely sub-linear-looking algorithms that doesn't require any fancy data structures, just a list and some crossing out.
+
+## What the sieve reveals
+
+Run it yourself. Notice how the early primes (2, 3, 5, 7) eliminate a huge fraction of numbers with very little work. By the time you reach 11, most of the composites are already gone. This reflects the fact that small primes are everywhere — among any 30 consecutive integers, exactly 8 are not divisible by 2, 3, or 5.
+
+The primes that remain look scattered. Isolated. Sometimes they come in pairs (twin primes: 11 and 13, 17 and 19) — and whether there are infinitely many twin primes is still an open question, one of the most famous unsolved problems in mathematics.
+
+What the sieve also reveals is the prime number theorem, empirically: primes thin out as numbers grow. Near 100, about 1 in 4 numbers is prime. Near 1,000, about 1 in 7. Near 1,000,000, about 1 in 14. The density decreases logarithmically, thinning but never stopping.

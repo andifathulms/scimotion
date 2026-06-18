@@ -1,0 +1,54 @@
+---
+title: "Sorting Algorithms"
+subtitle: "How computers put things in order — and why some ways are faster than others."
+topic: "Computer Science"
+slug: "sorting-algorithms"
+date: "2025-04-22"
+readTime: 9
+featured: false
+description: "From bubble sort to quicksort — see exactly how each algorithm works, step by step."
+---
+
+## The problem with random order
+
+Imagine you have a thousand books stacked randomly. Finding any specific book requires checking them one by one — up to a thousand checks in the worst case. But if the books are sorted alphabetically, you can open to the middle, see which half your book is in, and recursively halve the problem. You'll find the book in at most 10 steps. That's the difference between $O(n)$ and $O(\log n)$ search — an enormous practical difference when $n$ is large.
+
+Sorting is such a fundamental operation that programming languages build it in: `array.sort()` in JavaScript, `sorted()` in Python. But how does it actually work? And why are some algorithms so much faster than others?
+
+## Bubble sort: the simple one
+
+Bubble sort makes repeated passes through the list. In each pass, it compares adjacent elements and swaps them if they're in the wrong order. After the first pass, the largest element is guaranteed to be at the end. After the second pass, the second-largest is in place. And so on.
+
+It's called bubble sort because large elements "bubble up" to their correct positions like bubbles rising through water. It's intuitive, easy to implement, and terribly slow: $O(n^2)$ comparisons in the average and worst case.
+
+For 1,000 elements: about 500,000 comparisons. For 1,000,000 elements: about 500 billion. It doesn't scale.
+
+<SortingAnimation />
+
+## Why O(n log n) is the limit
+
+It turns out that no comparison-based sorting algorithm can do better than $O(n \log n)$ in the worst case. Here's why.
+
+A sorting algorithm must distinguish between all $n!$ possible orderings of the input (any permutation might be the input). Each comparison gives 1 bit of information — "is A less than B, or not?" To distinguish between $n!$ possibilities using 1-bit questions, you need at least $\log_2(n!)$ questions.
+
+By Stirling's approximation: $\log_2(n!) \approx n \log_2 n$. So you need at least $O(n \log n)$ comparisons. Merge sort and quicksort achieve this bound.
+
+## Merge sort: divide and conquer
+
+Merge sort splits the array in half, sorts each half recursively, then merges the two sorted halves into one sorted array. The merge operation is linear: you walk through both halves with two pointers, always taking the smaller element.
+
+The recursion goes $\log n$ levels deep. Each level does $O(n)$ total work for all the merges. Total: $O(n \log n)$.
+
+Merge sort is wonderfully predictable — it always runs in $O(n \log n)$, regardless of the input. Its disadvantage is that it requires $O(n)$ extra memory for the merge step.
+
+## Quicksort: the practical winner
+
+Quicksort picks a "pivot" element and partitions the array: everything smaller than the pivot goes left, everything larger goes right. Then it recursively sorts each side.
+
+In the best case, the pivot is always the median, splitting the problem in half each time — $O(n \log n)$. In the worst case (always picking the smallest or largest element as pivot), it degrades to $O(n^2)$.
+
+Why is quicksort often faster in practice than merge sort, despite the same average complexity? Cache behavior. Quicksort operates in-place (no extra memory), accessing elements sequentially. Modern CPUs have hardware caches that make sequential memory access much faster than random access. The constant factor matters.
+
+Real-world sort implementations (including Python's Timsort and many C++ implementations) use hybrid strategies: insertion sort for small arrays (where its overhead is low), quicksort or merge sort for larger ones.
+
+Watch the animations. Notice how bubble sort and insertion sort take many more steps for the same array. Notice how quicksort sometimes gets unlucky with its pivot. The theoretical bounds match what you see.

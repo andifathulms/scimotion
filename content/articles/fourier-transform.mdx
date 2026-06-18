@@ -1,0 +1,50 @@
+---
+title: "The Fourier Transform"
+subtitle: "Every signal is secretly a sum of sine waves. Here's how to find them."
+topic: "Mathematics"
+slug: "fourier-transform"
+date: "2025-05-10"
+readTime: 10
+featured: false
+description: "Decompose any wave into its frequency components — and see why this changes everything."
+---
+
+## Sound is a shape
+
+When you hear a musical note, your ear is detecting air pressure oscillating back and forth many times per second. A pure A note vibrates at 440 Hz — the air pressure rises and falls in a perfectly smooth sine wave, 440 times per second.
+
+But almost no real sound is a pure sine wave. When a violin plays A440, the string vibrates at 440 Hz and also at 880 Hz, 1320 Hz, 1760 Hz — overtones at integer multiples of the fundamental frequency. The relative loudness of each overtone is what gives the violin its distinctive timbre, different from a flute or a human voice playing the same note.
+
+The brilliant insight of Joseph Fourier, working in the early 1800s, was that this works in reverse: any periodic signal — no matter how complex — can be decomposed into a sum of sine waves. Every waveform hides a recipe of frequencies.
+
+## Superposition: waves that add
+
+Two sine waves at the same frequency but different phases and amplitudes add together to produce another sine wave. Two waves at different frequencies add together to produce a more complex shape.
+
+This is the principle of superposition, and it's completely general. Try it in the animation: set three waves with different frequencies and amplitudes, and watch how the composite white line — the sum — becomes more complex, more interesting, more like a real signal.
+
+<FourierAnimation />
+
+Notice how the frequency spectrum at the bottom (the bar chart) gives you a completely different view of the same signal. The time domain shows you what the signal looks like over time. The frequency domain shows you what it's made of. Both views contain the same information — just organized differently.
+
+## What the transform actually computes
+
+The Fourier transform answers one question: how much of frequency $\xi$ is present in signal $f(x)$?
+
+$$\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x)\, e^{-2\pi i x \xi}\, dx$$
+
+The term $e^{-2\pi i x \xi}$ is a complex exponential — by Euler's formula, it equals $\cos(2\pi x \xi) - i\sin(2\pi x \xi)$. Multiplying the signal $f(x)$ by this and integrating is like taking a "fingerprint" for frequency $\xi$: if the signal oscillates at that frequency, the product will be consistently positive and the integral will be large. If it doesn't, positive and negative contributions cancel, and the integral is nearly zero.
+
+The result $\hat{f}(\xi)$ is complex-valued. Its magnitude tells you how much of frequency $\xi$ is present; its argument (phase angle) tells you where in the cycle that frequency component starts.
+
+## Why this matters
+
+Fourier analysis is one of the most useful tools in all of applied mathematics.
+
+**Audio compression**: MP3 files work by computing the Fourier transform of audio, discarding frequency components that humans can't hear well (particularly high frequencies during loud sounds), and encoding only the perceptually significant components. The file is smaller because it stores a frequency recipe, not every sample.
+
+**Medical imaging**: MRI machines don't photograph your insides directly. They measure radio frequency signals from hydrogen atoms in your body, take the Fourier transform, and reconstruct the spatial image from the frequency data. Your MRI scan is literally a Fourier transform.
+
+**Signal filtering**: Want to remove the 60 Hz hum of electrical interference from a recording? Compute the Fourier transform, zero out the component at 60 Hz, and invert. The transform lets you work in frequency space where the problem is trivial, then return to time space.
+
+The fact that a mathematical tool invented to analyze heat conduction in 1807 now underlies WiFi, JPEG images, noise-canceling headphones, and medical imaging is either a remarkable coincidence or a sign that Fourier stumbled onto something genuinely fundamental about how information works.
