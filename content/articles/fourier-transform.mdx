@@ -48,3 +48,13 @@ Fourier analysis is one of the most useful tools in all of applied mathematics.
 **Signal filtering**: Want to remove the 60 Hz hum of electrical interference from a recording? Compute the Fourier transform, zero out the component at 60 Hz, and invert. The transform lets you work in frequency space where the problem is trivial, then return to time space.
 
 The fact that a mathematical tool invented to analyze heat conduction in 1807 now underlies WiFi, JPEG images, noise-canceling headphones, and medical imaging is either a remarkable coincidence or a sign that Fourier stumbled onto something genuinely fundamental about how information works.
+
+## Why frequency is circular
+
+The $e^{-2\pi i x \xi}$ term in the transform is not just notation — it is a rotating phasor. A phasor is a vector that spins at a constant angular velocity; when you project its tip onto the vertical axis, you trace out a perfect sine wave.
+
+Watch what happens below: the spinning arrow on the left is rotating at the chosen frequency. The trace on the right is simply the height of the arrow tip, recorded over time. Increase the frequency and the arrow spins faster — and the sine wave on the right compresses. The Fourier transform is asking, for each possible frequency: if I spun a phasor at that rate, how well does it "match" the signal?
+
+<FourierPhasesAnimation />
+
+Switch to "3 Harmonics" to see three phasors chained together — each spinning at a different rate. Their combined tip traces a rough approximation of a square wave, the classic Fourier series result. The more harmonics you add, the sharper the square corners become.

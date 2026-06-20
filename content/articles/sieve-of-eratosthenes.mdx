@@ -56,3 +56,13 @@ Run it yourself. Notice how the early primes (2, 3, 5, 7) eliminate a huge fract
 The primes that remain look scattered. Isolated. Sometimes they come in pairs (twin primes: 11 and 13, 17 and 19) — and whether there are infinitely many twin primes is still an open question, one of the most famous unsolved problems in mathematics.
 
 What the sieve also reveals is the prime number theorem, empirically: primes thin out as numbers grow. Near 100, about 1 in 4 numbers is prime. Near 1,000, about 1 in 7. Near 1,000,000, about 1 in 14. The density decreases logarithmically, thinning but never stopping.
+
+## Visualizing the gaps
+
+Once you have a list of primes, a natural next question is: how far apart are they? The gap between consecutive primes turns out to follow a surprisingly structured pattern, despite the apparent randomness of primes themselves.
+
+The chart below shows every prime gap up to your chosen limit — each bar's height is the distance between two consecutive primes. The violet bars mark twin primes (gap = 2), the most densely packed a pair of primes can be. Slide the limit upward and watch how twin prime pairs persist, scattered among larger gaps.
+
+<SievePrimeGapAnimation />
+
+Switch to "Density Plot" to see the prime-counting function $\pi(n)$ — the number of primes below $n$ — plotted against $n$. Toggle on the estimate to overlay the curve $\pi(n) \approx n / \ln(n)$, the Prime Number Theorem's prediction. The match is remarkable: a simple logarithm captures the density of something as irregular as the primes.

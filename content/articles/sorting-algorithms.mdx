@@ -52,3 +52,13 @@ Why is quicksort often faster in practice than merge sort, despite the same aver
 Real-world sort implementations (including Python's Timsort and many C++ implementations) use hybrid strategies: insertion sort for small arrays (where its overhead is low), quicksort or merge sort for larger ones.
 
 Watch the animations. Notice how bubble sort and insertion sort take many more steps for the same array. Notice how quicksort sometimes gets unlucky with its pivot. The theoretical bounds match what you see.
+
+## Complexity in numbers
+
+The gap between $O(n^2)$ and $O(n \log n)$ sounds abstract until you see it plotted. Click "Run benchmark" below to run all four algorithms on arrays of increasing size and count exactly how many comparisons each one makes.
+
+<SortingComplexityAnimation />
+
+At $n = 160$, bubble sort typically needs 10–15× more comparisons than merge sort. At $n = 1{,}000$, that ratio would be closer to 100×. This is why algorithmic complexity matters: not as a theoretical exercise, but because the difference between choosing the right algorithm and the wrong one compounds dramatically as data grows.
+
+Toggle "Theoretical curves" to overlay the expected $n^2/2$ and $n \log_2 n$ shapes — the measured benchmark data should track them closely, with quicksort beating merge sort on most random inputs due to better cache behavior despite identical asymptotic complexity.

@@ -25,3 +25,18 @@ export const CardiacAnimation = dynamic(
   () => import('@/components/animations/CardiacAnimation').then(m => ({ default: m.CardiacAnimation })),
   { ssr: false }
 )
+
+export const FourierPhasesAnimation = dynamic(
+  () => import('@/components/animations/FourierPhasesAnimation').then(m => ({ default: m.FourierPhasesAnimation })),
+  { ssr: false }
+)
+
+export const SievePrimeGapAnimation = dynamic(
+  () => import('@/components/animations/SievePrimeGapAnimation').then(m => ({ default: m.SievePrimeGapAnimation })),
+  { ssr: false }
+)
+
+export const SortingComplexityAnimation = dynamic(
+  () => import('@/components/animations/SortingComplexityAnimation').then(m => ({ default: m.SortingComplexityAnimation })),
+  { ssr: false }
+)
