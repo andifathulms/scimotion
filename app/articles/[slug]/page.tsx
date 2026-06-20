@@ -7,12 +7,16 @@ import { RelatedPosts } from '@/components/RelatedPosts'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
+import { ProseAnimator } from '@/components/ProseAnimator'
 import {
   SieveAnimation,
   FourierAnimation,
   SortingAnimation,
   DoubleSlitAnimation,
   CardiacAnimation,
+  FourierPhasesAnimation,
+  SievePrimeGapAnimation,
+  SortingComplexityAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -21,6 +25,9 @@ const components = {
   SortingAnimation,
   DoubleSlitAnimation,
   CardiacAnimation,
+  FourierPhasesAnimation,
+  SievePrimeGapAnimation,
+  SortingComplexityAnimation,
 }
 
 type Props = {
@@ -67,6 +74,7 @@ export default async function ArticlePage({ params }: Props) {
         <hr className="border-border mb-8" />
 
         {/* Body */}
+        <ProseAnimator />
         <div className="prose-article">
           <MDXRemote
             source={content}
