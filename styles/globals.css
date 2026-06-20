@@ -2,47 +2,49 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-base: #0B0F1A;
-  --color-bg-surface: #111827;
-  --color-bg-hover: #1A2235;
-  --color-accent-blue: #1E6FD9;
-  --color-accent-blueMid: #85B7EB;
-  --color-accent-indigo: #7F77DD;
-  --color-accent-teal: #5DCAA5;
-  --color-accent-pink: #ED93B1;
-  --color-accent-amber: #EF9F27;
-  --color-text-primary: #E8EDF5;
-  --color-text-secondary: rgba(232,237,245,0.6);
-  --color-text-muted: rgba(232,237,245,0.35);
-  --color-border: rgba(255,255,255,0.08);
-  --color-border-hover: rgba(255,255,255,0.18);
+  --color-bg-base: #0F0D0A;
+  --color-bg-surface: #1A1712;
+  --color-bg-hover: #252018;
+  --color-accent-gold: #F59E0B;
+  --color-accent-orange: #FB923C;
+  --color-accent-violet: #A78BFA;
+  --color-accent-teal: #10B981;
+  --color-accent-blue: #60A5FA;
+  --color-accent-pink: #F472B6;
+  --color-text-primary: #F5F0E8;
+  --color-text-secondary: rgba(245,240,232,0.6);
+  --color-text-muted: rgba(245,240,232,0.35);
+  --color-border: rgba(255,245,235,0.08);
+  --color-border-hover: rgba(255,245,235,0.18);
   --font-sans: Inter, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
 :root {
-  --bg-base: #0B0F1A;
-  --bg-surface: #111827;
-  --bg-hover: #1A2235;
-  --accent-blue: #1E6FD9;
-  --accent-blueMid: #85B7EB;
-  --accent-indigo: #7F77DD;
-  --accent-teal: #5DCAA5;
-  --accent-pink: #ED93B1;
-  --accent-amber: #EF9F27;
-  --text-primary: #E8EDF5;
-  --text-secondary: rgba(232,237,245,0.6);
-  --text-muted: rgba(232,237,245,0.35);
-  --border: rgba(255,255,255,0.08);
-  --border-hover: rgba(255,255,255,0.18);
+  --bg-base: #0F0D0A;
+  --bg-surface: #1A1712;
+  --bg-hover: #252018;
+  --accent-gold: #F59E0B;
+  --accent-orange: #FB923C;
+  --accent-violet: #A78BFA;
+  --accent-teal: #10B981;
+  --accent-blue: #60A5FA;
+  --accent-pink: #F472B6;
+  --text-primary: #F5F0E8;
+  --text-secondary: rgba(245,240,232,0.6);
+  --text-muted: rgba(245,240,232,0.35);
+  --border: rgba(255,245,235,0.08);
+  --border-hover: rgba(255,245,235,0.18);
 }
 
 .light {
-  --bg-base: #F8F9FC;
+  --bg-base: #FAF7F2;
   --bg-surface: #FFFFFF;
-  --text-primary: #0B0F1A;
-  --text-secondary: rgba(11,15,26,0.6);
+  --bg-hover: #F5F0E8;
+  --text-primary: #1A1712;
+  --text-secondary: rgba(26,23,18,0.6);
   --border: rgba(0,0,0,0.08);
+  --border-hover: rgba(0,0,0,0.16);
 }
 
 body {
@@ -73,7 +75,7 @@ body {
   gap: 6px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--accent-blue);
+  color: var(--accent-gold);
 }
 
 .animation-canvas {
@@ -143,7 +145,7 @@ body {
 }
 
 .prose-article blockquote {
-  border-left: 3px solid var(--accent-blue);
+  border-left: 3px solid var(--accent-gold);
   padding-left: 1rem;
   margin: 1.5rem 0;
   color: var(--text-secondary);
@@ -153,4 +155,36 @@ body {
 .katex-display {
   overflow-x: auto;
   padding: 0.5rem 0;
+}
+
+/* Prose entrance animations */
+.prose-article h2,
+.prose-article h3,
+.prose-article p,
+.prose-article blockquote,
+.prose-article pre {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.prose-article h2.prose-visible,
+.prose-article h3.prose-visible,
+.prose-article p.prose-visible,
+.prose-article blockquote.prose-visible,
+.prose-article pre.prose-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prose-article h2,
+  .prose-article h3,
+  .prose-article p,
+  .prose-article blockquote,
+  .prose-article pre {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
