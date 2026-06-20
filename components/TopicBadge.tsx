@@ -1,9 +1,9 @@
 type Topic = 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
 
 const topicStyles: Record<Topic, string> = {
-  Mathematics: 'text-accent-indigo bg-accent-indigo/15 border-accent-indigo/25',
+  Mathematics: 'text-accent-violet bg-accent-violet/15 border-accent-violet/25',
   Physics: 'text-accent-teal bg-accent-teal/15 border-accent-teal/25',
-  'Computer Science': 'text-accent-blueMid bg-accent-blueMid/15 border-accent-blueMid/25',
+  'Computer Science': 'text-accent-blue bg-accent-blue/15 border-accent-blue/25',
   Medicine: 'text-accent-pink bg-accent-pink/15 border-accent-pink/25',
 }
 

@@ -12,7 +12,7 @@ export function Navbar() {
       <div className="max-w-[1100px] mx-auto px-5 h-14 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-[22px] h-[22px] rounded-[5px] bg-accent-blue flex items-center justify-center">
+          <div className="w-[22px] h-[22px] rounded-[5px] bg-accent-gold flex items-center justify-center">
             <div className="w-[7px] h-[7px] rounded-full bg-white" />
           </div>
           <span className="font-semibold text-text-primary text-sm tracking-tight">Scimotion</span>

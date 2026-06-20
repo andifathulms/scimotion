@@ -4,7 +4,7 @@ import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
 
 type Wave = { freq: number; amp: number }
-const COLORS = ['#1E6FD9', '#7F77DD', '#5DCAA5']
+const COLORS = ['#F59E0B', '#A78BFA', '#10B981']
 const W = 600, H = 200
 
 function drawWaves(canvas: HTMLCanvasElement, waves: Wave[], cursor: number) {
@@ -33,14 +33,14 @@ function drawWaves(canvas: HTMLCanvasElement, waves: Wave[], cursor: number) {
 
   const composite = getPoints(null)
   ctx.beginPath()
-  ctx.strokeStyle = '#E8EDF5'
+  ctx.strokeStyle = '#F5F0E8'
   ctx.lineWidth = 2
   composite.forEach((y, x) => x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y))
   ctx.stroke()
 
   if (cursor >= 0) {
     ctx.beginPath()
-    ctx.strokeStyle = '#EF9F27'
+    ctx.strokeStyle = '#FB923C'
     ctx.lineWidth = 1
     ctx.setLineDash([4, 4])
     ctx.moveTo(cursor, 0)
@@ -97,7 +97,7 @@ export function FourierAnimation() {
         </button>
       </div>
       <div className="animation-canvas" style={{ minHeight: 280 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0B0F1A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
         {/* Spectrum bars */}
         <div className="mt-4 flex items-end gap-3 h-16 px-2">
           {waves.map((w, i) => (
@@ -112,7 +112,7 @@ export function FourierAnimation() {
         </div>
       </div>
       <div className="animation-controls flex-wrap">
-        <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-blue text-white text-xs font-medium hover:bg-accent-blue/90 transition-colors">
+        <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
         <div className="flex flex-col gap-2 w-full mt-2">
@@ -122,13 +122,13 @@ export function FourierAnimation() {
               <span>Freq:</span>
               <input type="range" min={0.5} max={5} step={0.5} value={w.freq}
                 onChange={e => setWaves(ws => ws.map((wv, j) => j === i ? { ...wv, freq: +e.target.value } : wv))}
-                className="w-20 accent-accent-blue"
+                className="w-20 accent-accent-gold"
               />
               <span>{w.freq}Hz</span>
               <span className="ml-2">Amp:</span>
               <input type="range" min={0} max={1} step={0.1} value={w.amp}
                 onChange={e => setWaves(ws => ws.map((wv, j) => j === i ? { ...wv, amp: +e.target.value } : wv))}
-                className="w-20 accent-accent-blue"
+                className="w-20 accent-accent-gold"
               />
               <span>{w.amp.toFixed(1)}</span>
             </div>

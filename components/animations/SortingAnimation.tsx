@@ -180,7 +180,7 @@ export function SortingAnimation() {
                 width={20}
                 height={h}
                 rx={2}
-                fill={isComparing ? '#EF9F27' : isSorted ? '#5DCAA5' : '#1E6FD9'}
+                fill={isComparing ? '#FB923C' : isSorted ? '#10B981' : '#F59E0B'}
                 className="transition-all duration-75"
               />
             )
@@ -193,7 +193,7 @@ export function SortingAnimation() {
             if (!genRef.current) { genRef.current = makeGenerator(arr) }
             setRunning(r => !r)
           }}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-blue text-white text-xs font-medium hover:bg-accent-blue/90 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors"
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
@@ -209,10 +209,10 @@ export function SortingAnimation() {
         </select>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
-          <input type="range" min={20} max={300} step={10} value={320 - speed} onChange={e => setSpeed(320 - +e.target.value)} className="w-20 accent-accent-blue" />
+          <input type="range" min={20} max={300} step={10} value={320 - speed} onChange={e => setSpeed(320 - +e.target.value)} className="w-20 accent-accent-gold" />
         </div>
         <span className="text-xs text-text-secondary">
-          Comparisons: <strong className="text-accent-amber">{comparisons}</strong> · Swaps: <strong className="text-accent-teal">{swaps}</strong>
+          Comparisons: <strong className="text-accent-orange">{comparisons}</strong> · Swaps: <strong className="text-accent-teal">{swaps}</strong>
         </span>
       </div>
     </div>

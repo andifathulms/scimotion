@@ -59,12 +59,12 @@ export function CardiacAnimation() {
     return () => clearInterval(id)
   }, [running, speed])
 
-  const saColor = phase === 1 ? '#EF9F27' : '#64748b'
-  const avColor = phase === 3 ? '#EF9F27' : '#64748b'
-  const laColor = phase === 2 ? '#ED93B1' : '#1E3A5F'
-  const raColor = phase === 2 ? '#ED93B1' : '#1E3A5F'
-  const lvColor = phase === 4 ? '#DC2626' : '#1A2235'
-  const rvColor = phase === 4 ? '#DC2626' : '#1A2235'
+  const saColor = phase === 1 ? '#FB923C' : '#64748b'
+  const avColor = phase === 3 ? '#FB923C' : '#64748b'
+  const laColor = phase === 2 ? '#F472B6' : '#1E1A14'
+  const raColor = phase === 2 ? '#F472B6' : '#1E1A14'
+  const lvColor = phase === 4 ? '#DC2626' : '#252018'
+  const rvColor = phase === 4 ? '#DC2626' : '#252018'
 
   const ecgPath = ecgPoints.map((y, i) => `${i * (500 / 120)},${y}`).join(' ')
 
@@ -99,23 +99,23 @@ export function CardiacAnimation() {
           <text x={200} y={127} textAnchor="middle" fontSize={8} fill="#e2e8f0">AV</text>
           {/* Signal dot */}
           {signalPos && (
-            <circle cx={signalPos.x} cy={signalPos.y} r={5} fill="#EF9F27" opacity={0.9} />
+            <circle cx={signalPos.x} cy={signalPos.y} r={5} fill="#FB923C" opacity={0.9} />
           )}
         </svg>
         {/* ECG trace */}
         <div className="mt-2 rounded-lg overflow-hidden" style={{ background: '#020c07' }}>
           <svg viewBox="0 0 500 100" className="w-full" style={{ height: 100 }}>
-            <polyline points={ecgPath} fill="none" stroke="#5DCAA5" strokeWidth={1.5} />
+            <polyline points={ecgPath} fill="none" stroke="#10B981" strokeWidth={1.5} />
           </svg>
         </div>
       </div>
       <div className="animation-controls">
-        <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-blue text-white text-xs font-medium hover:bg-accent-blue/90 transition-colors">
+        <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
-          <input type="range" min={300} max={1500} step={100} value={1800 - speed} onChange={e => setSpeed(1800 - +e.target.value)} className="w-20 accent-accent-blue" />
+          <input type="range" min={300} max={1500} step={100} value={1800 - speed} onChange={e => setSpeed(1800 - +e.target.value)} className="w-20 accent-accent-gold" />
         </div>
         <span className="ml-auto text-xs text-text-secondary capitalize">
           Phase: <strong className="text-accent-teal">{['Idle', 'SA Node fires', 'Atria contract', 'AV delay', 'Ventricles contract', 'Reset'][phase]}</strong>

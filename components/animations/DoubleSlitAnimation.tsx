@@ -65,10 +65,10 @@ export function DoubleSlitAnimation() {
         </button>
       </div>
       <div className="animation-canvas" style={{ minHeight: 310 }}>
-        <svg viewBox="0 0 500 300" className="w-full" style={{ height: 300, background: '#0B0F1A', borderRadius: 8 }}>
+        <svg viewBox="0 0 500 300" className="w-full" style={{ height: 300, background: '#0F0D0A', borderRadius: 8 }}>
           {/* Particle gun */}
-          <rect x={10} y={130} width={40} height={40} rx={4} fill="#1E6FD9" opacity={0.6} />
-          <text x={30} y={148} textAnchor="middle" fontSize={8} fill="#E8EDF5" opacity={0.7}>GUN</text>
+          <rect x={10} y={130} width={40} height={40} rx={4} fill="#F59E0B" opacity={0.6} />
+          <text x={30} y={148} textAnchor="middle" fontSize={8} fill="#F5F0E8" opacity={0.7}>GUN</text>
 
           {/* Barrier */}
           <rect x={200} y={0} width={8} height={110} fill="#334155" />
@@ -81,25 +81,25 @@ export function DoubleSlitAnimation() {
 
           {/* Dots */}
           {dots.map((d, i) => (
-            <circle key={i} cx={450 + (i % 5)} cy={d.y} r={1.5} fill="#5DCAA5" opacity={d.opacity} />
+            <circle key={i} cx={450 + (i % 5)} cy={d.y} r={1.5} fill="#10B981" opacity={d.opacity} />
           ))}
         </svg>
       </div>
       <div className="animation-controls">
-        <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-blue text-white text-xs font-medium hover:bg-accent-blue/90 transition-colors">
+        <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
         <div className="flex rounded-lg border border-border overflow-hidden text-xs">
           {(['particle', 'wave'] as Mode[]).map(m => (
             <button key={m} onClick={() => { setMode(m); resetAll() }}
-              className={`px-3 py-1.5 capitalize transition-colors ${mode === m ? 'bg-accent-blue text-white' : 'text-text-secondary hover:bg-bg-hover'}`}>
+              className={`px-3 py-1.5 capitalize transition-colors ${mode === m ? 'bg-accent-gold text-bg-base' : 'text-text-secondary hover:bg-bg-hover'}`}>
               {m}
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
-          <input type="range" min={1} max={20} value={speed} onChange={e => setSpeed(+e.target.value)} className="w-20 accent-accent-blue" />
+          <input type="range" min={1} max={20} value={speed} onChange={e => setSpeed(+e.target.value)} className="w-20 accent-accent-gold" />
         </div>
         <span className="ml-auto text-xs text-text-secondary">Particles detected: <strong className="text-accent-teal">{dots.length}</strong></span>
       </div>

@@ -115,9 +115,9 @@ export function SieveAnimation() {
               key={cell.value}
               className={`flex items-center justify-center rounded text-xs font-mono h-8 transition-all duration-150 border ${
                 cell.isCurrent
-                  ? 'bg-accent-amber/20 border-accent-amber text-accent-amber font-bold'
+                  ? 'bg-accent-orange/20 border-accent-orange text-accent-orange font-bold'
                   : cell.isPrime
-                  ? 'bg-accent-blue/15 border-accent-blue/40 text-accent-blue'
+                  ? 'bg-accent-gold/15 border-accent-gold/40 text-accent-gold'
                   : cell.isEliminated
                   ? 'bg-transparent border-border text-text-muted line-through opacity-30'
                   : 'bg-bg-hover border-border text-text-secondary'
@@ -131,20 +131,20 @@ export function SieveAnimation() {
       <div className="animation-controls">
         <button
           onClick={() => setRunning(r => !r)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-blue text-white text-xs font-medium hover:bg-accent-blue/90 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors"
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Limit:</span>
-          <input type="range" min={20} max={150} value={limit} onChange={e => setLimit(+e.target.value)} className="w-20 accent-accent-blue" />
+          <input type="range" min={20} max={150} value={limit} onChange={e => setLimit(+e.target.value)} className="w-20 accent-accent-gold" />
           <span>{limit}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
-          <input type="range" min={50} max={500} step={50} value={600 - speed} onChange={e => setSpeed(600 - +e.target.value)} className="w-20 accent-accent-blue" />
+          <input type="range" min={50} max={500} step={50} value={600 - speed} onChange={e => setSpeed(600 - +e.target.value)} className="w-20 accent-accent-gold" />
         </div>
-        <span className="ml-auto text-xs text-text-secondary">Primes found: <strong className="text-accent-blue">{primeCount}</strong></span>
+        <span className="ml-auto text-xs text-text-secondary">Primes found: <strong className="text-accent-gold">{primeCount}</strong></span>
       </div>
     </div>
   )
