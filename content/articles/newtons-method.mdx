@@ -1,0 +1,82 @@
+---
+title: "Newton's Method"
+subtitle: "Finding roots of equations by following tangent lines downhill."
+topic: "Mathematics"
+slug: "newtons-method"
+date: "2026-01-18"
+readTime: 8
+featured: false
+description: "The algorithm that squares the number of correct decimal places with every iteration."
+---
+
+## The problem of root-finding
+
+Equations of the form $f(x) = 0$ appear everywhere in science and engineering. Finding the angle at which a projectile hits a target. Determining when supply equals demand in an economic model. Solving the implicit equations that arise in thermodynamics, orbital mechanics, and structural engineering.
+
+Some equations have algebraic solutions: the quadratic formula solves $ax^2 + bx + c = 0$. Abel and Galois proved in the 19th century that no general formula exists for degree 5 and above. For transcendental equations like $x = \cos(x)$, algebra is simply off the table.
+
+Newton's method (also called the Newton-Raphson method) solves this class of problem numerically — finding roots to any desired precision through geometric iteration.
+
+## The geometric idea
+
+Imagine the graph of $f(x)$. You want to find where it crosses zero. Start at some initial guess $x_0$. Draw the tangent line to the curve at the point $(x_0, f(x_0))$. The tangent line will cross zero at some point $x_1$ — and that $x_1$ is typically much closer to the true root than $x_0$ was.
+
+Repeat. Draw the tangent at $(x_1, f(x_1))$, find where it hits zero, call that $x_2$. Under the right conditions, each iteration dramatically narrows the error.
+
+The formula for the tangent line through $(x_n, f(x_n))$ with slope $f'(x_n)$ is:
+
+$$y - f(x_n) = f'(x_n)(x - x_n)$$
+
+Setting $y = 0$ and solving for the zero crossing:
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+
+This is Newton's method: a single, elegant recurrence.
+
+<NewtonMethodAnimation />
+
+Choose a function and starting point. Watch the tangent lines track toward the root. Try starting near a local extremum — where $f'(x) \approx 0$ — and watch the method fail: the tangent is nearly horizontal and the next guess shoots far away.
+
+## Quadratic convergence
+
+The reason Newton's method is so valued is not just that it converges — it's *how fast* it converges. Near a simple root (where $f'(\text{root}) \neq 0$), the method converges quadratically:
+
+$$|x_{n+1} - r| \leq C\,|x_n - r|^2$$
+
+Each iteration squares the error. If you have 1 correct decimal place, the next iteration gives 2, then 4, then 8, then 16. Starting from a decent guess, ten iterations routinely give full double-precision accuracy (about 15 decimal places).
+
+This is why Newton's method is the workhorse behind many numerical algorithms. The square root function in your computer is often computed via Newton's method applied to $f(x) = x^2 - a$ (finding the positive root of $x^2 - a = 0$):
+
+$$x_{n+1} = x_n - \frac{x_n^2 - a}{2x_n} = \frac{1}{2}\left(x_n + \frac{a}{x_n}\right)$$
+
+This is the Babylonian method, known since antiquity, and it's exactly Newton's method in disguise.
+
+## When it fails
+
+Newton's method is powerful but not foolproof. Three classic failure modes:
+
+**Stationary points**: If $f'(x_n) = 0$ or very small, the tangent is nearly horizontal and $x_{n+1}$ is far away. The method diverges.
+
+**Wrong basin**: The method converges to the wrong root if the starting point is in the wrong "basin of attraction." For $f(x) = x^3 - x$ with three roots, the basins partition the real line in complex, fractal-like ways.
+
+**Cycles**: For some functions and starting points, the sequence $x_0, x_1, x_2, \ldots$ cycles without converging. The canonical example is starting at $x_0 = 0$ for $f(x) = x^{1/3}$, where each step moves further from zero.
+
+**Complex roots**: If $f$ has real coefficients but only complex roots, Newton's method on the real line will wander without converging. Starting with a complex initial guess allows it to converge to complex roots.
+
+## Practical improvements
+
+For production numerical software, pure Newton's method is often enhanced:
+
+**Bracketing + bisection**: If you know the root lies in $[a, b]$ (because $f$ changes sign there), you can use Newton steps when they stay inside the bracket and fall back to bisection when they don't. This hybrid (Brent's method) combines Newton's speed with bisection's robustness.
+
+**Damping**: In high-dimensional systems (where $f: \mathbb{R}^n \to \mathbb{R}^n$), a pure Newton step can overshoot. Damped Newton methods take a fraction $\lambda \in (0, 1]$ of the Newton step, choosing $\lambda$ to ensure $|f(x_{n+1})| < |f(x_n)|$.
+
+**Quasi-Newton methods**: Computing $f'$ (or the Jacobian in higher dimensions) can be expensive. Quasi-Newton methods like BFGS approximate the derivative using information from previous steps, achieving superlinear convergence without requiring exact derivatives.
+
+## Newton's method in machine learning
+
+The backpropagation algorithm used to train neural networks is a first-order method — it only uses gradient information, not second-order curvature. Newton's method suggests a better approach: use the Hessian (matrix of second derivatives) to account for curvature, potentially converging faster.
+
+In practice, the Hessian of a large neural network has billions of entries and is expensive to compute and invert. Quasi-Newton approximations (L-BFGS) are used for smaller networks. The Adam optimizer, dominant in deep learning, can be understood as an adaptive approximation to Newton's method that avoids explicitly computing second derivatives.
+
+The 17th-century geometry of following tangent lines to a zero crossing remains at the heart of 21st-century machine learning.
