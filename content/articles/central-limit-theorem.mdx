@@ -1,0 +1,76 @@
+---
+title: "The Central Limit Theorem"
+subtitle: "Why averages are always normal — no matter what you're averaging."
+topic: "Mathematics"
+slug: "central-limit-theorem"
+date: "2026-03-28"
+readTime: 8
+featured: false
+description: "The theorem that explains why the bell curve appears everywhere from exam scores to measurement errors."
+---
+
+## The universal bell
+
+Why do so many things follow a bell-shaped distribution? Heights, measurement errors, IQ scores, exam grades, the mass of mass-produced parts, thermal noise in electronics. None of these phenomena are inherently Gaussian — the underlying processes are all different. Yet they all produce bell curves.
+
+The Central Limit Theorem (CLT) is the explanation. It says, roughly: take any random variable with finite mean and variance, draw samples, and compute their average. Repeat many times. The distribution of those averages will be approximately normal — regardless of the original distribution. The more samples you average, the better the approximation.
+
+## The formal statement
+
+Let $X_1, X_2, \ldots, X_n$ be independent, identically distributed random variables with mean $\mu$ and variance $\sigma^2$ (both finite). Define the sample mean:
+
+$$\bar{X}_n = \frac{X_1 + X_2 + \cdots + X_n}{n}$$
+
+The CLT states that as $n \to \infty$:
+
+$$\frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} \xrightarrow{d} \mathcal{N}(0, 1)$$
+
+The standardized sample mean converges in distribution to a standard normal. Equivalently, $\bar{X}_n$ is approximately $\mathcal{N}(\mu, \sigma^2/n)$.
+
+Two things to notice: the mean of the sample mean is the population mean $\mu$ (no bias), and the variance shrinks as $1/n$ (more samples → more concentrated around truth).
+
+<CLTAnimation />
+
+Select a source distribution — uniform, exponential, or bimodal. None of these look like a bell curve. Set $n = 1$ (no averaging) and the histogram reproduces the original distribution's shape. Increase $n$ to 5, 10, 30. Watch the histogram transform into a bell curve regardless of the starting shape. The green overlay shows the theoretical normal fit.
+
+## Why it happens: moment generating functions
+
+One proof uses moment generating functions (MGFs). The MGF of the standardized sum $S_n = \sum(X_i - \mu)/(\sigma\sqrt{n})$ is:
+
+$$M_{S_n}(t) = \left[M_{X_1}\left(\frac{t}{\sigma\sqrt{n}}\right)\right]^n$$
+
+Taylor-expanding the log and taking $n \to \infty$ gives $\exp(t^2/2)$ — the MGF of the standard normal. This is the CLT.
+
+The key insight: the $t^2/2$ in the exponent comes from the variance term in the Taylor expansion. Higher moments contribute terms that vanish as $n^{-1/2}$. The normal is the unique distribution that contains only the first two moments in its exponent — it's the "maximum entropy" distribution given a fixed mean and variance.
+
+## The $\sqrt{n}$ denominator: why errors shrink slowly
+
+The standard error of the mean is $\sigma/\sqrt{n}$. Cutting the uncertainty in half requires quadrupling the sample size — not doubling it. This is why polling 1000 people gives only about twice the precision of polling 250 people (the error goes from $\sigma/\sqrt{250} \approx 0.063\sigma$ to $\sigma/\sqrt{1000} \approx 0.032\sigma$).
+
+This $\sqrt{n}$ rate of convergence is optimal — it cannot be improved without additional assumptions. Any unbiased estimator of the mean from $n$ independent samples will have variance at least $\sigma^2/n$ (Cramér-Rao bound). The sample mean achieves this bound — it is the minimum-variance unbiased estimator of $\mu$.
+
+## Where the normal distribution comes from
+
+Heights are determined by thousands of independent genetic and environmental factors, each adding a small random contribution. By the CLT, their sum is approximately normal. This is why heights have a bell-curve distribution — not because of any special property of genetics, but because you're summing many small independent effects.
+
+Measurement error follows the same logic. A length measurement error is the sum of thousands of tiny, independent sources of imprecision — vibrations, thermal expansion, sensor noise. Their sum is approximately Gaussian. This is why Gauss developed the normal distribution: to describe measurement errors in astronomical observations.
+
+## Limitations: fat tails and dependence
+
+The CLT requires finite variance. Many real-world distributions violate this:
+
+**Fat-tailed distributions**: Stock market returns, earthquake magnitudes, internet traffic, and city sizes often follow power-law distributions. These have infinite variance (or very large variance), meaning the CLT converges slowly or not at all. The 2008 financial crisis partly reflected models that assumed Gaussian returns when the true distribution had much fatter tails.
+
+**Dependent samples**: The CLT requires independence. Survey respondents who know each other, time-series measurements, or spatially correlated data all violate independence. Correlated samples produce CLT-like results but with an effective sample size smaller than $n$.
+
+**Speed of convergence**: The Berry-Esseen theorem gives a bound: the error in the normal approximation is $O(1/\sqrt{n})$. For a very skewed distribution, you may need $n > 100$ before the approximation is good. For a symmetric distribution, $n = 5$ may suffice.
+
+## The CLT in practice
+
+**Clinical trials**: Patient outcomes are averaged over treatment and control groups. The CLT lets statisticians use the normal distribution to compute p-values and confidence intervals, even when individual outcomes aren't normally distributed.
+
+**Quality control**: Manufacturing variation follows the CLT. Statistical process control charts monitor whether sample means stay within expected $\pm 3\sigma$ bands — if they don't, the production process has shifted.
+
+**Machine learning**: Stochastic gradient descent computes gradients from random mini-batches. By the CLT, the average gradient over a mini-batch is approximately normally distributed around the true gradient, which justifies treating gradient noise as Gaussian in many theoretical analyses.
+
+The bell curve isn't fundamental to any of these systems. It emerges from averaging — from the mathematics of sums of independent random variables. The CLT is the reason the normal distribution appears everywhere you look.
