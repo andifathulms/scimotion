@@ -1,0 +1,84 @@
+---
+title: "Brownian Motion"
+subtitle: "The random walk that proved atoms exist — and underlies financial models."
+topic: "Medicine"
+slug: "brownian-motion"
+date: "2026-04-20"
+readTime: 9
+featured: false
+description: "How the jittery path of a pollen grain became the mathematical foundation of diffusion, drug delivery, and molecular biology."
+---
+
+## A botanist's puzzling observation
+
+In 1827, the Scottish botanist Robert Brown observed pollen grains suspended in water under his microscope. The grains moved in an erratic, jittery, perpetual dance — never stopping, never settling. He tried dead pollen, dust, and ground glass. They all danced the same way.
+
+Brown had no explanation. For nearly eighty years, Brownian motion was a curiosity without a cause. Then in 1905, a 26-year-old patent clerk named Albert Einstein published a paper deriving the exact statistical behavior of Brownian motion from the assumption that matter is made of atoms — and the results matched experiment perfectly.
+
+This gave physicists their first quantitative proof that atoms were real.
+
+## The molecular explanation
+
+A pollen grain immersed in water is bombarded from all sides by billions of water molecules every second. Each collision imparts a tiny random kick. For a macroscopic object, these kicks average out to zero — no net motion. But a grain just a few micrometers across receives only thousands of collisions per second, and the randomness doesn't perfectly cancel. Each moment, slightly more kicks arrive from one side than another, producing net displacement in a random direction.
+
+This is the mechanism: thermal motion of molecules, too small to see, produces visible random motion of larger particles.
+
+<BrownianMotionAnimation />
+
+Each colored particle executes an independent random walk. Increase the step size to see the effect of higher temperature (more energetic collisions). Compare single vs multiple particles — each path is genuinely independent. Notice how the trails rarely cross despite starting from nearly the same point.
+
+## Einstein's derivation
+
+Einstein's insight was that the mean squared displacement $\langle r^2 \rangle$ should grow linearly with time:
+
+$$\langle r^2 \rangle = 2dDt$$
+
+where $d$ is the number of dimensions and $D$ is the **diffusion coefficient**. In 3D:
+
+$$\langle r^2 \rangle = 6Dt$$
+
+This is not ballistic motion (where $\langle r^2 \rangle \propto t^2$) — it's diffusive, growing only as $\sqrt{t}$. A particle doubles its average displacement not in twice the time, but in four times the time.
+
+Einstein derived the diffusion coefficient from first principles:
+
+$$D = \frac{k_B T}{6\pi \eta r}$$
+
+where $k_B$ is Boltzmann's constant, $T$ is temperature, $\eta$ is the fluid viscosity, and $r$ is the particle radius. This is the **Stokes-Einstein equation**. With it, measuring $D$ experimentally (by tracking particle displacements) gives a direct measurement of $k_B$, and hence of Avogadro's number.
+
+Jean Baptiste Perrin measured Avogadro's number this way in 1908, confirming atomic theory. He won the Nobel Prize in 1926 for this work.
+
+## The mathematics: the Wiener process
+
+Mathematically, the idealized continuous limit of a random walk is the **Wiener process** $W(t)$, with properties:
+- $W(0) = 0$
+- Increments $W(t) - W(s)$ are independent for non-overlapping intervals
+- $W(t) - W(s) \sim \mathcal{N}(0, t-s)$ — normally distributed with variance proportional to time elapsed
+
+Norbert Wiener gave this process a rigorous mathematical foundation in the 1920s. Its paths are continuous everywhere but differentiable nowhere — they are infinitely jagged at every scale.
+
+## Diffusion in medicine and biology
+
+Brownian motion is the mechanism of **diffusion** — the net transport of molecules from high to low concentration. This is how:
+
+- **Oxygen** moves from blood into cells (the concentration gradient drives net diffusion, even though individual molecules move randomly)
+- **Drugs** disperse through tissue after injection
+- **Neurotransmitters** cross the synaptic cleft (typically ~20 nm wide) in microseconds
+- **Proteins** find their binding partners inside cells
+
+Fick's law quantifies net diffusion flux: $J = -D\,\nabla C$, where $C$ is concentration. This is the macroscopic limit of the microscopic random walk — a beautiful connection between molecular chaos and predictable bulk behavior.
+
+## Drug delivery and Brownian motion
+
+Nanoparticle drug delivery systems deliberately exploit Brownian motion. Particles 50–200 nm in diameter are small enough to undergo significant Brownian diffusion in tissue, helping them distribute away from the injection site. But they must be large enough not to diffuse out of tumor vasculature too quickly (the EPR effect — enhanced permeability and retention — allows particles below ~200 nm to accumulate in tumors).
+
+The Stokes-Einstein equation directly governs this: larger particles diffuse slower. Drug carriers are engineered to a specific size to balance tumor accumulation against clearance and diffusion.
+
+## Financial mathematics
+
+In 1900 — five years before Einstein — the mathematician Louis Bachelier modeled stock prices as a random walk in his doctoral thesis, deriving many results of Brownian motion independently. His work was largely ignored until the 1950s.
+
+Bachelier's insight underlies the Black-Scholes model for options pricing, for which Scholes and Merton won the 1997 Nobel Prize in Economics. The stochastic differential equation at the heart of Black-Scholes:
+
+$$dS = \mu S\,dt + \sigma S\,dW_t$$
+
+uses exactly the Wiener process $W_t$ — mathematical Brownian motion. The pollen grain Brown watched in 1827 and the options market are governed by the same mathematics.
