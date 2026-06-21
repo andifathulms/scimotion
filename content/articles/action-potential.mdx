@@ -1,0 +1,68 @@
+---
+title: "The Action Potential"
+subtitle: "How a neuron fires — the electrochemical signal that underlies every thought."
+topic: "Medicine"
+slug: "action-potential"
+date: "2026-02-20"
+readTime: 10
+featured: false
+description: "The voltage spike that carries information through your nervous system, from ion channels to ECG."
+---
+
+## Electricity in biology
+
+The nervous system doesn't transmit information via continuous current the way a copper wire does. Instead, neurons fire discrete pulses — brief, sharp spikes of electrical voltage that travel along the axon at speeds up to 120 m/s. These pulses are called action potentials, and they are the fundamental unit of neural communication.
+
+Every sensation you feel, every muscle movement, every thought is encoded as a pattern of action potentials: which neurons fire, how often, and in what sequence. Understanding how a single action potential is generated is the foundation of neuroscience, anesthesiology, cardiology, and the design of drugs that affect the nervous system.
+
+## The resting membrane potential
+
+A neuron at rest maintains a voltage difference across its membrane of about −70 millivolts — the inside of the cell is more negative than the outside. This is the resting membrane potential.
+
+How does a cell maintain this charge difference? Through two mechanisms working together:
+
+**Ion pumps**: The sodium-potassium pump (Na⁺/K⁺-ATPase) actively expels 3 Na⁺ ions for every 2 K⁺ ions it imports, consuming ATP. This builds up high Na⁺ concentration outside and high K⁺ concentration inside.
+
+**Leak channels**: The membrane is more permeable to K⁺ than to Na⁺ at rest. K⁺ ions drift outward down their concentration gradient, but the negative charge left behind pulls them back. The equilibrium for K⁺ occurs near −90 mV. Because Na⁺ also leaks in slightly, the true resting potential settles around −70 mV.
+
+## The threshold and what triggers a spike
+
+The cell is not idle at rest. It's dynamically maintaining −70 mV against constant ion drift. When excitatory inputs push the membrane potential upward past a critical threshold — around −55 mV — something qualitative changes.
+
+Voltage-gated sodium channels open. These channels are closed at rest but open rapidly when voltage rises past threshold. Na⁺ rushes in (high outside concentration + negative inside voltage both pull it inward), further depolarizing the membrane — which opens even more Na⁺ channels. This is positive feedback, and it's nearly instantaneous.
+
+<ActionPotentialAnimation />
+
+Watch the voltage trace. The slow rise toward threshold is the summation of inputs from other neurons. When threshold is crossed, the spike is inevitable — the Na⁺ influx drives voltage from −70 mV all the way to +40 mV in under a millisecond.
+
+## The four phases
+
+**Depolarization**: Na⁺ channels open. Voltage shoots from −70 mV to +40 mV. The inside of the cell briefly becomes positive.
+
+**Repolarization**: Na⁺ channels inactivate (they close even if voltage is still high). Simultaneously, voltage-gated K⁺ channels open. K⁺ flows out rapidly, pulling voltage back down.
+
+**Hyperpolarization** (undershoot): K⁺ channels close slowly. They're still open when voltage returns to −70 mV, so extra K⁺ exits, pulling voltage below resting potential to about −80 mV.
+
+**Recovery**: The Na⁺/K⁺ pump slowly restores ion concentrations, and the leak channels return the membrane to −70 mV. The cell is ready to fire again.
+
+## The refractory period
+
+During and immediately after the spike, a neuron cannot fire again — the inactivated Na⁺ channels need time to recover. This is the absolute refractory period (about 1–2 ms). Following that is a relative refractory period during hyperpolarization when only a much stronger stimulus can trigger another spike.
+
+The refractory period has a crucial consequence: action potentials can only travel in one direction. At any point along the axon, the region behind the spike is refractory and cannot be re-excited, so the wave propagates only forward.
+
+## How information is encoded
+
+A single action potential is all-or-nothing — it fires at full amplitude or not at all. The stimulus intensity isn't encoded in the spike's height (it's always the same) but in:
+
+- **Firing rate**: a stronger stimulus produces a higher frequency of spikes (rate coding).
+- **Which neurons fire**: different sensory receptors innervate different neurons (labeled-line coding).
+- **Temporal patterns**: the precise timing of spikes relative to each other can carry information (temporal coding).
+
+Your brain is solving an extraordinarily complex decoding problem at every moment, reconstructing a world from patterns of identical voltage spikes in billions of neurons.
+
+## From neurons to the heart
+
+The cardiac cells of the heart generate their own action potentials — similar in mechanism but shaped differently by different ion channel ratios. The ECG you see on a heart monitor is the summed electrical activity of billions of cardiac cells firing in coordinated waves across the heart.
+
+Drugs like lidocaine (a local anesthetic) and certain antiarrhythmics work by blocking voltage-gated Na⁺ channels, preventing action potentials in specific tissues. Understanding the action potential is directly understanding the mechanism of drugs, diseases, and the electrophysiology that underlies both the nervous system and the heart.
