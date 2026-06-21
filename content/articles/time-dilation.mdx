@@ -1,0 +1,86 @@
+---
+title: "Time Dilation"
+subtitle: "Moving clocks run slow — and the light clock proves it."
+topic: "Physics"
+slug: "time-dilation"
+date: "2026-05-25"
+readTime: 9
+featured: false
+description: "How Einstein's special relativity predicts that time passes differently for observers in relative motion."
+---
+
+## A strange prediction
+
+One of the most counterintuitive results in all of physics: a clock moving relative to you ticks slower than an identical clock sitting still. This is not a mechanical effect, not an artifact of signal delay — it is a fundamental feature of how time works in the universe.
+
+This is time dilation, and it has been measured to extraordinary precision. The GPS system in your phone would give wrong positions by kilometers per day if its software didn't correct for both special and general relativistic time effects. Time dilation is not a thought experiment. It is an engineering constraint.
+
+## The light clock
+
+The cleanest way to see why time dilation must occur is Einstein's light clock thought experiment. Imagine a clock made from two mirrors facing each other, with a pulse of light bouncing between them. Each round trip is one "tick."
+
+For a stationary observer, the light bounces straight up and down. If the mirrors are distance $L$ apart, one tick takes:
+
+$$\Delta t_0 = \frac{2L}{c}$$
+
+This is the **proper time** $\tau$ — time measured by a clock in its own rest frame.
+
+Now put this clock on a rocket moving at speed $v$. From a stationary observer's perspective, the light still travels at $c$ (this is Einstein's second postulate — the speed of light is constant in all inertial frames). But now the light travels diagonally, because the clock has moved horizontally during each bounce.
+
+<TimeDilationAnimation />
+
+The left clock is stationary — the light bounces straight up and down. The right clock is moving. Watch the light pulse travel a longer diagonal path while still constrained to speed $c$. The stationary clock ticks faster. Increase the velocity slider toward $c$ to see the effect grow.
+
+## The mathematics
+
+By Pythagoras, the diagonal path length per half-tick is $\sqrt{L^2 + (v\Delta t/2)^2}$. Setting this equal to $c \cdot \Delta t/2$ (since light must travel this path in half the tick time):
+
+$$c \cdot \frac{\Delta t}{2} = \sqrt{L^2 + \left(\frac{v \Delta t}{2}\right)^2}$$
+
+Squaring and solving for $\Delta t$:
+
+$$\Delta t = \frac{2L/c}{\sqrt{1 - v^2/c^2}} = \frac{\Delta t_0}{\sqrt{1 - \beta^2}} = \gamma \, \Delta t_0$$
+
+where $\beta = v/c$ and the **Lorentz factor** is:
+
+$$\gamma = \frac{1}{\sqrt{1 - \beta^2}} \geq 1$$
+
+Since $\gamma \geq 1$, the coordinate time $\Delta t$ (measured in the stationary frame) is always greater than or equal to the proper time $\Delta t_0$ (measured by the moving clock). The moving clock runs slow by a factor of $\gamma$.
+
+## How much dilation?
+
+| Speed (v/c) | γ |
+|---|---|
+| 10% | 1.005 |
+| 50% | 1.155 |
+| 80% | 1.667 |
+| 90% | 2.294 |
+| 99% | 7.089 |
+| 99.9% | 22.37 |
+
+At ordinary speeds — cars, planes — $\gamma$ is so close to 1 that the effect is unmeasurable in daily life. But for particles in accelerators, it's enormous. Muons created by cosmic rays at the top of the atmosphere have a half-life of 2.2 microseconds and travel at 0.998c. Classically, they'd decay before reaching the ground. But their $\gamma \approx 15$, making their half-life in the lab frame about 33 microseconds — long enough to reach detectors on the surface. This was confirmed experimentally in the 1960s.
+
+## GPS and relativistic correction
+
+GPS satellites orbit at ~20,200 km altitude and travel at ~3.9 km/s. Two relativistic effects operate simultaneously:
+
+- **Special relativity (time dilation)**: the satellite's velocity causes its clock to run slow by ~7 μs/day.
+- **General relativity (gravitational time dilation)**: the satellite is higher in Earth's gravity well, so its clock runs fast by ~45 μs/day.
+
+The net effect: satellite clocks run fast by ~38 μs/day. Light travels 11.4 km per 38 μs, so without correction, position errors would accumulate at ~11 km/day. GPS clock chips are pre-adjusted to offset exactly this relativistic drift before launch.
+
+## The twin paradox
+
+If you leave Earth at high speed, travel to a distant star, and return, you will have aged less than your twin who stayed on Earth. This is the twin paradox — which is actually not a paradox at all.
+
+The asymmetry is this: the traveling twin must accelerate (to turn around), which breaks the symmetry between the two frames. Only the staying twin remains in a single inertial frame throughout. The traveling twin's proper time is genuinely less. When they reunite, they are different ages.
+
+This has been confirmed by flying atomic clocks around the world on airplanes (Hafele-Keating experiment, 1971). The clocks that traveled ran slightly slow relative to ground clocks, exactly as predicted.
+
+## Time and simultaneity
+
+Time dilation is one piece of special relativity. The deeper principle is that spacetime is a unified four-dimensional structure, and what different observers call "time" are different slices through it. The spacetime interval:
+
+$$s^2 = c^2 t^2 - x^2 - y^2 - z^2$$
+
+is the same for all inertial observers — it is the invariant "proper distance" in spacetime. Time dilation and length contraction are consequences of different observers making different $3D$ slices through the same $4D$ reality.
