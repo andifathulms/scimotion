@@ -1,0 +1,86 @@
+---
+title: "Euler's Formula"
+subtitle: "The equation that unifies trigonometry, complex numbers, and exponentials."
+topic: "Mathematics"
+slug: "eulers-formula"
+date: "2026-06-01"
+readTime: 9
+featured: false
+description: "Why eˣ has anything to do with circles — and what rotating arrows have to do with waves."
+---
+
+## The most beautiful equation
+
+Richard Feynman called it "the most remarkable formula in mathematics." Mathematicians regularly vote it the most beautiful equation of all time. When $\theta = \pi$, Euler's formula gives:
+
+$$e^{i\pi} + 1 = 0$$
+
+Five fundamental constants — $e$, $i$, $\pi$, $1$, $0$ — in a single equation. But this is the punch line. To understand why it's true, and why it matters, we need to understand what $e^{i\theta}$ actually means.
+
+## What does it mean to exponentiate by a complex number?
+
+For real numbers, $e^x$ is the unique function equal to its own derivative, with $e^0 = 1$. But what does $e^{i\theta}$ mean when the exponent is imaginary?
+
+The answer lies in the Taylor series. We know:
+
+$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots$$
+
+Substitute $x = i\theta$ and use $i^2 = -1$, $i^3 = -i$, $i^4 = 1$:
+
+$$e^{i\theta} = 1 + i\theta - \frac{\theta^2}{2!} - \frac{i\theta^3}{3!} + \frac{\theta^4}{4!} + \cdots$$
+
+Separating real and imaginary parts:
+
+$$e^{i\theta} = \underbrace{\left(1 - \frac{\theta^2}{2!} + \frac{\theta^4}{4!} - \cdots\right)}_{\cos\theta} + i\underbrace{\left(\theta - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \cdots\right)}_{\sin\theta}$$
+
+Therefore: $e^{i\theta} = \cos\theta + i\sin\theta$.
+
+## The geometry: a point on the unit circle
+
+In the complex plane, a complex number $a + bi$ is a point with real part $a$ and imaginary part $b$. The number $e^{i\theta} = \cos\theta + i\sin\theta$ has:
+- Real part: $\cos\theta$
+- Imaginary part: $\sin\theta$
+
+Its distance from the origin: $\sqrt{\cos^2\theta + \sin^2\theta} = 1$. It always lies on the unit circle. As $\theta$ increases, the point rotates counterclockwise. Euler's formula says: **$e^{i\theta}$ is a rotation by angle $\theta$**.
+
+<EulersFormulaAnimation />
+
+Watch the gold phasor rotate around the unit circle. The blue horizontal projection is $\cos\theta$, the violet vertical projection is $\sin\theta$. The traces on the right show exactly how these projections form the familiar sine and cosine waves — not as abstract functions, but as shadows of circular motion.
+
+## Why multiplication equals rotation
+
+One of the most powerful consequences: multiplying two complex numbers adds their angles. If $z_1 = e^{i\alpha}$ and $z_2 = e^{i\beta}$, then:
+
+$$z_1 \cdot z_2 = e^{i\alpha} \cdot e^{i\beta} = e^{i(\alpha + \beta)}$$
+
+Multiplication in the complex plane is rotation. This makes complex numbers the natural language of anything that rotates or oscillates.
+
+## Frequency is circular
+
+Euler's formula is why signals engineers write everything as complex exponentials. A sinusoidal signal at frequency $f$:
+
+$$A\cos(2\pi f t + \phi) = \text{Re}\left[A e^{i(2\pi f t + \phi)}\right]$$
+
+The complex exponential $e^{2\pi i f t}$ rotates around the unit circle at $f$ revolutions per second. The Fourier transform decomposes any signal by asking: "how much of this rotating-arrow frequency is present?" The inner product that the Fourier transform computes is measuring correlation with each possible rotation rate.
+
+## De Moivre's theorem and angle identities
+
+With Euler's formula, the double-angle identities become trivial:
+
+$$(\cos\theta + i\sin\theta)^2 = e^{2i\theta} = \cos(2\theta) + i\sin(2\theta)$$
+
+Expanding the left side: $\cos^2\theta - \sin^2\theta + 2i\sin\theta\cos\theta$. Matching real and imaginary parts:
+
+$$\cos(2\theta) = \cos^2\theta - \sin^2\theta \qquad \sin(2\theta) = 2\sin\theta\cos\theta$$
+
+Results that once required geometric proof fall out as algebra. De Moivre's theorem ($(\cos\theta + i\sin\theta)^n = \cos(n\theta) + i\sin(n\theta)$) and all the angle addition formulas follow immediately.
+
+## A window into quantum mechanics
+
+In quantum mechanics, the state of a particle is described by a wave function $\psi(x, t)$. For a free particle with definite momentum $p$:
+
+$$\psi(x, t) = e^{i(kx - \omega t)}$$
+
+where $k = p/\hbar$ is the wave number and $\omega = E/\hbar$ is the angular frequency. This is a complex exponential — a rotating phasor — propagating through space and time. Everything about quantum mechanical interference, the double-slit experiment, and particle statistics descends from how these phasors add and cancel.
+
+Euler's formula isn't just a beautiful identity. It's the mathematics of rotation, periodicity, and wave behavior. It appears wherever things repeat.
