@@ -65,3 +65,28 @@ export const NewtonMethodAnimation = dynamic(
   () => import('@/components/animations/NewtonMethodAnimation').then(m => ({ default: m.NewtonMethodAnimation })),
   { ssr: false }
 )
+
+export const EulersFormulaAnimation = dynamic(
+  () => import('@/components/animations/EulersFormulaAnimation').then(m => ({ default: m.EulersFormulaAnimation })),
+  { ssr: false }
+)
+
+export const TimeDilationAnimation = dynamic(
+  () => import('@/components/animations/TimeDilationAnimation').then(m => ({ default: m.TimeDilationAnimation })),
+  { ssr: false }
+)
+
+export const GraphTraversalAnimation = dynamic(
+  () => import('@/components/animations/GraphTraversalAnimation').then(m => ({ default: m.GraphTraversalAnimation })),
+  { ssr: false }
+)
+
+export const BrownianMotionAnimation = dynamic(
+  () => import('@/components/animations/BrownianMotionAnimation').then(m => ({ default: m.BrownianMotionAnimation })),
+  { ssr: false }
+)
+
+export const CLTAnimation = dynamic(
+  () => import('@/components/animations/CLTAnimation').then(m => ({ default: m.CLTAnimation })),
+  { ssr: false }
+)

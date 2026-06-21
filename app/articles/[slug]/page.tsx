@@ -22,6 +22,11 @@ import {
   BinarySearchAnimation,
   ActionPotentialAnimation,
   NewtonMethodAnimation,
+  EulersFormulaAnimation,
+  TimeDilationAnimation,
+  GraphTraversalAnimation,
+  BrownianMotionAnimation,
+  CLTAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -38,6 +43,11 @@ const components = {
   BinarySearchAnimation,
   ActionPotentialAnimation,
   NewtonMethodAnimation,
+  EulersFormulaAnimation,
+  TimeDilationAnimation,
+  GraphTraversalAnimation,
+  BrownianMotionAnimation,
+  CLTAnimation,
 }
 
 type Props = {
