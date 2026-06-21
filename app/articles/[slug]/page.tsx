@@ -17,6 +17,11 @@ import {
   FourierPhasesAnimation,
   SievePrimeGapAnimation,
   SortingComplexityAnimation,
+  TaylorAnimation,
+  PendulumAnimation,
+  BinarySearchAnimation,
+  ActionPotentialAnimation,
+  NewtonMethodAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -28,6 +33,11 @@ const components = {
   FourierPhasesAnimation,
   SievePrimeGapAnimation,
   SortingComplexityAnimation,
+  TaylorAnimation,
+  PendulumAnimation,
+  BinarySearchAnimation,
+  ActionPotentialAnimation,
+  NewtonMethodAnimation,
 }
 
 type Props = {

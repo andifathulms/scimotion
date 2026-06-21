@@ -40,3 +40,28 @@ export const SortingComplexityAnimation = dynamic(
   () => import('@/components/animations/SortingComplexityAnimation').then(m => ({ default: m.SortingComplexityAnimation })),
   { ssr: false }
 )
+
+export const TaylorAnimation = dynamic(
+  () => import('@/components/animations/TaylorAnimation').then(m => ({ default: m.TaylorAnimation })),
+  { ssr: false }
+)
+
+export const PendulumAnimation = dynamic(
+  () => import('@/components/animations/PendulumAnimation').then(m => ({ default: m.PendulumAnimation })),
+  { ssr: false }
+)
+
+export const BinarySearchAnimation = dynamic(
+  () => import('@/components/animations/BinarySearchAnimation').then(m => ({ default: m.BinarySearchAnimation })),
+  { ssr: false }
+)
+
+export const ActionPotentialAnimation = dynamic(
+  () => import('@/components/animations/ActionPotentialAnimation').then(m => ({ default: m.ActionPotentialAnimation })),
+  { ssr: false }
+)
+
+export const NewtonMethodAnimation = dynamic(
+  () => import('@/components/animations/NewtonMethodAnimation').then(m => ({ default: m.NewtonMethodAnimation })),
+  { ssr: false }
+)
