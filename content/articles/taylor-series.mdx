@@ -1,0 +1,68 @@
+---
+title: "Taylor Series"
+subtitle: "How to approximate any smooth function with an infinite polynomial."
+topic: "Mathematics"
+slug: "taylor-series"
+date: "2026-05-12"
+readTime: 9
+featured: false
+description: "Turn sine, cosine, and eˣ into polynomials — and discover why this works everywhere."
+---
+
+## The problem with transcendental functions
+
+You know how to evaluate $x^2$ or $x^3 + 4x$ for any number. Polynomials are just arithmetic — multiplication and addition. But $\sin(x)$, $\cos(x)$, and $e^x$ are different beasts. They're transcendental functions: no finite combination of basic arithmetic produces them exactly.
+
+So when a calculator displays $\sin(1.5) = 0.9975$, it's not doing something magical. It's doing arithmetic. It's using a polynomial that looks so much like $\sin(x)$ near that point that the difference is smaller than any digit it could show you.
+
+The machinery behind this is the Taylor series — one of the most powerful ideas in mathematics.
+
+## A polynomial that matches perfectly at one point
+
+Start with a simple question: can I find a polynomial $P(x)$ that behaves exactly like $f(x) = \sin(x)$ at $x = 0$?
+
+"Exactly like" means matching not just the value, but the slope, the curvature, the rate of change of curvature — every derivative, forever. This is surprisingly achievable. The Taylor series around $x = 0$ (also called the Maclaurin series) is:
+
+$$f(x) = f(0) + f'(0)\,x + \frac{f''(0)}{2!}\,x^2 + \frac{f'''(0)}{3!}\,x^3 + \cdots = \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!}\,x^n$$
+
+Each term captures one more layer of how $f$ behaves at 0. Adding more terms doesn't just make the approximation better at 0 — it extends accurate behavior further and further from 0.
+
+## Sine, cosine, and eˣ
+
+For $\sin(x)$, the derivatives cycle: $\sin$, $\cos$, $-\sin$, $-\cos$, and repeat. At $x = 0$, $\sin(0) = 0$, $\cos(0) = 1$, so every other coefficient vanishes:
+
+$$\sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots$$
+
+For $e^x$, every derivative of $e^x$ is $e^x$. At $x = 0$, every derivative equals 1:
+
+$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$
+
+Watch what happens when you add terms one by one — the polynomial starts matching the true function near 0 and gradually extends its accuracy outward.
+
+<TaylorAnimation />
+
+Notice how $e^x$ behaves differently from $\sin(x)$. The exponential grows unboundedly, so the polynomial needs more terms to keep up at larger $x$. The sine, bounded between −1 and 1, is easier — ten terms give nearly perfect accuracy across many full cycles.
+
+## Why factorials in the denominator?
+
+The $n!$ in the denominator isn't an arbitrary choice — it's forced by the requirement that derivatives match. To ensure the $n$-th derivative of our polynomial $P(x)$ matches $f^{(n)}(0)$, we need:
+
+$$P(x) = c_0 + c_1 x + c_2 x^2 + c_3 x^3 + \cdots$$
+
+Taking the $n$-th derivative of $c_n x^n$ gives $c_n \cdot n!$. Setting that equal to $f^{(n)}(0)$ gives $c_n = f^{(n)}(0) / n!$.
+
+The factorial is the natural normalizer that falls out of repeated differentiation.
+
+## Convergence and radius
+
+Not every Taylor series converges everywhere. The series for $\sin(x)$ and $e^x$ converge for all real numbers. But the series for $\ln(1 + x)$:
+
+$$\ln(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \cdots$$
+
+only converges for $-1 < x \leq 1$. Outside this radius of convergence, the partial sums fly off to infinity instead of settling. The complex analysis reason is that $\ln(1+x)$ has a singularity at $x = -1$, and a circle of convergence centered at 0 can only extend as far as that nearest singularity.
+
+## Practical power: fast computation
+
+The reason Taylor series matter to every programmer, physicist, and engineer is that they turn transcendental functions into arithmetic. A modern CPU can't compute $\sin(x)$ natively — but it can multiply and add numbers incredibly fast. The standard library implementation of `sin()` in C is essentially a carefully chosen polynomial (often using a variant of CORDIC or a minimax polynomial) accurate to 64-bit precision.
+
+The same idea underlies numerical methods, signal processing, and differential equation solvers. Whenever you approximate a smooth function near a known point, you're implicitly using Taylor's idea — that smoothness creates a polynomial fingerprint.
