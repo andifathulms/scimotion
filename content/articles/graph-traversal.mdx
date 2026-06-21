@@ -1,0 +1,118 @@
+---
+title: "Graph Traversal"
+subtitle: "BFS and DFS — the two fundamental strategies for exploring connected data."
+topic: "Computer Science"
+slug: "graph-traversal"
+date: "2026-05-10"
+readTime: 8
+featured: false
+description: "How queues and stacks determine whether you explore a graph level by level or depth by depth."
+---
+
+## Graphs are everywhere
+
+A graph is a collection of nodes (vertices) connected by edges. The abstraction is more powerful than it first appears:
+
+- Road networks: nodes are intersections, edges are roads.
+- Social networks: nodes are people, edges are friendships.
+- The web: nodes are pages, edges are hyperlinks.
+- Dependency graphs: nodes are packages, edges are requirements.
+- Molecular structures: nodes are atoms, edges are bonds.
+
+Almost any problem involving relationships, connections, or reachability can be modeled as a graph problem. And the foundation of almost every graph algorithm is one of two traversal strategies: **breadth-first search (BFS)** or **depth-first search (DFS)**.
+
+## The core question
+
+Given a graph and a starting node, visit every reachable node exactly once. The two algorithms differ in one fundamental choice: **what to explore next?**
+
+BFS asks: explore the nearest unvisited nodes first. DFS asks: go as deep as possible before backtracking.
+
+<GraphTraversalAnimation />
+
+Switch between BFS and DFS. Watch how the Queue (BFS) and Stack (DFS) grow differently. BFS fans out in rings from the start — level by level. DFS plunges down one branch until it hits a dead end, then backtracks.
+
+## BFS: the queue
+
+BFS uses a **FIFO queue** (first in, first out). The algorithm:
+
+1. Enqueue the start node; mark it visited.
+2. Dequeue the front node; process it.
+3. Enqueue all unvisited neighbors; mark them visited.
+4. Repeat until queue is empty.
+
+```python
+from collections import deque
+
+def bfs(graph, start):
+    visited = {start}
+    queue = deque([start])
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    return order
+```
+
+Key property: BFS visits nodes in order of their **distance** (number of edges) from the start. The first time BFS reaches a node, it has found the shortest path (by edge count) to that node.
+
+## DFS: the stack
+
+DFS uses a **LIFO stack** (last in, first out). The recursive implementation is the most natural:
+
+```python
+def dfs(graph, node, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(node)
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+```
+
+The call stack is the stack. The iterative version makes this explicit — it uses an explicit stack data structure and produces the same traversal order.
+
+## When to use which
+
+**BFS is optimal when you need:**
+- Shortest path in an unweighted graph
+- Level-by-level processing (e.g., word ladders, 0-1 BFS)
+- Finding all nodes within a given distance
+
+**DFS is natural when you need:**
+- Detecting cycles
+- Topological sorting (ordering dependencies)
+- Finding connected components
+- Maze solving (try one path completely before backtracking)
+- Tree traversals (preorder, inorder, postorder)
+
+## Shortest paths and BFS
+
+In an unweighted graph, BFS guarantees the shortest path from the start to every reachable node. The insight: BFS processes nodes in order of distance 0, then 1, then 2, then $k$. The first time a node is reached, it's via the shortest path.
+
+This makes BFS the foundation of many real-world algorithms: routing in networks, word-ladder puzzles ("change one letter at a time from COLD to WARM"), and the "six degrees of separation" computation in social graphs.
+
+For weighted graphs, Dijkstra's algorithm generalizes BFS by using a priority queue instead of a regular queue — always expanding the node with the smallest cumulative distance.
+
+## Cycle detection and DFS
+
+DFS naturally detects cycles. As DFS recurses, it maintains a "currently in call stack" set. If it reaches a node that's already in this set, a cycle exists.
+
+This is used in package managers to detect circular dependencies. If package A requires B, B requires C, and C requires A, the dependency graph has a cycle — and the package manager must detect this and report an error rather than entering an infinite installation loop.
+
+## Topological sort
+
+For directed acyclic graphs (DAGs), DFS computes a **topological order**: an ordering of nodes such that every edge goes from earlier to later in the ordering. This is the correct order to install dependencies — every package is installed only after all its requirements.
+
+The DFS-based algorithm: run DFS, and when DFS finishes exploring a node (all its descendants are visited), append it to a result list. Reverse the result list. This is topological order.
+
+## Time and space complexity
+
+Both BFS and DFS visit every node and every edge exactly once: **$O(V + E)$** time where $V$ is vertices and $E$ is edges. This is optimal — you can't traverse a graph without looking at its edges.
+
+Space differs: BFS stores the current frontier in its queue, which can be $O(V)$ in the worst case (a star graph). DFS stores the current path in its call stack, which is $O(depth)$ — much smaller for wide, shallow graphs, but $O(V)$ for a chain or deep tree.
+
+The choice between BFS and DFS often comes down to memory constraints and the structure of the graph you're working with.
