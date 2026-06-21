@@ -1,0 +1,72 @@
+---
+title: "Binary Search"
+subtitle: "The algorithm that finds anything in a sorted list in logarithmic time."
+topic: "Computer Science"
+slug: "binary-search"
+date: "2026-03-15"
+readTime: 7
+featured: false
+description: "How halving the search space every step turns a million possibilities into twenty comparisons."
+---
+
+## The phone book problem
+
+Suppose you need to find a name in a phone book with a million entries. A linear search — checking every name from the start — takes up to a million comparisons in the worst case. Absurd.
+
+But no one searches a phone book linearly. You open to the middle, check whether the name comes before or after, then flip to the middle of the relevant half. You repeat. Within twenty flips, you've found any entry in a million-page book.
+
+This is binary search. It is one of the most fundamental algorithms in computer science — simple to describe, subtle to implement correctly, and remarkable in its efficiency.
+
+## The algorithm
+
+Binary search requires a sorted array and a target value. It maintains two pointers — `lo` and `hi` — that bound the region where the target could be:
+
+1. Compute `mid = floor((lo + hi) / 2)`.
+2. If `array[mid] == target`, done — return `mid`.
+3. If `array[mid] < target`, the target must be in the right half: set `lo = mid + 1`.
+4. If `array[mid] > target`, set `hi = mid - 1`.
+5. Repeat until `lo > hi` (target not present).
+
+<BinarySearchAnimation />
+
+Choose a target from the dropdown, then watch the `lo`, `mid`, and `hi` pointers move. Grayed-out cells are the half that's been eliminated. The orange cell is the current midpoint being compared. In green: found.
+
+## Why it takes O(log n) steps
+
+Each comparison eliminates at least half the remaining elements. After $k$ comparisons, at most $n / 2^k$ elements remain. The search ends when this falls to 1:
+
+$$\frac{n}{2^k} \leq 1 \quad\Rightarrow\quad k \geq \log_2 n$$
+
+So binary search takes at most $\lceil \log_2 n \rceil$ comparisons. For $n = 10^6$: at most **20 comparisons**. For $n = 10^9$: at most **30 comparisons**. The logarithm grows so slowly that no matter how large the sorted dataset, binary search finishes almost instantly.
+
+This is why databases build sorted indexes. Once data is sorted (or a B-tree index is maintained), finding any record costs $O(\log n)$ lookups rather than a full table scan.
+
+## The off-by-one minefield
+
+Jon Bentley famously wrote in *Programming Pearls* that he surveyed professional programmers on a simple binary search implementation task, and the majority produced buggy code. The bugs almost always involve boundary conditions.
+
+Consider this common mistake: `mid = (lo + hi) / 2`. In languages without arbitrary-precision integers (C, Java), `lo + hi` can overflow when both are large. The safe version is `mid = lo + (hi - lo) / 2`.
+
+Another trap: `hi = array.length - 1` vs `hi = array.length`. The invariant must be consistent throughout. Mixing 0-indexed and 1-indexed thinking inside the same loop produces off-by-one errors that pass most tests but fail on edge cases (empty arrays, single elements, duplicates).
+
+Donald Knuth proved that it took **16 years** after binary search was first published before a correct implementation appeared in print. The idea is simple; the implementation is treacherous.
+
+## Generalization: binary search on the answer
+
+Binary search doesn't require an actual array — it works on any monotone predicate. If you can ask "is the answer ≥ x?" and the answer flips from No to Yes at exactly one threshold, you can binary search for that threshold.
+
+This technique appears everywhere:
+
+- **Finding square roots**: binary search on the answer space $[0, n]$ for the value $x$ where $x^2 \leq n < (x+1)^2$.
+- **Scheduling problems**: "can I complete all tasks within $T$ time?" If the answer is monotone in $T$, binary search finds the minimum feasible $T$.
+- **Database range queries**: sorted indexes let databases binary search for the first and last matching row of a range query, then read only the rows between.
+
+This is sometimes called "binary search on the answer space" or "parametric search", and it's a standard tool in algorithm design.
+
+## When not to use it
+
+Binary search requires the data to be **sorted**. If your data isn't sorted, you either need to sort it first ($O(n \log n)$), or use a different structure like a hash table for $O(1)$ lookup.
+
+The trade-off: hash tables give $O(1)$ expected lookup but don't support range queries or ordered traversal. A sorted array (or balanced BST) gives $O(\log n)$ lookup but also supports "find all values between A and B" in $O(\log n + k)$ where $k$ is the number of results.
+
+Choosing between them depends on what queries you need. If you only ever ask "is exactly X in the data?", use a hash table. If you ask "what values are between X and Y?", you need sorted order — and binary search.
