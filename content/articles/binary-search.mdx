@@ -4,7 +4,7 @@ subtitle: "The algorithm that finds anything in a sorted list in logarithmic tim
 topic: "Computer Science"
 slug: "binary-search"
 date: "2026-03-15"
-readTime: 7
+readTime: 8
 featured: false
 description: "How halving the search space every step turns a million possibilities into twenty comparisons."
 tags: ["algorithms", "searching", "complexity", "divide-and-conquer"]
@@ -65,6 +65,12 @@ $$\frac{n}{2^k} \leq 1 \quad\Rightarrow\quad k \geq \log_2 n$$
 
 So binary search takes at most $\lceil \log_2 n \rceil$ comparisons. For $n = 10^6$: at most **20 comparisons**. For $n = 10^9$: at most **30 comparisons**. The logarithm grows so slowly that no matter how large the sorted dataset, binary search finishes almost instantly.
 
+The contrast is easiest to feel by watching the two strategies grow side by side. Drag the list size and compare the worst-case work each one does:
+
+<BinarySearchGrowthAnimation />
+
+The linear line (pink) climbs in lockstep with the data — double the list, double the work. The binary curve (blue) barely lifts off the floor: every doubling of $n$ adds just **one** comparison. That single-comparison-per-doubling is the whole story of logarithmic time, and it's why the gap becomes astronomical at scale — a billion entries costs a linear scan a billion comparisons but costs binary search only thirty.
+
 This is why databases build sorted indexes. Once data is sorted (or a B-tree index is maintained), finding any record costs $O(\log n)$ lookups rather than a full table scan.
 
 ## The off-by-one minefield
@@ -96,3 +102,11 @@ Binary search requires the data to be **sorted**. If your data isn't sorted, you
 The trade-off: hash tables give $O(1)$ expected lookup but don't support range queries or ordered traversal. A sorted array (or balanced BST) gives $O(\log n)$ lookup but also supports "find all values between A and B" in $O(\log n + k)$ where $k$ is the number of results.
 
 Choosing between them depends on what queries you need. If you only ever ask "is exactly X in the data?", use a hash table. If you ask "what values are between X and Y?", you need sorted order — and binary search.
+
+<KeyTakeaways>
+- Binary search halves the search space every step, so it finds any item in a sorted list of $n$ in at most $\lceil \log_2 n \rceil$ comparisons — 20 for a million, 30 for a billion.
+- Every doubling of the data adds just **one** comparison; that's what logarithmic time feels like.
+- The idea is simple but the implementation is a boundary-condition minefield — use `mid = lo + (hi - lo) / 2` and keep your loop invariant consistent.
+- It generalizes far beyond arrays: any **monotone predicate** that flips from No to Yes once can be binary-searched ("binary search on the answer").
+- It needs sorted data. For pure membership tests a hash table is $O(1)$; choose binary search when you also need order and range queries.
+</KeyTakeaways>

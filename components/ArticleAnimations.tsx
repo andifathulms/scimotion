@@ -90,3 +90,8 @@ export const CLTAnimation = dynamic(
   () => import('@/components/animations/CLTAnimation').then(m => ({ default: m.CLTAnimation })),
   { ssr: false }
 )
+
+export const BinarySearchGrowthAnimation = dynamic(
+  () => import('@/components/animations/BinarySearchGrowthAnimation').then(m => ({ default: m.BinarySearchGrowthAnimation })),
+  { ssr: false }
+)

@@ -35,6 +35,7 @@ import {
   GraphTraversalAnimation,
   BrownianMotionAnimation,
   CLTAnimation,
+  BinarySearchGrowthAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -56,6 +57,7 @@ const components = {
   GraphTraversalAnimation,
   BrownianMotionAnimation,
   CLTAnimation,
+  BinarySearchGrowthAnimation,
   KeyTakeaways,
 }
 
