@@ -7,6 +7,7 @@ import { RelatedPosts } from '@/components/RelatedPosts'
 import { TagList } from '@/components/TagList'
 import { TableOfContents } from '@/components/TableOfContents'
 import { Quiz } from '@/components/Quiz'
+import { PathNav } from '@/components/PathNav'
 import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
@@ -139,6 +140,8 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
         <Quiz questions={quiz} />
+
+        <PathNav slug={slug} allArticles={allArticles} />
 
         <hr className="border-border mt-8" />
 
