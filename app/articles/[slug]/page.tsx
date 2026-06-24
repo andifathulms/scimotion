@@ -43,6 +43,7 @@ import {
   StandardErrorAnimation,
   PhasorWaveAnimation,
   ShortestPathGridAnimation,
+  NewtonConvergenceAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -72,6 +73,7 @@ const components = {
   StandardErrorAnimation,
   PhasorWaveAnimation,
   ShortestPathGridAnimation,
+  NewtonConvergenceAnimation,
   KeyTakeaways,
 }
 

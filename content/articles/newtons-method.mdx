@@ -71,6 +71,10 @@ $$|x_{n+1} - r| \leq C\,|x_n - r|^2$$
 
 Each iteration squares the error. If you have 1 correct decimal place, the next iteration gives 2, then 4, then 8, then 16. Starting from a decent guess, ten iterations routinely give full double-precision accuracy (about 15 decimal places).
 
+<NewtonConvergenceAnimation />
+
+The chart plots the error on a logarithmic scale as each method hunts for $\sqrt 2$. Bisection (the safe, halve-the-interval approach) drops in a straight line — one extra correct *bit* per step. Newton's line *bends downward*, its slope doubling every iteration: that's quadratic convergence, the correct digits doubling rather than incrementing. By the time bisection has clawed out a handful of digits, Newton has already hit the floating-point floor.
+
 This is why Newton's method is the workhorse behind many numerical algorithms. The square root function in your computer is often computed via Newton's method applied to $f(x) = x^2 - a$ (finding the positive root of $x^2 - a = 0$):
 
 $$x_{n+1} = x_n - \frac{x_n^2 - a}{2x_n} = \frac{1}{2}\left(x_n + \frac{a}{x_n}\right)$$
@@ -102,6 +106,14 @@ For production numerical software, pure Newton's method is often enhanced:
 ## Newton's method in machine learning
 
 The backpropagation algorithm used to train neural networks is a first-order method — it only uses gradient information, not second-order curvature. Newton's method suggests a better approach: use the Hessian (matrix of second derivatives) to account for curvature, potentially converging faster.
+
+<KeyTakeaways>
+- Newton's method finds roots of $f(x)=0$ by repeatedly following the tangent line to where it crosses zero: $x_{n+1} = x_n - f(x_n)/f'(x_n)$.
+- It converges **quadratically** near a simple root — the number of correct digits roughly doubles each step, vastly outpacing bisection's linear gain.
+- The ancient Babylonian square-root rule is just Newton's method applied to $x^2 - a$.
+- It can fail: near-zero derivatives fling the guess away, the wrong basin attracts the wrong root, and some setups cycle forever.
+- Production solvers pair it with safeguards (bracketing/bisection, damping, quasi-Newton) to keep its speed without its fragility.
+</KeyTakeaways>
 
 In practice, the Hessian of a large neural network has billions of entries and is expensive to compute and invert. Quasi-Newton approximations (L-BFGS) are used for smaller networks. The Adam optimizer, dominant in deep learning, can be understood as an adaptive approximation to Newton's method that avoids explicitly computing second derivatives.
 

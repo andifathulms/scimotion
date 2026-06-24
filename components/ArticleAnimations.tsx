@@ -130,3 +130,8 @@ export const ShortestPathGridAnimation = dynamic(
   () => import('@/components/animations/ShortestPathGridAnimation').then(m => ({ default: m.ShortestPathGridAnimation })),
   { ssr: false }
 )
+
+export const NewtonConvergenceAnimation = dynamic(
+  () => import('@/components/animations/NewtonConvergenceAnimation').then(m => ({ default: m.NewtonConvergenceAnimation })),
+  { ssr: false }
+)
