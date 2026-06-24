@@ -110,3 +110,8 @@ export const DiffusionScalingAnimation = dynamic(
   () => import('@/components/animations/DiffusionScalingAnimation').then(m => ({ default: m.DiffusionScalingAnimation })),
   { ssr: false }
 )
+
+export const ECGTraceAnimation = dynamic(
+  () => import('@/components/animations/ECGTraceAnimation').then(m => ({ default: m.ECGTraceAnimation })),
+  { ssr: false }
+)

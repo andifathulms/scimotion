@@ -39,6 +39,7 @@ import {
   PendulumPeriodAnimation,
   NeuronThresholdAnimation,
   DiffusionScalingAnimation,
+  ECGTraceAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -64,6 +65,7 @@ const components = {
   PendulumPeriodAnimation,
   NeuronThresholdAnimation,
   DiffusionScalingAnimation,
+  ECGTraceAnimation,
   KeyTakeaways,
 }
 
