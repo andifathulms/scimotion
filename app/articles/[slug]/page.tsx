@@ -4,6 +4,7 @@ import { ReadingProgress } from '@/components/ReadingProgress'
 import { TopicBadge } from '@/components/TopicBadge'
 import { ShareButtons } from '@/components/ShareButtons'
 import { RelatedPosts } from '@/components/RelatedPosts'
+import { TagList } from '@/components/TagList'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -129,8 +130,12 @@ export default async function ArticlePage({ params }: Props) {
 
         <hr className="border-border mt-8" />
 
+        <div className="mt-8">
+          <TagList tags={meta.tags} />
+        </div>
+
         <ShareButtons title={meta.title} url={url} />
-        <RelatedPosts currentSlug={slug} currentTopic={meta.topic} allArticles={allArticles} />
+        <RelatedPosts current={meta} allArticles={allArticles} />
       </div>
     </>
   )

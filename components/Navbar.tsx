@@ -22,6 +22,7 @@ export function Navbar() {
         <div className="hidden sm:flex items-center gap-6">
           <Link href="/" className="text-sm text-text-secondary hover:text-text-primary transition-colors">Explore</Link>
           <Link href="/#topics" className="text-sm text-text-secondary hover:text-text-primary transition-colors">Topics</Link>
+          <Link href="/tags" className="text-sm text-text-secondary hover:text-text-primary transition-colors">Tags</Link>
           <Link href="/about" className="text-sm text-text-secondary hover:text-text-primary transition-colors">About</Link>
         </div>
 
@@ -47,6 +48,7 @@ export function Navbar() {
         <div className="sm:hidden border-t border-border bg-bg-base px-5 py-4 flex flex-col gap-4">
           <Link href="/" onClick={() => setOpen(false)} className="text-sm text-text-secondary">Explore</Link>
           <Link href="/#topics" onClick={() => setOpen(false)} className="text-sm text-text-secondary">Topics</Link>
+          <Link href="/tags" onClick={() => setOpen(false)} className="text-sm text-text-secondary">Tags</Link>
           <Link href="/about" onClick={() => setOpen(false)} className="text-sm text-text-secondary">About</Link>
         </div>
       )}
