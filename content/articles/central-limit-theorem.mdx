@@ -73,6 +73,10 @@ The key insight: the $t^2/2$ in the exponent comes from the variance term in the
 
 The standard error of the mean is $\sigma/\sqrt{n}$. Cutting the uncertainty in half requires quadrupling the sample size — not doubling it. This is why polling 1000 people gives only about twice the precision of polling 250 people (the error goes from $\sigma/\sqrt{250} \approx 0.063\sigma$ to $\sigma/\sqrt{1000} \approx 0.032\sigma$).
 
+<StandardErrorAnimation />
+
+Slide the sample size up and watch the sampling distribution of the mean narrow. The catch is in the shape of the shrink: going from $n=25$ to $n=100$ (4× the data) only halves the width, and the next halving costs another 4×. Precision is expensive — every extra digit of accuracy costs a hundredfold more samples.
+
 This $\sqrt{n}$ rate of convergence is optimal — it cannot be improved without additional assumptions. Any unbiased estimator of the mean from $n$ independent samples will have variance at least $\sigma^2/n$ (Cramér-Rao bound). The sample mean achieves this bound — it is the minimum-variance unbiased estimator of $\mu$.
 
 ## Where the normal distribution comes from
@@ -100,3 +104,11 @@ The CLT requires finite variance. Many real-world distributions violate this:
 **Machine learning**: Stochastic gradient descent computes gradients from random mini-batches. By the CLT, the average gradient over a mini-batch is approximately normally distributed around the true gradient, which justifies treating gradient noise as Gaussian in many theoretical analyses.
 
 The bell curve isn't fundamental to any of these systems. It emerges from averaging — from the mathematics of sums of independent random variables. The CLT is the reason the normal distribution appears everywhere you look.
+
+<KeyTakeaways>
+- Average enough independent samples of *any* finite-variance distribution and the averages become normal — the shape of the original doesn't matter.
+- The sample mean is unbiased (centered on $\mu$) and its spread is the standard error $\sigma/\sqrt{n}$.
+- Because of that $\sqrt{n}$, precision is costly: halving the error needs **4×** the data.
+- It explains why heights, measurement error, and noise are Gaussian — they're sums of many small independent effects.
+- It breaks when assumptions break: fat tails (infinite variance) and dependent samples defeat the CLT — a lesson written into the 2008 crisis.
+</KeyTakeaways>

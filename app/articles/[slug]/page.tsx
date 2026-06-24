@@ -40,6 +40,7 @@ import {
   NeuronThresholdAnimation,
   DiffusionScalingAnimation,
   ECGTraceAnimation,
+  StandardErrorAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -66,6 +67,7 @@ const components = {
   NeuronThresholdAnimation,
   DiffusionScalingAnimation,
   ECGTraceAnimation,
+  StandardErrorAnimation,
   KeyTakeaways,
 }
 

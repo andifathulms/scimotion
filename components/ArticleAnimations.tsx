@@ -115,3 +115,8 @@ export const ECGTraceAnimation = dynamic(
   () => import('@/components/animations/ECGTraceAnimation').then(m => ({ default: m.ECGTraceAnimation })),
   { ssr: false }
 )
+
+export const StandardErrorAnimation = dynamic(
+  () => import('@/components/animations/StandardErrorAnimation').then(m => ({ default: m.StandardErrorAnimation })),
+  { ssr: false }
+)
