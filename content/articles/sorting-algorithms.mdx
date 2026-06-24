@@ -8,6 +8,31 @@ readTime: 9
 featured: false
 description: "From bubble sort to quicksort — see exactly how each algorithm works, step by step."
 tags: ["algorithms", "sorting", "complexity", "data-structures"]
+quiz:
+  - q: "Why is the O(n log n) lower bound considered a fundamental limit for comparison-based sorting algorithms?"
+    options:
+      - "Because bubble sort cannot be optimized below this complexity"
+      - "Because each comparison provides one bit of information, and distinguishing between n! possible orderings requires at least log_2(n!) which is about n log n comparisons"
+      - "Because the hardware cache can only process n log n comparisons before becoming full"
+      - "Because merge sort and quicksort both require this many comparisons for their recursion depth"
+    answer: 1
+    explanation: "A sort must distinguish all n! orderings; since each comparison answers a binary question, you need at least log_2(n!) which is about n log n comparisons."
+  - q: "Why does quicksort often outperform merge sort in practice despite both having O(n log n) average-case complexity?"
+    options:
+      - "Because quicksort requires less memory and operates in-place, allowing modern CPUs to leverage hardware caches for sequential memory access"
+      - "Because quicksort always chooses the median pivot, while merge sort must allocate extra space"
+      - "Because quicksort avoids recursion while merge sort recursion is expensive"
+      - "Because merge sort's O(n) extra memory requirement makes it unusable for large datasets"
+    answer: 0
+    explanation: "Quicksort's in-place operation and sequential memory access align better with CPU cache behavior, making the constant factor better despite identical asymptotic complexity."
+  - q: "Under what condition does quicksort's performance degrade to O(n^2), and what does this reveal about algorithm design?"
+    options:
+      - "When the input is already sorted, showing that simple pivot selection strategies fail on structured data"
+      - "When always picking the smallest or largest element as the pivot, partitioning into unbalanced halves and destroying the divide-and-conquer advantage"
+      - "When the array size exceeds one million elements, causing cache misses"
+      - "When merge sort is used as a fallback, reducing overall efficiency"
+    answer: 1
+    explanation: "Always picking the smallest or largest element as pivot leads to O(n^2), showing why pivot selection is critical for maintaining logarithmic recursion depth."
 ---
 
 ## The problem with random order

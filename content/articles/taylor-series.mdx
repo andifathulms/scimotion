@@ -8,6 +8,31 @@ readTime: 9
 featured: false
 description: "Turn sine, cosine, and eˣ into polynomials — and discover why this works everywhere."
 tags: ["calculus", "approximation", "series", "polynomials"]
+quiz:
+  - q: "Why do Taylor series require factorial denominators rather than other normalizing factors?"
+    options:
+      - "Factorials make the series converge faster than any other choice"
+      - "Repeated differentiation of x^n yields n!, which naturally emerges when matching derivatives of the original function"
+      - "Factorials prevent numerical overflow in computer implementations"
+      - "Factorials are the only choice that works for transcendental functions like sine and cosine"
+    answer: 1
+    explanation: "The n! denominator is forced by the requirement that the n-th derivative of the polynomial must equal the n-th derivative of f at 0, and differentiating c_n x^n n times gives c_n times n!."
+  - q: "How does the radius of convergence for a Taylor series relate to singularities of the function?"
+    options:
+      - "The radius extends exactly to the nearest singularity of the function"
+      - "Singularities have no effect on convergence; all series converge everywhere"
+      - "The radius is always infinite unless the function is transcendental"
+      - "Singularities only matter for complex functions, not real ones"
+    answer: 0
+    explanation: "As shown with ln(1+x), which converges only for x between -1 and 1 because it has a singularity at x = -1, the circle of convergence extends only as far as the nearest singularity."
+  - q: "In practical applications like CPU calculations of sin(x), why are Taylor series so valuable?"
+    options:
+      - "They allow computers to find exact closed-form solutions instantly"
+      - "They convert transcendental functions into arithmetic operations (multiplication and addition) that processors execute quickly"
+      - "They eliminate the need for any approximation in numerical computing"
+      - "They work only for functions like e^x but not for sine or cosine"
+    answer: 1
+    explanation: "CPUs cannot compute sin(x) natively but excel at multiplication and addition, making polynomial approximations via Taylor series the standard implementation method."
 ---
 
 ## The problem with transcendental functions

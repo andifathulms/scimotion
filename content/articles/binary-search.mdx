@@ -8,6 +8,31 @@ readTime: 7
 featured: false
 description: "How halving the search space every step turns a million possibilities into twenty comparisons."
 tags: ["algorithms", "searching", "complexity", "divide-and-conquer"]
+quiz:
+  - q: "Why does binary search achieve O(log n) time complexity even though each iteration only eliminates exactly half the remaining elements?"
+    options:
+      - "The algorithm processes multiple elements in parallel using hardware optimizations"
+      - "After k comparisons, at most n/2^k elements remain, requiring at most log_2(n) steps before only one element is left"
+      - "The algorithm uses a divide-and-conquer strategy that reduces the problem size exponentially at each level"
+      - "Modern CPUs cache sorted data, making repeated comparisons faster than the mathematical bound suggests"
+    answer: 1
+    explanation: "The exponential reduction of the search space (dividing by 2 each time) means the number of comparisons needed grows only logarithmically with the input size."
+  - q: "What is the primary risk of using the formula mid = (lo + hi) / 2 in languages like Java or C without arbitrary-precision integers?"
+    options:
+      - "The division operation rounds incorrectly, causing searches to skip elements"
+      - "Integer overflow can occur when both lo and hi are large, producing incorrect midpoint values"
+      - "The midpoint will always bias toward the lower half of the search space"
+      - "Floating-point precision errors make comparisons unreliable"
+    answer: 1
+    explanation: "Adding two large integers can exceed the maximum representable value, causing overflow; the safe form is mid = lo + (hi - lo) / 2."
+  - q: "Binary search can be applied to problems without a pre-existing array when certain conditions are met; what is the key requirement?"
+    options:
+      - "The answer space must be linearly distributed across all possible values"
+      - "The data must contain no duplicates or null values"
+      - "There must exist a monotone predicate where the answer flips from No to Yes at exactly one threshold"
+      - "The problem must be solvable in O(n log n) time by a comparison-based algorithm"
+    answer: 2
+    explanation: "Binary search on the answer works for any problem where you can test whether a candidate answer satisfies a condition that changes only once across the search space."
 ---
 
 ## The phone book problem

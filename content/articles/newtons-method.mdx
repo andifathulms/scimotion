@@ -8,6 +8,31 @@ readTime: 8
 featured: false
 description: "The algorithm that squares the number of correct decimal places with every iteration."
 tags: ["numerical-methods", "calculus", "root-finding", "iteration"]
+quiz:
+  - q: "Why is the quadratic convergence property of Newton's method so valuable in practical numerical computation?"
+    options:
+      - "It guarantees the method will always find a root regardless of starting point"
+      - "Each iteration squares the error, meaning the number of correct decimal places doubles with each step, reaching full precision in very few iterations"
+      - "It eliminates the need to compute derivatives"
+      - "It requires less memory than linear convergence methods"
+    answer: 1
+    explanation: "Near a simple root, each iteration squares the error, doubling the correct decimal places, reaching double-precision accuracy in about ten iterations."
+  - q: "When Newton's method is applied to finding the square root of a number a, what function f(x) is being used?"
+    options:
+      - "f(x) = sqrt(x) - a"
+      - "f(x) = x^2 - a"
+      - "f(x) = a - x^2"
+      - "f(x) = x - a^(1/2)"
+    answer: 1
+    explanation: "Newton's method is applied to f(x) = x^2 - a to find the positive root, which is the Babylonian method for computing square roots."
+  - q: "Under what condition does Newton's method fail by producing a next guess that shoots far away from the root?"
+    options:
+      - "When the function has multiple roots in the search interval"
+      - "When f'(x_n) is approximately zero or very small, making the tangent line nearly horizontal"
+      - "When the starting point is too close to the root"
+      - "When the function contains transcendental terms like cosine or sine"
+    answer: 1
+    explanation: "If f'(x_n) is zero or very small, the tangent is nearly horizontal and the next guess becomes far away, causing divergence."
 ---
 
 ## The problem of root-finding

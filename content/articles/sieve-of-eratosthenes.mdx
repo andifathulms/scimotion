@@ -8,6 +8,31 @@ readTime: 8
 featured: true
 description: "Start with every number, then cross out the non-primes. What's left is beautiful."
 tags: ["number-theory", "primes", "algorithms"]
+quiz:
+  - q: "Why is it sufficient to only sieve up to sqrt(N) rather than all the way to N when finding primes up to N?"
+    options:
+      - "Because composite numbers above sqrt(N) always have two prime factors instead of one"
+      - "Because every composite number up to N must have at least one prime factor less than or equal to sqrt(N)"
+      - "Because the remaining numbers after sieving are always prime by definition"
+      - "Because Mertens' theorem guarantees the time complexity becomes O(n log log n)"
+    answer: 1
+    explanation: "If a composite n = p times q and both were greater than sqrt(N), their product would exceed N, a contradiction; so at least one factor must be at most sqrt(N)."
+  - q: "What does the unusual time complexity O(n log log n) for the Sieve of Eratosthenes reflect about its efficiency?"
+    options:
+      - "It is slower than any algorithm that uses fancy data structures"
+      - "It derives from the sum of the harmonic series of primes, making it nearly linear and far superior to quadratic algorithms like bubble sort"
+      - "It proves that the algorithm is unsuitable for modern cryptographic applications"
+      - "It means the algorithm performs worse as N grows beyond one million"
+    answer: 1
+    explanation: "The bound comes from Mertens' theorem and the harmonic series of primes, making the algorithm scale almost linearly with dramatic practical advantages."
+  - q: "What pattern does the article observe about how the density of prime numbers changes as integers grow larger?"
+    options:
+      - "Prime density increases logarithmically, becoming more common at larger numbers"
+      - "Prime density decreases logarithmically according to the Prime Number Theorem, with roughly n/ln(n) primes below n"
+      - "Prime density remains constant, with exactly one prime in every ten consecutive integers"
+      - "Prime density follows an exponential decay pattern that eventually reaches zero"
+    answer: 1
+    explanation: "Near 100 about 1 in 4 numbers is prime, near 1000 about 1 in 7, and near 1000000 about 1 in 14 - a logarithmic thinning described by the Prime Number Theorem."
 ---
 
 ## What is a prime number?

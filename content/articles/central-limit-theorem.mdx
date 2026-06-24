@@ -8,6 +8,31 @@ readTime: 8
 featured: false
 description: "The theorem that explains why the bell curve appears everywhere from exam scores to measurement errors."
 tags: ["statistics", "probability", "distributions"]
+quiz:
+  - q: "Why does the standard error of the mean decrease by a factor of 2 when you increase sample size from 250 to 1000?"
+    options:
+      - "Because the sample size increases by a factor of 4"
+      - "Because the standard error follows a square root relationship with sample size (sigma divided by root n)"
+      - "Because larger samples eliminate more biased measurements"
+      - "Because the population variance becomes smaller with more data collected"
+    answer: 1
+    explanation: "The standard error is sigma divided by the square root of n, so going from 250 to 1000 (roughly a 4x increase) reduces error by a factor of 2, since the square root of 4 is 2."
+  - q: "What is the key limitation of applying the Central Limit Theorem to real-world distributions like stock market returns?"
+    options:
+      - "The original distribution must be symmetric"
+      - "The sample size must be very large, typically more than 10000"
+      - "These distributions often have infinite or very large variance, violating the CLT's requirement of finite variance"
+      - "The samples must be collected at equally spaced time intervals"
+    answer: 2
+    explanation: "Fat-tailed distributions in stock returns violate the CLT's requirement of finite variance, and this assumption failure contributed to the 2008 financial crisis."
+  - q: "According to the Central Limit Theorem, which mathematical property explains why the sample mean is approximately normally distributed regardless of the original distribution's shape?"
+    options:
+      - "The Law of Large Numbers guarantees convergence to a fixed value"
+      - "The Taylor expansion of the moment generating function reveals that only the first two moments (mean and variance) contribute to the limiting distribution"
+      - "The normal distribution is the only distribution that can represent means of samples"
+      - "The variance automatically becomes normally distributed when samples are averaged"
+    answer: 1
+    explanation: "Using moment generating functions, higher moments vanish as n approaches infinity, leaving only the t-squared over 2 term that characterizes the normal distribution."
 ---
 
 ## The universal bell

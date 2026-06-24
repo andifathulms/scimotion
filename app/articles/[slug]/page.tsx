@@ -6,6 +6,7 @@ import { ShareButtons } from '@/components/ShareButtons'
 import { RelatedPosts } from '@/components/RelatedPosts'
 import { TagList } from '@/components/TagList'
 import { TableOfContents } from '@/components/TableOfContents'
+import { Quiz } from '@/components/Quiz'
 import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
@@ -89,7 +90,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
-  const { meta, content } = await getArticleBySlug(slug)
+  const { meta, content, quiz } = await getArticleBySlug(slug)
   const allArticles = await getAllArticles()
   const url = `${SITE_URL}/articles/${slug}`
   const headings = extractHeadings(content)
@@ -136,6 +137,8 @@ export default async function ArticlePage({ params }: Props) {
             }}
           />
         </div>
+
+        <Quiz questions={quiz} />
 
         <hr className="border-border mt-8" />
 

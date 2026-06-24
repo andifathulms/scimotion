@@ -8,6 +8,31 @@ readTime: 8
 featured: false
 description: "How queues and stacks determine whether you explore a graph level by level or depth by depth."
 tags: ["algorithms", "graphs", "data-structures", "search"]
+quiz:
+  - q: "Why does BFS guarantee the shortest path in an unweighted graph, while DFS does not?"
+    options:
+      - "BFS explores all nodes in order of their distance from the start, so the first time it reaches a node is via the shortest path"
+      - "BFS uses a stack which is slower than a queue"
+      - "BFS requires less memory to store visited nodes"
+      - "DFS always explores the deepest nodes first, missing shorter paths"
+    answer: 0
+    explanation: "BFS processes nodes in order of distance 0, then 1, then 2, so the first time a node is reached is always via the shortest path."
+  - q: "When detecting circular dependencies in a package manager using DFS, what determines whether a cycle exists?"
+    options:
+      - "A node is revisited after it has been marked as visited"
+      - "A node is reached that is currently in the DFS call stack"
+      - "The graph contains more edges than nodes"
+      - "A visited node is encountered twice in the same recursive call"
+    answer: 1
+    explanation: "DFS detects cycles by checking if a node is already in the currently active call stack, which indicates a cycle."
+  - q: "Why might DFS require significantly less memory than BFS when traversing a wide, shallow graph?"
+    options:
+      - "DFS uses recursive calls which compress the stack more efficiently"
+      - "DFS stores only the current path in the call stack (O(depth)), while BFS stores the entire frontier which is O(V)"
+      - "DFS marks nodes as visited more quickly than BFS"
+      - "Wide graphs have fewer edges so DFS requires fewer operations"
+    answer: 1
+    explanation: "DFS space is O(depth) which is much smaller for wide shallow graphs, while BFS space is O(V) for its frontier queue."
 ---
 
 ## Graphs are everywhere

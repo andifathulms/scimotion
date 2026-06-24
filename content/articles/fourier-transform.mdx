@@ -8,6 +8,31 @@ readTime: 10
 featured: false
 description: "Decompose any wave into its frequency components — and see why this changes everything."
 tags: ["signals", "frequency", "waves", "transforms"]
+quiz:
+  - q: "Why does a violin playing the same note as a flute sound different, even though both produce the same fundamental frequency?"
+    options:
+      - "The violin vibrates faster than the flute"
+      - "Each instrument produces different relative loudness levels of overtones at integer multiples of the fundamental frequency"
+      - "Violins use a different pitch than flutes"
+      - "The fourier transform was invented specifically to explain this difference"
+    answer: 1
+    explanation: "Overtones at integer multiples of the fundamental frequency create the distinctive timbre of each instrument."
+  - q: "What does the magnitude of the Fourier transform result tell you about a frequency component?"
+    options:
+      - "How fast the frequency changes over time"
+      - "The phase shift angle of the frequency component"
+      - "How much of that frequency is present in the signal"
+      - "Whether the frequency is real or imaginary"
+    answer: 2
+    explanation: "The magnitude of the complex result tells you how much of that frequency is present in the signal."
+  - q: "In the phasor animation described in the article, what happens when you increase the frequency of the spinning arrow?"
+    options:
+      - "The arrow spins faster and the resulting sine wave becomes taller"
+      - "The arrow spins faster and the resulting sine wave becomes compressed horizontally"
+      - "The arrow moves outward and the resulting sine wave changes phase"
+      - "The arrow changes color and the frequency domain bar chart becomes wider"
+    answer: 1
+    explanation: "As frequency increases the arrow spins faster and the sine wave on the right compresses in time."
 ---
 
 ## Sound is a shape
