@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'Scimotion — Science you can see move',
   description: 'A science blog where every concept is explained with interactive animations.',
+  alternates: {
+    types: { 'application/rss+xml': `${SITE_URL}/feed.xml` },
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
