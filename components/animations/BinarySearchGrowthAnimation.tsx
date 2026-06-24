@@ -18,7 +18,7 @@ function fmt(n: number): string {
 }
 
 export function BinarySearchGrowthAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(N_MAX); return }
       setN(1)

@@ -13,15 +13,20 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
-  // The interactive animation widgets intentionally drive React state from
-  // external systems — IntersectionObserver scroll-autoplay, canvas/raf init,
-  // and the next-themes hydration-mount guard — which is exactly what effects
-  // are for. The (new, aggressive) set-state-in-effect rule flags these valid
-  // patterns, so it is scoped off for the animation layer only. It stays on for
-  // the rest of the app.
+  // The interactive animation widgets are intentionally imperative: canvas +
+  // requestAnimationFrame loops, mutable refs for animation state, and
+  // IntersectionObserver scroll-autoplay (plus the next-themes hydration-mount
+  // guard in ThemeToggle). The new, aggressive React Compiler rules
+  // (set-state-in-effect, refs, immutability) flag these valid patterns, so
+  // they are scoped off for the animation layer only — they stay on for the
+  // rest of the app, where genuine ref/effect bugs are still caught.
   {
     files: ["components/animations/**/*.tsx", "components/ThemeToggle.tsx"],
-    rules: { "react-hooks/set-state-in-effect": "off" },
+    rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/immutability": "off",
+    },
   },
 ]);
 

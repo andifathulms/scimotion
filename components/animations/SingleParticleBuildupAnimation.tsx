@@ -33,7 +33,7 @@ function samplePoint(): Point {
 }
 
 export function SingleParticleBuildupAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         const seed = Array.from({ length: 3000 }, samplePoint)

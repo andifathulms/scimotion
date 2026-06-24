@@ -19,7 +19,7 @@ const INS = { x: W - 188, y: PAD.top + 6, w: 170, h: 74 }
 const se = (n: number) => SIGMA / Math.sqrt(n)
 
 export function StandardErrorAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(N_MAX); return }
       setN(N_MIN)

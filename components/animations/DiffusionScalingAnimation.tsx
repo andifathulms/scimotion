@@ -16,7 +16,7 @@ function rms(t: number, D: number): number {
 }
 
 export function DiffusionScalingAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setT(T_MAX); return }
       setT(0)

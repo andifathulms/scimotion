@@ -46,7 +46,7 @@ function buildBisection(): number[] {
 }
 
 export function NewtonConvergenceAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setStep(N_ITER); return }
       setStep(0)
@@ -63,6 +63,31 @@ export function NewtonConvergenceAnimation() {
   const y = useCallback(
     (logE: number) => PAD.top + ((Y_TOP - logE) / (Y_TOP - Y_BOT)) * PLOT_H,
     [],
+  )
+
+  const drawSeries = useCallback(
+    (ctx: CanvasRenderingContext2D, errs: number[], visible: number, color: string) => {
+      const pts = errs.slice(0, visible)
+      // connecting line
+      ctx.strokeStyle = color
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      pts.forEach((e, k) => {
+        const px = x(k)
+        const py = y(logErr(e))
+        if (k === 0) ctx.moveTo(px, py)
+        else ctx.lineTo(px, py)
+      })
+      ctx.stroke()
+      // points
+      ctx.fillStyle = color
+      pts.forEach((e, k) => {
+        ctx.beginPath()
+        ctx.arc(x(k), y(logErr(e)), 3.5, 0, Math.PI * 2)
+        ctx.fill()
+      })
+    },
+    [x, y],
   )
 
   const draw = useCallback(() => {
@@ -108,32 +133,7 @@ export function NewtonConvergenceAnimation() {
     const visible = step + 1
     drawSeries(ctx, bisectErr, visible, BISECT)
     drawSeries(ctx, newtonErr, visible, NEWTON)
-  }, [newtonErr, bisectErr, step, x, y])
-
-  const drawSeries = useCallback(
-    (ctx: CanvasRenderingContext2D, errs: number[], visible: number, color: string) => {
-      const pts = errs.slice(0, visible)
-      // connecting line
-      ctx.strokeStyle = color
-      ctx.lineWidth = 2
-      ctx.beginPath()
-      pts.forEach((e, k) => {
-        const px = x(k)
-        const py = y(logErr(e))
-        if (k === 0) ctx.moveTo(px, py)
-        else ctx.lineTo(px, py)
-      })
-      ctx.stroke()
-      // points
-      ctx.fillStyle = color
-      pts.forEach((e, k) => {
-        ctx.beginPath()
-        ctx.arc(x(k), y(logErr(e)), 3.5, 0, Math.PI * 2)
-        ctx.fill()
-      })
-    },
-    [x, y],
-  )
+  }, [newtonErr, bisectErr, step, x, y, drawSeries])
 
   useEffect(() => { draw() }, [draw])
 

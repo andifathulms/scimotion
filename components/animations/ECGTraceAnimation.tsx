@@ -39,7 +39,7 @@ function yAt(t: number, interval: number): number {
 }
 
 export function ECGTraceAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setReducedStatic(true); return }
       setRunning(true)
@@ -51,7 +51,7 @@ export function ECGTraceAnimation() {
   const [reducedStatic, setReducedStatic] = useState(false)
   const offsetRef = useRef(0) // elapsed time in seconds scrolled
   const bpmRef = useRef(bpm)
-  bpmRef.current = bpm
+  useEffect(() => { bpmRef.current = bpm })
 
   const drawTrace = useCallback((offset: number, interval: number) => {
     const canvas = canvasRef.current

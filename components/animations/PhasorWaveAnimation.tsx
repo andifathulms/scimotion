@@ -184,7 +184,7 @@ export function PhasorWaveAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, omega]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [running, omega])
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)

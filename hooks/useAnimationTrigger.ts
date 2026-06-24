@@ -13,7 +13,10 @@ export function useAnimationTrigger(arg: number | Options = 0.3) {
   const [triggered, setTriggered] = useState(false)
   const firedRef = useRef(false)
   const cbRef = useRef(opts.onTrigger)
-  cbRef.current = opts.onTrigger
+
+  useEffect(() => {
+    cbRef.current = opts.onTrigger
+  })
 
   useEffect(() => {
     const observer = new IntersectionObserver(
