@@ -100,3 +100,8 @@ export const PendulumPeriodAnimation = dynamic(
   () => import('@/components/animations/PendulumPeriodAnimation').then(m => ({ default: m.PendulumPeriodAnimation })),
   { ssr: false }
 )
+
+export const NeuronThresholdAnimation = dynamic(
+  () => import('@/components/animations/NeuronThresholdAnimation').then(m => ({ default: m.NeuronThresholdAnimation })),
+  { ssr: false }
+)

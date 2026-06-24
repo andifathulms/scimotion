@@ -37,6 +37,7 @@ import {
   CLTAnimation,
   BinarySearchGrowthAnimation,
   PendulumPeriodAnimation,
+  NeuronThresholdAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -60,6 +61,7 @@ const components = {
   CLTAnimation,
   BinarySearchGrowthAnimation,
   PendulumPeriodAnimation,
+  NeuronThresholdAnimation,
   KeyTakeaways,
 }
 

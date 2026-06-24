@@ -79,7 +79,11 @@ The refractory period has a crucial consequence: action potentials can only trav
 
 ## How information is encoded
 
-A single action potential is all-or-nothing — it fires at full amplitude or not at all. The stimulus intensity isn't encoded in the spike's height (it's always the same) but in:
+A single action potential is all-or-nothing — it fires at full amplitude or not at all. Try it: push the stimulus below threshold and the membrane just twitches and relaxes; push it past −55 mV and you get the full spike — and crucially, cranking the stimulus higher doesn't make the spike any bigger.
+
+<NeuronThresholdAnimation />
+
+Because the spike size carries no information, the stimulus intensity isn't encoded in the spike's height (it's always the same) but in:
 
 - **Firing rate**: a stronger stimulus produces a higher frequency of spikes (rate coding).
 - **Which neurons fire**: different sensory receptors innervate different neurons (labeled-line coding).
@@ -92,3 +96,11 @@ Your brain is solving an extraordinarily complex decoding problem at every momen
 The cardiac cells of the heart generate their own action potentials — similar in mechanism but shaped differently by different ion channel ratios. The ECG you see on a heart monitor is the summed electrical activity of billions of cardiac cells firing in coordinated waves across the heart.
 
 Drugs like lidocaine (a local anesthetic) and certain antiarrhythmics work by blocking voltage-gated Na⁺ channels, preventing action potentials in specific tissues. Understanding the action potential is directly understanding the mechanism of drugs, diseases, and the electrophysiology that underlies both the nervous system and the heart.
+
+<KeyTakeaways>
+- The resting potential (~−70 mV) is maintained by the Na⁺/K⁺ pump plus leak channels; it sits above K⁺'s −90 mV equilibrium because Na⁺ leaks in too.
+- Crossing the −55 mV threshold opens voltage-gated Na⁺ channels, and the resulting positive feedback makes the spike inevitable.
+- The action potential is **all-or-nothing**: a stronger stimulus doesn't make a bigger spike — intensity is encoded as firing *rate*, not amplitude.
+- The four phases — depolarization, repolarization, hyperpolarization, recovery — are choreographed by Na⁺ and K⁺ channels opening and closing on different timescales.
+- The refractory period (inactivated Na⁺ channels) forces the spike to travel one way and sets a ceiling on firing rate.
+</KeyTakeaways>
