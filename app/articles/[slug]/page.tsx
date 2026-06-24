@@ -36,6 +36,7 @@ import {
   BrownianMotionAnimation,
   CLTAnimation,
   BinarySearchGrowthAnimation,
+  PendulumPeriodAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -58,6 +59,7 @@ const components = {
   BrownianMotionAnimation,
   CLTAnimation,
   BinarySearchGrowthAnimation,
+  PendulumPeriodAnimation,
   KeyTakeaways,
 }
 

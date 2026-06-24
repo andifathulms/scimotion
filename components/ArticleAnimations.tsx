@@ -95,3 +95,8 @@ export const BinarySearchGrowthAnimation = dynamic(
   () => import('@/components/animations/BinarySearchGrowthAnimation').then(m => ({ default: m.BinarySearchGrowthAnimation })),
   { ssr: false }
 )
+
+export const PendulumPeriodAnimation = dynamic(
+  () => import('@/components/animations/PendulumPeriodAnimation').then(m => ({ default: m.PendulumPeriodAnimation })),
+  { ssr: false }
+)

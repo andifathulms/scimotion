@@ -4,7 +4,7 @@ subtitle: "A swinging weight reveals the geometry of oscillation — and the lim
 topic: "Physics"
 slug: "pendulum-motion"
 date: "2026-04-08"
-readTime: 8
+readTime: 9
 featured: false
 description: "Why a pendulum keeps perfect time at small angles — and breaks down at large ones."
 tags: ["oscillation", "mechanics", "dynamics", "energy"]
@@ -83,6 +83,12 @@ $$T = 4\sqrt{\frac{L}{g}} \int_0^{\theta_0/2} \frac{d\theta}{\sqrt{1 - k^2\sin^2
 
 This has no simple closed form. For $\theta_0 = 90°$, the true period is about 18% longer than the small-angle formula predicts. At $\theta_0 = 180°$ (starting from horizontal), the period becomes infinite — the pendulum takes forever to pass through the top.
 
+The chart below plots the true period (green) against the small-angle prediction (the flat dashed line). Drag the amplitude and watch where they diverge:
+
+<PendulumPeriodAnimation />
+
+Up to about 15–20° the two are indistinguishable — that flat region is exactly the isochronism Huygens relied on. Beyond it the exact curve peels away and then rockets upward as $\theta_0$ approaches 180°, where the period diverges. The "constant rate" of a pendulum was never a law of nature; it was a small-angle accident that good clockmakers were careful to stay inside of.
+
 Huygens actually solved this problem. He showed that a pendulum bob constrained to swing along a cycloid (not a circle) achieves true isochronism for any amplitude. This led to the cycloidal cheeks found in some early pendulum clocks.
 
 ## Energy and phase space
@@ -102,3 +108,11 @@ A real pendulum loses energy to air resistance and friction at the pivot. With d
 $$\ddot{\theta} = -\frac{g}{L}\sin\theta - b\dot{\theta}$$
 
 The pendulum still oscillates, but each swing is slightly smaller than the last. For a clock to work, this energy must be replenished — by a wound spring, a falling weight, or an electric motor. The escapement mechanism releases just enough energy per tick to maintain constant amplitude without adding extra.
+
+<KeyTakeaways>
+- The pendulum's true equation of motion, $\ddot{\theta} = -\frac{g}{L}\sin\theta$, is nonlinear and has no simple closed-form solution.
+- The small-angle approximation $\sin\theta \approx \theta$ linearizes it into simple harmonic motion, giving $T = 2\pi\sqrt{L/g}$ — independent of mass and amplitude.
+- That amplitude-independence (isochronism) is only approximate: by 90° the real period is ~18% longer, and it diverges to infinity at 180°.
+- Period depends on $\sqrt{L/g}$, so quadrupling the length only doubles the period.
+- Energy sloshes between kinetic and potential every swing — the same exchange that drives springs, LC circuits, and quantum oscillators.
+</KeyTakeaways>
