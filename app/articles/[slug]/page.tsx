@@ -63,7 +63,25 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const { meta } = await getArticleBySlug(slug)
-  return { title: `${meta.title} — Scimotion`, description: meta.description }
+  const title = `${meta.title} — Scimotion`
+  return {
+    title,
+    description: meta.description,
+    alternates: { canonical: `${SITE_URL}/articles/${slug}` },
+    openGraph: {
+      type: 'article',
+      title,
+      description: meta.description,
+      url: `${SITE_URL}/articles/${slug}`,
+      siteName: 'Scimotion',
+      publishedTime: meta.date,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: meta.description,
+    },
+  }
 }
 
 export default async function ArticlePage({ params }: Props) {
