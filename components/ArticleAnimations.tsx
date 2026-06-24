@@ -145,3 +145,8 @@ export const SingleParticleBuildupAnimation = dynamic(
   () => import('@/components/animations/SingleParticleBuildupAnimation').then(m => ({ default: m.SingleParticleBuildupAnimation })),
   { ssr: false }
 )
+
+export const TaylorRadiusAnimation = dynamic(
+  () => import('@/components/animations/TaylorRadiusAnimation').then(m => ({ default: m.TaylorRadiusAnimation })),
+  { ssr: false }
+)

@@ -87,8 +87,20 @@ $$\ln(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \cdots$$
 
 only converges for $-1 < x \leq 1$. Outside this radius of convergence, the partial sums fly off to infinity instead of settling. The complex analysis reason is that $\ln(1+x)$ has a singularity at $x = -1$, and a circle of convergence centered at 0 can only extend as far as that nearest singularity.
 
+<TaylorRadiusAnimation />
+
+Add terms and watch the split personality of the partial sums: inside the shaded interval $(-1, 1]$ the polynomial hugs $\ln(1+x)$ ever more tightly, but cross either edge of the radius and more terms make things *worse*, the curve swinging off violently. More terms only ever help inside the radius of convergence — beyond it, the series is simply the wrong tool.
+
 ## Practical power: fast computation
 
 The reason Taylor series matter to every programmer, physicist, and engineer is that they turn transcendental functions into arithmetic. A modern CPU can't compute $\sin(x)$ natively — but it can multiply and add numbers incredibly fast. The standard library implementation of `sin()` in C is essentially a carefully chosen polynomial (often using a variant of CORDIC or a minimax polynomial) accurate to 64-bit precision.
 
 The same idea underlies numerical methods, signal processing, and differential equation solvers. Whenever you approximate a smooth function near a known point, you're implicitly using Taylor's idea — that smoothness creates a polynomial fingerprint.
+
+<KeyTakeaways>
+- A Taylor series matches a function's value and *every* derivative at one point, turning transcendental functions into pure arithmetic.
+- The coefficient $f^{(n)}(0)/n!$ — factorial and all — is forced by requiring the $n$-th derivatives to agree.
+- $\sin$, $\cos$, and $e^x$ converge everywhere; others, like $\ln(1+x)$, only converge inside a **radius** set by the nearest singularity.
+- Outside that radius, adding terms makes the approximation worse, not better.
+- This is how calculators and CPUs evaluate $\sin$, $e^x$, and friends — carefully chosen polynomials accurate to full machine precision.
+</KeyTakeaways>

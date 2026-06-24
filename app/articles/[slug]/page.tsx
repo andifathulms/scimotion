@@ -46,6 +46,7 @@ import {
   NewtonConvergenceAnimation,
   LorentzFactorAnimation,
   SingleParticleBuildupAnimation,
+  TaylorRadiusAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -78,6 +79,7 @@ const components = {
   NewtonConvergenceAnimation,
   LorentzFactorAnimation,
   SingleParticleBuildupAnimation,
+  TaylorRadiusAnimation,
   KeyTakeaways,
 }
 
