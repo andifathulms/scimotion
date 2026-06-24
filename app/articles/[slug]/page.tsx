@@ -5,6 +5,8 @@ import { TopicBadge } from '@/components/TopicBadge'
 import { ShareButtons } from '@/components/ShareButtons'
 import { RelatedPosts } from '@/components/RelatedPosts'
 import { TagList } from '@/components/TagList'
+import { TableOfContents } from '@/components/TableOfContents'
+import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -90,11 +92,18 @@ export default async function ArticlePage({ params }: Props) {
   const { meta, content } = await getArticleBySlug(slug)
   const allArticles = await getAllArticles()
   const url = `${SITE_URL}/articles/${slug}`
+  const headings = extractHeadings(content)
 
   return (
     <>
       <ReadingProgress />
-      <div className="max-w-[680px] mx-auto px-5 py-12">
+      <div className="max-w-[1100px] mx-auto px-5 py-12 flex justify-center gap-10">
+        <aside className="hidden xl:block w-56 shrink-0">
+          <div className="sticky top-20">
+            <TableOfContents headings={headings} />
+          </div>
+        </aside>
+        <article className="w-full max-w-[680px]">
         {/* Header */}
         <div className="mb-8">
           <div className="mb-4">
@@ -122,7 +131,7 @@ export default async function ArticlePage({ params }: Props) {
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkMath],
-                rehypePlugins: [rehypeKatex],
+                rehypePlugins: [rehypeSlugSimple, rehypeKatex],
               },
             }}
           />
@@ -136,6 +145,8 @@ export default async function ArticlePage({ params }: Props) {
 
         <ShareButtons title={meta.title} url={url} />
         <RelatedPosts current={meta} allArticles={allArticles} />
+        </article>
+        <div className="hidden xl:block w-56 shrink-0" aria-hidden="true" />
       </div>
     </>
   )
