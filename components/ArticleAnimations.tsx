@@ -125,3 +125,8 @@ export const PhasorWaveAnimation = dynamic(
   () => import('@/components/animations/PhasorWaveAnimation').then(m => ({ default: m.PhasorWaveAnimation })),
   { ssr: false }
 )
+
+export const ShortestPathGridAnimation = dynamic(
+  () => import('@/components/animations/ShortestPathGridAnimation').then(m => ({ default: m.ShortestPathGridAnimation })),
+  { ssr: false }
+)

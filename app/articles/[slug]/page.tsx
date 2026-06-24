@@ -42,6 +42,7 @@ import {
   ECGTraceAnimation,
   StandardErrorAnimation,
   PhasorWaveAnimation,
+  ShortestPathGridAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -70,6 +71,7 @@ const components = {
   ECGTraceAnimation,
   StandardErrorAnimation,
   PhasorWaveAnimation,
+  ShortestPathGridAnimation,
   KeyTakeaways,
 }
 

@@ -85,6 +85,10 @@ def bfs(graph, start):
 
 Key property: BFS visits nodes in order of their **distance** (number of edges) from the start. The first time BFS reaches a node, it has found the shortest path (by edge count) to that node.
 
+<ShortestPathGridAnimation />
+
+This is BFS as a flood fill. Each cell is colored by its distance from the start, and you can watch the search expand outward one ring at a time — every cell in ring $k$ is reached before any cell in ring $k+1$. That ordering is exactly why the first time the wave touches the goal it has found a shortest route, traced back in gold. It's the same algorithm behind unweighted shortest-path routing and maze solvers.
+
 ## DFS: the stack
 
 DFS uses a **LIFO stack** (last in, first out). The recursive implementation is the most natural:
@@ -142,3 +146,11 @@ Both BFS and DFS visit every node and every edge exactly once: **$O(V + E)$** ti
 Space differs: BFS stores the current frontier in its queue, which can be $O(V)$ in the worst case (a star graph). DFS stores the current path in its call stack, which is $O(depth)$ — much smaller for wide, shallow graphs, but $O(V)$ for a chain or deep tree.
 
 The choice between BFS and DFS often comes down to memory constraints and the structure of the graph you're working with.
+
+<KeyTakeaways>
+- Almost any problem about connections, reachability, or relationships can be modeled as a graph and attacked with one of two traversals.
+- BFS (a FIFO queue) explores in rings of increasing distance, so it finds shortest paths in unweighted graphs; DFS (a LIFO stack) plunges deep then backtracks.
+- DFS is the natural fit for cycle detection, topological sort, and connected components; BFS for shortest paths and level-order processing.
+- Both run in optimal $O(V + E)$ time; they differ in memory — BFS holds an $O(V)$ frontier, DFS an $O(\text{depth})$ stack.
+- Add edge weights and BFS generalizes to Dijkstra's algorithm (a priority queue instead of a plain queue).
+</KeyTakeaways>
