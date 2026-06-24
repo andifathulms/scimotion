@@ -65,6 +65,10 @@ $$\langle r^2 \rangle = 6Dt$$
 
 This is not ballistic motion (where $\langle r^2 \rangle \propto t^2$) — it's diffusive, growing only as $\sqrt{t}$. A particle doubles its average displacement not in twice the time, but in four times the time.
 
+<DiffusionScalingAnimation />
+
+Drag the time slider and watch the distance curve: it climbs steeply at first, then flattens. That square-root shape is why diffusion is fast over short distances and punishingly slow over long ones — a molecule crosses a 20-nanometre synapse almost instantly, but pure diffusion would take *years* to cross a room. Raising the diffusion coefficient $D$ (hotter, smaller particle, thinner fluid) lifts the whole curve, but never changes its $\sqrt{t}$ character.
+
 Einstein derived the diffusion coefficient from first principles:
 
 $$D = \frac{k_B T}{6\pi \eta r}$$
@@ -108,3 +112,10 @@ Bachelier's insight underlies the Black-Scholes model for options pricing, for w
 $$dS = \mu S\,dt + \sigma S\,dW_t$$
 
 uses exactly the Wiener process $W_t$ — mathematical Brownian motion. The pollen grain Brown watched in 1827 and the options market are governed by the same mathematics.
+
+<KeyTakeaways>
+- Brownian motion is the visible result of countless invisible molecular collisions; Einstein's quantitative theory of it was the first hard proof that atoms are real.
+- Mean squared displacement grows **linearly** with time ($\langle r^2 \rangle = 2dDt$), so typical distance grows only as $\sqrt{t}$ — twice as far takes four times as long.
+- The Stokes–Einstein relation $D = k_B T / 6\pi\eta r$ ties the diffusion rate to temperature, viscosity, and particle size — and let Perrin measure Avogadro's number.
+- The same random-walk math (the Wiener process) underlies diffusion in biology, drug delivery, and the Black–Scholes options model.
+</KeyTakeaways>

@@ -38,6 +38,7 @@ import {
   BinarySearchGrowthAnimation,
   PendulumPeriodAnimation,
   NeuronThresholdAnimation,
+  DiffusionScalingAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -62,6 +63,7 @@ const components = {
   BinarySearchGrowthAnimation,
   PendulumPeriodAnimation,
   NeuronThresholdAnimation,
+  DiffusionScalingAnimation,
   KeyTakeaways,
 }
 

@@ -105,3 +105,8 @@ export const NeuronThresholdAnimation = dynamic(
   () => import('@/components/animations/NeuronThresholdAnimation').then(m => ({ default: m.NeuronThresholdAnimation })),
   { ssr: false }
 )
+
+export const DiffusionScalingAnimation = dynamic(
+  () => import('@/components/animations/DiffusionScalingAnimation').then(m => ({ default: m.DiffusionScalingAnimation })),
+  { ssr: false }
+)
