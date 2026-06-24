@@ -45,6 +45,7 @@ import {
   ShortestPathGridAnimation,
   NewtonConvergenceAnimation,
   LorentzFactorAnimation,
+  SingleParticleBuildupAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -76,6 +77,7 @@ const components = {
   ShortestPathGridAnimation,
   NewtonConvergenceAnimation,
   LorentzFactorAnimation,
+  SingleParticleBuildupAnimation,
   KeyTakeaways,
 }
 

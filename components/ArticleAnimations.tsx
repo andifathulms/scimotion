@@ -140,3 +140,8 @@ export const LorentzFactorAnimation = dynamic(
   () => import('@/components/animations/LorentzFactorAnimation').then(m => ({ default: m.LorentzFactorAnimation })),
   { ssr: false }
 )
+
+export const SingleParticleBuildupAnimation = dynamic(
+  () => import('@/components/animations/SingleParticleBuildupAnimation').then(m => ({ default: m.SingleParticleBuildupAnimation })),
+  { ssr: false }
+)
