@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
 
 const SIZES = [10, 20, 40, 80, 160]
@@ -62,7 +62,6 @@ export function SortingComplexityAnimation() {
   const [visible, setVisible] = useState<Set<string>>(new Set(Object.keys(ALGO_COLORS)))
   const [showTheory, setShowTheory] = useState(false)
   const [ran, setRan] = useState(false)
-  const animRef = useRef<number>(0)
 
   const runBenchmark = useCallback(() => {
     const res: Results = { 'Bubble Sort': [], 'Insertion Sort': [], 'Merge Sort': [], 'Quick Sort': [] }
@@ -80,7 +79,8 @@ export function SortingComplexityAnimation() {
   const toggleAlgo = (name: string) => {
     setVisible(prev => {
       const next = new Set(prev)
-      next.has(name) ? next.delete(name) : next.add(name)
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
       return next
     })
   }
@@ -101,8 +101,6 @@ export function SortingComplexityAnimation() {
 
   const theoryBubble = SIZES.map(n => (n * n) / 2)
   const theoryMerge = SIZES.map(n => n * Math.log2(n))
-  const theoryMax = Math.max(...theoryBubble, ...theoryMerge)
-  const theoryToY = (v: number) => pad.top + chartH - (v / theoryMax) * chartH
 
   return (
     <div className="animation-block" ref={ref}>

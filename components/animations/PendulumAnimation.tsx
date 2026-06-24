@@ -7,7 +7,6 @@ const W = 600
 const H = 280
 const PIVOT_X = W / 2
 const PIVOT_Y = 40
-const G = 9.81
 const DT = 0.016
 
 export function PendulumAnimation() {
@@ -20,7 +19,7 @@ export function PendulumAnimation() {
   const [length, setLength] = useState(160)
   const [initAngle, setInitAngle] = useState(60)
   const [gravity, setGravity] = useState(9.81)
-  const [energy, setEnergy] = useState({ ke: 0, pe: 1 })
+  const [, setEnergy] = useState({ ke: 0, pe: 1 })
 
   const drawFrame = useCallback(() => {
     const canvas = canvasRef.current
@@ -101,7 +100,6 @@ export function PendulumAnimation() {
     ctx.fillText(`${(angle * 180 / Math.PI).toFixed(1)}°`, PIVOT_X + 35, PIVOT_Y + 16)
 
     // Energy bars
-    const maxH = L
     const pe = gravity * L * (1 - Math.cos(angle))
     const totalE = gravity * L * (1 - Math.cos(stateRef.current.angle === angle && !running
       ? (initAngle * Math.PI / 180)

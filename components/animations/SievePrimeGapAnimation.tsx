@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
 
 type ViewMode = 'gaps' | 'density'
@@ -19,7 +19,6 @@ export function SievePrimeGapAnimation() {
   const [view, setView] = useState<ViewMode>('gaps')
   const [showEstimate, setShowEstimate] = useState(false)
   const [revealed, setRevealed] = useState(false)
-  const barsRef = useRef<HTMLDivElement[]>([])
 
   const primes = useMemo(() => computePrimes(limit), [limit])
 
@@ -52,15 +51,6 @@ export function SievePrimeGapAnimation() {
   const pad = { left: 40, right: 10, top: 10, bottom: 30 }
   const chartW = svgW - pad.left - pad.right
   const chartH = svgH - pad.top - pad.bottom
-
-  const densityPoints = useMemo(() => {
-    if (view !== 'density') return ''
-    return primes.map((p, i) => {
-      const x = pad.left + (p / limit) * chartW
-      const y = pad.top + chartH - (i / primes.length) * chartH
-      return `${x},${y}`
-    }).join(' ')
-  }, [primes, limit, view, chartW, chartH, pad.left, pad.top])
 
   const estimateCurvePoints = useMemo(() => {
     if (!showEstimate || view !== 'density') return ''

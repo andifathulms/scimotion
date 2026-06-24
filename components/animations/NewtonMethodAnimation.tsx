@@ -130,8 +130,6 @@ export function NewtonMethodAnimation() {
       ctx.setLineDash([])
 
       // Tangent line
-      const x1 = iters[i + 1]
-      const px1 = CX + x1 * SX
       const tangentExtend = 1.2
       const txLeft = x0 - tangentExtend
       const txRight = x0 + tangentExtend

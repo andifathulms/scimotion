@@ -5,7 +5,6 @@ import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
 
 const W = 600
 const H = 260
-const C = 299792458
 
 export function TimeDilationAnimation() {
   const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
@@ -27,7 +26,6 @@ export function TimeDilationAnimation() {
     ctx.clearRect(0, 0, W, H)
 
     const g = gamma(b)
-    const speed = b * C
 
     // === Left panel: stationary light clock ===
     const lx = 80

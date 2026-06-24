@@ -200,7 +200,7 @@ export function EulersFormulaAnimation() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [running, speed]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => { draw(angle) }, [angle]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { draw(angle) }, [angle])
 
   useEffect(() => {
     if (triggered && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setRunning(true)

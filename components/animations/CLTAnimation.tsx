@@ -41,7 +41,7 @@ export function CLTAnimation() {
   const [running, setRunning] = useState(false)
   const [dist, setDist] = useState<Distribution>('uniform')
   const [n, setN] = useState(10)
-  const [means, setMeans] = useState<number[]>([])
+  const [, setMeans] = useState<number[]>([])
   const [total, setTotal] = useState(0)
   const meansRef = useRef<number[]>([])
   const totalRef = useRef(0)
