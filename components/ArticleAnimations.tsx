@@ -135,3 +135,8 @@ export const NewtonConvergenceAnimation = dynamic(
   () => import('@/components/animations/NewtonConvergenceAnimation').then(m => ({ default: m.NewtonConvergenceAnimation })),
   { ssr: false }
 )
+
+export const LorentzFactorAnimation = dynamic(
+  () => import('@/components/animations/LorentzFactorAnimation').then(m => ({ default: m.LorentzFactorAnimation })),
+  { ssr: false }
+)

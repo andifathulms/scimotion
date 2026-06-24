@@ -44,6 +44,7 @@ import {
   PhasorWaveAnimation,
   ShortestPathGridAnimation,
   NewtonConvergenceAnimation,
+  LorentzFactorAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -74,6 +75,7 @@ const components = {
   PhasorWaveAnimation,
   ShortestPathGridAnimation,
   NewtonConvergenceAnimation,
+  LorentzFactorAnimation,
   KeyTakeaways,
 }
 
