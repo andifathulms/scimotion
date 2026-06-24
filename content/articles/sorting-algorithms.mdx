@@ -88,3 +88,11 @@ The gap between $O(n^2)$ and $O(n \log n)$ sounds abstract until you see it plot
 At $n = 160$, bubble sort typically needs 10–15× more comparisons than merge sort. At $n = 1{,}000$, that ratio would be closer to 100×. This is why algorithmic complexity matters: not as a theoretical exercise, but because the difference between choosing the right algorithm and the wrong one compounds dramatically as data grows.
 
 Toggle "Theoretical curves" to overlay the expected $n^2/2$ and $n \log_2 n$ shapes — the measured benchmark data should track them closely, with quicksort beating merge sort on most random inputs due to better cache behavior despite identical asymptotic complexity.
+
+<KeyTakeaways>
+- Sorting is the gateway to fast algorithms — binary search, deduplication, and range queries all assume sorted data.
+- Simple sorts (bubble, insertion) are $O(n^2)$; the divide-and-conquer sorts (merge, quick) are $O(n \log n)$, and that gap explodes as data grows.
+- $O(n \log n)$ is the proven lower bound for comparison sorts — you can't distinguish $n!$ orderings in fewer comparisons.
+- Asymptotics aren't everything: quicksort usually beats merge sort on random data thanks to cache-friendly in-place work, despite the same big-O.
+- Worst cases matter — naive quicksort degrades to $O(n^2)$ on sorted input, which is why pivot choice is a real engineering decision.
+</KeyTakeaways>

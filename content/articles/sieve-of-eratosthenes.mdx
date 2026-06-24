@@ -92,3 +92,11 @@ The chart below shows every prime gap up to your chosen limit — each bar's hei
 <SievePrimeGapAnimation />
 
 Switch to "Density Plot" to see the prime-counting function $\pi(n)$ — the number of primes below $n$ — plotted against $n$. Toggle on the estimate to overlay the curve $\pi(n) \approx n / \ln(n)$, the Prime Number Theorem's prediction. The match is remarkable: a simple logarithm captures the density of something as irregular as the primes.
+
+<KeyTakeaways>
+- The sieve finds all primes up to $n$ by repeatedly crossing out multiples of each prime — no division or primality test required.
+- You only need to sieve up to $\sqrt{n}$: any composite has a factor at or below its square root.
+- Its near-linear $O(n \log \log n)$ runtime makes it dramatically faster than testing numbers one by one.
+- Primes thin out logarithmically — the Prime Number Theorem's $\pi(n) \approx n/\ln(n)$ tracks their density strikingly well.
+- Despite that thinning, structure persists: twin primes (gap 2) keep appearing among ever-larger gaps.
+</KeyTakeaways>

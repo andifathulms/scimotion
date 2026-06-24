@@ -84,3 +84,11 @@ Watch what happens below: the spinning arrow on the left is rotating at the chos
 <FourierPhasesAnimation />
 
 Switch to "3 Harmonics" to see three phasors chained together — each spinning at a different rate. Their combined tip traces a rough approximation of a square wave, the classic Fourier series result. The more harmonics you add, the sharper the square corners become.
+
+<KeyTakeaways>
+- Any signal can be decomposed into a sum of pure sine waves — the time domain and frequency domain hold the same information in two forms.
+- The Fourier transform measures "how much of frequency $\xi$ is present" by correlating the signal against a phasor $e^{-2\pi i x\xi}$ spinning at that rate.
+- A sine wave is the projection of a rotating phasor; faster rotation means higher frequency.
+- Chaining harmonics (phasors at integer-multiple rates) builds complex shapes like a square wave — the basis of Fourier series.
+- It's the engine behind audio processing, image compression (JPEG), the FFT, and most of modern signal processing.
+</KeyTakeaways>
