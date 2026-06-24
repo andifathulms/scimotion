@@ -5,6 +5,7 @@ import { TopicBadge } from '@/components/TopicBadge'
 import { ShareButtons } from '@/components/ShareButtons'
 import { RelatedPosts } from '@/components/RelatedPosts'
 import { TagList } from '@/components/TagList'
+import { ArticleVisual } from '@/components/ArticleVisual'
 import { TableOfContents } from '@/components/TableOfContents'
 import { Quiz } from '@/components/Quiz'
 import { PathNav } from '@/components/PathNav'
@@ -13,6 +14,7 @@ import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import { ProseAnimator } from '@/components/ProseAnimator'
+import { KeyTakeaways } from '@/components/KeyTakeaways'
 import { SITE_URL } from '@/lib/site'
 import {
   SieveAnimation,
@@ -54,6 +56,7 @@ const components = {
   GraphTraversalAnimation,
   BrownianMotionAnimation,
   CLTAnimation,
+  KeyTakeaways,
 }
 
 type Props = {
@@ -106,6 +109,10 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </aside>
         <article className="w-full max-w-[680px]">
+        {/* Hero */}
+        <div className="mb-8 rounded-2xl overflow-hidden border border-border">
+          <ArticleVisual slug={slug} topic={meta.topic} variant="hero" />
+        </div>
         {/* Header */}
         <div className="mb-8">
           <div className="mb-4">

@@ -1,0 +1,283 @@
+import type { ReactNode } from 'react'
+
+type Topic = 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
+
+const ACCENT: Record<Topic, string> = {
+  Mathematics: '#A78BFA',
+  Physics: '#10B981',
+  'Computer Science': '#60A5FA',
+  Medicine: '#F472B6',
+}
+
+const BG = '#1A1712'
+const GOLD = '#F59E0B'
+const MUTE = 'rgba(245,240,232,0.35)'
+const FAINT = 'rgba(255,245,235,0.08)'
+
+// Shared faint background grid for every visual.
+function Grid() {
+  const lines: ReactNode[] = []
+  for (let x = 30; x < 300; x += 30) lines.push(<line key={`x${x}`} x1={x} y1={0} x2={x} y2={120} stroke={FAINT} strokeWidth={0.5} />)
+  for (let y = 30; y < 120; y += 30) lines.push(<line key={`y${y}`} x1={0} y1={y} x2={300} y2={y} stroke={FAINT} strokeWidth={0.5} />)
+  return <g>{lines}</g>
+}
+
+// Each visual draws into a 300x120 viewBox. `c` is the topic accent.
+const visuals: Record<string, (c: string) => ReactNode> = {
+  'eulers-formula': c => {
+    const cx = 150, cy = 60, r = 42, a = -0.9
+    const px = cx + r * Math.cos(a), py = cy + r * Math.sin(a)
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={r} fill="none" stroke={c} strokeWidth={1.5} />
+        <line x1={cx - 60} y1={cy} x2={cx + 60} y2={cy} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={cx} y1={cy - 55} x2={cx} y2={cy + 55} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={cx} y1={cy} x2={px} y2={py} stroke={GOLD} strokeWidth={2} />
+        <line x1={px} y1={py} x2={px} y2={cy} stroke={c} strokeWidth={1} strokeDasharray="3 3" />
+        <line x1={cx} y1={py} x2={px} y2={py} stroke={c} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={px} cy={py} r={4} fill={GOLD} />
+        <text x={cx + 8} y={cy - 6} fill={MUTE} fontSize={9} fontFamily="monospace">e^iθ</text>
+      </g>
+    )
+  },
+  'taylor-series': c => {
+    const f = (x: number) => 60 - 34 * Math.sin((x - 150) / 38)
+    const approx = (x: number) => { const t = (x - 150) / 38; return 60 - 34 * (t - (t * t * t) / 6) }
+    const curve = Array.from({ length: 61 }, (_, i) => { const x = i * 5; return `${x},${f(x)}` }).join(' ')
+    const poly = Array.from({ length: 61 }, (_, i) => { const x = i * 5; return `${x},${Math.max(2, Math.min(118, approx(x)))}` }).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={60} x2={300} y2={60} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={curve} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={poly} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={150} cy={60} r={3.5} fill={GOLD} />
+      </g>
+    )
+  },
+  'newtons-method': c => {
+    const f = (x: number) => 95 - Math.pow((x - 70) / 26, 2) * 12
+    const curve = Array.from({ length: 61 }, (_, i) => { const x = 40 + i * 4; return `${x},${Math.max(8, f(x))}` }).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={95} x2={300} y2={95} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={150} y1={20} x2={250} y2={95} stroke={GOLD} strokeWidth={1.5} />
+        <line x1={150} y1={20} x2={150} y2={95} stroke={MUTE} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={150} cy={20} r={3.5} fill={c} />
+        <circle cx={250} cy={95} r={3.5} fill={GOLD} />
+        <circle cx={195} cy={95} r={2.5} fill={MUTE} />
+      </g>
+    )
+  },
+  'fourier-transform': c => {
+    const wave = Array.from({ length: 71 }, (_, i) => {
+      const x = i * 2
+      const y = 45 + 9 * Math.sin(x / 9) + 6 * Math.sin(x / 4) + 4 * Math.sin(x / 2.3)
+      return `${x},${y}`
+    }).join(' ')
+    const bars = [30, 52, 22, 40, 16, 28]
+    return (
+      <g>
+        <polyline points={wave} fill="none" stroke={c} strokeWidth={1.75} />
+        <line x1={150} y1={10} x2={150} y2={110} stroke={FAINT} strokeWidth={1} />
+        {bars.map((h, i) => (
+          <rect key={i} x={165 + i * 21} y={104 - h} width={13} height={h} rx={2} fill={i === 1 ? GOLD : c} opacity={i === 1 ? 1 : 0.55} />
+        ))}
+      </g>
+    )
+  },
+  'sieve-of-eratosthenes': c => {
+    const cells: ReactNode[] = []
+    for (let i = 0; i < 18; i++) {
+      const n = i + 2
+      const isPrime = [2, 3, 5, 7, 11, 13, 17, 19].includes(n)
+      const x = (i % 9) * 32 + 12, y = Math.floor(i / 9) * 40 + 22
+      cells.push(
+        <g key={n}>
+          <rect x={x} y={y} width={26} height={26} rx={4} fill={isPrime ? `${c}33` : 'rgba(255,255,255,0.03)'} stroke={isPrime ? c : FAINT} strokeWidth={0.75} />
+          <text x={x + 13} y={y + 17} textAnchor="middle" fontSize={11} fill={isPrime ? c : MUTE} fontFamily="monospace">{n}</text>
+        </g>
+      )
+    }
+    return <g>{cells}</g>
+  },
+  'central-limit-theorem': c => {
+    const bell = (x: number) => 108 - 88 * Math.exp(-Math.pow((x - 150) / 46, 2))
+    const bars = Array.from({ length: 13 }, (_, i) => {
+      const cx = 30 + i * 20
+      const h = 108 - bell(cx)
+      return <rect key={i} x={cx - 8} y={108 - h} width={16} height={h} rx={1.5} fill={c} opacity={0.4} />
+    })
+    const curve = Array.from({ length: 61 }, (_, i) => { const x = i * 5; return `${x},${bell(x)}` }).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={108} x2={300} y2={108} stroke={MUTE} strokeWidth={0.75} />
+        {bars}
+        <polyline points={curve} fill="none" stroke={GOLD} strokeWidth={2} />
+      </g>
+    )
+  },
+  'binary-search': c => {
+    const cells = Array.from({ length: 9 }, (_, i) => {
+      const x = 18 + i * 30
+      const active = i >= 4 && i <= 8
+      const mid = i === 6
+      return (
+        <g key={i}>
+          <rect x={x} y={48} width={24} height={24} rx={4} fill={mid ? GOLD : active ? `${c}33` : 'rgba(255,255,255,0.03)'} stroke={mid ? GOLD : active ? c : FAINT} strokeWidth={0.75} />
+          <text x={x + 12} y={65} textAnchor="middle" fontSize={10} fill={mid ? BG : active ? c : MUTE} fontFamily="monospace">{(i + 1) * 7}</text>
+        </g>
+      )
+    })
+    return (
+      <g>
+        {cells}
+        <text x={18 + 4 * 30 + 12} y={44} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">lo</text>
+        <text x={18 + 6 * 30 + 12} y={88} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">mid</text>
+        <text x={18 + 8 * 30 + 12} y={44} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">hi</text>
+      </g>
+    )
+  },
+  'graph-traversal': c => {
+    const nodes = [
+      { x: 40, y: 60, l: 0 }, { x: 110, y: 30, l: 1 }, { x: 110, y: 90, l: 1 },
+      { x: 185, y: 30, l: 2 }, { x: 185, y: 90, l: 2 }, { x: 255, y: 60, l: 3 },
+    ]
+    const edges = [[0, 1], [0, 2], [1, 3], [2, 4], [3, 5], [4, 5], [1, 2]]
+    const lc = [GOLD, c, `${c}99`, MUTE]
+    return (
+      <g>
+        {edges.map(([a, b], i) => (
+          <line key={i} x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y} stroke={FAINT} strokeWidth={1.25} />
+        ))}
+        {nodes.map((n, i) => (
+          <circle key={i} cx={n.x} cy={n.y} r={11} fill={`${lc[n.l]}33`} stroke={lc[n.l]} strokeWidth={1.5} />
+        ))}
+      </g>
+    )
+  },
+  'sorting-algorithms': c => {
+    const bars = [30, 64, 22, 80, 44, 58, 16, 70, 36, 50]
+    return (
+      <g>
+        {bars.map((h, i) => (
+          <rect key={i} x={i * 28 + 16} y={104 - h} width={20} height={h} rx={2} fill={i < 3 ? GOLD : c} opacity={i < 3 ? 1 : 0.5} />
+        ))}
+      </g>
+    )
+  },
+  'pendulum-motion': c => {
+    const px = 150, py = 18, len = 78, ang = 0.6
+    const bx = px + len * Math.sin(ang), by = py + len * Math.cos(ang)
+    return (
+      <g>
+        <path d={`M ${px} ${py + 34} A 34 34 0 0 1 ${bx * 0.42 + px * 0.58} ${by * 0.42 + py * 0.58}`} fill="none" stroke={GOLD} strokeWidth={1} strokeDasharray="2 3" />
+        <line x1={px} y1={py} x2={px} y2={py + 88} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={px} y1={py} x2={bx} y2={by} stroke={MUTE} strokeWidth={1.75} />
+        <circle cx={px} cy={py} r={3.5} fill={MUTE} />
+        <circle cx={bx} cy={by} r={11} fill={c} />
+      </g>
+    )
+  },
+  'time-dilation': c => {
+    return (
+      <g>
+        <line x1={40} y1={28} x2={130} y2={28} stroke={MUTE} strokeWidth={2} />
+        <line x1={40} y1={92} x2={130} y2={92} stroke={MUTE} strokeWidth={2} />
+        <line x1={85} y1={28} x2={85} y2={92} stroke={`${c}66`} strokeWidth={1.5} strokeDasharray="2 2" />
+        <line x1={170} y1={28} x2={260} y2={28} stroke={MUTE} strokeWidth={2} />
+        <line x1={170} y1={92} x2={260} y2={92} stroke={MUTE} strokeWidth={2} />
+        <polyline points="180,92 215,28 250,92" fill="none" stroke={GOLD} strokeWidth={2} />
+        <circle cx={85} cy={60} r={3} fill={c} />
+        <circle cx={215} cy={28} r={3} fill={GOLD} />
+        <text x={85} y={108} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">rest</text>
+        <text x={215} y={108} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">moving</text>
+      </g>
+    )
+  },
+  'wave-particle-duality': c => {
+    const bands = [40, 78, 116, 150, 184, 222, 260]
+    const op = [0.25, 0.5, 0.85, 1, 0.85, 0.5, 0.25]
+    return (
+      <g>
+        <line x1={20} y1={20} x2={20} y2={100} stroke={MUTE} strokeWidth={2} />
+        <rect x={18} y={48} width={4} height={8} fill={BG} />
+        <rect x={18} y={64} width={4} height={8} fill={BG} />
+        {bands.map((x, i) => (
+          <rect key={i} x={x} y={18} width={14} height={84} rx={2} fill={c} opacity={op[i] * 0.7} />
+        ))}
+        {[30, 55, 80].map((y, i) => <circle key={i} cx={150} cy={y + 5} r={2} fill={GOLD} />)}
+      </g>
+    )
+  },
+  'action-potential': c => {
+    const pts = [
+      [0, 95], [70, 95], [95, 88], [110, 18], [128, 30], [150, 108], [175, 92], [300, 95],
+    ].map(([x, y]) => `${x},${y}`).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={70} x2={300} y2={70} stroke={FAINT} strokeWidth={1} strokeDasharray="4 4" />
+        <text x={4} y={66} fontSize={7} fill={MUTE} fontFamily="monospace">threshold</text>
+        <polyline points={pts} fill="none" stroke={c} strokeWidth={2.25} />
+        <circle cx={110} cy={18} r={3.5} fill={GOLD} />
+      </g>
+    )
+  },
+  'cardiac-electrical-signal': c => {
+    const ecg = [
+      [0, 64], [55, 64], [66, 56], [72, 70], [80, 22], [88, 92], [96, 64], [150, 64],
+      [162, 56], [168, 72], [176, 24], [184, 90], [192, 64], [250, 64], [262, 58], [300, 64],
+    ].map(([x, y]) => `${x},${y}`).join(' ')
+    return (
+      <g>
+        <polyline points={ecg} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={80} cy={22} r={3} fill={GOLD} />
+      </g>
+    )
+  },
+  'brownian-motion': c => {
+    const pts = [[150, 60], [165, 48], [150, 35], [172, 30], [188, 46], [176, 64], [196, 72], [180, 90], [205, 86], [218, 66], [210, 48]]
+    const path = pts.map((p, i) => `${i ? 'L' : 'M'} ${p[0]} ${p[1]}`).join(' ')
+    const left = [[150, 60], [134, 52], [142, 38], [120, 44], [108, 62], [126, 70], [110, 84]]
+    const lpath = left.map((p, i) => `${i ? 'L' : 'M'} ${p[0]} ${p[1]}`).join(' ')
+    return (
+      <g>
+        <path d={path} fill="none" stroke={c} strokeWidth={1.75} strokeLinejoin="round" />
+        <path d={lpath} fill="none" stroke={`${c}88`} strokeWidth={1.5} strokeLinejoin="round" />
+        <circle cx={210} cy={48} r={5} fill={GOLD} />
+        <circle cx={150} cy={60} r={3} fill={MUTE} />
+      </g>
+    )
+  },
+}
+
+export function ArticleVisual({
+  slug,
+  topic,
+  variant = 'card',
+}: {
+  slug: string
+  topic: Topic
+  variant?: 'card' | 'hero'
+}) {
+  const c = ACCENT[topic] ?? GOLD
+  const render = visuals[slug]
+  const height = variant === 'hero' ? 200 : '100%'
+
+  return (
+    <svg
+      viewBox="0 0 300 120"
+      width="100%"
+      height={height}
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label={`${slug.replace(/-/g, ' ')} illustration`}
+      style={{ display: 'block' }}
+    >
+      <rect width="300" height="120" fill={BG} />
+      <Grid />
+      {render ? render(c) : null}
+    </svg>
+  )
+}
