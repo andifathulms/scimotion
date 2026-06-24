@@ -89,6 +89,10 @@ $$A\cos(2\pi f t + \phi) = \text{Re}\left[A e^{i(2\pi f t + \phi)}\right]$$
 
 The complex exponential $e^{2\pi i f t}$ rotates around the unit circle at $f$ revolutions per second. The Fourier transform decomposes any signal by asking: "how much of this rotating-arrow frequency is present?" The inner product that the Fourier transform computes is measuring correlation with each possible rotation rate.
 
+<PhasorWaveAnimation />
+
+This is the picture to keep in your head: a sine wave is just the shadow of a spinning arrow. Crank the frequency up and the arrow spins faster, so its shadow oscillates faster — the wave compresses. Every "frequency" in signal processing is literally a rotation rate, and that single idea is why complex exponentials, not sines and cosines, are the natural language of waves.
+
 ## De Moivre's theorem and angle identities
 
 With Euler's formula, the double-angle identities become trivial:
@@ -110,3 +114,11 @@ $$\psi(x, t) = e^{i(kx - \omega t)}$$
 where $k = p/\hbar$ is the wave number and $\omega = E/\hbar$ is the angular frequency. This is a complex exponential — a rotating phasor — propagating through space and time. Everything about quantum mechanical interference, the double-slit experiment, and particle statistics descends from how these phasors add and cancel.
 
 Euler's formula isn't just a beautiful identity. It's the mathematics of rotation, periodicity, and wave behavior. It appears wherever things repeat.
+
+<KeyTakeaways>
+- $e^{i\theta} = \cos\theta + i\sin\theta$ falls straight out of the Taylor series for $e^x$ with $x = i\theta$.
+- Geometrically, $e^{i\theta}$ is a point on the unit circle, so $e^{i\theta}$ *is* a rotation by $\theta$ — and a sine wave is the shadow of that spinning arrow.
+- Multiplying complex numbers adds their angles, which makes complex exponentials the natural language of anything that rotates or oscillates.
+- "Frequency" is a rotation rate: $e^{2\pi i f t}$ spins $f$ times per second — the foundation of the Fourier transform.
+- The same rotating phasor describes quantum wave functions, so interference and the double slit are Euler's formula in disguise.
+</KeyTakeaways>

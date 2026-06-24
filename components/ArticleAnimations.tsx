@@ -120,3 +120,8 @@ export const StandardErrorAnimation = dynamic(
   () => import('@/components/animations/StandardErrorAnimation').then(m => ({ default: m.StandardErrorAnimation })),
   { ssr: false }
 )
+
+export const PhasorWaveAnimation = dynamic(
+  () => import('@/components/animations/PhasorWaveAnimation').then(m => ({ default: m.PhasorWaveAnimation })),
+  { ssr: false }
+)

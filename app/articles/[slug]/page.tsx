@@ -41,6 +41,7 @@ import {
   DiffusionScalingAnimation,
   ECGTraceAnimation,
   StandardErrorAnimation,
+  PhasorWaveAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -68,6 +69,7 @@ const components = {
   DiffusionScalingAnimation,
   ECGTraceAnimation,
   StandardErrorAnimation,
+  PhasorWaveAnimation,
   KeyTakeaways,
 }
 
