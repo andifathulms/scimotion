@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Scimotion
 
-## Getting Started
+**Science you can see move.** An interactive science blog where every article pairs a clear written explanation with a live, controllable animation — so readers don't just read about a concept, they watch it move and play with it.
 
-First, run the development server:
+→ [scimotion.vercel.app](https://scimotion.vercel.app)
+
+## What it is
+
+Science writing has a gap: equations and diagrams sit flat on the page, but the concepts they represent are dynamic. Scimotion closes that gap. Each article builds a concept from first principles, then hands the reader the controls — drag a slider, change a parameter, and watch the math respond in real time.
+
+- **15 articles** across Mathematics, Physics, Computer Science, and Medicine
+- **18 hand-coded animation components** — canvas simulations (Brownian motion, pendulum, double-slit), SVG step-through visualizers (binary search, Euler's formula), and statistical widgets (Central Limit Theorem)
+- **Scroll-triggered autoplay** via Intersection Observer, with user play/pause/reset and `prefers-reduced-motion` support
+- **KaTeX math** rendered server-side, **dark/light theming**, and a reading-progress bar
+
+## Tech stack
+
+| Layer | Stack |
+|---|---|
+| Framework | Next.js 16 (App Router, RSC) |
+| UI | React 19, Tailwind CSS v4 |
+| Content | MDX (`@next/mdx`, `next-mdx-remote`) with `gray-matter` frontmatter |
+| Math | `remark-math` + `rehype-katex` + KaTeX |
+| Motion | Framer Motion (UI chrome only); science widgets are raw canvas / SVG / `requestAnimationFrame` |
+| Theming | `next-themes` |
+| Language | TypeScript |
+
+Articles are `.mdx` files read at build time, so the entire site is statically generated with no database. Animation logic for the science widgets is written by hand — Framer Motion is used only for UI polish (card hover, entrance staggers), keeping the bundle predictable and rendering deterministic.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run start   # serve the production build
+npm run lint    # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+```
+app/                  App Router pages (home, article, about, search)
+  articles/[slug]/    Dynamic article route (MDX render + metadata)
+  sitemap.ts          Generated sitemap
+  robots.ts           Robots directives
+components/
+  animations/         18 self-contained interactive widgets
+  *.tsx               Shared UI (Navbar, Hero, cards, share, etc.)
+content/articles/     15 .mdx articles with YAML frontmatter
+lib/                  articles.ts (content data layer), site.ts (config)
+hooks/                useAnimationTrigger (Intersection Observer)
+styles/               globals.css (Tailwind v4 + design tokens)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Adding an article
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create `content/articles/<slug>.mdx` with frontmatter (`title`, `subtitle`, `topic`, `slug`, `date`, `readTime`, `featured`, `description`).
+2. Write the prose; embed an animation component inline, e.g. `<PendulumAnimation />`.
+3. If it's a new widget, add it under `components/animations/` and register it in `components/ArticleAnimations.tsx`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Configuration
 
-## Deploy on Vercel
+Set `NEXT_PUBLIC_SITE_URL` in your environment to control canonical URLs, sitemap, and share links (defaults to the production URL).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Zero-config on [Vercel](https://vercel.com) — `next build` and deploy.

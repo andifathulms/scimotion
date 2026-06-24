@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import { ProseAnimator } from '@/components/ProseAnimator'
+import { SITE_URL } from '@/lib/site'
 import {
   SieveAnimation,
   FourierAnimation,
@@ -69,7 +70,7 @@ export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
   const { meta, content } = await getArticleBySlug(slug)
   const allArticles = await getAllArticles()
-  const url = `https://scimotion.vercel.app/articles/${slug}`
+  const url = `${SITE_URL}/articles/${slug}`
 
   return (
     <>

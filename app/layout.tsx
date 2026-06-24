@@ -2,11 +2,13 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Navbar } from '@/components/Navbar'
+import { SITE_URL } from '@/lib/site'
 import '../styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Scimotion — Science you can see move',
   description: 'A science blog where every concept is explained with interactive animations.',
 }
