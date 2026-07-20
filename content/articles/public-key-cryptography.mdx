@@ -1,0 +1,154 @@
+---
+title: "Public-Key Cryptography"
+subtitle: "How two strangers agree on a secret while everyone is listening."
+topic: "Computer Science"
+slug: "public-key-cryptography"
+date: "2026-07-18"
+readTime: 10
+featured: false
+description: "One-way functions let two people who have never met build a shared key in the open — and the same asymmetry that protects the key is what a quantum computer would dismantle."
+tags: ["cryptography", "number-theory", "security", "algorithms"]
+quiz:
+  - q: "Eve records the entire Diffie–Hellman exchange: p, g, A = g^a mod p and B = g^b mod p. Why can she not compute the shared secret g^(ab) mod p?"
+    options:
+      - "The values A and B are encrypted before transmission, so she only sees ciphertext"
+      - "There is no known efficient way to combine A and B into g^(ab); doing so requires recovering a private exponent, which means solving a discrete logarithm"
+      - "Modular arithmetic is not reversible, so no value in the exchange can ever be recovered by anyone"
+      - "Alice and Bob use different primes, so Eve's captured values are inconsistent with each other"
+    answer: 1
+    explanation: "Multiplying or adding the public values gives g^(a+b) or g^(a·b mod p) — never g^(ab) mod p — so the only known route is to extract a or b, which is the discrete logarithm problem."
+  - q: "What makes modular exponentiation a plausible one-way function, given that both directions are the same arithmetic?"
+    options:
+      - "Forward evaluation costs O(log x) multiplications by repeated squaring, while the best known inverse is exponential in the bit-length of the modulus"
+      - "The forward direction discards information, so the inverse genuinely does not exist"
+      - "Computers implement exponentiation in hardware but implement logarithms in software"
+      - "The modulus is kept secret, so only the sender can evaluate the function"
+    answer: 0
+    explanation: "The asymmetry is purely computational: squaring-and-multiplying makes the forward map cheap, while inverting it scatters into a search with no known polynomial-time algorithm on classical hardware."
+  - q: "Shor's algorithm is often summarized as 'quantum computers break RSA by factoring fast'. What is the more accurate statement about its reach?"
+    options:
+      - "It breaks RSA only, because factoring is the one problem with a quantum speedup"
+      - "It breaks every cipher, including AES, by searching all keys at once"
+      - "It solves the hidden-period problem, which covers factoring, discrete logs over integers, and elliptic-curve discrete logs — so essentially all deployed public-key cryptography, while symmetric ciphers lose only half their key strength"
+      - "It only threatens keys shorter than 1024 bits, so doubling key length is a permanent fix"
+    answer: 2
+    explanation: "Shor's core routine finds the period of a function, and factoring, discrete log, and ECDLP all reduce to that, which is why post-quantum proposals move to lattices and hashes rather than to bigger exponents."
+---
+
+## A secret shouted across a crowded room
+
+Two people who have never met, who share no prior secret, who cannot meet in a car park to swap a briefcase, want to agree on a password. Their only channel is a wire that a third person is recording in full. Every bit they send, the eavesdropper gets.
+
+The intuition is that this is flatly impossible. Anything Alice can tell Bob, she also tells Eve; Eve knows everything Bob knows, so anything Bob can compute, Eve can compute too. The argument feels airtight, and for thousands of years everyone assumed it was. Every cipher from Caesar to Enigma began with the same unstated prerequisite: *first, somehow, share a key in private.* Diplomatic couriers, code books on submarines, one-time pads printed on flash paper — an entire logistics industry existed to solve the step before the cryptography.
+
+In 1976 Whitfield Diffie and Martin Hellman published a protocol that does the impossible thing. Alice and Bob end the conversation holding the same number. Eve, holding a perfect transcript, does not. Nothing was hidden — she has every byte — and yet she cannot get there.
+
+The flaw in the impossibility argument is the phrase *anything Bob can compute*. Bob and Eve do know the same things. But Bob also knows one number he never said out loud, and that private number lets him finish a computation that Eve, from the transcript alone, cannot finish in the lifetime of the universe.
+
+## Easy one way, hard the other
+
+The whole edifice rests on a class of functions that are cheap to evaluate and ruinously expensive to invert. Not *impossible* to invert — mathematically the inverse exists and is perfectly well defined. Just expensive.
+
+Multiplying two 1000-digit primes takes a laptop microseconds. Handed only the product, recovering the two factors is a problem nobody knows how to do quickly. Mixing two cans of paint takes a second; unmixing the result into its original two colours is not a thing you do at all. In both cases the forward map is a few operations and the backward map is a search.
+
+A **one-way function** is easy forward, hard backward. That alone gives you password hashing. Cryptography that lets you *communicate* needs something stronger: a **trapdoor** one-way function, hard to invert for everyone in general, but easy for whoever holds one extra piece of information. The trapdoor is what a private key is. It is not a secret formula — the algorithm is published, standardized, and implemented in every browser on earth. It is a secret *number* that turns an infeasible search into three lines of arithmetic.
+
+Notice how strange the guarantee is. Nobody has proved these functions are hard. If someone found a fast factoring algorithm tomorrow, RSA would evaporate that afternoon. Modern cryptography is not built on proofs of impossibility; it is built on decades of very smart people failing, publicly and repeatedly, to find a shortcut.
+
+## The paint-mixing trick
+
+Before any arithmetic, the analogy that Diffie and Hellman's protocol is usually explained with, because it captures the structure exactly.
+
+Alice and Bob agree, out loud, on a starting colour — say yellow. Everyone hears this. Alice privately picks a secret colour, red, and mixes it into yellow, producing orange. Bob privately picks blue and mixes it into yellow, producing green. They mail each other the mixtures: Alice sends orange, Bob sends green. Eve intercepts both.
+
+Now Alice adds *her* private red to Bob's green. Bob adds *his* private blue to Alice's orange. Both are now holding a bucket of yellow + red + blue — the identical colour. Eve holds yellow, orange, and green, and to reach the same shade she would have to unmix one of them back into its ingredients.
+
+<DiffieHellmanAnimation />
+
+Press Play and follow the geometry rather than the numbers at first. The gold lines inside Alice's and Bob's panels — the private exponents — never move. Nothing gold ever appears on the wire. What crosses is $A$ and $B$, and Eve's panel fills up with exactly those, plus the $p$ and $g$ that were public from the start. Then watch the last two computations: Alice raises the value she *received* to the exponent she *kept*, Bob does the mirror, and the two panels light up green with the same number.
+
+Two things to try. First, drag **Alice's a** and watch how the public value $A$ jumps to a completely unrelated number — moving $a$ from 6 to 7 does not move $A$ by one, or by anything predictable. That scattering is the entire security argument, and the second widget makes it explicit. Second, notice what Eve's panel says at the end. She is not missing a message. She is not missing a bit. She has the complete transcript, and the line she cannot fill in is the one that asks for $a$ given $g^a \bmod p$.
+
+## The arithmetic underneath
+
+Replace colours with numbers and mixing with modular exponentiation.
+
+Alice and Bob agree publicly on a large prime $p$ and a base $g$. Alice picks a secret $a$; Bob picks a secret $b$. Each computes and sends
+
+$$A = g^a \bmod p, \qquad B = g^b \bmod p$$
+
+Then each raises what they received to their own secret:
+
+$$\text{Alice: } B^a = (g^b)^a = g^{ab} \bmod p$$
+
+$$\text{Bob: } A^b = (g^a)^b = g^{ab} \bmod p$$
+
+Exponents commute, so both arrive at $g^{ab} \bmod p$. That is the shared key. With the widget's defaults — $p = 23$, $g = 5$, $a = 6$, $b = 15$ — Alice sends $5^6 \bmod 23 = 8$, Bob sends $5^{15} \bmod 23 = 19$, and both compute $19^6 \equiv 8^{15} \equiv 2 \pmod{23}$.
+
+Eve has $p$, $g$, $A$ and $B$. To get $g^{ab}$ from $g^a$ and $g^b$ there is no known move: multiplying them gives $g^{a+b}$, which is useless. The only known route is to extract an exponent — to solve
+
+$$g^x \equiv A \pmod p$$
+
+for $x$. This is the **discrete logarithm problem**. Over the real numbers the analogous problem is trivial: $x = \log_g A$, and your calculator has a button for it, because real exponentiation is smooth and monotone, so you can home in on the answer by bisection. The modulus destroys that. Every time the power exceeds $p$ it wraps, and the sequence stops being ordered in any way you can exploit.
+
+The forward direction, meanwhile, stays cheap. You never compute $g^a$ and then reduce — for a 2048-bit exponent that number has more digits than the universe has atoms. You square-and-multiply, reducing mod $p$ at every step, so a 2048-bit exponentiation is about 3000 modular multiplications. Microseconds. Forward is $O(\log a)$; backward, on classical hardware, has no known polynomial algorithm.
+
+## Watching order turn into noise
+
+The claim that a smooth, ordered input produces an unpredictable output deserves to be seen rather than asserted.
+
+<ModularExponentiationAnimation />
+
+This plots $g^x \bmod p$ for $x = 1, 2, 3, \dots, p-1$. The x-axis marches in perfect order, one step at a time. Watch what the y-values do.
+
+Try this. With the defaults ($p = 23$, $g = 5$) press Play and follow the gold dot: 5, 2, 10, 4, 20, 8, 17, 16, 11… The input is a tidy staircase; the output is scatter, with no upward drift, no clustering, nothing that would let you guess "the answer is somewhere around here" and refine. Now drag **Target y** to pick a value and look at the pink line. Finding which $x$ lands on it is the discrete log, and the only method the picture offers is to check every column — which is exactly the problem. Then push **Prime p** up to 97 and replay: the pattern does not get more structured with size, it gets denser and more thoroughly shuffled, and the number of columns you would have to check grows with $p$.
+
+One more thing worth noticing. Slide **Base g** around and watch the header. Some bases sweep through all $p-1$ nonzero residues — those are **primitive roots**, and they are what you want, because they give the largest possible space of secrets. Others visit only a fraction of the values before cycling, which quietly shrinks the search Eve has to do. This is why real deployments do not pick $p$ and $g$ casually; using a bad group, or a group nobody audited, has broken real systems.
+
+The honest caveat: the best known attacks are much better than brute force. The general number field sieve for discrete logs runs in *sub-exponential* time, roughly $\exp(c (\log p)^{1/3} (\log\log p)^{2/3})$. Far worse than polynomial, far better than checking every column. That is precisely why 512-bit and 1024-bit groups are dead and 2048 bits is the floor — the security level is a moving target set by the best algorithm anyone has published.
+
+## RSA: the trapdoor version
+
+Diffie–Hellman agrees on a key. It does not, by itself, let you encrypt a message to someone who is offline, or sign a document. RSA — Rivest, Shamir and Adleman, 1977 — does both, and it hangs on a different hard problem.
+
+Pick two large primes $p$ and $q$ and publish only their product $n = pq$. Choose a public exponent $e$, and compute a private $d$ with
+
+$$ed \equiv 1 \pmod{\lambda(n)}$$
+
+where $\lambda(n)$ is the Carmichael function of $n$ — computable from $p$ and $q$, and only from $p$ and $q$. Encryption and decryption are then the same operation with different exponents:
+
+$$c = m^e \bmod n, \qquad m = c^d \bmod n$$
+
+The trapdoor is explicit here. Anyone can encrypt, because $(n, e)$ is public. Only the holder of $d$ can decrypt, and computing $d$ requires $\lambda(n)$, which requires the factorization of $n$. With the textbook toy values $p = 61$, $q = 53$: $n = 3233$, and $e = 17$ gives $d = 2753$. Publishing 3233 gives the world nothing useful — unless the world can split it back into 61 and 53.
+
+Why is that hard at scale? Trial division on a 2048-bit $n$ would need to try roughly $2^{1024}$ candidates. The general number field sieve does vastly better but is still sub-exponential, and the record public factorization — RSA-250, 829 bits — took about 2700 core-years in 2020. Every additional bit of modulus costs the attacker far more than it costs you.
+
+There is a lesson in RSA's history worth keeping. Almost every real-world RSA break has attacked the *engineering*, not the factoring: predictable primes from a weak random number generator, timing side channels leaking bits of $d$, padding oracles, key reuse across devices. The number theory has held up better than the code around it.
+
+## What quantum computing actually threatens
+
+Both pillars — discrete log and factoring — hold up because the classical search has no structure to exploit. Peter Shor's 1994 algorithm found the structure, and it is quantum.
+
+The insight is that factoring reduces to **period-finding**. If you can determine the period $r$ of the function $f(x) = a^x \bmod n$, then for suitable $a$ with even $r$, the numbers $\gcd(a^{r/2} \pm 1, n)$ are, with good probability, the factors of $n$. Classically, finding the period of a function over a space of size $2^{2048}$ means evaluating it an infeasible number of times. A quantum computer can put the input register into superposition over all $x$ at once, apply $f$, and then use a quantum Fourier transform to make the periodicity interfere constructively — so measuring the register yields information about $r$ directly. Factoring drops from sub-exponential to roughly $O((\log n)^3)$.
+
+The reach is wider than the headline suggests. Discrete logarithms are a hidden-period problem too, so the same machinery breaks Diffie–Hellman. So does the elliptic-curve variant, which is what most of the modern web actually runs. There is no "just use bigger keys" escape, because the attack is polynomial in the key length.
+
+Two important qualifications. First, symmetric cryptography is fine. The best quantum attack on AES is Grover's algorithm, a generic square-root speedup, so AES-256 retains 128-bit security — you double the key and carry on. The break is specific to the number-theoretic structure that public-key schemes are built from. Second, the hardware does not exist. Breaking RSA-2048 is estimated to need millions of physical qubits to sustain a few thousand error-corrected logical ones; current machines are orders of magnitude away.
+
+That has not stopped the migration, for a reason with a name: **harvest now, decrypt later**. An adversary can record encrypted traffic today and store it until a capable machine exists. Anything that must stay secret for twenty years is already exposed. NIST standardized the first replacements in 2024 — ML-KEM (Kyber) for key exchange and ML-DSA (Dilithium) for signatures, both built on lattice problems that have no known quantum shortcut — and browsers have been shipping hybrid key exchange, classical and post-quantum side by side, since 2023.
+
+## Where it shows up
+
+Every HTTPS connection begins with a public-key handshake, almost always elliptic-curve Diffie–Hellman with an ephemeral key pair generated for that session and discarded afterwards. That ephemerality buys **forward secrecy**: even if the server's long-term private key is stolen next year, last year's recorded sessions stay unreadable, because the keys that protected them no longer exist anywhere.
+
+The signature side is at least as load-bearing. Certificate authorities sign the certificates that let your browser believe a server is who it claims. Package managers, app stores and operating systems verify signatures before installing code. Git commits, software releases and secure boot chains all rest on the same primitive. Every cryptocurrency transaction is an elliptic-curve signature, and a wallet address is a hash of a public key — the private key *is* the money.
+
+Underneath all of it, the pattern from the first section repeats: a computation that is trivial in one direction and infeasible in the other, and one secret number that turns the infeasible direction back into the trivial one.
+
+<KeyTakeaways>
+- Public-key cryptography defeats the "anything Bob knows, Eve knows" argument by giving Bob a number he never transmits — the trapdoor that turns an infeasible search into cheap arithmetic.
+- Diffie–Hellman works because exponents commute: $(g^a)^b = (g^b)^a = g^{ab} \bmod p$. Eve sees $g^a$ and $g^b$ but has no known way to combine them into $g^{ab}$ without solving a discrete logarithm.
+- Modular exponentiation is fast forward ($O(\log x)$ by repeated squaring) and, classically, has no known fast inverse — the wrap-around destroys the ordering that makes ordinary logarithms easy.
+- The security is empirical, not proven. Hardness rests on decades of failed attacks, and the practical key sizes are set by the best known algorithm — sub-exponential sieves, not brute force.
+- Shor's algorithm solves the hidden-period problem, breaking factoring, discrete log and elliptic curves alike; symmetric ciphers only lose half their key strength. "Harvest now, decrypt later" is why the migration to lattice-based schemes started long before the hardware arrived.
+</KeyTakeaways>

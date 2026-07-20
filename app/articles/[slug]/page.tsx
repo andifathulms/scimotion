@@ -69,6 +69,8 @@ import {
   StationaryDistributionAnimation,
   DopplerAnimation,
   RedshiftAnimation,
+  DiffieHellmanAnimation,
+  ModularExponentiationAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -124,6 +126,8 @@ const components = {
   StationaryDistributionAnimation,
   DopplerAnimation,
   RedshiftAnimation,
+  DiffieHellmanAnimation,
+  ModularExponentiationAnimation,
   KeyTakeaways,
 }
 

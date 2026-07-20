@@ -260,3 +260,13 @@ export const RedshiftAnimation = dynamic(
   () => import('@/components/animations/RedshiftAnimation').then(m => ({ default: m.RedshiftAnimation })),
   { ssr: false }
 )
+
+export const DiffieHellmanAnimation = dynamic(
+  () => import('@/components/animations/DiffieHellmanAnimation').then(m => ({ default: m.DiffieHellmanAnimation })),
+  { ssr: false }
+)
+
+export const ModularExponentiationAnimation = dynamic(
+  () => import('@/components/animations/ModularExponentiationAnimation').then(m => ({ default: m.ModularExponentiationAnimation })),
+  { ssr: false }
+)

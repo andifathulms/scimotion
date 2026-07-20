@@ -616,6 +616,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'public-key-cryptography': c => {
+    // Two parties exchange public values across a tapped wire and land on the same key.
+    return (
+      <g>
+        <text x={34} y={17} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">a</text>
+        <text x={266} y={17} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">b</text>
+        <circle cx={34} cy={44} r={15} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <circle cx={266} cy={44} r={15} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <text x={34} y={48} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">A</text>
+        <text x={266} y={48} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">B</text>
+
+        <line x1={51} y1={36} x2={249} y2={36} stroke={MUTE} strokeWidth={0.75} />
+        <polygon points="249,36 243,33 243,39" fill={MUTE} />
+        <text x={110} y={30} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">g^a</text>
+
+        <line x1={249} y1={54} x2={51} y2={54} stroke={MUTE} strokeWidth={0.75} />
+        <polygon points="51,54 57,51 57,57" fill={MUTE} />
+        <text x={190} y={65} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">g^b</text>
+
+        <line x1={150} y1={36} x2={150} y2={80} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <text x={150} y={76} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">Eve</text>
+        <rect x={118} y={80} width={64} height={26} rx={5} fill="rgba(255,255,255,0.03)" stroke={MUTE} strokeWidth={0.75} />
+        <text x={150} y={98} textAnchor="middle" fontSize={13} fill={MUTE} fontFamily="monospace">?</text>
+
+        <line x1={34} y1={59} x2={34} y2={86} stroke={FAINT} strokeWidth={0.75} />
+        <line x1={266} y1={59} x2={266} y2={86} stroke={FAINT} strokeWidth={0.75} />
+        <rect x={8} y={86} width={52} height={20} rx={4} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={0.75} />
+        <rect x={240} y={86} width={52} height={20} rx={4} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={0.75} />
+        <text x={34} y={100} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">g^ab</text>
+        <text x={266} y={100} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">g^ab</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
