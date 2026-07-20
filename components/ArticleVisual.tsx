@@ -806,6 +806,48 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'neural-networks': c => {
+    // A 2-4-4-1 net: faint forward wiring, with one gradient path traced back from the loss.
+    const inY = [44, 76]
+    const hY = [20, 48, 76, 104]
+    const cols = [46, 118, 190]
+    const outX = 254
+    const outY = 60
+    const edges: ReactNode[] = []
+    inY.forEach((y0, a) =>
+      hY.forEach((y1, b) =>
+        edges.push(<line key={`a${a}${b}`} x1={cols[0]} y1={y0} x2={cols[1]} y2={y1} stroke={FAINT} strokeWidth={1} />)
+      )
+    )
+    hY.forEach((y0, a) =>
+      hY.forEach((y1, b) =>
+        edges.push(<line key={`b${a}${b}`} x1={cols[1]} y1={y0} x2={cols[2]} y2={y1} stroke={FAINT} strokeWidth={1} />)
+      )
+    )
+    hY.forEach((y0, a) =>
+      edges.push(<line key={`c${a}`} x1={cols[2]} y1={y0} x2={outX} y2={outY} stroke={FAINT} strokeWidth={1} />)
+    )
+    return (
+      <g>
+        {edges}
+        <polyline
+          points={`${outX},${outY} ${cols[2]},48 ${cols[1]},76 ${cols[0]},44`}
+          fill="none" stroke={GOLD} strokeWidth={1.75} strokeDasharray="4 3"
+        />
+        {inY.map((y, i) => (
+          <circle key={`i${i}`} cx={cols[0]} cy={y} r={8} fill={`${c}22`} stroke={MUTE} strokeWidth={1.25} />
+        ))}
+        {hY.map((y, i) => (
+          <circle key={`h1${i}`} cx={cols[1]} cy={y} r={8} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        ))}
+        {hY.map((y, i) => (
+          <circle key={`h2${i}`} cx={cols[2]} cy={y} r={8} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        ))}
+        <circle cx={outX} cy={outY} r={10} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.75} />
+        <text x={outX} y={outY + 4} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">L</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

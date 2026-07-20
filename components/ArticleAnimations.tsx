@@ -310,3 +310,13 @@ export const MeissnerEffectAnimation = dynamic(
   () => import('@/components/animations/MeissnerEffectAnimation').then(m => ({ default: m.MeissnerEffectAnimation })),
   { ssr: false }
 )
+
+export const NeuralNetworkAnimation = dynamic(
+  () => import('@/components/animations/NeuralNetworkAnimation').then(m => ({ default: m.NeuralNetworkAnimation })),
+  { ssr: false }
+)
+
+export const BackpropagationAnimation = dynamic(
+  () => import('@/components/animations/BackpropagationAnimation').then(m => ({ default: m.BackpropagationAnimation })),
+  { ssr: false }
+)

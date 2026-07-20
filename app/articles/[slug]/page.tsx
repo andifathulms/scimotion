@@ -79,6 +79,8 @@ import {
   FeedbackLoopAnimation,
   SuperconductivityAnimation,
   MeissnerEffectAnimation,
+  NeuralNetworkAnimation,
+  BackpropagationAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -144,6 +146,8 @@ const components = {
   FeedbackLoopAnimation,
   SuperconductivityAnimation,
   MeissnerEffectAnimation,
+  NeuralNetworkAnimation,
+  BackpropagationAnimation,
   KeyTakeaways,
 }
 

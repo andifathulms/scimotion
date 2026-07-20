@@ -1,0 +1,148 @@
+---
+title: "How Neural Networks Learn"
+subtitle: "A pile of multiply-and-add, tuned by local feedback until it recognises handwriting."
+topic: "Computer Science"
+slug: "neural-networks"
+date: "2026-07-21"
+readTime: 10
+featured: false
+description: "What a neuron actually computes, why the squashing function is the part that matters, and how backpropagation extracts every partial derivative in a single backward sweep."
+tags: ["machine-learning", "backpropagation", "calculus", "neural-networks"]
+quiz:
+  - q: "A network is built from three stacked layers, each computing a weighted sum with no activation function in between. What is the expressive power of the resulting model?"
+    options:
+      - "Three times that of a single layer, since each layer adds its own set of weights"
+      - "Exactly that of a single linear layer, because a composition of linear maps is itself a linear map"
+      - "Enough to separate any dataset, provided the layers are wide enough"
+      - "Undefined, because gradients cannot propagate through a network without activations"
+    answer: 1
+    explanation: "Composing W3(W2(W1 x)) is the same as multiplying by the single matrix W3·W2·W1, so depth without nonlinearity buys nothing at all."
+  - q: "Backpropagation computes the gradient with respect to all n parameters at a cost of roughly one forward pass. Where does that efficiency come from?"
+    options:
+      - "It approximates most derivatives numerically and only computes the important ones exactly"
+      - "It caches the forward activations and reuses each layer's incoming gradient signal for every weight in that layer, instead of recomputing the chain from scratch per parameter"
+      - "It exploits the sparsity of the weight matrices in a trained network"
+      - "It differentiates the loss with respect to the inputs rather than the weights, which is a smaller problem"
+    answer: 1
+    explanation: "Sweeping backwards once shares the chain-rule prefix across every parameter in a layer, whereas differentiating each parameter independently would repeat almost all of that work n times."
+  - q: "During the backward pass through a tanh unit, the incoming gradient is multiplied by 1 - a^2. What happens when that unit is strongly saturated, with a close to +1 or -1?"
+    options:
+      - "The gradient is amplified, causing the weights below it to update explosively"
+      - "The multiplier approaches zero, so almost no gradient reaches the weights below and those weights barely learn"
+      - "The multiplier approaches one, so the gradient passes through unchanged"
+      - "The sign of the gradient flips, reversing the direction of the update"
+    answer: 1
+    explanation: "With a near +/-1 the factor 1 - a^2 is near zero, which chokes off the signal travelling further back — the vanishing gradient problem."
+---
+
+## Multiply, add, squash
+
+Strip a neural network of its mythology and what remains is arithmetic a spreadsheet could do. Take some numbers. Multiply each by a weight. Add them up. Add one more number called a bias. Then bend the result through a fixed curve that squashes it toward a limited range. That is one neuron, and it is the entire vocabulary — a network is just a few thousand copies of it, wired in layers.
+
+The surprising part is not the arithmetic. It is that if you nudge those weights over and over, each nudge computed only from local feedback about whether the answer came out slightly too high or slightly too low, the pile of multiply-and-add gradually becomes a thing that reads handwriting. Nobody writes a rule for what a 7 looks like. The rules condense out of the nudging.
+
+This article is about the nudging: what a neuron computes, why the squash is the load-bearing piece, what the loss landscape looks like, and how backpropagation gets the gradient that [gradient descent](/articles/gradient-descent) then walks down.
+
+## One neuron, and the layer it lives in
+
+A neuron with inputs $x_1, \ldots, x_n$ computes
+
+$$z = \sum_{i=1}^{n} w_i x_i + b, \qquad a = \sigma(z)$$
+
+The weights $w_i$ say how much each input matters and in which direction; the bias $b$ shifts the threshold at which the neuron starts responding; and $\sigma$ is the **activation function**, the squash.
+
+Stack neurons side by side and the sums become a matrix multiply. A layer taking an $n$-vector to an $m$-vector is
+
+$$\mathbf{a} = \sigma(W\mathbf{x} + \mathbf{b}), \qquad W \in \mathbb{R}^{m \times n}$$
+
+with $\sigma$ applied elementwise. A network is layers composed: the output of one becomes the input of the next, and the final layer produces whatever shape the task needs — one number for a yes/no decision, ten for digit classification, fifty thousand for a language model's next-token scores.
+
+That is genuinely all of the forward computation. A modern model differs from this only in size and in the wiring pattern between layers.
+
+### The squash is not decoration
+
+It is tempting to read $\sigma$ as a cosmetic detail — a bit of biological flavour bolted onto the real work of the matrix multiply. It is the opposite. Delete it and the network collapses.
+
+Suppose three layers with no activation in between:
+
+$$\mathbf{y} = W_3\big(W_2(W_1\mathbf{x})\big) = (W_3 W_2 W_1)\,\mathbf{x} = W_{\text{eff}}\,\mathbf{x}$$
+
+The product of three matrices is a matrix. A hundred stacked linear layers is still, exactly, one linear layer — you have spent a hundred times the compute to represent something a single matrix already represented. Depth buys nothing without a nonlinearity between the layers, and no linear model can separate classes that are not linearly separable, no matter how many parameters you give it.
+
+Insert a nonlinear $\sigma$ and composition stops collapsing. Each layer can now bend the space its successor sees, and bending it repeatedly is how a network carves out curved, disconnected, arbitrarily awkward decision regions. The classic choices are
+
+$$\tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}}, \qquad \sigma(z) = \frac{1}{1 + e^{-z}}, \qquad \mathrm{ReLU}(z) = \max(0, z)$$
+
+ReLU is barely nonlinear — it is two straight pieces hinged at the origin — and that is enough. The hinge is the whole point.
+
+## Watching one learn
+
+<NeuralNetworkAnimation />
+
+The task is two interleaved spirals, one blue and one pink, which no straight line can separate. The network is two hidden layers of the width you choose, and the shaded background is its current opinion about every point in the plane: how it would classify that location, with stronger colour where it is more confident. Gold rings mark the training points it is still getting wrong. On the right, the loss curve and a schematic of the weights themselves — blue for positive, pink for negative, thickness for magnitude.
+
+Three things are worth doing here.
+
+**Press Train and just watch the boundary.** It starts as a nearly flat wash, because the random initial weights encode no structure. The first thing to appear is a single crude split of the plane — the network finds the one linear cut that helps most. Only later does the boundary start to curl, and the curl arrives in stages: a bend, then a second bend, then the arms wrapping around each other. Learning is visibly incremental, and each stage corresponds to a drop in the loss curve.
+
+**Now set the hidden width to 1 or 2 and train again.** It fails, and the way it fails is instructive. With one hidden unit per layer the network can only express a single soft ridge — one bend, no more — so it does the best a single bend can do, splits the spirals roughly in half, and then the loss flattens out and stops improving. This is not a failure of the optimizer. The optimizer is finding a fine minimum; there simply is no setting of those few weights that solves the task. The model lacks the *capacity*, and no amount of extra training will conjure it.
+
+**Then push the width up to 12 or 16.** The boundary now tracks the spiral arms almost exactly and the loss falls near zero. Try "New weights" a few times at a fixed width, too: different random starts give visibly different boundaries and take different numbers of epochs, but at a workable width they nearly all get there. Different valleys, similar depths — which is the empirical fact that makes training large networks practical at all.
+
+## What "learning" actually changes
+
+Learning changes the weights and the biases. That is the whole of it. The architecture is fixed, the activation function is fixed, the arithmetic is fixed; the only things that move are those numbers.
+
+To decide how to move them you need a score. For binary classification the standard one is **cross-entropy**: if the network outputs a probability $p$ and the true label is $y \in \{0,1\}$,
+
+$$L = -\big[\,y\ln p + (1-y)\ln(1-p)\,\big]$$
+
+which is $-\ln p$ when the answer is 1 and $-\ln(1-p)$ when it is 0. Confident and right costs almost nothing; confident and wrong costs enormously. The total loss is the average over the training set.
+
+Now think of $L$ as a function not of the data but of the parameters. Every weight is an axis. A network with $n$ parameters defines a surface in $n$-dimensional space, and training is the search for a low point on it. For the widget above at width 10 that is 151 parameters — a 151-dimensional landscape, of which the loss curve on the right is a one-dimensional shadow.
+
+The search method is [gradient descent](/articles/gradient-descent): compute $\nabla L$, step against it, repeat.
+
+$$w \leftarrow w - \eta \, \frac{\partial L}{\partial w}$$
+
+Which leaves exactly one question. That gradient has one component per parameter — 151 here, and hundreds of billions in a frontier model. How do you possibly get all of them?
+
+## Backpropagation: the chain rule, run backwards
+
+The naive answer is to perturb each weight in turn and see what happens to the loss. That works, and it costs one forward pass per parameter — 151 passes here, which is merely wasteful, and $10^{11}$ passes for a large model, which is impossible.
+
+Backpropagation gets all of them for the price of about one extra forward pass. The trick is bookkeeping, not new calculus. Every parameter's influence on the loss travels through the same chain of intermediate quantities, so if you compute the chain once, from the loss backwards, every parameter can read off its own derivative from the signal passing by.
+
+Concretely, write $z^{(l)}$ for a layer's pre-activation and $a^{(l)} = \sigma(z^{(l)})$ for its output. Define the **error signal** $\delta^{(l)} = \partial L / \partial z^{(l)}$. Then the chain rule gives two rules and nothing else:
+
+$$\delta^{(l)} = \big(W^{(l+1)\top} \delta^{(l+1)}\big) \odot \sigma'(z^{(l)})$$
+
+$$\frac{\partial L}{\partial W^{(l)}} = \delta^{(l)} \big(a^{(l-1)}\big)^{\top}, \qquad \frac{\partial L}{\partial b^{(l)}} = \delta^{(l)}$$
+
+Read the first rule as: to get a layer's error, take the layer above's error, pull it back through the transpose of the weights that carried the signal forward, then multiply by the local slope of the activation. Read the second as: a weight's gradient is the error arriving at its output end times the activation entering its input end. Two numbers, multiplied. That is why the forward activations must be cached — they are half of every gradient.
+
+<BackpropagationAnimation />
+
+This is a 2-2-1 network with nine parameters and every weight frozen, so the numbers are exact and reproducible. Step forward through it and watch the activations flow left to right into a single loss value; then keep stepping and watch the direction reverse.
+
+Follow one weight through the backward half. At the output the chain is seeded with $\partial L / \partial z = p - y$ — cross-entropy and the sigmoid are chosen precisely so their derivatives cancel into that clean difference. That single number then fans out: multiplied by $a_1$ it becomes the gradient for the first output weight, multiplied by $a_2$ the gradient for the second. Pull the same number back through the output weights and scale by $1 - a^2$ (the derivative of tanh) and you have the error at each hidden unit, which multiplied by $x_1$ and $x_2$ gives the four input-weight gradients. Nine partial derivatives, one sweep, no derivative computed twice.
+
+Notice the $1 - a^2$ factor as you step past it. If a tanh unit is saturated — $a$ near $\pm 1$ — that multiplier is near zero, and the gradient flowing to everything below it is throttled. Chain a dozen such layers and the signal reaching the first one is multiplied by a dozen small numbers: the **vanishing gradient** problem, which kept deep networks untrainable for years and is why ReLU (whose derivative is exactly 1 wherever it is active), residual connections, and normalization layers exist.
+
+It is worth being precise about the division of labour. Backpropagation is *not* an optimization algorithm and it does not decide anything about how the weights move. It is reverse-mode automatic differentiation: a way to compute $\nabla L$ cheaply. What to do with that gradient — how big a step, with what momentum, on what schedule — is gradient descent's business, and every scaling law and learning-rate warmup you have heard of lives on that side of the line.
+
+## Why this scales
+
+Nothing above hints that the recipe should work on anything hard. It is a shallow arithmetic circuit trained by a greedy local rule on a non-convex surface with no guarantee of finding anything good. And yet the same three ingredients — layers with a nonlinearity, a differentiable loss, gradients from backprop — cover essentially all of modern machine learning.
+
+The universal approximation theorem explains part of it: a network with one hidden layer and enough units can approximate any continuous function on a bounded domain arbitrarily well. But "enough units" can mean absurdly many, and the theorem says nothing about whether training can *find* the right weights. Depth is the practical fix. Deep networks build features hierarchically — early layers detect edges, middle layers detect motifs, later layers detect objects — and that compositional structure lets them represent with thousands of units what a shallow network would need millions to match.
+
+The other half of the answer is economic. A gradient costs one forward pass. That cost is what makes it feasible to run the loop $10^{15}$ times over trillions of tokens, and it is the reason the field converged on this one method rather than something with better convergence guarantees. Convolutional networks, transformers, and diffusion models all differ in how the layers are wired and what the loss measures. Underneath, all three are multiply, add, squash — and backprop counting the blame.
+
+<KeyTakeaways>
+- A neuron is a weighted sum plus a bias, passed through a fixed nonlinear squash. A network is layers of them, and the forward pass is nothing more than that.
+- The activation function is the load-bearing part: without it a stack of layers algebraically collapses to $W_3W_2W_1 = W_{\text{eff}}$, a single linear map, and depth buys nothing.
+- Learning changes only the weights and biases. The loss is a surface over those parameters, and training is [gradient descent](/articles/gradient-descent) on it.
+- Backpropagation is not the learning rule — it is the chain rule applied backwards to get *all* $n$ partial derivatives in one sweep for about the cost of one forward pass. Each weight's gradient is the error arriving at its output times the activation entering its input.
+- Capacity and optimization are separate failure modes. Too few hidden units and the boundary cannot bend enough no matter how long you train; the widget's width-1 run is a model failure, not an optimizer failure.
+</KeyTakeaways>
