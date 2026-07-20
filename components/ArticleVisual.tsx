@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import { Children, cloneElement, isValidElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
 type Topic = 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
 
@@ -13,6 +14,46 @@ const BG = '#1A1712'
 const GOLD = '#F59E0B'
 const MUTE = 'rgba(245,240,232,0.35)'
 const FAINT = 'rgba(255,245,235,0.08)'
+
+// These visuals are server-rendered, and several derive coordinates from
+// Math.sin / Math.exp / Math.pow. Those functions are NOT required by the spec to
+// be correctly rounded, so Node and the browser can disagree in the final bits —
+// which React reports as a hydration mismatch on the emitted attribute.
+//
+// Rather than trusting every visual (and every future one) to round by hand, we
+// normalize centrally: walk the rendered tree once and snap every non-integer
+// numeric attribute, plus the numbers inside `points` / `d` path strings, to 2dp.
+// Sub-pixel precision is meaningless in a 300x120 viewBox, and 2dp is far coarser
+// than any float discrepancy, so this is lossless in practice and kills the whole
+// class of bug at the source.
+const PRECISION = 100
+const snap = (v: number) => Math.round(v * PRECISION) / PRECISION
+const snapNumbersIn = (s: string) => s.replace(/-?\d*\.\d+/g, m => String(snap(parseFloat(m))))
+
+const COORD_STRING_PROPS = new Set(['points', 'd', 'strokeDasharray', 'transform'])
+
+function normalize(node: ReactNode): ReactNode {
+  return Children.map(node, child => {
+    if (!isValidElement(child)) return child
+    const el = child as ReactElement<Record<string, unknown>>
+    const patch: Record<string, unknown> = {}
+
+    for (const [key, value] of Object.entries(el.props)) {
+      if (key === 'children') continue
+      if (typeof value === 'number') {
+        if (!Number.isInteger(value)) patch[key] = snap(value)
+      } else if (typeof value === 'string' && COORD_STRING_PROPS.has(key)) {
+        const snapped = snapNumbersIn(value)
+        if (snapped !== value) patch[key] = snapped
+      }
+    }
+
+    const kids = el.props.children as ReactNode | undefined
+    return kids === undefined
+      ? cloneElement(el, patch)
+      : cloneElement(el, patch, normalize(kids))
+  })
+}
 
 // Shared faint background grid for every visual.
 function Grid() {
@@ -576,7 +617,7 @@ export function ArticleVisual({
     >
       <rect width="300" height="120" fill={BG} />
       <Grid />
-      {render ? render(c) : null}
+      {render ? normalize(render(c)) : null}
     </svg>
   )
 }
