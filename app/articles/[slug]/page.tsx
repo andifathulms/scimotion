@@ -53,6 +53,8 @@ import {
   MemoizationTreeAnimation,
   EntropyAnimation,
   MicrostatesAnimation,
+  ImmuneResponseAnimation,
+  ClonalSelectionAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -92,6 +94,8 @@ const components = {
   MemoizationTreeAnimation,
   EntropyAnimation,
   MicrostatesAnimation,
+  ImmuneResponseAnimation,
+  ClonalSelectionAnimation,
   KeyTakeaways,
 }
 

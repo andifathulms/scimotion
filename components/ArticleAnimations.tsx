@@ -180,3 +180,13 @@ export const MicrostatesAnimation = dynamic(
   () => import('@/components/animations/MicrostatesAnimation').then(m => ({ default: m.MicrostatesAnimation })),
   { ssr: false }
 )
+
+export const ImmuneResponseAnimation = dynamic(
+  () => import('@/components/animations/ImmuneResponseAnimation').then(m => ({ default: m.ImmuneResponseAnimation })),
+  { ssr: false }
+)
+
+export const ClonalSelectionAnimation = dynamic(
+  () => import('@/components/animations/ClonalSelectionAnimation').then(m => ({ default: m.ClonalSelectionAnimation })),
+  { ssr: false }
+)

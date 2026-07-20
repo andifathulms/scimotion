@@ -336,6 +336,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'immune-response': c => {
+    // One selected clone (gold ring) expanding exponentially into a memory pool.
+    const levels = [0, 1, 2, 3].map(L =>
+      Array.from({ length: 2 ** L }, (_, i) => ({ x: 20 + L * 60, y: 12 + (i + 0.5) * (96 / 2 ** L) }))
+    )
+    const radii = [6, 4.5, 3.5, 2.5]
+    const edges: ReactNode[] = []
+    for (let L = 0; L < 3; L++) {
+      levels[L].forEach((p, i) => {
+        for (const q of [levels[L + 1][2 * i], levels[L + 1][2 * i + 1]]) {
+          edges.push(<line key={`${L}-${i}-${q.y}`} x1={p.x} y1={p.y} x2={q.x} y2={q.y} stroke={`${c}55`} strokeWidth={1} />)
+        }
+      })
+    }
+    return (
+      <g>
+        {[20, 40, 80, 100].map(y => (
+          <circle key={y} cx={8} cy={y} r={3} fill="none" stroke={MUTE} strokeWidth={0.75} />
+        ))}
+        {edges}
+        {levels.map((row, L) =>
+          row.map(p => (
+            <circle key={`${L}-${p.y}`} cx={p.x} cy={p.y} r={radii[L]} fill={c} opacity={L === 0 ? 1 : 0.85} />
+          ))
+        )}
+        <circle cx={20} cy={60} r={10} fill="none" stroke={GOLD} strokeWidth={1.5} />
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={i} cx={244 + (i % 4) * 14} cy={22 + Math.floor(i / 4) * 24} r={2} fill={c} opacity={0.45} />
+        ))}
+        <text x={296} y={116} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">2ⁿ</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
