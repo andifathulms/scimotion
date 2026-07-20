@@ -330,3 +330,13 @@ export const ProofreadingAnimation = dynamic(
   () => import('@/components/animations/ProofreadingAnimation').then(m => ({ default: m.ProofreadingAnimation })),
   { ssr: false }
 )
+
+export const ComplexityGrowthAnimation = dynamic(
+  () => import('@/components/animations/ComplexityGrowthAnimation').then(m => ({ default: m.ComplexityGrowthAnimation })),
+  { ssr: false }
+)
+
+export const SATReductionAnimation = dynamic(
+  () => import('@/components/animations/SATReductionAnimation').then(m => ({ default: m.SATReductionAnimation })),
+  { ssr: false }
+)

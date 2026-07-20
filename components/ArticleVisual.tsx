@@ -892,6 +892,27 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'p-vs-np': c => {
+    // P nested inside NP with the NP-complete frontier, beside poly vs exp growth.
+    const poly = '216,100 234,97 252,92 270,85 288,76'
+    const exp = '216,100 234,99 252,95 270,78 288,24'
+    return (
+      <g>
+        <ellipse cx={110} cy={60} rx={92} ry={50} fill={`${c}14`} stroke={c} strokeWidth={1.25} />
+        <text x={110} y={26} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">NP</text>
+        <ellipse cx={160} cy={60} rx={34} ry={24} fill={`${c}33`} stroke={c} strokeWidth={1} strokeDasharray="3 2" />
+        <text x={160} y={63} textAnchor="middle" fontSize={7} fill={c} fontFamily="monospace">NP-complete</text>
+        <ellipse cx={72} cy={60} rx={40} ry={28} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.25} />
+        <text x={72} y={65} textAnchor="middle" fontSize={13} fill={GOLD} fontFamily="monospace">P</text>
+        <line x1={206} y1={14} x2={206} y2={106} stroke={FAINT} strokeWidth={1} />
+        <polyline points={poly} fill="none" stroke={c} strokeWidth={1.75} />
+        <polyline points={exp} fill="none" stroke={GOLD} strokeWidth={1.75} />
+        <text x={264} y={94} fontSize={8} fill={c} fontFamily="monospace">n³</text>
+        <text x={268} y={20} fontSize={8} fill={GOLD} fontFamily="monospace">2ⁿ</text>
+        <text x={216} y={112} fontSize={7} fill={MUTE} fontFamily="monospace">poly vs exp</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

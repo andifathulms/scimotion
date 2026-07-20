@@ -1,0 +1,152 @@
+---
+title: "P vs NP"
+subtitle: "Checking an answer is easy. Finding one is hard. Nobody can prove those are different things."
+topic: "Computer Science"
+slug: "p-vs-np"
+date: "2026-07-12"
+readTime: 10
+featured: false
+description: "Why verifying a solution and discovering one look like utterly different tasks, what NP-completeness says about that gap, and why fifty years of effort has not settled the most important open question in computing."
+tags: ["complexity", "algorithms", "np-complete", "theory"]
+quiz:
+  - q: "What does the 'N' in NP actually stand for?"
+    options:
+      - "Non-polynomial — problems that provably cannot be solved in polynomial time"
+      - "Nondeterministic — the class is defined by what a nondeterministic machine can decide in polynomial time, equivalently by polynomial-time verification of a certificate"
+      - "Nearly polynomial — problems solvable in time just above any polynomial bound"
+      - "Numerical — problems whose inputs are numbers rather than graphs or strings"
+    answer: 1
+    explanation: "NP means nondeterministic polynomial time, and it contains all of P, so calling it 'non-polynomial' gets the definition exactly backwards."
+  - q: "A problem X is proved NP-complete by reducing SAT to X in polynomial time. What does that reduction establish?"
+    options:
+      - "That X is at least as hard as every problem in NP, because any NP problem can be transformed into SAT and then into X"
+      - "That X can be solved by first solving SAT, so X is no harder than SAT and therefore easy"
+      - "That X has no polynomial-time algorithm, since SAT is known to require exponential time"
+      - "That X and SAT have identical running times on every input"
+    answer: 0
+    explanation: "The reduction points hardness at X: since Cook and Levin showed every NP problem reduces to SAT, a reduction from SAT to X makes X at least as hard as all of NP."
+  - q: "Suppose someone published a correct algorithm deciding SAT in O(n^2) time. Which consequence follows most directly?"
+    options:
+      - "Encryption would be unaffected, since cryptography relies on problems outside NP"
+      - "Only SAT would become tractable; other NP-complete problems would keep their exponential algorithms"
+      - "Every problem in NP would become solvable in polynomial time, including breaking RSA-style assumptions, because all of NP reduces to SAT"
+      - "P would equal NP only for decision problems, leaving optimization problems exponential"
+    answer: 2
+    explanation: "Because every NP problem reduces to SAT in polynomial time, a polynomial SAT algorithm makes all of NP polynomial — collapsing the classes and destroying the hardness assumptions cryptography rests on."
+---
+
+## A sudoku you can check but cannot solve
+
+Hand someone a completed sudoku grid and ask whether it is valid. They scan twenty-seven regions — nine rows, nine columns, nine boxes — and confirm that each contains the digits 1 through 9 exactly once. A minute of work, and the effort barely grows if you move to a 25×25 grid.
+
+Now hand them a *blank* grid with a few clues and ask them to fill it in. That is an entirely different afternoon. And if you scale sudoku up to $n^2 \times n^2$ boards, no known method does much better than a smart search through an astronomically large space of candidate grids.
+
+Every one of us has this intuition: **finding** is harder than **checking**. Proving a theorem is harder than reading a proof. Composing a symphony is harder than hearing that it works. Factoring a 600-digit number is harder than multiplying two 300-digit primes back together.
+
+The question is whether that intuition is a fact about the universe or a fact about us. Is search *fundamentally* more expensive than verification — or have we simply never been clever enough to find the shortcuts? That is P vs NP, and it is the most consequential unsolved problem in computer science.
+
+## Decision problems, and what "efficient" means
+
+To ask the question precisely you have to be precise about what a problem is. Complexity theory works with **decision problems**: questions with a yes/no answer about an input string. Not "what is the shortest tour through these cities?" but "is there a tour of length at most $k$?" Not "colour this map" but "can this map be coloured with 3 colours?"
+
+That restriction sounds limiting; it mostly isn't. If you can answer the yes/no version quickly, you can usually recover the actual solution quickly too, by binary searching on $k$ and then fixing one decision at a time — the same [binary search on the answer](/articles/binary-search) trick that turns a threshold test into a value.
+
+Next, "efficient". The convention, due to Cobham and Edmonds in the 1960s, is **polynomial time**: an algorithm whose running time on inputs of size $n$ is bounded by $O(n^c)$ for some constant $c$. This is a deliberately crude line. An $n^{100}$ algorithm is useless in practice and a $2^{n/1000}$ algorithm is fine for real inputs. But the polynomial/exponential boundary is the one that is robust — it does not shift when you change programming language, machine model, or how you encode the input — and it is the line across which growth stops being survivable at all.
+
+**P** is the class of decision problems solvable in polynomial time.
+
+**NP** is the class of decision problems whose *yes* answers can be **verified** in polynomial time, given a short hint. Formally: $L \in \mathrm{NP}$ if there is a polynomial-time verifier $V$ and a polynomial $p$ such that
+
+$$x \in L \iff \exists\, w,\ |w| \le p(|x|),\ V(x, w) = \text{accept}$$
+
+The string $w$ is the **certificate** (or witness): the completed sudoku grid, the satisfying assignment, the tour of length $\le k$. NP is the class of problems where luck is enough — where if someone whispers the answer, you can confirm it fast.
+
+## NP does not mean "non-polynomial"
+
+This is the single most common misconception about the whole subject, so it is worth stating flatly.
+
+**NP stands for *nondeterministic polynomial time*.** It is named after the nondeterministic Turing machine — an idealized machine that, at each branching point, is allowed to guess and is considered to accept if *any* branch accepts. Guessing the certificate and checking it is exactly what such a machine does in polynomial time, which is why the "guess-and-verify" definition above and the "nondeterministic machine" definition describe the same class.
+
+It emphatically does **not** mean "not polynomial". In fact:
+
+$$\mathrm{P} \subseteq \mathrm{NP}$$
+
+Every problem you can *solve* in polynomial time you can also *verify* in polynomial time — ignore the certificate and just solve it. So sorting, shortest paths, and primality testing are all in NP. Saying "this problem is NP" is not a claim that it is hard; almost every problem you meet in practice is in NP. The interesting question is whether the containment is strict.
+
+Two more terms complete the picture:
+
+- **NP-hard**: at least as hard as everything in NP (every NP problem reduces to it). An NP-hard problem need not be in NP at all.
+- **NP-complete**: in NP *and* NP-hard. These are the hardest problems in NP — and, crucially, they stand or fall together.
+
+## How fast is "exponential", really?
+
+Before going further it is worth making the polynomial/exponential distinction visceral, because the whole field rests on it being a real distinction rather than a bureaucratic one.
+
+<ComplexityGrowthAnimation />
+
+Drag $n$ from 1 upward and watch the five curves separate on the logarithmic axis. Notice how little drama there is among $n$, $n^2$, and $n^3$: at $n = 40$ the cubic needs 64,000 operations, which a laptop finishes before you release the slider. They stay clustered near the floor across the entire range.
+
+Then follow the gold $2^n$ curve. It starts *below* the cubic — for small $n$ the exponential is genuinely the cheaper option, which is why brute force works fine on toy instances and lulls people into thinking the problem is easy. Somewhere around $n = 15$ it crosses. By $n = 40$ it has passed a trillion operations, and the pink $n!$ curve has left the plot entirely, needing more operations than there are atoms in the observable universe. Watch the "time at a billion operations per second" readout as you drag: the polynomial columns stay in nanoseconds and microseconds the whole way, while the exponential ones run through minutes, then millennia, then multiples of the age of the universe — all before $n$ reaches fifty.
+
+That is what is at stake. Moore's law does not rescue you here. Doubling your computer's speed buys you exactly **one more variable** on a $2^n$ algorithm. A polynomial algorithm turns a problem into engineering; an exponential one turns it into a wall.
+
+## Cook, Levin, and the problem that contains all the others
+
+In 1971 Stephen Cook — and independently Leonid Levin in the Soviet Union — proved something that reorganized the field. The tool is **polynomial-time reduction**: a problem $A$ reduces to $B$ (written $A \le_p B$) if there is a polynomial-time function $f$ transforming any instance $x$ of $A$ into an instance $f(x)$ of $B$ with the same yes/no answer. If $A \le_p B$ and you have a fast algorithm for $B$, you get one for $A$ for free. Reductions transport *easiness* forward and *hardness* backward.
+
+The **Cook–Levin theorem** says: every problem in NP reduces in polynomial time to **SAT**, the question of whether a Boolean formula has a satisfying assignment. The proof is a construction — take the nondeterministic machine that verifies the certificate and encode its entire computation, tape cell by tape cell and step by step, as a giant Boolean formula that is satisfiable exactly when some branch accepts.
+
+The consequence is startling. SAT is not merely one hard problem among many; it is a *universal* one. Every question in NP — every puzzle, schedule, packing, and proof search whose answers are checkable — is a disguised satisfiability instance.
+
+And the trick propagates. Once SAT is known to be NP-complete, you can prove a new problem $X$ is NP-complete by (i) showing $X \in \mathrm{NP}$, and (ii) reducing SAT (or any known NP-complete problem) to $X$. In 1972 Richard Karp did this for 21 problems in a single paper, and the list has since grown into the thousands:
+
+- **Travelling salesman** (decision form): is there a tour visiting all cities of total length $\le k$?
+- **Knapsack**: can you pack items of given weights and values into a bag of capacity $W$ with total value $\ge V$? (Its famous [dynamic programming](/articles/dynamic-programming) solution runs in $O(nW)$ — fast in the *value* of $W$ but exponential in the number of *bits* used to write $W$ down, which is why it doesn't settle anything. This is called pseudo-polynomial time.)
+- **Graph 3-colouring**: can the vertices be coloured with 3 colours so no edge joins two of the same?
+- **Clique, vertex cover, subset sum, Hamiltonian cycle, bin packing, protein folding in lattice models, generalized sudoku, Minesweeper consistency.**
+
+They are all the same problem wearing different clothes. Solve any one of them in polynomial time and you have solved every problem in NP.
+
+## Verification stays flat; search explodes
+
+The gap between checking and finding is easiest to feel on SAT itself, since that is the problem everything else reduces to.
+
+<SATReductionAnimation />
+
+The two panels run at exactly the same speed — one operation per tick on each side, so the race is fair. On the left, a satisfying assignment has been handed to you as a certificate of $n$ bits, and the verifier simply walks the clauses, confirming each one contains at least one true literal. The count climbs to $3n$ and stops. On the right, nobody handed you anything, so the search enumerates candidate assignments; watch the binary counter and notice that the low-order bits blur while the high-order bits never move at all. That stalled left end of the counter is the exponential in visual form.
+
+Now drag the variable slider. Each extra variable adds three clause checks on the left and **doubles** the space on the right. At $n = 12$ the search still finishes while you watch. At $n = 20$ the progress bar has visibly given up. And the extrapolation strip tells you where this ends: at $n = 64$, brute force at a billion assignments per second needs about six centuries, and at $n = 100$ it needs far longer than the universe has existed — for a formula you could write on an index card.
+
+Two honest caveats, because this widget shows brute force rather than the state of the art. First, modern SAT solvers are extraordinary engineering — conflict-driven clause learning, unit propagation, restarts — and routinely dispatch industrial instances with *millions* of variables. Second, that success does not touch the theory at all: those solvers still have exponential worst-case behaviour, and adversarially chosen formulas with a few hundred variables defeat all of them. Practical tractability and worst-case complexity are different claims.
+
+## What P = NP would actually mean
+
+Suppose the collapse happened — someone exhibits a genuinely practical polynomial algorithm for SAT.
+
+**Cryptography largely dies.** Nearly all deployed [public-key cryptography](/articles/public-key-cryptography) rests on problems that are easy to verify and believed hard to invert: factoring a large semiprime, or the discrete logarithm. Given a candidate factorization you multiply and check in milliseconds; finding one is the hard part. Those problems live in NP, so a fast algorithm for NP breaks them. Every TLS session, signed software update, and blockchain signature scheme built on them becomes forgeable. (A technical caveat: factoring is not known to be NP-complete — it is suspected to sit strictly between P and NP-complete — so P = NP would break it, but breaking factoring alone would not prove P = NP.)
+
+**Optimization becomes free.** Chip layout, airline scheduling, protein structure prediction, vehicle routing, curriculum timetabling — the entire industry of approximation heuristics and "good enough" solvers would be replaced by exact algorithms.
+
+**Mathematics itself changes character.** "Is there a proof of this statement in at most a million symbols?" is a problem in NP: a proof is a certificate, and proof-checking is mechanical. If P = NP, finding proofs becomes as easy as verifying them, and mathematical discovery becomes a search you can run. As Scott Aaronson has put it, anyone able to appreciate a symphony would be Mozart; anyone able to follow a step-by-step argument would be Gauss. That conclusion is so extravagant that most people read it as evidence *against* P = NP.
+
+The picture is asymmetric, though. If P ≠ NP — the expected outcome — nothing practical changes tomorrow. It would simply confirm that the walls we keep running into are real, and redirect effort permanently toward approximation algorithms, parameterized complexity, average-case analysis, and heuristics.
+
+## Why almost everyone believes P ≠ NP, and why nobody can prove it
+
+Polls of theoretical computer scientists consistently return roughly 85–90% confidence in P ≠ NP. The reasons are circumstantial but weighty. Thousands of NP-complete problems have been attacked independently for over fifty years by people with strong incentives — including a million-dollar Clay Millennium Prize — and not one polynomial algorithm has emerged. The class is also strangely brittle in the right direction: if P = NP, the entire polynomial hierarchy collapses to a single level, an outcome that looks far too tidy to be true.
+
+So why is it not proved? Because proving a *lower bound* means proving that **no algorithm whatsoever** — including every one nobody has thought of — can solve a problem quickly. That is a statement about an infinite space of possible programs, and our tools for reasoning about that space keep failing in provable, characterized ways:
+
+- **Relativization** (Baker–Gill–Solovay, 1975). Diagonalization arguments, the technique that separates P from EXPTIME, stay true when both machines are given the same oracle. But there exist oracles $A$ and $B$ with $\mathrm{P}^A = \mathrm{NP}^A$ and $\mathrm{P}^B \ne \mathrm{NP}^B$. So no relativizing proof can settle the question either way.
+- **Natural proofs** (Razborov–Rudich, 1994). Most circuit lower-bound techniques share two properties — they are *constructive* and apply to a *large* fraction of functions. Any argument with both properties would itself break pseudorandom generators, which are widely believed to exist. The technique that would prove hardness would refute the assumption it depends on.
+- **Algebrization** (Aaronson–Wigderson, 2008). The algebraic methods that got around relativization have their own barrier, and are likewise insufficient.
+
+Each barrier rules out a whole family of proof strategies. Settling P vs NP appears to require a genuinely new kind of argument — one that is non-relativizing, non-naturalizing, and non-algebrizing. That is the honest state of the art: an intuition nearly everyone shares, a question everyone can state, and a proof that has resisted every technique we possess.
+
+<KeyTakeaways>
+- P is the class of decision problems you can **solve** in polynomial time; NP is the class you can **verify** in polynomial time given a short certificate. The question is whether cheap checking implies cheap finding.
+- NP stands for **nondeterministic** polynomial, not "non-polynomial". $\mathrm{P} \subseteq \mathrm{NP}$ — sorting and shortest paths are in NP too, so "it's NP" is never by itself a claim of hardness.
+- The Cook–Levin theorem makes SAT universal: every NP problem reduces to it in polynomial time. Reductions make the thousands of NP-complete problems — TSP, knapsack, 3-colouring — a single problem in disguise, all rising or falling together.
+- The polynomial/exponential gap is not bookkeeping. Doubling your hardware buys one extra variable against $2^n$, which is why $n = 100$ can outlast the universe while $n^3$ finishes instantly.
+- Almost everyone believes P ≠ NP, and nobody can prove it: relativization, natural proofs, and algebrization each rule out an entire family of arguments, so a proof needs a technique we do not yet have.
+</KeyTakeaways>

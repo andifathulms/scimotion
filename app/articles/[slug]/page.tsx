@@ -83,6 +83,8 @@ import {
   BackpropagationAnimation,
   DNAReplicationAnimation,
   ProofreadingAnimation,
+  ComplexityGrowthAnimation,
+  SATReductionAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -152,6 +154,8 @@ const components = {
   BackpropagationAnimation,
   DNAReplicationAnimation,
   ProofreadingAnimation,
+  ComplexityGrowthAnimation,
+  SATReductionAnimation,
   KeyTakeaways,
 }
 
