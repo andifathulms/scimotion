@@ -649,6 +649,76 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'chaos-theory': c => {
+    // Period-doubling cascade (literal coordinates — no render-time iteration,
+    // so the markup is byte-identical on server and client).
+    const forks = [
+      'M 8 60 L 88 60',
+      'M 88 60 Q 104 60 108 42 L 130 42',
+      'M 88 60 Q 104 60 108 78 L 130 78',
+      'M 130 42 Q 142 42 145 32 L 160 32',
+      'M 130 42 Q 142 42 145 52 L 160 52',
+      'M 130 78 Q 142 78 145 68 L 160 68',
+      'M 130 78 Q 142 78 145 88 L 160 88',
+      'M 160 32 Q 170 32 172 26 L 186 26',
+      'M 160 32 Q 170 32 172 38 L 186 38',
+      'M 160 52 Q 170 52 172 46 L 186 46',
+      'M 160 52 Q 170 52 172 58 L 186 58',
+      'M 160 68 Q 170 68 172 62 L 186 62',
+      'M 160 68 Q 170 68 172 74 L 186 74',
+      'M 160 88 Q 170 88 172 82 L 186 82',
+      'M 160 88 Q 170 88 172 94 L 186 94',
+    ]
+    // [x, ys] — the smeared chaotic band, with a period-3 window at x = 272, 276.
+    const band: [number, number[]][] = [
+      [192, [26, 38, 46, 58, 62, 74, 82, 94]],
+      [196, [25, 39, 45, 59, 61, 75, 81, 95]],
+      [200, [24, 40, 44, 58, 62, 76, 80, 96]],
+      [204, [23, 41, 43, 57, 63, 77, 79, 97]],
+      [208, [22, 42, 44, 56, 64, 78, 80, 98]],
+      [212, [22, 42, 46, 56, 64, 78, 82, 98]],
+      [216, [36, 48, 74, 86]],
+      [220, [34, 50, 72, 88]],
+      [224, [32, 52, 70, 90]],
+      [228, [30, 44, 54, 68, 92]],
+      [232, [28, 42, 56, 66, 80, 94]],
+      [236, [26, 40, 58, 64, 78, 96]],
+      [240, [24, 38, 50, 62, 76, 98]],
+      [244, [22, 36, 48, 60, 74, 100]],
+      [248, [22, 34, 46, 58, 72, 88, 100]],
+      [252, [20, 32, 44, 56, 70, 86, 102]],
+      [256, [20, 30, 42, 54, 68, 84, 102]],
+      [260, [18, 30, 40, 52, 66, 82, 100]],
+      [264, [18, 28, 40, 50, 64, 80, 98]],
+      [268, [20, 32, 44, 54, 66, 84, 100]],
+      [272, [30, 60, 90]],
+      [276, [28, 58, 92]],
+      [280, [18, 30, 42, 54, 68, 84, 100]],
+      [284, [18, 28, 40, 52, 66, 82, 102]],
+      [288, [18, 26, 38, 50, 64, 80, 102]],
+      [292, [18, 26, 36, 48, 62, 78, 102]],
+    ]
+    const dots: ReactNode[] = []
+    band.forEach(([x, ys]) => {
+      const window3 = x === 272 || x === 276
+      ys.forEach((y, i) => dots.push(
+        <circle key={`${x}-${i}`} cx={x} cy={y} r={window3 ? 1.4 : 0.9} fill={window3 ? GOLD : c} opacity={window3 ? 1 : 0.8} />
+      ))
+    })
+    return (
+      <g>
+        <line x1={8} y1={110} x2={294} y2={110} stroke={FAINT} strokeWidth={0.75} />
+        {forks.map((d, i) => (
+          <path key={i} d={d} fill="none" stroke={c} strokeWidth={i === 0 ? 2 : 1.5} strokeLinecap="round" />
+        ))}
+        {dots}
+        <line x1={214} y1={14} x2={214} y2={106} stroke={GOLD} strokeWidth={1} strokeDasharray="3 3" opacity={0.7} />
+        <text x={214} y={118} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">r∞</text>
+        <text x={40} y={54} fontSize={8} fill={MUTE} fontFamily="monospace">x</text>
+        <text x={294} y={118} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">r</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -270,3 +270,13 @@ export const ModularExponentiationAnimation = dynamic(
   () => import('@/components/animations/ModularExponentiationAnimation').then(m => ({ default: m.ModularExponentiationAnimation })),
   { ssr: false }
 )
+
+export const LogisticMapAnimation = dynamic(
+  () => import('@/components/animations/LogisticMapAnimation').then(m => ({ default: m.LogisticMapAnimation })),
+  { ssr: false }
+)
+
+export const ButterflyEffectAnimation = dynamic(
+  () => import('@/components/animations/ButterflyEffectAnimation').then(m => ({ default: m.ButterflyEffectAnimation })),
+  { ssr: false }
+)

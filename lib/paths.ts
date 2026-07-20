@@ -34,7 +34,7 @@ export const learningPaths: LearningPath[] = [
     title: 'Signals, Cells & Randomness',
     description:
       'The electrical and statistical machinery of living systems — from a firing neuron to the heartbeat to molecular diffusion and the bell curve.',
-    articleSlugs: ['action-potential', 'cardiac-electrical-signal', 'brownian-motion', 'markov-chains', 'central-limit-theorem', 'bayes-theorem', 'immune-response', 'pharmacokinetics'],
+    articleSlugs: ['action-potential', 'cardiac-electrical-signal', 'brownian-motion', 'chaos-theory', 'markov-chains', 'central-limit-theorem', 'bayes-theorem', 'immune-response', 'pharmacokinetics'],
   },
 ]
 

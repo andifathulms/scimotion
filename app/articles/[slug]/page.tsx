@@ -71,6 +71,8 @@ import {
   RedshiftAnimation,
   DiffieHellmanAnimation,
   ModularExponentiationAnimation,
+  LogisticMapAnimation,
+  ButterflyEffectAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -128,6 +130,8 @@ const components = {
   RedshiftAnimation,
   DiffieHellmanAnimation,
   ModularExponentiationAnimation,
+  LogisticMapAnimation,
+  ButterflyEffectAnimation,
   KeyTakeaways,
 }
 
