@@ -589,6 +589,33 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'doppler-effect': c => {
+    // Source at x=200 moving right at 0.6x the wave speed. Crest k was emitted
+    // k periods ago: radius 13k, centre left-shifted 8k. Front edges land at
+    // 205/210/215/220 (gap 5), rear edges at 179/158/137/116 (gap 21) — the
+    // 0.4 : 1.6 bunching, drawn.
+    const crests: [number, number, number][] = [
+      [192, 13, 0.9], [184, 26, 0.7], [176, 39, 0.5], [168, 52, 0.35],
+    ]
+    return (
+      <g>
+        <line x1={0} y1={60} x2={300} y2={60} stroke={FAINT} strokeWidth={1} strokeDasharray="4 4" />
+        {crests.map(([cx, r, op], i) => (
+          <g key={i}>
+            <circle cx={cx} cy={60} r={r} fill="none" stroke={c} strokeWidth={1.5} opacity={op} />
+            <circle cx={cx} cy={60} r={1.5} fill={MUTE} opacity={op} />
+          </g>
+        ))}
+        <circle cx={200} cy={60} r={5} fill={GOLD} />
+        <line x1={222} y1={60} x2={234} y2={60} stroke={GOLD} strokeWidth={2} />
+        <polygon points="234,55 243,60 234,65" fill={GOLD} />
+        <circle cx={270} cy={60} r={4} fill={MUTE} />
+        <text x={270} y={48} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">obs</text>
+        <text x={6} y={115} fontSize={9} fill={MUTE} fontFamily="monospace">f′ &lt; f</text>
+        <text x={252} y={115} fontSize={9} fill={GOLD} fontFamily="monospace">f′ &gt; f</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

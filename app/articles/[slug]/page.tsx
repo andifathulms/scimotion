@@ -67,6 +67,8 @@ import {
   LoadFactorAnimation,
   MarkovChainAnimation,
   StationaryDistributionAnimation,
+  DopplerAnimation,
+  RedshiftAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -120,6 +122,8 @@ const components = {
   LoadFactorAnimation,
   MarkovChainAnimation,
   StationaryDistributionAnimation,
+  DopplerAnimation,
+  RedshiftAnimation,
   KeyTakeaways,
 }
 

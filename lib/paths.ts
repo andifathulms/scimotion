@@ -27,7 +27,7 @@ export const learningPaths: LearningPath[] = [
     title: 'Motion, Space & Quanta',
     description:
       'Start with a swinging weight, bend time with relativity, and end where classical physics breaks down entirely.',
-    articleSlugs: ['pendulum-motion', 'keplers-laws', 'entropy-and-the-second-law', 'time-dilation', 'wave-particle-duality'],
+    articleSlugs: ['pendulum-motion', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'wave-particle-duality'],
   },
   {
     slug: 'signals-cells-and-randomness',

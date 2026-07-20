@@ -1,0 +1,120 @@
+---
+title: "The Doppler Effect"
+subtitle: "Why a passing siren drops in pitch — and how the same trick weighs the universe."
+topic: "Physics"
+slug: "doppler-effect"
+date: "2026-07-19"
+readTime: 10
+featured: false
+description: "Motion crowds the waves in front of a source and stretches the ones behind. That single geometric fact explains sirens, sonic booms, weather radar, and the expanding universe."
+tags: ["waves", "relativity", "astronomy", "acoustics"]
+quiz:
+  - q: "A siren passes a stationary listener at constant speed. Why does the perceived pitch fall most steeply near the moment of closest approach rather than sliding down evenly across the whole pass?"
+    options:
+      - "The siren's emitted frequency genuinely drops as the vehicle's engine changes load"
+      - "The shift depends on the component of velocity along the line of sight, which swings from nearly +v to nearly −v over the short interval near closest approach"
+      - "Sound waves lose energy with distance, so the pitch decays in proportion to the inverse square of the range"
+      - "The listener's ears adapt to the sustained tone and perceive a gradual drop that is not physically present"
+    answer: 1
+    explanation: "Only the line-of-sight component of the velocity produces a shift, and that component reverses sign rapidly during the brief passage past closest approach."
+  - q: "The classical Doppler formula treats a moving source and a moving observer differently, yet both cases give nearly the same answer at everyday speeds. What breaks the symmetry?"
+    options:
+      - "A moving source changes the wavelength of the emitted waves, while a moving observer changes only the rate at which existing wavefronts are encountered"
+      - "The observer's motion is measured relative to the source, but the source's motion is measured relative to the observer"
+      - "Sound waves and light waves obey different versions of the formula, and the classical result applies only to sound"
+      - "A moving source loses energy to the medium, which lowers its emitted frequency independently of geometry"
+    answer: 0
+    explanation: "Source motion physically compresses the wave pattern in the medium, whereas observer motion leaves the pattern untouched and merely alters the crest-crossing rate."
+  - q: "Why does the relativistic Doppler formula for light differ from the classical one even when the source moves directly away from the observer?"
+    options:
+      - "Light waves travel through a medium whose density changes with the source's velocity"
+      - "The observed wavelength is stretched by the source's recession and additionally by the time dilation of the source's emission clock"
+      - "Photons redshift because they lose energy climbing out of the source's gravitational field"
+      - "The speed of light measured by the observer decreases when the source recedes"
+    answer: 1
+    explanation: "Relativistic Doppler is the classical stretching multiplied by the Lorentz factor, because the moving source's own emission clock runs slow in the observer's frame."
+---
+
+## The siren that does not slide
+
+Everyone knows the sound. An ambulance approaches, the siren sits high and bright, and then — as it passes — the pitch drops and the tone turns mournful behind you.
+
+Almost everyone remembers it wrong. Ask someone to imitate it and they will produce a long, even glide, a slow slump from high to low across the whole encounter. That is not what happens. Stand on a straight road and listen carefully: the pitch is high and *steady* while the ambulance is still a way off, high and steady as it gets closer, and then in the space of about a second — right as it goes past — it collapses through the whole interval and settles into a new low, steady tone that it holds as the vehicle recedes.
+
+The pitch does not slide. It sits, drops sharply, and sits again. Understanding why that is the shape of the curve is most of what there is to understand about the Doppler effect, and it turns out to be the same fact that lets astronomers measure the expansion of the universe from a spectrum taken on a Tuesday.
+
+## Wavefronts, and what motion does to them
+
+Forget frequencies for a moment and picture the geometry.
+
+A stationary source emits a crest, then waits one period $T$, then emits another. Each crest expands outward as a sphere at the wave speed $v$. Because the source never moves, all the spheres share a centre, and the gap between neighbouring crests is the same in every direction — that gap is the wavelength, $\lambda = vT$.
+
+Now let the source move. It emits a crest, and that crest immediately begins expanding from the point where it was born and stays centred there forever — the wave, once launched, knows nothing about what the source does next. But in the period $T$ before the next crest, the source has travelled a distance $v_s T$. The second crest is centred a little further along.
+
+So the crest centres march forward while the crests themselves expand about fixed points. Ahead of the source, each new crest starts closer to the previous one than it would have: the spacing shrinks to $\lambda' = (v - v_s)T$. Behind, each new crest starts further back: the spacing grows to $\lambda' = (v + v_s)T$.
+
+Nothing about the source has changed. It is emitting at exactly the frequency it always did. The *pattern in the medium* has been squeezed at the front and pulled apart at the back, and an observer standing in one place samples whichever part of that pattern happens to sweep over them.
+
+## Watch the crests bunch
+
+<DopplerAnimation />
+
+Start with the speed slider low, around 0.3. The circles are individual crests; the small dots are the points where each was emitted. Notice that the dots trail behind while the circles keep growing about them — that separation is the entire mechanism. The crowding on the right and the stretching on the left are visible even at a quarter of the wave speed.
+
+Now watch the readout as the source sweeps past the observer. This is the siren. While the source is far to the left, it is moving almost directly *at* the observer, so the full velocity counts and $f'/f$ sits at a high, nearly constant value. While it is far to the right, it moves almost directly away and the ratio sits low and constant. The transition between the two happens only in the short stretch where the source is nearly abreast of the observer — and at the exact moment of closest approach the velocity is entirely sideways, none of it is along the line of sight, and the observer hears the true, unshifted pitch. Only the line-of-sight component shifts anything, and that component flips sign fast.
+
+Then push the slider to 1.0 and past it. At exactly the wave speed the source keeps pace with its own front crest: every crest it has ever emitted piles up on a single plane at its nose, an infinite bunching that the formula reports as a division by zero. Beyond 1.0 the source outruns its own sound entirely, the crests it left behind nest into a cone, and the pink lines mark that cone's edge. The half-angle is $\mu = \arcsin(1/M)$ where $M = v_s/v$ is the Mach number — the faster the source, the thinner the cone. Note what happens to the observer: it goes silent. Ahead of the cone no wave has arrived yet, because the source beat all of them there. The observer hears nothing at all, then the accumulated pressure of every crest at once — the sonic boom — and only then the receding tone. A boom is not something that happens when a jet "breaks" the sound barrier; it is a cone dragged continuously behind the aircraft for as long as it stays supersonic, and you hear it when the cone sweeps over you.
+
+## The formula, and the asymmetry hiding in it
+
+Collecting the cases into the usual compact form, with $v$ the wave speed, $v_o$ the observer's speed and $v_s$ the source's speed, both measured along the line joining them:
+
+$$f' = f\,\frac{v \pm v_o}{v \mp v_s}$$
+
+The upper signs apply when the motion is toward the other party. It is a tidy expression, and it conceals something worth pulling out: **the numerator and the denominator are not doing the same kind of work.**
+
+A moving observer changes nothing about the waves. The pattern in the air is exactly what a stationary source made — crests evenly spaced by $\lambda = vT$ everywhere. The observer simply runs into them faster (or slower), meeting crests at the rate $(v + v_o)/\lambda$. It is a counting effect, linear in $v_o$, and it stays finite no matter how fast the observer moves.
+
+A moving source changes the waves themselves. The wavelength in the medium really is shorter ahead of it. The observer, standing still, is sampling genuinely compressed waves, at rate $v/\lambda' = v/((v - v_s)T)$. That $v_s$ in the *denominator* is what allows the whole thing to blow up when $v_s \to v$ — and blowing up is exactly what a shock wave is.
+
+So the two cases are physically distinct, and you could in principle tell them apart. If an observer approaches a source at $0.5v$, the frequency rises by a factor of $1.5$. If instead the source approaches the observer at $0.5v$, it rises by a factor of $2$. Same relative velocity, different answer — because sound has a medium, and the medium picks out who is really moving. At the speeds anyone encounters in daily life, $v_s/v$ is a percent or two and the two expressions agree to well within the precision of an ear; the asymmetry is real but invisible.
+
+## Light has no medium, so the asymmetry has to go
+
+For light, that whole argument collapses. There is no medium, no preferred frame, nothing that distinguishes "source moving" from "observer moving". Relativity insists the answer depends only on the relative velocity. So the formula must be rebuilt.
+
+Two things happen when a source recedes at speed $v = \beta c$. First, the classical stretching: successive crests are emitted from further away, adding light-travel time between arrivals. Second — and this is the piece with no classical analogue — the source's own clock is running slow in the observer's frame, by the [time dilation](/articles/time-dilation) factor $\gamma = 1/\sqrt{1 - \beta^2}$. The source is emitting crests less often than it thinks it is. Multiply the two effects and the classical factor $(1 + \beta)$ becomes:
+
+$$\frac{\lambda_\text{obs}}{\lambda_\text{rest}} = \gamma(1 + \beta) = \sqrt{\frac{1 + \beta}{1 - \beta}}$$
+
+or, in terms of frequency for a receding source,
+
+$$f' = f\sqrt{\frac{1 - \beta}{1 + \beta}}$$
+
+Astronomers package the result as the **redshift** $z$, defined by
+
+$$1 + z = \frac{\lambda_\text{obs}}{\lambda_\text{rest}} = \sqrt{\frac{1 + \beta}{1 - \beta}}$$
+
+which reduces to the classical $z \approx \beta$ for small velocities, as it must. It also does something the classical formula cannot: as $\beta \to 1$, $z$ diverges. There is no upper bound on redshift even though there is a hard upper bound on velocity. A galaxy at $z = 7$ is not moving at seven times light speed; the classical reading is simply the wrong formula.
+
+The observable that carries all of this is the spectrum. Stars and galaxies imprint sharp absorption lines at wavelengths fixed by atomic physics — hydrogen's H-alpha at 656.3 nm, the calcium K line at 393.4 nm — and those wavelengths are identical in every laboratory in the universe. Find the pattern, measure how far it has slid, and you have the velocity.
+
+<RedshiftAnimation />
+
+Drag $\beta$ negative first: the lines march toward the blue end and the whole barcode compresses. Now go positive and watch the pattern slide red, holding its *shape* — the entire set shifts by a common multiplicative factor, which is precisely how astronomers recognise a redshifted spectrum rather than an unfamiliar chemistry. Around $\beta = 0.1$ the dashed classical tick and the solid relativistic one are nearly on top of each other. By $\beta = 0.5$ they are visibly separated, and in the lower panel the straight violet line $z = \beta$ has fallen far below the green relativistic curve, which climbs toward infinity at the right edge while the classical one politely tops out at 1. The gap between those two curves is time dilation, drawn.
+
+## Where it shows up
+
+**The expanding universe.** In 1929 Edwin Hubble plotted the redshifts of galaxies against their estimated distances and found a straight line: the further away, the faster the recession. Nothing else in astronomy is measured so cheaply — a spectrum gives you a velocity directly, with no need to know how far away or how bright the object is. Cosmological redshift is not really the Doppler effect (the wavelength stretches with expanding space rather than from relative motion through it), but it is measured with the same lines and the same arithmetic, and for nearby galaxies the two descriptions coincide. The same technique, pushed to exquisite precision, finds exoplanets: a star with a planet wobbles about the shared centre of mass, and its spectral lines rock back and forth by parts in $10^8$ — metres per second, read off the sky. That wobble is [Kepler's laws](/articles/keplers-laws) seen edge-on and converted into a pitch.
+
+**Doppler radar.** Send a microwave pulse at a raindrop and listen for the echo. The drop is both a moving observer (receiving shifted radiation) and then a moving source (re-radiating it), so the shift applies twice: $\Delta f/f = 2v_r/c$. Weather radar maps the radial velocity of every volume of air it sees, which is how forecasters spot the rotating mesocyclone inside a storm hours before a tornado touches down. Police radar guns are the same instrument pointed at a bumper.
+
+**Medical ultrasound.** A transducer on the skin insonifies flowing blood; red cells scatter the beam back with a shift proportional to their velocity. Colour-flow imaging paints the result over the anatomy — conventionally red toward the probe, blue away — so a cardiologist can see a valve leaking backwards or a carotid artery narrowed to a jet. Because the measured shift scales with $\cos\theta$ between the beam and the flow, the sonographer must angle the probe deliberately; insonating a vessel at 90° yields the most beautiful anatomical picture and a velocity reading of exactly zero. The same geometry that silences the siren at closest approach hides the blood flow at a right angle.
+
+<KeyTakeaways>
+- A moving source does not change the waves it emits; it changes where each successive crest is *centred*, compressing the pattern ahead and stretching it behind. Everything else follows from that.
+- Only the line-of-sight component of velocity produces a shift, which is why a passing siren holds one pitch, drops sharply through the moment of closest approach, and holds another — it does not glide.
+- Classically, source motion and observer motion give different answers because sound has a medium: $f' = f\frac{v \pm v_o}{v \mp v_s}$, and only the source's speed sits in the denominator, where it can diverge into a shock cone at $v_s = v$.
+- A sonic boom is not a one-time event at "breaking" the sound barrier — it is a Mach cone of half-angle $\arcsin(1/M)$ dragged continuously behind the source, heard when it sweeps past you.
+- For light there is no medium, so the answer must depend only on relative velocity: $1 + z = \sqrt{(1+\beta)/(1-\beta)}$, the classical stretch multiplied by [time dilation](/articles/time-dilation). Redshift is unbounded even though speed is not.
+</KeyTakeaways>

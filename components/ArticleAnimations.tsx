@@ -250,3 +250,13 @@ export const StationaryDistributionAnimation = dynamic(
   () => import('@/components/animations/StationaryDistributionAnimation').then(m => ({ default: m.StationaryDistributionAnimation })),
   { ssr: false }
 )
+
+export const DopplerAnimation = dynamic(
+  () => import('@/components/animations/DopplerAnimation').then(m => ({ default: m.DopplerAnimation })),
+  { ssr: false }
+)
+
+export const RedshiftAnimation = dynamic(
+  () => import('@/components/animations/RedshiftAnimation').then(m => ({ default: m.RedshiftAnimation })),
+  { ssr: false }
+)
