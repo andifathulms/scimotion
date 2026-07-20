@@ -61,6 +61,8 @@ import {
   HarmonicLawAnimation,
   EigenvectorAnimation,
   PowerIterationAnimation,
+  PharmacokineticsAnimation,
+  HalfLifeAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -108,6 +110,8 @@ const components = {
   HarmonicLawAnimation,
   EigenvectorAnimation,
   PowerIterationAnimation,
+  PharmacokineticsAnimation,
+  HalfLifeAnimation,
   KeyTakeaways,
 }
 

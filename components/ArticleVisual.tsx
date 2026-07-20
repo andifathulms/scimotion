@@ -458,6 +458,30 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  pharmacokinetics: c => {
+    // Repeated dosing: a sawtooth accumulating into the therapeutic window.
+    // Coordinates are rounded to 1dp so float wobble can't desync hydration.
+    const doses = [10, 66, 122, 178, 234]
+    const conc = (x: number) => doses.reduce((s, d) => (x >= d ? s + Math.exp(-(x - d) / 60) : s), 0)
+    const yAt = (x: number) => (100 - conc(x) * 36).toFixed(1)
+    const pts = ['0,100', '10,100']
+    for (let x = 10; x <= 298; x += 3) pts.push(`${x},${yAt(x)}`)
+    return (
+      <g>
+        <rect x={0} y={8} width={300} height={32} fill={`${GOLD}14`} />
+        <rect x={0} y={40} width={300} height={30} fill={`${c}14`} />
+        <line x1={0} y1={40} x2={300} y2={40} stroke={GOLD} strokeWidth={1} strokeDasharray="4 4" />
+        <line x1={0} y1={70} x2={300} y2={70} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <text x={4} y={54} fontSize={7} fill={MUTE} fontFamily="monospace">window</text>
+        {doses.map(d => (
+          <line key={d} x1={d} y1={112} x2={d} y2={104} stroke={MUTE} strokeWidth={1.25} />
+        ))}
+        <line x1={0} y1={112} x2={300} y2={112} stroke={FAINT} strokeWidth={1} />
+        <polyline points={pts.join(' ')} fill="none" stroke={c} strokeWidth={2} strokeLinejoin="round" />
+        <circle cx={235} cy={42.1} r={3.5} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

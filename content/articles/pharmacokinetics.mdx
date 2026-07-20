@@ -1,0 +1,167 @@
+---
+title: "Pharmacokinetics: How Drugs Clear the Body"
+subtitle: "Why a label says every 8 hours, and what the exponential curve behind that number is really doing."
+topic: "Medicine"
+slug: "pharmacokinetics"
+date: "2026-07-16"
+readTime: 10
+featured: false
+description: "First-order elimination, half-life, and accumulation to steady state — the small pile of exponential arithmetic that decides how often a drug has to be taken and how wide its safety margin is."
+tags: ["pharmacology", "kinetics", "half-life", "exponential-decay"]
+quiz:
+  - q: "A drug is eliminated by first-order kinetics. Doubling the dose does what to the time required for the plasma concentration to fall back to a given fraction of its own starting value?"
+    options:
+      - "Doubles it, because twice as much drug must be removed"
+      - "Leaves it unchanged, because a constant fraction is removed per unit time regardless of how much is present"
+      - "Halves it, because the higher concentration saturates the eliminating enzymes"
+      - "Increases it by one half-life, independent of the drug"
+    answer: 1
+    explanation: "First-order elimination removes a constant proportion per unit time, so the half-life is a property of the drug and the body, not of the amount present."
+  - q: "Two drugs are given at intervals equal to their own half-lives, but drug A has a 2-hour half-life and drug B a 20-hour half-life. What differs about their approach to steady state?"
+    options:
+      - "Drug B reaches steady state after fewer doses because it is eliminated more slowly"
+      - "Both need roughly the same number of doses, but drug B takes about ten times as many hours to get there"
+      - "Drug A never reaches steady state because it is cleared between doses"
+      - "Drug B accumulates to a proportionally higher multiple of its single-dose peak"
+    answer: 1
+    explanation: "Time to steady state is about 4–5 half-lives, so dosing at one half-life gives both drugs a similar dose count but wall-clock times that scale with the half-life itself."
+  - q: "Ethanol is eliminated by near-saturated enzymes, giving approximately zero-order kinetics. What observable consequence does this have that first-order drugs do not share?"
+    options:
+      - "Blood concentration falls as a straight line, so clearing twice the amount takes twice the time"
+      - "Blood concentration halves at a fixed interval regardless of how much was consumed"
+      - "Elimination stops entirely once concentration drops below a threshold"
+      - "The volume of distribution changes as concentration falls"
+    answer: 0
+    explanation: "With the eliminating enzymes already working flat out, a fixed amount rather than a fixed fraction is removed per hour, so the decline is linear and clearance time scales directly with the amount present."
+---
+
+## The number on the box
+
+A medicine label carries an instruction that looks arbitrary: *every 8 hours*. Not every 6, not every 12. Somewhere there is a curve that made 8 the right answer, and that curve is the subject of this article.
+
+Two failure modes sit on either side of it. Stretch the interval too far and the drug concentration in your blood spends part of each cycle below the level where it does anything — you are taking a drug and getting no effect from it. Compress the interval, or double up because you forgot whether you took the last one, and the concentration climbs past the level where the drug's side effects start to dominate. In between is a band, and the whole design problem is keeping a wobbling exponential curve inside that band for days at a time.
+
+The strange part is that the drug never sits still. Even at a perfectly maintained dose, your blood concentration is rising and falling continuously. What steadies out is not the concentration but the *envelope* it oscillates in — and how long that takes to settle turns out to depend on exactly one number.
+
+## ADME: four processes, one curve
+
+Pharmacokinetics is what the body does to the drug (as opposed to pharmacodynamics, what the drug does to the body). It is conventionally split into four processes, abbreviated **ADME**:
+
+- **Absorption** — getting from the site of administration into the bloodstream. A swallowed tablet must dissolve, cross the gut wall, and survive first pass through the liver. An intravenous dose skips this entirely, which is why IV curves start at their peak and oral curves have a rising limb.
+- **Distribution** — leaving the blood for the tissues. Fat-soluble drugs disappear into adipose tissue; others stay largely in plasma bound to albumin. Only the free, unbound fraction is available to act.
+- **Metabolism** — chemical modification, mostly hepatic, mostly by the cytochrome P450 enzyme family, generally converting a lipophilic molecule into something more water-soluble.
+- **Excretion** — physical removal, mostly renal, some biliary.
+
+Metabolism and excretion together are **elimination**, and for the purposes of the curve they can be treated as one process. Everything in this article is about a simplification called the **one-compartment model**: pretend the body is a single well-stirred tank of fluid that the drug enters and leaves. It is a crude picture and it works remarkably well.
+
+Two parameters describe that tank. The **volume of distribution** $V_d$ is the apparent volume the drug seems to occupy:
+
+$$V_d = \frac{\text{amount of drug in body}}{\text{plasma concentration}}$$
+
+It is *apparent* because it need not correspond to any real anatomical volume. A drug that hides in fat can produce a $V_d$ of several hundred litres in a 70 kg person — the concentration in plasma is low not because there is little drug but because most of it is somewhere else. The second parameter is **clearance** $CL$, the volume of plasma completely stripped of drug per unit time, in litres per hour. Clearance is the true measure of eliminating capacity, and it is what kidney or liver impairment reduces.
+
+## Watching a course of treatment
+
+The widget below runs a repeated-dosing schedule against a shaded therapeutic window. The green band is where the drug works; below it is sub-therapeutic, above it is where toxicity dominates.
+
+<PharmacokineticsAnimation />
+
+Press play with the defaults first. Each violet tick at the bottom is a dose. Watch the sawtooth: every dose spikes the concentration, then elimination pulls it down, and because the next dose lands before the previous one is fully gone, each peak starts from a slightly higher floor than the last. The peaks climb, then stop climbing — that plateau is **steady state**, and the dashed violet line is where the theory says it should land.
+
+Now push the **interval** slider down to 3 or 4 hours without changing anything else. The curve does not merely oscillate faster; it walks straight up through the green band and into the toxic zone, and it does so *gradually* — the first few doses look perfectly fine. This is the specific danger of an over-frequent schedule: nothing goes wrong immediately, and then on day two everything does.
+
+Drag the **half-life** slider instead. A longer half-life flattens the sawtooth (less is lost between doses, so the peaks and troughs converge) but also stretches the climb — with a 24-hour half-life the curve is still visibly rising at the right edge of the plot. Finally, try **Double first dose**. Notice what it buys: the curve arrives in the window on the very first dose instead of crawling there. That is a loading dose, and the section after next explains why it works.
+
+## The exponential, and everything that follows from it
+
+For most drugs at ordinary concentrations, the eliminating machinery is nowhere near saturated. Doubling the amount present doubles the amount removed per hour. That is a first-order process:
+
+$$\frac{dC}{dt} = -kC$$
+
+whose solution is the exponential decay that underlies all of pharmacokinetics:
+
+$$C(t) = C_0 e^{-kt}$$
+
+Here $k$ is the elimination rate constant, related to the two physical parameters by $k = CL / V_d$. Setting $C(t) = C_0/2$ and solving gives the number that appears on every drug monograph:
+
+$$t_{1/2} = \frac{\ln 2}{k} = \frac{0.693\,V_d}{CL}$$
+
+Read that expression carefully, because it settles a common confusion. Half-life is not a fundamental property — it is a *ratio* of two properties. A drug can have a long half-life because it is cleared slowly, or because it is distributed widely, and those are different situations with different consequences.
+
+The defining feature of first-order kinetics is that $t_{1/2}$ contains no $C_0$. Take ten times the amount and it still halves in the same interval; you simply start higher and need proportionally longer to get *down to any fixed absolute level*, while the time to fall to any fixed *fraction of your own start* is unchanged.
+
+### Accumulation and the 4–5 half-life rule
+
+Give a dose that raises concentration by $C_{\text{dose}}$ every $\tau$ hours. Just before dose $n+1$, the leftovers form a geometric series: the fraction of each dose surviving one interval is $f = e^{-k\tau}$, so the trough after many doses tends to
+
+$$C_{\min} = C_{\text{dose}}\left(f + f^2 + f^3 + \cdots\right) = C_{\text{dose}}\,\frac{f}{1 - f}$$
+
+and the peaks converge to the single-dose peak multiplied by the **accumulation factor**
+
+$$R = \frac{1}{1 - e^{-k\tau}}$$
+
+This one expression explains the interval slider. Dose at exactly one half-life ($\tau = t_{1/2}$, so $f = 1/2$) and $R = 2$: steady-state peaks are twice a single dose. Halve the interval to $\tau = t_{1/2}/2$ and $R = 1/(1 - 2^{-1/2}) \approx 3.41$. Halve it again and $R \approx 6.3$. The accumulation factor blows up hyperbolically as $\tau \to 0$, which is the arithmetic behind the curve marching into the toxic band.
+
+How long does the climb take? The approach to the plateau is itself exponential with the same rate constant $k$, so the fraction of steady state reached after time $t$ is $1 - e^{-kt}$. After $n$ half-lives that is $1 - 2^{-n}$:
+
+$$\begin{aligned}
+n = 1 &: 50\% \qquad n = 2 : 75\% \\
+n = 3 &: 87.5\% \qquad n = 4 : 93.8\% \\
+n = 5 &: 96.9\%
+\end{aligned}$$
+
+Hence the rule of thumb that steady state is effectively reached after **4–5 half-lives**, regardless of dose and regardless of interval. It is worth dwelling on how counter-intuitive that independence is: giving a bigger dose does not get you to steady state sooner. It raises the plateau, and the climb to the new plateau takes exactly as long as before.
+
+The same constant runs the process in reverse. Stop the drug and it takes 4–5 half-lives to wash out — which is why a drug with a two-day half-life is still meaningfully present a week after the last dose.
+
+### The loading dose
+
+If you want the plateau but cannot wait four half-lives, do not wait — arrive there directly. The amount of drug the body holds at steady state is $V_d \times C_{\text{target}}$, so a single larger first dose
+
+$$D_{\text{load}} = \frac{V_d \, C_{\text{target}}}{F}$$
+
+(where $F$ is bioavailability, the fraction of an administered dose that reaches circulation) puts you at target immediately, after which ordinary maintenance doses replace what clearance removes:
+
+$$D_{\text{maint}} = \frac{CL \cdot C_{\text{target}} \cdot \tau}{F}$$
+
+Note which parameter drives which. The **loading** dose depends on volume of distribution, because it is filling a space. The **maintenance** dose depends on clearance, because it is matching a leak rate. A patient with impaired kidneys needs the same loading dose and a smaller maintenance dose — a distinction that falls straight out of the algebra.
+
+## When the exponential breaks
+
+First-order kinetics assumes the eliminating enzymes have spare capacity. They do not always.
+
+<HalfLifeAnimation />
+
+The pink curve is first-order decay of a single dose. Let it run and read the markers: 50%, 25%, 12.5%, 6.25% — each half-life removes half of what is left, so the curve approaches zero without ever arriving. Slide the half-life control to see what changes and what does not: the axis labels change, the shape does not. That invariance *is* first-order kinetics.
+
+The dashed blue line is the same drug eliminated at a constant *amount* per hour instead of a constant fraction, drawn leaving at the same initial rate. It is a straight line, and it hits zero and stops.
+
+The difference matters because ethanol behaves like the blue line. Alcohol dehydrogenase is essentially saturated at any concentration that would make you drunk, so the enzyme works flat out at a fixed throughput — for a typical adult, roughly one standard drink's worth per hour. The consequence is that alcohol has no meaningful half-life. Doubling the amount consumed doubles the time to clear it, rather than adding one fixed interval, which is why the second half of a heavy evening costs so much more sobering-up time than the first.
+
+Formally both regimes are limits of Michaelis–Menten elimination:
+
+$$\frac{dC}{dt} = -\frac{V_{\max}\,C}{K_m + C}$$
+
+When $C \ll K_m$ the denominator is roughly $K_m$ and the rate is proportional to $C$ — first order, the pink curve. When $C \gg K_m$ the $C$ terms cancel and the rate is a constant $V_{\max}$ — zero order, the blue line. Phenytoin is the classic clinical example of a drug that crosses this transition within its useful range: below the knee it behaves exponentially, above it small increases in dose produce disproportionately large increases in concentration, because the exponential safety valve has stopped working.
+
+## Why the window is the whole game
+
+Everything so far assumes there is a target concentration worth aiming for. There is, and its width varies enormously between drugs.
+
+The **therapeutic index** compares the concentration that causes toxicity to the concentration that produces the intended effect. A drug with a wide index tolerates sloppy timing: the peaks can overshoot substantially and nothing happens. A drug with a narrow index — the classic examples include digoxin, lithium, warfarin, and aminoglycoside antibiotics — has a window so tight that the peaks and troughs of ordinary dosing come close to both edges. Those are the drugs whose blood levels get measured directly rather than inferred, precisely because the arithmetic above has too much patient-to-patient scatter to be trusted blind.
+
+The scatter is the real difficulty. $CL$ and $V_d$ are population averages, and individuals depart from them for reasons that compound: renal function declines with age; hepatic enzyme activity varies genetically by an order of magnitude across the population for some CYP isoforms; body composition shifts $V_d$ for lipophilic drugs; and other drugs induce or inhibit the very enzymes doing the metabolism, which is what a drug–drug interaction usually *is* — one molecule changing another's $k$.
+
+This is also why the interval on the label is not merely cosmetic. Two schedules delivering identical total daily amounts produce different curves: frequent small doses give a flat trace hugging the middle of the window, while infrequent large doses give tall peaks and deep troughs around the same average. For a drug whose toxicity tracks peak concentration, the flat schedule is safer. For one whose effect requires exceeding a threshold, the peaky schedule may be the effective one. The average tells you almost nothing on its own — the shape is the point.
+
+And it explains what actually goes wrong with the two everyday mistakes. Skipping a dose does not just remove one dose's worth of effect; it lets the concentration fall through the bottom of the window and then requires several intervals of accumulation to climb back. Doubling up does not deliver a double effect at one instant; it raises the whole subsequent curve, because you have added to a reservoir that was not empty. Both errors are visible on the first widget, and both are consequences of the same fact: at steady state, most of the drug in you was not given today.
+
+*This article describes the pharmacology. It is not medical guidance, and nothing here should be used to decide how to take any actual medication.*
+
+<KeyTakeaways>
+- Most drugs are eliminated by **first-order** kinetics — a constant *fraction* removed per unit time, $C(t) = C_0 e^{-kt}$ — which makes $t_{1/2} = \ln 2 / k$ independent of dose.
+- Half-life is a ratio, not a primitive: $t_{1/2} = 0.693\,V_d / CL$. A long half-life can mean slow clearance or wide distribution, and those behave differently.
+- Repeated dosing accumulates by a factor $R = 1/(1 - e^{-k\tau})$ and reaches steady state after **4–5 half-lives** — a time set by $k$ alone, so a bigger dose raises the plateau without arriving sooner. A loading dose (sized by $V_d$) skips the wait; the maintenance dose (sized by $CL$) holds the level.
+- When the eliminating enzymes saturate, kinetics turn **zero-order**: a constant *amount* per hour, a straight-line fall, and no half-life at all. Alcohol is the everyday case; phenytoin crosses the transition within its clinical range.
+- The dosing interval exists to keep an oscillating curve inside the **therapeutic window**. Total daily amount does not determine the curve's shape, and for narrow-index drugs the shape is what matters.
+</KeyTakeaways>

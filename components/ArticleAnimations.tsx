@@ -220,3 +220,13 @@ export const PowerIterationAnimation = dynamic(
   () => import('@/components/animations/PowerIterationAnimation').then(m => ({ default: m.PowerIterationAnimation })),
   { ssr: false }
 )
+
+export const PharmacokineticsAnimation = dynamic(
+  () => import('@/components/animations/PharmacokineticsAnimation').then(m => ({ default: m.PharmacokineticsAnimation })),
+  { ssr: false }
+)
+
+export const HalfLifeAnimation = dynamic(
+  () => import('@/components/animations/HalfLifeAnimation').then(m => ({ default: m.HalfLifeAnimation })),
+  { ssr: false }
+)
