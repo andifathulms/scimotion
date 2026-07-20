@@ -515,6 +515,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'markov-chains': c => {
+    // A 3-state chain with a hopping token, beside the stationary distribution.
+    const A = { x: 48, y: 32 }, B = { x: 48, y: 88 }, C = { x: 132, y: 60 }
+    const nodes = [{ ...A, l: 'S' }, { ...B, l: 'C' }, { ...C, l: 'R' }]
+    const bars = [{ x: 196, h: 46 }, { x: 228, h: 30 }, { x: 260, h: 22 }]
+    return (
+      <g>
+        <path d="M 48 32 Q 26 60 48 88" fill="none" stroke={`${c}88`} strokeWidth={1.5} />
+        <path d="M 48 88 Q 92 96 132 60" fill="none" stroke={`${c}88`} strokeWidth={1.5} />
+        <path d="M 132 60 Q 92 20 48 32" fill="none" stroke={`${c}88`} strokeWidth={1.5} />
+        <circle cx={152} cy={60} r={9} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        <polygon points="37,66 33.5,58.5 40.5,58.5" fill={c} />
+        <polygon points="95.7,83.4 87.4,89.9 85.2,83.3" fill={c} />
+        <polygon points="86.3,31.4 96.8,37.9 94.6,31.3" fill={c} />
+        {nodes.map(n => (
+          <g key={n.l}>
+            <circle cx={n.x} cy={n.y} r={12} fill="rgba(26,23,18,0.92)" stroke={c} strokeWidth={1.5} />
+            <text x={n.x} y={n.y + 3.5} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">{n.l}</text>
+          </g>
+        ))}
+        <circle cx={111.75} cy={75.25} r={4} fill={GOLD} />
+        <line x1={176} y1={16} x2={176} y2={104} stroke={FAINT} strokeWidth={1} />
+        <text x={196} y={30} fontSize={9} fill={MUTE} fontFamily="monospace">π</text>
+        <line x1={190} y1={100} x2={288} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        {bars.map(b => (
+          <g key={b.x}>
+            <rect x={b.x} y={100 - b.h} width={20} height={b.h} rx={2} fill={c} opacity={0.45} />
+            <line x1={b.x} y1={100 - b.h} x2={b.x + 20} y2={100 - b.h} stroke={GOLD} strokeWidth={1.5} />
+          </g>
+        ))}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

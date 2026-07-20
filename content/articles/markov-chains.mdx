@@ -1,0 +1,158 @@
+---
+title: "Markov Chains"
+subtitle: "Forget everything but the present — and predict the future anyway."
+topic: "Mathematics"
+slug: "markov-chains"
+date: "2026-07-17"
+readTime: 10
+featured: false
+description: "How a process that remembers only where it is right now can settle into a stable long-run distribution — the idea behind PageRank, MCMC, and text generation."
+tags: ["probability", "stochastic-processes", "linear-algebra", "randomness"]
+quiz:
+  - q: "A weather model that predicts tomorrow using both today and yesterday appears to violate the Markov property. Why is it still a Markov chain?"
+    options:
+      - "Because two days of history is short enough that the dependence is negligible"
+      - "Because redefining each state as the ordered pair (yesterday, today) makes the next state depend only on the current state"
+      - "Because the Markov property only constrains continuous-time processes, not discrete ones"
+      - "Because averaging yesterday and today produces a single value that acts as one state"
+    answer: 1
+    explanation: "Any finite-memory process becomes Markov on an enlarged state space whose states encode the required history."
+  - q: "Why is the stationary distribution of a transition matrix P described as a left eigenvector rather than an ordinary (right) eigenvector?"
+    options:
+      - "Because probability row vectors multiply P from the left, so stationarity is the equation pi P = pi"
+      - "Because left eigenvectors are guaranteed to be non-negative while right eigenvectors are not"
+      - "Because P is symmetric, making left and right eigenvectors identical anyway"
+      - "Because the eigenvalue 1 only exists for the transpose of a stochastic matrix"
+    answer: 0
+    explanation: "Distributions are row vectors that evolve by right-multiplication, so the fixed point pi P = pi is a left eigenvector with eigenvalue 1."
+  - q: "A chain alternates deterministically between two states, A to B to A to B. It has a unique stationary distribution (0.5, 0.5), yet a walker's distribution never converges to it. What condition fails?"
+    options:
+      - "Irreducibility, because the two states cannot reach each other"
+      - "Finiteness, because the chain has too few states to average out"
+      - "Aperiodicity, because all returns to a state happen at multiples of 2 steps"
+      - "Positivity, because some transition probabilities are exactly zero"
+    answer: 2
+    explanation: "The chain is periodic with period 2, so the distribution oscillates forever instead of converging, even though the long-run time average is still (0.5, 0.5)."
+---
+
+## Tomorrow's weather, from today alone
+
+Suppose you want to forecast tomorrow's weather and you are allowed to look at exactly one thing: whether today is sunny, cloudy, or rainy. Not last week. Not the season. Not the pressure map. Just today.
+
+This should be hopeless. Weather is driven by continent-sized systems with days of momentum; throwing away all history to keep one symbol looks like the crudest possible model.
+
+And yet it works startlingly well. A three-state model fitted to a year of local observations will beat a coin flip by a wide margin, reproduce realistic streaks of rain, and settle onto the correct long-run fraction of rainy days — all from a table with nine numbers in it.
+
+That is the bargain a **Markov chain** offers: give up memory, and in exchange the mathematics becomes linear algebra. The forgetting is not a regrettable approximation you tolerate. It is the assumption that makes everything computable.
+
+## States, transitions, and the Markov property
+
+A Markov chain has two ingredients.
+
+First, a set of **states** — the complete list of situations the system can be in. For the weather: $\{\text{Sunny}, \text{Cloudy}, \text{Rainy}\}$. For a board game: the square you occupy. For a shuffled deck: the current ordering.
+
+Second, a rule for randomly hopping between them. From each state, the probabilities of moving to each other state are fixed once and for all. Collect them into a square **transition matrix** $P$, where
+
+$$P_{ij} = \Pr(X_{t+1} = j \mid X_t = i)$$
+
+is the probability of moving to state $j$ given that you are currently in state $i$. Every row is a probability distribution, so every row sums to 1:
+
+$$\sum_j P_{ij} = 1, \qquad P_{ij} \geq 0$$
+
+A matrix with these two properties is called **row-stochastic**. Nothing else is required — the whole model is that table.
+
+The defining assumption is the **Markov property**, sometimes called memorylessness:
+
+$$\Pr(X_{t+1} = j \mid X_t = i,\, X_{t-1},\, \ldots,\, X_0) = \Pr(X_{t+1} = j \mid X_t = i)$$
+
+In words: *given the present, the future is independent of the past*. The current state is a sufficient summary of everything that has happened. If you know today is rainy, learning that the previous week was also rainy tells you nothing new about tomorrow.
+
+This is far less restrictive than it sounds, because you get to choose what counts as a state. If tomorrow genuinely depends on the last two days, define the state to be the *pair* (yesterday, today). You now have nine states instead of three, and the process is Markov again. Any process with finite memory is a Markov chain on a large enough state space — the property constrains your bookkeeping, not the physics.
+
+## Watching a chain run
+
+<MarkovChainAnimation />
+
+The token performs a random walk on the graph, choosing its next hop by rolling against the outgoing probabilities of whichever node it currently occupies. It never consults where it has been.
+
+Things to try. Watch the histogram on the right: it tracks the fraction of time spent in each state so far. It jitters wildly for the first dozen hops, then tightens around the gold markers — the **stationary distribution** predicted by the matrix. Drag *P(Sunny → Sunny)* up toward 0.9 and you get long sunny spells and a taller sunny bar; the chain still forgets its history, but a high self-loop probability makes streaks emerge anyway. That is worth pausing on: persistence and memory are not the same thing. A memoryless chain produces runs of rainy days because rain makes rain *likely next step*, not because it is keeping a tally.
+
+Now push *P(Rainy → Rainy)* up as well. Both self-loops high means the chain gets sticky — it takes far longer for the histogram to settle, because the walker spends long stretches trapped in one region before sampling the others. The chain still converges to the same answer; it just takes more steps to get there.
+
+## Multi-step transitions are matrix powers
+
+Where will the chain be two steps from now? To go from $i$ to $j$ in two steps you must pass through some intermediate state $k$, so you sum over every route:
+
+$$\Pr(X_{t+2} = j \mid X_t = i) = \sum_k P_{ik} P_{kj} = (P^2)_{ij}$$
+
+That sum-over-intermediate-states is precisely the definition of matrix multiplication. So the two-step transition matrix is $P^2$, and by induction the $n$-step matrix is simply
+
+$$P^{(n)} = P^n$$
+
+This is the Chapman–Kolmogorov relation, and it is the payoff for assuming memorylessness. A question about long-horizon behaviour — "what is the chance of rain three weeks from Tuesday?" — becomes an exponentiation, computable in $O(\log n)$ matrix multiplications by repeated squaring.
+
+Distributions evolve the same way. Write your current belief as a **row** vector $\mu_t$, with $\mu_t(i)$ the probability of being in state $i$. Then
+
+$$\mu_{t+1} = \mu_t P, \qquad \mu_n = \mu_0 P^n$$
+
+Note that distributions multiply $P$ from the *left*. This is a convention worth internalising, because it determines what kind of eigenvector we are about to go looking for.
+
+## The stationary distribution
+
+A distribution $\pi$ is **stationary** if running one more step of the chain leaves it unchanged:
+
+$$\pi P = \pi, \qquad \sum_i \pi_i = 1, \qquad \pi_i \geq 0$$
+
+Read that equation as an eigenvalue problem and the structure jumps out: $\pi$ is a **left eigenvector of $P$ with eigenvalue 1**. Every row-stochastic matrix has such an eigenvector, and the reason is almost embarrassingly simple. Because every row of $P$ sums to 1, the all-ones *column* vector satisfies $P\mathbf{1} = \mathbf{1}$ — so 1 is an eigenvalue of $P$. A matrix and its transpose share eigenvalues, so 1 is a left eigenvalue too, and the Perron–Frobenius theorem guarantees the corresponding left eigenvector can be chosen non-negative. Normalise it to sum to 1 and you have $\pi$.
+
+There is a second, more physical reading. Written out componentwise, $\pi P = \pi$ says
+
+$$\sum_i \pi_i P_{ij} = \pi_j$$
+
+for every $j$: the total probability flowing *into* state $j$ each step exactly equals the probability sitting there. Stationarity is a balance of flows, an equilibrium — nothing is frozen, but the bookkeeping no longer changes.
+
+Every eigenvalue of a stochastic matrix satisfies $|\lambda| \leq 1$, and the *second* largest modulus $|\lambda_2|$ controls everything about the approach to equilibrium. The distance to $\pi$ shrinks like
+
+$$\|\mu_n - \pi\| \sim C\,|\lambda_2|^n$$
+
+so convergence is geometric, and $1/(1 - |\lambda_2|)$ — the **relaxation time** — is roughly how many steps you must wait before the chain has forgotten where it started. The quantity $1 - |\lambda_2|$ is called the spectral gap. A big gap means fast mixing; a gap near zero means a chain that crawls.
+
+<StationaryDistributionAnimation />
+
+This widget drops down a level of abstraction: instead of one token wandering, it tracks the entire probability distribution as a bar chart, repeatedly multiplying by $P$.
+
+Start from *All Sunny* — a spike with all mass on one state — and step forward. The mass sloshes across the states, overshoots, and settles onto the gold outline. Now reset and choose *All Rainy*, or *Uniform*, or the lopsided preset. Every starting point lands on the identical final distribution. The initial condition does not merely become less important; it is erased. That is what it means for a chain to have a unique stationary distribution.
+
+Watch the convergence trace on the right, plotted on a log scale. The total-variation distance falls along a straight line — a straight line on a log axis *is* geometric decay, and its slope is $\log|\lambda_2|$. Every starting distribution eventually falls onto a line of the same slope, because the slope is a property of the matrix, not of where you began.
+
+## When convergence fails: ergodicity
+
+The convergence you just watched is not automatic. The **fundamental theorem of Markov chains** says a finite chain has a unique stationary distribution that it converges to from *any* start, provided two conditions hold.
+
+**Irreducible.** Every state can reach every other state in some number of steps. If the graph splits into pieces that cannot reach one another, the chain never leaves the piece it started in, and the long-run answer depends on the initial condition. There is no single $\pi$ — there is one per component.
+
+**Aperiodic.** The chain is not locked into a rigid cycle. Formally, the greatest common divisor of the possible return times to a state must be 1. Consider a chain that flips deterministically between A and B: it has a perfectly good unique stationary distribution $\pi = (0.5, 0.5)$, but a walker starting at A is at A on every even step and B on every odd step, forever. The distribution oscillates and never converges, even though the *time average* is still $(0.5, 0.5)$. Here $\lambda_2 = -1$: the spectral gap is zero. A single self-loop anywhere in the chain — any state with $P_{ii} > 0$ — is enough to destroy periodicity.
+
+A chain that is both irreducible and aperiodic is called **ergodic**, and for an ergodic chain the two things the widgets show you coincide: the long-run *fraction of time* one wandering token spends in state $i$ (the ergodic theorem) equals the *probability* the distribution assigns to state $i$ (the convergence theorem). Time averages equal space averages. That equality is what licenses the entire practice of estimating a distribution by simulating a single long trajectory.
+
+## Where this pays off
+
+**PageRank.** Google's original ranking algorithm models a random web surfer: at each step, follow a uniformly random outgoing link from the current page. That is a Markov chain on the graph of the web, and a page's rank is its stationary probability — the fraction of eternity the surfer spends there. The real web is neither irreducible (dangling pages with no outgoing links) nor reliably aperiodic, so PageRank adds a damping factor: with probability $0.15$, teleport to a uniformly random page. That single patch makes every entry of $P$ strictly positive, which forces irreducibility and aperiodicity at once, guaranteeing a unique $\pi$ and a healthy spectral gap. Ergodicity was not a footnote in PageRank; it was an engineering requirement.
+
+**Markov chain Monte Carlo.** Often you know a distribution only up to an unknown normalising constant — Bayesian posteriors and statistical-physics ensembles are the standard examples — and you cannot sample from it directly. MCMC inverts the logic of this article. Instead of being handed $P$ and solving for $\pi$, you are handed the target $\pi$ and you *design* a $P$ whose stationary distribution is exactly that. The Metropolis–Hastings recipe does this by enforcing detailed balance, $\pi_i P_{ij} = \pi_j P_{ji}$, which is a sufficient (though not necessary) condition for stationarity. Then you run the chain and treat its later states as samples. The whole method rests on ergodicity, and its practical cost is the relaxation time $1/(1-|\lambda_2|)$ — which is why "has it mixed yet?" is the perennial anxiety of applied Bayesian statistics.
+
+**Text generation.** Claude Shannon, in the 1948 paper that founded information theory, built Markov chains over letters and then words of English and printed the output. His word-level samples are locally fluent and globally meaningless, which is exactly what a memoryless model should produce. That lineage runs straight to today's language models — with the crucial difference that a transformer conditions on thousands of previous tokens rather than one. In the framing above, it is a Markov chain on an astronomically enlarged state space, where the "state" is the entire context window.
+
+**And a bridge to continuous randomness.** Take a random walk on a line, shrink the step size, and speed up the clock in the right proportion, and the chain converges to [Brownian motion](/articles/brownian-motion) — a Markov process in continuous time and continuous space. The Markov property survives the limit intact: the Wiener process's increments are independent of its past, which is the same memorylessness, and it is precisely what makes stochastic calculus and the Black–Scholes equation tractable. Discrete chains and diffusion are two views of one idea.
+
+The recurring lesson is that the crude assumption is the useful one. Insisting that the present is a sufficient summary of the past is what turns a question about the far future into a matrix power, and a question about the infinite future into an eigenvector.
+
+<KeyTakeaways>
+- A Markov chain is a set of states plus a row-stochastic transition matrix $P$; the Markov property says the next state depends only on the current one, never on the path taken to reach it.
+- Memorylessness is a modelling choice, not a limitation — any finite-memory process becomes Markov once you enlarge the state to encode the history you need.
+- Multi-step behaviour is matrix powers ($P^n$) and distributions evolve as row vectors ($\mu_n = \mu_0 P^n$), which is the entire computational payoff of the assumption.
+- The stationary distribution solves $\pi P = \pi$ — a **left eigenvector with eigenvalue 1** — and the second eigenvalue $|\lambda_2|$ sets the geometric rate at which any starting distribution forgets itself.
+- Convergence needs **ergodicity**: irreducible plus aperiodic. Periodic chains have a stationary distribution they never converge to, which is exactly why PageRank bolts on a teleport probability.
+- Take the continuous limit of a random walk and you get [Brownian motion](/articles/brownian-motion) — the same memorylessness, in continuous time.
+</KeyTakeaways>
+

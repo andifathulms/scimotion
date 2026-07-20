@@ -240,3 +240,13 @@ export const LoadFactorAnimation = dynamic(
   () => import('@/components/animations/LoadFactorAnimation').then(m => ({ default: m.LoadFactorAnimation })),
   { ssr: false }
 )
+
+export const MarkovChainAnimation = dynamic(
+  () => import('@/components/animations/MarkovChainAnimation').then(m => ({ default: m.MarkovChainAnimation })),
+  { ssr: false }
+)
+
+export const StationaryDistributionAnimation = dynamic(
+  () => import('@/components/animations/StationaryDistributionAnimation').then(m => ({ default: m.StationaryDistributionAnimation })),
+  { ssr: false }
+)

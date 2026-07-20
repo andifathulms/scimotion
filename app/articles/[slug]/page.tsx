@@ -65,6 +65,8 @@ import {
   HalfLifeAnimation,
   HashTableAnimation,
   LoadFactorAnimation,
+  MarkovChainAnimation,
+  StationaryDistributionAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -116,6 +118,8 @@ const components = {
   HalfLifeAnimation,
   HashTableAnimation,
   LoadFactorAnimation,
+  MarkovChainAnimation,
+  StationaryDistributionAnimation,
   KeyTakeaways,
 }
 
