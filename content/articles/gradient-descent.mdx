@@ -1,0 +1,143 @@
+---
+title: "Gradient Descent"
+subtitle: "The one-line rule that walks downhill through a landscape it cannot see."
+topic: "Mathematics"
+slug: "gradient-descent"
+date: "2026-06-29"
+readTime: 10
+featured: false
+description: "How repeatedly stepping in the direction of steepest descent minimizes functions in millions of dimensions — and trains essentially every modern neural network."
+tags: ["optimization", "calculus", "machine-learning", "iteration"]
+quiz:
+  - q: "The gradient of a function points in the direction of steepest ascent. Why does gradient descent subtract the gradient rather than add it?"
+    options:
+      - "Subtraction guarantees the step never leaves the domain of the function"
+      - "The negative gradient is the direction in which the function decreases fastest, so subtracting moves toward lower values"
+      - "Adding the gradient would violate the chain rule used to compute it"
+      - "The sign is arbitrary; both conventions converge to the same point at the same rate"
+    answer: 1
+    explanation: "Since the gradient points uphill, its negation points in the direction of fastest decrease, which is exactly where a minimizer wants to go."
+  - q: "For a quadratic bowl whose curvature at the minimum is L, gradient descent is stable only when the learning rate satisfies eta < 2/L. What happens as eta crosses that threshold?"
+    options:
+      - "The iterates converge but to a different minimum than before"
+      - "Each step overshoots by more than it corrected, so the error alternates in sign and grows without bound"
+      - "The gradient becomes undefined and the algorithm halts"
+      - "Convergence slows to a linear rate instead of a quadratic one"
+    answer: 1
+    explanation: "Beyond eta = 2/L the multiplier |1 - eta*L| exceeds one, so the error flips sign and grows geometrically instead of shrinking."
+  - q: "Newton's method converges quadratically while gradient descent typically converges linearly, yet gradient descent is what actually trains large neural networks. What is the main reason?"
+    options:
+      - "Newton's method cannot be applied to functions of more than one variable"
+      - "Gradient descent finds the global minimum while Newton's method only finds local ones"
+      - "Newton's method needs the Hessian, which for a model with n parameters has n^2 entries — impossible to form or invert when n is in the billions"
+      - "Neural network loss functions are not differentiable, so only gradient descent applies"
+    answer: 2
+    explanation: "A gradient costs about as much as one forward pass, whereas the Hessian scales quadratically in the parameter count and is intractable at modern model sizes."
+---
+
+## Descending a mountain in fog
+
+You are somewhere on a mountainside. The fog is so thick that you can see nothing — not the summit, not the valley, not the path. All you have is the ground under your feet, and from that you can feel which way is downhill and how steeply.
+
+There is an obvious strategy. Feel the slope. Take a step in the steepest downhill direction. Feel again. Step again. Repeat.
+
+It sounds almost too simple to be worth a name, but this is **gradient descent**, and it is the engine underneath essentially all of modern machine learning. Every large language model, every image classifier, every recommendation system was trained by some machine repeating that loop a few hundred billion times.
+
+The fog matters. Gradient descent never sees the whole landscape. It only ever knows the *local* slope at the single point where it stands. Everything interesting about the algorithm — how fast it goes, when it breaks, why it sometimes ends up in the wrong valley — follows from that one restriction.
+
+## The gradient is the steepest direction
+
+In one dimension, "the slope" is just the derivative $f'(x)$. If $f'(x) > 0$ the function rises to the right, so you should move left; if $f'(x) < 0$, move right. Either way, you move in the direction of $-f'(x)$.
+
+In many dimensions, the object that plays this role is the **gradient**, the vector of all partial derivatives:
+
+$$\nabla f(\mathbf{x}) = \left(\frac{\partial f}{\partial x_1},\ \frac{\partial f}{\partial x_2},\ \ldots,\ \frac{\partial f}{\partial x_n}\right)$$
+
+The gradient has a property that makes it the natural choice. The rate at which $f$ changes as you move in a unit direction $\mathbf{u}$ is the directional derivative $\nabla f \cdot \mathbf{u}$, and by the Cauchy–Schwarz inequality that dot product is largest exactly when $\mathbf{u}$ points along $\nabla f$. So the gradient is the direction of **steepest ascent**, and $-\nabla f$ is the direction of steepest descent.
+
+That gives the entire algorithm in one line:
+
+$$x_{n+1} = x_n - \eta\, \nabla f(x_n)$$
+
+Start somewhere, subtract a small multiple of the gradient, repeat. The number $\eta$ (eta) is the **learning rate** — how big a step to take. It is the only real knob, and it is where all the trouble lives.
+
+## Watching it descend
+
+<GradientDescentAnimation />
+
+The curve is a loss landscape with two valleys: a shallow one on the right and the true global minimum on the left. The gold ball is the current iterate, and the pink arrow is the step $-\eta f'(x)$ that the update rule is about to take — long where the slope is steep, vanishingly short as the ground flattens out.
+
+Three things are worth doing here:
+
+- **Turn the learning rate down to 0.05.** The ball creeps. Each step is a faithful, tiny move downhill, and it takes dozens of iterations to arrive. Correct, but slow.
+- **Turn it up past about 0.8.** The ball overshoots the bottom, lands on the far wall, overshoots back, and the swings get *wider* each time. Push a little further and it launches out of the plot entirely. This is divergence, and it is the single most common failure in practice.
+- **Drag the starting point across to the left slope.** The ball now settles in the deep valley instead of the shallow one — same algorithm, same learning rate, different answer. Gradient descent cannot know it left a better minimum behind, because it never saw it.
+
+Notice also what the step lengths do near the bottom. Nobody tells the algorithm to slow down; the gradient itself shrinks toward zero as the ground levels, so the steps shrink automatically. Gradient descent decelerates into a minimum for free.
+
+## Why the learning rate has a hard ceiling
+
+The overshoot behavior is not mysterious — it falls out of a two-line calculation. Take the simplest possible bowl, $f(x) = \tfrac{1}{2}Lx^2$, whose minimum is at $x = 0$ and whose curvature is $L$. The gradient is $f'(x) = Lx$, so the update becomes
+
+$$x_{n+1} = x_n - \eta L x_n = (1 - \eta L)\,x_n$$
+
+Each step multiplies the error by the fixed factor $(1 - \eta L)$. Everything follows from that number:
+
+- If $0 < \eta L < 1$, the factor is a positive fraction: the error shrinks steadily, same side of the minimum every time.
+- If $1 < \eta L < 2$, the factor is negative but smaller than one in magnitude: the iterate **oscillates** across the minimum while still converging.
+- If $\eta L > 2$, the magnitude exceeds one: the error flips sign *and grows*. The method diverges, no matter how good the starting point was.
+
+So there is a hard stability ceiling, $\eta < 2/L$, set entirely by the curvature of the landscape. And the best possible convergence is $\eta = 1/L$, which lands on the minimum of a perfect quadratic in a single step.
+
+Real losses are not perfect quadratics, and in high dimensions the curvature differs by direction — the Hessian has a largest eigenvalue $L$ and a smallest one $\mu$. The learning rate must respect the *steepest* direction to stay stable, while progress along the *flattest* direction is governed by the ratio $\kappa = L/\mu$, the condition number. Gradient descent then contracts the error by roughly a factor of $1 - 1/\kappa$ per step, which is why badly conditioned problems — long narrow ravines — make it zig-zag miserably across the walls while barely advancing along the floor.
+
+## Too small, just right, too large
+
+<LearningRateAnimation />
+
+Here the bowl $f(x) = x^2$ is minimized four times from the same starting point with four learning rates, and the loss is plotted against iteration on a logarithmic scale. Here $L = 2$, so the optimal rate is $1/L = 0.5$ and the stability ceiling is $2/L = 1$.
+
+Every stable trace is a straight line on this chart, because each step multiplies the error by a constant — a straight line on a log axis *is* exponential convergence. What differs is the slope, and that is the whole lesson:
+
+- Blue ($\eta = 0.02$) barely tilts. Each step scales the error by $0.96$, so it is converging, but it will need hundreds of iterations to get anywhere.
+- Green ($\eta = 0.4$) is close to optimal and plunges off the bottom of the chart within a few steps.
+- Gold ($\eta = 0.95$) is *past* the optimum but still under the ceiling. Every step now overshoots the minimum and lands on the far side, so the error scales by $|1 - 1.9| = 0.9$ — nearly as slow as the too-small blue run, but for the opposite reason.
+- Pink ($\eta = 1.05$) has crossed $2/L$. The multiplier is $|{-1.1}| > 1$, and the trace climbs off the top of the plot as the loss explodes.
+
+The gold trace is the practical trap. It is genuinely converging, so a short run looks healthy while most of the step is being wasted on overshoot. The picture is U-shaped: performance improves as $\eta$ rises toward $1/L$, degrades past it, and falls off a cliff at $2/L$. Learning-rate tuning is the art of living near the bottom of that U without touching the cliff — which is why practitioners use schedules that decay $\eta$ over training and adaptive methods like Adam that maintain a separate effective step size per parameter.
+
+## Local minima, and why nobody panics
+
+Gradient descent has no mechanism for escaping a valley. If $\nabla f(x) = 0$, the update does nothing, and the algorithm stops wherever it happens to be — global minimum, local minimum, or saddle point alike. For a general non-convex function there is no guarantee whatsoever that the point you land on is the best one, as dragging the starting point in the first widget makes uncomfortably clear.
+
+For **convex** functions this worry disappears: every local minimum is global, and gradient descent with a sane learning rate provably converges to the optimum. Linear and logistic regression, support vector machines, and most of classical statistics live in this comfortable world.
+
+Neural network losses are emphatically not convex — and yet training works anyway. The modern explanation is dimensional. For a critical point to be a genuine local minimum, the Hessian must be positive in *every one* of the millions of directions at once; if even one direction curves downward, it is a saddle point with an escape route. In very high dimensions, all-directions-agree is vanishingly unlikely, so the critical points that gradient descent meets are overwhelmingly saddles rather than traps. And the local minima that do exist in large overparameterized networks turn out to have loss values close to one another, so which one you find matters far less than folklore suggests.
+
+## Why not just use Newton's method?
+
+[Newton's method](/articles/newtons-method) uses the same follow-the-derivative instinct, but with more information. Applied to minimization it takes
+
+$$x_{n+1} = x_n - \frac{f'(x_n)}{f''(x_n)}$$
+
+which is what you get by fitting a *parabola* to the function at the current point and jumping straight to that parabola's minimum, rather than fitting a line and stepping along it. Because it knows the curvature, it has no learning rate to tune — the second derivative supplies the right step size automatically — and near a minimum it converges quadratically, doubling the correct digits per iteration where gradient descent merely multiplies the error by a constant.
+
+That sounds strictly better, and in one dimension it is. In $n$ dimensions the second derivative becomes the Hessian matrix, and the update needs $H^{-1}\nabla f$. The Hessian has $n^2$ entries and inverting it costs on the order of $n^3$ operations. For a model with $10^9$ parameters, the Hessian alone has $10^{18}$ entries — it cannot be written down, let alone inverted.
+
+The gradient, meanwhile, costs about the same as one forward pass through the network, thanks to backpropagation (reverse-mode automatic differentiation computes all $n$ partial derivatives in a single backward sweep). That asymmetry is the whole story: gradient descent takes worse steps, but takes them so cheaply that it wins by an enormous margin at scale. Quasi-Newton methods like L-BFGS sit in between, approximating curvature from the history of past gradients, and are excellent up to a few million parameters.
+
+There is one more scaling trick that matters. Computing $\nabla f$ over a training set of millions of examples is itself expensive, so practitioners estimate it from a small random *minibatch* instead. That is **stochastic** gradient descent: each step follows a noisy version of the true gradient, which is far cheaper per step and, as a bonus, the noise helps jostle the iterate out of narrow bad basins. Nearly every network you have used was trained this way.
+
+## Where it shows up
+
+Once you recognize the pattern, it is everywhere. Fitting a regression line is minimizing squared error by gradient descent. Training a classifier is minimizing cross-entropy by gradient descent. Reconstructing an MRI image, planning a robot trajectory, calibrating a physics simulation, tuning a portfolio, and generating an image from a diffusion model all reduce to "define a loss, differentiate it, walk downhill."
+
+The reason one idea covers so much ground is that gradient descent asks almost nothing of the problem. It needs no matrix inverse, no structure, no closed form — only the ability to evaluate a slope. Give it a differentiable objective and enough patience, and it will find you a valley.
+
+<KeyTakeaways>
+- Gradient descent minimizes a function by repeatedly stepping against the gradient: $x_{n+1} = x_n - \eta\,\nabla f(x_n)$. The gradient points in the direction of steepest *ascent*, so the minus sign is what makes it descend.
+- The learning rate $\eta$ has a hard stability ceiling set by curvature: on a bowl of curvature $L$, each step scales the error by $(1-\eta L)$, so $\eta > 2/L$ diverges while a too-small $\eta$ merely crawls.
+- Steps shrink automatically near a minimum because the gradient itself shrinks — no braking rule required.
+- It only ever sees the local slope, so it settles in whichever basin it started in. That is fatal in theory for non-convex problems, but in very high dimensions most critical points are escapable saddles rather than true traps.
+- [Newton's method](/articles/newtons-method) converges far faster by using curvature, but needs the $n \times n$ Hessian. Gradients cost one backward pass, which is why this simpler, slower method is what actually trains billion-parameter models.
+</KeyTakeaways>

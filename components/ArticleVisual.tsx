@@ -249,6 +249,36 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'bayes-theorem': c => {
+    // Population square: a thin gold band of true positives, a wider accent
+    // band of false positives, the rest faint healthy population.
+    const COLS = 24, ROWS = 8
+    const dots: ReactNode[] = []
+    for (let r = 0; r < ROWS; r++) {
+      for (let i = 0; i < COLS; i++) {
+        const n = r * COLS + i
+        const tp = n < 4 // sick and flagged
+        const fp = n >= 4 && n < 24 // healthy but flagged
+        dots.push(
+          <rect key={n} x={14 + i * 6.6} y={22 + r * 8} width={4.4} height={4.4} rx={1}
+            fill={tp ? GOLD : fp ? c : FAINT} />
+        )
+      }
+    }
+    return (
+      <g>
+        {dots}
+        <rect x={11} y={19} width={165} height={71} rx={3} fill="none" stroke={MUTE} strokeWidth={0.6} />
+        <path d="M182 30 L192 30 L192 55 L198 60 L192 65 L192 90 L182 90" fill="none" stroke={MUTE} strokeWidth={0.75} />
+        <rect x={212} y={30} width={26} height={60} rx={2} fill={c} opacity={0.85} />
+        <rect x={212} y={30} width={26} height={10} rx={2} fill={GOLD} />
+        <line x1={212} y1={40} x2={238} y2={40} stroke={MUTE} strokeWidth={0.75} />
+        <text x={248} y={44} fill={GOLD} fontSize={11} fontFamily="monospace">17%</text>
+        <text x={248} y={58} fill={MUTE} fontSize={7} fontFamily="monospace">P(D|+)</text>
+        <text x={248} y={80} fill={MUTE} fontSize={7} fontFamily="monospace">tested +</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

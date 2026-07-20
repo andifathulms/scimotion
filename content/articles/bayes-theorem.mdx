@@ -1,0 +1,121 @@
+---
+title: "Bayes' Theorem"
+subtitle: "Why a 99% accurate test can still be wrong about you most of the time."
+topic: "Mathematics"
+slug: "bayes-theorem"
+date: "2026-06-08"
+readTime: 9
+featured: false
+description: "The rule for updating belief in the face of evidence, and why ignoring the base rate makes accurate tests wildly misleading."
+tags: ["probability", "statistics", "inference", "decision-making"]
+quiz:
+  - q: "A disease affects 1 in 1000 people. A test has 99% sensitivity and 95% specificity. Roughly what fraction of people who test positive actually have the disease?"
+    options:
+      - "About 99%, since the test is 99% sensitive"
+      - "About 50%, since a positive is equally likely to be right or wrong"
+      - "About 2%, because the far larger healthy group produces many more false positives than the tiny sick group produces true positives"
+      - "About 95%, since specificity sets the accuracy of a positive result"
+    answer: 2
+    explanation: "Out of 100000 people, about 99 true positives compete with about 4995 false positives, so a positive result is correct only around 2% of the time."
+  - q: "Two tests are run on the same patient and both come back positive. Why is it usually wrong to simply multiply the two likelihood ratios together?"
+    options:
+      - "Likelihood ratios cannot be multiplied under any circumstances"
+      - "Multiplying is only valid if the tests are conditionally independent given disease status, and repeat tests of the same kind usually share error sources"
+      - "The second test always has lower sensitivity than the first"
+      - "The prior must be re-estimated from scratch after every observation"
+    answer: 1
+    explanation: "Sequential updating multiplies likelihood ratios only under conditional independence, which fails when both tests share the same biological or procedural cause of error."
+  - q: "In odds form, Bayes' theorem says posterior odds equal prior odds times the likelihood ratio. What does this reveal about the role of evidence?"
+    options:
+      - "Evidence replaces the prior entirely once it is strong enough"
+      - "Evidence sets the posterior independently of where belief started"
+      - "Evidence multiplies belief rather than setting it, so the same evidence moves a confident prior far less than an uncertain one"
+      - "Evidence only matters when the prior is exactly one half"
+    answer: 2
+    explanation: "Because the update is multiplicative, identical evidence produces very different posteriors depending on the prior odds it acts on."
+---
+
+## A 99% accurate test that is usually wrong
+
+You take a screening test for a rare disease. The test is excellent: it catches 99% of people who have the disease, and it wrongly flags only 5% of healthy people. Your result comes back **positive**.
+
+What is the probability you have the disease?
+
+Most people — including, in repeated studies, most physicians — say something close to 95% or 99%. The actual answer, for a disease affecting 1 in 100 people, is about **17%**. Change the prevalence to 1 in 1000 and it drops to roughly **2%**. You are still, overwhelmingly, more likely to be healthy than sick.
+
+Nothing is wrong with the test. What is wrong is the instinct to read a test result as if it were the whole story. The missing ingredient is how common the disease was *before* you were tested — the **base rate**. Bayes' theorem is the rule that puts it back.
+
+## Counting people, not probabilities
+
+The fastest way to feel this is to stop thinking in percentages and start counting bodies. Imagine 10,000 people, and a disease with 1% prevalence:
+
+- **100 people have the disease.** The test catches 99% of them → **99 true positives**, 1 false negative.
+- **9,900 people are healthy.** The test wrongly flags 5% of them → **495 false positives**, 9,405 true negatives.
+
+Now look only at the people who tested positive: there are $99 + 495 = 594$ of them, and only 99 are actually sick.
+
+$$P(\text{disease} \mid +) = \frac{99}{594} \approx 0.167$$
+
+The false positives outnumber the true positives five to one — not because the test is bad, but because the healthy group is *99 times larger*. Even a small error rate applied to a huge population produces more mistakes than a high hit rate applied to a tiny one. This is the base rate fallacy, and this framing (Gerd Gigerenzer's "natural frequencies") makes it almost impossible to get wrong.
+
+<BayesTheoremAnimation />
+
+Drag the three sliders and watch the population square repartition. Start with prevalence at 1% and try pushing **specificity** from 95% to 99% — the posterior roughly triples, because you have halved the false-positive block that was drowning out the signal. Then reset specificity and push **sensitivity** from 99% up: almost nothing happens. Sensitivity was already near its ceiling and controls only the small true-positive sliver. Finally, hold the test fixed and slide **prevalence** up: as the disease becomes common, the same test result becomes trustworthy. The test never changed. The population did.
+
+## The theorem
+
+Write $H$ for the hypothesis (disease present) and $E$ for the evidence (positive test). Bayes' theorem states:
+
+$$P(H \mid E) = \frac{P(E \mid H)\, P(H)}{P(E)}$$
+
+The denominator is just the total probability of seeing the evidence at all, expanded over both ways it can happen:
+
+$$P(E) = P(E \mid H)P(H) + P(E \mid \neg H)P(\neg H)$$
+
+Substituting the medical numbers — $P(H) = 0.01$, $P(E \mid H) = 0.99$ (sensitivity), $P(E \mid \neg H) = 0.05$ (one minus specificity):
+
+$$P(H \mid E) = \frac{0.99 \times 0.01}{0.99 \times 0.01 + 0.05 \times 0.99} = \frac{0.0099}{0.0594} \approx 0.167$$
+
+The same 16.7%, now from the formula rather than the headcount.
+
+The theorem itself is almost trivial to derive. Both $P(H \cap E) = P(H \mid E)P(E)$ and $P(H \cap E) = P(E \mid H)P(H)$ describe the same overlap, so setting them equal and dividing by $P(E)$ gives the result in one line. The depth is not in the algebra — it is in what the formula insists you supply: a prior. You cannot compute $P(H \mid E)$ from $P(E \mid H)$ alone. Confusing the two is the **prosecutor's fallacy**: "the chance of this DNA match in an innocent person is 1 in a million" is a statement about $P(E \mid \neg H)$, and says nothing on its own about whether the defendant is guilty.
+
+## The odds form: evidence as a multiplier
+
+There is a cleaner way to write the same rule. Divide the equation for $H$ by the equation for $\neg H$ and the awkward $P(E)$ cancels:
+
+$$\underbrace{\frac{P(H \mid E)}{P(\neg H \mid E)}}_{\text{posterior odds}} = \underbrace{\frac{P(H)}{P(\neg H)}}_{\text{prior odds}} \times \underbrace{\frac{P(E \mid H)}{P(E \mid \neg H)}}_{\text{likelihood ratio}}$$
+
+This is Bayes' theorem in its most usable form. Belief is not *set* by evidence; it is **multiplied** by it. Our test has likelihood ratio $0.99 / 0.05 = 19.8$. Prior odds of $1{:}99$ become posterior odds of $19.8{:}99$ — that is, about 1 in 6, or 17%. A twentyfold blow to the odds still leaves you probably healthy, because it started from so far behind.
+
+The multiplicative structure has a lovely consequence: evidence accumulates by repeated multiplication, so if you take logarithms it simply *adds*. Each independent observation contributes a fixed number of "decibels" of evidence, and belief walks along the log-odds line.
+
+<BayesUpdateAnimation />
+
+Watch a belief converge under a stream of evidence. The bar shows current probability; each arriving test result multiplies the odds by the likelihood ratio (up on a positive, down on a negative). Try starting from a confident wrong prior and notice how many observations it takes to overturn — and then try the same evidence stream with a moderate prior. Same data, very different journeys. Push the evidence strength down toward a likelihood ratio near 1 and the walk barely drifts: weak evidence is not slow, it is nearly inert. The one thing to notice above all: with enough independent evidence, *different priors converge to the same answer*. Priors matter enormously with little data and vanish with a lot.
+
+## Where the assumptions break
+
+Sequential multiplication of likelihood ratios requires the observations to be **conditionally independent** given the hypothesis. Repeating the same test on the same patient badly violates this — if their biology or the sample handling is what caused the first false positive, it will cause the second one too. Two positives from the same assay are worth much less than two positives from independent assays. In practice, medicine repeats with a *different, more specific* test precisely to restore independence.
+
+The other pressure point is the prior. Where does it come from? For screening it is a measured prevalence, which is uncontroversial. For a scientific hypothesis or a legal case it is a judgment, and critics of Bayesian methods point at exactly this. The Bayesian answer is the convergence you just watched: state your prior explicitly so it can be argued with, and note that sufficient data will overwhelm any prior that is not dogmatically 0 or 1. Assign probability 0 to a hypothesis and no evidence can ever revive it — Cromwell's rule.
+
+## Where it shows up
+
+**Screening policy.** This is why mass screening of low-risk populations is contentious. Mammography in low-prevalence age brackets generates a large majority of false alarms, each carrying real cost: biopsies, anxiety, overtreatment. Targeting screening at higher-prevalence groups raises the prior and makes every positive more informative.
+
+**Spam filters.** A naive Bayes classifier treats each word as evidence, multiplying likelihood ratios across a message — "conditionally independent given spam status" is exactly the (false, but useful) naive assumption in the name.
+
+**Search and rescue.** The Bayesian search that located the wreck of Air France 447 in 2011, after four failed years, worked by maintaining a probability map of the seafloor and updating it with every sector searched and found empty. Absence of evidence is evidence — it lowers the posterior in the searched cell and raises it everywhere else.
+
+**Machine learning and diagnostics generally.** Any system that maintains a belief and revises it as data arrives — Kalman filters, particle filters, A/B test analysis, medical decision support — is running this loop.
+
+The recurring lesson is the same one the medical test taught: a result means nothing on its own. It only means something relative to what you believed before it arrived.
+
+<KeyTakeaways>
+- Bayes' theorem converts $P(E \mid H)$ into $P(H \mid E)$, and those two are wildly different quantities — confusing them is the prosecutor's fallacy.
+- A highly accurate test can still be usually wrong when the base rate is low, because a small error rate over a huge healthy population outproduces a high hit rate over a tiny sick one.
+- Counting natural frequencies out of 10,000 people makes the answer obvious where percentages make it invisible.
+- In odds form, **posterior odds = prior odds × likelihood ratio**: evidence multiplies belief rather than setting it, and in log-odds it simply adds.
+- Sequential updating needs conditionally independent evidence, and enough of it will wash out any prior that is not exactly 0 or 1.
+</KeyTakeaways>

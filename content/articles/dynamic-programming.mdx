@@ -1,0 +1,122 @@
+---
+title: "Dynamic Programming"
+subtitle: "One cache line turns an exponential algorithm into a linear one."
+topic: "Computer Science"
+slug: "dynamic-programming"
+date: "2026-06-15"
+readTime: 10
+featured: false
+description: "Why naive recursive Fibonacci takes billions of calls, how remembering answers collapses it to n, and how the same trick solves edit distance and knapsack."
+tags: ["algorithms", "recursion", "optimization", "complexity"]
+quiz:
+  - q: "A recursive algorithm has optimal substructure but no overlapping subproblems. What does memoizing it buy you?"
+    options:
+      - "An exponential speedup, since memoization always removes repeated work"
+      - "Essentially nothing — with no repeated subproblems the cache is never hit, so you pay memory for no reduction in calls"
+      - "A guaranteed reduction to O(n) time regardless of the recursion shape"
+      - "Nothing in time, but it always reduces the space complexity of the recursion"
+    answer: 1
+    explanation: "Memoization only pays off when the same subproblem is requested more than once; merge sort's recursion has optimal substructure but every subproblem is distinct, so a cache would never hit."
+  - q: "Edit distance on strings of length m and n fills an (m+1)×(n+1) table, yet many implementations use only O(min(m, n)) memory. Why is that possible?"
+    options:
+      - "The table is sparse, so most cells can be skipped entirely"
+      - "Each cell depends only on the diagonal, upper, and left neighbours, so the current row can be computed from the previous row alone"
+      - "The optimal path visits at most min(m, n) cells, so only those need storing"
+      - "The values along each row are monotone, so they can be compressed to a single running total"
+    answer: 1
+    explanation: "Because a cell's recurrence reaches back only one row, you can discard every row older than the previous one — though you then lose the ability to backtrack the actual edit script."
+  - q: "Why is the standard O(nW) knapsack algorithm not a polynomial-time algorithm in the strict sense?"
+    options:
+      - "Because its recursion depth grows exponentially with the number of items"
+      - "Because W is a numeric value whose encoding takes only log W bits, so the runtime is exponential in the input's bit length"
+      - "Because the table must be recomputed from scratch for every candidate solution"
+      - "Because the greedy step inside it can fail, forcing a full exponential search"
+    answer: 1
+    explanation: "O(nW) is pseudo-polynomial: it is polynomial in the magnitude of W but exponential in the number of bits used to write W down."
+---
+
+## Two lines of code, a billion-fold difference
+
+Here is the textbook definition of the Fibonacci numbers, transcribed directly into code:
+
+```
+fib(n) = n                      if n <= 1
+fib(n) = fib(n-1) + fib(n-2)    otherwise
+```
+
+It is correct. It is also, as written, a disaster. Computing `fib(50)` this way takes about **40 billion** function calls — hours of CPU time for a number your phone should produce instantly.
+
+Now add one line: before recursing, check a dictionary to see whether you have already computed `fib(n)`; after computing it, store it. Same recursion, same base cases, one cache. `fib(50)` now takes **99** calls and returns before you lift your finger off the key.
+
+That collapse — exponential to linear, from remembering answers you already worked out — is dynamic programming. Despite the imposing name (Richard Bellman admitted he chose it partly to sound impressive to a research-funding administrator who disliked mathematics), the whole field rests on that one observation.
+
+## Two conditions
+
+Dynamic programming is not a universal accelerant. It applies exactly when a problem has two properties.
+
+**Overlapping subproblems.** The recursion asks the same question many times. In the Fibonacci tree, `fib(n-2)` is computed once by the left branch and again by the right branch, and each of those recomputes `fib(n-3)`, and so on. The number of distinct questions is only $n$, but the naive tree asks them $\Theta(\varphi^n)$ times. That gap between *distinct* subproblems and *evaluated* subproblems is exactly what a cache reclaims.
+
+**Optimal substructure.** The optimal solution to the whole problem is built from optimal solutions to its parts. If the cheapest way to transform `KITTEN` into `SITTING` passes through the pair `(KITT, SITT)`, then the segment of that solution handling `KITT → SITT` must itself be the cheapest way to do *that*. If it weren't, you could swap in a cheaper one and improve the total — a contradiction.
+
+Both conditions are needed. Merge sort has optimal substructure but no overlap (every recursive call sees a distinct slice), so caching buys nothing. Longest *simple* path in a graph has overlapping subproblems but no optimal substructure — gluing two optimal sub-paths can revisit a vertex — which is why no DP solves it.
+
+## Filling the table: edit distance
+
+The canonical DP is **edit distance** (Levenshtein distance): the minimum number of single-character insertions, deletions, and substitutions that turn one string into another. It powers spell checkers, `diff`, fuzzy search, and DNA sequence alignment.
+
+Let $D[i][j]$ be the edit distance between the first $i$ characters of $A$ and the first $j$ characters of $B$. The base cases are free: turning a prefix of length $i$ into the empty string costs $i$ deletions, so $D[i][0] = i$ and $D[0][j] = j$.
+
+For every other cell, look at the last character of each prefix. If they match, they cost nothing and the answer is whatever it cost to align everything before them. If they differ, you must pay 1 for one of three repairs, then take the best remaining alignment:
+
+$$D[i][j] = \begin{cases} D[i-1][j-1] & \text{if } A_i = B_j \\[4pt] 1 + \min\big(D[i-1][j-1],\; D[i-1][j],\; D[i][j-1]\big) & \text{otherwise}\end{cases}$$
+
+The three terms are substitute, delete, and insert respectively. Watch the grid below fill in, one cell at a time:
+
+<DynamicProgrammingAnimation />
+
+Press Play, or use Step to move one cell at a time. Two things to watch. First, the **violet cells** — before each entry is written, the three cells it reads from are highlighted, and they are always up-left, up, and left. That local dependency pattern is the whole reason a simple row-by-row loop works: by the time you reach a cell, everything it needs is already behind you.
+
+Second, note how cheap a match is. When the letters agree the cell simply copies its diagonal neighbour — no cost, no minimum to take — which is why the long shared run `ITT` in `KITTEN`/`SITTING` produces a diagonal streak of unchanged values. Once the table is full, the animation walks the **green backtrack path** from the bottom-right corner to the origin: a diagonal move is a substitution or a free match, a vertical move a deletion, a horizontal move an insertion. That path *is* the edit script, and the corner value 3 is the answer — substitute K→S, substitute E→I, insert G.
+
+## Memoization or tabulation
+
+There are two ways to implement any DP, and they differ only in direction.
+
+**Memoization** is top-down. Keep the natural recursion, add a cache, and let the call stack discover which subproblems matter. It is minimally invasive, it computes only the subproblems actually reachable from the top — which can be far fewer than the whole table — and it costs you the recursion stack, which can overflow on deep inputs.
+
+**Tabulation** is bottom-up. Work out an ordering in which every subproblem comes after its dependencies, then fill an array with plain loops. No stack, no hashing overhead, and a memory layout the CPU cache loves — but you compute every cell whether or not it is needed, and you must reason out the ordering yourself.
+
+Either way the runtime follows the same rule of thumb:
+
+$$\text{time} \;\approx\; (\text{number of distinct states}) \times (\text{work per state})$$
+
+For edit distance there are $(m+1)(n+1)$ states and each costs $O(1)$, so the algorithm is $\Theta(mn)$ — against the $\Theta(3^{m+n})$ of the unmemoized recursion. The same accounting explains Fibonacci: $n$ states, $O(1)$ each, hence $\Theta(n)$.
+
+To see the two regimes side by side, here is the recursion tree itself:
+
+<MemoizationTreeAnimation />
+
+Start with the memo switch **off** and drag $n$ upward. Every increment roughly $1.6\times$ the tree — the golden ratio $\varphi = (1+\sqrt{5})/2 \approx 1.618$, since the call count for naive `fib(n)` is exactly $2F_{n+1} - 1$. By $n = 11$ you are looking at 287 calls to produce the eleventh Fibonacci number.
+
+Now flick **Memoize** on. The tree doesn't just shrink, it changes shape: it becomes a spine with green stubs. Each green node is a cache hit — a call that returned instantly and never expanded its subtree. The count drops from 287 to 21, and the readout in the corner shows the ratio widening every time you raise $n$. That widening gap is the difference between $\Theta(\varphi^n)$ and $\Theta(n)$, made visible.
+
+## Where it shows up
+
+Edit distance is not a toy. The same table, with a scoring matrix in place of unit costs, is the Needleman–Wunsch algorithm that aligns DNA and protein sequences — one of the most-run computations in biology. `git diff` finds a longest common subsequence, which is edit distance with substitutions disallowed. Your spell checker ranks candidate corrections by it.
+
+Elsewhere, DP is quietly everywhere:
+
+- **0/1 knapsack.** Choose items with weights $w_i$ and values $v_i$ to maximise value under a capacity $W$: $K[i][c] = \max(K[i-1][c],\; v_i + K[i-1][c - w_i])$. Runs in $O(nW)$ — but note that $W$ takes only $\log W$ bits to write down, so this is *pseudo*-polynomial, not polynomial. Knapsack is still NP-hard.
+- **Viterbi.** Decoding the most likely hidden state sequence in a Markov model — speech recognition, error-correcting codes, part-of-speech tagging — is a DP over (time × state).
+- **Bellman–Ford and Floyd–Warshall.** Shortest paths built from shortest sub-paths; Bellman's own field, and the reason optimal substructure is sometimes called the *principle of optimality*.
+- **Reinforcement learning.** Value iteration is a DP over states, and the Bellman equation at its heart is the same recurrence pattern with an expectation bolted on.
+
+The design work is almost always the same three questions: what is a state, what does the answer for a state depend on, and in what order can I visit states so dependencies come first? Get those right and the code is a couple of nested loops.
+
+<KeyTakeaways>
+- Dynamic programming is recursion plus memory. It pays off precisely when a problem has **overlapping subproblems** (the same question is asked many times) and **optimal substructure** (optimal wholes are built from optimal parts) — both conditions, not just one.
+- Naive recursive Fibonacci makes $2F_{n+1} - 1$ calls, growing like $\varphi^n$; caching the $n$ distinct answers collapses it to $\Theta(n)$ without changing the recurrence at all.
+- Runtime $\approx$ (number of distinct states) $\times$ (work per state). Edit distance has $(m+1)(n+1)$ states costing $O(1)$ each, hence $\Theta(mn)$.
+- Memoization (top-down, lazy, uses the call stack) and tabulation (bottom-up, explicit order, cache-friendly) are the same algorithm run in opposite directions — pick by whether you need all states and whether recursion depth is a risk.
+- A pseudo-polynomial DP like $O(nW)$ knapsack is exponential in the *bit length* of its input, which is why knapsack remains NP-hard despite having a clean table algorithm.
+</KeyTakeaways>

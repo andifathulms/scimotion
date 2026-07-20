@@ -47,6 +47,8 @@ import {
   LorentzFactorAnimation,
   SingleParticleBuildupAnimation,
   TaylorRadiusAnimation,
+  BayesTheoremAnimation,
+  BayesUpdateAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -80,6 +82,8 @@ const components = {
   LorentzFactorAnimation,
   SingleParticleBuildupAnimation,
   TaylorRadiusAnimation,
+  BayesTheoremAnimation,
+  BayesUpdateAnimation,
   KeyTakeaways,
 }
 

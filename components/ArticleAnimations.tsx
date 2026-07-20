@@ -150,3 +150,13 @@ export const TaylorRadiusAnimation = dynamic(
   () => import('@/components/animations/TaylorRadiusAnimation').then(m => ({ default: m.TaylorRadiusAnimation })),
   { ssr: false }
 )
+
+export const BayesTheoremAnimation = dynamic(
+  () => import('@/components/animations/BayesTheoremAnimation').then(m => ({ default: m.BayesTheoremAnimation })),
+  { ssr: false }
+)
+
+export const BayesUpdateAnimation = dynamic(
+  () => import('@/components/animations/BayesUpdateAnimation').then(m => ({ default: m.BayesUpdateAnimation })),
+  { ssr: false }
+)
