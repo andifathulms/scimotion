@@ -309,14 +309,24 @@ const visuals: Record<string, (c: string) => ReactNode> = {
   },
   'entropy-and-the-second-law': c => {
     // Gas clustered in one corner (W = 1) vs spread through the box (W = max).
-    const rnd = (i: number, s: number) => { const v = Math.sin((i + 1) * s) * 43758.5453; return v - Math.floor(v) }
+    // Integer-only hash: Math.sin is not required to be correctly rounded, so it
+    // can differ in the last bits between Node and the browser and desync hydration.
+    // Math.imul and shifts are exactly specified, so this is bit-identical everywhere.
+    const rnd = (i: number, seed: number) => {
+      let h = Math.imul(i + 1, 0x9e3779b1) ^ Math.imul(seed, 0x85ebca6b)
+      h = Math.imul(h ^ (h >>> 15), 0xc2b2ae35)
+      h ^= h >>> 16
+      return (h >>> 0) / 4294967296
+    }
+    const at = (base: number, span: number, i: number, seed: number) =>
+      Math.round((base + rnd(i, seed) * span) * 100) / 100
     const clustered = Array.from({ length: 14 }, (_, i) => ({
-      x: 20 + rnd(i, 12.9898) * 26,
-      y: 72 + rnd(i, 78.233) * 24,
+      x: at(20, 26, i, 1),
+      y: at(72, 24, i, 2),
     }))
     const spread = Array.from({ length: 14 }, (_, i) => ({
-      x: 178 + rnd(i, 45.164) * 102,
-      y: 26 + rnd(i, 91.873) * 68,
+      x: at(178, 102, i, 3),
+      y: at(26, 68, i, 4),
     }))
     return (
       <g>
