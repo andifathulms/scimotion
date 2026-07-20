@@ -848,6 +848,50 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'dna-replication': c => {
+    // Parental duplex unwinding at a fork: the leading strand (accent) runs
+    // continuously, the lagging strand (gold) is stitched from Okazaki fragments.
+    const r = (v: number) => Math.round(v * 100) / 100
+    const FORK = 152
+    const helix = (s: number) =>
+      Array.from({ length: 25 }, (_, i) => {
+        const x = 8 + i * 6
+        return `${x},${r(60 + s * 15 * Math.sin((x - 8) / 11))}`
+      }).join(' ')
+    const open = (x: number) => Math.min(1, (x - FORK) / 56)
+    const template = (s: number) =>
+      Array.from({ length: 15 }, (_, i) => {
+        const x = FORK + i * 10
+        return `${x},${r(60 + s * 28 * open(x))}`
+      }).join(' ')
+    const nascent = (s: number, from: number, to: number) => {
+      const pts: string[] = []
+      for (let x = from; x <= to; x += 8) pts.push(`${x},${r(60 + s * 28 * open(x) - s * 9)}`)
+      return pts.join(' ')
+    }
+    const rungs: ReactNode[] = []
+    for (let i = 0; i <= 24; i += 2) {
+      const x = 8 + i * 6
+      const dy = r(15 * Math.sin((x - 8) / 11))
+      rungs.push(<line key={x} x1={x} y1={60 + dy} x2={x} y2={60 - dy} stroke={FAINT} strokeWidth={1} />)
+    }
+    return (
+      <g>
+        {rungs}
+        <polyline points={helix(1)} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={helix(-1)} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={template(-1)} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={template(1)} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={nascent(-1, 160, 292)} fill="none" stroke={c} strokeWidth={2.5} />
+        {[[166, 206], [212, 252], [258, 292]].map(([a, b]) => (
+          <polyline key={a} points={nascent(1, a, b)} fill="none" stroke={GOLD} strokeWidth={2.5} />
+        ))}
+        <polygon points={`${FORK + 9},60 ${FORK - 7},51 ${FORK - 7},69`} fill={GOLD} opacity={0.85} />
+        <text x={292} y={38} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">leading</text>
+        <text x={292} y={104} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">lagging</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

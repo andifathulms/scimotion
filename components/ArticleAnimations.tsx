@@ -320,3 +320,13 @@ export const BackpropagationAnimation = dynamic(
   () => import('@/components/animations/BackpropagationAnimation').then(m => ({ default: m.BackpropagationAnimation })),
   { ssr: false }
 )
+
+export const DNAReplicationAnimation = dynamic(
+  () => import('@/components/animations/DNAReplicationAnimation').then(m => ({ default: m.DNAReplicationAnimation })),
+  { ssr: false }
+)
+
+export const ProofreadingAnimation = dynamic(
+  () => import('@/components/animations/ProofreadingAnimation').then(m => ({ default: m.ProofreadingAnimation })),
+  { ssr: false }
+)

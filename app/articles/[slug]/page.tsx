@@ -81,6 +81,8 @@ import {
   MeissnerEffectAnimation,
   NeuralNetworkAnimation,
   BackpropagationAnimation,
+  DNAReplicationAnimation,
+  ProofreadingAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -148,6 +150,8 @@ const components = {
   MeissnerEffectAnimation,
   NeuralNetworkAnimation,
   BackpropagationAnimation,
+  DNAReplicationAnimation,
+  ProofreadingAnimation,
   KeyTakeaways,
 }
 

@@ -1,0 +1,167 @@
+---
+title: "DNA Replication"
+subtitle: "How a cell copies three billion letters and gets almost every one of them right."
+topic: "Medicine"
+slug: "dna-replication"
+date: "2026-07-02"
+readTime: 10
+featured: false
+description: "The replication fork, the antiparallel problem that forces one strand to be built backwards in pieces, and the layered error correction that drives the final error rate down to one in a billion."
+tags: ["genetics", "dna", "molecular-biology", "fidelity"]
+quiz:
+  - q: "DNA polymerase can only add nucleotides to a free 3′-OH end. Why does that single constraint force the lagging strand to be built in fragments?"
+    options:
+      - "The lagging-strand template is chemically more fragile, so polymerase must release it periodically to avoid breaking it"
+      - "The two template strands are antiparallel, so on one of them 5′→3′ synthesis runs away from the advancing fork and must be restarted as new template is exposed"
+      - "Only one polymerase molecule exists per fork, so it must alternate between the two templates"
+      - "Fragments allow the cell to proofread each stretch separately, which continuous synthesis would not permit"
+    answer: 1
+    explanation: "Because the strands run in opposite directions, the only way to copy the lagging template with a 5′→3′-only enzyme is to prime repeatedly at the fork and extend backwards into already-exposed template."
+  - q: "In the Meselson–Stahl experiment, cells grown on heavy nitrogen were shifted to light nitrogen. What did the result after exactly one round of replication rule out?"
+    options:
+      - "Dispersive replication, because a single intermediate-density band is incompatible with fragmented strands"
+      - "Semiconservative replication, because the parental strands were shown to stay together"
+      - "Conservative replication, because a conservative mechanism predicts two separate bands — one fully heavy, one fully light — and only a single intermediate band appeared"
+      - "All three models, because the observed density did not match any prediction until the second generation"
+    answer: 2
+    explanation: "A conservative mechanism would leave the original duplex intact and produce a separate all-light duplex, giving two bands; the single hybrid-density band showed every daughter duplex contained one old and one new strand."
+  - q: "A cell line loses the 3′→5′ proofreading exonuclease of its replicative polymerase but keeps base selectivity and mismatch repair intact. What happens to the overall error rate?"
+    options:
+      - "It is unchanged, because mismatch repair independently corrects whatever proofreading would have caught"
+      - "It rises by roughly the fidelity factor that proofreading contributed — about a hundredfold — because the layers multiply rather than substitute for one another"
+      - "It falls, because removing the exonuclease lets polymerase move faster and spend less time on any given base"
+      - "It rises to the rate expected from hydrogen bonding alone, since proofreading is the only step that discriminates correct pairs"
+    answer: 1
+    explanation: "Each layer multiplies the fidelity of the one before it, so deleting a hundredfold layer multiplies the final error rate by about a hundred."
+---
+
+## Three billion letters, about one mistake
+
+Copy out three billion characters by hand and count your typos. A very good typist makes something like one error every few hundred keystrokes. At that rate you would finish with roughly ten million mistakes, and you would have been typing for several centuries.
+
+A dividing human cell copies its 3.2 billion base pairs in about eight hours and finishes with, on the order of, a *single* uncorrected error. Not one error per page. One error per genome.
+
+No process humans have engineered comes close without redundancy tricks that DNA does not use — no checksums appended to the message, no retransmission, no second copy to compare against. The accuracy comes instead from a chain of physical filters, each one catching most of what the previous one missed, and it is worth seeing exactly how the cell assembles that accuracy out of parts that are individually rather sloppy.
+
+## A molecule that carries its own template
+
+The structure Watson and Crick proposed in 1953 answered the copying problem almost as an afterthought. Two sugar-phosphate backbones wind around a common axis; the bases point inward and pair across the middle. Adenine pairs with thymine through two hydrogen bonds, guanine with cytosine through three. The pairing is not arbitrary: a purine (two rings) opposite a pyrimidine (one ring) is the only combination that keeps the backbones a constant distance apart, and the hydrogen-bond donors and acceptors only line up for A–T and G–C.
+
+The consequence is that **each strand fully specifies the other**. A strand reading `GATTACA` can only ever be paired with `CTAATGT`. The molecule that stores the information also stores the instructions for rebuilding itself, which is why the paper's famous closing line — "it has not escaped our notice that the specific pairing we have postulated immediately suggests a possible copying mechanism for the genetic material" — is doing so much work.
+
+The backbones also run in **opposite directions**. Each strand has a chemical polarity set by the sugar: one end terminates in a free 5′ phosphate, the other in a free 3′ hydroxyl. In a duplex, one strand runs 5′→3′ left to right while its partner runs 3′→5′. That antiparallel arrangement will turn out to be the source of nearly all the mechanical awkwardness in replication.
+
+### What Meselson and Stahl actually settled
+
+Suggesting a copying mechanism is not demonstrating one. Three models were live in the 1950s: **conservative** (the parental duplex stays intact, an entirely new duplex is built alongside), **semiconservative** (the strands separate, each templates a new partner), and **dispersive** (old and new segments interleave along both strands).
+
+In 1958 Matthew Meselson and Franklin Stahl grew *E. coli* for many generations in medium where the only nitrogen source was the heavy isotope $^{15}\text{N}$, so every base in every genome was heavy. They then shifted the culture into ordinary $^{14}\text{N}$ medium and sampled it after each round of division, spinning the extracted DNA in a caesium chloride density gradient where molecules settle at the depth matching their own density.
+
+After exactly one round, all the DNA sat in a **single band at intermediate density**. That one observation kills the conservative model outright: conservative replication predicts two bands, one still fully heavy and one fully light. After a second round, the sample split into two bands — half at intermediate density, half fully light — which is what semiconservative replication predicts and what dispersive replication does not (dispersive predicts a single band creeping steadily lighter with each generation, never splitting).
+
+So each daughter duplex is half original, half new. Every cell in your body carries strands of DNA that were physically synthesised in an embryo, still base-paired to much younger partners.
+
+## Watching a fork move
+
+Separating the strands and copying them sounds simple until you watch it happen. The unit of the process is the **replication fork**: a Y-shaped junction that travels along the duplex, prising the strands apart at the front and leaving two finished daughter duplexes behind.
+
+A crowd of enzymes works at that junction:
+
+- **Helicase** sits at the point of the Y and burns ATP to break the hydrogen bonds between the pairs, unwinding the parental duplex ahead of everything else.
+- **Topoisomerase** works further ahead. Unwinding a helix ahead of a moving fork drives supercoiling into the DNA in front of it — topoisomerase cuts, unwinds, and reseals the backbone to release that torsional strain.
+- **Single-strand binding proteins** coat the exposed templates so they neither re-anneal nor fold back on themselves.
+- **Primase** lays down a short RNA primer, because DNA polymerase cannot start a chain from nothing — it can only *extend* one.
+- **DNA polymerase** adds nucleotides to the 3′ end of the growing strand, selecting each one by complementarity with the template.
+- **Ligase** seals the remaining nicks in the sugar-phosphate backbone once the primers have been removed and replaced with DNA.
+
+<DNAReplicationAnimation />
+
+Press **Play** and watch the two new strands being built. The blue one, on the top template, is laid down as a single unbroken run that simply follows the helicase — the polymerase never lets go. The pink one is built in short pieces, each started fresh at the fork and extended *backwards*, away from the direction the fork is travelling.
+
+Use **Step** to advance the fork a little at a time, and watch one pink fragment through its whole life: a gold RNA primer appears right at the fork, the fragment extends leftward from it until it runs into the previous fragment, and then ligase (green) seals the nick and the fragment turns green as it joins the continuous backbone. The pattern is relentless — prime, extend, collide, seal, prime again — while the top strand does none of that.
+
+The obvious question is why. Nothing about the top template looks easier than the bottom one.
+
+## The antiparallel problem
+
+The asymmetry has exactly one cause. Every known DNA polymerase adds nucleotides in only one direction: it attacks the incoming nucleotide's triphosphate with the free 3′-OH of the growing chain, so chains grow **5′→3′ and never the other way**. There is no enzyme that runs backwards.
+
+That would be harmless if the two templates pointed the same way. They do not. On the template oriented 3′→5′ in the direction of fork movement, the new strand's 5′→3′ growth happens to point *toward* the fork — so as helicase exposes more template, the polymerase simply keeps going. That is the **leading strand**, and it is synthesised continuously.
+
+On the other template, the required 5′→3′ direction points *away* from the fork. A polymerase there immediately synthesises itself into finished territory and stalls, while fresh template keeps appearing behind it. The only workable solution is to keep restarting: prime near the fork, extend backwards until you hit the previous piece, let go, and prime again on the newly exposed stretch. That is the **lagging strand**, and its pieces are **Okazaki fragments**, named for Reiji and Tsuneko Okazaki, who detected them in 1968 as short, transiently labelled DNA species in pulse-labelling experiments.
+
+The bookkeeping this creates is substantial. In human cells, Okazaki fragments run about 150 nucleotides — roughly one nucleosome's worth. Half of the genome is copied as lagging strand, so a single genome duplication requires
+
+$$N_{\text{frag}} \;=\; \frac{3.2 \times 10^{9}}{2 \times 150} \;\approx\; 1.1 \times 10^{7}$$
+
+about **eleven million** separate priming events, primer removals, gap fills, and ligations, every time a cell divides. Bacterial fragments are longer, around 1,000–2,000 nucleotides, so *E. coli* gets away with a few thousand.
+
+### The timing arithmetic, and why one fork is not enough
+
+Replication rate is roughly 1,000 nucleotides per second in *E. coli*. Its genome is $4.6 \times 10^{6}$ bp, replicated from a single origin with two forks heading in opposite directions, so
+
+$$t \;=\; \frac{4.6 \times 10^{6}}{2 \times 1000} \;\approx\; 2.3 \times 10^{3}\ \text{s} \;\approx\; 38\ \text{minutes}$$
+
+which matches the observed C period well.
+
+Now try the same calculation for a human cell. Eukaryotic forks are far slower, about 50 nucleotides per second, and the genome is nearly a thousand times larger. One origin with two forks would need
+
+$$t \;=\; \frac{3.2 \times 10^{9}}{2 \times 50} \;\approx\; 3.2 \times 10^{7}\ \text{s} \;\approx\; 370\ \text{days}$$
+
+Cells complete S phase in roughly eight hours, $2.9 \times 10^{4}$ s. The number of forks that must be running *simultaneously* is therefore at least
+
+$$N_{\text{fork}} \;=\; \frac{3.2 \times 10^{9}}{50 \times 2.9 \times 10^{4}} \;\approx\; 2.2 \times 10^{3}$$
+
+and because origins fire unevenly across S phase rather than all at once, real cells license far more — tens of thousands of potential origins, of which a large subset actually fires in any given cycle. Eukaryotes did not solve the size problem by building a faster polymerase. They solved it by running the slow one in massive parallel.
+
+## Fidelity in layers
+
+Return to the number in the opening. If polymerase relied on hydrogen bonding alone, it would be a poor copier. The free-energy difference between a correct pair and a wrong one is only a few $k_BT$, which predicts a mis-insertion roughly once every hundred bases. That is an error rate of about $10^{-2}$ — catastrophic. The final rate is around $10^{-9}$. Seven orders of magnitude have to come from somewhere.
+
+They come from three filters applied in series. Because each acts on whatever the previous one let through, their fidelity contributions **multiply**:
+
+$$p_{\text{final}} \;=\; p_{0} \prod_{i} f_{i}$$
+
+where $p_0 \approx 10^{-2}$ is the raw rate and each $f_i$ is the fraction of errors that survive layer $i$.
+
+<ProofreadingAnimation />
+
+Watch the stream of nucleotides moving toward the genome. Pink circles are wrong bases; most are stopped at one of the three gates, and the meter across the top tracks the resulting error rate on a logarithmic scale. Now start switching gates off. Turn off **mismatch repair** and the meter jumps two decades to the right and the counter of escaped mutations starts climbing; turn off **proofreading** as well and it jumps another two. With all three disabled you are back at the raw chemistry, and the "errors per genome copied" line reads in the tens of millions. (The on-screen error frequency is exaggerated so that escapes are visible at all — the numeric readout uses the real rates.)
+
+The three layers, in biological terms:
+
+**1 — Base selection, $10^{-2} \to 10^{-5}$.** Polymerase does not merely wait for the right base to bind. Its active site closes around an incoming nucleotide only when the geometry of a correct Watson–Crick pair is achieved — an induced fit that positions the catalytic metal ions for chemistry. A mismatched pair has the wrong width and the wrong hydrogen-bond geometry, the fingers domain fails to close properly, and catalysis is slowed by orders of magnitude. Shape discrimination on top of hydrogen bonding buys about a thousandfold.
+
+**2 — Proofreading, $10^{-5} \to 10^{-7}$.** Replicative polymerases carry a second active site, a 3′→5′ **exonuclease**, tens of ångströms away from the polymerase site. When a wrong base is added, the resulting mismatch destabilises the duplex end; the frayed 3′ terminus is much more likely to migrate into the exonuclease site, where it is clipped off, after which the strand slides back for another attempt. Note the elegance: the enzyme is not identifying which base is wrong. It is responding to the fact that a *mispaired end binds badly*, and the wrongness reports itself. This buys roughly another hundredfold.
+
+**3 — Mismatch repair, $10^{-7} \to 10^{-9}$.** The errors that survive proofreading leave a small distortion in the finished double helix. The MutS/MSH family of proteins scans duplex DNA for exactly this deformation, recruits MutL/MLH, and excises a stretch of the new strand around the mismatch so polymerase can retry. The critical trick is **strand discrimination** — the system must remove the *new* base, not the old one. *E. coli* uses transient hemimethylation (the parental strand is already methylated at GATC sites, the new one not yet). Eukaryotes appear to use the nicks in the still-unligated new strand, including the abundant nicks between Okazaki fragments, as the "this one is new" signal. Another hundredfold or so.
+
+Multiply them through:
+
+$$10^{-2} \times 10^{-3} \times 10^{-2} \times 10^{-2} \;=\; 10^{-9}$$
+
+and at $3.2 \times 10^{9}$ bp per genome, the expected number of uncorrected errors per copy is
+
+$$3.2 \times 10^{9} \times 10^{-9} \;\approx\; 3$$
+
+a handful of changed letters in a document the length of a thousand novels. And because the layers multiply, losing any one of them is expensive out of proportion to its individual modesty: knocking out a hundredfold layer does not add a hundred errors, it multiplies the total by a hundred.
+
+## Where this shows up
+
+**Cancer genetics.** Inherited defects in mismatch repair — mutations in *MLH1*, *MSH2*, *MSH6* or *PMS2* — cause Lynch syndrome, and the resulting tumours are described as having **microsatellite instability**: repetitive tracts where polymerase slips are especially common come out at variable lengths because nothing corrected the slippage. Separately, tumours carrying a damaged proofreading exonuclease domain in POLE or POLD1 accumulate enormous mutation burdens. The clinical consequence is not only faster tumour evolution: a highly mutated tumour displays many more abnormal peptides on its surface, which is a large part of why these tumours often respond well to immune checkpoint therapy. High error rate, more neoantigens, more visible to T cells.
+
+**Antibiotics and chemotherapy.** The fork is a rich drug target precisely because it is a busy machine with several essential moving parts. Fluoroquinolones such as ciprofloxacin inhibit bacterial topoisomerases, so supercoiling ahead of the fork is never released and replication grinds to a halt. Several chemotherapy agents work by damaging or stalling replication in rapidly dividing cells, which is also why they hit rapidly dividing normal tissue — marrow, gut lining, hair follicles.
+
+**The lagging strand and the ends of chromosomes.** When the final RNA primer at the end of a linear chromosome is removed, there is no upstream 3′ end for polymerase to extend into the gap. Every replication therefore shortens the chromosome slightly — the end-replication problem, a direct consequence of the same 5′→3′ constraint that created Okazaki fragments. Telomeres are buffer sequence that absorbs the loss, and telomerase, active in germline and stem cells and reactivated in most cancers, extends them back.
+
+**Laboratory work.** PCR is replication run deliberately in a tube, with heat replacing helicase and short synthetic DNA primers replacing primase. Sequencing chemistry rests on the same enzymology. When high accuracy matters — assembling a genome, calling a rare variant — labs pay for a high-fidelity polymerase, and the thing they are paying for is an intact proofreading exonuclease.
+
+Finally, a caveat worth stating plainly: an error rate of $10^{-9}$ is not zero, and it is not meant to be. Replication errors, along with damage from radiation, chemicals, and ordinary metabolism, are the raw material of variation. A copying system with literally perfect fidelity would be a system in which evolution had stopped. The number the cell has settled on looks less like a failed attempt at perfection and more like a set point.
+
+<KeyTakeaways>
+- Complementary base pairing means each strand specifies the other, and Meselson–Stahl showed the copy is **semiconservative**: every daughter duplex is one old strand and one new one.
+- DNA polymerase extends only 5′→3′, and the two templates are antiparallel — that single constraint forces one strand to be built continuously (leading) and the other backwards in Okazaki fragments (lagging), about eleven million of them per human genome copy.
+- Eukaryotes did not evolve a faster polymerase to copy a large genome; at 50 nt/s one fork would need about a year, so cells fire thousands of origins and replicate in parallel.
+- Fidelity is built in multiplying layers — active-site selectivity ($10^{-2} \to 10^{-5}$), proofreading exonuclease ($\to 10^{-7}$), and mismatch repair ($\to 10^{-9}$) — so losing any one layer multiplies the error rate rather than merely adding to it.
+- The residual rate is a set point, not a failure: it yields roughly a few uncorrected errors per genome copied, which is both survivable and the substrate that evolution acts on.
+</KeyTakeaways>
