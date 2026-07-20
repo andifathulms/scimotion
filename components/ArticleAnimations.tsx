@@ -170,3 +170,13 @@ export const MemoizationTreeAnimation = dynamic(
   () => import('@/components/animations/MemoizationTreeAnimation').then(m => ({ default: m.MemoizationTreeAnimation })),
   { ssr: false }
 )
+
+export const EntropyAnimation = dynamic(
+  () => import('@/components/animations/EntropyAnimation').then(m => ({ default: m.EntropyAnimation })),
+  { ssr: false }
+)
+
+export const MicrostatesAnimation = dynamic(
+  () => import('@/components/animations/MicrostatesAnimation').then(m => ({ default: m.MicrostatesAnimation })),
+  { ssr: false }
+)

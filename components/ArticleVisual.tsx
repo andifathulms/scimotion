@@ -307,6 +307,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'entropy-and-the-second-law': c => {
+    // Gas clustered in one corner (W = 1) vs spread through the box (W = max).
+    const rnd = (i: number, s: number) => { const v = Math.sin((i + 1) * s) * 43758.5453; return v - Math.floor(v) }
+    const clustered = Array.from({ length: 14 }, (_, i) => ({
+      x: 20 + rnd(i, 12.9898) * 26,
+      y: 72 + rnd(i, 78.233) * 24,
+    }))
+    const spread = Array.from({ length: 14 }, (_, i) => ({
+      x: 178 + rnd(i, 45.164) * 102,
+      y: 26 + rnd(i, 91.873) * 68,
+    }))
+    return (
+      <g>
+        <rect x={14} y={20} width={114} height={80} rx={3} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        <rect x={172} y={20} width={114} height={80} rx={3} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        <line x1={71} y1={20} x2={71} y2={100} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={229} y1={20} x2={229} y2={100} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        {clustered.map((p, i) => <circle key={`a${i}`} cx={p.x} cy={p.y} r={2.6} fill={c} />)}
+        {spread.map((p, i) => <circle key={`b${i}`} cx={p.x} cy={p.y} r={2.6} fill={c} opacity={0.85} />)}
+        <line x1={136} y1={60} x2={162} y2={60} stroke={GOLD} strokeWidth={1.5} />
+        <path d="M 162 60 L 155 56 L 155 64 Z" fill={GOLD} />
+        <path d="M 162 74 L 136 74" stroke={MUTE} strokeWidth={1} strokeDasharray="2 3" />
+        <path d="M 136 74 L 143 70.5 L 143 77.5 Z" fill={MUTE} opacity={0.5} />
+        <text x={71} y={113} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">W = 1</text>
+        <text x={229} y={113} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">W = max</text>
+        <text x={149} y={50} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">S↑</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -51,6 +51,8 @@ import {
   BayesUpdateAnimation,
   DynamicProgrammingAnimation,
   MemoizationTreeAnimation,
+  EntropyAnimation,
+  MicrostatesAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -88,6 +90,8 @@ const components = {
   BayesUpdateAnimation,
   DynamicProgrammingAnimation,
   MemoizationTreeAnimation,
+  EntropyAnimation,
+  MicrostatesAnimation,
   KeyTakeaways,
 }
 
