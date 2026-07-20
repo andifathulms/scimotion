@@ -719,6 +719,36 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'information-theory': c => {
+    // Binary entropy curve peaking at 1 bit, beside variable-length codewords.
+    const r = (v: number) => Math.round(v * 100) / 100
+    const hb = (p: number) => (p <= 0 || p >= 1 ? 0 : -p * Math.log2(p) - (1 - p) * Math.log2(1 - p))
+    const curve = Array.from({ length: 41 }, (_, i) => {
+      const p = i / 40
+      return `${r(16 + p * 152)},${r(102 - hb(p) * 72)}`
+    }).join(' ')
+    const codes: ReactNode[] = [14, 32, 56, 88].map((w, i) => (
+      <g key={`cw${i}`}>
+        <rect x={190} y={24 + i * 22} width={w} height={8} rx={2} fill={i === 0 ? GOLD : c} opacity={i === 0 ? 0.95 : 0.75 - i * 0.15} />
+        <rect x={190} y={24 + i * 22} width={w} height={8} rx={2} fill="none" stroke={MUTE} strokeWidth={0.5} />
+      </g>
+    ))
+    return (
+      <g>
+        <line x1={16} y1={102} x2={168} y2={102} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={16} y1={102} x2={16} y2={26} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={92} y1={30} x2={92} y2={102} stroke={GOLD} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={16} y1={30} x2={92} y2={30} stroke={FAINT} strokeWidth={1} />
+        <circle cx={92} cy={30} r={4} fill={GOLD} />
+        <text x={20} y={22} fill={MUTE} fontSize={9} fontFamily="monospace">H(p)</text>
+        <text x={96} y={26} fill={GOLD} fontSize={8} fontFamily="monospace">1 bit</text>
+        <line x1={180} y1={16} x2={180} y2={104} stroke={FAINT} strokeWidth={1} />
+        {codes}
+        <text x={190} y={116} fill={MUTE} fontSize={8} fontFamily="monospace">codewords</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

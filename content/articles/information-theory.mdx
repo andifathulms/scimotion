@@ -1,0 +1,155 @@
+---
+title: "Information Theory"
+subtitle: "How to measure surprise in bits — and why that number is a hard floor on every compressor ever written."
+topic: "Mathematics"
+slug: "information-theory"
+date: "2026-07-20"
+readTime: 10
+featured: false
+description: "Shannon entropy counts the yes/no questions you need to pin down an unknown. That count turns out to be the exact limit of lossless compression, and the reason error correction has a price."
+tags: ["information", "entropy", "compression", "coding-theory"]
+quiz:
+  - q: "A source emits one of four symbols with probabilities 1/2, 1/4, 1/8, 1/8. Why can a code average 1.75 bits per symbol when a fixed-length code needs 2?"
+    options:
+      - "Because the symbols can be reordered so the common ones come first, which shortens the file"
+      - "Because entropy is 1.75 bits, and a variable-length code can spend short codewords on frequent symbols and long ones on rare symbols"
+      - "Because two of the probabilities are equal, letting the encoder merge them into a single symbol"
+      - "Because a fixed-length code wastes a bit on every symbol regardless of the distribution"
+    answer: 1
+    explanation: "Entropy is the probability-weighted average of the per-symbol surprises, and matching codeword length to surprise achieves that average instead of paying the worst case every time."
+  - q: "The source coding theorem says no lossless code can average fewer than H bits per symbol. What does that imply about a compressor that claims to shrink every possible input file?"
+    options:
+      - "It must be using a lossy transform somewhere in the pipeline"
+      - "It is impossible: compression is a one-to-one map, so making some inputs shorter necessarily makes others longer"
+      - "It is possible only if the files are large enough for the asymptotic bound to apply"
+      - "It works, but only for files whose symbols are statistically independent"
+    answer: 1
+    explanation: "A lossless codec is an injection from inputs to outputs, so by counting there is no way for every input to map to a strictly shorter output — gains on likely files are paid for by losses on unlikely ones."
+  - q: "Shannon entropy and Boltzmann entropy share a formula. What is the most accurate statement of their relationship?"
+    options:
+      - "They are unrelated; the shared formula is a historical coincidence in notation"
+      - "They are the same quantity measured in different units — Boltzmann's counts microstates of a physical system in joules per kelvin, Shannon's counts outcomes of a probability distribution in bits, and Landauer's principle converts between them"
+      - "Boltzmann entropy is a special case of Shannon entropy that applies only to gases at equilibrium"
+      - "Shannon entropy increases over time in a closed system, exactly as thermodynamic entropy does"
+    answer: 1
+    explanation: "Both are logarithmic measures of how many possibilities a description leaves open, differing by the constant k_B ln 2 and by whether the distribution describes molecules or messages."
+---
+
+## How many questions does it take?
+
+I am thinking of a number between 1 and 8. You may ask yes/no questions. How many do you need?
+
+Three. "Is it above 4?" splits eight into four; "is it above 6?" splits four into two; one more finishes it. Three questions, $2^3 = 8$ possibilities. The answer is $\log_2 8$, and this is not a coincidence — each yes/no answer can at best halve the field, so pinning down one of $n$ equally likely things costs $\log_2 n$ questions.
+
+Now change the game. I flip a fair coin and you must guess the result. One question — "heads?" — and you are done. One bit.
+
+Now I flip a coin that comes up heads 99 times out of 100. You still ask one question, but almost all the time the answer is a bored "yes, heads." You knew that already. Averaged over many flips, you learned almost nothing — about 0.08 bits per flip, not 1. The loaded coin is *cheaper* than the fair one, because it was more predictable to begin with.
+
+That gap between one bit and 0.08 bits is the whole subject. Claude Shannon, in a 1948 paper that essentially invented the field in one shot, gave the quantity a name, a formula, and — remarkably — proved it was the exact limit of what any compression scheme can achieve.
+
+## Surprise, and the average of it
+
+Start with a single outcome rather than a whole distribution. If an event has probability $p$, how surprising is it when it happens?
+
+Whatever "surprise" means, it should satisfy two things. Certain events ($p = 1$) should carry zero surprise. And surprises from independent events should *add*: learning two unrelated facts should be worth the sum of their individual worth, even though their joint probability is the product $p_1 p_2$. A function that turns products into sums is a logarithm, and that pins the answer down almost completely:
+
+$$I(x) = \log_2 \frac{1}{p(x)} = -\log_2 p(x)$$
+
+This is the **self-information**, or surprisal, measured in bits when the log is base 2. A coin flip that lands heads with $p = 1/2$ carries $-\log_2(1/2) = 1$ bit. An outcome with $p = 1/1024$ carries 10 bits. An outcome that was certain carries 0.
+
+**Entropy** is then just the expected surprise — the average of $I(x)$ weighted by how often each outcome actually occurs:
+
+$$H = -\sum_i p_i \log_2 p_i$$
+
+That is Shannon's formula, and it is the center of everything that follows. Read it out loud as a sentence: *how surprised do I expect to be, on average, per symbol.* Rare symbols are individually very surprising but contribute little because $p_i$ is small; common symbols are unsurprising but frequent. Entropy is where those two effects balance.
+
+Two properties fall out immediately. $H \ge 0$ always, with equality only when one outcome has probability 1 — a source that always says the same thing conveys nothing. And for $n$ possible symbols, $H \le \log_2 n$, with equality exactly when the distribution is uniform. Maximum uncertainty means no outcome is favored.
+
+## Reshaping the distribution
+
+<ShannonEntropyAnimation />
+
+Four symbols, four sliders. Start where it opens, with all four equally likely: entropy sits at exactly 2.000 bits, which is $\log_2 4$, the ceiling. Two yes/no questions per symbol, no cleverness available.
+
+Now drag A's slider up and watch two numbers move in opposite directions. A's own surprise (the small figure under its bar) *drops* — it is becoming predictable, so seeing it teaches you less. But the surprise of B, C and D climbs, because they are becoming rarer and therefore more informative when they do appear. Entropy is the weighted average, and the weighting is what decides the outcome: as A dominates, the increasingly-informative rare symbols show up increasingly rarely, so the average falls. Push A to the far right and $H$ collapses toward 0. A source that only ever emits A tells you nothing at all.
+
+Try to *beat* 2.000 bits by any arrangement of the sliders. You cannot. Every departure from uniform lowers $H$, which is the precise sense in which the uniform distribution is the state of maximum ignorance.
+
+The right-hand panel isolates the two-outcome case — the binary entropy function $H(p) = -p\log_2 p - (1-p)\log_2(1-p)$. Drag the coin bias and trace the curve. It peaks at exactly 1 bit when $p = 0.5$, and falls away on both sides, symmetrically: a coin biased 90% to heads and one biased 90% to tails are equally predictable. Note the shape near the ends. At $p = 0.99$, $H \approx 0.08$ bits — the loaded coin from the opening. And note how *flat* the top is: a coin biased 55/45 still carries 0.993 bits. Mild bias costs you almost nothing; that flatness is why a slightly unfair coin is so hard to detect statistically.
+
+## Why entropy is a floor, not a suggestion
+
+Here is where the subject stops being a definition and becomes a theorem.
+
+Suppose you want to store a long message from a source with entropy $H$ bits per symbol, losslessly — the decoder must reconstruct the original exactly. Shannon's **source coding theorem** says: for a message of $n$ symbols, you can encode it in about $nH$ bits, and you cannot do better. Formally, for any $\varepsilon > 0$ there is a code achieving an expected length $L$ per symbol with
+
+$$H \leq L < H + \varepsilon$$
+
+and no lossless code whatsoever achieves $L < H$.
+
+The reason is a counting argument, and it's the same shape as the counting argument behind [thermodynamic entropy](/articles/entropy-and-the-second-law). Of the $2^n$ possible binary strings a source *could* emit, the ones it actually emits with non-negligible probability number only about $2^{nH}$ — Shannon called these the **typical set**. Flip a biased coin ($p = 0.9$) a thousand times and you will essentially never see a sequence with 500 heads, even though such sequences exist in vast numbers; you will see sequences with roughly 900 heads. So you can assign short binary labels to just the typical sequences and ignore the rest, and there are $2^{nH}$ of them, needing $nH$ bits. Fewer than $nH$ bits gives you fewer than $2^{nH}$ labels, and two typical sequences collide — the code is no longer decodable.
+
+This has a bracing corollary. **No compressor can shrink every input.** Lossless compression is a one-to-one map, so if some files get shorter, others must get longer. Real compressors work by betting that your files are drawn from a small, structured corner of the space of all files — English text, not random bytes — and they win that bet because your files really are. Feed one an already-compressed file and watch the output grow by a few bytes.
+
+## Building the code that gets there
+
+The theorem promises a code exists. It doesn't hand you one. David Huffman, as a graduate student avoiding a final exam in 1951, found the algorithm that constructs the optimal one.
+
+The idea is greedy and takes one sentence: repeatedly take the two least frequent symbols and merge them into a single node whose frequency is their sum, until one node remains. The tree you built assigns each symbol a codeword — read the path from root to leaf, 0 for left, 1 for right.
+
+<HuffmanCodingAnimation />
+
+Hit Auto-build and watch which nodes the gold ring picks out at each step: always the two rarest live nodes. Because rare symbols get merged first, they end up deepest in the tree and receive the longest codewords; the most frequent symbol gets merged last and sits nearest the root with the shortest code. That is exactly the "spend short codewords on frequent symbols" instinct, made into an algorithm — and Huffman proved it produces the optimal such code, not merely a good one.
+
+Watch the three bars on the right as the tree completes. With the `text-like` frequencies, Huffman lands at 2.240 bits per symbol against an entropy floor of 2.220 — a hair above the theoretical limit, and well under the 3 bits a fixed-length code would need for six symbols. Now switch to `very skewed`. Entropy drops sharply, and Huffman follows it down. Then switch to `near-uniform` and watch the gap open up: Huffman is stuck at 2.650 bits against an entropy of 2.584, because with six roughly-equal symbols there is simply nothing to exploit.
+
+That residual gap is Huffman's one weakness, and it is structural. Codewords must be a whole number of bits, but the ideal length $-\log_2 p_i$ almost never is. A symbol with $p = 0.9$ deserves 0.15 bits and gets 1 — a sevenfold overpayment on the most common symbol. The bound is $H \le L_{\text{Huffman}} < H + 1$, and that trailing $+1$ bites hardest on skewed alphabets. Arithmetic coding fixes it by encoding the *entire message* as a single fractional number in $[0, 1)$, sidestepping the integer constraint and getting arbitrarily close to $H$. It is why modern codecs — from JPEG's successors to modern video — moved past Huffman.
+
+Note the assumption underneath all of this: the model. Huffman needs the frequencies. Real compressors like `gzip` and `zstd` do most of their work *before* the entropy coder, by building a better model — spotting repeated substrings, conditioning each symbol on the ones before it. English text has an entropy around 4.7 bits per character if you treat characters as independent, but only about 1.0–1.5 bits per character once you account for context, which Shannon himself measured by having people guess the next letter. Compression is model-building; entropy coding is just how you cash the model in.
+
+## Shannon entropy vs. Boltzmann entropy
+
+The formula $H = -\sum p_i \log p_i$ should look familiar if you've read about [entropy and the second law](/articles/entropy-and-the-second-law). Boltzmann's tombstone carries $S = k_B \ln W$, and the Gibbs generalization is $S = -k_B \sum p_i \ln p_i$ — the same expression, differing only by the constant out front and the base of the logarithm.
+
+This is not a pun or an analogy. Both quantities answer the same question: *how many possibilities does my description leave open?* Boltzmann's counts the microstates — arrangements of molecules — consistent with a macrostate you can measure. Shannon's counts the messages consistent with what you know about a source. The unit differs because the applications differ: one bit of Shannon entropy equals $k_B \ln 2 \approx 9.57 \times 10^{-24}$ J/K of thermodynamic entropy.
+
+Von Neumann reportedly told Shannon to call his quantity entropy for exactly this reason — and added, mischievously, that since nobody really understands entropy, he'd win any argument about it.
+
+But the differences matter, and conflating them causes real confusion:
+
+- **Scope.** Thermodynamic entropy is defined for a physical system with energy and temperature. Shannon entropy is defined for any probability distribution — a language, a market, a genome, a slider you just dragged. Most Shannon entropies have no temperature.
+- **The second law does not transfer.** Thermodynamic entropy of an isolated system increases. Shannon entropy of a source does not "increase over time"; it is a property of a distribution, and it changes only when the distribution does. There is no arrow of time in Shannon's theory.
+- **Whose ignorance.** Thermodynamic entropy is usually treated as objective. Shannon entropy is explicitly relative to a model. The same file has different entropy under different models, and that is a feature — a better model means lower entropy means better compression.
+
+Where they genuinely fuse is **Landauer's principle**: erasing one bit of information in a physical device must dissipate at least $k_B T \ln 2$ of heat. Information is not abstract; storing and destroying it has a thermodynamic cost, now measured in the lab. This is also the resolution of Maxwell's demon — the demon can sort molecules and appear to violate the second law, but it must record which molecule went where, and when its memory eventually fills and must be erased, the entropy books balance exactly.
+
+## Noise, capacity, and the price of certainty
+
+Everything so far has been about squeezing redundancy *out*. Shannon's second great theorem is about deliberately putting it *back in*.
+
+Send bits down a real channel — a copper wire, a radio link, a scratched DVD — and some flip. For a binary symmetric channel that flips each bit independently with probability $p$, the **capacity** is
+
+$$C = 1 - H(p)$$
+
+bits per use, where $H(p)$ is the same binary entropy curve from the first widget. The subtraction says: of the one bit you sent, $H(p)$ bits' worth was destroyed by the channel's own uncertainty, and what survives is the remainder.
+
+Read the curve's shape again with this in mind. At $p = 0$ the channel is perfect and $C = 1$. At $p = 0.5$ the output is independent of the input and $C = 0$ — the channel is useless, transmitting pure noise. Strangely, at $p = 1$ the capacity is back to 1: a channel that flips *every* bit is perfectly reliable, you just invert the output.
+
+The **noisy channel coding theorem** is the astonishing part. For any rate $R < C$, there exist codes that make the error probability *arbitrarily small* — not smaller, arbitrarily small — despite the channel corrupting bits at random forever. Before 1948 the assumption was that reliability required slowing down toward zero, sending everything a hundred times. Shannon proved you can have near-perfect reliability at any rate below capacity, and nothing above it. He proved this non-constructively, by showing random codes work on average, and it took engineers roughly fifty years to actually build codes approaching the limit — turbo codes in 1993, then low-density parity-check codes, which now sit within a fraction of a decibel of Shannon's bound.
+
+The payoff is everywhere:
+
+- **Every wireless standard** — Wi-Fi, 5G, satellite links — is a negotiation with a capacity formula. When your connection "slows down," a rate-adaptation algorithm is stepping down toward a lower rate that stays under the current capacity.
+- **Storage.** SSDs and hard drives write LDPC-coded data because flash cells genuinely do flip. Your files are correct because the redundancy catches the errors, not because the hardware is perfect.
+- **Deep space.** Voyager's signal reaches Earth at a power measured in attowatts. It is intelligible because of concatenated error-correcting codes designed against exactly this bound.
+- **Biology and language.** DNA's redundancy and natural language's redundancy (English is roughly 50% redundant — you can drop half the letters and stay readable) both function as error correction against noisy channels.
+
+Redundancy, in short, is not waste. Compression removes the redundancy you didn't choose; error correction adds back exactly the redundancy you did.
+
+<KeyTakeaways>
+- Information is measured as **surprise**: an outcome of probability $p$ carries $-\log_2 p$ bits, and entropy $H = -\sum p_i \log_2 p_i$ is the average surprise per symbol.
+- Entropy is maximized by the **uniform** distribution ($H = \log_2 n$) and collapses to 0 as one outcome dominates — a fair coin costs exactly 1 bit, a 99/1 coin costs about 0.08.
+- The **source coding theorem** makes $H$ a hard floor on lossless compression. A corollary: no compressor can shrink every input, since compression is one-to-one.
+- **Huffman coding** constructively achieves within 1 bit of the floor by giving frequent symbols short codewords; the gap comes from codewords being whole numbers of bits, which arithmetic coding removes.
+- Shannon and Boltzmann entropy are the same logarithmic count of possibilities in different units — but Shannon's applies to any distribution, carries no arrow of time, and is explicitly relative to your model. [Landauer's principle](/articles/entropy-and-the-second-law) is the bridge: erasing a bit costs at least $k_B T \ln 2$ of heat.
+</KeyTakeaways>

@@ -280,3 +280,13 @@ export const ButterflyEffectAnimation = dynamic(
   () => import('@/components/animations/ButterflyEffectAnimation').then(m => ({ default: m.ButterflyEffectAnimation })),
   { ssr: false }
 )
+
+export const ShannonEntropyAnimation = dynamic(
+  () => import('@/components/animations/ShannonEntropyAnimation').then(m => ({ default: m.ShannonEntropyAnimation })),
+  { ssr: false }
+)
+
+export const HuffmanCodingAnimation = dynamic(
+  () => import('@/components/animations/HuffmanCodingAnimation').then(m => ({ default: m.HuffmanCodingAnimation })),
+  { ssr: false }
+)

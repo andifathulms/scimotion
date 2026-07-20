@@ -73,6 +73,8 @@ import {
   ModularExponentiationAnimation,
   LogisticMapAnimation,
   ButterflyEffectAnimation,
+  ShannonEntropyAnimation,
+  HuffmanCodingAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -132,6 +134,8 @@ const components = {
   ModularExponentiationAnimation,
   LogisticMapAnimation,
   ButterflyEffectAnimation,
+  ShannonEntropyAnimation,
+  HuffmanCodingAnimation,
   KeyTakeaways,
 }
 
