@@ -59,6 +59,8 @@ import {
   LearningRateAnimation,
   KeplerOrbitAnimation,
   HarmonicLawAnimation,
+  EigenvectorAnimation,
+  PowerIterationAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -104,6 +106,8 @@ const components = {
   LearningRateAnimation,
   KeplerOrbitAnimation,
   HarmonicLawAnimation,
+  EigenvectorAnimation,
+  PowerIterationAnimation,
   KeyTakeaways,
 }
 

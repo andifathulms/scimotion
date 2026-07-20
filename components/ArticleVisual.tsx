@@ -421,6 +421,43 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'eigenvectors-and-eigenvalues': c => {
+    // A circle of vectors under A = [1.6 0.5; 0.5 1.6]. Most swing off their
+    // starting line; the two on the eigen-spans only scale.
+    // Coordinates are precomputed literals — no runtime trig, no hydration risk.
+    const cx = 150, cy = 60
+    const vecs: [number, number, number, number, number][] = [
+      [171.25, 54.31, 186.85, 40.26, 0],
+      [165.56, 44.44, 182.67, 27.33, 1],
+      [155.69, 38.75, 169.74, 23.15, 0],
+      [144.31, 38.75, 151.51, 28.85, 0],
+      [134.44, 44.44, 132.89, 42.89, 1],
+      [128.75, 54.31, 118.85, 61.51, 0],
+      [128.75, 65.69, 113.15, 79.74, 0],
+      [134.44, 75.56, 117.33, 92.67, 0],
+      [144.31, 81.25, 130.26, 96.85, 0],
+      [155.69, 81.25, 148.49, 91.15, 0],
+      [165.56, 75.56, 167.11, 77.11, 0],
+      [171.25, 65.69, 181.15, 58.49, 0],
+    ]
+    return (
+      <g>
+        <line x1={113.23} y1={96.77} x2={186.77} y2={23.23} stroke={GOLD} strokeWidth={1} strokeDasharray="3 3" opacity={0.55} />
+        <line x1={113.23} y1={23.23} x2={186.77} y2={96.77} stroke={c} strokeWidth={1} strokeDasharray="3 3" opacity={0.55} />
+        <circle cx={cx} cy={cy} r={22} fill="none" stroke={FAINT} strokeWidth={1} />
+        {vecs.map(([ix, iy, ox, oy, eig], i) => (
+          <g key={i}>
+            <line x1={cx} y1={cy} x2={ix} y2={iy} stroke={MUTE} strokeWidth={0.6} opacity={0.5} />
+            <line x1={cx} y1={cy} x2={ox} y2={oy} stroke={eig ? GOLD : c} strokeWidth={eig ? 2 : 1.1} opacity={eig ? 1 : 0.6} />
+            <circle cx={ox} cy={oy} r={eig ? 3.5 : 1.8} fill={eig ? GOLD : c} opacity={eig ? 1 : 0.6} />
+          </g>
+        ))}
+        <circle cx={cx} cy={cy} r={2} fill={MUTE} />
+        <text x={190} y={26} fontSize={9} fill={GOLD} fontFamily="monospace">λ=2.1</text>
+        <text x={100} y={18} fontSize={9} fill={c} fontFamily="monospace">λ=1.1</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

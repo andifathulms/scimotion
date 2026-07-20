@@ -1,0 +1,173 @@
+---
+title: "Eigenvectors and Eigenvalues"
+subtitle: "The special directions a matrix can stretch but never turn."
+topic: "Mathematics"
+slug: "eigenvectors-and-eigenvalues"
+date: "2026-07-15"
+readTime: 10
+featured: false
+description: "Almost every vector gets knocked off its line by a matrix. The rare few that don't reveal what the transformation is really doing."
+tags: ["linear-algebra", "matrices", "geometry", "spectral-theory"]
+quiz:
+  - q: "A 2x2 matrix has characteristic polynomial with a negative discriminant, so both eigenvalues are complex. What does this tell you about the transformation's action on the real plane?"
+    options:
+      - "The matrix is not invertible, so it collapses the plane onto a line"
+      - "No real vector is mapped to a multiple of itself, meaning every direction is rotated"
+      - "The matrix scales all vectors by the same complex factor"
+      - "The transformation reverses orientation but preserves all lengths"
+    answer: 1
+    explanation: "Complex eigenvalues mean the characteristic equation has no real roots, so there is no real line the matrix maps into itself and every real direction gets rotated."
+  - q: "Why does a matrix with a repeated eigenvalue sometimes fail to be diagonalizable?"
+    options:
+      - "A repeated eigenvalue always has determinant zero, which blocks the inverse of P"
+      - "The characteristic polynomial cannot be factored when roots repeat"
+      - "The eigenspace for that eigenvalue can have lower dimension than the root's multiplicity, so there are too few independent eigenvectors to form a basis"
+      - "Repeated eigenvalues force the eigenvectors to be complex rather than real"
+    answer: 2
+    explanation: "Diagonalization needs a full basis of eigenvectors, and a defective matrix has an eigenspace whose dimension falls short of the eigenvalue's algebraic multiplicity."
+  - q: "In a discrete dynamical system x_{k+1} = A x_k, what determines whether trajectories decay to the origin, and why?"
+    options:
+      - "Whether the determinant of A is less than one, since determinant measures total volume scaling"
+      - "Whether every eigenvalue has magnitude less than one, since each eigen-component is multiplied by its own eigenvalue at every step"
+      - "Whether the trace of A is negative, since trace measures the average stretching"
+      - "Whether A is symmetric, since symmetric matrices always have decaying trajectories"
+    answer: 1
+    explanation: "Writing the state in the eigenvector basis makes each component evolve independently as lambda^k, so all trajectories shrink exactly when every eigenvalue has magnitude below one."
+---
+
+## Most vectors get knocked off their line
+
+Pick a matrix — say
+
+$$A = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$$
+
+and pick a vector. Almost any vector. Multiply, and two things happen: the vector changes length, and it changes direction. It gets knocked off the line it was sitting on.
+
+Now try $\mathbf{v} = (1, 1)$. Multiply: $A\mathbf{v} = (3, 3)$. Same direction, three times as long. Try $\mathbf{v} = (1, -1)$: $A\mathbf{v} = (1, -1)$ — unchanged entirely.
+
+These two directions are special. The matrix does not turn them; it only scales them. They are the **eigenvectors** of $A$, and the scale factors — $3$ and $1$ — are its **eigenvalues**. Every matrix has such directions (once you allow complex numbers), and finding them is the single most useful thing you can do to a matrix. It tells you what the transformation is *really* doing, stripped of the coordinate system you happened to write it in.
+
+## The defining equation
+
+A nonzero vector $\mathbf{v}$ is an eigenvector of a square matrix $A$ with eigenvalue $\lambda$ when
+
+$$A\mathbf{v} = \lambda\mathbf{v}$$
+
+Read this as a sentence: *applying the matrix does the same thing as multiplying by a single number*. The whole apparatus of the matrix — all $n^2$ entries, all the mixing of coordinates — collapses, on this one direction, into a single scalar.
+
+A few immediate consequences worth internalizing:
+
+- **Eigenvectors come in lines, not points.** If $A\mathbf{v} = \lambda\mathbf{v}$ then $A(5\mathbf{v}) = \lambda(5\mathbf{v})$ too. The eigenvector is really the whole span — the *invariant line* — and we usually normalize to length 1 just to have a representative.
+- **$\mathbf{v} = \mathbf{0}$ is excluded** by fiat. It satisfies the equation for every $\lambda$, which would make the definition useless.
+- **Eigenvalues can be negative or zero.** $\lambda = -1$ flips the vector to point backward along the same line — still the same span, so still an eigenvector. $\lambda = 0$ means $A\mathbf{v} = \mathbf{0}$: the matrix crushes that direction to nothing, which happens exactly when $A$ is singular.
+
+## Watching the invariant lines light up
+
+The clearest way to feel this is to apply a matrix to a whole circle of vectors at once and see which ones refuse to turn.
+
+<EigenvectorAnimation />
+
+Every violet arrow starts on the unit circle and morphs into its image $A\mathbf{v}$. Watch what happens: most arrows swing off their starting line as they grow. But a few slide straight out (or straight in) along the line they began on — those light up gold, and the dashed lines mark their spans. Those are the eigenvectors.
+
+Things worth trying:
+
+- Start with the default $[2\ 1;\ 1\ 2]$. Two gold directions appear at $45°$ and $135°$, with $\lambda = 3$ and $\lambda = 1$ in the readout. Note that the $\lambda = 1$ direction doesn't move at all.
+- Switch to **Pure rotation 90°** ($[0\ {-1};\ 1\ 0]$). *Nothing* lights up, and the readout goes pink: $\lambda = 0 \pm 1i$. A rotation has no invariant line in the real plane, because it turns every direction. We will come back to this.
+- Switch to **Shear** ($[1\ 1;\ 0\ 1]$). Only *one* gold line survives, along the horizontal axis. A shear slides everything sideways; the only direction it leaves alone is the one it slides along. This is a defective matrix — a repeated eigenvalue with only one eigenvector.
+- Set $d$ so that $\det A = 0$ (e.g. $a=2, b=1, c=2, d=1$). One eigenvalue drops to zero and that whole gold direction collapses to the origin.
+
+## Computing them: the characteristic polynomial
+
+How do you *find* these directions without hunting? Rearrange the defining equation:
+
+$$A\mathbf{v} = \lambda\mathbf{v} \quad\Longrightarrow\quad (A - \lambda I)\mathbf{v} = \mathbf{0}$$
+
+We want a **nonzero** $\mathbf{v}$ in the null space of $A - \lambda I$. A matrix has a nonzero null vector precisely when it is singular, and a matrix is singular precisely when its determinant vanishes. So the eigenvalues are the solutions of the **characteristic equation**:
+
+$$\det(A - \lambda I) = 0$$
+
+For a $2\times 2$ matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, expand it:
+
+$$\det\begin{pmatrix} a - \lambda & b \\ c & d - \lambda \end{pmatrix} = (a-\lambda)(d-\lambda) - bc = 0$$
+
+$$\lambda^2 - (a + d)\lambda + (ad - bc) = 0$$
+
+The coefficients are exactly the **trace** and the **determinant**:
+
+$$\lambda^2 - (\operatorname{tr}A)\,\lambda + \det A = 0 \quad\Longrightarrow\quad \lambda = \frac{\operatorname{tr}A \pm \sqrt{(\operatorname{tr}A)^2 - 4\det A}}{2}$$
+
+which gives the two identities you should keep in your pocket: $\lambda_1 + \lambda_2 = \operatorname{tr}A$ and $\lambda_1\lambda_2 = \det A$. The determinant is the product of the eigenvalues — which is why a zero eigenvalue and a singular matrix are the same statement.
+
+Run it on our example: $\operatorname{tr} = 4$, $\det = 3$, so $\lambda^2 - 4\lambda + 3 = 0$, giving $\lambda = 3, 1$. To get the eigenvector for $\lambda = 3$, solve $(A - 3I)\mathbf{v} = \mathbf{0}$:
+
+$$\begin{pmatrix} -1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \quad\Longrightarrow\quad x = y$$
+
+The solution set is the whole line $\operatorname{span}\{(1,1)\}$ — as promised, a line rather than a point. That the rows came out proportional is not luck: we *chose* $\lambda$ to make this matrix singular, so a redundant row is guaranteed. If you solve for an eigenvector and get only $\mathbf{v} = \mathbf{0}$, you made an arithmetic error somewhere.
+
+### Real versus complex
+
+The discriminant $(\operatorname{tr}A)^2 - 4\det A$ decides everything:
+
+- **Positive** — two distinct real eigenvalues, two distinct invariant lines.
+- **Zero** — a repeated real eigenvalue. There may be two independent eigenvectors (as for $2I$, where *every* direction is an eigenvector) or only one (the shear).
+- **Negative** — a complex conjugate pair $\lambda = p \pm qi$, and **no real eigenvector at all**.
+
+The $90°$ rotation is the cleanest case: $\operatorname{tr} = 0$, $\det = 1$, so $\lambda^2 + 1 = 0$ and $\lambda = \pm i$. There is genuinely no line in the plane that a rotation maps to itself, so the honest answer *has* to leave the real numbers. The complex eigenvalue is not a bookkeeping artifact — writing it as $\lambda = re^{i\theta}$ hands you the rotation angle $\theta$ and the per-step growth factor $r$ directly. Complex eigenvalues are the algebra's way of saying "this transformation spirals."
+
+## Diagonalization: the matrix in its own coordinates
+
+Suppose $A$ ($n \times n$) has $n$ linearly independent eigenvectors. Stack them as the columns of a matrix $P$, and put the eigenvalues down the diagonal of $D$. Then $AP = PD$, and since the independent columns make $P$ invertible:
+
+$$A = PDP^{-1} \qquad\text{equivalently}\qquad D = P^{-1}AP$$
+
+This says: *in the coordinate system built from its own eigenvectors, the matrix is just a list of scale factors*. All the apparent complexity of $A$ was an artifact of describing it in the standard basis.
+
+The payoff is that powers become trivial. The middle terms telescope:
+
+$$A^k = (PDP^{-1})(PDP^{-1})\cdots(PDP^{-1}) = PD^kP^{-1}$$
+
+and $D^k$ is just each $\lambda_i$ raised to the $k$. Computing $A^{100}$ by repeated multiplication is brutal; via diagonalization it costs one change of basis, $n$ exponentiations, and one change back. The same trick defines matrix functions in general — $e^{At} = Pe^{Dt}P^{-1}$, which is how you solve a linear system of differential equations $\dot{\mathbf{x}} = A\mathbf{x}$ in closed form.
+
+Not every matrix diagonalizes. The shear $[1\ 1;\ 0\ 1]$ has $\lambda = 1$ twice but only a one-dimensional eigenspace, so there is no basis of eigenvectors and no $P$. Such matrices are called **defective**, and they are why the Jordan normal form exists. But two big families are always safe: any matrix with $n$ *distinct* eigenvalues, and — by the spectral theorem — any **real symmetric** matrix, which is even better behaved, since its eigenvalues are all real and its eigenvectors can be chosen mutually orthogonal. That guarantee is precisely what makes PCA work.
+
+## Finding the dominant direction by brute force
+
+The characteristic polynomial is a fine tool for $2 \times 2$ matrices and a terrible one for $2000 \times 2000$ matrices — root-finding on a degree-2000 polynomial is numerically hopeless. So how does anyone compute eigenvectors at scale?
+
+The oldest answer is embarrassingly simple: pick a vector and keep multiplying.
+
+<PowerIterationAnimation />
+
+Each step applies $A$ and rescales back to unit length: $\mathbf{v}_{k+1} = A\mathbf{v}_k / \|A\mathbf{v}_k\|$. The gold arrow is the current iterate, the blue arrow is where $A$ sends it, and the green dashed line is the true dominant eigenvector. On the right, the **Rayleigh quotient**
+
+$$\rho(\mathbf{v}) = \frac{\mathbf{v}^{\mathsf{T}}A\mathbf{v}}{\mathbf{v}^{\mathsf{T}}\mathbf{v}}$$
+
+is plotted at each step, climbing toward $\lambda_1$.
+
+Try dragging the starting angle anywhere on the circle and stepping through: the iterate snaps onto the same green line almost regardless of where it starts. Then switch matrices and watch the *rate* change. That rate is the whole story. Decompose the start vector in the eigenbasis, $\mathbf{v}_0 = c_1\mathbf{v}_1 + c_2\mathbf{v}_2$, and apply $A$ repeatedly:
+
+$$A^k\mathbf{v}_0 = c_1\lambda_1^k\mathbf{v}_1 + c_2\lambda_2^k\mathbf{v}_2 = \lambda_1^k\left(c_1\mathbf{v}_1 + c_2\left(\tfrac{\lambda_2}{\lambda_1}\right)^k\mathbf{v}_2\right)$$
+
+Since $|\lambda_2/\lambda_1| < 1$, the second term dies geometrically and the dominant eigenvector is all that survives. Convergence is linear with ratio $|\lambda_2/\lambda_1|$: for $[4\ 1;\ 2\ 3]$ ($\lambda = 5, 2$) the error falls by a factor of $2/5$ each step, while for $[2\ 1;\ 1\ 3]$ the eigenvalues are closer together and the error creeps down instead. And note the one way it can fail: if $c_1 = 0$ — if you start exactly perpendicular to the dominant eigenvector — the term you need was never there. In exact arithmetic you would stay stuck; in floating point, rounding error quietly supplies a nonzero $c_1$ and the iteration converges anyway.
+
+## Where this shows up
+
+Eigen-analysis is not one technique. It is the same technique wearing four disguises.
+
+**Principal component analysis.** Take a data set, center it, and form the covariance matrix $C = \frac{1}{n-1}X^{\mathsf{T}}X$. It is symmetric, so the spectral theorem gives real eigenvalues and orthogonal eigenvectors. Those eigenvectors are the **principal components** — the directions of greatest variance — and each eigenvalue *is* the variance along its component. Keeping the top few and discarding the rest is dimensionality reduction: you are rewriting the data in the coordinate system where the matrix is diagonal, then throwing away the coordinates that barely move.
+
+**PageRank.** Model a web surfer clicking links at random. The transition matrix $M$ has $M_{ij}$ = probability of moving from page $j$ to page $i$. The long-run fraction of time spent on each page is the vector $\mathbf{r}$ with $M\mathbf{r} = \mathbf{r}$ — the eigenvector for $\lambda = 1$. Google's original algorithm computed it by power iteration, on a matrix with billions of rows, exactly as in the widget above. The Perron–Frobenius theorem is what guarantees such a dominant eigenvector exists and is unique for this kind of matrix.
+
+**Vibrational modes.** A structure's small oscillations obey $M\ddot{\mathbf{x}} = -K\mathbf{x}$. The eigenvectors of $M^{-1}K$ are the **normal modes** — patterns of motion that oscillate coherently without exciting each other — and the eigenvalues give $\omega^2$ for each. Every complicated vibration is a superposition of modes. This is why bridge and aircraft engineers compute eigenvalues before building anything: a resonant mode whose frequency matches an external driving force is how structures shake themselves apart.
+
+**Stability of dynamical systems.** For $\mathbf{x}_{k+1} = A\mathbf{x}_k$, write the state in the eigenbasis and every component evolves independently as $\lambda_i^k$. All trajectories decay to the origin exactly when every $|\lambda_i| < 1$; a single eigenvalue outside the unit circle means some initial condition blows up. In continuous time, $\dot{\mathbf{x}} = A\mathbf{x}$, the condition becomes $\operatorname{Re}(\lambda_i) < 0$, and the imaginary part sets the oscillation frequency of the approach. Control engineers design feedback precisely to move a system's eigenvalues into the stable region.
+
+The thread through all four: a matrix acting repeatedly is hard to think about, but a *number* raised to a power is easy. Eigenvectors are the directions along which a matrix is just a number.
+
+<KeyTakeaways>
+- An eigenvector is a direction the matrix stretches but never turns: $A\mathbf{v} = \lambda\mathbf{v}$, with the eigenvalue $\lambda$ as the stretch factor. Eigenvectors are really invariant *lines*, not single vectors.
+- You find eigenvalues by forcing $A - \lambda I$ to be singular, i.e. solving $\det(A - \lambda I) = 0$; for $2\times2$ this is $\lambda^2 - (\operatorname{tr}A)\lambda + \det A = 0$, so the eigenvalues sum to the trace and multiply to the determinant.
+- Complex eigenvalues are not a failure — they mean the transformation rotates, and a rotation genuinely has no real invariant line.
+- Diagonalizing, $A = PDP^{-1}$, rewrites the matrix in its own eigenvector coordinates where it is just a list of scale factors, making $A^k$ and $e^{At}$ easy. It needs a full basis of eigenvectors, which defective matrices like a shear lack.
+- At scale nobody uses the characteristic polynomial: power iteration converges to the dominant eigenvector at rate $|\lambda_2/\lambda_1|$, and it is how PCA, PageRank, vibrational modes, and stability analysis are all actually computed.
+</KeyTakeaways>

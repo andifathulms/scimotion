@@ -210,3 +210,13 @@ export const HarmonicLawAnimation = dynamic(
   () => import('@/components/animations/HarmonicLawAnimation').then(m => ({ default: m.HarmonicLawAnimation })),
   { ssr: false }
 )
+
+export const EigenvectorAnimation = dynamic(
+  () => import('@/components/animations/EigenvectorAnimation').then(m => ({ default: m.EigenvectorAnimation })),
+  { ssr: false }
+)
+
+export const PowerIterationAnimation = dynamic(
+  () => import('@/components/animations/PowerIterationAnimation').then(m => ({ default: m.PowerIterationAnimation })),
+  { ssr: false }
+)
