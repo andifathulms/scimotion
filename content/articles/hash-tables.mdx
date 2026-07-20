@@ -1,0 +1,155 @@
+---
+title: "Hash Tables"
+subtitle: "Turning a key into an address, so lookup costs one step instead of a search."
+topic: "Computer Science"
+slug: "hash-tables"
+date: "2026-07-13"
+readTime: 10
+featured: false
+description: "How hashing converts a key directly into a memory location, why collisions are unavoidable, and why the O(1) everyone quotes is an average that a bad day can destroy."
+tags: ["algorithms", "data-structures", "hashing", "complexity"]
+quiz:
+  - q: "A hash table with chaining holds n keys in a table of capacity m. What does the O(1) expected lookup time actually depend on?"
+    options:
+      - "The table being large enough that n is smaller than m in absolute terms"
+      - "The load factor α = n/m staying bounded by a constant, so the average chain has constant length"
+      - "The hash function being invertible, so the key can be recovered from the bucket index"
+      - "Keys being inserted in sorted order so that chains stay balanced"
+    answer: 1
+    explanation: "Expected chain length is exactly α = n/m, so the constant-time claim holds only while α is kept below some fixed ceiling by resizing."
+  - q: "Doubling the capacity requires rehashing every key, an O(n) operation. Why is insertion still described as O(1) amortized?"
+    options:
+      - "Because rehashing runs in a background thread and does not block the insert"
+      - "Because a doubling after n inserts costs O(n) but cannot happen again until n more inserts occur, so the cost spread over those inserts is constant"
+      - "Because the rehash only moves the keys whose bucket index changes, which is a constant number"
+      - "Because the new table is allocated lazily, so the copy never actually happens"
+    answer: 1
+    explanation: "Geometric growth means the total cost of all resizes up to n insertions is n + n/2 + n/4 + ... < 2n, which is O(1) per insertion on average."
+  - q: "You need to answer 'which user IDs fall between 10,000 and 20,000?' on a large dataset. Why is a hash table the wrong structure?"
+    options:
+      - "Hash tables cannot store integer keys without converting them to strings first"
+      - "Hashing deliberately destroys the ordering of keys, so adjacent values land in unrelated buckets and the only way to answer a range query is to scan every bucket"
+      - "Hash tables have O(log n) lookup, which is slower than a sorted array for ranges"
+      - "The load factor rises above 1 whenever a range query is issued"
+    answer: 1
+    explanation: "A good hash function scatters similar keys as widely as unrelated ones, so there is no locality to exploit and a range query degenerates to an O(n) full scan."
+---
+
+## How a dictionary finds a word without reading it
+
+Open a paper dictionary and look up *hydrogen*. You do not start at *aardvark*. You do not even bisect the book the way you would a phone book. You go straight to the H section — because the first letter of the word *tells you where the word lives*.
+
+That is the whole idea. Everything else in this article is engineering detail.
+
+A hash table takes the trick to its limit. Instead of using one letter to pick one of 26 sections, it runs the entire key through a function that spits out a number, and uses that number as an index into an array. The key doesn't get compared against anything. It gets **converted into an address**.
+
+The consequence is worth sitting with. [Binary search](/articles/binary-search) is celebrated for finding an item among a million in twenty comparisons. A hash table finds it in *one* — and finding it among a billion also takes one. The cost of a lookup stops depending on how much data you have at all.
+
+## Key → number → slot
+
+Three pieces make a hash table work.
+
+**The hash function** maps an arbitrary key — a string, a tuple, an object — to a fixed-width integer. A classic one for strings multiplies a running total by a small prime and adds each character:
+
+```
+h = 0
+for ch in key:
+    h = (h * 31 + ord(ch)) mod 2^32
+```
+
+**The bucket array** is a plain contiguous array of some capacity $m$. The index for a key is the hash reduced into range:
+
+$$\text{index}(k) = h(k) \bmod m$$
+
+**The collision policy** handles the inevitable case where two different keys reduce to the same index.
+
+That last piece is not an edge case; it is the central problem. The hash function's output space is huge — $2^{32}$ or $2^{64}$ values — but the bucket array is small, maybe a few hundred slots. Squeezing a large space into a small one by `mod m` *must* map many keys to the same bucket. There is no clever hash function that avoids this. Collisions are not a bug in the design; they are a theorem about it.
+
+## Watching keys land
+
+The widget below inserts ten keys one at a time. For each one it shows the raw hash, the `% capacity` reduction, and the bucket the key drops into. When a bucket already holds something, the new key is linked onto the end — that is **separate chaining**, the simplest collision policy: each bucket holds a little list.
+
+<HashTableAnimation />
+
+Two things to try. First, press Play at the default capacity of 8 and watch the chains form: with ten keys in eight buckets some buckets take two or three keys while others sit empty. That lumpiness is normal — even a perfectly random hash produces uneven bucket occupancy, the same way ten coin flips rarely split five-five.
+
+Second, drag **Capacity** down to 4 and play again. The same ten keys now pile into a quarter of the space, every single bucket is occupied with chains of three links, and — this is the point — the lookup phase at the end visibly takes longer. Watch the violet marker walk link by link down the chain, comparing full keys, before it turns green on a hit or the whole chain is exhausted on a miss. Then drag capacity to 12 and replay: most chains collapse to a single node and the lookup is one comparison.
+
+That is the entire performance story of a hash table, visible in one slider. The array index gets you to the right bucket for free. Whatever is *inside* the bucket, you have to search.
+
+## The math: load factor
+
+Define the **load factor** as the ratio of stored keys to buckets:
+
+$$\alpha = \frac{n}{m}$$
+
+If the hash function scatters keys uniformly, each of the $n$ keys lands in a given bucket with probability $1/m$, so the expected number of keys per bucket is exactly $n/m = \alpha$. An unsuccessful lookup with chaining therefore costs
+
+$$1 + \alpha$$
+
+comparisons on average: one to compute the index, then $\alpha$ expected links to walk. Notice what this says. The cost does **not** contain $n$. It contains $n/m$. If you keep $\alpha$ below some fixed ceiling — most implementations use 0.75 — then $1 + \alpha < 1.75$ regardless of whether $n$ is a thousand or a billion. *That* is where $O(1)$ comes from: not from magic, but from a promise to grow $m$ alongside $n$.
+
+**Open addressing** is the other collision policy. Instead of chaining, a colliding key probes onward — the next slot, or a slot given by a second hash — until it finds an empty one. Everything lives in the array itself, which is beautiful for cache locality, but the arithmetic is harsher. Under uniform hashing the expected probes for an unsuccessful search is
+
+$$\frac{1}{1 - \alpha}$$
+
+At $\alpha = 0.5$ that is 2 probes. At $\alpha = 0.9$ it is 10. At $\alpha = 0.99$ it is 100. The function has a pole at $\alpha = 1$, and you can feel it long before you get there.
+
+## The blow-up, and the escape
+
+<LoadFactorAnimation />
+
+Press **Fill it up** and watch the gold curve's marker climb. Up to about $\alpha = 0.6$ almost nothing happens — probes creep from 1 to 2.5 and the curve looks nearly flat. Past 0.75 the marker starts to lift, and past 0.85 it goes nearly vertical. Compare it to the blue chaining line, $1 + \alpha$, which is a straight line that never exceeds 2. The two policies agree completely at low load and diverge catastrophically at high load.
+
+Now hit **Resize ×2**, or just let the autoplay run into it. The capacity doubles, $\alpha$ is halved, and the marker slides back down the curve into the flat region. Nothing about the keys changed — only the denominator. Drag the α slider yourself to sit at 0.95 and see how far up the cliff you are; then resize twice and watch it become a non-problem.
+
+This resize is the mechanism behind the amortized claim. Rehashing costs $O(n)$ because every key's index depends on $m$ and so every key must be recomputed and moved. But because capacity **doubles** rather than growing by a constant, the next resize is twice as far away. Total resize work across the first $n$ insertions is
+
+$$n + \frac{n}{2} + \frac{n}{4} + \cdots < 2n$$
+
+so the amortized cost per insertion is $O(1)$. If you instead grew the table by a fixed 100 slots each time, you would resize $n/100$ times at average cost $n/2$ each — $O(n^2)$ total, and insertion would be $O(n)$ amortized. Geometric growth is not a detail; it is the whole trick.
+
+The word *amortized* carries a warning, though. Any individual insertion can be the unlucky one that triggers the rehash and takes $O(n)$. For a web server that is a latency spike; for a real-time audio or control loop it can be a missed deadline. This is why latency-sensitive systems reach for incremental resizing, or for a structure with worst-case bounds instead of average ones.
+
+## Why the worst case is O(n)
+
+Everything above assumed the hash scatters keys uniformly. Suppose it doesn't. Suppose every key you insert hashes to bucket 3. Then the "hash table" is a linked list with an array bolted uselessly on the front, and every lookup is $O(n)$.
+
+That sounds like a hypothetical until you notice an adversary can *cause* it. If the hash function is public and deterministic — as it was in most language runtimes before 2011 — an attacker can compute thousands of strings that collide, POST them as form fields, and turn your $O(1)$ dictionary into an $O(n)$ one. Every insertion walks the single giant chain, the request takes quadratic time, and one small HTTP request pins a CPU core. This was disclosed as a practical denial-of-service against PHP, Java, Python, Ruby and others, and the fix is **randomized hashing**: the process picks a secret seed at startup, so the attacker cannot predict which keys collide. It is why Rust's default hasher is SipHash rather than something faster, and why Python's `hash()` of a string differs between runs unless you pin `PYTHONHASHSEED`.
+
+So the honest complexity summary is:
+
+- **Lookup** — $O(1)$ expected, $O(n)$ worst case.
+- **Insert** — $O(1)$ amortized expected, $O(n)$ worst case (a collision pile-up, a rehash, or both).
+- **Delete** — $O(1)$ expected, $O(n)$ worst case.
+
+A balanced binary search tree gives $O(\log n)$ for all three, *guaranteed*. Hash tables trade a worst-case guarantee for a much better average. Usually that is the right trade. Sometimes — adversarial input, hard latency budgets — it is not.
+
+## What you give up: order
+
+Return to binary search for a moment, because the contrast is sharp and it is the thing people most often get wrong when choosing a structure.
+
+Binary search needs sorted data and exploits **adjacency**: values near each other in the key space are near each other in memory. That is precisely what lets it answer "give me everything between A and B" — find the boundary in $O(\log n)$, then walk forward. Cost: $O(\log n + k)$ for $k$ results.
+
+A hash function does the exact opposite, *on purpose*. Its quality is measured by how thoroughly it destroys structure: `"user_10000"` and `"user_10001"` should land in unrelated buckets, because any correlation between similar keys and similar indices is a clustering bug waiting to happen. Good hashing is deliberate, aggressive disordering.
+
+So the two structures are not competitors on a single axis where one is faster. They answer different questions:
+
+- **"Is exactly this key present, and what is its value?"** — hash table, $O(1)$ expected. Nothing beats it.
+- **"What keys lie between X and Y?"** or **"what is the smallest key?"** or **"iterate in sorted order"** — the hash table has literally no answer better than scanning all $m$ buckets. Use a sorted array, a balanced tree, or a B-tree.
+
+This is why a database engine offers both index types and makes you choose. A hash index on a primary key serves point lookups beautifully and is useless for `WHERE created_at BETWEEN ...`; a B-tree index handles both, slightly slower on the point lookup. It is also why Python dictionaries and Java `LinkedHashMap` had to add *separate* machinery — an insertion-order list alongside the buckets — to make iteration order predictable. The buckets themselves know nothing about order.
+
+## Where it shows up
+
+Hash tables are probably the most-executed non-trivial data structure in computing. Every Python `dict`, JavaScript object, Java `HashMap`, Go `map`, and Rust `HashMap` is one, which means they are underneath essentially all interpreted-language variable lookup, JSON parsing, and object property access. Compilers use them for symbol tables. Databases use hash joins to match rows from two tables in linear time instead of quadratic. Memcached and Redis are, at their core, network-attached hash tables. Git addresses every object by the SHA-1/SHA-256 hash of its contents — content-addressed storage is a hash table whose bucket count is astronomically large so that collisions never happen at all.
+
+The pattern generalizes too. Bloom filters use several hash functions over a bit array to test set membership in constant space with a controlled false-positive rate. Consistent hashing spreads keys across a cluster so that adding a server relocates only $1/n$ of them rather than everything. HyperLogLog estimates the number of distinct items in a stream from the hash values' leading-zero counts. All of them start from the same primitive: turn a key into a number and let the number decide where it goes.
+
+<KeyTakeaways>
+- A hash table converts a key into an array index, so lookup cost is independent of $n$ — one step for a thousand keys or a billion. It doesn't search; it computes an address.
+- Collisions are unavoidable by counting: a huge hash space reduced `mod m` must map many keys to one bucket. Chaining puts a list in each bucket ($1 + \alpha$ expected probes); open addressing probes onward and costs $1/(1-\alpha)$, which explodes as the table fills.
+- The $O(1)$ is a promise about the **load factor** $\alpha = n/m$, not about $n$. Keeping it means resizing, and because capacity doubles, the total resize work is under $2n$ — hence $O(1)$ *amortized*, with individual insertions that can still spike to $O(n)$.
+- The worst case really is $O(n)$, and it can be provoked: a public deterministic hash lets an attacker force every key into one bucket. Randomized seeds are the standard defense.
+- Hashing deliberately destroys order, so hash tables cannot do range queries, sorted iteration, or "next largest key". When you need those, [binary search](/articles/binary-search) over sorted data or a balanced tree is the right structure — $O(\log n)$ lookup, but $O(\log n + k)$ ranges.
+</KeyTakeaways>

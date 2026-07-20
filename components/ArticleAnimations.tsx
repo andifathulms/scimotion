@@ -230,3 +230,13 @@ export const HalfLifeAnimation = dynamic(
   () => import('@/components/animations/HalfLifeAnimation').then(m => ({ default: m.HalfLifeAnimation })),
   { ssr: false }
 )
+
+export const HashTableAnimation = dynamic(
+  () => import('@/components/animations/HashTableAnimation').then(m => ({ default: m.HashTableAnimation })),
+  { ssr: false }
+)
+
+export const LoadFactorAnimation = dynamic(
+  () => import('@/components/animations/LoadFactorAnimation').then(m => ({ default: m.LoadFactorAnimation })),
+  { ssr: false }
+)

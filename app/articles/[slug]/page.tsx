@@ -63,6 +63,8 @@ import {
   PowerIterationAnimation,
   PharmacokineticsAnimation,
   HalfLifeAnimation,
+  HashTableAnimation,
+  LoadFactorAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -112,6 +114,8 @@ const components = {
   PowerIterationAnimation,
   PharmacokineticsAnimation,
   HalfLifeAnimation,
+  HashTableAnimation,
+  LoadFactorAnimation,
   KeyTakeaways,
 }
 

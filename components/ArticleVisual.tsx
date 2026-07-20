@@ -482,6 +482,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'hash-tables': c => {
+    // A key routed through hash() % m into a bucket array; one bucket has a 3-link chain.
+    const chains = [1, 2, 0, 3, 1]
+    const rows: ReactNode[] = []
+    chains.forEach((len, i) => {
+      const y = 8 + i * 23
+      const hot = len >= 3
+      rows.push(
+        <g key={`b${i}`}>
+          <line x1={106} y1={58} x2={124} y2={y + 9} stroke={FAINT} strokeWidth={0.75} />
+          <rect x={124} y={y} width={22} height={18} rx={3} fill={len ? `${c}22` : 'rgba(255,255,255,0.03)'} stroke={len ? c : FAINT} strokeWidth={0.75} />
+          <text x={135} y={y + 12.5} textAnchor="middle" fontSize={8} fill={len ? c : MUTE} fontFamily="monospace">{i}</text>
+          {Array.from({ length: len }, (_, p) => (
+            <g key={p}>
+              <line x1={146 + p * 32} y1={y + 9} x2={152 + p * 32} y2={y + 9} stroke={hot ? GOLD : MUTE} strokeWidth={0.75} />
+              <rect x={152 + p * 32} y={y + 1} width={26} height={16} rx={3} fill={hot ? `${GOLD}22` : 'rgba(255,255,255,0.04)'} stroke={hot ? GOLD : MUTE} strokeWidth={0.75} />
+            </g>
+          ))}
+        </g>
+      )
+    })
+    return (
+      <g>
+        <rect x={6} y={46} width={44} height={24} rx={4} fill="rgba(255,255,255,0.04)" stroke={MUTE} strokeWidth={0.75} />
+        <text x={28} y={61} textAnchor="middle" fontSize={9} fill={MUTE} fontFamily="monospace">key</text>
+        <line x1={50} y1={58} x2={62} y2={58} stroke={MUTE} strokeWidth={0.75} />
+        <rect x={62} y={46} width={44} height={24} rx={4} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={0.75} />
+        <text x={84} y={56} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">h(k)</text>
+        <text x={84} y={66} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">% m</text>
+        {rows}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
