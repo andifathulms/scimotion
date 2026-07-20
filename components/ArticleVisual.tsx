@@ -403,6 +403,24 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'keplers-laws': c => {
+    // Ellipse a=60, b=50 centred (140,60) -> e=0.55, focus (star) at x=173.
+    // The two wedges are equal-time sweeps about perihelion and aphelion:
+    // equal area, very different shapes.
+    return (
+      <g>
+        <ellipse cx={140} cy={60} rx={60} ry={50} fill="none" stroke={c} strokeWidth={1.5} />
+        <line x1={80} y1={60} x2={200} y2={60} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <path d="M 173 60 L 182.69 24.87 A 60 50 0 0 1 182.69 95.13 Z" fill={`${c}3D`} stroke={GOLD} strokeWidth={0.6} />
+        <path d="M 173 60 L 81.93 47.42 A 60 50 0 0 0 81.93 72.58 Z" fill={`${c}3D`} stroke={GOLD} strokeWidth={0.6} />
+        <circle cx={140} cy={60} r={1.75} fill={MUTE} />
+        <circle cx={173} cy={60} r={6.5} fill={GOLD} />
+        <circle cx={200} cy={60} r={4} fill={c} />
+        <circle cx={80} cy={60} r={4} fill={MUTE} />
+        <text x={212} y={99} fill={MUTE} fontSize={9} fontFamily="monospace">T² ∝ a³</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

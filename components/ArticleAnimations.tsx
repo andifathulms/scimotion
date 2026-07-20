@@ -200,3 +200,13 @@ export const LearningRateAnimation = dynamic(
   () => import('@/components/animations/LearningRateAnimation').then(m => ({ default: m.LearningRateAnimation })),
   { ssr: false }
 )
+
+export const KeplerOrbitAnimation = dynamic(
+  () => import('@/components/animations/KeplerOrbitAnimation').then(m => ({ default: m.KeplerOrbitAnimation })),
+  { ssr: false }
+)
+
+export const HarmonicLawAnimation = dynamic(
+  () => import('@/components/animations/HarmonicLawAnimation').then(m => ({ default: m.HarmonicLawAnimation })),
+  { ssr: false }
+)

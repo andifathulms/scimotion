@@ -57,6 +57,8 @@ import {
   ClonalSelectionAnimation,
   GradientDescentAnimation,
   LearningRateAnimation,
+  KeplerOrbitAnimation,
+  HarmonicLawAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -100,6 +102,8 @@ const components = {
   ClonalSelectionAnimation,
   GradientDescentAnimation,
   LearningRateAnimation,
+  KeplerOrbitAnimation,
+  HarmonicLawAnimation,
   KeyTakeaways,
 }
 

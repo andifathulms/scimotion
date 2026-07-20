@@ -1,0 +1,156 @@
+---
+title: "Kepler's Laws of Planetary Motion"
+subtitle: "Eight minutes of arc destroyed the perfect circle and gave us the shape of the solar system."
+topic: "Physics"
+slug: "keplers-laws"
+date: "2026-07-14"
+readTime: 10
+featured: false
+description: "How Kepler's stubborn refusal to ignore a tiny discrepancy in Mars's orbit produced three laws that Newton later derived from a single inverse-square force."
+tags: ["orbits", "gravitation", "astronomy", "mechanics"]
+quiz:
+  - q: "A comet on a highly eccentric orbit sweeps equal areas in equal times. What does this imply about its speed at aphelion compared to perihelion?"
+    options:
+      - "It moves faster at aphelion because it has further to travel in the same time"
+      - "It moves slower at aphelion, because the radius vector is longer so a smaller arc sweeps the same area"
+      - "Its speed is constant; only the direction of motion changes around the orbit"
+      - "Its speed depends on the comet's mass, so no general statement can be made"
+    answer: 1
+    explanation: "Equal areas with a long radius vector require a short arc, so the comet crawls at aphelion and races at perihelion."
+  - q: "Two asteroids orbit the Sun with semi-major axes of 1 AU and 4 AU. By what factor do their orbital periods differ?"
+    options:
+      - "4, since period scales linearly with distance"
+      - "2, since period scales with the square root of distance"
+      - "8, since T² scales as a³ and 4³ = 64, whose square root is 8"
+      - "16, since T scales as a²"
+    answer: 2
+    explanation: "The harmonic law gives T ∝ a^(3/2), so a fourfold increase in semi-major axis multiplies the period by 4^(3/2) = 8."
+  - q: "Earth is about 3% closer to the Sun in early January than in early July. Why is this not what causes the seasons?"
+    options:
+      - "The 3% distance change is offset exactly by Earth's changing orbital speed"
+      - "Sunlight intensity does not depend on distance from the source"
+      - "The distance effect is small and global, while seasons are opposite in the two hemispheres — they are driven by the 23.4° axial tilt"
+      - "Earth's orbit is a perfect circle, so its distance from the Sun never changes"
+    answer: 2
+    explanation: "A distance effect would warm or cool the whole planet at once, but northern winter coincides with perihelion, so the seasons must come from axial tilt instead."
+---
+
+## Eight minutes of arc
+
+When Tycho Brahe died in 1601, he left behind the most precise naked-eye observations ever made — decades of planetary positions accurate to about two arcminutes, a fifteenth of the Moon's width. Johannes Kepler inherited them, along with the specific assignment of explaining the orbit of Mars.
+
+He expected it to take eight days. It took nearly six years.
+
+Kepler tried circle after circle. He tried circles offset from the Sun, circles with the planet sweeping uniformly about some other point, nested combinations of circles — the full inherited toolkit of two thousand years of astronomy, in which heavenly motion had to be built from perfect circles at constant speed. He eventually found a circular model that fit Tycho's Mars data to within **eight minutes of arc**.
+
+By the standards of every astronomer before him, that was a triumph. Eight arcminutes is a quarter of the Moon's diameter; Copernicus would have been delighted. But Kepler knew Tycho's instruments were better than that. Those eight minutes could not be observational error, and he refused to hide them.
+
+> "Because these eight minutes could not be ignored, they alone have led the way toward a complete reformation of astronomy."
+
+He abandoned the circle. What replaced it was an ellipse, and with it came three laws that turned astronomy from geometry into physics.
+
+## The first law: orbits are ellipses
+
+**Kepler's first law:** *every planet moves on an ellipse with the Sun at one focus.*
+
+An ellipse is the set of points whose distances to two fixed foci sum to a constant. Its shape is fixed by two numbers: the **semi-major axis** $a$ (half the long diameter) and the **eccentricity** $e$, a dimensionless number between 0 and 1 measuring how squashed it is. The semi-minor axis follows:
+
+$$b = a\sqrt{1 - e^{2}}$$
+
+and each focus sits a distance $c = ae$ from the centre. Setting $e = 0$ puts both foci on top of each other and recovers a circle — so a circle is not the wrong answer, just the special case where the eccentricity happens to vanish.
+
+The orbit is easiest to write in polar coordinates centred on the Sun, with $\theta$ measured from perihelion:
+
+$$r(\theta) = \frac{a\left(1 - e^{2}\right)}{1 + e\cos\theta}$$
+
+At $\theta = 0$ this gives the closest approach, **perihelion**, at $r = a(1-e)$; at $\theta = 180°$ it gives the farthest point, **aphelion**, at $r = a(1+e)$.
+
+There is a trap hiding here, and almost every textbook diagram falls into it. Real planetary eccentricities are tiny. Earth's is $e \approx 0.0167$, which makes $b/a = 0.99986$ — draw Earth's orbit accurately at page size and you cannot distinguish it from a circle with a ruler. Even Mars, the orbit that broke the circle, has only $e \approx 0.0934$, giving $b/a \approx 0.9956$. What Kepler detected was not a visibly oval path. It was the fact that the Sun sits noticeably **off-centre**: the offset is $c = ae$, which for Mars is about 4.4% of the orbit's size, twenty times more visible than the flattening itself.
+
+## The second law: equal areas in equal times
+
+**Kepler's second law:** *the line joining a planet to the Sun sweeps out equal areas in equal intervals of time.*
+
+This is the law that killed uniform circular motion outright. A planet does not travel at constant speed. Near perihelion the radius vector is short, so the planet must cover a long arc to sweep a given area; near aphelion the radius vector is long, and a stubby little arc suffices. The planet races when it is close and crawls when it is far.
+
+Formally, the areal velocity is constant:
+
+$$\frac{dA}{dt} = \frac{1}{2}r^{2}\dot{\theta} = \text{constant}$$
+
+<KeplerOrbitAnimation />
+
+Drag the eccentricity slider and watch the shaded wedges. Each wedge is swept in exactly the same amount of time. At $e = 0.02$ — roughly Earth — the wedges look almost identical and the planet's speed barely varies; this is why the ancients got away with circles for so long. Push the slider to $e = 0.6$ and the wedges become wildly different shapes: fat and stubby at aphelion, long and thin at perihelion, all with the same area. Notice also that the star stays fixed at the **focus**, not the centre, and drifts further off-centre as you increase $e$. Try $e = 0.2$, close to Mercury's real value of $0.206$, and watch how much the speed readout swings.
+
+## The third law: the harmonic law
+
+Kepler published the first two laws in 1609. The third took him another decade, and he found it — by his own account, on 15 May 1618 — after years of hunting for a numerical relationship between a planet's distance and its period.
+
+**Kepler's third law:** *the square of the orbital period is proportional to the cube of the semi-major axis.*
+
+$$T^{2} \propto a^{3}$$
+
+If you measure $T$ in years and $a$ in astronomical units, the constant of proportionality becomes exactly 1 for the Sun's planets:
+
+$$T^{2} = a^{3} \qquad \text{(} T \text{ in years, } a \text{ in AU)}$$
+
+Check it on Mars: $a = 1.524$ AU, so $a^{3} = 3.54$, and $\sqrt{3.54} = 1.88$ years — the observed period. Check it on Neptune: $a = 30.07$, $a^{3} = 27{,}190$, $\sqrt{27{,}190} = 164.9$ years. Observed: 164.8.
+
+Note what the law does **not** contain. It says nothing about eccentricity. Two objects with the same semi-major axis have the same period even if one traces a near-circle and the other a violently elongated cigar — the semi-major axis alone sets the clock.
+
+A relationship of the form $T^2 = a^3$ becomes a straight line the moment you take logarithms:
+
+$$2\log T = 3\log a \quad\Longrightarrow\quad \log T = \tfrac{3}{2}\log a$$
+
+which is a line of slope exactly $3/2$. That is the cleanest way to see the law, because it turns a claim about eight scattered planets into a single visual test:
+
+<HarmonicLawAnimation />
+
+Every planet in the solar system, spanning a factor of 78 in distance and 684 in period, lands on one line. Step the slider through the planets and watch the $T^2/a^3$ readout: it stays pinned near 1.000 from Mercury to Neptune. Try to find a planet that misses the line — you cannot, and that is the point. Kepler had no theory for *why* the exponent was $3/2$ rather than 1 or 2. He simply found it in the numbers and trusted them.
+
+## Newton: three laws from one force
+
+Kepler's laws were empirical. They described the solar system beautifully and explained nothing. Newton, some seventy years later, showed in the *Principia* that all three follow from a single assumption: a central force falling off as the inverse square of distance,
+
+$$F = \frac{GMm}{r^{2}}$$
+
+The chain of reasoning is remarkably economical.
+
+**The second law needs almost nothing.** For *any* central force — one directed always along the line to the Sun, whatever its strength — the torque about the Sun is zero, so angular momentum $L = mr^{2}\dot{\theta}$ is conserved. Since $dA/dt = \tfrac{1}{2}r^{2}\dot{\theta} = L/2m$, equal areas in equal times is just conservation of angular momentum in disguise. The equal-area law does not test the inverse square at all; it only tests that gravity points at the Sun.
+
+**The first law is where $1/r^{2}$ earns its keep.** Solving the equation of motion for an inverse-square force gives orbits that are conic sections — ellipses when the total energy is negative, parabolas at exactly zero, hyperbolas when positive. Bound orbits *must* be ellipses with the centre of force at a focus. Change the exponent, and closed orbits generally stop closing: the orbit precesses into a rosette instead. Ellipses are a fingerprint of the exponent 2.
+
+**The third law falls out of the circular case in one line.** For a circular orbit of radius $r$, gravity supplies the centripetal acceleration:
+
+$$\frac{GMm}{r^{2}} = \frac{mv^{2}}{r}, \qquad v = \frac{2\pi r}{T}$$
+
+Substituting and rearranging gives
+
+$$T^{2} = \frac{4\pi^{2}}{GM}\,r^{3}$$
+
+which for general elliptical orbits becomes $T^{2} = 4\pi^{2}a^{3}/G(M+m)$. Kepler's mysterious constant of proportionality is now something meaningful: it is $4\pi^2/GM$, a measurement of the Sun's mass. Watch any moon or satellite orbit anything, time one revolution, measure the semi-major axis, and you have weighed the central body. Every planetary mass in the textbooks was determined this way.
+
+Newton's version also contains a correction Kepler could not have seen: the $(M + m)$ term. Because the Sun is over a thousand times more massive than Jupiter, the correction is well under 0.1% for the planets — inside Tycho's error bars. For binary stars of comparable mass it is essential.
+
+## Where it shows up — and one thing it does not explain
+
+The laws long outlived their solar-system origin. Every artificial satellite is placed using $T^{2} = 4\pi^{2}a^{3}/GM_{\oplus}$: a geostationary satellite needs a period of one sidereal day, which pins its orbital radius at 42,164 km and nothing else. Hohmann transfers between planets are half-ellipses whose travel time is read straight off the third law. Exoplanet hunters invert it — a transit gives the period, the third law gives the orbital distance, and distance gives the temperature that decides whether a planet is habitable. Astronomers weigh the Milky Way's central black hole by tracking the star S2 on its 16-year ellipse.
+
+They also have limits. The laws describe two bodies; add a third and no closed-form solution exists. And they are not exactly right even for two bodies: Mercury's perihelion precesses 43 arcseconds per century faster than Newtonian gravity predicts, a discrepancy that stood unexplained until general relativity. Kepler's eight arcminutes broke the circle; Mercury's 43 arcseconds per century broke Newton.
+
+### The seasons misconception
+
+Here is the most common wrong application of the first law. Earth's orbit is an ellipse, so Earth's distance from the Sun changes over the year — therefore, the reasoning goes, summer is when we are close and winter is when we are far.
+
+Every step of that is testable, and it fails. Earth reaches perihelion around **3 January** at about 147.1 million km and aphelion around **4 July** at about 152.1 million km. Those dates are precisely backwards for the Northern Hemisphere: we are *closest* to the Sun in the depth of northern winter.
+
+Worse, the mechanism is the wrong shape. Distance affects the whole planet at once, so a distance-driven season would make both hemispheres cold together. Instead they are always opposite: it is July in Sydney and it is winter there. Any correct explanation must be something that can point one hemisphere at the Sun and the other away — and that is Earth's **23.4° axial tilt**, which changes both the angle at which sunlight strikes the ground and the number of daylight hours.
+
+The distance effect is real but small. With $e \approx 0.0167$, the perihelion-to-aphelion distance ratio is $(1+e)/(1-e) \approx 1.034$, and since intensity falls as $1/r^{2}$, Earth receives about 7% more sunlight in January than in July. That is a genuine effect — it slightly moderates northern winters and slightly intensifies southern summers — but it is a footnote riding on top of the tilt, not the cause. Kepler's ellipse tells you the shape of the year, not the reason for it.
+
+<KeyTakeaways>
+- The three laws: orbits are **ellipses with the Sun at a focus**; the radius vector sweeps **equal areas in equal times**; and $T^{2} \propto a^{3}$ across the entire solar system.
+- Real orbits are far rounder than diagrams suggest — Earth's $e \approx 0.0167$ makes $b/a = 0.99986$. What Kepler actually detected was the Sun sitting **off-centre** by $ae$, not a visibly oval path.
+- Seasons are **not** caused by orbital distance: Earth is closest to the Sun in early January, and the hemispheres have opposite seasons. The 23.4° axial tilt is the cause; the 7% intensity swing is a footnote.
+- Newton derived all three from $F = GMm/r^{2}$. The equal-area law follows from angular momentum for *any* central force; only the ellipse specifically requires the inverse square.
+- Rewritten as $T^{2} = 4\pi^{2}a^{3}/G(M+m)$, the third law becomes a scale: it is how we weigh stars, planets, and black holes from orbital timing alone.
+</KeyTakeaways>
