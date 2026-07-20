@@ -913,6 +913,51 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'nash-equilibrium': c => {
+    // Prisoner's Dilemma matrix. Violet marks A's best reply down each column,
+    // gold marks B's best reply across each row; the cell carrying both is the
+    // equilibrium — and it is the worst mutual outcome on the board.
+    const cells = [
+      { x: 96, y: 26, a: 3, b: 3, brA: false, brB: false },
+      { x: 158, y: 26, a: 0, b: 5, brA: false, brB: true },
+      { x: 96, y: 66, a: 5, b: 0, brA: true, brB: false },
+      { x: 158, y: 66, a: 1, b: 1, brA: true, brB: true },
+    ]
+    return (
+      <g>
+        <text x={96} y={12} fontSize={7} fill={MUTE} fontFamily="monospace">B plays</text>
+        <text x={78} y={66} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="middle" transform="rotate(-90 78 66)">A plays</text>
+        <text x={127} y={20} fontSize={8} fill={MUTE} fontFamily="monospace" textAnchor="middle">C</text>
+        <text x={189} y={20} fontSize={8} fill={MUTE} fontFamily="monospace" textAnchor="middle">D</text>
+        <text x={88} y={53} fontSize={8} fill={MUTE} fontFamily="monospace" textAnchor="end">C</text>
+        <text x={88} y={93} fontSize={8} fill={MUTE} fontFamily="monospace" textAnchor="end">D</text>
+        {cells.map(k => {
+          const cx = k.x + 31
+          const ty = k.y + 24
+          const eq = k.brA && k.brB
+          return (
+            <g key={`${k.x},${k.y}`}>
+              <rect x={k.x} y={k.y} width={62} height={40} fill={eq ? `${GOLD}22` : FAINT}
+                stroke={eq ? GOLD : MUTE} strokeWidth={eq ? 1.5 : 0.6} />
+              <text x={cx - 14} y={ty} fontSize={12} fill={k.brA ? c : MUTE} fontFamily="monospace" textAnchor="middle">{k.a}</text>
+              <text x={cx} y={ty} fontSize={9} fill={MUTE} fontFamily="monospace" textAnchor="middle">,</text>
+              <text x={cx + 14} y={ty} fontSize={12} fill={k.brB ? GOLD : MUTE} fontFamily="monospace" textAnchor="middle">{k.b}</text>
+              {k.brA && <line x1={cx - 22} y1={ty + 5} x2={cx - 6} y2={ty + 5} stroke={c} strokeWidth={1.5} />}
+              {k.brB && <line x1={cx + 6} y1={ty + 5} x2={cx + 22} y2={ty + 5} stroke={GOLD} strokeWidth={1.5} />}
+            </g>
+          )
+        })}
+        <line x1={226} y1={16} x2={226} y2={104} stroke={FAINT} strokeWidth={1} />
+        <rect x={232} y={32} width={10} height={10} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1} />
+        <text x={247} y={41} fontSize={7} fill={MUTE} fontFamily="monospace">Nash</text>
+        <line x1={232} y1={56} x2={242} y2={56} stroke={c} strokeWidth={2} />
+        <text x={247} y={59} fontSize={7} fill={MUTE} fontFamily="monospace">A best</text>
+        <line x1={232} y1={72} x2={242} y2={72} stroke={GOLD} strokeWidth={2} />
+        <text x={247} y={75} fontSize={7} fill={MUTE} fontFamily="monospace">B best</text>
+        <text x={232} y={98} fontSize={7} fill={MUTE} fontFamily="monospace">stable ≠ best</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

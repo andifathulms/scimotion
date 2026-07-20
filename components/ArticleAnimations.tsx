@@ -340,3 +340,13 @@ export const SATReductionAnimation = dynamic(
   () => import('@/components/animations/SATReductionAnimation').then(m => ({ default: m.SATReductionAnimation })),
   { ssr: false }
 )
+
+export const NashEquilibriumAnimation = dynamic(
+  () => import('@/components/animations/NashEquilibriumAnimation').then(m => ({ default: m.NashEquilibriumAnimation })),
+  { ssr: false }
+)
+
+export const EvolutionaryGameAnimation = dynamic(
+  () => import('@/components/animations/EvolutionaryGameAnimation').then(m => ({ default: m.EvolutionaryGameAnimation })),
+  { ssr: false }
+)

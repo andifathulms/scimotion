@@ -85,6 +85,8 @@ import {
   ProofreadingAnimation,
   ComplexityGrowthAnimation,
   SATReductionAnimation,
+  NashEquilibriumAnimation,
+  EvolutionaryGameAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -156,6 +158,8 @@ const components = {
   ProofreadingAnimation,
   ComplexityGrowthAnimation,
   SATReductionAnimation,
+  NashEquilibriumAnimation,
+  EvolutionaryGameAnimation,
   KeyTakeaways,
 }
 

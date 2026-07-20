@@ -1,0 +1,134 @@
+---
+title: "Game Theory and the Nash Equilibrium"
+subtitle: "When everyone plays perfectly and everyone still loses."
+topic: "Mathematics"
+slug: "nash-equilibrium"
+date: "2026-07-11"
+readTime: 10
+featured: false
+description: "How a single fixed-point idea — nobody can improve by changing their mind alone — explains cartels, auctions, arms races, and why cooperation still manages to survive."
+tags: ["game-theory", "equilibrium", "strategy", "evolution"]
+quiz:
+  - q: "In the Prisoner's Dilemma both players defect, yet both would be better off if both stayed silent. Why does mutual silence fail to be a Nash equilibrium?"
+    options:
+      - "Because the players cannot communicate before choosing"
+      - "Because from mutual silence each player can raise their own payoff by unilaterally defecting, and equilibrium only forbids profitable unilateral deviations"
+      - "Because mutual silence gives a lower total payoff than mutual defection"
+      - "Because defection is the outcome that maximises the sum of both payoffs"
+    answer: 1
+    explanation: "Nash equilibrium tests only one-player-at-a-time deviations, and mutual silence fails that test even though it beats mutual defection for both players."
+  - q: "Matching Pennies has no equilibrium in pure strategies. What makes the 50/50 mixed profile an equilibrium?"
+    options:
+      - "Each player's randomisation makes the opponent indifferent between their pure strategies, so no deviation can pay more"
+      - "Randomising maximises each player's expected payoff independently of what the opponent does"
+      - "The 50/50 mix is the unique profile that maximises the sum of the two payoffs"
+      - "Randomising prevents the opponent from ever predicting the outcome, which raises both payoffs"
+    answer: 0
+    explanation: "At the mixed equilibrium every pure strategy in a player's support earns the same expected payoff, so no player has anything to gain by shifting weight."
+  - q: "With one-shot Prisoner's Dilemma payoffs, tit-for-tat can invade a population of defectors only when matches are long enough. What is the mechanism?"
+    options:
+      - "Tit-for-tat earns more than a defector does in the very first round of a match"
+      - "Tit-for-tat concedes one exploited round to a defector but then earns the mutual-cooperation payoff against every other tit-for-tat for the rest of the match"
+      - "Tit-for-tat punishes defectors so heavily that defectors score below their own mutual-defection payoff"
+      - "Longer matches lower the temptation payoff, removing the incentive to defect"
+    answer: 1
+    explanation: "The one-off loss against a defector is fixed while the gain from meeting fellow cooperators grows with match length, so a long enough shadow of the future flips the fitness comparison."
+---
+
+## Two prisoners, one bad ending
+
+Two accomplices are arrested and questioned in separate rooms. Each is offered the same deal. Stay silent and, if your partner also stays silent, you both get a light sentence. Confess while your partner stays silent and you walk free while they take the full term. If you both confess, you both get a middling sentence — worse than if you had both stayed silent.
+
+Now reason it through as one of the prisoners. Suppose your partner stays silent: confessing gets you out entirely, so confess. Suppose instead your partner confesses: staying silent hands you the maximum term, so confess. Whatever the other person does, confessing is better for you. The same argument, symmetric and equally airtight, runs in the other room.
+
+So both confess. Both take the middling sentence. And both would have preferred the outcome they just reasoned their way out of.
+
+Nothing went wrong here. Nobody was irrational, nobody was fooled, nobody made an arithmetic slip. Two people reasoned perfectly and landed somewhere they both disliked. That gap — between what individually flawless reasoning produces and what the group would have chosen — is the subject of game theory, and the object at its centre is the **Nash equilibrium**.
+
+## Payoff matrices and dominant strategies
+
+A **game**, formally, is three things: a set of players, a set of strategies available to each, and a payoff for every player at every combination of strategies. For two players with two strategies each, all of that fits in a small table.
+
+Write player A's strategies as rows and player B's as columns. Each cell holds a pair — A's payoff first, B's second. The Prisoner's Dilemma, with larger numbers meaning better outcomes:
+
+$$\begin{pmatrix} (3,3) & (0,5) \\ (5,0) & (1,1) \end{pmatrix}$$
+
+Rows are *stay silent* then *confess*; columns likewise. Mutual silence pays $(3,3)$; mutual confession pays only $(1,1)$; the lone confessor takes $5$ while the silent partner gets $0$.
+
+Now compare A's two rows column by column. Against a silent B, confessing pays $5$ versus $3$. Against a confessing B, confessing pays $1$ versus $0$. Confessing wins in *every* column. A strategy with that property is called **strictly dominant**, and the calculation needs no assumption whatsoever about what the opponent is likely to do. That is what makes the dilemma so airtight: you don't have to predict your partner to know what to do.
+
+Most games are not so obliging. Dominant strategies are the exception, and when they are absent — which is nearly always — we need a weaker and far more general idea.
+
+## Mutual best response
+
+Fix what everyone else is doing. Your **best response** is whatever strategy maximises your own payoff against that. A **Nash equilibrium** is a strategy profile in which every player is simultaneously playing a best response to the others: a configuration where, holding everyone else fixed, no single player can improve by changing their mind alone.
+
+That "alone" is doing enormous work, and we will come back to it.
+
+<NashEquilibriumAnimation />
+
+Start on the Prisoner's Dilemma. The violet underlines mark A's best reply within each column; the gold underlines mark B's best reply within each row. Exactly one cell carries both marks and glows green — mutual confession. Use the *A plays* and *B plays* buttons to sit the pair on mutual silence instead: two arrows appear, one per player, each pointing at the switch that would pay them more. A cell is an equilibrium precisely when no arrow leaves it.
+
+Now hit **Stag Hunt**. Two hunters can cooperate to bring down a stag (a big shared payoff) or each settle for a hare alone (small but certain). Here there are *two* equilibria — both hunt stag, and both hunt hare — and no dominant strategy anywhere. Which one you land in depends entirely on what you expect the other to do. Equilibrium tells you which outcomes are stable; it does not tell you which one you will get.
+
+Then hit **Matching Pennies**, a pure win-lose game. Every cell now has an arrow leaving it. Chase them and you loop forever: A wants to match, B wants to mismatch, and the moment either succeeds the other wants to move. There is no pure-strategy equilibrium at all.
+
+Finally, click any payoff number and drag the slider. Raise the temptation payoff in the Stag Hunt and watch a second equilibrium appear or vanish. The equilibria are not decoration on a game — they are a computed consequence of the numbers.
+
+## The math
+
+Write $s = (s_1, \dots, s_n)$ for a strategy profile and $s_{-i}$ for everyone's choice except player $i$'s. The profile $s^{*}$ is a Nash equilibrium when
+
+$$u_i(s_i^{*},\, s_{-i}^{*}) \;\geq\; u_i(s_i,\, s_{-i}^{*}) \qquad \text{for every player } i \text{ and every } s_i \in S_i$$
+
+Read it carefully, because the whole subject lives in the quantifiers. The comparison always holds $s_{-i}^{*}$ *fixed*. It asks whether player $i$ alone, deviating alone, can do better. It says nothing at all about what happens when two players move together — and in the Prisoner's Dilemma, moving together from $(1,1)$ to $(3,3)$ is exactly what would help.
+
+**So a Nash equilibrium is not an optimum.** This is the single most common misreading of the concept, and it is worth stating flatly: equilibrium is a stability condition, not a goodness condition. Mutual confession is stable and bad. A stable outcome can be worse for *every* player than some other outcome, and the dilemma is precisely the case where it is. Economists measure that gap with **Pareto efficiency** — an outcome is Pareto-efficient if no one can be made better off without making someone worse off — and mutual confession fails it badly. Nash equilibrium and Pareto efficiency are independent properties, and one of the founding lessons of the field is how routinely they diverge.
+
+Matching Pennies then raises a different problem: what happens when no equilibrium exists at all? Nash's answer was to widen the strategy space. Let each player choose a **mixed strategy**, a probability distribution over their pure options, and let payoffs be expectations. In Matching Pennies, if A plays heads with probability $p$, then B's expected payoff from heads is $-p + (1-p)$ and from tails is $p - (1-p)$. These are equal exactly when
+
+$$1 - 2p = 2p - 1 \quad\Longrightarrow\quad p = \tfrac{1}{2}$$
+
+At $p = \tfrac12$, B is *indifferent* — every strategy earns the same expectation — and therefore has nothing to gain by deviating. By symmetry A mixes 50/50 too, and the pair is an equilibrium. This generalises: in any mixed equilibrium, every pure strategy a player uses with positive probability must yield the same expected payoff, since otherwise they would shift all their weight onto the better one. Equilibrium mixing is not about being unpredictable for its own sake; it is about the probabilities that make your *opponent* indifferent.
+
+The celebrated result, which John Nash proved in 1950 in a doctoral thesis of under thirty pages, is that this is always enough:
+
+> Every finite game — finitely many players, finitely many strategies each — has at least one Nash equilibrium in mixed strategies.
+
+The proof is a fixed-point argument. Build the map that sends each profile of mixed strategies to the players' best responses against it; show it satisfies the conditions of Kakutani's fixed-point theorem; conclude that a fixed point exists. A fixed point of the best-response map is exactly a profile where everyone is already best-responding — a Nash equilibrium. Existence is guaranteed. Uniqueness is not, computing an equilibrium is hard in general, and nothing promises the equilibrium is one you would like.
+
+## Cooperation, when the game repeats
+
+The Prisoner's Dilemma looks like a proof that cooperation is doomed. Yet cooperation is everywhere — in trade, in cleaner fish, in trench warfare truces. The escape is that real interactions are rarely one-shot.
+
+Play the dilemma repeatedly against the same opponent and your move today shapes their move tomorrow. That opens strategies impossible in a single round, most famously **tit-for-tat**: cooperate first, then copy whatever your opponent did last time. Tit-for-tat is never the first to defect, and it never lets a defection go unanswered. In Robert Axelrod's celebrated 1980 computer tournaments, this four-word rule beat every elaborate strategy submitted against it.
+
+The widget below drops three strategies — always-defect, always-cooperate, and tit-for-tat — into a population where every strategy meets every other, and lets the population evolve. Strategies scoring above the population average grow their share; those below it shrink. This is the **replicator equation**, the workhorse of evolutionary game theory:
+
+$$\dot{x}_i = x_i\left(f_i(x) - \bar{f}(x)\right), \qquad f_i(x) = \sum_j x_j\, m_{ij}$$
+
+<EvolutionaryGameAnimation />
+
+Start with the default mix and set **rounds per match to 1**. Press *Evolve*. Always-defect sweeps the population — with no future to cast a shadow, the one-shot logic wins and the cooperators are eaten. Watch the blue always-cooperate band collapse first: it is exploited by defectors and gets no protection from tit-for-tat's retaliation.
+
+Now drag rounds per match up to 10 or 20 and evolve again. Something different happens. Always-cooperate still dies — it is a free lunch for anyone willing to take it. But tit-for-tat survives and then takes over. The arithmetic is worth doing by hand. Against a defector across $n$ rounds, tit-for-tat is exploited once and then settles into mutual defection, scoring $0 + 1 \cdot (n-1) = n - 1$ against the defector's $5 + 1 \cdot (n-1) = n + 4$. That five-point deficit never grows. Against a fellow tit-for-tat it scores $3n$, while two defectors meeting each other manage only $n$. The loss is a constant; the gain scales with $n$. Long enough matches, and cooperation wins on fitness alone.
+
+Now push the initial tit-for-tat share down near zero with plenty of rounds. It collapses anyway. A lone reciprocator surrounded by defectors almost never meets anyone to cooperate with, so it never collects the payoff that makes it viable. Cooperation needs a beachhead — clustering, kinship, reputation, anything that raises the chance cooperators meet each other. That threshold is the heart of evolutionary game theory, and the reason biologists reach for these models to explain everything from cleaner-fish mutualism to blood-sharing vampire bats.
+
+## Where it shows up
+
+**Auctions.** Auction design is applied equilibrium analysis. In a first-price sealed-bid auction, bidding your true value guarantees zero profit, so everyone shades their bid down and the equilibrium bid depends on how many rivals you face. William Vickrey's insight was that in a second-price auction — highest bidder wins but pays the runner-up's bid — truthful bidding is a *dominant* strategy, so bidders need not model each other at all. The same logic underpins the spectrum auctions that governments use to sell radio bandwidth for tens of billions, designed by game theorists precisely so that the equilibrium behaviour is the behaviour the designer wants.
+
+**Evolutionary biology.** John Maynard Smith recast equilibrium as the **evolutionarily stable strategy**: a strategy which, once common in a population, cannot be invaded by any rare mutant. Every ESS is a Nash equilibrium of the underlying game, but the players are genes rather than reasoners and "best response" is settled by differential reproduction, not deliberation. It explains why the sex ratio in most species sits at 1:1, why animal contests so often end in ritualised display rather than a fight to the death, and how altruism can be stable at all.
+
+**Mechanism design.** Once you can predict equilibrium behaviour, you can run the analysis backwards: choose the rules so that the equilibrium of the resulting game is the outcome you want. This is how kidney-exchange chains, medical residency matching, and congestion pricing are built. It is game theory as engineering — and it treats the divergence between equilibrium and efficiency not as a paradox but as a design brief.
+
+Which returns us to the two prisoners. The dilemma is not a puzzle to be solved by thinking harder inside the room; the reasoning in there was already flawless. It is solved by changing the game — by repetition, by reputation, by contracts, by rules that make the good outcome also the stable one. Understanding equilibrium is what tells you which of those levers will actually move.
+
+<KeyTakeaways>
+- A Nash equilibrium is a **mutual best response**: fixing everyone else's choice, no single player can gain by deviating alone. It is a stability condition, checked one player at a time.
+- **Equilibrium is not optimal.** In the Prisoner's Dilemma both players defecting is the unique equilibrium and both would prefer mutual cooperation — stability and collective welfare are independent properties that routinely diverge.
+- Nash proved every **finite** game has at least one equilibrium once **mixed strategies** are allowed. In a mixed equilibrium you randomise at exactly the rates that leave your opponent indifferent, which is why Matching Pennies resolves at 50/50.
+- Existence says nothing about uniqueness or quality: the Stag Hunt has two equilibria and which you land in depends on expectations, not payoffs alone.
+- **Repetition changes the game.** With a long enough shadow of the future, reciprocal strategies like tit-for-tat out-earn pure defection — but only if cooperators are common enough to meet one another.
+</KeyTakeaways>
