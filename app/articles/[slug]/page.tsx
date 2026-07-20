@@ -55,6 +55,8 @@ import {
   MicrostatesAnimation,
   ImmuneResponseAnimation,
   ClonalSelectionAnimation,
+  GradientDescentAnimation,
+  LearningRateAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -96,6 +98,8 @@ const components = {
   MicrostatesAnimation,
   ImmuneResponseAnimation,
   ClonalSelectionAnimation,
+  GradientDescentAnimation,
+  LearningRateAnimation,
   KeyTakeaways,
 }
 

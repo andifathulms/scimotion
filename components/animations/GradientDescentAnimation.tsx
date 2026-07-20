@@ -35,12 +35,13 @@ function clamp(v: number, min: number, max: number) {
   return Math.max(min, Math.min(max, v))
 }
 
-type Run = { pts: number[]; diverged: boolean }
+type Run = { pts: number[]; diverged: boolean; converged: boolean }
 
 function buildRun(x0: number, eta: number): Run {
   const pts = [x0]
   let x = x0
   let diverged = false
+  let converged = false
   for (let i = 0; i < MAX_STEPS; i++) {
     const g = grad(x)
     const next = x - eta * g
@@ -50,10 +51,10 @@ function buildRun(x0: number, eta: number): Run {
       break
     }
     pts.push(next)
-    if (Math.abs(next - x) < 1e-7) break
+    if (Math.abs(next - x) < 1e-7) { converged = true; break }
     x = next
   }
-  return { pts, diverged }
+  return { pts, diverged, converged }
 }
 
 export function GradientDescentAnimation() {
@@ -270,7 +271,9 @@ export function GradientDescentAnimation() {
   }
 
   const curX = run.pts[Math.min(step, run.pts.length - 1)]
-  const settled = !run.diverged && step >= run.pts.length - 1
+  const done = step >= run.pts.length - 1
+  const settled = run.converged && done
+  const oscillating = done && !run.converged && !run.diverged
 
   return (
     <div className="animation-block" ref={ref}>
@@ -320,11 +323,13 @@ export function GradientDescentAnimation() {
           <span className="font-mono text-text-secondary">{startX.toFixed(2)}</span>
         </div>
         <span className="ml-auto text-xs text-text-secondary">
-          {run.diverged && step >= run.pts.length - 1
-            ? <strong style={{ color: ARROW }}>diverged</strong>
+          {run.diverged && done
+            ? <strong style={{ color: ARROW }}>diverged — η above the stability ceiling</strong>
             : settled
               ? <>settled at <strong className="font-mono" style={{ color: BALL }}>x={curX.toFixed(3)}</strong>, loss {loss(curX).toFixed(3)} in {run.pts.length - 1} steps</>
-              : <>step <strong className="font-mono" style={{ color: BALL }}>{step}</strong> · x={curX.toFixed(3)} · loss {loss(curX).toFixed(3)}</>
+              : oscillating
+                ? <><strong style={{ color: ARROW }}>oscillating</strong> — never settles at η={eta.toFixed(2)}</>
+                : <>step <strong className="font-mono" style={{ color: BALL }}>{step}</strong> · x={curX.toFixed(3)} · loss {loss(curX).toFixed(3)}</>
           }
         </span>
       </div>

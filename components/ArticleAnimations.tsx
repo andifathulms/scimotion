@@ -190,3 +190,13 @@ export const ClonalSelectionAnimation = dynamic(
   () => import('@/components/animations/ClonalSelectionAnimation').then(m => ({ default: m.ClonalSelectionAnimation })),
   { ssr: false }
 )
+
+export const GradientDescentAnimation = dynamic(
+  () => import('@/components/animations/GradientDescentAnimation').then(m => ({ default: m.GradientDescentAnimation })),
+  { ssr: false }
+)
+
+export const LearningRateAnimation = dynamic(
+  () => import('@/components/animations/LearningRateAnimation').then(m => ({ default: m.LearningRateAnimation })),
+  { ssr: false }
+)

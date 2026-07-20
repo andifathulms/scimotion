@@ -369,6 +369,30 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'gradient-descent': c => {
+    // Iterates stepping down a loss basin, with the -η∇f step arrow at the start.
+    const f = (x: number) => 95 - Math.pow((x - 150) / 120, 2) * 75
+    const curve = Array.from({ length: 61 }, (_, i) => { const x = 30 + i * 4; return `${x},${f(x)}` }).join(' ')
+    const steps = [48, 78, 106, 126, 140, 147]
+    return (
+      <g>
+        <line x1={0} y1={110} x2={300} y2={110} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        {steps.slice(0, -1).map((x, i) => (
+          <line key={`s${x}`} x1={x} y1={f(x)} x2={steps[i + 1]} y2={f(steps[i + 1])} stroke={MUTE} strokeWidth={1} strokeDasharray="2 2" />
+        ))}
+        {steps.map((x, i) => (
+          <circle key={x} cx={x} cy={f(x)} r={2.5} fill={c} opacity={0.35 + i * 0.11} />
+        ))}
+        <line x1={30} y1={26} x2={70} y2={53} stroke={GOLD} strokeWidth={1.25} />
+        <line x1={48} y1={f(48)} x2={80} y2={f(48)} stroke={GOLD} strokeWidth={1.5} />
+        <polygon points="80,40.8 73,37.3 73,44.3" fill={GOLD} />
+        <circle cx={48} cy={f(48)} r={4} fill={GOLD} />
+        <circle cx={150} cy={f(150)} r={3} fill={MUTE} />
+        <text x={54} y={32} fill={MUTE} fontSize={9} fontFamily="monospace">−η∇f</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

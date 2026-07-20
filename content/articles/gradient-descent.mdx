@@ -70,7 +70,7 @@ The curve is a loss landscape with two valleys: a shallow one on the right and t
 Three things are worth doing here:
 
 - **Turn the learning rate down to 0.05.** The ball creeps. Each step is a faithful, tiny move downhill, and it takes dozens of iterations to arrive. Correct, but slow.
-- **Turn it up past about 0.8.** The ball overshoots the bottom, lands on the far wall, overshoots back, and the swings get *wider* each time. Push a little further and it launches out of the plot entirely. This is divergence, and it is the single most common failure in practice.
+- **Turn it up past about 0.85.** The ball stops settling. It overshoots the bottom, lands partway up the far wall, overshoots back, and never comes to rest — the valley floor is now too sharply curved for a step this big. Push $\eta$ toward 1.5 and beyond and it stops bouncing and simply launches off the plot: divergence, the single most common failure in practice.
 - **Drag the starting point across to the left slope.** The ball now settles in the deep valley instead of the shallow one — same algorithm, same learning rate, different answer. Gradient descent cannot know it left a better minimum behind, because it never saw it.
 
 Notice also what the step lengths do near the bottom. Nobody tells the algorithm to slow down; the gradient itself shrinks toward zero as the ground levels, so the steps shrink automatically. Gradient descent decelerates into a minimum for free.
