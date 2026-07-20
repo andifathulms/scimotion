@@ -49,6 +49,8 @@ import {
   TaylorRadiusAnimation,
   BayesTheoremAnimation,
   BayesUpdateAnimation,
+  DynamicProgrammingAnimation,
+  MemoizationTreeAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -84,6 +86,8 @@ const components = {
   TaylorRadiusAnimation,
   BayesTheoremAnimation,
   BayesUpdateAnimation,
+  DynamicProgrammingAnimation,
+  MemoizationTreeAnimation,
   KeyTakeaways,
 }
 

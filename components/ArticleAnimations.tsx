@@ -160,3 +160,13 @@ export const BayesUpdateAnimation = dynamic(
   () => import('@/components/animations/BayesUpdateAnimation').then(m => ({ default: m.BayesUpdateAnimation })),
   { ssr: false }
 )
+
+export const DynamicProgrammingAnimation = dynamic(
+  () => import('@/components/animations/DynamicProgrammingAnimation').then(m => ({ default: m.DynamicProgrammingAnimation })),
+  { ssr: false }
+)
+
+export const MemoizationTreeAnimation = dynamic(
+  () => import('@/components/animations/MemoizationTreeAnimation').then(m => ({ default: m.MemoizationTreeAnimation })),
+  { ssr: false }
+)

@@ -20,7 +20,7 @@ export const learningPaths: LearningPath[] = [
     title: 'Algorithms & Computation',
     description:
       'How machines search, sort, explore connected data, and sift the primes — the core algorithmic ideas, step by step.',
-    articleSlugs: ['binary-search', 'sorting-algorithms', 'graph-traversal', 'sieve-of-eratosthenes'],
+    articleSlugs: ['binary-search', 'sorting-algorithms', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes'],
   },
   {
     slug: 'motion-space-and-quanta',

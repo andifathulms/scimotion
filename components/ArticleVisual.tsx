@@ -279,6 +279,34 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'dynamic-programming': c => {
+    // A filled DP table with the optimal backtrack path traced through it.
+    const path = new Set(['0,0', '0,1', '1,2', '1,3', '2,4', '2,5', '3,6', '3,7', '3,8', '3,9'])
+    const cx = (j: number) => 8 + j * 29 + 12
+    const cy = (i: number) => 10 + i * 27 + 12
+    const cells: ReactNode[] = []
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 10; j++) {
+        const on = path.has(`${i},${j}`)
+        cells.push(
+          <g key={`${i}-${j}`}>
+            <rect x={8 + j * 29} y={10 + i * 27} width={24} height={24} rx={4}
+              fill={on ? `${GOLD}33` : 'rgba(255,255,255,0.03)'} stroke={on ? GOLD : FAINT} strokeWidth={0.75} />
+            <text x={cx(j)} y={cy(i) + 4} textAnchor="middle" fontSize={9}
+              fill={on ? GOLD : MUTE} fontFamily="monospace">{i + j}</text>
+          </g>
+        )
+      }
+    }
+    const trace = [...path].map(k => { const [i, j] = k.split(',').map(Number); return `${cx(j)},${cy(i)}` }).join(' ')
+    return (
+      <g>
+        {cells}
+        <polyline points={trace} fill="none" stroke={c} strokeWidth={1.75} strokeDasharray="3 3" opacity={0.9} />
+        <circle cx={cx(9)} cy={cy(3)} r={3.5} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
