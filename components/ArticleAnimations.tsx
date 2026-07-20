@@ -290,3 +290,13 @@ export const HuffmanCodingAnimation = dynamic(
   () => import('@/components/animations/HuffmanCodingAnimation').then(m => ({ default: m.HuffmanCodingAnimation })),
   { ssr: false }
 )
+
+export const GlucoseInsulinAnimation = dynamic(
+  () => import('@/components/animations/GlucoseInsulinAnimation').then(m => ({ default: m.GlucoseInsulinAnimation })),
+  { ssr: false }
+)
+
+export const FeedbackLoopAnimation = dynamic(
+  () => import('@/components/animations/FeedbackLoopAnimation').then(m => ({ default: m.FeedbackLoopAnimation })),
+  { ssr: false }
+)

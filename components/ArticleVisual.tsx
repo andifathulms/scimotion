@@ -749,6 +749,34 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'glucose-insulin-regulation': c => {
+    // Postprandial excursion (accent) with insulin lagging behind it (gold),
+    // riding inside the shaded healthy band, plus the closed feedback loop.
+    const glucose = [
+      [0, 80], [55, 80], [70, 64], [85, 42], [100, 30], [118, 34],
+      [140, 48], [165, 62], [190, 72], [215, 78], [300, 79],
+    ].map(([x, y]) => `${x},${y}`).join(' ')
+    const insulin = [
+      [0, 100], [62, 100], [80, 92], [100, 72], [118, 60], [135, 58],
+      [155, 66], [180, 80], [205, 92], [230, 98], [300, 99],
+    ].map(([x, y]) => `${x},${y}`).join(' ')
+    return (
+      <g>
+        <rect x={0} y={62} width={300} height={24} fill={FAINT} />
+        <line x1={0} y1={62} x2={300} y2={62} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <line x1={0} y1={86} x2={300} y2={86} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <line x1={60} y1={16} x2={60} y2={112} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <text x={64} y={112} fontSize={7} fill={MUTE} fontFamily="monospace">meal</text>
+        <polyline points={insulin} fill="none" stroke={GOLD} strokeWidth={1.5} />
+        <polyline points={glucose} fill="none" stroke={c} strokeWidth={2.25} />
+        <circle cx={100} cy={30} r={3.5} fill={c} />
+        <circle cx={135} cy={58} r={3} fill={GOLD} />
+        <circle cx={262} cy={28} r={14} fill="none" stroke={c} strokeWidth={1.25} opacity={0.7} />
+        <polygon points="262,10 269,15 262,20" fill={c} />
+        <text x={262} y={31} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">−</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

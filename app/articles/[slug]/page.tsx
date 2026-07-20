@@ -75,6 +75,8 @@ import {
   ButterflyEffectAnimation,
   ShannonEntropyAnimation,
   HuffmanCodingAnimation,
+  GlucoseInsulinAnimation,
+  FeedbackLoopAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -136,6 +138,8 @@ const components = {
   ButterflyEffectAnimation,
   ShannonEntropyAnimation,
   HuffmanCodingAnimation,
+  GlucoseInsulinAnimation,
+  FeedbackLoopAnimation,
   KeyTakeaways,
 }
 
