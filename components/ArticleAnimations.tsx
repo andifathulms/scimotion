@@ -300,3 +300,13 @@ export const FeedbackLoopAnimation = dynamic(
   () => import('@/components/animations/FeedbackLoopAnimation').then(m => ({ default: m.FeedbackLoopAnimation })),
   { ssr: false }
 )
+
+export const SuperconductivityAnimation = dynamic(
+  () => import('@/components/animations/SuperconductivityAnimation').then(m => ({ default: m.SuperconductivityAnimation })),
+  { ssr: false }
+)
+
+export const MeissnerEffectAnimation = dynamic(
+  () => import('@/components/animations/MeissnerEffectAnimation').then(m => ({ default: m.MeissnerEffectAnimation })),
+  { ssr: false }
+)

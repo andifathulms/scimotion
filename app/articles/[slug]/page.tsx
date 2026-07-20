@@ -77,6 +77,8 @@ import {
   HuffmanCodingAnimation,
   GlucoseInsulinAnimation,
   FeedbackLoopAnimation,
+  SuperconductivityAnimation,
+  MeissnerEffectAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -140,6 +142,8 @@ const components = {
   HuffmanCodingAnimation,
   GlucoseInsulinAnimation,
   FeedbackLoopAnimation,
+  SuperconductivityAnimation,
+  MeissnerEffectAnimation,
   KeyTakeaways,
 }
 

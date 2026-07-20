@@ -1,0 +1,161 @@
+---
+title: "Superconductivity"
+subtitle: "What happens when electrical resistance doesn't just get small — it becomes exactly zero."
+topic: "Physics"
+slug: "superconductivity"
+date: "2026-07-04"
+readTime: 10
+featured: false
+description: "Cool certain metals below a critical temperature and their resistance vanishes entirely. The reason involves electrons pairing up and condensing into a single quantum state."
+tags: ["quantum-mechanics", "condensed-matter", "phase-transitions", "materials"]
+quiz:
+  - q: "A superconductor and a hypothetical perfect conductor (zero resistance, but no other special property) are both cooled in a magnetic field. What distinguishes them?"
+    options:
+      - "The perfect conductor expels the field faster because it has no resistive delay"
+      - "The superconductor actively expels the field as it cools, while the perfect conductor would simply trap whatever field was already inside it"
+      - "Neither allows any magnetic field inside under any circumstances"
+      - "The superconductor conducts the field along its surface instead of expelling it"
+    answer: 1
+    explanation: "The Meissner effect is field expulsion regardless of cooling history, which zero resistance alone cannot produce — showing superconductivity is a distinct thermodynamic phase, not merely perfect conduction."
+  - q: "Two electrons repel each other electrostatically, so how can the lattice mediate a net attraction between them in the BCS picture?"
+    options:
+      - "The lattice cancels the electrons' charge entirely, leaving only gravitational attraction"
+      - "One electron distorts the positive ion lattice, and because the ions respond slowly, the resulting concentration of positive charge lingers and attracts a second electron passing later"
+      - "The magnetic fields of the two electrons align and overwhelm the Coulomb repulsion"
+      - "At low temperature the Coulomb force between electrons reverses sign"
+    answer: 1
+    explanation: "The heavy ions respond on a much slower timescale than the fast electrons, so the positive over-density left behind outlives the first electron's passage and attracts a second one — a retarded, phonon-mediated attraction."
+  - q: "Why can a Cooper pair condensate carry current without dissipating energy, when individual electrons in a normal metal cannot?"
+    options:
+      - "Cooper pairs move faster than individual electrons, so they pass the ions before scattering can occur"
+      - "The pairs occupy a single coherent quantum state, so scattering one pair alone is forbidden — a collision would have to redirect the entire condensate at once, and low-energy phonons cannot supply the energy to break a pair"
+      - "Cooper pairs are electrically neutral and therefore do not interact with the lattice"
+      - "The lattice stops vibrating entirely below the critical temperature, removing all scattering centres"
+    answer: 1
+    explanation: "All pairs share one macroscopic wavefunction, so momentum cannot be shed piecemeal; degrading the current requires breaking a pair, which costs at least the energy gap."
+---
+
+## The current that would not die
+
+In 1911, Heike Kamerlingh Onnes had something almost nobody else in the world had: liquid helium. His Leiden laboratory could reach roughly 4 kelvin, and he used it to settle a live argument about what happens to a metal's electrical resistance as temperature approaches absolute zero. Some expected resistance to level off at a small residual value. Lord Kelvin expected it to shoot back *up*, as the conduction electrons themselves froze into place.
+
+Onnes cooled a thread of mercury and measured. The resistance fell, as expected — and then, at 4.2 K, it did something no theory predicted. It did not level off. It did not approach a small number. It disappeared. His galvanometer showed nothing at all, and his best measurements could only report that the resistance had dropped by a factor of more than $10^{5}$ and was, so far as he could tell, zero.
+
+That "so far as he could tell" has since been sharpened dramatically. Start a current circulating in a closed superconducting loop, remove the power source, and watch. Experiments of this kind have run for years without any detectable decay of the current, placing lower bounds on the decay time that run to something like $10^{5}$ years and beyond. A copper ring would give up its current in microseconds.
+
+Zero is a strong claim in physics. This is one of the very few places it is literally true.
+
+## Why ordinary metals resist at all
+
+To appreciate zero, you need to know where resistance comes from.
+
+In a metal, the outer electrons of each atom are not bound to any particular atom. They form a gas of mobile charge drifting through a rigid, periodic scaffold of positive ions. Apply a voltage and the electrons accelerate — but they do not accelerate forever, because they keep running into things.
+
+Crucially, they are *not* running into the ions themselves. A perfect, motionless periodic lattice is transparent to electrons: quantum mechanically, an electron wave in a perfectly periodic potential propagates without attenuation. Resistance comes entirely from the ways a real lattice fails to be perfect:
+
+- **Thermal vibration.** The ions jiggle about their sites, and the more thermal energy they have the larger the jiggle. These quantized vibrations are called **phonons**, and an electron can scatter off one, giving up momentum.
+- **Impurities and defects.** A foreign atom or a dislocation breaks the periodicity permanently.
+
+The first depends strongly on temperature; the second does not. That is why a normal metal's resistance falls as you cool it and then flattens out at a **residual resistivity** set by how dirty the sample is. Cool copper to 1 kelvin and it becomes an excellent conductor — but never a perfect one. Purity, not temperature, becomes the limit.
+
+Superconductivity is not the end of that curve. It is something else entirely, happening at a sharply defined temperature.
+
+## Watching the transition
+
+The **critical temperature** $T_c$ is the temperature at which a superconductor makes its transition. It is a genuine phase transition, as sharp as water freezing: mercury at 4.3 K is a mediocre metal, mercury at 4.1 K carries current for free.
+
+<SuperconductivityAnimation />
+
+Drag the temperature slider down from the warm end. High up, the ions of the lattice are visibly vibrating, and the blue electrons zigzag through them — every deflection is a momentum transfer to the lattice, which is what resistance *is*. Watch the marker on the resistance curve slide down as you cool: the resistance falls, smoothly and unremarkably, exactly as in copper.
+
+Then cross $T_c$ (the gold dashed line). Two things happen at once. The electrons pair up — each pair drawn tethered, moving in lockstep — and stop noticing the ions altogether, gliding straight through a lattice that is still vibrating. And the resistance curve does not taper to something small; it drops discontinuously to a flat zero. Push the slider back and forth across $T_c$ and notice that the transition is a cliff, not a slope.
+
+Notice also what does *not* happen below $T_c$: the lattice keeps vibrating. The phonons are still there. The scattering centres are still there. Something has changed about the electrons, not about the obstacles.
+
+## Cooper pairs and the phonon glue
+
+The explanation took 46 years to arrive: the BCS theory of Bardeen, Cooper and Schrieffer, published in 1957.
+
+The key step is Leon Cooper's 1956 result: an arbitrarily weak *attraction* between two electrons near the Fermi surface makes the normal metal state unstable. However feeble the attraction, the two electrons will bind into a state below the Fermi energy. So the question becomes: where would an attraction between two electrons — which famously repel — come from?
+
+From the lattice, on a delay. A fast electron sweeping past the heavy positive ions tugs them slightly toward its path. The ions are thousands of times more massive than the electron, so they respond sluggishly: by the time the ions have moved inward, the electron is long gone, leaving behind a lingering ripple of excess positive charge. A second electron arriving into that ripple is attracted to it — and hence, indirectly and with a time delay, to the first electron. In quantum language, one electron emits a phonon and the other absorbs it.
+
+The retardation is essential. The electrons are never close together; a Cooper pair's partners are typically hundreds of nanometres apart, with millions of other electrons in between. The direct Coulomb repulsion at that distance is screened to nearly nothing, while the phonon-mediated attraction survives.
+
+Two clean fingerprints confirm the lattice is involved. First, the **isotope effect**: substituting a heavier isotope of the same element lowers $T_c$, following
+
+$$T_c \propto M^{-1/2}$$
+
+which is exactly the mass dependence of phonon frequencies. The chemistry is unchanged; only the ion mass is — and $T_c$ moves. Second, several of the *best* normal conductors (copper, silver, gold) never superconduct at all, precisely because their electrons couple weakly to phonons.
+
+A Cooper pair binds two electrons of opposite momentum and opposite spin, $(\mathbf{k}\uparrow, -\mathbf{k}\downarrow)$. Opposite spins means the pair carries integer total spin, and that is the pivot of the whole story. Electrons are fermions and obey the Pauli exclusion principle: no two may occupy the same state. A *pair* behaves as a composite boson, and bosons have the opposite instinct — they pile into the same state, preferentially the lowest one.
+
+So below $T_c$ the pairs condense. Not "many pairs in similar states" but all of them in one macroscopic quantum state, described by a single complex wavefunction
+
+$$\psi(\mathbf{r}) = \sqrt{n_s}\,e^{i\theta(\mathbf{r})}$$
+
+with a phase $\theta$ that is coherent across the entire sample — centimetres, in a wire.
+
+Now the zero resistance follows. Scattering degrades a current by knocking individual carriers into new momentum states. But there are no individual carriers here. Every pair shares one wavefunction, so a phonon cannot redirect one pair while leaving the rest alone; it would have to scatter the whole condensate at once, which is astronomically improbable. The only alternative is to break a pair, and that costs a minimum energy — the **superconducting energy gap** $\Delta$, with BCS predicting
+
+$$2\Delta(0) \approx 3.53\,k_B T_c$$
+
+Below $T_c$, the available thermal phonons simply do not carry enough energy to pay it. The scattering channel is closed, not merely rare. That is the difference between "very small resistance" and zero.
+
+## The Meissner effect: this is a *phase*, not a good conductor
+
+Here is the misconception worth killing. It is tempting to picture a superconductor as the limiting case of a very good conductor — the same physics, dialled to perfection. It is not, and there is a decisive experiment that proves it.
+
+In 1933, Walther Meissner and Robert Ochsenfeld cooled a superconductor while it sat *in* a magnetic field. A hypothetical "perfect conductor" — a material with zero resistance and no other special property — would trap that field. Faraday's law says a changing flux induces currents that oppose the change, and with zero resistance those currents persist forever, freezing whatever flux was already threading the sample. Nothing would happen at all.
+
+What actually happens is that the field is thrown out. The sample actively expels the flux as it crosses $T_c$, ending with $B = 0$ inside regardless of what the field was doing beforehand.
+
+<MeissnerEffectAnimation />
+
+Start warm and watch the field lines from the magnet pass straight through the sample as though it were not there. Hit **Cool** and watch them get squeezed out of the interior, bunching up outside; as the flux is expelled, the magnet visibly rises and hovers. Then hit **Warm** to run the whole thing backwards — the field floods back in and the magnet settles. Drag the slider slowly to park the sample just below $T_c$ and watch the violet penetration-depth line: the field is not expelled from an infinitely thin surface, but from everything deeper than $\lambda$, and $\lambda$ swells dramatically as you approach $T_c$ from below.
+
+That surface layer is real physics. The expulsion is done by **screening currents** flowing in a thin skin, and the field they cancel dies away exponentially inward:
+
+$$B(x) = B_0\,e^{-x/\lambda}$$
+
+where $\lambda$ is the **London penetration depth**, typically 20–100 nm. It depends on the density $n_s$ of superconducting carriers,
+
+$$\lambda = \sqrt{\frac{m}{\mu_0 n_s e^2}}$$
+
+so as $n_s \to 0$ on approach to $T_c$, $\lambda$ diverges — the field seeps all the way in, and the phase dissolves.
+
+The reason this settles the argument is thermodynamic. Because expulsion happens no matter the cooling history, the superconducting state is a true equilibrium state with its own free energy, reachable by any path. That is the signature of a distinct phase of matter, like ice versus water — not a quantitative extreme of the normal metal. And a state has a stability limit: push the field past a **critical field** $H_c$ and superconductivity is destroyed outright, because expelling the flux costs more energy than the condensate is worth.
+
+That levitation, incidentally, is the same fact seen from outside. A superconductor that will not let flux in must push back on the magnet trying to force it in.
+
+## Type I, type II, and the room-temperature race
+
+Pure elemental superconductors — lead, tin, mercury — are **type I**: they expel field completely up to $H_c$, then give up entirely. $H_c$ is small, a few hundredths of a tesla, which makes them useless for magnets.
+
+**Type II** superconductors, mostly alloys and compounds, do something cleverer. Between a lower critical field $H_{c1}$ and a much higher $H_{c2}$ they enter a mixed state: the field enters as a lattice of discrete **vortices**, each carrying exactly one flux quantum
+
+$$\Phi_0 = \frac{h}{2e} \approx 2.07 \times 10^{-15}\ \text{Wb}$$
+
+(note the $2e$ — direct evidence that the charge carriers are *pairs*). Each vortex has a tiny normal core; the material stays superconducting between them. This lets type II materials survive fields of tens of tesla, which is why every MRI scanner, every particle-accelerator magnet, and every fusion tokamak coil is wound from niobium–titanium or niobium–tin.
+
+The catch is that the vortices can move, and moving vortices dissipate energy — so real magnets rely on "pinning" defects deliberately introduced to hold them still. Engineering superconductors is largely the art of pinning vortices.
+
+Then, in 1986, Bednorz and Müller found superconductivity at 35 K in a copper-oxide ceramic — a class of material that should have been an insulator. Within two years the cuprates had passed 90 K, above the boiling point of liquid nitrogen (77 K), which changed superconductivity from a liquid-helium luxury into something a university lab could keep in a thermos. Records now sit above 130 K at ambient pressure.
+
+Nobody fully understands why the cuprates work. Their pairing is not simply phonon-mediated, and after nearly four decades there is still no consensus mechanism. This is arguably the most important unsolved problem in condensed matter physics.
+
+The frontier has since split. Hydrogen-rich materials under enormous pressure have shown superconductivity above 200 K — but at millions of atmospheres, which is not a wire you can wind. And the field has been burned repeatedly by room-temperature claims that failed replication, most spectacularly the retracted work on hydrides and the 2023 LK-99 episode. The prize, though, is unchanged: a material that superconducts at room temperature and ambient pressure would eliminate the roughly 5% of generated electricity lost in transmission, make maglev and lossless energy storage routine, and shrink MRI machines from cryogenic installations to appliances.
+
+## Where it already matters
+
+Superconductivity is not speculative. Every MRI scanner in every hospital is a superconducting magnet, and the field's stability is what makes the imaging possible. The LHC steers protons with over a thousand superconducting dipoles. SQUIDs — sensors built from superconducting loops interrupted by Josephson junctions — detect magnetic fields a billion times weaker than Earth's, sensitive enough to map the magnetic fields of the human brain. And the leading superconducting qubits in today's quantum computers work precisely because the energy gap protects the quantum state from the thermal noise that would otherwise scramble it.
+
+Each of these is downstream of the same fact: below $T_c$, a macroscopic number of electrons stop behaving as individuals.
+
+<KeyTakeaways>
+- Below a sharp critical temperature $T_c$, a superconductor's resistance is not small but exactly zero — currents in superconducting loops have persisted for years with no measurable decay.
+- Resistance in a normal metal comes from electrons scattering off lattice vibrations (phonons) and impurities, not from the ions themselves; a perfect static lattice is transparent to electron waves.
+- BCS theory: the slow, retarded response of the heavy ion lattice creates a weak attraction between electrons, binding them into **Cooper pairs** with opposite momentum and spin.
+- A pair is a composite boson, so all pairs condense into one macroscopic wavefunction. Current cannot decay because momentum cannot be shed one carrier at a time — you would have to break a pair, which costs the energy gap $2\Delta \approx 3.53\,k_B T_c$.
+- A superconductor is **not** just a very good conductor: the Meissner effect expels magnetic field regardless of cooling history (something zero resistance alone cannot do), proving it is a distinct thermodynamic phase — and it is what makes magnets levitate.
+</KeyTakeaways>

@@ -777,6 +777,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  superconductivity: c => {
+    // Left: R(T) collapsing discontinuously to zero at Tc.
+    // Right: a magnet levitating over a slab that has expelled the field.
+    return (
+      <g>
+        <line x1={22} y1={16} x2={22} y2={96} stroke={FAINT} strokeWidth={1} />
+        <line x1={22} y1={96} x2={178} y2={96} stroke={FAINT} strokeWidth={1} />
+        <text x={10} y={22} fontSize={7} fill={MUTE} fontFamily="monospace">R</text>
+        <text x={180} y={104} fontSize={7} fill={MUTE} fontFamily="monospace">T</text>
+        <line x1={86} y1={16} x2={86} y2={96} stroke={GOLD} strokeWidth={0.75} strokeDasharray="3 3" opacity={0.6} />
+        <text x={86} y={12} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">Tc</text>
+        <polyline points="86,62 108,56 134,46 160,38 176,32" fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <line x1={86} y1={62} x2={86} y2={96} stroke={GOLD} strokeWidth={2} />
+        <line x1={22} y1={96} x2={86} y2={96} stroke={c} strokeWidth={3} />
+        <text x={30} y={90} fontSize={7} fill={c} fontFamily="monospace">R = 0</text>
+        <path d="M 198 84 C 206 44 274 44 282 84" fill="none" stroke={c} strokeWidth={1} opacity={0.45} />
+        <path d="M 210 84 C 216 58 264 58 270 84" fill="none" stroke={c} strokeWidth={1} opacity={0.7} />
+        <rect x={222} y={56} width={36} height={10} rx={2} fill={GOLD} />
+        <rect x={196} y={86} width={88} height={18} rx={3} fill={`${c}22`} stroke={c} strokeWidth={0.75} />
+        {[210, 232, 254].map((x, i) => (
+          <g key={i}>
+            <line x1={x} y1={95} x2={x + 10} y2={95} stroke={c} strokeWidth={0.75} opacity={0.7} />
+            <circle cx={x} cy={95} r={2} fill={c} />
+            <circle cx={x + 10} cy={95} r={2} fill={c} />
+          </g>
+        ))}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
