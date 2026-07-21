@@ -8,6 +8,7 @@ export const contentType = 'image/png'
 const topicColors: Record<string, string> = {
   Mathematics: '#A78BFA',
   Physics: '#10B981',
+  Chemistry: '#FB923C',
   'Computer Science': '#60A5FA',
   Medicine: '#F472B6',
 }

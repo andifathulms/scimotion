@@ -1,11 +1,12 @@
 import { Children, cloneElement, isValidElement } from 'react'
 import type { ReactElement, ReactNode } from 'react'
 
-type Topic = 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
+import type { Topic } from '@/lib/topics'
 
 const ACCENT: Record<Topic, string> = {
   Mathematics: '#A78BFA',
   Physics: '#10B981',
+  Chemistry: '#FB923C',
   'Computer Science': '#60A5FA',
   Medicine: '#F472B6',
 }

@@ -5,8 +5,6 @@ import { TopicBadge } from './TopicBadge'
 import { ArticleVisual } from './ArticleVisual'
 import type { ArticleMeta } from '@/lib/articles'
 
-type Topic = 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
-
 export function ArticleCard({ article, featured = false }: { article: ArticleMeta; featured?: boolean }) {
   const thumbHeight = featured ? 200 : 120
   return (
@@ -18,11 +16,11 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
     <Link href={`/articles/${article.slug}`} className="block group">
       <div className="bg-bg-surface border border-border rounded-2xl overflow-hidden hover:border-border-hover hover:bg-bg-hover transition-colors duration-200">
         <div className="overflow-hidden" style={{ height: thumbHeight }}>
-          <ArticleVisual slug={article.slug} topic={article.topic as Topic} />
+          <ArticleVisual slug={article.slug} topic={article.topic} />
         </div>
         <div className="p-4">
           <div className="flex items-center gap-2 mb-2">
-            <TopicBadge topic={article.topic as Topic} />
+            <TopicBadge topic={article.topic} />
             <span className="text-xs font-medium uppercase tracking-wider text-accent-gold border border-accent-gold/25 bg-accent-gold/10 px-2 py-0.5 rounded-full">
               Interactive
             </span>

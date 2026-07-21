@@ -1,6 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { TOPICS, type Topic } from './topics'
+
+export { TOPICS, type Topic }
 
 export type QuizQuestion = {
   q: string
@@ -12,7 +15,7 @@ export type QuizQuestion = {
 export type ArticleMeta = {
   title: string
   subtitle: string
-  topic: 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
+  topic: Topic
   slug: string
   date: string
   readTime: number
@@ -31,6 +34,18 @@ const articlesDir = path.join(process.cwd(), 'content/articles')
 
 const REQUIRED_FIELDS = ['title', 'subtitle', 'topic', 'slug', 'date', 'readTime', 'description'] as const
 
+// Frontmatter is untyped YAML, so the topic has to be checked at runtime. This
+// used to be an unchecked cast, which meant a typo produced an article that
+// built fine but rendered an unstyled badge and no hero accent.
+function normalizeTopic(value: unknown, file: string): Topic {
+  if (!TOPICS.includes(value as Topic)) {
+    throw new Error(
+      `Article "${file}" has an unknown topic: ${JSON.stringify(value)}. Expected one of: ${TOPICS.join(', ')}`
+    )
+  }
+  return value as Topic
+}
+
 function normalizeMeta(data: Record<string, unknown>, file: string): ArticleMeta {
   for (const field of REQUIRED_FIELDS) {
     if (data[field] === undefined || data[field] === null) {
@@ -40,7 +55,7 @@ function normalizeMeta(data: Record<string, unknown>, file: string): ArticleMeta
   return {
     title: data.title as string,
     subtitle: data.subtitle as string,
-    topic: data.topic as ArticleMeta['topic'],
+    topic: normalizeTopic(data.topic, file),
     slug: data.slug as string,
     date: data.date as string,
     readTime: data.readTime as number,

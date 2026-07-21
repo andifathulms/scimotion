@@ -3,9 +3,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { ArticleCard } from './ArticleCard'
 import type { ArticleMeta } from '@/lib/articles'
-
-type Topic = 'Mathematics' | 'Physics' | 'Computer Science' | 'Medicine'
-const TOPICS: Topic[] = ['Mathematics', 'Physics', 'Computer Science', 'Medicine']
+import { TOPICS, type Topic } from '@/lib/topics'
 
 const gridVariants: Variants = {
   hidden: {},
