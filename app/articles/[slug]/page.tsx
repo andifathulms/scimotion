@@ -107,6 +107,8 @@ import {
   CellPotentialAnimation,
   ReactionRateAnimation,
   CatalysisAnimation,
+  AtomicOrbitalAnimation,
+  PeriodicTrendsAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -200,6 +202,8 @@ const components = {
   CellPotentialAnimation,
   ReactionRateAnimation,
   CatalysisAnimation,
+  AtomicOrbitalAnimation,
+  PeriodicTrendsAnimation,
   KeyTakeaways,
 }
 

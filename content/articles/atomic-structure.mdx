@@ -1,0 +1,185 @@
+---
+title: "Atomic Structure and the Periodic Table"
+subtitle: "The table's shape is not a filing convention — the row lengths 2, 8, 8, 18 fall straight out of how many electrons each set of orbitals can hold."
+topic: "Chemistry"
+slug: "atomic-structure"
+date: "2026-07-19"
+readTime: 11
+featured: false
+description: "Electrons do not orbit. They occupy standing-wave probability clouds whose shapes and capacities are fixed by three quantum numbers — and those capacities are exactly why the periodic table has the blocks and row lengths it does."
+tags: ["atomic-structure", "orbitals", "periodic-table", "quantum-numbers"]
+quiz:
+  - q: "Why is the second row of the periodic table eight elements long, while the fourth is eighteen?"
+    options:
+      - "Because the nucleus of a fourth-row atom is large enough to hold more electrons in each shell"
+      - "Because the second row fills 2s and 2p (2 + 6 = 8 electrons) while the fourth also fills the five 3d orbitals, adding 10 more"
+      - "Because rows were chosen by chemists to group elements with similar reactions, and the lengths are conventional"
+      - "Because electron repulsion forces atoms to add exactly ten extra electrons after calcium"
+    answer: 1
+    explanation: "Row length is just the total capacity of the orbital sets being filled — 2 for an s subshell, 6 for p, 10 for d — so the fourth row's extra ten elements are the d-block."
+  - q: "A student draws a 2p orbital as an electron travelling around a figure-of-eight path. What is the deepest problem with that picture?"
+    options:
+      - "The path should be circular rather than a figure of eight"
+      - "The electron travels too fast to be drawn as a single dot"
+      - "There is no path at all — the lobes are a probability distribution, and the electron has no definite trajectory between measurements"
+      - "The two lobes belong to two different electrons rather than one"
+    answer: 2
+    explanation: "An orbital is a standing wave whose squared amplitude gives the probability of finding the electron in a region; a trajectory would require simultaneously definite position and momentum, which the uncertainty principle forbids."
+  - q: "Ionisation energy rises from lithium to fluorine but drops sharply from fluorine to sodium. What explains both moves?"
+    options:
+      - "Nuclear charge increases within a row but decreases from fluorine to sodium"
+      - "Across a row, added electrons shield each other poorly so Zeff climbs and the grip tightens; sodium's valence electron sits in a new, larger shell that is well shielded by the neon core"
+      - "Fluorine is a gas and sodium is a metal, and metals always ionise more easily regardless of structure"
+      - "Sodium's extra proton pushes its outermost electron away, lowering the energy needed to remove it"
+    answer: 1
+    explanation: "Both moves are effective-nuclear-charge arguments: same-shell electrons shield each other badly, while a filled inner shell shields the next one very well."
+---
+
+## The shape of the table is a shape of nothing else
+
+Look at a periodic table and ignore, for a moment, everything written on it. Just look at the outline.
+
+The first row has two boxes and then a huge gap. The second and third rows have eight, with a gap in the middle. The fourth row has eighteen, the gap now filled in by a block ten wide. Further down, a strip fourteen wide falls out of the bottom.
+
+2, 8, 8, 18, 18, 32. Those are not round numbers, and they are not arbitrary. Nobody chose them. Mendeleev arranged elements by their chemistry in 1869 and this silhouette appeared, sixty years before anyone could say why.
+
+The why is short enough to fit in one line: **an s subshell holds 2 electrons, a p holds 6, a d holds 10, an f holds 14.** Add them in the order atoms actually fill them and you get 2, then 2+6, then 2+6, then 2+10+6. The outline of the periodic table is a picture of orbital capacity, and nothing else.
+
+The rest of this article is about where those capacities come from — and it starts by throwing out the picture of the atom you were probably taught first.
+
+## The nucleus, and the enormous nothing around it
+
+An atom is almost entirely empty. Every proton and neutron sits in a nucleus about $10^{-15}$ m across, while the atom itself is about $10^{-10}$ m — a factor of $10^5$ in radius, so the nucleus occupies roughly one part in $10^{15}$ of the atom's volume. Scale the nucleus to a marble and the nearest electron density is a few hundred metres away.
+
+The nucleus does two jobs and then stops mattering for chemistry. It supplies the mass (over 99.9% of it), and it supplies the charge $+Ze$ that holds the electrons. The **atomic number** $Z$ — the proton count — is what makes an element that element. Change the neutron count and you get an isotope, chemically near-identical. Change $Z$ and you have a different substance entirely.
+
+Everything chemistry cares about happens in the other $10^{15}$ parts of the volume: the electrons.
+
+Rutherford's students had just shown, in 1911, that the positive charge was concentrated in a tiny core, and Niels Bohr in 1913 drew the obvious conclusion — electrons must orbit it, like planets. The model was a triumph. It predicted hydrogen's spectral lines to four figures. It is also wrong, and wrong in a way worth being precise about, because the planetary picture is the single most persistent misconception in chemistry.
+
+Two objections, one classical and one quantum.
+
+**Classically, orbits are unstable.** An accelerating charge radiates. An electron in a circular orbit is accelerating continuously, so it should spiral into the nucleus in about $10^{-11}$ seconds. Matter would not exist. Bohr had to *forbid* this by decree — electrons in certain special orbits simply do not radiate, because he said so — which is not an explanation, it is a patch.
+
+**Quantum mechanically, an orbit is not a thing an electron can have.** A trajectory means a definite position and a definite momentum at every instant. Heisenberg's uncertainty principle,
+
+$$\Delta x\, \Delta p \geq \frac{\hbar}{2}$$
+
+says you cannot have both. Confine an electron to a region the size of an atom, $\Delta x \approx 10^{-10}$ m, and its momentum uncertainty is comparable to the momentum itself. The electron is not blurry because our instruments are poor. It has no path to be measured.
+
+So what replaces the orbit? A standing wave.
+
+## Orbitals are standing waves, and you can only see them as clouds
+
+Louis de Broglie's insight — that a particle with momentum $p$ has a wavelength $\lambda = h/p$ — is the hinge. (If that idea is new to you, [wave-particle duality](/articles/wave-particle-duality) is the place to start; the double-slit experiment is the cleanest demonstration that a single particle propagates as a wave.)
+
+An electron bound to a nucleus is a wave confined to a box. And confined waves, from guitar strings to organ pipes, cannot take any shape they like: only those that fit the boundary conditions survive, because everything else interferes with itself destructively and cancels. A guitar string permits a fundamental and its harmonics — a discrete set. An electron around a nucleus is the same problem in three dimensions, and it gives the same answer: **a discrete set of allowed standing waves.**
+
+That is where quantisation comes from. Not a rule imposed on the atom, but the same reason a string has notes.
+
+Each allowed standing wave is a wavefunction $\psi(x,y,z)$, and the Schrödinger equation is the condition it must satisfy:
+
+$$\hat{H}\psi = E\psi, \qquad \hat{H} = -\frac{\hbar^2}{2m_e}\nabla^2 - \frac{Ze^2}{4\pi\varepsilon_0 r}$$
+
+The two terms are kinetic energy and Coulomb attraction to the nucleus. Solutions exist only for particular energies $E$ — the allowed notes.
+
+Now the crucial interpretive step. $\psi$ itself is not observable and can be negative. What is physical is $|\psi|^2$, which Max Born identified as a **probability density**: $|\psi|^2\,dV$ is the probability of finding the electron in the small volume $dV$. An **orbital** is one such wavefunction, and drawing an orbital means drawing where $|\psi|^2$ is large.
+
+That is why every honest picture of an atom is a cloud, or a surface enclosing 90% of the probability. It is not an artist's impression of a fast-moving particle smeared by motion blur. The cloud *is* the electron's state.
+
+<AtomicOrbitalAnimation />
+
+Every dot in the left panel is one hypothetical measurement: "where was the electron this time?" Start on **1s** and let the dots pile up. Notice that no dot lands on the nucleus and none lands at a fixed radius either — the answer is different every time, and only the *distribution* is reproducible. That distribution is what quantum mechanics predicts, and it is all it predicts.
+
+Now switch to **2s** and watch the right-hand plot. The radial distribution $P(r) = r^2R(r)^2$ rises, comes back down to *exactly zero*, and rises again. That zero is a **radial node** — a spherical shell where the probability of finding the electron is not small but precisely nil, marked by the dashed blue circle in the cloud. And yet the electron is found on both sides of it. Ask how it crosses and you are asking a trajectory question, which has no answer; the wave simply has an amplitude of zero there, exactly as the midpoint of a plucked string's second harmonic never moves.
+
+Switch to **2p** and the cloud splits into two lobes with a flat plane of zero density between them — an **angular node**. Then **3d**, and there are four lobes and two nodal planes. Toggle "Show nodes" on and off and count: the total is always $n - 1$, split as $l$ angular nodes and $n - l - 1$ radial ones. More nodes means more curvature in the wave, and more curvature means more kinetic energy — which is precisely why higher $n$ costs more energy. The energy ladder of an atom is a count of wiggles.
+
+## Three numbers name every orbital
+
+Solving the hydrogen atom yields solutions labelled by three integers, which drop out of the boundary conditions in the three coordinates rather than being assumed.
+
+**The principal quantum number $n = 1, 2, 3, \dots$** sets the size and, for hydrogen alone, the entire energy:
+
+$$E_n = -\frac{13.6\ \text{eV}}{n^2}$$
+
+That negative sign means bound; the electron needs $+13.6$ eV to escape from $n=1$. The spacing collapses as $n$ grows, which is why atomic spectra crowd together toward a series limit.
+
+**The angular momentum quantum number $l = 0, 1, \dots, n-1$** sets the *shape* — the number of angular nodes. Historically the values carry letters from old spectroscopy: $l=0$ is **s** (sharp), $l=1$ is **p** (principal), $l=2$ is **d** (diffuse), $l=3$ is **f** (fundamental). The names are archaeology; the physics is that $l$ counts nodal planes.
+
+**The magnetic quantum number $m_l = -l, \dots, 0, \dots, +l$** sets the orientation in space. There are $2l+1$ of these, and here is the capacity of a subshell falling out:
+
+| $l$ | letter | $m_l$ values | orbitals | max electrons |
+|---|---|---|---|---|
+| 0 | s | 0 | 1 | 2 |
+| 1 | p | −1, 0, +1 | 3 | 6 |
+| 2 | d | −2 … +2 | 5 | 10 |
+| 3 | f | −3 … +3 | 7 | 14 |
+
+There is a fourth number that is not a solution of the spatial equation at all: **spin**, $m_s = \pm\tfrac{1}{2}$, an intrinsic property with no classical analogue (the electron is not spinning). It is what doubles every count in the last column.
+
+Three rules govern how electrons occupy this ladder.
+
+**The Pauli exclusion principle.** No two electrons in an atom may share all four quantum numbers. Since an orbital fixes $n, l, m_l$, only the two spin states remain — so **an orbital holds at most two electrons, with opposed spins**. This is the rule doing the real work in the periodic table. Without it every electron would sink to 1s, all atoms would be featureless, and there would be no chemistry.
+
+**The aufbau principle.** Electrons fill from the lowest available energy upward. In a multi-electron atom the energy depends on $l$ as well as $n$, because s orbitals penetrate closer to the nucleus and are shielded less. That is why 4s is filled before 3d.
+
+**Hund's rule.** Within a set of degenerate orbitals, electrons occupy separate orbitals with parallel spins before any orbital is doubly occupied — two electrons in the same small region repel, so spreading out costs less. Nitrogen's three 2p electrons occupy $2p_x$, $2p_y$, $2p_z$ singly, which is why nitrogen is paramagnetic.
+
+Now walk the ladder. Fill 1s and you have used two elements: H and He. Fill 2s then 2p and you have used eight: Li through Ne. Fill 3s and 3p, eight more: Na through Ar. Then 4s, 3d, 4p — 2 + 10 + 6 = eighteen: K through Kr.
+
+2, 8, 8, 18. The rows of the periodic table, derived rather than observed. The blocks are just as direct: groups 1–2 are the elements whose last electron entered an s orbital, groups 13–18 the p-block, the ten-wide middle the d-block, and the strip below the table the f-block, fourteen wide because $2(2\cdot3+1) = 14$.
+
+**A caution the textbooks often skip:** aufbau is a useful approximation, not a law. Chromium is $[\text{Ar}]3d^54s^1$, not $3d^44s^2$; copper is $[\text{Ar}]3d^{10}4s^1$, not $3d^94s^2$. In these atoms 3d and 4s sit so close in energy that electron–electron repulsion and exchange stabilisation decide the outcome, and the "wrong" configuration wins. There are around twenty such exceptions among the first sixty elements, and more among the heavy metals. The honest statement is that the atom minimises its *total* energy; aufbau is a rule of thumb for guessing which arrangement does that.
+
+## Zeff: one quantity behind every trend
+
+Each electron in a multi-electron atom feels the nucleus pulling it in and the other electrons pushing it out. The net inward pull is the **effective nuclear charge**:
+
+$$Z_{\text{eff}} = Z - S$$
+
+where $S$ is the shielding constant. John Slater gave simple empirical rules for it, and the key asymmetry is this: electrons in *inner* shells shield very effectively (about 0.85 each, or 1.00 from shells two or more levels down), while electrons in the *same* shell shield poorly (about 0.35 each) because they are as often outside you as between you and the nucleus.
+
+That asymmetry drives everything.
+
+**Across a period**, each step adds one proton and one same-shell electron. The proton adds a full $+1$; the electron subtracts only about 0.35. Net: $Z_{\text{eff}}$ climbs by roughly 0.65 per element. From lithium ($Z_{\text{eff}} \approx 1.30$) to fluorine ($\approx 5.20$) the nuclear grip roughly quadruples while the shell stays the same size.
+
+**Down a group**, the valence electron moves to a shell with larger $n$, and the newly filled core shields it almost completely. $Z_{\text{eff}}$ barely changes — sodium and potassium both sit near 2.2 — but the orbital is much larger.
+
+Three trends follow immediately:
+
+- **Atomic radius** falls across a period (rising $Z_{\text{eff}}$ pulls the same shell inward) and rises down a group (bigger $n$ wins).
+- **Ionisation energy**, the cost of removing the outermost electron, does the reverse: it rises across and falls down, since a tighter grip is harder to break. Roughly $\text{IE} \propto Z_{\text{eff}}^2/n^2$.
+- **Electronegativity**, an atom's pull on shared electrons in a bond, follows ionisation energy closely and peaks at fluorine — high $Z_{\text{eff}}$ and a small radius together.
+
+<PeriodicTrendsAnimation />
+
+Start on **Atomic radius** with the trace set to **Across period** and click chlorine. The row runs hot-to-cold left to right — sodium at 180 pm shrinking to chlorine at 100 pm — even though chlorine has six *more* electrons. Adding electrons makes the atom smaller, which only makes sense once you see the dashed gold $Z_{\text{eff}}$ line climbing underneath it.
+
+Now switch the trace to **Down group** and click through group 1: 145, 180, 220 pm. The property line and the $Z_{\text{eff}}$ line have come apart — $Z_{\text{eff}}$ is nearly flat while the radius grows, because here it is $n$ that is changing, not the grip.
+
+Switch to **Ionisation energy** and watch the same row invert: the trace now climbs where the radius fell, because they are two readings of the same tightening. Look for the two dips — aluminium below magnesium (the 3p electron is shielded by the filled 3s pair) and sulfur below phosphorus (the fourth 3p electron must pair up in an already-occupied orbital and pay the repulsion). Both are Hund's rule and orbital structure poking through a trend that $Z_{\text{eff}}$ alone would draw as a straight line.
+
+Finally, **Electronegativity**, and note the two things it does *not* do: it has no value at all for helium, neon and argon on the Pauling scale, and it goes conspicuously flat across the d-block, where the electron being added goes into an inner 3d shell rather than the valence shell. A trend that flattens exactly where the filling order changes is the strongest evidence you could ask for that the table's geography is orbital geography.
+
+## Why this is the foundation
+
+Almost every later question in chemistry is a question about this structure.
+
+**Bonding.** Atoms bond because the shared arrangement lies lower in energy, and which arrangement that is depends on which orbitals are available and how full they are. The octet rule is a shorthand for "the s and p subshells of that level are full and the next orbital is a big jump away". Electronegativity difference — a $Z_{\text{eff}}$ story — is what decides whether a bond is a polite sharing or an outright transfer. That is the subject of [why atoms bond](/articles/chemical-bonding), and it assumes everything above.
+
+**Reactivity.** Sodium reacts violently with water and argon does nothing, though they are neighbours with nearly identical nuclear charge. Sodium's single 3s electron sits outside a filled shell, weakly held at $Z_{\text{eff}} \approx 2.2$ and 496 kJ/mol from freedom. Argon's outermost electron is held at $Z_{\text{eff}} \approx 6.75$ and costs 1521 kJ/mol. One number, three-fold, and the entire difference in behaviour.
+
+**Colour and spectroscopy.** Discrete energy levels mean discrete photon energies. Sodium street lamps glow at 589 nm because that is a specific 3p → 3s transition. The same logic reads the composition of stars, dates the expansion of the universe, and identifies compounds in a mass of unknown sample.
+
+**Transition-metal chemistry.** Partially filled d orbitals — five of them, close in energy, spatially directional — are why iron has multiple oxidation states, why complexes are coloured, and why so much of biological catalysis hangs off a metal centre. Haemoglobin carries oxygen on an iron atom whose d orbitals are doing the binding.
+
+The 1869 table was an empirical pattern in search of a cause. The cause turned out to be that electrons are standing waves, that each wave has a capacity of two, and that the capacities go 2, 6, 10, 14. Everything else on that wall chart is bookkeeping on top of those facts.
+
+<KeyTakeaways>
+- The periodic table's row lengths (2, 8, 8, 18) and its s/p/d/f blocks are a direct readout of orbital capacities — $2(2l+1)$ electrons per subshell — not a filing convention.
+- Electrons do **not** orbit. An orbital is a standing wave, and $|\psi|^2$ gives only the *probability* of finding the electron somewhere; the classical planetary atom would radiate itself into the nucleus in $10^{-11}$ s and violates the uncertainty principle besides.
+- Three quantum numbers name an orbital — $n$ (size and energy), $l$ (shape, and the number of angular nodes), $m_l$ (orientation) — plus spin $m_s$, and Pauli's rule caps each orbital at two electrons. Total nodes always equal $n-1$.
+- Aufbau, Hund and Pauli predict most configurations, but aufbau is a heuristic: Cr is $3d^54s^1$ and Cu is $3d^{10}4s^1$ because the atom minimises total energy, not because it follows a filling diagram.
+- Effective nuclear charge $Z_{\text{eff}} = Z - S$ explains all the major trends at once, because same-shell electrons shield poorly (~0.35) while inner shells shield well (~0.85): radius falls across a period and grows down a group, and ionisation energy and electronegativity do the reverse.
+</KeyTakeaways>

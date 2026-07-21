@@ -450,3 +450,13 @@ export const CatalysisAnimation = dynamic(
   () => import('@/components/animations/CatalysisAnimation').then(m => ({ default: m.CatalysisAnimation })),
   { ssr: false }
 )
+
+export const AtomicOrbitalAnimation = dynamic(
+  () => import('@/components/animations/AtomicOrbitalAnimation').then(m => ({ default: m.AtomicOrbitalAnimation })),
+  { ssr: false }
+)
+
+export const PeriodicTrendsAnimation = dynamic(
+  () => import('@/components/animations/PeriodicTrendsAnimation').then(m => ({ default: m.PeriodicTrendsAnimation })),
+  { ssr: false }
+)

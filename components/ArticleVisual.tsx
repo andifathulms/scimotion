@@ -1254,6 +1254,44 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'atomic-structure': c => {
+    // p-orbital lobe pair beside the table's s/d/p blocks, with row lengths.
+    const rows: Array<[number, number[]]> = [
+      [30, [1, 18]],
+      [39, [1, 2, 13, 14, 15, 16, 17, 18]],
+      [48, [1, 2, 13, 14, 15, 16, 17, 18]],
+      [57, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]],
+    ]
+    const lengths = ['2', '8', '8', '18']
+    const cells: ReactNode[] = []
+    rows.forEach(([y, cols], r) => {
+      cols.forEach(g => {
+        const fill = g <= 2 ? GOLD : g >= 13 ? c : MUTE
+        cells.push(
+          <rect key={`${r}-${g}`} x={110 + (g - 1) * 9} y={y} width={8} height={8} rx={1} fill={fill} opacity={0.85} />
+        )
+      })
+      cells.push(
+        <text key={`n-${r}`} x={276} y={y + 7} fontSize={7} fill={MUTE} fontFamily="monospace">{lengths[r]}</text>
+      )
+    })
+    return (
+      <g>
+        <rect x={104} y={24} width={180} height={62} rx={3} fill={FAINT} />
+        <ellipse cx={58} cy={36} rx={17} ry={24} fill={c} opacity={0.55} />
+        <ellipse cx={58} cy={84} rx={17} ry={24} fill={c} opacity={0.55} />
+        <ellipse cx={58} cy={36} rx={9} ry={13} fill={c} opacity={0.5} />
+        <ellipse cx={58} cy={84} rx={9} ry={13} fill={c} opacity={0.5} />
+        <line x1={30} y1={60} x2={86} y2={60} stroke={MUTE} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={58} cy={60} r={3} fill={GOLD} />
+        <text x={58} y={116} textAnchor="middle" fontSize={9} fill={MUTE} fontFamily="monospace">2p</text>
+        {cells}
+        <text x={119} y={78} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">s</text>
+        <text x={173} y={78} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">d</text>
+        <text x={245} y={78} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">p</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
