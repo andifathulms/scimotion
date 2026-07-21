@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import type { ComponentProps } from 'react'
 import { getAllArticles, getArticleBySlug } from '@/lib/articles'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { ReadingProgress } from '@/components/ReadingProgress'
@@ -141,7 +143,24 @@ import {
   KSpaceAnimation,
 } from '@/components/ArticleAnimations'
 
+// Markdown links compile to raw <a> elements, and Next only applies basePath to
+// next/link — under a subpath deploy every in-article cross-link would 404.
+// Route internal hrefs through Link; leave external ones alone (but make them
+// safe to open in a new tab).
+function MdxLink({ href = '', children, ...rest }: ComponentProps<'a'>) {
+  if (href.startsWith('/')) {
+    return <Link href={href} {...rest}>{children}</Link>
+  }
+  const isExternal = /^https?:\/\//.test(href)
+  return (
+    <a href={href} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})} {...rest}>
+      {children}
+    </a>
+  )
+}
+
 const components = {
+  a: MdxLink,
   SieveAnimation,
   FourierAnimation,
   SortingAnimation,
