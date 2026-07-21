@@ -1,0 +1,151 @@
+---
+title: "Distributed Consensus"
+subtitle: "Five machines, one answer — and no way to tell a dead server from a slow one."
+topic: "Computer Science"
+slug: "distributed-consensus"
+date: "2026-07-14"
+readTime: 10
+featured: false
+description: "Why agreement across unreliable machines is genuinely hard, how quorum intersection and Raft's leader election solve it in practice, and what the FLP impossibility result and CAP actually say."
+tags: ["distributed-systems", "consensus", "raft", "fault-tolerance"]
+quiz:
+  - q: "Why can a consensus protocol not simply treat a server that fails to reply within a timeout as crashed?"
+    options:
+      - "Timeouts are expensive to measure accurately on modern hardware"
+      - "An asynchronous network gives no bound on message delay, so a slow-but-alive server and a crashed one produce identical evidence"
+      - "Crashed servers always reply eventually once they restart, so the timeout is wasted"
+      - "Timeouts violate the ordering guarantees that TCP already provides"
+    answer: 1
+    explanation: "With no bound on delay, silence is ambiguous — the timeout is a useful heuristic for liveness but can never be a proof of failure."
+  - q: "A cluster of N servers uses majority quorums. What makes two conflicting decisions impossible?"
+    options:
+      - "Every server keeps a full copy of the log, so conflicts are detected afterwards and repaired"
+      - "Any two sets of size ⌊N/2⌋+1 must share at least one server, and that server refuses to vote twice in the same term"
+      - "The leader serializes all requests, so no two decisions are ever in flight at the same time"
+      - "Quorums are chosen randomly, making an overlap overwhelmingly likely"
+    answer: 1
+    explanation: "Two majorities sum to more than N, so by pigeonhole they intersect, and the shared server's single vote per term breaks the tie before it happens."
+  - q: "What does the FLP result actually prove about consensus in an asynchronous system?"
+    options:
+      - "That consensus is impossible to achieve at all when any server can crash"
+      - "That no deterministic protocol can guarantee both safety and termination in every execution when even one server may crash"
+      - "That consensus requires at least 2f+1 servers to tolerate f failures"
+      - "That consensus becomes possible only if messages are delivered in the order they were sent"
+    answer: 1
+    explanation: "FLP forbids a guarantee of termination in all executions, not agreement itself — real systems keep safety unconditionally and get liveness from timing assumptions or randomisation."
+---
+
+## Five machines, one answer
+
+Picture five servers holding the same ledger. A client asks them to record a single fact — *account 7 is now locked* — and every server must end up agreeing, in the same order, forever. That is all consensus asks for.
+
+Now make the world realistic. Messages arrive late, arrive out of order, arrive twice, or vanish entirely. A server can pause for eight seconds because someone triggered a garbage collection, or because its virtual machine was live-migrated, or because a switch somewhere is buffering. Any server can die mid-sentence, having sent three of its five replies. Clocks drift. Nothing is ever perfectly synchronised.
+
+The obvious protocol is *ask everyone and take the majority*. It fails immediately, and the way it fails is instructive. Suppose you ask five servers and three answer within your timeout. You proceed. But the two silent servers were not dead — they were merely slow, and their replies arrive a second after you gave up. Meanwhile another client, whose timeout expired against a *different* pair, is also proceeding, having heard from a different three. Now two clients each believe they hold a mandate, and the ledger has two futures.
+
+The bug is not the timeout value. The bug is that **you cannot distinguish a crashed server from a slow one**, and no amount of tuning removes that. This is the central difficulty of the entire field, and everything below is a response to it.
+
+## The one thing you cannot observe
+
+Formally, the model that matters is the **asynchronous** one: messages are eventually delivered but with no upper bound on delay, and processes run at no bounded relative speed. It is a pessimistic model, and it is close enough to a congested datacentre network to be the honest default.
+
+In that model, consider what a server observes when it sends a request and hears nothing back. There are two possible worlds:
+
+- The recipient crashed and will never reply.
+- The recipient is fine, and the reply is in a queue somewhere, arriving in 30 seconds.
+
+**Every observable signal is identical in both worlds.** Silence is silence. There is no packet you can send, no probe you can run, no clock you can consult that separates them, because the model permits arbitrary delay and arbitrary delay looks exactly like death for any finite observation window. A failure detector built on timeouts is not a detector of failure; it is a *suspicion* generator, and it will sometimes be wrong.
+
+This has a sharp consequence for protocol design. A correct protocol may never let a wrong suspicion cause a wrong answer. It is allowed to let a wrong suspicion cause *delay* — a useless leader election, a wasted round trip — but it must not let it cause two servers to commit different values at the same slot. The discipline this imposes is: **safety must never depend on timing; only liveness may.** Every good consensus algorithm is organised along exactly that seam.
+
+## Watching a cluster agree
+
+Here is a five-server Raft cluster running with all of that in the loop. Each follower carries its own randomised election timer, drawn fresh each time; the ring around a node drains as its timer runs down. When one expires, that server becomes a candidate, increments the term, and solicits votes. Winning three of five makes it leader, and the leader then heartbeats continuously and appends client entries to a replicated log.
+
+<ConsensusAnimation />
+
+Let it run for a few seconds first and watch the ordinary case: gold entries appear in the leader's row, replicate down to the followers, and flip green — committed — the moment a majority has acknowledged them. Note that the leader commits *before* the two slowest servers have caught up. Waiting for all five would mean any single slow machine stalls the system; waiting for three is what buys availability.
+
+Now press **Kill leader**. The heartbeats stop, the surviving timers drain, and whichever server times out first stands for election in a higher term. The randomisation is doing real work here: if every server used the same timeout they would all become candidates simultaneously, split the vote three ways, and fail to elect anyone — repeatedly. Spreading the timeouts over a range means one server almost always gets a head start. Kill the new leader too and watch it happen again with three servers; kill a third and the cluster stops committing entirely, because two servers can no longer form a majority.
+
+Then press **Partition**, which cuts every link between the pair `S3, S4` and the trio `S0, S1, S2`. This is the demonstration that matters. The minority side keeps timing out and standing for election, and its term number climbs and climbs — but it never collects three votes, so it never elects a leader and never commits anything. The majority side, if it holds the leader, carries on committing as though nothing happened; if the leader was stranded in the minority, the majority side elects a replacement and resumes. Two live sub-clusters, and only one of them can make progress. Heal the network and watch the stale side get rewound and overwritten by the majority's log.
+
+## Why a majority is the right number
+
+The reason the minority side is safe to ignore is pure counting.
+
+Let a **quorum** be any set of servers large enough to make a decision, and require every quorum to be a majority: $q = \lfloor N/2 \rfloor + 1$. Take any two quorums $A$ and $B$. By inclusion–exclusion,
+
+$$|A \cap B| \;=\; |A| + |B| - |A \cup B| \;\geq\; q + q - N$$
+
+since the union cannot exceed the whole cluster. For $N = 5$ and $q = 3$ that gives $|A \cap B| \geq 1$, and in general $2\lfloor N/2\rfloor + 2 - N \geq 1$ for every $N$. **Any two majorities share at least one server.**
+
+That single shared server is the whole safety argument. It is a real machine with one memory, and it obeys one rule: within a given term it casts at most one vote. So if quorum $A$ elected a leader in term 5, every other quorum $B$ contains a server that already spent its term-5 vote on that leader and will refuse to give another. Two leaders in one term cannot exist — not because they are unlikely, but because the arithmetic forbids it.
+
+Failure tolerance follows directly. To keep a majority available while $f$ servers are down you need $N - f \geq \lfloor N/2\rfloor + 1$, which gives the familiar
+
+$$N = 2f + 1$$
+
+as the smallest cluster that tolerates $f$ failures. Three servers survive one failure, five survive two, seven survive three.
+
+<QuorumAnimation />
+
+Drag $N$ and click the chips to build the two quorums by hand. Try the hardest case deliberately: give A the first three servers and B the last three in a five-node cluster, chosen to overlap as little as possible. They still share one, and the readout shows why — $|A| + |B| - N = 3 + 3 - 5 = 1$ is a floor you cannot get under. Then shrink one quorum below the majority line and the guarantee collapses: the readout turns pink and you can arrange two disjoint sets that would happily decide different things.
+
+The other thing worth doing is stepping $N$ from 5 to 6. The majority rises from 3 to 4, but the failure tolerance stays at $f = 2$ — a six-node cluster tolerates exactly what a five-node cluster does, while needing a larger quorum for every single decision. **Even cluster sizes buy latency and cost, not resilience**, which is why production consensus clusters are almost always 3, 5, or 7.
+
+## Terms, logs, and what "committed" means
+
+Raft's structure falls out of the two ideas above. Time is divided into **terms**, numbered monotonically; each term has at most one leader, guaranteed by the vote-intersection argument. The term number is a logical clock, carried on every message, and the rule is universal: *any server seeing a higher term immediately becomes a follower at that term*. That one line is what lets a deposed leader retire gracefully when it rejoins after a partition — it does not need to be told it lost, it just observes a bigger number.
+
+All client writes go through the leader, which appends each entry to its log and sends it to the followers. An entry at index $i$ is **committed** once it is stored on a majority — and once committed, it can never be lost, because any future leader must have been elected by a quorum, which by intersection contains a server holding that entry. Raft strengthens this with an election restriction: a server only grants its vote to a candidate whose log is at least as up-to-date as its own, so the winner is always guaranteed to hold every committed entry.
+
+Two details in the widget are worth naming. First, the leader commits an entry only when a majority has it *and* the entry is from the leader's own current term — replicating an old entry on a majority is not, on its own, enough to make it safe, a subtlety that broke several published protocols before Raft made it explicit. Second, followers learn the commit index from the heartbeat, not by deciding for themselves. Commitment is a leader's conclusion, propagated; a follower holding an entry does not know whether it is committed until it is told.
+
+Split-brain — two halves of a partition both accepting writes — is now impossible rather than merely unlikely. The minority cannot elect a leader, so it cannot accept a write, so it has nothing to reconcile later. It is worth appreciating how much this differs from systems that let both sides write and repair afterwards: those systems are not wrong, but they have handed the conflict to the application, which now needs merge semantics. Consensus pays for the absence of merge logic with the unavailability of the minority.
+
+## FLP: the impossibility that shapes the field
+
+Now the theoretical wall, and it deserves stating precisely, because it is very often stated badly.
+
+In 1985 Fischer, Lynch and Paterson proved that in an asynchronous system where even **one** process may fail by crashing, **no deterministic protocol solves consensus** — where solving means guaranteeing all three of: agreement (no two correct processes decide differently), validity (the decided value was proposed by someone), and **termination** (every correct process eventually decides).
+
+The proof works by showing that any such protocol must have a *bivalent* reachable configuration — a state from which both outcomes are still possible — and that from any bivalent state the adversary scheduling messages can always delay exactly the right message to reach another bivalent state. There is no execution that forces a decision; the system can be kept undecided forever. Not for a long time. Forever.
+
+This is a sibling of [the halting problem](/articles/halting-problem), and the resemblance is more than decorative. Both are impossibility results, not hardness results: no faster hardware, no cleverer engineering, and no larger budget moves the boundary. Both are also narrower than their folklore versions. Turing's theorem forbids one universal decider, not termination proofs for particular programs. FLP forbids a guarantee of termination in *every* execution, not consensus itself.
+
+What FLP does not say:
+
+- It does **not** say consensus is impossible. Raft, Paxos, Zab and Viewstamped Replication all work, every day, at enormous scale.
+- It does **not** say agreement can be violated. Safety is achievable unconditionally — that is precisely why real protocols never make safety depend on timing.
+- It does **not** apply to synchronous or partially-synchronous models, where message delay is bounded, or eventually bounded.
+
+The engineering answer is to keep agreement and validity absolute and buy termination with an extra assumption. Raft and Paxos assume **partial synchrony**: the network may misbehave arbitrarily for a while, but eventually behaves well enough, for long enough, that an election completes. Under that assumption they terminate; without it they stall — which is exactly the vote-splitting stall you can induce in the widget by killing leaders repeatedly. Ben-Or's protocol takes the other exit and uses randomisation, terminating with probability 1 rather than with certainty. FLP forbids a deterministic guarantee, so a coin flip is a legitimate escape.
+
+The randomised election timeout in Raft is this compromise made concrete, and it is a genuinely lovely piece of design: a dash of randomness, worth nothing in theory as a guarantee, is enough to make split votes vanishingly rare in practice.
+
+## CAP, stated carefully
+
+CAP gets quoted more than it gets read, so it is worth being exact.
+
+Brewer's conjecture, proved by Gilbert and Lynch in 2002, says: in the presence of a **network partition**, a distributed system cannot provide both **consistency** (specifically linearizability) and **availability** (every request to every non-failing node gets a response). That is it. It is a statement about one particular trade-off under one particular failure.
+
+The popular version — *pick two of three* — is misleading in three ways.
+
+**Partition tolerance is not a choice.** Networks partition. You do not get to select P off a menu; you only get to decide what your system does when it happens. So the real choice is binary and conditional: during a partition, be consistent (and refuse service on the minority side) or be available (and accept divergent writes). Raft chooses the former, which is precisely what the partitioned widget shows.
+
+**The trade-off applies only during a partition.** With a healthy network a system can be both consistent and available. CAP says nothing about the common case, which is why using it to justify a permanently weakened consistency model is a non-sequitur.
+
+**"Availability" is a technical term here.** CAP-availability means *every* non-failing node answers *every* request. A system that stays up for 99.99% of requests, and returns errors only on a stranded minority for thirty seconds, is CAP-unavailable and operationally excellent. Conflating the formal predicate with the SRE metric is the single most common error.
+
+The more useful successor is **PACELC**: *if there is a Partition, trade A against C; Else, trade Latency against Consistency.* The second clause is the one that actually governs day-to-day design. Every consensus write costs at least one round trip to a majority, so a globally-distributed Raft group has a floor on write latency set by the speed of light to its third-closest replica. That cost, not partition behaviour, is why consensus is used sparingly — for metadata, leases, locks, configuration and cluster membership — while bulk data often sits behind a weaker model.
+
+This is exactly where it shows up in the systems you already use. etcd (and so Kubernetes' entire control plane) is a Raft group. ZooKeeper, which coordinates much of the Hadoop and Kafka world, runs Zab. Google's Chubby is Paxos, and Spanner uses Paxos per shard plus synchronised clocks to get external consistency. CockroachDB and TiDB run a Raft group per data range. In every case the pattern is the same: a small, expensive, strongly-consistent core that decides who is in charge and what the configuration is, with the cheap high-volume work layered on top of the guarantees it provides.
+
+<KeyTakeaways>
+- The central difficulty is not lost messages but **ambiguity**: in an asynchronous network a crashed server and a merely slow one produce identical evidence, so timeouts can suspect failure but never prove it.
+- The response is to make **safety independent of timing** and let only liveness depend on it. Every correct consensus protocol is built along that seam.
+- **Majority quorums** are the mechanism: any two sets of size $\lfloor N/2\rfloor+1$ must share a server, and that server's one-vote-per-term rule makes two leaders in a term arithmetically impossible. $N = 2f+1$ tolerates $f$ failures, and an even $N$ buys no extra tolerance over $N-1$.
+- **FLP** is an impossibility result like [the halting problem](/articles/halting-problem), and just as narrow: it forbids a *deterministic guarantee of termination* in every execution, not consensus. Real systems recover liveness via partial synchrony (Raft, Paxos) or randomisation (Ben-Or).
+- **CAP is not "pick two."** Partitions are not optional, the trade-off binds only during a partition, and CAP-availability means *every* node answers *every* request — a far stricter thing than an uptime number. PACELC's latency-versus-consistency clause governs the ordinary case.
+</KeyTakeaways>

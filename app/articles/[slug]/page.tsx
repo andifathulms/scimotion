@@ -115,6 +115,8 @@ import {
   PhaseDiagramAnimation,
   ProteinFoldingAnimation,
   EnergyLandscapeAnimation,
+  ConsensusAnimation,
+  QuorumAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -216,6 +218,8 @@ const components = {
   PhaseDiagramAnimation,
   ProteinFoldingAnimation,
   EnergyLandscapeAnimation,
+  ConsensusAnimation,
+  QuorumAnimation,
   KeyTakeaways,
 }
 

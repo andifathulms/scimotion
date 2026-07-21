@@ -490,3 +490,13 @@ export const EnergyLandscapeAnimation = dynamic(
   () => import('@/components/animations/EnergyLandscapeAnimation').then(m => ({ default: m.EnergyLandscapeAnimation })),
   { ssr: false }
 )
+
+export const ConsensusAnimation = dynamic(
+  () => import('@/components/animations/ConsensusAnimation').then(m => ({ default: m.ConsensusAnimation })),
+  { ssr: false }
+)
+
+export const QuorumAnimation = dynamic(
+  () => import('@/components/animations/QuorumAnimation').then(m => ({ default: m.QuorumAnimation })),
+  { ssr: false }
+)

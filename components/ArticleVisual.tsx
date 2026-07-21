@@ -1398,6 +1398,40 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'distributed-consensus': c => {
+    // Five servers in a ring. The gold leader heartbeats outward, but a network
+    // partition (dashed) strands two followers — their packets die at the line,
+    // while the majority of three keeps committing entries in the log strip.
+    const cells = [0, 1, 2, 3, 4, 5]
+    return (
+      <g>
+        <line x1={88} y1={22} x2={124.1} y2={48.3} stroke={c} strokeWidth={1.25} strokeOpacity={0.45} />
+        <line x1={88} y1={22} x2={110.3} y2={90.7} stroke={c} strokeWidth={1.25} strokeOpacity={0.45} />
+        <line x1={124.1} y1={48.3} x2={110.3} y2={90.7} stroke={FAINT} strokeWidth={1} />
+        <line x1={88} y1={22} x2={65.7} y2={90.7} stroke={FAINT} strokeWidth={1} />
+        <line x1={88} y1={22} x2={51.9} y2={48.3} stroke={FAINT} strokeWidth={1} />
+        <line x1={65.7} y1={90.7} x2={51.9} y2={48.3} stroke={FAINT} strokeWidth={1} />
+        <circle cx={107.9} cy={36.5} r={2.2} fill={c} />
+        <circle cx={100.3} cy={59.8} r={2.2} fill={c} />
+        <circle cx={77} cy={55.9} r={1.8} fill={MUTE} />
+        <circle cx={77} cy={30} r={1.8} fill={MUTE} />
+        <line x1={77} y1={8} x2={77} y2={112} stroke={MUTE} strokeWidth={1} strokeDasharray="4 3" />
+        <circle cx={65.7} cy={90.7} r={8} fill={FAINT} stroke={MUTE} strokeWidth={1.25} />
+        <circle cx={51.9} cy={48.3} r={8} fill={FAINT} stroke={MUTE} strokeWidth={1.25} />
+        <circle cx={124.1} cy={48.3} r={8} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        <circle cx={110.3} cy={90.7} r={8} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        <circle cx={88} cy={22} r={12.5} fill="none" stroke={GOLD} strokeWidth={1} strokeOpacity={0.35} />
+        <circle cx={88} cy={22} r={8} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.75} />
+        <text x={160} y={34} fontSize={7} fill={MUTE} fontFamily="monospace">replicated log</text>
+        {cells.map(i => (
+          <rect key={i} x={160 + i * 22} y={44} width={18} height={14} rx={2}
+            fill={i < 4 ? `${c}33` : i === 4 ? `${GOLD}26` : 'none'}
+            stroke={i < 4 ? c : i === 4 ? GOLD : FAINT} strokeWidth={1} />
+        ))}
+        <text x={160} y={78} fontSize={7} fill={GOLD} fontFamily="monospace">quorum 3 of 5</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
