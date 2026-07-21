@@ -1,0 +1,131 @@
+---
+title: "Complex Numbers"
+subtitle: "The reluctant invention that turned out to be the natural language of rotation."
+topic: "Mathematics"
+slug: "complex-numbers"
+date: "2026-06-16"
+readTime: 10
+featured: false
+description: "Nobody invented i to solve x² = −1 — the cubic formula forced it on them. How a bookkeeping trick became a geometric plane where multiplication is rotation."
+tags: ["complex-numbers", "geometry", "foundations", "algebra"]
+quiz:
+  - q: "Historically, what actually forced mathematicians to take square roots of negative numbers seriously?"
+    options:
+      - "The equation x² = −1, which they wanted a solution for"
+      - "Cardano's formula for cubics, which produced correct real roots only by passing through √(negative) as an intermediate step"
+      - "The need to measure diagonals of squares with irrational sides"
+      - "Attempts to divide by zero in a consistent way"
+    answer: 1
+    explanation: "For cubics with three real roots, Cardano's formula routes through square roots of negatives that cancel at the end, so the imaginary quantities were unavoidable even when every answer was real."
+  - q: "In the complex plane, what does multiplying one complex number by another do geometrically?"
+    options:
+      - "It adds the two points component by component, like vector addition"
+      - "It adds their arguments (angles) and multiplies their moduli (lengths)"
+      - "It reflects one point across the real axis"
+      - "It always moves the point onto the unit circle"
+    answer: 1
+    explanation: "Multiplication adds the angles and multiplies the magnitudes; addition is the component-wise operation, which is why the two operations look so different geometrically."
+  - q: "Why is every n-th root of unity of the form e^(2πik/n) guaranteed to satisfy zⁿ = 1?"
+    options:
+      - "Because raising it to the n-th power multiplies the angle by n, giving 2πk — a whole number of full turns back to 1"
+      - "Because all roots of unity are equal to 1"
+      - "Because the modulus of each root is n, and nⁿ cancels"
+      - "Because complex exponentials are always real when raised to integer powers"
+    answer: 0
+    explanation: "Each root sits at angle 2πk/n on the unit circle; the n-th power multiplies that angle by n to 2πk, an integer number of full rotations, landing exactly back at 1."
+---
+
+## A number nobody wanted
+
+Here is the story everyone is told: mathematicians wanted to solve $x^2 = -1$, found no real number worked, and boldly invented a new one called $i$. It is a tidy story, and it is false. Nobody was troubled by $x^2 = -1$. If a problem asked for a number whose square is $-1$, the sensible answer was simply "there isn't one" — the same shrug you give to "which real number is the square root of a triangle?" A missing solution is not a crisis. It is just a no.
+
+The pressure came from somewhere far more concrete: the **cubic equation**. In 1500s Italy, solving cubics like $x^3 = px + q$ was a competitive sport, and Gerolamo Cardano published a general formula for them in 1545. The formula works. But for certain cubics whose solutions are all perfectly ordinary real numbers, the formula insists on routing through the square root of a negative number partway through the calculation — and then, if you play along and let those forbidden quantities cancel, out drops the correct real answer.
+
+That is the trap. You cannot dismiss $\sqrt{-1}$ as "no solution" here, because the problem *has* solutions — three real ones — and this is the only formula that finds them. The square roots of negatives are not the answer; they are an unavoidable **road** the answer travels on. Rafael Bombelli, around 1572, was the first to grit his teeth and compute with them as if they were legitimate, calling the manipulation "a wild thought." It worked every time. The numbers were real; the path was imaginary; the destination was correct.
+
+So complex numbers were not invented to be daring. They were conceded, reluctantly, because the arithmetic demanded them and refused to give right answers any other way.
+
+## The one rule
+
+Everything follows from a single decision: introduce a symbol $i$ with the property
+
+$$i^2 = -1$$
+
+and otherwise let it obey all the ordinary rules of algebra. A **complex number** is then anything of the form $a + bi$, where $a$ and $b$ are ordinary real numbers — $a$ is the *real part*, $b$ the *imaginary part*. Addition is what you'd guess: $(a+bi) + (c+di) = (a+c) + (b+d)i$. Multiplication is ordinary expansion, using $i^2 = -1$ to collapse the leftover term:
+
+$$(a+bi)(c+di) = ac + adi + bci + bdi^2 = (ac - bd) + (ad + bc)i$$
+
+That is the whole system. No further postulates. The word "imaginary" is a historical insult — coined by Descartes as a sneer — and it has misled students for four centuries. There is nothing more fictional about $i$ than about $-1$. Negative numbers were *also* once rejected as absurd (how can you own less than nothing?), and they too earned acceptance only when they proved indispensable for bookkeeping. Both are constructions: symbols with rules, justified entirely by their usefulness and internal consistency. A "real" number line and an "imaginary" axis are equally human inventions. We will see in a moment that $i$ is, if anything, *more* natural than the minus sign, because it has a clean geometric job to do.
+
+## Draw them, and the mystery evaporates
+
+The decisive move — made by Caspar Wessel, Jean-Robert Argand, and finally Carl Friedrich Gauss around 1800 — was to stop treating $a+bi$ as a spooky algebraic token and start treating it as a **point in a plane**: go $a$ to the right, $b$ up. The horizontal axis is the familiar real number line; the vertical axis carries the imaginary part. Every complex number is a point, or equivalently an arrow from the origin.
+
+The instant you do this, the two operations acquire pictures.
+
+<ComplexPlaneAnimation />
+
+Drag the gold arrow $z_1$ and the blue arrow $z_2$ around the plane and watch the two results update live. The **green** point is their sum; the dashed lines make the parallelogram that defines it — addition just slides one arrow to the tip of the other. That is a **translation**, exactly like adding vectors. Now watch the **pink** point, the product. It does something addition never does: as you swing an arrow around, the product swings too, but *faster*, and its distance from the origin stretches or shrinks. Read the numbers underneath — the product's angle is always the sum of the two input angles, and its length is always the product of the two lengths.
+
+The cleanest thing to try is the button. Press **Multiply z₁ by i** and watch: the gold arrow rotates exactly $90°$ counter-clockwise, keeping its length. Press it four times and $z_1$ returns home — because $i^4 = 1$. Multiplying by $i$ is a quarter turn. That is what $i$ *is*: not a mysterious quantity, but the operation "rotate by a right angle." And $i^2 = -1$ stops being a decree and becomes obvious — two quarter turns is a half turn, which points any arrow in the exact opposite direction, i.e. multiplies it by $-1$.
+
+## Length and angle: the polar view
+
+The animation hints that a complex number has two equally good descriptions. The **rectangular** form $a + bi$ names a point by its coordinates. The **polar** form names the same point by how far it sits from the origin and in which direction:
+
+- the **modulus** $r = |z| = \sqrt{a^2 + b^2}$ — the length of the arrow (Pythagoras on the two parts);
+- the **argument** $\theta = \arg(z) = \operatorname{atan2}(b, a)$ — the angle it makes with the positive real axis.
+
+Then $a = r\cos\theta$ and $b = r\sin\theta$, so $z = r(\cos\theta + i\sin\theta)$. In polar terms the multiplication rule becomes almost too simple to believe. If $z_1 = r_1(\cos\theta_1 + i\sin\theta_1)$ and $z_2 = r_2(\cos\theta_2 + i\sin\theta_2)$, then
+
+$$z_1 z_2 = r_1 r_2\big(\cos(\theta_1+\theta_2) + i\sin(\theta_1+\theta_2)\big).$$
+
+**Multiply the lengths, add the angles.** Every product you dragged out in the widget obeys this one line. The angle-addition falls straight out of the ordinary trig identities for $\cos(\theta_1+\theta_2)$ and $\sin(\theta_1+\theta_2)$ once you expand the product — the messy identities you memorized in school are secretly just "complex multiplication adds angles."
+
+## Why $e^{i\theta}$ lands on the unit circle
+
+That "add the angles" rule should feel familiar: adding exponents is what *exponentials* do, since $e^{x}e^{y} = e^{x+y}$. That is not a coincidence, and it is the bridge to the most compact notation in mathematics. Feeding $i\theta$ into the power series for $e^x$ and sorting the terms by whether they carry a factor of $i$ gives **Euler's formula**:
+
+$$e^{i\theta} = \cos\theta + i\sin\theta.$$
+
+Geometrically this is a point at angle $\theta$ on the unit circle — modulus $\cos^2\theta + \sin^2\theta = 1$, argument $\theta$. So a general complex number's polar form collapses to
+
+$$z = re^{i\theta},$$
+
+length $r$ times a pure direction $e^{i\theta}$. Now the multiplication rule is not even a rule — it is just the exponent law: $r_1 e^{i\theta_1} \cdot r_2 e^{i\theta_2} = r_1 r_2\, e^{i(\theta_1+\theta_2)}$. Lengths multiply, angles add, because that is what exponents always do. If any of this feels like it's arriving too fast, that is exactly the story the dedicated piece on [Euler's formula](/articles/eulers-formula) slows down and unpacks; here we only need the payoff — $e^{i\theta}$ is a unit arrow pointing at angle $\theta$.
+
+## Roots of unity: sharing a circle fairly
+
+The polar view makes an otherwise hard question easy. What are the solutions of $z^n = 1$ — the **$n$-th roots of unity**? Over the real numbers you get one or two boring answers. Over the complex numbers you get exactly $n$ of them, and they arrange themselves with startling symmetry.
+
+Write $z = re^{i\theta}$. Then $z^n = r^n e^{in\theta}$, and to equal $1 = 1\cdot e^{i\cdot 0}$ we need $r^n = 1$ (so $r = 1$, they all sit on the unit circle) and $n\theta$ equal to a whole number of full turns: $n\theta = 2\pi k$. That gives
+
+$$z_k = e^{2\pi i k / n}, \qquad k = 0, 1, \dots, n-1$$
+
+— $n$ points spaced evenly around the circle, $360°/n$ apart, forming a perfect regular polygon with one vertex nailed at $1$.
+
+<RootsOfUnityAnimation />
+
+Drag the **n** slider to change how many roots there are; the vertices always spread out to share the circle equally. Then press **Walk ωᵏ** to see *why* each one solves $z^n = 1$. The walk starts at $1$ and repeatedly multiplies by $\omega = e^{2\pi i/n}$, the first root counter-clockwise. Because multiplying by $\omega$ *adds* its angle $360°/n$, every step turns the arrow by that fixed amount — so the point hops from root to root around the polygon. After exactly $n$ steps it has turned through $n \times 360°/n = 360°$, a full revolution, and lands precisely back on $1$: that is $\omega^n = 1$, drawn. Try $n = 3$ for a triangle, $n = 4$ for the four points $1, i, -1, -i$, $n = 12$ for a clock face. The evenness is not decoration — it is forced by the arithmetic.
+
+## Where the plane pays off
+
+Once "multiply = rotate and scale" is in your hands, complex numbers stop being an algebra curiosity and become the default tool for anything that turns or oscillates.
+
+**Rotations and geometry.** To rotate a point in the plane by angle $\alpha$, multiply its complex coordinate by $e^{i\alpha}$. That is the entire operation — no rotation matrices, no trig bookkeeping. Compose two rotations by multiplying, which just adds the angles. Computer graphics, robotics, and navigation lean on this constantly (and its 3-D cousin, quaternions).
+
+**AC circuits.** Engineers represent an alternating voltage or current as a rotating arrow — a *phasor* — and package its amplitude and phase into a single complex number. Differentiation and the awkward phase-shifting of inductors and capacitors turn into plain multiplication by complex numbers, so circuit analysis reduces to algebra instead of differential equations.
+
+**Signal processing.** Every frequency in a signal is literally a rotation rate, $e^{2\pi i f t}$. The [Fourier transform](/articles/fourier-transform) decomposes a sound or an image by measuring how much of each rotating-arrow frequency it contains — an operation that is clumsy with sines and cosines but clean with complex exponentials.
+
+**Quantum mechanics.** The state of a quantum system is a complex-valued amplitude, and physical probabilities come from its modulus squared. The interference that produces the double-slit pattern is complex numbers with opposite arguments cancelling — the plane's geometry, running the universe.
+
+None of these fields adopted complex numbers to be clever. They adopted them for the same reason Bombelli did: nothing else gives the right answers as cleanly. A "wild thought" from a 16th-century algebra duel turned out to be the natural coordinate system for rotation itself.
+
+<KeyTakeaways>
+- Complex numbers were forced, not invented for flair: the cubic formula produced correct *real* roots only by passing through $\sqrt{-1}$ along the way, so mathematicians conceded $i$ reluctantly.
+- "Imaginary" is a bad historical label. $i$ is no more fictional than $-1$; both are constructions justified by consistency and usefulness, and negative numbers were once rejected as absurd too.
+- Plot $a+bi$ as a point and the operations get pictures: **addition is translation**, and **multiplication rotates and scales** — it adds arguments and multiplies moduli. Multiplying by $i$ is a $90°$ turn, which is why $i^2 = -1$.
+- The polar form $z = re^{i\theta}$ makes multiplication just the exponent law, and puts $e^{i\theta}$ on the unit circle at angle $\theta$ (see [Euler's formula](/articles/eulers-formula)).
+- The $n$-th roots of unity $e^{2\pi i k/n}$ split the unit circle into a regular $n$-gon; this rotation-and-scaling machinery is why complex numbers are the natural language of rotations, AC circuits, the [Fourier transform](/articles/fourier-transform), and quantum mechanics.
+</KeyTakeaways>

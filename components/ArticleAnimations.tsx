@@ -610,3 +610,13 @@ export const KSpaceAnimation = dynamic(
   () => import('@/components/animations/KSpaceAnimation').then(m => ({ default: m.KSpaceAnimation })),
   { ssr: false }
 )
+
+export const ComplexPlaneAnimation = dynamic(
+  () => import('@/components/animations/ComplexPlaneAnimation').then(m => ({ default: m.ComplexPlaneAnimation })),
+  { ssr: false }
+)
+
+export const RootsOfUnityAnimation = dynamic(
+  () => import('@/components/animations/RootsOfUnityAnimation').then(m => ({ default: m.RootsOfUnityAnimation })),
+  { ssr: false }
+)

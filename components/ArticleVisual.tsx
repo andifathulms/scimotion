@@ -1768,6 +1768,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'complex-numbers': c => {
+    // Sixth roots of unity: a regular hexagon on the unit circle, vertex at 1 (gold).
+    const cx = 150, cy = 60, r = 44, n = 6
+    const R = (v: number) => Math.round(v * 100) / 100
+    const pts = Array.from({ length: n }, (_, k) => {
+      const a = (k * 2 * Math.PI) / n
+      return { x: R(cx + r * Math.cos(a)), y: R(cy - r * Math.sin(a)), k }
+    })
+    const poly = pts.map(p => `${p.x},${p.y}`).join(' ')
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={r} fill="none" stroke={c} strokeWidth={1.5} />
+        <line x1={cx - 60} y1={cy} x2={cx + 60} y2={cy} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={cx} y1={cy - 55} x2={cx} y2={cy + 55} stroke={MUTE} strokeWidth={0.75} />
+        <polygon points={poly} fill={`${c}1F`} stroke={c} strokeWidth={1} />
+        {pts.map(p => (
+          <circle key={p.k} cx={p.x} cy={p.y} r={p.k === 0 ? 4.5 : 3} fill={p.k === 0 ? GOLD : c} />
+        ))}
+        <text x={cx + 8} y={cy - 6} fill={MUTE} fontSize={9} fontFamily="monospace">zⁿ=1</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
