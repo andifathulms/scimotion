@@ -329,13 +329,22 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <>
       <ReadingProgress />
-      <div className="max-w-[1100px] mx-auto px-5 py-12 flex justify-center gap-10">
-        <aside className="hidden xl:block w-56 shrink-0">
+      {/* Grid rather than flex so the column widths are declared rather than
+          emergent. The old flex layout asked for 224 + 680 + 224 + 80 of gap =
+          1208px inside a max-w-[1100px] container, so the article — the only
+          shrinkable item — was silently squeezed to ~530px.
+
+          The measure is what matters: ~68 characters here, inside the 45-75
+          readability band. That is why the column and the body size were raised
+          together (620px at 1.125rem) — widening the column alone would have
+          pushed the line length past 80 characters and hurt readability. */}
+      <div className="max-w-[1190px] mx-auto px-5 py-12 grid gap-10 grid-cols-1 justify-center xl:grid-cols-[14rem_minmax(0,620px)_14rem]">
+        <aside className="hidden xl:block">
           <div className="sticky top-20">
             <TableOfContents headings={headings} />
           </div>
         </aside>
-        <article className="w-full max-w-[680px]">
+        <article className="w-full max-w-[620px] mx-auto min-w-0">
         {/* Hero */}
         <div className="mb-8 rounded-2xl overflow-hidden border border-border">
           <ArticleVisual slug={slug} topic={meta.topic} variant="hero" />
@@ -386,7 +395,8 @@ export default async function ArticlePage({ params }: Props) {
         <ShareButtons title={meta.title} url={url} />
         <RelatedPosts current={meta} allArticles={allArticles} />
         </article>
-        <div className="hidden xl:block w-56 shrink-0" aria-hidden="true" />
+        {/* Empty rail: balances the TOC so the prose sits at the true page centre. */}
+        <div className="hidden xl:block" aria-hidden="true" />
       </div>
     </>
   )

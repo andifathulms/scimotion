@@ -127,7 +127,7 @@ body {
 
 /* Prose styles */
 .prose-article h2 {
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
@@ -137,7 +137,7 @@ body {
 }
 
 .prose-article h3 {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
@@ -145,10 +145,14 @@ body {
   scroll-margin-top: 80px;
 }
 
+/* 1.125rem against the 620px column gives ~68 characters per line — inside the
+ * 45-75 readability band, and a more comfortable size for long-form reading
+ * than the previous 1rem. Column width and body size have to move together:
+ * changing either alone moves the line length out of range. */
 .prose-article p {
-  font-size: 1rem;
+  font-size: 1.125rem;
   line-height: 1.75;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.375rem;
   color: var(--text-secondary);
 }
 

@@ -12,7 +12,9 @@ const topicStyles: Record<Topic, string> = {
 
 export function TopicBadge({ topic }: { topic: Topic }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${topicStyles[topic]}`}>
+    // whitespace-nowrap keeps two-word topics on one line — "Earth & Climate"
+    // was wrapping to two lines inside the pill and distorting its shape.
+    <span className={`inline-flex items-center whitespace-nowrap px-2.5 py-0.5 rounded-full text-xs font-medium border ${topicStyles[topic]}`}>
       {topic}
     </span>
   )

@@ -19,9 +19,12 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
           <ArticleVisual slug={article.slug} topic={article.topic} />
         </div>
         <div className="p-4">
-          <div className="flex items-center gap-2 mb-2">
+          {/* flex-wrap matters: long topic names like "Earth & Climate" used to
+              push the Interactive pill past the card's overflow-hidden edge and
+              clip it mid-word. */}
+          <div className="flex flex-wrap items-center gap-2 mb-2">
             <TopicBadge topic={article.topic} />
-            <span className="text-xs font-medium uppercase tracking-wider text-accent-gold border border-accent-gold/25 bg-accent-gold/10 px-2 py-0.5 rounded-full">
+            <span className="whitespace-nowrap text-xs font-medium uppercase tracking-wider text-accent-gold border border-accent-gold/25 bg-accent-gold/10 px-2 py-0.5 rounded-full">
               Interactive
             </span>
           </div>
