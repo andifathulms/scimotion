@@ -1021,6 +1021,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'epidemic-models': c => {
+    // SIR curves for R0 = 3: S drains past the 1/R0 line (overshoot), I peaks there.
+    // Trajectories were integrated offline and baked in, so nothing is computed at render.
+    const S = '10,16 18,17 26,18 34,19 42,22 50,26 58,32 66,41 74,51 82,61 90,71 98,79 106,85 114,89 122,92 130,95 138,96 146,97 154,98 162,99 170,99 178,100 186,100 194,100 202,100 210,100 218,100 226,100 234,100 242,101 250,101 258,101 266,101 274,101 282,101 290,101'
+    const R = '10,106 18,106 26,106 34,105 42,104 50,103 58,100 66,97 74,92 82,85 90,78 98,70 106,62 114,56 122,49 130,44 138,40 146,36 154,33 162,31 170,29 178,27 186,26 194,25 202,24 210,24 218,23 226,23 234,22 242,22 250,22 258,22 266,22 274,22 282,22 290,22'
+    const I = '10,105 18,104 26,103 34,101 42,97 50,91 58,83 66,73 74,61 82,52 90,47 98,46 106,50 114,56 122,62 130,69 138,75 146,81 154,86 162,89 170,93 178,95 186,98 194,99 202,101 210,102 218,103 226,103 234,104 242,104 250,105 258,105 266,105 274,105 282,105 290,106'
+    return (
+      <g>
+        <line x1={10} y1={106} x2={290} y2={106} stroke={FAINT} strokeWidth={1} />
+        <line x1={10} y1={76} x2={290} y2={76} stroke={GOLD} strokeWidth={1} strokeDasharray="5 4" opacity={0.7} />
+        <polyline points={S} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={R} fill="none" stroke={`${c}55`} strokeWidth={1.5} />
+        <polyline points={I} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={98} y1={46} x2={98} y2={106} stroke={GOLD} strokeWidth={0.75} strokeDasharray="3 3" opacity={0.5} />
+        <circle cx={98} cy={46} r={3.5} fill={GOLD} />
+        <text x={106} y={42} fontSize={8} fill={GOLD} fontFamily="monospace">peak · Rt = 1</text>
+        <text x={14} y={72} fontSize={8} fill={GOLD} fontFamily="monospace">S = 1/R₀</text>
+        <text x={296} y={104} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">S</text>
+        <text x={296} y={18} textAnchor="end" fontSize={8} fill={c} fontFamily="monospace">R</text>
+        <text x={80} y={116} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">I</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

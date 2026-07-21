@@ -370,3 +370,13 @@ export const TerminationAnimation = dynamic(
   () => import('@/components/animations/TerminationAnimation').then(m => ({ default: m.TerminationAnimation })),
   { ssr: false }
 )
+
+export const SIRModelAnimation = dynamic(
+  () => import('@/components/animations/SIRModelAnimation').then(m => ({ default: m.SIRModelAnimation })),
+  { ssr: false }
+)
+
+export const HerdImmunityAnimation = dynamic(
+  () => import('@/components/animations/HerdImmunityAnimation').then(m => ({ default: m.HerdImmunityAnimation })),
+  { ssr: false }
+)

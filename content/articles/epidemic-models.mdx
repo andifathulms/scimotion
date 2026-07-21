@@ -1,0 +1,182 @@
+---
+title: "Epidemic Models and R₀"
+subtitle: "Why an outbreak turns over long before it runs out of people to infect."
+topic: "Medicine"
+slug: "epidemic-models"
+date: "2026-06-26"
+readTime: 10
+featured: false
+description: "How three coupled differential equations explain epidemic peaks, why R₀ and Rt are not the same number, and where the herd-immunity threshold actually comes from."
+tags: ["epidemiology", "sir-model", "reproduction-number", "herd-immunity"]
+quiz:
+  - q: "An epidemic peaks and begins to decline while the great majority of the population is still uninfected. What has happened at the moment of the peak?"
+    options:
+      - "The pathogen has mutated into a less transmissible form"
+      - "The susceptible fraction has fallen to 1/R₀, so each case now infects on average exactly one other person"
+      - "The supply of people the pathogen can reach has been exhausted"
+      - "Recovered individuals begin actively clearing infection from those around them"
+    answer: 1
+    explanation: "The peak is defined by Rt = R₀S/N crossing 1, which happens when S/N falls to 1/R₀ — long before the susceptible pool is empty."
+  - q: "Two regions report the same measured Rt of 1.4, but one has an R₀ of 2 and the other an R₀ of 12. What does this tell you?"
+    options:
+      - "The two epidemics will follow essentially identical trajectories from here"
+      - "The second region has driven transmission down far harder — by contact reduction, immunity, or both — to reach the same Rt"
+      - "R₀ has no bearing on Rt, so the comparison carries no information"
+      - "The second region must have a much larger susceptible population"
+    answer: 1
+    explanation: "Rt is R₀ scaled down by susceptibility and by whatever reduces contact, so reaching 1.4 from R₀ = 12 requires a far larger proportional reduction than reaching it from R₀ = 2."
+  - q: "Why does an unmitigated epidemic end with more people infected than the herd-immunity threshold requires?"
+    options:
+      - "The threshold formula underestimates R₀ for most real pathogens"
+      - "Immunity from infection wanes, so extra infections are needed to hold the threshold"
+      - "At the moment the threshold is crossed there is still a large infectious population, and those cases go on to infect others before recovering"
+      - "Recovered individuals can be reinfected once the epidemic passes its peak"
+    answer: 2
+    explanation: "Crossing the threshold makes the epidemic start shrinking, but the substantial pool of already-infectious people keeps generating new cases on the way down — the overshoot."
+---
+
+## Nobody runs out of people
+
+The intuitive picture of an epidemic is a fire consuming fuel: the pathogen burns through the population until there is nobody left to infect, and then it stops. Every part of that picture is wrong except the ending.
+
+Measles epidemics in unvaccinated populations historically infected a very large share of children, but they did not infect everyone, and they turned over — began declining — while most of the population was still perfectly susceptible. Influenza waves crest and fall having reached maybe a tenth to a third of a population. The 2009 H1N1 pandemic peaked in most countries with the overwhelming majority of people never infected at all.
+
+Epidemics do not end because susceptibles are exhausted. They turn over at a much earlier moment: when susceptibles have become *scarce enough* that the average infected person passes the infection to fewer than one other person. From that instant, each generation of cases is smaller than the last, and the outbreak shrinks by the same exponential arithmetic that grew it.
+
+That single condition — average onward infections above or below one — is the hinge that the entire subject swings on. Everything below is a way of making it precise.
+
+Where [the adaptive immune response](/articles/immune-response) explains what happens inside one person over the course of one infection, this is the view from the other end of the telescope: what happens to a *population* when that individual-scale process is repeated across millions of people connected by contact.
+
+*This is educational material about how epidemic models work. It is not public-health advice or clinical guidance.*
+
+## Three compartments
+
+The standard starting model, due to Kermack and McKendrick in 1927, is startlingly crude and startlingly useful. Divide a population of size $N$ into three compartments:
+
+- $S$ — **susceptible**: never infected, no immunity.
+- $I$ — **infectious**: currently infected and able to transmit.
+- $R$ — **removed**: recovered with immunity, or dead. Either way, out of the game.
+
+Everyone is in exactly one compartment, so $S + I + R = N$ always. People flow only one way: $S \to I \to R$.
+
+Two parameters govern the flows. The transmission rate $\beta$ is the rate at which one infectious person makes *effective* contacts — contacts that would transmit — with others, per unit time. The recovery rate $\gamma$ is the rate at which infectious people leave the $I$ compartment; because leaving is a constant-hazard process here, the average time spent infectious is $1/\gamma$. If the infectious period averages a week, $\gamma \approx 0.14$ per day.
+
+The model assumes **homogeneous mixing**: everyone is equally likely to contact everyone else. That is plainly false for real societies, and we will come back to what it costs us. But it makes the flow between compartments easy to write down. An infectious person makes $\beta$ effective contacts per day; a fraction $S/N$ of those land on someone susceptible. Multiply by the number of infectious people:
+
+$$\frac{dS}{dt} = -\beta \frac{S I}{N}, \qquad \frac{dI}{dt} = \beta \frac{S I}{N} - \gamma I, \qquad \frac{dR}{dt} = \gamma I$$
+
+Three lines. No age structure, no geography, no households, no behaviour. And yet the shape it produces — slow start, explosive middle, sharp peak, long tail, and a substantial fraction never infected — is the shape real epidemic curves have.
+
+## Watching the curve build
+
+<SIRModelAnimation />
+
+Press **Run** and watch the three curves separate. Blue is the susceptible population draining away, pink is the infectious population that spikes and collapses, violet is the accumulating removed pool. The gold horizontal line marks $S = 1/R_0$, and the gold dot marks the epidemic peak.
+
+Three things to try:
+
+**Drag R₀ below 1.** The pink curve never lifts off the axis. The introduced cases fade out instead of amplifying — there is no epidemic to flatten, because there was never one to begin with. This is the sharpest possible demonstration that the threshold is a genuine phase change, not a matter of degree.
+
+**Bring R₀ down from 5 towards 1.2 in steps.** Two things happen at once, and they are the entire logic of "flattening the curve": the peak gets *lower* and it arrives *later*. At $R_0 = 5$ the epidemic is essentially over in six weeks with an enormous spike; at $R_0 = 1.3$ the same population takes months and the peak is a fraction of the height. The area under the curve — the total infected — falls too, but far less dramatically than the peak height does.
+
+**Now watch where the pink curve crosses its maximum.** It happens exactly where the blue curve crosses the gold line. Not approximately — exactly. That coincidence is the next section.
+
+**Finally, look at where blue ends up.** It does not stop at the gold line. It sails past it and settles well below. That gap is the overshoot, and it is one of the most under-appreciated facts in the whole subject.
+
+## R₀, and the number people usually mean instead
+
+The **basic reproduction number** $R_0$ is the average number of secondary infections caused by one infectious individual introduced into a population that is *entirely susceptible*, with no immunity and no interventions. In the SIR model it falls straight out of the parameters: an infectious person transmits at rate $\beta$ for an average duration $1/\gamma$, so
+
+$$R_0 = \frac{\beta}{\gamma}$$
+
+Some rough published ranges, all of which should be read with generous error bars: seasonal influenza around 1.2–1.4; the ancestral strain of SARS-CoV-2 usually estimated around 2–3; smallpox roughly 4–6; measles very high, commonly quoted as 12–18. These numbers are *not* physical constants of the pathogens. They are properties of a pathogen **in a particular population**, and they depend on contact rates, household size, density, and climate as much as on biology. Estimates for the same pathogen in different settings routinely differ by a factor of two, and the measles figure in particular is a historical estimate from specific dense populations that gets quoted far more confidently than the underlying data supports.
+
+Now the distinction that causes more confusion than anything else in epidemiology. $R_0$ describes a hypothetical: a fully susceptible population. Once an epidemic is underway, that population no longer exists. What matters going forward is the **effective reproduction number**:
+
+$$R_t = R_0 \, \frac{S}{N}$$
+
+the average number of secondary cases per case *right now*, given that only a fraction $S/N$ of contacts land on someone who can actually be infected. If half the population is immune, half of every infectious person's transmission opportunities are wasted, and $R_t$ is half of $R_0$.
+
+$R_0$ is fixed for a given pathogen-and-population. $R_t$ moves every day. Headlines saying "R has fallen below 1" are always about $R_t$, and a claim that "R₀ has dropped" is a category error — what dropped was either $R_t$, or $\beta$ because behaviour changed.
+
+Rewrite the middle SIR equation with this in hand:
+
+$$\frac{dI}{dt} = \gamma I \left( R_0 \frac{S}{N} - 1 \right) = \gamma I \,(R_t - 1)$$
+
+Everything is now visible in the sign of one bracket. When $R_t > 1$, $I$ grows. When $R_t < 1$, $I$ shrinks. The epidemic peaks at the instant $R_t = 1$, which by the definition above means
+
+$$\frac{S}{N} = \frac{1}{R_0}$$
+
+That is why the pink maximum sits exactly on the gold line. The peak is not a property of the pathogen's strength or of the number of people infected so far — it is the moment the susceptible fraction drops through $1/R_0$.
+
+## The threshold, and why it climbs with R₀
+
+Turn the peak condition around and it becomes a design specification. If we want $R_t < 1$ *before* an epidemic can even start, we need the susceptible fraction to already be below $1/R_0$ when the pathogen arrives. Equivalently, the immune fraction must exceed
+
+$$H = 1 - \frac{1}{R_0}$$
+
+This is the **herd-immunity threshold**. It is not a target for how many people must get sick — it is the immune fraction, from any source, above which introduced chains of transmission die out on average.
+
+The shape of $1 - 1/R_0$ matters. It rises steeply at first and then flattens as $R_0$ grows:
+
+| $R_0$ | threshold $H$ |
+| --- | --- |
+| 1.3 | 23% |
+| 2 | 50% |
+| 3 | 67% |
+| 6 | 83% |
+| 15 | 93% |
+
+A pathogen that is twice as transmissible does not require twice the coverage — it requires coverage that creeps ever closer to 100% without reaching it. This is precisely why measles is the hard case. At $R_0 \approx 15$ you need somewhere above 90% immunity, and because no vaccine is perfectly effective, the *vaccination* coverage required is higher still: if a vaccine confers immunity in a fraction $e$ of recipients, the coverage needed is $H/e$. With $H = 0.93$ and $e = 0.95$, that is 98% — a margin so thin that quite small drops in uptake are enough to let measles circulate again.
+
+## When the chains break
+
+<HerdImmunityAnimation />
+
+Here the homogeneous-mixing assumption is dropped for something more tangible: a grid of individuals, each in contact with their eight neighbours. Set a coverage fraction, introduce one case, and watch what the chains do.
+
+Start with **coverage at 0% and R₀ at 4**. The infection sweeps the grid essentially unopposed — nearly everyone is reached, and the wave front is continuous.
+
+Now raise coverage to **just under the stated threshold** (for $R_0 = 4$ the threshold is 75%) and press **Introduce a case** a few times. You will see a genuinely different regime: sometimes the outbreak still spreads widely, sometimes it stalls after a handful of cases. Near the threshold, outcomes become a lottery over who happens to be immune around the index case.
+
+Push coverage **above** the threshold and reseed repeatedly. Chains now typically die within a few generations. Crucially, look at the individuals ringed in gold at the end — those are unvaccinated, fully susceptible people who never got infected. Nothing protected them individually. They were protected by the structure of the population around them: the pathogen could not find a path to them. That indirect protection is the entire point of herd immunity, and it is why coverage matters for people who cannot be vaccinated — infants, the immunocompromised, those with genuine contraindications.
+
+Two honest caveats the grid makes visible. First, above the threshold outbreaks still happen; they are just small and self-limiting. The threshold is about the *average* chain dying, not about zero cases. Second, the model assigns immunity at random, and real vaccination coverage clusters — geographically, socially, by school. A country at 95% national coverage can contain communities at 60%, and measles will find them. National averages above threshold do not imply local protection, which is why outbreaks recur in high-coverage countries.
+
+## Overshoot: why epidemics go past the line
+
+Return to the first widget and look again at where the blue curve stops. With $R_0 = 2.5$ the threshold is 60% immune, meaning $S/N = 40\%$ — but the epidemic finishes with roughly 10–12% still susceptible. It infected far more people than the threshold required.
+
+The reason is momentum. Crossing $S/N = 1/R_0$ makes $dI/dt$ turn negative — the infectious population starts *shrinking*. But it does not vanish. At the peak there is a large infectious population, and every one of those people goes on to infect others (fewer than one each on average, but not zero) before recovering. Those infections happen after the threshold was crossed and are, in a precise sense, unnecessary: they occurred in a population that was already collectively protected.
+
+Formally, the total attack rate for an unmitigated SIR epidemic is not $H$ but the solution of the final-size relation
+
+$$S_\infty = S_0\, e^{-R_0 (1 - S_\infty/N)}$$
+
+which always leaves fewer susceptibles than the threshold does. The gap widens with $R_0$: at $R_0 = 1.5$ the overshoot is modest, but at $R_0 = 3$ an epidemic that needed 67% immunity ends with around 94% infected.
+
+The practical reading of this is a genuinely important one. Reaching a herd-immunity threshold through unmitigated infection does not stop the epidemic at the threshold — the population blows past it, and the excess infections buy nothing. Slowing transmission does not merely delay cases; by lowering $R_t$ before the peak, it reduces the overshoot and therefore the *total* number infected, not only the peak height.
+
+## What an intervention actually changes
+
+The model gives a clean taxonomy of what can be done, because $R_t = R_0 S/N$ has exactly two kinds of lever: the $\beta$ inside $R_0$, and the susceptible pool $S$.
+
+**Lowering β** — reducing contact rate or per-contact transmission probability. Distancing, ventilation, masking, closing high-mixing venues, isolating cases. This lowers $R_t$ immediately and reversibly, and that reversibility is the catch: relax it while $S$ is still large and $R_t$ climbs straight back above 1, producing a second wave. Behavioural measures buy time and flatten peaks; on their own they do not resolve an epidemic.
+
+**Shrinking γ⁻¹** — shortening the infectious period through testing, isolation, or treatment that reduces shedding. Because $R_0 = \beta/\gamma$, halving the time someone is infectious halves $R_0$ just as effectively as halving their contacts. Contact tracing works on both terms at once.
+
+**Shrinking S** — vaccination. This is the only lever that is durable, and it is the only one that moves the population permanently towards the threshold without anybody getting sick. It also has the property the others lack: its benefit accrues to people who did not receive it.
+
+Two extensions are worth knowing because they change these conclusions materially. If immunity wanes, recovered individuals flow back to $S$ (an SIRS model), the threshold has to be *maintained* rather than merely reached, and the epidemic settles into recurring waves rather than ending. And if the model includes an exposed-but-not-yet-infectious stage (SEIR, appropriate for most respiratory pathogens), $R_0$ is unchanged but the epidemic unfolds more slowly, which matters a great deal for how much time an intervention has to work.
+
+Finally, the homogeneity caveat. Real contact networks are heavily skewed: a minority of people have far more contacts than average, and transmission is often overdispersed, with a small fraction of cases causing most onward infections. This has two consequences the basic model misses. Highly-connected people are infected early, which depletes the *effective* transmission capacity faster than the raw susceptible count suggests, so real thresholds and final sizes tend to be somewhat lower than homogeneous SIR predicts. And overdispersion means outbreaks are far more stochastic than smooth curves imply — many introductions fizzle out entirely even when $R_t > 1$, while occasional superspreading events dominate the ones that do not.
+
+None of that overturns the core result. It shifts the numbers, sometimes substantially, but the hinge is unchanged: the epidemic turns when each case stops replacing itself.
+
+<KeyTakeaways>
+- The SIR model reduces an epidemic to three flows, $S \to I \to R$, and the entire trajectory hangs on the sign of one bracket: $dI/dt = \gamma I (R_t - 1)$.
+- $R_0 = \beta/\gamma$ describes a fully susceptible population and is fixed; $R_t = R_0 S/N$ describes today and changes constantly. Conflating them is the most common error in reading epidemic news.
+- The epidemic peaks the instant $R_t = 1$ — that is, when the susceptible fraction falls to $1/R_0$ — not when susceptibles run out.
+- The herd-immunity threshold $1 - 1/R_0$ rises steeply with transmissibility, which is why measles ($R_0 \approx 12{-}18$) demands above 90% immunity while flu ($R_0 \approx 1.3$) demands around 25%.
+- Unmitigated epidemics **overshoot** the threshold because a large infectious pool keeps transmitting after $R_t$ drops below 1, so slowing transmission reduces total infections, not just the peak.
+</KeyTakeaways>

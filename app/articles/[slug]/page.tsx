@@ -91,6 +91,8 @@ import {
   DerivativeFunctionAnimation,
   HaltingProblemAnimation,
   TerminationAnimation,
+  SIRModelAnimation,
+  HerdImmunityAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -168,6 +170,8 @@ const components = {
   DerivativeFunctionAnimation,
   HaltingProblemAnimation,
   TerminationAnimation,
+  SIRModelAnimation,
+  HerdImmunityAnimation,
   KeyTakeaways,
 }
 
