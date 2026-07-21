@@ -1839,6 +1839,42 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'cellular-respiration': c => {
+    // The mitochondrial inner membrane: three proton-pumping complexes drop
+    // electrons down a redox waterfall, protons pile up in the intermembrane
+    // space, and ATP synthase lets them back through to make ATP.
+    return (
+      <g>
+        <rect x={12} y={50} width={276} height={24} fill={FAINT} />
+        <line x1={12} y1={50} x2={288} y2={50} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={12} y1={74} x2={288} y2={74} stroke={MUTE} strokeWidth={0.75} />
+        <text x={14} y={22} fontSize={7} fill={MUTE} fontFamily="monospace">matrix</text>
+        <polyline points="28,20 51,20 51,27 119,27 119,34 179,34 179,41 198,41" fill="none" stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={198} cy={41} r={3} fill={GOLD} />
+        <text x={204} y={32} fontSize={7} fill={MUTE} fontFamily="monospace">O₂→H₂O</text>
+        <rect x={40} y={44} width={22} height={36} rx={3} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <rect x={108} y={44} width={22} height={36} rx={3} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <rect x={168} y={44} width={22} height={36} rx={3} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <text x={51} y={66} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">I</text>
+        <text x={119} y={66} textAnchor="middle" fontSize={7} fill={c} fontFamily="monospace">III</text>
+        <text x={179} y={66} textAnchor="middle" fontSize={7} fill={c} fontFamily="monospace">IV</text>
+        <rect x={224} y={44} width={26} height={36} rx={3} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <circle cx={237} cy={36} r={9} fill="none" stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={237} cy={36} r={2} fill={GOLD} />
+        <text x={237} y={24} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">ATP</text>
+        <line x1={237} y1={92} x2={237} y2={80} stroke={GOLD} strokeWidth={1} />
+        <polygon points="237,78 234,84 240,84" fill={GOLD} />
+        <circle cx={40} cy={90} r={2} fill={GOLD} opacity={0.8} />
+        <circle cx={66} cy={96} r={2} fill={GOLD} opacity={0.8} />
+        <circle cx={94} cy={90} r={2} fill={GOLD} opacity={0.8} />
+        <circle cx={122} cy={97} r={2} fill={GOLD} opacity={0.8} />
+        <circle cx={150} cy={91} r={2} fill={GOLD} opacity={0.8} />
+        <circle cx={178} cy={97} r={2} fill={GOLD} opacity={0.8} />
+        <circle cx={206} cy={91} r={2} fill={GOLD} opacity={0.8} />
+        <text x={14} y={104} fontSize={7} fill={MUTE} fontFamily="monospace">H⁺ gradient</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

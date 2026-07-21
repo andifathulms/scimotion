@@ -640,3 +640,13 @@ export const ChainReactionAnimation = dynamic(
   () => import('@/components/animations/ChainReactionAnimation').then(m => ({ default: m.ChainReactionAnimation })),
   { ssr: false }
 )
+
+export const RespirationAnimation = dynamic(
+  () => import('@/components/animations/RespirationAnimation').then(m => ({ default: m.RespirationAnimation })),
+  { ssr: false }
+)
+
+export const ETCAnimation = dynamic(
+  () => import('@/components/animations/ETCAnimation').then(m => ({ default: m.ETCAnimation })),
+  { ssr: false }
+)

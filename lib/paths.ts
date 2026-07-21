@@ -66,7 +66,7 @@ export const learningPaths: LearningPath[] = [
       'Start with the principle that organises all of biology, then build upward — the code, what it folds into, how energy gets in, and how cells signal and defend.',
     // Selection first, because it is the only thing that makes the rest
     // non-arbitrary; then molecules, then energy, then cells.
-    articleSlugs: ['natural-selection', 'dna-replication', 'protein-folding', 'photosynthesis', 'action-potential', 'immune-response'],
+    articleSlugs: ['natural-selection', 'dna-replication', 'protein-folding', 'photosynthesis', 'cellular-respiration', 'action-potential', 'immune-response'],
   },
   {
     slug: 'the-clinical-body',
