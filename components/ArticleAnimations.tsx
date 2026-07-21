@@ -390,3 +390,13 @@ export const StandingWaveAnimation = dynamic(
   () => import('@/components/animations/StandingWaveAnimation').then(m => ({ default: m.StandingWaveAnimation })),
   { ssr: false }
 )
+
+export const ElectromagneticWaveAnimation = dynamic(
+  () => import('@/components/animations/ElectromagneticWaveAnimation').then(m => ({ default: m.ElectromagneticWaveAnimation })),
+  { ssr: false }
+)
+
+export const SpectrumAnimation = dynamic(
+  () => import('@/components/animations/SpectrumAnimation').then(m => ({ default: m.SpectrumAnimation })),
+  { ssr: false }
+)

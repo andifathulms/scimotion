@@ -1067,6 +1067,43 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'electromagnetic-waves': c => {
+    // A plane wave travelling right: E oscillating vertically (accent), B on a
+    // skewed axis 90 deg away in space but exactly in phase in time (gold).
+    const r = (v: number) => Math.round(v * 100) / 100
+    const XA = 24, XB = 262, PER = 119, EA = 34, BA = 26, UX = 0.86, UY = 0.5
+    const s = (x: number) => Math.sin(((x - XA) * 2 * Math.PI) / PER)
+    const ePts: string[] = []
+    const bPts: string[] = []
+    for (let x = XA; x <= XB; x += 2) {
+      ePts.push(`${x},${r(60 - EA * s(x))}`)
+      bPts.push(`${r(x + UX * BA * s(x))},${r(60 + UY * BA * s(x))}`)
+    }
+    const sticks: ReactNode[] = []
+    for (let x = XA; x <= XB; x += 17) {
+      const v = s(x)
+      sticks.push(
+        <g key={x}>
+          <line x1={x} y1={60} x2={x} y2={r(60 - EA * v)} stroke={c} strokeWidth={0.75} opacity={0.4} />
+          <line x1={x} y1={60} x2={r(x + UX * BA * v)} y2={r(60 + UY * BA * v)} stroke={GOLD} strokeWidth={0.75} opacity={0.35} />
+        </g>
+      )
+    }
+    return (
+      <g>
+        <line x1={8} y1={60} x2={288} y2={60} stroke={MUTE} strokeWidth={0.75} />
+        {sticks}
+        <polyline points={bPts.join(' ')} fill="none" stroke={GOLD} strokeWidth={1.75} />
+        <polyline points={ePts.join(' ')} fill="none" stroke={c} strokeWidth={2.25} />
+        <line x1={266} y1={60} x2={282} y2={60} stroke={GOLD} strokeWidth={1.5} />
+        <polygon points="290,60 280,56 280,64" fill={GOLD} />
+        <text x={272} y={50} fontSize={9} fill={GOLD} fontFamily="monospace">c</text>
+        <text x={8} y={30} fontSize={9} fill={c} fontFamily="monospace">E</text>
+        <text x={8} y={100} fontSize={9} fill={GOLD} fontFamily="monospace">B</text>
+        <text x={104} y={114} fontSize={8} fill={MUTE} fontFamily="monospace">c = 1/√(μ₀ε₀)</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

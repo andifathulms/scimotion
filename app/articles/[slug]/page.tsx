@@ -95,6 +95,8 @@ import {
   HerdImmunityAnimation,
   ResonanceAnimation,
   StandingWaveAnimation,
+  ElectromagneticWaveAnimation,
+  SpectrumAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -176,6 +178,8 @@ const components = {
   HerdImmunityAnimation,
   ResonanceAnimation,
   StandingWaveAnimation,
+  ElectromagneticWaveAnimation,
+  SpectrumAnimation,
   KeyTakeaways,
 }
 

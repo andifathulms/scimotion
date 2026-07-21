@@ -1,0 +1,142 @@
+---
+title: "Maxwell's Equations and the Nature of Light"
+subtitle: "Four equations about wires and magnets, and the wave that fell out of them travelling at exactly the speed of light."
+topic: "Physics"
+slug: "electromagnetic-waves"
+date: "2026-07-17"
+readTime: 10
+featured: false
+description: "Maxwell combined everything known about electricity and magnetism, found a self-sustaining wave hiding in the algebra, and computed its speed from two bench-top constants. The answer was the speed of light."
+tags: ["electromagnetism", "waves", "optics", "relativity"]
+quiz:
+  - q: "Maxwell's added term — the displacement current in Ampère's law — is essential for electromagnetic waves. Why can a wave not exist without it?"
+    options:
+      - "It supplies the energy the wave carries away from the source"
+      - "It lets a changing electric field generate a magnetic field, closing the loop with Faraday's law so each field regenerates the other"
+      - "It ensures the electric and magnetic fields stay perpendicular to one another"
+      - "It prevents the wave's amplitude from decaying as it propagates through vacuum"
+    answer: 1
+    explanation: "Faraday's law already lets a changing B make E; the displacement current supplies the missing half, letting a changing E make B, so the two fields sustain each other with no charges present."
+  - q: "The predicted wave speed is built from the two electromagnetic constants alone, with no reference to any source, observer, or medium. What did this imply that classical physics could not accommodate?"
+    options:
+      - "That light must slow down when it passes through glass or water"
+      - "That the equations predict a single speed rather than a speed relative to some frame, contradicting Galilean velocity addition"
+      - "That electromagnetic waves must carry momentum as well as energy"
+      - "That the electric and magnetic constants must themselves depend on the observer's velocity"
+    answer: 1
+    explanation: "Galilean relativity says velocities add, so a wave speed fixed by two constants of nature with no frame attached was flatly incompatible with it — and Einstein resolved the conflict by keeping Maxwell and rebuilding space and time."
+  - q: "A radio transmission at 100 MHz and a gamma ray from a nucleus differ by roughly nineteen orders of magnitude in frequency. In what sense are they the same thing?"
+    options:
+      - "Both are solutions of the same wave equation, travel at the same speed in vacuum, and differ only in wavelength"
+      - "Both are emitted by accelerating charges of the same magnitude"
+      - "Both deposit the same energy per photon when absorbed by matter"
+      - "Both require a material medium to propagate, differing only in how strongly that medium responds"
+    answer: 0
+    explanation: "The spectrum is one continuous family of solutions to Maxwell's equations; wavelength is the only thing that distinguishes a radio wave from a gamma ray in vacuum."
+---
+
+## Two numbers from a laboratory bench
+
+By the 1850s two constants of nature had been measured with reasonable care, and neither had anything to do with light.
+
+The first, $\varepsilon_0$, comes from electrostatics: hang two charged spheres, measure the force between them, and you have fixed the strength of the electric interaction. The second, $\mu_0$, comes from magnetism: run currents through two parallel wires, measure the force per metre, and you have fixed the strength of the magnetic one. Two tabletop experiments. Charges and wires. No optics anywhere in sight.
+
+In 1862 James Clerk Maxwell wrote down the complete set of equations governing electric and magnetic fields, noticed that they admitted a self-sustaining travelling wave, and worked out how fast that wave must move. The answer was built from those two bench constants and nothing else:
+
+$$v = \frac{1}{\sqrt{\mu_0 \varepsilon_0}} \approx 3.1 \times 10^8 \ \text{m/s}$$
+
+Fizeau and Foucault had recently measured the speed of light, by spinning mirrors and toothed wheels, at about $3.15 \times 10^8$ m/s. The numbers agreed to within the experimental error of both.
+
+Maxwell's conclusion, written with what reads today as considerable restraint: *"we can scarcely avoid the inference that light consists in the transverse undulations of the same medium which is the cause of electric and magnetic phenomena."* Optics had just been absorbed into electromagnetism. Nobody had been looking for that.
+
+## What the four equations actually say
+
+Written in differential form, in vacuum, they are compact enough to fit on a mug — but each line is a physical statement in plain language.
+
+$$\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}$$
+
+**Gauss's law.** Electric field lines begin on positive charge and end on negative charge. If you draw a closed surface, the net field poking out through it tells you exactly how much charge is inside. Nothing else makes electric field lines start or stop.
+
+$$\nabla \cdot \mathbf{B} = 0$$
+
+**Gauss's law for magnetism.** The same statement for magnetic fields, with the right-hand side set to zero — and that zero is a claim about the universe. There are no magnetic charges. Field lines never begin or end; they always close into loops. Snap a bar magnet in half and you do not get a north pole and a south pole in separate hands, you get two smaller magnets.
+
+$$\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}$$
+
+**Faraday's law.** A magnetic field that changes in time wraps an electric field around itself. This is not a subtle effect — it is the entire electrical grid. Spin a magnet near a coil and the changing $\mathbf{B}$ drives current through the wire. Every generator in every power station is this line.
+
+$$\nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}$$
+
+**Ampère's law, with Maxwell's correction.** Currents wrap magnetic fields around themselves — that first term was known. The second term was Maxwell's, and it is the reason this article exists. He noticed that Ampère's law as inherited was inconsistent with charge conservation: consider a charging capacitor, and ask what magnetic field circles a loop drawn between the plates. Current flows in the wire but no current crosses the gap, so the law gives two different answers depending on which surface you stretch across the loop. Maxwell patched it by adding a term proportional to the rate of change of the electric field — the **displacement current** — restoring consistency.
+
+That patch is the whole story. Faraday's law says a changing $\mathbf{B}$ makes an $\mathbf{E}$. Maxwell's new term says a changing $\mathbf{E}$ makes a $\mathbf{B}$. The two halves close a loop, and once a loop closes you no longer need whatever started it.
+
+## The wave that holds itself up
+
+<ElectromagneticWaveAnimation />
+
+The green curve is the electric field, drawn vertically; the blue curve is the magnetic field, drawn on a skewed axis to suggest that it points into the page. Notice first the geometry: **$\mathbf{E}$ and $\mathbf{B}$ are at right angles to each other, and both are at right angles to the direction of travel.** The wave is transverse. There is no sloshing back and forth along the direction of motion the way there is in sound.
+
+Notice second that the two fields are *in phase*. Both peak at the same instant and both vanish at the same instant. This trips people up, because the usual mental picture of one field "feeding" the other suggests they should be a quarter-cycle apart, like the energy trading between a mass and a spring. They are not, and the panel at the probe shows why.
+
+Watch the violet tangent line drawn on the electric curve at the probe, and the two bars beside it. The bars track $\partial E / \partial x$ — the *spatial* slope of the electric field — and $-\partial B / \partial t$, the rate at which the magnetic field is changing in *time*. They are identical at every instant, and they stay identical as you slide the frequency. That is Faraday's law for a plane wave, written out. The field does not need to be strong to induce; it needs to be *sloped*. Where $E$ is momentarily zero, its slope is steepest — and that is exactly where $B$ is changing fastest, sweeping through zero at full speed.
+
+Now push the frequency slider. The wavelength contracts, the crests crowd together, but the pattern does not travel any faster or slower. Nothing in the derivation cares what the frequency is; the speed is set by $\mu_0$ and $\varepsilon_0$ alone. Slow the picture right down and ask what is holding the whole thing up. Nothing is. There are no charges in the frame, no currents, no source. The wave left its transmitter long ago and each field is now sustained purely by the other's variation — an arrangement with no need for anything to wave *in*. This is the deep break with sound and with water: the nineteenth century spent decades hunting for the luminiferous aether because a wave without a medium seemed absurd, and the honest answer is that the electromagnetic field *is* the medium. It is a thing in its own right, defined at every point of empty space.
+
+Two more consequences fall out of the picture. The fields are perpendicular but not equal in magnitude: $E = cB$ in SI units, which is why the magnetic part of a light wave is usually the one you can ignore when working out how it pushes on a charge. And because $\mathbf{E}$ can point *anywhere* in the plane perpendicular to travel, a wave carries an extra label beyond frequency and amplitude — its **polarization**, the direction $\mathbf{E}$ happens to oscillate along. Polarizing sunglasses exploit it: glare reflected off a road or a lake is preferentially horizontally polarized, so a filter that passes only the vertical component removes most of it and leaves the rest of the scene alone.
+
+## Getting the speed out
+
+The derivation is short enough to follow end to end. Set $\rho = 0$ and $\mathbf{J} = 0$ — empty space, no sources — and take the curl of Faraday's law:
+
+$$\nabla \times (\nabla \times \mathbf{E}) = -\frac{\partial}{\partial t}(\nabla \times \mathbf{B})$$
+
+The right-hand side is something we already have a formula for: substitute the sourceless Ampère–Maxwell law, $\nabla \times \mathbf{B} = \mu_0 \varepsilon_0 \, \partial \mathbf{E}/\partial t$. On the left, use the vector identity $\nabla \times (\nabla \times \mathbf{E}) = \nabla(\nabla \cdot \mathbf{E}) - \nabla^2 \mathbf{E}$, and note that Gauss's law kills the first term since $\rho = 0$. What survives is
+
+$$\nabla^2 \mathbf{E} = \mu_0 \varepsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2}$$
+
+and this is not a new equation at all. It is the wave equation, the same form that governs a plucked string and a pressure pulse in air:
+
+$$\nabla^2 \psi = \frac{1}{v^2}\frac{\partial^2 \psi}{\partial t^2}$$
+
+Comparing the two, the speed is forced:
+
+$$c = \frac{1}{\sqrt{\mu_0 \varepsilon_0}}$$
+
+Put the modern values in — $\mu_0 \approx 4\pi \times 10^{-7}$ and $\varepsilon_0 \approx 8.854 \times 10^{-12}$ in SI units — and you get $299{,}792{,}458$ m/s. An identical derivation starting from Ampère's law instead gives the same wave equation for $\mathbf{B}$, at the same speed, which is why the two fields march together.
+
+Sit with what that expression does *not* contain. No frequency: every colour travels at the same speed in vacuum. No amplitude: bright light and dim light are equally fast. And — this is the one that broke physics — **no reference frame**. The formula for the speed of a sound wave, $v = \sqrt{K/\rho}$, is a speed *relative to the air*; run through the air and you measure something different. Maxwell's $c$ has no air. It is two constants of nature and nothing to be relative to.
+
+Galilean relativity insists velocities add: chase a light beam at $0.5c$ and you should measure it receding at $0.5c$. Maxwell's equations insist you will measure $c$. Both cannot be right, and the whole apparatus of the aether was an attempt to save the first by supplying a frame for the second to be measured against. Michelson and Morley went looking for the Earth's motion through that frame in 1887 and found nothing at all. Einstein's move in 1905 was to keep Maxwell intact and give up the assumption that everyone shares a clock, which is exactly where [time dilation](/articles/time-dilation) comes from. Special relativity is not a strange addition to electromagnetism; it is what electromagnetism had been quietly demanding for forty years.
+
+## One phenomenon, sixteen decades wide
+
+Because the derivation never mentions frequency, *any* frequency solves the equations. Maxwell's waves are not a particular thing that happens at a particular wavelength — they are a continuous family, and we have given the regions of that family different names purely for historical and biological reasons.
+
+<SpectrumAnimation />
+
+Drag the slider from left to right and watch the numbers. Start out at metres — that is radio, and one crest to the next is about the length of a house. The frequency is a comfortable megahertz or so and the energy per photon is nanoelectronvolts, which is why radio passes through walls and through you without leaving a mark. Keep going. At millimetres the label changes to microwave, at micrometres to infrared, and nothing whatsoever changes about the physics; only the number changes.
+
+Then look at what happens around $5 \times 10^{-7}$ metres. The gold marker crosses a band eight pixels wide on a scale sixteen decades long, and *that* is everything you have ever seen. The blown-up strip beneath is that sliver, stretched three hundred pixels across. Red to violet — the entire visual world, every painting and sunset and face — is less than one **octave**: violet is only about twice the frequency of red. Your ears handle ten octaves without complaint; your eyes get one, and we named it "light" because it happens to be the band our star pours out most strongly and the band our atmosphere lets through.
+
+Keep dragging. Past the visible edge the photon energy climbs through a few electronvolts, which is the energy scale of chemical bonds — hence sunburn, hence ultraviolet damaging DNA where infrared merely warms it. At nanometres and below you are into X-rays, wavelengths comparable to the spacing between atoms in a crystal, which is why crystals diffract them and why we can read molecular structure at all. Push to picometres and shorter for gamma rays, where a single photon carries megaelectronvolts — more than enough to blow an atom apart.
+
+The lesson of the scrub is that the boundaries are ours, not nature's. The equations do not know where "visible" stops. The bands are named after how we generate the waves and what they do to matter, and the reason energy per photon matters so much for that second question is a quantum fact, not a classical one: Maxwell's theory is silent on why a wave of frequency $\nu$ should deliver its energy in lumps of size $h\nu$. That is where the classical field theory runs out and [wave-particle duality](/articles/wave-particle-duality) begins.
+
+## Where it shows up
+
+**Everything that broadcasts.** Maxwell's equations say that an accelerating charge radiates. Shove electrons up and down an antenna and the kink in their field lines propagates outward at $c$, carrying energy away — that is a radio transmission, and the same sentence describes a WiFi router, a phone, a radar dish, and a star. Hertz confirmed it experimentally in 1887, generating and detecting waves across his laboratory and demonstrating that they reflected and refracted exactly as light does. Asked what use it was, he reportedly said none whatsoever.
+
+**Light carries momentum.** The wave transports not just energy but momentum $p = E/c$, so it pushes on whatever absorbs it. The pressure is tiny — sunlight on a mirror exerts about nine micronewtons per square metre — but over a large enough sail and enough time it is free propulsion, which is why solar sails work. The same pressure shapes comet tails and helps hold stars up against their own gravity.
+
+**Reading the universe.** Every band of the spectrum is a separate window on the same sky, and the picture only assembles when you use all of them: radio for cold hydrogen and pulsars, infrared for dust and forming planets, X-rays for accreting black holes, gamma for the most violent events known. The wavelengths arriving are also *shifted* by the motion of their source, which turns each spectrum into a velocity measurement — see the [Doppler effect](/articles/doppler-effect) and the redshift that measures the expansion of the universe.
+
+**Everyday matter.** Why glass is transparent, metals are shiny, water is blue, and the sky scatters violet more than red are all questions about how the oscillating $\mathbf{E}$ field of a passing wave shakes the charges in a material and what those shaken charges re-radiate. The whole of optics is Maxwell's equations plus a description of how a given substance's electrons respond.
+
+<KeyTakeaways>
+- Maxwell's four equations, written for empty space, combine into the wave equation with speed $c = 1/\sqrt{\mu_0\varepsilon_0}$ — built entirely from two constants measured with charges and wires, and matching the measured speed of light. That was the unification of optics with electromagnetism.
+- The wave sustains itself: Faraday's law lets a changing $\mathbf{B}$ create $\mathbf{E}$, and Maxwell's displacement current lets a changing $\mathbf{E}$ create $\mathbf{B}$. Neither field needs a source once the loop is closed, so **no medium is required** — the field itself is the thing that waves.
+- $\mathbf{E}$ and $\mathbf{B}$ are perpendicular to each other and to the direction of travel, and they are **in phase**, not a quarter-cycle apart: it is the *slope* of one field that drives the *time rate* of the other.
+- The speed contains no frequency, no amplitude, and crucially no reference frame — a direct contradiction of Galilean velocity addition. Keeping Maxwell and giving up absolute time is [special relativity](/articles/time-dilation).
+- Radio through gamma is one continuous family of solutions differing only in wavelength; visible light is under one octave of a sixteen-decade span. Why a wave of frequency $\nu$ arrives in packets of energy $h\nu$ is the question classical field theory cannot answer, and where [wave-particle duality](/articles/wave-particle-duality) takes over.
+</KeyTakeaways>
