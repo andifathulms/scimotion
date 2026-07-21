@@ -1,0 +1,177 @@
+---
+title: "Earthquakes and Seismic Waves"
+subtitle: "We have never drilled deeper than 12 km, and we know the Earth has a liquid core anyway."
+topic: "Earth & Climate"
+slug: "seismic-waves"
+date: "2026-07-16"
+readTime: 10
+featured: false
+description: "How a fault stores strain for centuries and lets go in seconds, why P waves arrive before S waves, and how the shadow that shear waves cast on the far side of the planet revealed a liquid outer core."
+tags: ["earthquakes", "seismology", "waves", "earth-interior"]
+quiz:
+  - q: "Beyond about 103 degrees of epicentral distance, no station on Earth records a direct S wave from any earthquake, anywhere. What does that single observation establish?"
+    options:
+      - "The far side of the Earth is too distant for seismic energy of any kind to reach it"
+      - "There is a region inside the Earth with effectively zero shear modulus — a liquid — because shear waves need rigidity to propagate at all"
+      - "S waves are absorbed by the crust before they can travel that far around the surface"
+      - "The Earth's rotation deflects shear waves away from the antipode"
+    answer: 1
+    explanation: "Shear-wave speed is the square root of the shear modulus over density, so a layer that cannot sustain shear stress cannot transmit S waves — and the shadow beyond 103 degrees is exactly the geometry you get from a liquid outer core."
+  - q: "Station A records an S-minus-P interval of 12 s and station B records 36 s for the same earthquake. Using the standard rule of thumb, what have the two stations determined?"
+    options:
+      - "That B is three times further from the epicentre than A, roughly 98 km versus 294 km, but neither knows the direction"
+      - "That the earthquake at B was three times larger, since a longer interval means more energy"
+      - "That B is 24 km further from the epicentre than A"
+      - "That the epicentre lies exactly midway between the two stations"
+    answer: 0
+    explanation: "The S-minus-P interval is proportional to distance — about 8.2 km per second of gap in the crust — so each station gets a radius but no bearing, which is why three stations are needed to fix a point."
+  - q: "A news report says a magnitude 7.0 earthquake was 'twice as strong' as a magnitude 6.0. What is wrong with that, quantitatively?"
+    options:
+      - "Nothing — one whole step on the magnitude scale is defined as a doubling of energy"
+      - "The step is a factor of 10 in radiated energy, because the scale is base-10 logarithmic"
+      - "The step is a factor of about 32 in radiated energy, since energy scales as 10 raised to 1.5 times the magnitude"
+      - "The comparison is meaningless because magnitude measures damage, not energy"
+    answer: 2
+    explanation: "Radiated energy goes as 10^(1.5M), so one magnitude unit is 10^1.5 ≈ 32 times the energy and two units is about 1000 times."
+---
+
+## A hole 12 km deep, and a planet 6,371 km to the middle
+
+The deepest hole anyone has ever drilled is the Kola Superdeep Borehole, on the Russian side of the Norwegian border. Twenty years of work got it to 12,262 metres, at which point the rock was 180 °C and behaving more like plastic than stone, and the drill string kept getting stuck. That is 12 km. The centre of the Earth is 6,371 km down. Scaled to an apple, we have not got through the skin.
+
+And yet the structure of the interior is not vague. We know that beneath roughly 2,891 km of rocky mantle there is a **liquid** iron-nickel outer core, and that inside that, below 5,150 km, there is a **solid** inner core. We know their radii to a few kilometres. Nobody has ever seen any of it, taken a sample, or sent an instrument even one percent of the way.
+
+The evidence is a shadow. Earthquakes radiate two kinds of body wave. One of them, the S wave, is a **shear** wave: it propagates by making the rock slide sideways past itself. A liquid, by definition, cannot resist being sheared — push a fluid sideways and it simply flows — so an S wave entering a liquid does not slow down or bend. It stops. In 1906 Richard Dixon Oldham noticed that beyond a certain angular distance from any large earthquake, seismographs stopped recording direct S waves entirely. Not weakened. Absent. Every earthquake, every time, over more than a third of the planet's surface.
+
+There is only one shape of object that casts that shadow: a big sphere of liquid at the centre. The earthquakes did the drilling for us.
+
+## Why a fault sticks, and then does not
+
+Start with where the energy comes from. As covered in [plate tectonics](/articles/plate-tectonics), the outer shell of the Earth is broken into rigid plates grinding past, under, and away from each other at a few centimetres a year. If the boundaries were frictionless, the plates would slide smoothly and there would be no earthquakes at all — just quiet, continuous creep. A few fault segments do behave that way, and they are seismically silent.
+
+Most do not, because rock on rock has friction, and the two blocks lock. The plates keep moving anyway. The rock on either side of the locked patch deforms **elastically**, like a steel spring being wound, storing strain energy over decades to centuries. Harry Fielding Reid worked this out after the 1906 San Francisco earthquake by comparing survey lines measured across the San Andreas fault before and after: the ground far from the fault had been steadily displaced for years, while the fault trace itself had not moved at all — and then it moved 6 metres in about a minute, and the bent survey lines sprang back straight.
+
+That is **elastic rebound**, and the cycle is:
+
+1. **Interseismic loading.** The fault is locked; strain accumulates in the surrounding rock at the plate rate. Decades to centuries. Nothing is felt.
+2. **Failure.** Shear stress on the locked patch exceeds the frictional strength holding it. A small patch — an asperity — lets go.
+3. **Rupture propagation.** The slip front spreads across the fault plane at 2–3 km/s, comparable to the shear-wave speed, unzipping the locked region. A great earthquake ruptures for several minutes because the fault is hundreds of kilometres long, not because the ground at any one place shakes that long.
+4. **Rebound.** The blocks snap to their relaxed positions. The stored elastic strain energy goes partly into heat and grinding rock, partly into radiated seismic waves.
+
+Only the last part reaches you. It is a small fraction of the total energy budget — most of it is spent on friction — but it is the fraction that travels.
+
+The key consequence is that an earthquake is not an explosion at a point. It is a **shear dislocation** spreading over a surface. That is why the radiation is not uniform in all directions, why the first motion recorded at a station can be up or down depending on where the station sits relative to the fault geometry, and why seismologists can work out the orientation of a fault they have never seen from the pattern of first arrivals around it.
+
+## Three waves, three speeds, three jobs
+
+The radiated energy sorts itself into distinct wave types, and they separate as they travel because they move at different speeds. This is the central fact of practical seismology.
+
+**P waves (primary).** Compressional. The rock is alternately squeezed and stretched *along* the direction the wave travels, exactly like sound in air — because it is sound in rock. Speed in the crust is about 6 km/s, rising to 8 km/s in the uppermost mantle and around 13.7 km/s at the base of the mantle. They arrive first, always, everywhere. They are the fastest signal the Earth can carry. Near the source, a P wave often arrives as a sharp bang or thud rather than shaking.
+
+**S waves (secondary, or shear).** The rock moves *perpendicular* to the direction of travel, like a whip crack running along a rope. Speed in the crust is about 3.5 km/s, roughly $1/\sqrt{3}$ of the P speed. They arrive second, they carry more energy than the P wave, and — the fact this whole article turns on — they cannot propagate through a liquid at all.
+
+**Surface waves.** When body waves reach the free surface, energy gets trapped in the outermost layers as two further wave types. **Rayleigh waves** roll the ground in a retrograde ellipse, like an ocean swell made of rock. **Love waves** whip it horizontally side to side. Both are slower still, around 3–4 km/s, and both are **dispersive** — long periods travel faster, so the packet spreads out into a long train.
+
+Surface waves arrive last and do most of the damage, for a reason worth being precise about. Body waves spread out over an expanding *sphere*, so their amplitude falls off roughly as $1/r$. Surface waves spread over an expanding *circle* on a two-dimensional surface, so theirs falls off roughly as $1/\sqrt{r}$. At any real distance the surface waves win, and they are also the long-period, large-amplitude ground motion that buildings are least able to survive.
+
+<SeismicWaveAnimation />
+
+The panel above shows a rupture on the left and a lattice of rock particles to its right; the trace below is what a seismometer at the green triangle writes down. What to try:
+
+- **Press Play and just watch the particles.** The gold packet is the P wave, and each particle it passes moves *back and forth horizontally* — along the direction of travel, compressing and rarefying the medium. The cyan packet behind it is the S wave, and those particles move *vertically*, across the direction of travel. Nothing is being carried along; each particle returns to where it started. Only the disturbance travels.
+- **Watch the gap open.** Both packets start together at the rupture, but the P wave covers 6 km every second and the S wave only 3.46, so the separation grows linearly with distance. That widening gap is the single most useful measurement in seismology.
+- **Look at the top row when the violet packet arrives.** That is the surface wave, and its motion is elliptical — a combination of horizontal and vertical — with the amplitude dying away rapidly with depth. It is the biggest thing on the trace and it arrives last.
+- **Turn off P and S using the toggle buttons.** With only surface waves left you get the ground motion that actually knocks buildings down, and none of the warning.
+- **Slide the station out to 680 km, then back in to 80 km.** Read the S−P gap on the blue bracket: 83 s at the far end, under 10 s close in. That number is the reader's distance to the earthquake, and it is available at a single station before the shaking has even properly begun.
+
+## The arithmetic seismologists actually use
+
+Three pieces of mathematics do most of the work.
+
+**Wave speeds come from elasticity.** Solve the elastic wave equation in a uniform solid and exactly two body-wave solutions fall out, with speeds
+
+$$v_P = \sqrt{\frac{K + \tfrac{4}{3}\mu}{\rho}}, \qquad v_S = \sqrt{\frac{\mu}{\rho}}$$
+
+where $K$ is the bulk modulus (resistance to being compressed), $\mu$ is the shear modulus (resistance to being distorted at constant volume), and $\rho$ is density. Everything follows from these two expressions.
+
+$v_P > v_S$ always, because the numerator for P contains the shear term *plus* the bulk term. For a Poisson solid, where $K = \tfrac{5}{3}\mu$, the ratio comes out at exactly
+
+$$\frac{v_P}{v_S} = \sqrt{3} \approx 1.73$$
+
+which is close to what crustal rock actually gives. And in a liquid $\mu = 0$ — a fluid has no restoring force against shear — so $v_S = 0$. There is no such thing as a shear wave in water, in air, or in molten iron. Note also that a liquid still has a perfectly good bulk modulus, so P waves keep going; they just slow abruptly, from about 13.7 km/s at the base of the mantle to 8.0 km/s in the outer core. Hold on to that number, because it is what produces the *second* shadow.
+
+**The S−P interval gives distance.** A P wave and an S wave that leave at the same instant arrive at times $d/v_P$ and $d/v_S$, so the gap is
+
+$$\Delta t = d\left(\frac{1}{v_S} - \frac{1}{v_P}\right) \quad \Longrightarrow \quad d = \frac{\Delta t}{\dfrac{1}{v_S} - \dfrac{1}{v_P}}$$
+
+With crustal values $v_P = 6.0$ and $v_S = 3.46$ km/s the bracket is $0.1223\ \mathrm{s/km}$, so
+
+$$d \approx 8.2\,\Delta t \ \ \mathrm{km}$$
+
+An eight-second gap means about 66 km away. This is the classic rule of thumb, and it works because the two waves share the same path — so the path can be unknown, and it cancels. (For distant earthquakes the ray goes deep into the mantle where speeds rise with depth, so real practice replaces the constant with standard travel-time curves such as the Jeffreys–Bullen tables or the modern IASP91 model. The principle is identical.)
+
+One station gives a **radius**, not a location: the epicentre lies somewhere on a circle. Two stations give two circles, which generally intersect at two points. **Three stations give three circles that meet at one point.** That is why locating an earthquake is called triangulation, and why seismic networks are networks. Modern practice instead inverts hundreds of arrival times simultaneously for latitude, longitude, depth, and origin time at once — but it is the same information, used more efficiently.
+
+**Magnitude measures the source, and the scale is logarithmic.** The physically meaningful quantity is the **seismic moment**:
+
+$$M_0 = \mu\,A\,\bar{D}$$
+
+the shear modulus of the rock, times the fault area that slipped, times the average slip on it. It has units of energy and it is exactly what you would compute for the equivalent force couple. Moment magnitude, introduced by Hanks and Kanamori in 1979, is a rescaling of it:
+
+$$M_w = \frac{2}{3}\log_{10} M_0 - 10.7$$
+
+with $M_0$ in dyne-centimetres; the same relation with $M_0$ in newton-metres has the constant $-6.06$. The odd-looking $2/3$ and the offsets were chosen deliberately so that $M_w$ lines up numerically with the older scales in their working range. Nobody had to relearn what a "seven" felt like.
+
+Two things about that logarithm are routinely got wrong.
+
+First, **the energy step is about 32, not 2 and not 10.** Radiated seismic energy follows $\log_{10} E \approx 1.5M + 4.8$ with $E$ in joules, so one whole magnitude unit is $10^{1.5} \approx 31.6$ times the energy, and two units is $10^3 = 1000$ times. A magnitude 8 releases about a thousand magnitude 6s. What *does* go up by ten per unit is the amplitude of the wiggle on the seismogram, which is where the confusion started.
+
+Second, **the Richter scale is largely superseded.** Charles Richter's 1935 local magnitude $M_L$ was defined for southern California from the peak amplitude on one specific instrument, the Wood–Anderson torsion seismometer. It works well for moderate, nearby earthquakes and it is still computed. But it **saturates**: above roughly $M_L$ 6.5–7 the instrument's response band is shorter than the periods where a giant rupture radiates most of its energy, so the number stops climbing no matter how much bigger the earthquake gets. Richter magnitude cannot tell an 8 from a 9. Moment magnitude, built from $M_0$ rather than from a needle deflection, never saturates — which is why every large modern earthquake is quoted as $M_w$, and why "on the Richter scale" in a news report is nearly always wrong. The 2011 Tohoku earthquake ruptured about 500 km by 200 km with up to 50 m of slip, giving $M_0 \approx 5 \times 10^{22}\ \mathrm{N\,m}$ and $M_w$ 9.1. There is no Richter number for it.
+
+## The shadow that mapped the core
+
+Now put the wave physics and the whole planet together.
+
+Seismic speed generally increases with depth in the mantle, so rays do not travel straight. They refract continuously, bending back toward the surface, and a ray leaving the source steeply will bottom out at some depth and come back up — which is why a single earthquake illuminates the whole mantle if you have enough stations.
+
+Then the ray hits the core-mantle boundary at 2,891 km depth, and two things happen at once.
+
+For **S waves**, it ends. Shear waves cannot exist in the liquid outer core, so any S wave steep enough to reach the boundary is absorbed and converted there. The steepest ray that still turns within the mantle emerges at an epicentral distance of about **103°**. Beyond that, nothing. Direct S waves are missing from roughly 39% of the Earth's surface for every earthquake ever recorded, and the missing region is always centred on the antipode of that particular earthquake. It moves when the earthquake moves. It is not a property of the surface; it is a property of what the rays pass through.
+
+For **P waves**, it is subtler and, for the history, decisive. P waves *do* cross the outer core, but they slow from 13.7 to 8.0 km/s at the boundary. A large drop in speed bends a ray sharply toward the normal — Snell's law — so core rays are deflected steeply inward and re-emerge much further around than they otherwise would. The result is a genuine **gap**: the last ray to graze the core comes out at 103°, and the first ray to actually pass through it comes out at about **142°**. Between those two limits, no direct P arrival. The P shadow zone from 103° to 142° is not a place where waves die; it is a place they are refracted *over*.
+
+The size and sharpness of that gap is a measurement. Beno Gutenberg used it in 1913 to place the core-mantle boundary at 2,900 km depth. The modern value is 2,891 km. He was off by nine kilometres, working with mechanical seismographs and hand-drawn travel-time curves.
+
+The last piece came from Inge Lehmann in 1936. The P shadow zone should have been empty, and it was not quite: faint P arrivals kept turning up inside it. Lehmann realised that a small, *faster* inner sphere at the centre would reflect and refract some energy back into the gap, and she proposed a solid inner core with a radius near 1,200 km. Her paper was titled, with a confidence that has become famous, simply "P′". The inner core is now known to have a radius of 1,220 km and to be solid — it does transmit shear waves, at around 3.5 km/s, detectable as converted phases.
+
+<EarthInteriorAnimation />
+
+This is the cross-section that argument lives in. What to try:
+
+- **Start in S mode and press Play.** Cyan rays fan out from the gold epicentre, curving through the mantle. The steep ones reach the core-mantle boundary and simply stop, marked with a cross. The shaded arc is the shadow: no direct S anywhere in it.
+- **Drag the epicentre around the globe**, or use the slider. The shadow follows it exactly, staying centred on the antipode. That is the observation that rules out every alternative explanation — if the shadow were a property of the crust, or of the oceans, or of anything at the surface, it would stay put.
+- **Switch to P mode.** Now the core rays continue. Watch how sharply they kink inward at the boundary: that is the 13.7 → 8.0 km/s velocity drop doing its work. The gold mantle rays land inside 103°, the blue PKP rays land beyond 142°, and the narrow shaded band between is the P shadow.
+- **Look at the violet rays.** Those are PKIKP, passing through the solid inner core, and they are the ones that reach the deepest part of the shadow. Faint arrivals exactly there are what Lehmann found.
+- **Read the station triangles.** Green stations record both P and S. Grey stations record neither. Blue stations record P and never S. Assemble that pattern from a few thousand earthquakes and you have the interior of a planet.
+
+The ray paths here are schematic — real ones are computed from a velocity model, and the layer radii shown are correct — but the emergence distances and the geometry of both shadows are the real ones.
+
+## What it is for
+
+**Earthquake early warning** is a direct exploitation of the P-before-S gap. The P wave is fast and comparatively harmless; the S and surface waves are slow and destructive. Detect the P wave on instruments near the epicentre, decide in a second or two that it is real and estimate its size, and you can transmit a warning *electronically* — at the speed of light — that outruns the damaging shaking. Japan's nationwide system has run since 2007; the US west coast has ShakeAlert. Warning times are short: from the formula above, a city 100 km from the rupture gets roughly 12 seconds of S−P gap minus a few seconds of detection and processing. That is not enough to evacuate a building. It is enough to stop trains, close gas valves, halt surgery, open lift doors at the nearest floor, and get schoolchildren under desks. The system fails precisely where it is needed most: directly above the rupture there is no gap at all, which is called the blind zone.
+
+**Ground motion and buildings.** Magnitude describes the source; what a place actually experiences also depends on distance, on the local geology, and on the structure standing there. Soft sediment basins amplify long-period shaking dramatically — Mexico City in 1985 was devastated at 350 km from the epicentre because the old lake-bed clay it is built on amplified ground motion in a narrow period band around 2 seconds. And a building has its own natural period, roughly one-tenth of a second per storey. When the two coincide, you get [resonance](/articles/resonance): the structure absorbs energy cycle after cycle and the sway grows. In 1985 the buildings that failed catastrophically were mostly 6 to 15 storeys — precisely the ones whose natural period matched the amplified ground. Shorter and taller buildings, on either side of the resonance peak, largely survived. Which is why modern seismic codes specify a response spectrum rather than a single peak acceleration, and why base isolation and tuned mass dampers exist: both are ways of moving a building's response away from the frequencies the ground is going to deliver.
+
+**Imaging the planet.** The shadow-zone argument generalises. Every earthquake is a free experiment illuminating the interior, and with tens of thousands of stations you can invert millions of arrival times for a three-dimensional velocity structure — **seismic tomography**, which is medical CT applied to a planet. It has imaged cold subducted slabs lying at the base of the mantle, and two continent-sized "large low-shear-velocity provinces" under Africa and the Pacific whose nature is still argued over. The same physics on a smaller scale is how the oil industry images reservoirs and how engineers survey a site before building on it.
+
+**And monitoring.** A nuclear test is a compressional point source; an earthquake is a shear dislocation. They produce measurably different ratios of P to S energy and different surface-wave excitation, so the global seismic network that exists for science also serves as the verification system for the Comprehensive Nuclear-Test-Ban Treaty. Every announced North Korean test was detected and located seismically, usually within minutes.
+
+Every one of those capabilities rests on the same thing: the Earth rings when it is struck, the ringing carries information about everything it passed through, and we happen to have worked out how to read it. We still cannot drill more than a fifth of a percent of the way to the centre. We have not needed to.
+
+<KeyTakeaways>
+- Earthquakes are **elastic rebound**, not explosions: a locked fault stores strain for decades while the plates keep moving, then a rupture front unzips it at 2–3 km/s and the rock springs back. Only a small fraction of the released energy radiates as waves.
+- Three arrivals, three speeds, three roles. **P** is compressional (motion along the ray, ~6 km/s in crust) and arrives first; **S** is shear (motion across the ray, ~3.5 km/s) and carries more energy; **surface waves** are slowest, decay as $1/\sqrt{r}$ rather than $1/r$, and do most of the damage.
+- The **S−P interval measures distance** — about 8.2 km per second of gap in the crust — because both waves share the same unknown path. One station gives a circle; three give a point.
+- **S waves cannot cross a liquid** ($v_S = \sqrt{\mu/\rho}$, and $\mu = 0$ in a fluid), so they vanish beyond 103° from every earthquake. That shadow, plus the P-wave gap from 103° to 142° caused by refraction at the 13.7 → 8.0 km/s velocity drop, plus Lehmann's faint arrivals inside it, gave us a liquid outer core and a solid inner core without a single hole deeper than 12 km.
+- Magnitude is logarithmic in **energy by a factor of about 32 per whole step**, not 2 and not 10 — and the **Richter scale is largely superseded**, because it saturates above about 7. Modern quotes are moment magnitude $M_w = \tfrac{2}{3}\log_{10} M_0 - 10.7$, built from the physical seismic moment $M_0 = \mu A \bar{D}$.
+</KeyTakeaways>

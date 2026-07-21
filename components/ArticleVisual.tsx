@@ -1681,6 +1681,46 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'seismic-waves': c => {
+    // Seismogram: quiet, then P (small, fast), S (larger), then the surface-wave
+    // train that does the damage. All coordinates are integer literals.
+    return (
+      <g>
+        <line x1={14} y1={44} x2={292} y2={44} stroke={FAINT} strokeWidth={0.75} strokeDasharray="2 4" />
+        <line x1={14} y1={96} x2={292} y2={96} stroke={FAINT} strokeWidth={0.75} strokeDasharray="2 4" />
+        <line x1={14} y1={70} x2={292} y2={70} stroke={MUTE} strokeWidth={0.5} />
+        <line x1={60} y1={34} x2={60} y2={106} stroke={GOLD} strokeWidth={1} opacity={0.7} />
+        <line x1={110} y1={34} x2={110} y2={106} stroke={c} strokeWidth={1} opacity={0.8} />
+        <line x1={170} y1={34} x2={170} y2={106} stroke={MUTE} strokeWidth={1} />
+        <polyline
+          points="14,70 20,70 30,69 40,71 50,70 58,70 60,70 62,64 64,70 66,76 68,70 70,65 72,70 74,75 76,70 78,66 80,70 82,74 84,70 86,67 88,70 90,73 92,70 94,68 96,70 98,72 100,70 102,69 104,70 106,71 108,70 110,70"
+          fill="none"
+          stroke={GOLD}
+          strokeWidth={1.25}
+        />
+        <polyline
+          points="110,70 113,56 116,70 119,84 122,70 125,58 128,70 131,82 134,70 137,60 140,70 143,80 146,70 149,62 152,70 155,78 158,70 161,64 164,70 167,76 170,70"
+          fill="none"
+          stroke={c}
+          strokeWidth={1.5}
+        />
+        <polyline
+          points="170,70 176,52 182,70 188,88 194,70 200,46 206,70 212,94 218,70 224,50 230,70 236,90 242,70 248,56 254,70 260,84 266,70 272,60 278,70 284,80 290,70"
+          fill="none"
+          stroke={c}
+          strokeWidth={2}
+        />
+        <circle cx={14} cy={70} r={3} fill={GOLD} />
+        <line x1={60} y1={110} x2={110} y2={110} stroke={GOLD} strokeWidth={1} />
+        <line x1={60} y1={106} x2={60} y2={114} stroke={GOLD} strokeWidth={1} />
+        <line x1={110} y1={106} x2={110} y2={114} stroke={GOLD} strokeWidth={1} />
+        <text x={63} y={30} fill={GOLD} fontSize={9} fontFamily="monospace">P</text>
+        <text x={113} y={30} fill={c} fontSize={9} fontFamily="monospace">S</text>
+        <text x={173} y={30} fill={MUTE} fontSize={8} fontFamily="monospace">surface</text>
+        <text x={116} y={113} fill={MUTE} fontSize={7} fontFamily="monospace">S-P = distance</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

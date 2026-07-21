@@ -580,3 +580,13 @@ export const CalvinCycleAnimation = dynamic(
   () => import('@/components/animations/CalvinCycleAnimation').then(m => ({ default: m.CalvinCycleAnimation })),
   { ssr: false }
 )
+
+export const SeismicWaveAnimation = dynamic(
+  () => import('@/components/animations/SeismicWaveAnimation').then(m => ({ default: m.SeismicWaveAnimation })),
+  { ssr: false }
+)
+
+export const EarthInteriorAnimation = dynamic(
+  () => import('@/components/animations/EarthInteriorAnimation').then(m => ({ default: m.EarthInteriorAnimation })),
+  { ssr: false }
+)

@@ -133,6 +133,8 @@ import {
   IceCoreAnimation,
   PhotosynthesisAnimation,
   CalvinCycleAnimation,
+  SeismicWaveAnimation,
+  EarthInteriorAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -252,6 +254,8 @@ const components = {
   IceCoreAnimation,
   PhotosynthesisAnimation,
   CalvinCycleAnimation,
+  SeismicWaveAnimation,
+  EarthInteriorAnimation,
   KeyTakeaways,
 }
 

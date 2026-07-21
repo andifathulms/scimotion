@@ -53,7 +53,7 @@ export const learningPaths: LearningPath[] = [
       'The machinery of a working planet — the rock that moves beneath it, the air and ocean that carry its heat, and the carbon and radiation budgets that set its temperature.',
     // Solid earth first, then the fluid envelopes that ride on it, then the two
     // budgets — radiation and carbon — that the circulation articles feed into.
-    articleSlugs: ['plate-tectonics', 'atmospheric-convection', 'ocean-circulation', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
+    articleSlugs: ['plate-tectonics', 'seismic-waves', 'atmospheric-convection', 'ocean-circulation', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
   },
 ]
 
