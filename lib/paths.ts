@@ -36,6 +36,16 @@ export const learningPaths: LearningPath[] = [
       'The electrical and statistical machinery of living systems — from a firing neuron to the heartbeat to molecular diffusion and the bell curve.',
     articleSlugs: ['action-potential', 'cardiac-electrical-signal', 'brownian-motion', 'chaos-theory', 'markov-chains', 'nash-equilibrium', 'central-limit-theorem', 'bayes-theorem', 'information-theory', 'immune-response', 'epidemic-models', 'glucose-insulin-regulation', 'dna-replication', 'pharmacokinetics'],
   },
+  {
+    slug: 'matter-and-reactions',
+    title: 'Matter & Reactions',
+    description:
+      'Start with what holds two atoms together, then follow reactions through speed, balance, and the transfer of protons and electrons.',
+    // Ordered so each article supplies what the next one assumes: kinetics and
+    // equilibrium come before acids/bases (Ka is an equilibrium constant) and
+    // before electrochemistry (the Nernst equation is equilibrium applied to redox).
+    articleSlugs: ['chemical-bonding', 'reaction-kinetics', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
+  },
 ]
 
 export function getPath(slug: string): LearningPath | undefined {
