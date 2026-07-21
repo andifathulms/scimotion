@@ -470,3 +470,13 @@ export const LaminarTurbulentAnimation = dynamic(
   () => import('@/components/animations/LaminarTurbulentAnimation').then(m => ({ default: m.LaminarTurbulentAnimation })),
   { ssr: false }
 )
+
+export const PhaseTransitionAnimation = dynamic(
+  () => import('@/components/animations/PhaseTransitionAnimation').then(m => ({ default: m.PhaseTransitionAnimation })),
+  { ssr: false }
+)
+
+export const PhaseDiagramAnimation = dynamic(
+  () => import('@/components/animations/PhaseDiagramAnimation').then(m => ({ default: m.PhaseDiagramAnimation })),
+  { ssr: false }
+)

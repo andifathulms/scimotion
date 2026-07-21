@@ -1345,6 +1345,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'phase-transitions': c => {
+    // Heating curve for 1 g of water: temperature against energy added, with the
+    // two flat plateaus where latent heat goes in and T does not move. Plateau
+    // widths are to true scale, so boiling is visibly ~7x melting.
+    const pts = '24,100 29,86 57,86 92,39 279,39 286,20'
+    return (
+      <g>
+        <line x1={24} y1={14} x2={24} y2={104} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={24} y1={104} x2={292} y2={104} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={24} y1={86} x2={292} y2={86} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={24} y1={39} x2={292} y2={39} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={29} y1={86} x2={57} y2={86} stroke={GOLD} strokeWidth={4} strokeLinecap="round" />
+        <line x1={92} y1={39} x2={279} y2={39} stroke={GOLD} strokeWidth={4} strokeLinecap="round" />
+        <polyline points={pts} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={29} cy={86} r={2.5} fill={c} />
+        <circle cx={92} cy={39} r={2.5} fill={c} />
+        <text x={43} y={99} fontSize={8} fill={GOLD} fontFamily="monospace" textAnchor="middle">Lfus</text>
+        <text x={185} y={52} fontSize={8} fill={GOLD} fontFamily="monospace" textAnchor="middle">Lvap</text>
+        <text x={30} y={80} fontSize={8} fill={MUTE} fontFamily="monospace">0 °C</text>
+        <text x={150} y={33} fontSize={8} fill={MUTE} fontFamily="monospace">100 °C</text>
+        <text x={8} y={22} fontSize={9} fill={c} fontFamily="monospace">T</text>
+        <text x={198} y={114} fontSize={8} fill={MUTE} fontFamily="monospace">energy added</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

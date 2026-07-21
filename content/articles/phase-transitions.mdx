@@ -1,0 +1,186 @@
+---
+title: "Phase Transitions"
+subtitle: "Why a pot of melting ice refuses to get warmer no matter how hard you heat it."
+topic: "Chemistry"
+slug: "phase-transitions"
+date: "2026-07-18"
+readTime: 10
+featured: false
+description: "Energy pours into melting ice and the thermometer does not move. The missing joules are buying something other than speed — and following where they go explains latent heat, phase diagrams, and why ice floats."
+tags: ["thermodynamics", "phase-change", "latent-heat", "phase-diagram"]
+quiz:
+  - q: "A beaker of ice and water sits on a hot plate. The thermometer has read 0 °C for ten minutes. What is happening to the energy the hot plate is delivering?"
+    options:
+      - "It is being lost to the room, which is why the temperature cannot rise"
+      - "It is going into breaking the hydrogen-bonded lattice — raising the potential energy of the molecules rather than their average kinetic energy"
+      - "It is being stored as pressure in the water, and will be released when the ice is gone"
+      - "The thermometer is saturated; the water really is above 0 °C but cannot register it"
+    answer: 1
+    explanation: "During a phase change the added energy pays the potential-energy cost of separating molecules, and temperature measures only the average kinetic energy, so it stays flat until the last of the solid is gone."
+  - q: "Why does a substance melt at one specific temperature rather than gradually over a wide range?"
+    options:
+      - "Because the specific heat capacity of the solid becomes infinite at that point"
+      - "Because the melting point is defined as the temperature at which the solid's bonds have all randomly broken at once"
+      - "Because ΔG = ΔH − TΔS for melting is positive below T_m and negative above it, so the two phases have equal free energy at exactly one temperature where ΔG = 0"
+      - "Because pressure is held constant, and at constant pressure temperature cannot change during heating"
+    answer: 2
+    explanation: "Melting has a fixed ΔH > 0 and ΔS > 0, so ΔG = ΔH − TΔS crosses zero at a single temperature T_m = ΔH/ΔS, and only there can solid and liquid coexist."
+  - q: "The solid–liquid line on water's phase diagram slopes backwards (to the left) while almost every other substance's slopes forwards. What does the Clausius–Clapeyron relation say this implies?"
+    options:
+      - "That water's enthalpy of fusion is negative, unlike other substances"
+      - "That liquid water has lower entropy than ice, reversing the sign of the slope"
+      - "That the volume change on melting is negative — liquid water is denser than ice — so dP/dT = ΔH/(TΔV) comes out negative"
+      - "That water's triple point lies below atmospheric pressure, which inverts the diagram"
+    answer: 2
+    explanation: "ΔH_fus is positive for every substance, so the sign of dP/dT is set entirely by ΔV, and water's open hydrogen-bonded ice structure makes ΔV negative on melting."
+---
+
+## The thermometer that refuses to move
+
+Put a pot of crushed ice and water on a burner, drop a thermometer in, and turn the heat all the way up. Then watch the thermometer.
+
+It reads 0 °C. A minute later it still reads 0 °C. Five minutes, ten minutes — the burner is roaring, the pot is absorbing hundreds of joules every second, and the number does not budge. Only when the last visible sliver of ice disappears does the reading finally start to climb. Then it races up to 100 °C in a couple of minutes and stops again, dead, for a long time while the pot boils dry.
+
+Something is wrong with the naive picture of heating. We usually imagine energy in and temperature up, roughly in proportion. Here energy is going in at full blast and temperature is doing nothing at all. The joules are not vanishing — energy is conserved — so they must be buying something other than speed.
+
+They are. Temperature measures the *average kinetic energy* of the molecules. But a molecule in a solid also carries **potential energy**, sitting in a well dug by its attraction to its neighbours. To melt the solid you have to lift every molecule partway out of that well. That lifting costs energy, and it does not make anything move faster. It is the thermodynamic equivalent of pushing a boulder uphill: real work, no gain in speed.
+
+That is what a phase transition is. Not a gradual softening, but a sharp reorganisation of matter that has to be paid for in full before the temperature can move again.
+
+## Three ways to be a substance
+
+Start from the molecules and the three familiar phases fall out of a single competition: attraction versus thermal jostling.
+
+- **Solid.** Attraction wins outright. Each molecule is pinned to a site in a repeating lattice and can only vibrate about it. Both position and orientation are fixed; the material has a definite shape and a definite volume.
+- **Liquid.** Attraction and jostling are roughly matched. Molecules are still in contact — a liquid is nearly as dense as its solid — but they have enough energy to slide past their neighbours and swap places. Definite volume, no definite shape.
+- **Gas.** Jostling wins outright. Molecules fly free, interacting only in brief collisions, and the average separation is ten times larger, so the density drops by a factor of about a thousand. Neither shape nor volume of its own.
+
+Notice what changes at each step. Melting costs relatively little energy because the molecules stay in contact — you are only unlocking their arrangement, not pulling them apart. Vaporising costs a great deal more, because you must separate every molecule from every neighbour against the full strength of the attraction. For water the numbers are $334\ \mathrm{J\,g^{-1}}$ to melt and $2260\ \mathrm{J\,g^{-1}}$ to boil: nearly seven times as much. That ratio is not a quirk of water; it is a statement about how much of the intermolecular bonding survives melting.
+
+There is a matching entropy story, and it is the same story told in different units. A solid has very few ways to arrange itself, a liquid has many more, a gas has an enormous number. Every phase transition on heating is a jump to a state with more microscopic arrangements available — which is exactly the currency of [entropy and the second law](/articles/entropy-and-the-second-law). Hold that thought; it is about to decide *where* the transitions happen.
+
+## Watching the plateaus appear
+
+<PhaseTransitionAnimation />
+
+The box on the left holds one gram of water, starting as ice at −30 °C. The burner underneath adds energy at a steady rate; the plot on the right records the temperature against the total energy delivered so far. The bar under the box tracks latent heat as it accumulates.
+
+**Press heat and watch the first stretch.** The molecules stay on their lattice sites — the pale rings mark where each one is anchored — and they vibrate harder and harder as the temperature climbs. Energy in, temperature up, exactly as intuition expects. Sixty-three joules gets you from −30 °C to 0 °C.
+
+**Now watch what happens at 0 °C.** The curve goes flat and stays flat for a long stretch — five times longer than everything before it. In the box, molecules start leaving their lattice sites one by one and joining the disordered pool at the bottom. Look carefully at how fast they are moving as they do it: **they do not speed up.** The escapees drift at exactly the same speed as the ones still locked in place, because the temperature has not changed. All 334 joules go into breaking the lattice, and the gold bar fills as they do.
+
+**Let it run to 100 °C.** The liquid heats, the curve climbs again, and then hits the second plateau — the long one. It takes 2260 joules to boil that same gram, so this plateau is nearly seven times wider than the melting one. Again, watch the speeds: molecules leaving the liquid do not accelerate as they enter the vapour. What changes is not how fast they move but *how far apart they get*. Latent heat of vaporisation is the bill for that separation.
+
+**Try turning the burner down.** Every plateau gets longer in wall-clock time, but the plot is unchanged — the same 334 and 2260 joules are required either way. Latent heat is a property of the substance, not of how impatiently you heat it.
+
+## Counting the joules
+
+The bookkeeping splits cleanly into two kinds of heating.
+
+Inside a phase, adding heat raises the temperature, and the constant of proportionality is the specific heat capacity $c$:
+
+$$q = m\,c\,\Delta T$$
+
+At a transition, adding heat converts material without changing the temperature at all, and the constant of proportionality is the **latent heat** (specific enthalpy of transition) $L$:
+
+$$q = m\,L$$
+
+There is no $\Delta T$ in that second equation, and that absence is the whole phenomenon. The word *latent* — hidden — was Joseph Black's, coined in Glasgow in the 1760s precisely because the heat goes in and the thermometer conceals it.
+
+Putting the two together lets you price the whole heating curve you just watched, for one gram of water from ice at −30 °C to steam at 140 °C:
+
+$$\underbrace{2.09 \times 30}_{62.7} + \underbrace{334}_{\text{melt}} + \underbrace{4.18 \times 100}_{418} + \underbrace{2260}_{\text{boil}} + \underbrace{2.01 \times 40}_{80.4} \;=\; 3155\ \mathrm{J}$$
+
+Over eighty percent of that total is latent heat. Two segments of the journey where the temperature does nothing consume four times more energy than the three where it does everything.
+
+### Why the transition happens exactly where it does
+
+Latent heat tells you the price. It does not tell you the temperature at which the sale takes place. For that you need the free energy.
+
+At constant temperature and pressure, the phase that a substance actually adopts is the one with the lower **Gibbs free energy**,
+
+$$G = H - TS$$
+
+and a process runs spontaneously only if it lowers $G$. For the melting transition,
+
+$$\Delta G = \Delta H - T\Delta S$$
+
+where $\Delta H = L_{\text{fus}}$ is the enthalpy of fusion (positive — melting absorbs heat) and $\Delta S$ is the entropy of fusion (also positive — the liquid is more disordered). The two terms therefore fight each other, and the referee is $T$:
+
+- **Below $T_m$:** the $T\Delta S$ term is small, $\Delta H$ dominates, and $\Delta G > 0$. Melting is uphill; the solid is stable. Enthalpy wins — the bonds are worth keeping.
+- **Above $T_m$:** $T$ has grown enough that $T\Delta S$ exceeds $\Delta H$, so $\Delta G < 0$. Melting is downhill; the liquid is stable. Entropy wins — disorder is worth more than the bonds.
+- **Exactly at $T_m$:** the two are equal, $\Delta G = 0$, and neither phase is preferred. Solid and liquid coexist in any proportion, indefinitely, at one temperature.
+
+That last line is the answer to why the plateau exists. The melting point is not a place where the solid gets weak; it is the single temperature at which the two phases are exactly tied in free energy. Setting $\Delta G = 0$ gives it directly:
+
+$$T_m = \frac{\Delta H_{\text{fus}}}{\Delta S_{\text{fus}}}$$
+
+For ice, $\Delta H_{\text{fus}} = 6.01\ \mathrm{kJ\,mol^{-1}}$ and $\Delta S_{\text{fus}} = 22.0\ \mathrm{J\,mol^{-1}K^{-1}}$, and the quotient is $273\ \mathrm{K}$. Strong bonds push a melting point up; a large disorder gain on melting pulls it down. Both numbers are properties of the substance, which is why every pure material has its own sharp melting point — and why measuring one is a classic purity test.
+
+While the two phases coexist, adding heat cannot raise $T$, because raising $T$ would immediately make the liquid the strictly favoured phase and the system would simply convert more solid instead. The system pins itself to the tie point until it runs out of one phase. That is the plateau, derived rather than observed.
+
+### Sliding the transition with pressure
+
+Free energy depends on pressure too, so squeezing a substance moves its transition temperatures. The exact statement is the **Clausius–Clapeyron relation**, which gives the slope of any coexistence line on a pressure–temperature plot:
+
+$$\frac{dP}{dT} = \frac{\Delta H}{T\,\Delta V}$$
+
+Here $\Delta H$ and $\Delta V$ are the enthalpy and volume changes for the transition. It is worth reading the equation as a rule about signs. $\Delta H$ is positive for melting, boiling, and subliming — all three absorb heat — and $T$ is positive. So **the sign of the slope is the sign of $\Delta V$ alone.**
+
+For boiling, $\Delta V$ is huge and positive (a gas is a thousand times less dense than its liquid), so $dP/dT$ is positive and, because $\Delta V \approx RT/P$ for an ideal vapour, the relation integrates to the familiar exponential form
+
+$$\ln P \;=\; -\frac{\Delta H_{\text{vap}}}{RT} + \text{const}$$
+
+This is why boiling point falls with altitude: at the 3,600 m of Lhasa the pressure is about 0.64 atm and water boils near 87 °C, which is why cooking times there are notoriously long. It is also why a pressure cooker works, running at 2 atm and about 120 °C.
+
+For melting, $\Delta V$ is normally small and positive — most solids are denser than their melts — so melting lines are steep and lean slightly to the right. Water is the famous exception, and the next widget is where to see it.
+
+## Mapping every phase at once: the phase diagram
+
+<PhaseDiagramAnimation />
+
+This is a pressure–temperature map. Every point is a combination of $P$ and $T$; the shading and the live readout tell you which phase is stable there, and the inset box shows what the molecules are doing. Drag the dot anywhere. Pressure runs on a logarithmic axis, which is the only way to fit a triple point at 611 Pa and a critical point at 22 MPa on the same picture.
+
+**Start on water and follow the 1 atm dashed line from left to right.** You cross the melting line at 273 K and the vaporisation line at 373 K — the two plateaus you watched earlier are exactly these two crossings. A heating curve is a horizontal traverse of the phase diagram, and the flat stretches are the moments you spend sitting on a boundary line.
+
+**Drop the pressure to a few hundred pascals and traverse again.** Now you cross a single line, from solid straight to gas. There is no liquid at all: below the triple-point pressure the liquid region does not exist. That is sublimation, and it is why freeze-drying works and why frost disappears from a windscreen on a cold dry morning without ever becoming wet.
+
+**Land exactly on the gold dot.** The **triple point** is where all three coexistence lines meet, and it is a single point — one temperature, one pressure, no freedom at all. For water it is 273.16 K and 611.657 Pa. That reproducibility is why the kelvin was defined by water's triple point from 1954 until the 2019 SI redefinition.
+
+**Now follow the vaporisation line up and to the right.** It does not go on forever. It stops, at the green **critical point** — 647.096 K and 22.064 MPa for water. Past it, the liquid–gas distinction ceases to exist. Approaching the critical point the liquid expands and the vapour compresses until their densities become equal, the meniscus between them fades and vanishes, and beyond it you have a **supercritical fluid**: something with the density of a liquid and the diffusivity of a gas. Note the asymmetry — the solid–liquid line has no critical point, and never terminates. You can always tell a crystal from a liquid, because they differ in symmetry rather than merely in density, and symmetry is either present or absent.
+
+**Finally, switch to CO₂ and compare.** Its triple point is at 216.58 K and 517.95 kPa — over five atmospheres. Follow the 1 atm line and you pass *below* the triple point, so solid CO₂ goes straight to gas: dry ice has no liquid phase at ordinary pressure, which is precisely what makes it useful. Its critical point is unusually accessible at 304.13 K and 7.377 MPa — barely above room temperature — which is why supercritical CO₂ is the industrial solvent of choice for decaffeinating coffee and extracting hops.
+
+### The line that leans the wrong way
+
+Toggle between CO₂ and water and watch only the solid–liquid line.
+
+For CO₂ it tilts to the right: squeeze it and it becomes harder to melt, so the melting point rises. That is the ordinary behaviour of essentially every substance, and Clausius–Clapeyron says why — solid CO₂ is denser than liquid CO₂, so $\Delta V > 0$ on melting and $dP/dT > 0$. Running the numbers with $\Delta H_{\text{fus}} = 9.02\ \mathrm{kJ\,mol^{-1}}$ and $\Delta V = +9.1\ \mathrm{cm^3\,mol^{-1}}$ gives $+4.6\ \mathrm{MPa\,K^{-1}}$.
+
+For water it tilts to the **left**. Squeeze ice and it melts. This is genuinely anomalous, and it comes from hydrogen bonding. Each water molecule has two donors and two acceptors, so in ice I the molecules lock into a tetrahedral network — an open, hexagonal cage with conspicuous empty space inside it. That cage is what makes snowflakes six-sided. It is also a *bad* way to pack, and when ice melts the network partly collapses and the molecules fall into the gaps. Liquid water is about 9 % **denser** than ice, and denser still at 4 °C. So $\Delta V < 0$ on melting, and the slope inverts:
+
+$$\frac{dP}{dT} = \frac{6010\ \mathrm{J\,mol^{-1}}}{273.16\ \mathrm{K} \times (-1.63 \times 10^{-6}\ \mathrm{m^3\,mol^{-1}})} \approx -13.5\ \mathrm{MPa\,K^{-1}}$$
+
+Read that as a temperature shift: you must apply about 13.5 megapascals — 133 atmospheres — to drag water's melting point down by a single kelvin. It is a real effect and a small one, which is worth knowing because it is routinely oversold. The old story that ice skates glide because the blade's pressure melts the ice does not survive the arithmetic: a skater's blade generates a few hundred atmospheres at most, worth a degree or two, nowhere near enough on a −10 °C rink. The modern explanation is a premelted layer of quasi-liquid water that exists on any ice surface regardless of pressure, plus frictional heating from the blade itself.
+
+The consequence that does matter is the one you can see from any bridge in winter: **ice floats.** Because the solid is less dense than the liquid, lakes freeze from the top down. A floating ice sheet then insulates the water beneath it, and the lake keeps a liquid interior through the winter. Had ice been denser, as nearly every other solid is, it would sink as it formed, lakes would freeze solid from the bottom up, and freshwater ecosystems in temperate climates would be far more fragile. An entropy-driven sign flip in one term of the Clausius–Clapeyron equation, and the biology of a continent changes.
+
+## Beyond solid, liquid, gas
+
+The framework generalises well past the three phases you can see in a pot.
+
+- **Order parameters and universality.** The modern language treats a transition as the appearance of an *order parameter* — density difference for liquid–gas, magnetisation for a ferromagnet, the wavefunction amplitude for a superfluid. Transitions that absorb latent heat (melting, boiling) are called first-order; those that do not, where the order parameter grows continuously from zero, are second-order or continuous. Remarkably, wildly different systems share identical critical exponents near their critical points, a fact called universality.
+- **Superconductors.** Cooling a metal through its critical temperature is a genuine thermodynamic phase transition to a distinct phase of matter, complete with a jump in heat capacity — see [superconductivity](/articles/superconductivity). In zero magnetic field it is second-order, with no latent heat at all; apply a field and it becomes first-order and does release latent heat. Same substance, same transition, different order depending on conditions.
+- **Metallurgy runs on this.** Steel is a phase-transition technology. Quenching hot austenite fast enough to prevent the equilibrium transformation traps it in martensite, a hard, distorted phase; tempering then partially relaxes it. Every property of the finished blade is set by which phases were allowed to form and how fast.
+- **Weather is latent heat in transit.** Evaporating a kilogram of seawater stores 2.26 MJ. That energy is carried aloft as vapour and released when the vapour condenses, which is what powers thunderstorms and, at scale, hurricanes. The same figure explains sweat: evaporating it pulls the latent heat directly out of your skin.
+- **The Earth's core, and materials at pressure.** Water alone has at least eighteen crystalline ice phases at high pressure, and the iron in Earth's inner core is solid at 5,700 K only because 330 GPa has pushed its melting line that far up. Extend the phase diagram far enough and it stops being a chemistry-lab curiosity and becomes planetary science.
+
+The common thread is the one you saw the moment the thermometer stalled: matter reorganises at sharply defined conditions, the reorganisation has an energy price, and the price is paid in a currency that a thermometer cannot see.
+
+<KeyTakeaways>
+- During a phase change, added energy raises molecular **potential** energy rather than kinetic energy, so the temperature holds flat — that is latent heat, $q = mL$, and it is why heating curves have plateaus.
+- Vaporisation costs far more than fusion ($2260$ versus $334\ \mathrm{J\,g^{-1}}$ for water) because melting only unlocks the arrangement while boiling separates every molecule from all its neighbours.
+- A transition happens at the one temperature where the two phases are tied in free energy: $\Delta G = \Delta H - T\Delta S = 0$, giving $T_m = \Delta H/\Delta S$ — enthalpy favours the ordered phase, entropy the disordered one, and $T$ decides.
+- On a phase diagram, coexistence lines meet at the **triple point** (one fixed $P$ and $T$) and the liquid–gas line ends at the **critical point**, beyond which liquid and gas become indistinguishable. The solid–liquid line never ends, because symmetry cannot fade gradually.
+- Clausius–Clapeyron, $dP/dT = \Delta H/(T\Delta V)$, makes the slope's sign the sign of $\Delta V$. Water's open hydrogen-bonded ice is less dense than its liquid, so its melting line leans backwards — ice floats, and lakes freeze from the top down.
+</KeyTakeaways>

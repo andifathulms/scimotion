@@ -111,6 +111,8 @@ import {
   PeriodicTrendsAnimation,
   ReynoldsAnimation,
   LaminarTurbulentAnimation,
+  PhaseTransitionAnimation,
+  PhaseDiagramAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -208,6 +210,8 @@ const components = {
   PeriodicTrendsAnimation,
   ReynoldsAnimation,
   LaminarTurbulentAnimation,
+  PhaseTransitionAnimation,
+  PhaseDiagramAnimation,
   KeyTakeaways,
 }
 
