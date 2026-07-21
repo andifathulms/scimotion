@@ -13,7 +13,7 @@ export const learningPaths: LearningPath[] = [
     title: 'Calculus & Transforms',
     description:
       'From rotating complex numbers to approximating any function and decomposing any signal — the analytic backbone of modern math.',
-    articleSlugs: ['eulers-formula', 'taylor-series', 'newtons-method', 'gradient-descent', 'eigenvectors-and-eigenvalues', 'fourier-transform'],
+    articleSlugs: ['the-derivative', 'eulers-formula', 'taylor-series', 'newtons-method', 'gradient-descent', 'eigenvectors-and-eigenvalues', 'fourier-transform'],
   },
   {
     slug: 'algorithms-and-computation',

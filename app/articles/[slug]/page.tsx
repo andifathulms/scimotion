@@ -87,6 +87,8 @@ import {
   SATReductionAnimation,
   NashEquilibriumAnimation,
   EvolutionaryGameAnimation,
+  DerivativeAnimation,
+  DerivativeFunctionAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -160,6 +162,8 @@ const components = {
   SATReductionAnimation,
   NashEquilibriumAnimation,
   EvolutionaryGameAnimation,
+  DerivativeAnimation,
+  DerivativeFunctionAnimation,
   KeyTakeaways,
 }
 

@@ -350,3 +350,13 @@ export const EvolutionaryGameAnimation = dynamic(
   () => import('@/components/animations/EvolutionaryGameAnimation').then(m => ({ default: m.EvolutionaryGameAnimation })),
   { ssr: false }
 )
+
+export const DerivativeAnimation = dynamic(
+  () => import('@/components/animations/DerivativeAnimation').then(m => ({ default: m.DerivativeAnimation })),
+  { ssr: false }
+)
+
+export const DerivativeFunctionAnimation = dynamic(
+  () => import('@/components/animations/DerivativeFunctionAnimation').then(m => ({ default: m.DerivativeFunctionAnimation })),
+  { ssr: false }
+)

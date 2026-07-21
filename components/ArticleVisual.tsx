@@ -958,6 +958,23 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'the-derivative': c => {
+    // A cubic with a secant (mute) collapsing toward the tangent (gold) at the point.
+    const y = (x: number) => { const t = (x - 150) / 70; return Math.round((62 + 28 * ((t * t * t) / 3 - t)) * 100) / 100 }
+    const curve = Array.from({ length: 61 }, (_, i) => { const x = i * 5; return `${x},${y(x)}` }).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={62} x2={300} y2={62} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={60} y1={77.7} x2={270} y2={41} stroke={MUTE} strokeWidth={1.25} />
+        <line x1={60} y1={98} x2={240} y2={26} stroke={GOLD} strokeWidth={1.75} />
+        <line x1={150} y1={62} x2={241} y2={62} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <line x1={241} y1={62} x2={241} y2={46.11} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={241} cy={46.11} r={3} fill={MUTE} />
+        <circle cx={150} cy={62} r={4} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
