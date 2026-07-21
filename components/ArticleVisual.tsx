@@ -975,6 +975,52 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'halting-problem': c => {
+    // Machines (rows) vs inputs (columns). The diagonal is highlighted, and the
+    // contrarian row D below it flips every diagonal entry — so D can equal no row.
+    const h = (i: number, j: number) => (i * i + 3 * i * j + 5 * j + 2) % 7 < 4
+    const cx = (j: number) => 36 + j * 24
+    const ry = (i: number) => 14 + i * 21
+    const mark = (key: string, x: number, y: number, halts: boolean, color: string) =>
+      halts
+        ? <circle key={key} cx={x + 10} cy={y + 9} r={3} fill={color} />
+        : <line key={key} x1={x + 5} y1={y + 9} x2={x + 15} y2={y + 9} stroke={color} strokeWidth={1.5} />
+    const cells: ReactNode[] = []
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        const x = cx(j), y = ry(i), diag = i === j
+        cells.push(
+          <rect key={`r${i}${j}`} x={x} y={y} width={20} height={18}
+            fill={diag ? `${GOLD}26` : FAINT} stroke={diag ? GOLD : FAINT} strokeWidth={diag ? 1 : 0.5} />
+        )
+        cells.push(mark(`m${i}${j}`, x, y, h(i, j), diag ? GOLD : c))
+      }
+      cells.push(<text key={`p${i}`} x={10} y={ry(i) + 13} fontSize={7} fill={MUTE} fontFamily="monospace">P{i + 1}</text>)
+      cells.push(<text key={`c${i}`} x={cx(i) + 4} y={10} fontSize={6} fill={MUTE} fontFamily="monospace">in{i + 1}</text>)
+    }
+    const drow: ReactNode[] = []
+    for (let j = 0; j < 4; j++) {
+      const x = cx(j)
+      drow.push(<rect key={`dr${j}`} x={x} y={100} width={20} height={18} fill={`${c}22`} stroke={c} strokeWidth={1} />)
+      drow.push(mark(`dm${j}`, x, 100, !h(j, j), c))
+    }
+    return (
+      <g>
+        {cells}
+        <text x={130} y={52} fontSize={9} fill={MUTE} fontFamily="monospace">…</text>
+        <line x1={8} y1={96} x2={132} y2={96} stroke={FAINT} strokeWidth={0.5} />
+        {drow}
+        <text x={10} y={113} fontSize={8} fill={c} fontFamily="monospace">D</text>
+        <text x={130} y={113} fontSize={9} fill={MUTE} fontFamily="monospace">…</text>
+        <text x={150} y={30} fontSize={7} fill={MUTE} fontFamily="monospace">assume HALTS exists</text>
+        <text x={150} y={48} fontSize={7} fill={GOLD} fontFamily="monospace">flip the diagonal</text>
+        <text x={150} y={62} fontSize={7} fill={c} fontFamily="monospace">D differs from row k</text>
+        <text x={150} y={72} fontSize={7} fill={c} fontFamily="monospace">at column k</text>
+        <text x={150} y={92} fontSize={7} fill={MUTE} fontFamily="monospace">so D is in no row</text>
+        <text x={150} y={108} fontSize={8} fill={GOLD} fontFamily="monospace">HALTS cannot exist</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

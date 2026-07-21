@@ -89,6 +89,8 @@ import {
   EvolutionaryGameAnimation,
   DerivativeAnimation,
   DerivativeFunctionAnimation,
+  HaltingProblemAnimation,
+  TerminationAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -164,6 +166,8 @@ const components = {
   EvolutionaryGameAnimation,
   DerivativeAnimation,
   DerivativeFunctionAnimation,
+  HaltingProblemAnimation,
+  TerminationAnimation,
   KeyTakeaways,
 }
 

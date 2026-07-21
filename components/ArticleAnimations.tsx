@@ -360,3 +360,13 @@ export const DerivativeFunctionAnimation = dynamic(
   () => import('@/components/animations/DerivativeFunctionAnimation').then(m => ({ default: m.DerivativeFunctionAnimation })),
   { ssr: false }
 )
+
+export const HaltingProblemAnimation = dynamic(
+  () => import('@/components/animations/HaltingProblemAnimation').then(m => ({ default: m.HaltingProblemAnimation })),
+  { ssr: false }
+)
+
+export const TerminationAnimation = dynamic(
+  () => import('@/components/animations/TerminationAnimation').then(m => ({ default: m.TerminationAnimation })),
+  { ssr: false }
+)

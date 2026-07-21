@@ -1,0 +1,186 @@
+---
+title: "The Halting Problem"
+subtitle: "Some problems are not hard. They are impossible, and no machine ever built will change that."
+topic: "Computer Science"
+slug: "halting-problem"
+date: "2026-07-09"
+readTime: 10
+featured: false
+description: "Why no program can decide whether another program halts, how Turing's diagonal argument proves it, and what undecidability means for the tools that check your code."
+tags: ["computability", "turing", "undecidability", "theory"]
+quiz:
+  - q: "What exactly does the halting problem being undecidable rule out?"
+    options:
+      - "That any individual program can ever be proved to terminate"
+      - "That a single algorithm exists which, given any program and input, always answers correctly whether it halts"
+      - "That halting can be checked in polynomial time, though exponential algorithms exist"
+      - "That programs written in Turing-complete languages can be analysed at all"
+    answer: 1
+    explanation: "The theorem forbids one universal decider for all cases; proving termination of specific programs is routine and happens every day."
+  - q: "In Turing's proof, what does the contrarian program D actually do?"
+    options:
+      - "It runs forever on every input, so HALTS can never finish analysing it"
+      - "It asks HALTS what it will do on its own description and then does the opposite, making both possible answers false"
+      - "It simulates every other program in parallel until one of them halts"
+      - "It rewrites its own source code so HALTS is analysing a stale version"
+    answer: 1
+    explanation: "D consults HALTS about itself and inverts the prediction, so HALTS is wrong either way — which means HALTS cannot exist."
+  - q: "How does undecidability differ from NP-completeness?"
+    options:
+      - "Undecidable problems need exponential time; NP-complete problems need polynomial time"
+      - "NP-complete problems have algorithms that always terminate with the right answer but may take infeasible time; undecidable problems have no such algorithm at all"
+      - "They are the same notion under different names, one used for search and one for decision problems"
+      - "Undecidable problems become decidable given enough memory, while NP-complete ones do not"
+    answer: 1
+    explanation: "Brute force solves any NP-complete instance eventually, but no procedure whatsoever decides an undecidable problem, no matter how long you wait."
+---
+
+## The tool that would be worth everything
+
+Imagine a linter with one extra check. You point it at a function, it thinks for a moment, and it tells you: *this returns on every input*, or *this hangs on some input*. Not a guess. Not a timeout heuristic. A guaranteed, always-correct answer.
+
+The value would be hard to overstate. No more production deadlocks. No more infinite retry loops burning a cloud bill overnight. No more regex that runs in microseconds on your test strings and takes geological time on the one a user actually typed. Compilers could reject non-terminating code the way they reject type errors today.
+
+Nobody has built it because nobody can. Not with more clever engineering, not with a bigger model, not with a quantum computer, not with a machine the size of the observable universe running until the stars burn out. In 1936 Alan Turing proved that such a program cannot exist — for any programming language, on any hardware, ever.
+
+That is a strange kind of claim, and it is worth being precise about what it does and does not say. This article is the sibling of [P vs NP](/articles/p-vs-np), which is about problems that are *hard*. This one is about a problem that is *impossible*, and the difference between those two words is the whole subject.
+
+## What "deciding" means
+
+The word doing the work is **decide**.
+
+A *decision problem* is a yes/no question about an input string. An algorithm **decides** that problem if, for every possible input, it (i) halts, and (ii) gives the correct answer. Both conditions matter, and the first is the one people skip past.
+
+Consider the obvious attempt at a halting checker: simulate the program and see what happens. If it stops, report *halts*. This is a perfectly good algorithm and it is completely correct on every input where it answers. But on a program that loops forever, the simulator loops forever too, and never answers anything. That is not a decider. It is a **semi-decider** — it recognizes the halting cases and stays silent on the rest.
+
+Write $\text{HALT}$ for the set of pairs we care about:
+
+$$\text{HALT} = \{\,\langle P, x\rangle : \text{program } P \text{ halts on input } x\,\}$$
+
+The simulator shows $\text{HALT}$ is *recognizable* (also called recursively enumerable): there is a machine that accepts exactly the members of the set, and runs forever on non-members. Turing's theorem is that it is not **decidable**: there is no machine that always halts and always answers correctly. The gap between "recognizable" and "decidable" is exactly the gap between a simulator and the linter check you wanted.
+
+One more piece of setup, and it is the one that makes the trick possible. A program is just a string of symbols, so a program can be handed *another program* as input — that is all a compiler, interpreter, or debugger does. And nothing stops you from handing a program **its own source code**. `gcc` can compile `gcc`. This self-application is not a paradox or a cheat; it is ordinary, everyday computing. It is also the crack the proof opens up.
+
+## The proof: assume it exists, then break it
+
+Suppose, for contradiction, that a decider exists. Call it $H$:
+
+$$H(\langle P\rangle, x) = \begin{cases} \texttt{true} & \text{if } P \text{ halts on } x \\ \texttt{false} & \text{if } P \text{ runs forever on } x\end{cases}$$
+
+$H$ always terminates and is never wrong. That is the assumption, and everything below follows from it.
+
+Now write a new program $D$, using $H$ as a subroutine. $D$ takes a single argument: the source code of some program.
+
+```
+D(source):
+    if H(source, source) == true:
+        loop forever
+    else:
+        return
+```
+
+$D$ is not exotic. It calls a function we assumed exists, branches on the result, and either returns or spins. If $H$ can be written, $D$ can be written — it is five lines longer.
+
+Now feed $D$ its own source code and ask what happens.
+
+- **Suppose $D(\langle D\rangle)$ halts.** Then $H(\langle D\rangle, \langle D\rangle)$ returned `true`, because $H$ is never wrong. But look at the code: when $H$ returns `true`, $D$ enters the infinite loop. So $D(\langle D\rangle)$ does not halt. Contradiction.
+- **Suppose $D(\langle D\rangle)$ runs forever.** Then $H(\langle D\rangle, \langle D\rangle)$ returned `false`. But when $H$ returns `false`, $D$ immediately returns. So $D(\langle D\rangle)$ halts. Contradiction.
+
+Both branches are impossible, and there is no third option — a computation either halts or it does not. The only step that could be wrong is the assumption we started from. **$H$ does not exist.**
+
+Notice what the proof never mentions: running time, memory, hardware, language, cleverness. It is not saying $H$ is expensive. It is saying $H$ is logically inconsistent, the same way a barber who shaves exactly those men who do not shave themselves is inconsistent.
+
+## Seeing it as a diagonal
+
+Turing's argument is a direct descendant of Cantor's 1891 proof that the real numbers are uncountable, and the resemblance is worth making visual.
+
+<HaltingProblemAnimation />
+
+Step through it. The table starts as the world where $H$ exists: rows are programs, columns are inputs, and every cell is filled in with a definite `halt` or `loop` because $H$ can compute it. Since programs are finite strings, they can be listed $P_1, P_2, P_3, \dots$ — so *every* program is somewhere in this table as a row.
+
+Now watch the diagonal light up on step two. Cell $(i, i)$ is what program $P_i$ does when fed its own description. Step three builds row $D$ by flipping every diagonal entry: wherever the diagonal says `halt`, $D$ says `loop`, and vice versa.
+
+The payoff is the walk through steps four onward. Ask whether $D$ could be $P_1$: check column 1, where they were built to disagree. Could it be $P_2$? Check column 2 — disagree again. The point is not that $D$ happens to miss each row; it is that $D$ was *constructed* to differ from row $k$ precisely at column $k$, so the mismatch is guaranteed for every $k$ at once, all the way down an infinite table. And yet $D$ is a program, so it must be one of the rows. The table cannot contain it and cannot fail to contain it.
+
+Cantor ran the identical move on decimal expansions: list the reals in $[0,1]$, flip the $k$-th digit of the $k$-th number, and the resulting number differs from every entry. Turing's insight was that programs are also enumerable, that the "digits" are halt/loop behaviours, and that the flipped row is not just a mathematical object but a *program you can actually write* — provided $H$ exists. Since the flipped row cannot exist, neither can $H$.
+
+## Undecidable is not the same as hard
+
+This is where people most often conflate two very different things, so it is worth stating the contrast head-on.
+
+An **NP-complete** problem like SAT is *hard*. But an algorithm for it exists: enumerate all $2^n$ assignments and check each one. That algorithm is correct, and it always terminates. For $n = 30$ it finishes over lunch. For $n = 300$ it needs longer than the universe has existed — but that is a statement about resources. Faster hardware genuinely helps; doubling your machine speed buys you one more variable. A polynomial algorithm for SAT might exist and nobody has ruled it out.
+
+An **undecidable** problem is not on that scale at all. There is no algorithm. Not a slow one, not an exponential one, not one that needs a galaxy of memory. Waiting longer does not help, because there is nothing to wait for.
+
+| | NP-complete (e.g. SAT) | Undecidable (e.g. HALT) |
+|---|---|---|
+| Algorithm exists? | Yes, brute force | No, provably |
+| Always terminates? | Yes | — |
+| Barrier | Resources | Logic |
+| Does faster hardware help? | Marginally | Not at all |
+| Open question? | Whether it's in P | No — settled since 1936 |
+
+A useful reflex: **NP-hardness is a claim about cost; undecidability is a claim about existence.** P vs NP is still open after fifty years. The halting problem was closed the year it was posed.
+
+There is also a hierarchy above this one. HALT is undecidable but *recognizable*. Its complement — "does $P$ run forever on $x$?" — is not even recognizable, since a set and its complement both being recognizable would make the set decidable. And there are problems strictly harder than HALT: even given an oracle that answers halting questions for free, the halting problem *for machines with that oracle* is undecidable, by exactly the same diagonal argument. Impossibility comes in infinitely many degrees.
+
+## Rice's theorem: it is not just halting
+
+You might hope halting is a one-off pathology and that other questions about program behaviour are safe. They are not.
+
+Henry Rice proved in 1951 that **every non-trivial semantic property of programs is undecidable**. Unpacking the terms:
+
+- *Semantic* means the property is about what the program **does** — its input/output behaviour — not about how it is written. "Contains more than 400 tokens" is syntactic and trivially decidable. "Computes the identity function" is semantic.
+- *Non-trivial* means some programs have the property and some do not. If every program has it, the decider is `return true`.
+
+The consequence: there is no general algorithm to decide whether a program ever throws, whether it ever dereferences null, whether two programs compute the same function, whether a variable is ever used, whether some line is reachable, whether output is always non-empty, or whether it is malware by behaviour. Every one of these is a non-trivial statement about behaviour, and Rice's theorem sweeps them all up at once.
+
+The proof technique is the same lever every time: **reduction**. To show a property $Q$ is undecidable, show that a decider for $Q$ would give you a decider for HALT. Take an arbitrary pair $\langle P, x\rangle$ and mechanically build a program $P'$ that first runs $P$ on $x$ and only then does the thing $Q$ asks about. Then $P'$ has property $Q$ exactly when $P$ halts on $x$ — so deciding $Q$ would decide halting, which is impossible. Undecidability spreads by contagion.
+
+## What the correction is
+
+Here is the misconception that trips people up, and it is worth writing plainly.
+
+**The halting problem does not say we can never prove a program terminates.**
+
+It says no *single* algorithm decides halting for *all* programs. Those are wildly different statements. Termination proofs for particular programs are routine: a `for` loop over a fixed array terminates, and you know it. Recursion on a strictly decreasing non-negative integer terminates, and you can prove it in a line. Total languages like Coq, Agda, and Dhall accept only programs that provably terminate, by restricting what you can write.
+
+So the practical response is not despair. It is to build analysers that are allowed a third answer.
+
+<TerminationAnimation />
+
+Three programs run side by side against a shared step budget. Program A has a bounded loop; the analyser does not simulate it at all, it exhibits a *ranking function* — a quantity that strictly decreases toward a floor — and reports `HALTS` before the first step executes. Program B's loop condition is the literal `true` with no `break`, so the control-flow graph has no exit edge and the answer is `LOOPS`, also without running anything.
+
+Program C is the interesting one. It searches for a counterexample to the Collatz conjecture: for $n = 1, 2, 3, \dots$ it runs the map
+
+$$n \mapsto \begin{cases} n/2 & n \text{ even} \\ 3n+1 & n \text{ odd}\end{cases}$$
+
+and stops only if some $n$ never reaches 1. This program halts if and only if the Collatz conjecture is false. Nobody knows whether it does.
+
+Now do the thing the widget is built for: drag the step budget up. From a hundred steps to a million, watch A and B stay decided while the counter under C climbs — thousands of values of $n$ cleared, and the verdict still `UNKNOWN`. That is the shape of the whole field. The budget buys you *evidence*, and evidence is not a decision. Push it to $10^{20}$ and you would still have `UNKNOWN`, because there is no budget at which "no counterexample yet" becomes "no counterexample".
+
+Note also that this program is a single, concrete program — not an infinite family. Undecidability is not some distant asymptotic phenomenon. It is already sitting in twelve lines of code you could run tonight.
+
+## What practitioners actually do
+
+The industry's answer to undecidability is to give up on one of the three things a decider promises — always halt, always answer, always be right — and be honest about which one.
+
+**Be conservative and accept false alarms.** Static analysers and type systems keep correctness and termination but drop completeness: they reject some safe programs. A borrow checker refuses code it cannot prove memory-safe, even when it is. A type checker rejects a cast it cannot verify. Every false positive is undecidability being paid for in developer friction — which is exactly why "the compiler is being annoying" is often the compiler being *sound*.
+
+**Be optimistic and accept misses.** Bug finders, fuzzers, and most linters run fast and always answer, but miss real defects. Useful, unsound, and honest about it.
+
+**Answer yes / no / don't know.** Termination checkers like Terminator and AProVE, and program verifiers like Dafny and Frama-C, search for ranking functions and loop invariants. When they find one, you have a proof. When they fail, they say so instead of guessing. This is the shape that matches the theory best, and it is why almost every serious verification tool has a third answer.
+
+**Bound the problem.** Model checkers explore a finite state space exhaustively; bounded model checking asks only about the first $k$ steps. Restricting to a decidable fragment is a legitimate and extremely productive move.
+
+**Change the language.** If the language cannot express non-termination, termination is decidable by construction. This is why total functional languages, and things like eBPF's verifier and Bitcoin Script, deliberately refuse Turing-completeness. Giving up expressive power to buy decidability is a real trade, and often the right one.
+
+The same logic explains why an antivirus can never be perfect (behavioural malware detection is a semantic property), why compilers cannot always optimize away dead code (reachability is undecidable), and why "prove this program has no bugs" is a research programme rather than a build step. Turing's 1936 paper did not just close a question. It drew the outer boundary of the entire discipline, and everything since has been engineering inside it.
+
+<KeyTakeaways>
+- No program can decide, for every program-input pair, whether it halts. The proof assumes such a decider $H$ exists, builds $D$ which asks $H$ about itself and does the opposite, and derives a contradiction from both possible answers.
+- It is the same move as Cantor's diagonal argument: the contrarian row is built to differ from row $k$ at column $k$, so it cannot appear anywhere in a table that must list every program.
+- **Undecidable is not "hard".** [NP-complete](/articles/p-vs-np) problems have correct brute-force algorithms that always terminate and just cost too much; undecidable problems have no algorithm at all, so more time, memory, or hardware buys you nothing.
+- Rice's theorem generalizes it: every non-trivial property of program *behaviour* — throws, terminates, is equivalent to this other program, is malware — is undecidable, and the proofs all work by reducing HALT to the property.
+- The theorem forbids one universal decider, not individual proofs. Termination proofs for specific programs are routine, which is why real tools stay sound and answer **yes / no / don't know** rather than guessing.
+</KeyTakeaways>
