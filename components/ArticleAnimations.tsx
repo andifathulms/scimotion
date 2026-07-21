@@ -460,3 +460,13 @@ export const PeriodicTrendsAnimation = dynamic(
   () => import('@/components/animations/PeriodicTrendsAnimation').then(m => ({ default: m.PeriodicTrendsAnimation })),
   { ssr: false }
 )
+
+export const ReynoldsAnimation = dynamic(
+  () => import('@/components/animations/ReynoldsAnimation').then(m => ({ default: m.ReynoldsAnimation })),
+  { ssr: false }
+)
+
+export const LaminarTurbulentAnimation = dynamic(
+  () => import('@/components/animations/LaminarTurbulentAnimation').then(m => ({ default: m.LaminarTurbulentAnimation })),
+  { ssr: false }
+)

@@ -1292,6 +1292,59 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'fluid-dynamics': c => {
+    // Smooth streamlines part around a cylinder on the left; downstream the wake
+    // rolls up into a staggered von Karman vortex street.
+    const R = (v: number) => Math.round(v * 100) / 100
+    const streams = [10, 22, 34, 46, -10, -22, -34, -46].map(d => {
+      const pts: string[] = []
+      for (let i = 0; i <= 24; i++) {
+        const x = i * 4
+        const t = (x - 110) / 26
+        pts.push(`${x},${R(60 + d + (93 / d) * Math.exp(-t * t))}`)
+      }
+      return pts.join(' ')
+    })
+    const shear = [1, -1].map(s => {
+      const pts: string[] = []
+      for (let i = 0; i <= 43; i++) {
+        const x = 124 + i * 4
+        const u = x - 124
+        pts.push(`${x},${R(60 + s * (10 + 0.05 * u) + s * 3.4 * Math.sin(u / 13))}`)
+      }
+      return pts.join(' ')
+    })
+    const eddies: [number, number, number][] = [
+      [140, 48, 1], [170, 72, -1], [200, 48, 1],
+      [230, 72, -1], [260, 48, 1], [288, 72, -1],
+    ]
+    const spirals = eddies.map(([ex, ey, dir]) => {
+      const pts: string[] = []
+      for (let i = 0; i <= 26; i++) {
+        const t = i * 0.31
+        const r = 1 + 0.62 * t
+        pts.push(`${R(ex + r * Math.cos(t * dir))},${R(ey + r * Math.sin(t * dir))}`)
+      }
+      return pts.join(' ')
+    })
+    return (
+      <g>
+        {streams.map((p, i) => (
+          <polyline key={`s${i}`} points={p} fill="none" stroke={c} strokeWidth={1.25} opacity={0.75} />
+        ))}
+        {shear.map((p, i) => (
+          <polyline key={`w${i}`} points={p} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        ))}
+        {spirals.map((p, i) => (
+          <polyline key={`v${i}`} points={p} fill="none" stroke={i % 2 === 0 ? GOLD : c} strokeWidth={1.5} strokeLinecap="round" />
+        ))}
+        <circle cx={110} cy={60} r={13} fill={FAINT} stroke={MUTE} strokeWidth={1.25} />
+        <line x1={124} y1={14} x2={124} y2={106} stroke={FAINT} strokeWidth={1} />
+        <text x={4} y={16} fill={MUTE} fontSize={8} fontFamily="monospace">laminar</text>
+        <text x={246} y={16} fill={GOLD} fontSize={8} fontFamily="monospace">Re &#8593;</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

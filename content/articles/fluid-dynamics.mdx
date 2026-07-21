@@ -1,0 +1,163 @@
+---
+title: "Turbulence and the Reynolds Number"
+subtitle: "One dimensionless ratio decides whether a fluid glides in ribbons or tears itself into chaos."
+topic: "Physics"
+slug: "fluid-dynamics"
+date: "2026-07-12"
+readTime: 10
+featured: false
+description: "Why candle smoke climbs smoothly and then shatters, how a single number predicts the switch, and why a bacterium swims through water as if it were honey."
+tags: ["turbulence", "reynolds-number", "navier-stokes", "viscosity"]
+quiz:
+  - q: "Two flows are geometrically identical in shape but differ in size, speed, and fluid. Under what condition will they produce the same flow pattern?"
+    options:
+      - "When they have the same flow speed, since speed sets the pattern"
+      - "When their Reynolds numbers match, because Re is the only dimensionless group governing the pattern in this idealised case"
+      - "When they use the same fluid, since viscosity is a material property"
+      - "When their volumetric flow rates are equal"
+    answer: 1
+    explanation: "Dynamic similarity means the pattern depends on the dimensionless ratio rather than on the individual values, which is exactly why scale-model wind-tunnel testing works."
+  - q: "A swimming bacterium is about 1 micrometre long and moves at a few micrometres per second, giving Re around 10^-5. What does that imply about its swimming strategy?"
+    options:
+      - "It can coast between strokes, because inertia carries it forward efficiently"
+      - "Viscous forces dominate so completely that it stops essentially instantly, and a time-reversible stroke produces no net motion"
+      - "It experiences turbulence at very small scales and must fight the resulting eddies"
+      - "It must swim faster than the surrounding water to overcome pressure drag"
+    answer: 1
+    explanation: "At very low Re inertia is negligible, so motion ceases the moment the flagellum stops and only a non-reciprocal stroke can generate net displacement."
+  - q: "In Kolmogorov's picture, energy is fed into turbulence at large scales and dissipated as heat at the smallest ones. What sets the size of those smallest eddies?"
+    options:
+      - "The mean free path between molecules of the fluid"
+      - "The scale at which the local Reynolds number falls to about one, so viscosity can finally compete with inertia"
+      - "The width of the pipe or obstacle driving the flow"
+      - "The wavelength at which the fluid becomes compressible"
+    answer: 1
+    explanation: "The cascade continues until eddies are small enough that their own Reynolds number is order one, at which point viscous dissipation takes over and the cascade stops."
+---
+
+## The height where the smoke breaks
+
+Blow out a candle in still air and watch the smoke. For the first few centimetres it rises as a clean, narrow ribbon — so steady it looks solid, so orderly you could trace it with a pencil. Then, at some definite height, the ribbon wobbles, folds, and abruptly dissolves into a tangle of swirls that never repeats.
+
+Nothing changed at that height. The air is the same air. The smoke is the same smoke. There is no obstacle, no draught, no discontinuity in the room. The plume simply got a little faster and a little wider as it rose — and at some point the combination of speed and width crossed a threshold, and smooth flow stopped being possible.
+
+That threshold has a number attached to it, and the number is one of the most useful quantities in all of physics. It is dimensionless: no units, no metres or seconds or kilograms. It compares the fluid's tendency to keep moving against its tendency to smear that motion out. Below it, flow is **laminar** — layered, predictable, reversible-looking. Above it, flow is **turbulent**.
+
+## Viscosity, and why fluid sticks to walls
+
+Start with the property that makes the smooth regime possible at all. **Viscosity** is a fluid's internal friction: its resistance to being sheared. Slide one layer of fluid past its neighbour and the neighbour is dragged along. For most everyday fluids that drag is proportional to the velocity gradient,
+
+$$\tau = \mu \frac{\partial u}{\partial y}$$
+
+where $\tau$ is the shear stress between layers, $\partial u / \partial y$ is how fast the velocity changes across the flow, and $\mu$ is the **dynamic viscosity**. Water's $\mu$ is about $10^{-3}\ \mathrm{Pa\,s}$; air's is roughly fifty times smaller; honey's is thousands of times larger. Fluids obeying this linear law are called Newtonian, and water, air, and most simple liquids are close enough for our purposes.
+
+Viscosity comes with a boundary condition that is not obvious and was argued over for most of the nineteenth century: the **no-slip condition**. At a solid surface, the fluid's velocity relative to that surface is *zero*. Not small — zero. The layer of air touching an aeroplane wing travels with the wing. The water touching a rock in a stream is stationary. Blow dust off a table and a molecular film stays behind, which is why fan blades collect grime.
+
+No-slip is what turns viscosity from a bookkeeping detail into the organiser of the whole flow. It forces a velocity *gradient* near every surface — from zero at the wall to the free stream some distance away — and that gradient is where shear, drag, and eventually vorticity are manufactured. Every interesting thing in this article ultimately begins at a wall.
+
+## Two forces, one ratio
+
+Now put a fluid element in motion and ask what governs its fate. Two effects compete.
+
+**Inertia** wants the element to keep doing what it is doing. Per unit volume, the inertial term scales like $\rho v^2 / L$ — density times velocity squared, over the length scale of the flow.
+
+**Viscosity** wants to erase differences in velocity, diffusing momentum sideways until everything moves together. That term scales like $\mu v / L^2$.
+
+Take the ratio and almost everything cancels:
+
+$$Re = \frac{\text{inertial forces}}{\text{viscous forces}} \sim \frac{\rho v^2 / L}{\mu v / L^2} = \frac{\rho v L}{\mu}$$
+
+This is the **Reynolds number**, named for Osborne Reynolds, who in 1883 ran the pipe experiment we will come to shortly. Here $\rho$ is density, $v$ a characteristic speed, $L$ a characteristic length (pipe diameter, cylinder diameter, wing chord — you must say which), and $\mu$ the dynamic viscosity. It is often written with the kinematic viscosity $\nu = \mu / \rho$ as $Re = vL/\nu$.
+
+Check the units and they vanish: $Re$ is a pure number. That is the source of its power. Two flows around the same *shape* — a scale model and the real aircraft, say — behave the same way if their Reynolds numbers match, even though every individual quantity differs. This is **dynamic similarity**, and it is why wind tunnels work at all.
+
+Low $Re$ means viscosity wins: disturbances are damped as fast as they appear, and the flow is smooth, layered, and — remarkably — time-reversible. High $Re$ means inertia wins: a disturbance carries itself downstream faster than viscosity can smooth it, feeds on the shear that created it, and grows.
+
+## Watching the number do its work
+
+The cleanest demonstration is flow past a cylinder — a lamppost in a river, a wire in the wind, a bridge pier. Slide the Reynolds number and watch the wake change character.
+
+<ReynoldsAnimation />
+
+Be honest about what this is: it is not a Navier–Stokes solve. It is a potential-flow background with vortices placed and shed by hand, tuned so that each regime *looks* like the real one. The transitions are real physics; the pixels are an illustration.
+
+What to try:
+
+- **Drag down to $Re \approx 1$.** The streamlines part ahead of the cylinder and rejoin behind it in near-perfect fore-aft symmetry. There is no wake. At this Re you could reverse the flow and recover the original picture almost exactly — viscosity has erased any memory of what came before.
+- **Raise it to $Re \approx 20$.** A pair of counter-rotating vortices appears, *attached* behind the cylinder and standing still. The symmetry is broken: the flow now knows which way is downstream. Nothing oscillates yet.
+- **Cross $Re \approx 50$.** The pair loses stability and the cylinder starts shedding vortices alternately from each side — the **von Kármán vortex street**, a staggered double row of eddies marching downstream. The frequency scales with $v/L$; this is the mechanism behind a whistling wire and behind the wobble that engineers design bridge piers to avoid.
+- **Push past $Re \approx 10^4$.** The street survives as a statistical pattern but the individual eddies break down into fine-grained chaos. Structure at every scale, none of it repeating.
+
+The important thing to notice is that *only one slider moved*. The geometry never changed. Whether you got that behaviour by speeding the flow up, making the cylinder bigger, or swapping water for air, the wake would look the same — because those knobs only ever enter through $Re$.
+
+## The equations behind it
+
+The motion of a Newtonian fluid is governed by two statements. The first is conservation of mass, the **continuity equation**:
+
+$$\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \mathbf{u}) = 0$$
+
+which for an incompressible fluid — a good approximation for water always, and for air below roughly a third of the speed of sound — collapses to the tidy
+
+$$\nabla \cdot \mathbf{u} = 0$$
+
+Whatever flows into a region flows out. Squeeze a stream of water through a narrower gap and it must speed up.
+
+The second is Newton's second law written for a fluid element: the **Navier–Stokes momentum equation**,
+
+$$\rho\left(\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u}\right) = -\nabla p + \mu \nabla^2 \mathbf{u} + \mathbf{f}$$
+
+Read it term by term. On the left, mass-per-volume times acceleration, where the acceleration has two parts: $\partial \mathbf{u}/\partial t$, the change at a fixed point, and $(\mathbf{u} \cdot \nabla)\mathbf{u}$, the change a fluid parcel feels because it has moved somewhere the velocity is different. On the right: the pressure gradient pushing fluid from high to low, the viscous term $\mu \nabla^2 \mathbf{u}$ diffusing momentum, and any body force $\mathbf{f}$ such as gravity.
+
+The trouble is entirely in that second acceleration term. $(\mathbf{u} \cdot \nabla)\mathbf{u}$ is **nonlinear** — velocity multiplied by its own gradient. Solutions cannot be superposed; small disturbances can feed on themselves; and the whole apparatus of linear analysis fails. Non-dimensionalise the equation and the parameter that emerges in front of the viscous term is exactly $1/Re$. The Reynolds number is not an empirical rule of thumb bolted on afterwards. It is the coefficient the equation itself hands you when you ask what the relative size of the two terms is.
+
+## Reynolds's dye, in a pipe
+
+In 1883, at Owens College in Manchester, Osborne Reynolds set up a glass pipe fed from a settling tank and injected a thin filament of coloured dye on the centreline. At low flow rates the filament ran the length of the pipe as a single unwavering line. As he opened the valve, the line began to waver, then at some point burst — "mixed up with the surrounding water, and filled the rest of the tube with a mass of coloured water," as he put it.
+
+<LaminarTurbulentAnimation />
+
+Sweep the slider and watch two things at once: the dye filament in the pipe, and the velocity profile on the right.
+
+- **Below $Re \approx 2000$** the filament is a clean straight line from inlet to outlet. Neighbouring layers slide past each other without exchanging fluid; the only mixing is molecular diffusion, which on these timescales is nearly nothing. The velocity profile is the exact parabola of Hagen–Poiseuille flow, $u(r) = u_{\max}\!\left(1 - r^2/R^2\right)$, pinned to zero at the wall by no-slip and peaking at twice the mean speed on the axis.
+- **Between roughly 2000 and 4000** the flow is *transitional*. Note where the breakdown point sits and watch it creep upstream as you raise $Re$: the filament survives for a while, then bursts. Real transitional pipe flow is intermittent — turbulent "puffs" travel down an otherwise laminar pipe — and it is genuinely sensitive to inlet disturbances, pipe roughness, and vibration.
+- **Above roughly 4000** the dye disperses almost immediately and the profile changes shape. It becomes markedly **blunter**: nearly flat across the core, with a very steep gradient squeezed into a thin layer at the wall. Turbulent eddies transport momentum across the pipe far more effectively than molecular viscosity can, so the core moves almost as one block, and the peak drops from twice the mean to about 1.2 times it.
+
+Those numbers deserve a hedge. The critical Reynolds number is **not** a universal constant. In a smooth pipe with an exceptionally quiet inlet, laminar flow has been maintained past $Re = 10^5$; conversely, a rough or badly disturbed inlet can trip transition well below 2000. What is robust is that below about 2000 laminar flow is *stable* — perturb it and it recovers — while above it laminar flow merely becomes *possible in principle* and increasingly hard to sustain in practice. Other geometries have entirely different critical values, which is why quoting $Re$ without stating the length scale you used is meaningless.
+
+## The cascade to small scales
+
+What actually happens when a flow goes turbulent? The modern picture is due to Lewis Fry Richardson, who put it in verse in 1922 — "big whirls have little whirls that feed on their velocity" — and to Andrey Kolmogorov, who made it quantitative in 1941.
+
+Energy enters the flow at the largest scale $L$: the pipe diameter, the cylinder width, the stirring spoon. Those large eddies are unstable and break into smaller ones, which break into smaller ones still. Through this **inertial range** the transfer is essentially lossless — viscosity is irrelevant at these scales because the *local* Reynolds number of each eddy is still large.
+
+The cascade cannot continue forever. As eddies shrink, their local $Re$ falls, and at the scale where it reaches order one, viscosity finally competes. That is the **Kolmogorov microscale**,
+
+$$\eta = \left(\frac{\nu^3}{\varepsilon}\right)^{1/4}$$
+
+where $\varepsilon$ is the rate of energy dissipation per unit mass. Below $\eta$, motion is smoothed into heat. Kolmogorov's dimensional argument gives the famous energy spectrum in the inertial range, $E(k) \propto \varepsilon^{2/3} k^{-5/3}$, confirmed in flows from wind tunnels to tidal channels.
+
+The practical consequence is brutal for computation. The ratio of largest to smallest scale grows like $L/\eta \sim Re^{3/4}$, so resolving all three dimensions plus time costs on the order of $Re^{3}$ operations. Simulating the air over a full aircraft at $Re \sim 10^{7}$ directly is out of reach and will stay that way for a long time. This is why engineering practice relies on turbulence *models* rather than brute-force resolution.
+
+And this is also where turbulence connects to [chaos](/articles/chaos-theory). Turbulence is the canonical physical example of deterministic chaos: the Navier–Stokes equations contain no randomness, yet a turbulent flow is exponentially sensitive to its initial state, so the eddies at 3 p.m. are unforecastable from a measurement at 2 p.m. even though they are entirely determined by it. The route into turbulence in some confined flows even follows the period-doubling cascade, with Feigenbaum's constant showing up in convecting liquid helium. What you get, as with all chaos, is superb statistics and hopeless point predictions — which is exactly the bargain turbulence modelling makes.
+
+It is worth separating this from a different kind of small-scale motion. The jitter of [Brownian motion](/articles/brownian-motion) is *molecular*: individual thermal collisions, genuinely stochastic, happening far below the Kolmogorov scale where the continuum picture of a fluid stops applying at all. Turbulent eddies are continuum structures obeying deterministic equations. They look similarly unpredictable for entirely different reasons — one is randomness in the process, the other is amplification of ignorance about the starting point.
+
+## The bacterium's honey, and a million-dollar question
+
+Put yourself at the other end of the scale. A swimming bacterium is about a micrometre long and moves at a few micrometres per second in water. Its Reynolds number is around $10^{-5}$.
+
+Inertia, for that organism, effectively does not exist. Stop beating the flagellum and it coasts for a distance far smaller than an atom before stopping — the deceleration is instantaneous for all practical purposes. Edward Purcell, in his 1977 lecture *Life at Low Reynolds Number*, made the consequence vivid: a reciprocal stroke, one that looks the same played backwards, produces exactly zero net displacement. A scallop that opens slowly and snaps shut gets nowhere. This is the **scallop theorem**, and it is why real microorganisms use corkscrewing helical flagella or coordinated waves of cilia — motions with a genuine handedness in time.
+
+Purcell's own analogy: swimming at that $Re$ is like a person trying to swim through a pool of molasses while forbidden to move any faster than the hands of a clock. Our world, at $Re \sim 10^4$ for a swimmer and $10^7$ for an aircraft, is inertial. Theirs is pure viscosity. Same equations, opposite limit — the ratio simply flipped.
+
+Between those extremes sits an unsolved problem. In three dimensions, nobody knows whether smooth solutions of the incompressible Navier–Stokes equations exist for all time from arbitrary smooth initial data, or whether the velocity field can blow up to infinity in finite time. Leray proved in 1934 that weak solutions exist globally; uniqueness and smoothness of those solutions remain open. The Clay Mathematics Institute made **Navier–Stokes existence and smoothness** one of its seven Millennium Prize Problems in 2000, with a one-million-dollar prize. It is still unclaimed.
+
+That is a genuinely striking situation. We have written down the equations for water. We use them daily to design aircraft, model climate, engineer pipelines, and forecast weather. And we cannot prove that they always have a sensible answer.
+
+<KeyTakeaways>
+- The **Reynolds number** $Re = \rho v L / \mu$ is a dimensionless ratio of inertial to viscous forces, and it — not speed, size, or fluid alone — decides whether a flow is laminar or turbulent. Two geometrically similar flows with equal $Re$ behave identically, which is why scale-model testing works.
+- **No-slip** is the hidden origin of everything: fluid velocity at a solid surface is exactly zero, forcing a velocity gradient that manufactures shear and vorticity at every wall.
+- The critical $Re$ is **not a universal constant**. Pipe flow is reliably laminar below roughly 2000 and reliably turbulent above roughly 4000, but the transitional band depends on roughness, inlet disturbance, and geometry — laminar flow has been sustained far past $10^5$ under exceptionally quiet conditions.
+- Turbulence is a **cascade**: energy enters at the large scale and passes down through eddies until the local $Re$ falls to order one and viscosity converts it to heat. Because the scale range grows as $Re^{3/4}$, direct simulation of real engineering flows is computationally out of reach.
+- Turbulence is the canonical case of [deterministic chaos](/articles/chaos-theory) — no randomness in the equations, yet no long-range predictability — and the equations themselves remain a **Millennium Prize Problem**: we cannot prove that 3D Navier–Stokes solutions stay smooth for all time.
+</KeyTakeaways>

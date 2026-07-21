@@ -109,6 +109,8 @@ import {
   CatalysisAnimation,
   AtomicOrbitalAnimation,
   PeriodicTrendsAnimation,
+  ReynoldsAnimation,
+  LaminarTurbulentAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -204,6 +206,8 @@ const components = {
   CatalysisAnimation,
   AtomicOrbitalAnimation,
   PeriodicTrendsAnimation,
+  ReynoldsAnimation,
+  LaminarTurbulentAnimation,
   KeyTakeaways,
 }
 
