@@ -143,6 +143,8 @@ import {
   KSpaceAnimation,
   ComplexPlaneAnimation,
   RootsOfUnityAnimation,
+  FiniteAutomatonAnimation,
+  PumpingLemmaAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -287,6 +289,8 @@ const components = {
   KSpaceAnimation,
   ComplexPlaneAnimation,
   RootsOfUnityAnimation,
+  FiniteAutomatonAnimation,
+  PumpingLemmaAnimation,
   KeyTakeaways,
 }
 

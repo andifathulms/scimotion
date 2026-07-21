@@ -620,3 +620,13 @@ export const RootsOfUnityAnimation = dynamic(
   () => import('@/components/animations/RootsOfUnityAnimation').then(m => ({ default: m.RootsOfUnityAnimation })),
   { ssr: false }
 )
+
+export const FiniteAutomatonAnimation = dynamic(
+  () => import('@/components/animations/FiniteAutomatonAnimation').then(m => ({ default: m.FiniteAutomatonAnimation })),
+  { ssr: false }
+)
+
+export const PumpingLemmaAnimation = dynamic(
+  () => import('@/components/animations/PumpingLemmaAnimation').then(m => ({ default: m.PumpingLemmaAnimation })),
+  { ssr: false }
+)

@@ -1790,6 +1790,33 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'finite-automata': c => {
+    // Two-state DFA (accepts an even number of 1s): q0 is the double-ring accept
+    // state, q1 the reject state; '1' arcs swap them, '0' self-loops. All integer.
+    const q0x = 96, q1x = 208, sy = 58, r = 22, mx = 152
+    return (
+      <g>
+        <line x1={44} y1={sy} x2={q0x - r - 2} y2={sy} stroke={MUTE} strokeWidth={1.25} />
+        <polygon points={`${q0x - r - 2},${sy} ${q0x - r - 10},${sy - 4} ${q0x - r - 10},${sy + 4}`} fill={MUTE} />
+        <text x={q0x - r - 6} y={sy - 8} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">start</text>
+        <path d={`M ${q0x + 16} ${sy - 15} Q ${mx} ${sy - 44} ${q1x - 16} ${sy - 15}`} fill="none" stroke={c} strokeWidth={1.5} />
+        <polygon points={`${q1x - 16},${sy - 15} ${q1x - 25},${sy - 19} ${q1x - 21},${sy - 11}`} fill={c} />
+        <text x={mx} y={sy - 30} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">1</text>
+        <path d={`M ${q1x - 16} ${sy + 15} Q ${mx} ${sy + 44} ${q0x + 16} ${sy + 15}`} fill="none" stroke={c} strokeWidth={1.5} />
+        <polygon points={`${q0x + 16},${sy + 15} ${q0x + 25},${sy + 19} ${q0x + 21},${sy + 11}`} fill={c} />
+        <text x={mx} y={sy + 40} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">1</text>
+        <circle cx={q0x} cy={sy - 30} r={10} fill="none" stroke={`${c}88`} strokeWidth={1.25} />
+        <text x={q0x} y={sy - 44} textAnchor="middle" fontSize={9} fill={MUTE} fontFamily="monospace">0</text>
+        <circle cx={q1x} cy={sy - 30} r={10} fill="none" stroke={`${c}88`} strokeWidth={1.25} />
+        <text x={q1x} y={sy - 44} textAnchor="middle" fontSize={9} fill={MUTE} fontFamily="monospace">0</text>
+        <circle cx={q0x} cy={sy} r={r} fill={`${c}22`} stroke={c} strokeWidth={1.75} />
+        <circle cx={q0x} cy={sy} r={r - 5} fill="none" stroke={GOLD} strokeWidth={1} />
+        <text x={q0x} y={sy + 4} textAnchor="middle" fontSize={11} fill={c} fontFamily="monospace">q0</text>
+        <circle cx={q1x} cy={sy} r={r} fill="rgba(255,255,255,0.03)" stroke={c} strokeWidth={1.75} />
+        <text x={q1x} y={sy + 4} textAnchor="middle" fontSize={11} fill={MUTE} fontFamily="monospace">q1</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

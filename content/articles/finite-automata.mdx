@@ -1,0 +1,134 @@
+---
+title: "Finite Automata and Regular Expressions"
+subtitle: "The smallest useful computer — a handful of states, no memory — and exactly what that costs it."
+topic: "Computer Science"
+slug: "finite-automata"
+date: "2026-07-06"
+readTime: 10
+featured: false
+description: "How a regular expression compiles into a tiny memoryless machine, why that makes it fast, and why it provably cannot match balanced brackets."
+tags: ["automata", "regular-expressions", "computation", "theory"]
+quiz:
+  - q: "What single feature most sharply distinguishes a finite automaton from a Turing machine?"
+    options:
+      - "A finite automaton can only read its input from left to right, while a Turing machine can read in any order"
+      - "A finite automaton has no memory beyond its current state — a fixed, finite number of them — whereas a Turing machine has unbounded working memory"
+      - "A finite automaton is deterministic, while a Turing machine is always nondeterministic"
+      - "A finite automaton runs in linear time, while a Turing machine runs in exponential time"
+    answer: 1
+    explanation: "The defining limit of a finite automaton is that its entire memory is one of finitely many states; a Turing machine adds an unbounded tape."
+  - q: "Why can no finite automaton recognize the language of strings aⁿbⁿ (n copies of a followed by n copies of b)?"
+    options:
+      - "The strings can be arbitrarily long, and no automaton accepts arbitrarily long inputs"
+      - "Matching aⁿbⁿ requires counting n without bound, but a k-state machine can only distinguish finitely many counts before it is forced to repeat a state"
+      - "The language is undecidable, so no machine of any kind can recognize it"
+      - "aⁿbⁿ contains no regular pattern, so a regular expression cannot describe it"
+    answer: 1
+    explanation: "With only k states a long run of a's must revisit a state, creating a loop that can be pumped to break the a/b balance — so unbounded counting is impossible."
+  - q: "A programmer says the backreference pattern (.+)\\1 in their regex library is a 'regular expression.' What is the precise correction?"
+    options:
+      - "It is regular, but the engine implements it inefficiently"
+      - "Backreferences make the pattern strictly more powerful than a finite automaton, so it describes a non-regular language and can trigger exponential-time backtracking"
+      - "Backreferences are regular only when the captured group is a single character"
+      - "It is not a valid pattern at all; regex engines reject backreferences"
+    answer: 1
+    explanation: "A backreference forces the engine to remember and re-match earlier text — beyond finite-state power — which is both non-regular and a source of catastrophic backtracking."
+---
+
+## A machine hiding in your search box
+
+Type `colou?r` into a search box and the engine builds something for you before it reads a single line of text: a tiny machine. Not a metaphor — an actual diagram of states with arrows between them, five or six circles, each arrow labelled with a character. To decide whether a string matches, the machine starts in one circle and, reading the string left to right, follows exactly one arrow per character. When the input runs out, it either sits on an accepting circle (match) or it does not (no match).
+
+Here is the striking part: the machine has **no memory at all** beyond which circle it is currently standing in. It cannot count. It cannot remember what it read three characters ago. It carries nothing forward except its own position among a fixed, finite set of states. And that poverty is not a bug. It is exactly why the match runs in time proportional to the length of the input, with no backtracking and no blow-up — one arrow per character, forever.
+
+That same poverty is also a hard wall. This machine can decide whether a string is a valid identifier, a well-formed number, or ends in `.txt`. It **cannot** decide whether a string of brackets is balanced, because balance requires counting how many are still open, and counting without bound needs memory this machine does not have. The whole theory of finite automata is the study of that one trade — what you get for having no memory, and what it costs you.
+
+## The simplest useful computer
+
+A **deterministic finite automaton** (DFA) is the barest thing that still deserves to be called a computer. It is five pieces:
+
+- a finite set of **states** $Q$,
+- a finite **alphabet** $\Sigma$ of input symbols,
+- a **start state** $q_0 \in Q$,
+- a set of **accept states** $F \subseteq Q$,
+- a **transition function** $\delta: Q \times \Sigma \to Q$.
+
+The transition function is the whole engine. Given the state you are in and the next symbol you read, $\delta$ tells you the one state to move to. "The one" matters — *deterministic* means for every (state, symbol) pair there is exactly one destination, so the machine's entire future is fixed by its input. It runs by starting at $q_0$, applying $\delta$ once per input symbol, and accepting if it stops on a state in $F$.
+
+Notice what is *not* in that list: no tape, no counter, no stack, no scratch memory. The only thing the machine "knows" at any moment is which element of $Q$ it currently occupies. Since $Q$ is finite, the machine has a fixed, finite number of distinguishable situations it can ever be in — and that count is a hard ceiling on how much of the past it can take into account.
+
+This is the exact opposite end of the computation hierarchy from the machine in [the halting problem](/articles/halting-problem). A Turing machine has an unbounded tape; it is so powerful that whether it even *stops* is undecidable. A finite automaton has no tape at all. It always halts — it takes exactly one step per symbol and then it is done — and every interesting question about it (does it accept this string? does it accept anything? do two of them accept the same language?) is not just decidable but efficient. The price of that total tractability is written in the name: **finite**. It can only ever remember one of finitely many things.
+
+## Running one by hand
+
+The cleanest example is parity. Suppose $\Sigma = \{0, 1\}$ and we want to accept exactly the binary strings with an **even number of 1s**. You need two states, and only two, forever — no matter how long the string:
+
+- $q_0$: "an even number of 1s seen so far" (this is both the start state and the accept state),
+- $q_1$: "an odd number so far".
+
+A `0` never changes the parity, so it loops each state back to itself. A `1` flips it, so it sends $q_0 \to q_1$ and $q_1 \to q_0$. That is the entire machine. Run it on the animation below.
+
+<FiniteAutomatonAnimation />
+
+Type a string of 0s and 1s (or pick a preset) and step through it. Watch the active state — the glowing circle — hop along the lit arrow for each symbol on the tape. Try `1011`: three 1s, odd, so it ends on $q_1$ and **rejects**. Try `110` or `0011`: two 1s, even, ends on the double-ringed accept state $q_0$ and **accepts**. The thing to notice is what the machine is *not* doing. It never stores the count of 1s — a count that can grow without limit. It only ever tracks one bit: is the count so far even or odd? Two states are enough to answer a question about arbitrarily long inputs, precisely because the question only needs one bit of memory. That compression of "everything I need to remember" down to a finite set of states is the whole idea.
+
+## Three descriptions, one class
+
+DFAs feel restrictive because they are deterministic — one arrow out per symbol. So people invented two apparently more expressive tools, and then discovered, remarkably, that both describe *exactly* the same set of languages.
+
+The first is the **nondeterministic finite automaton** (NFA). An NFA is allowed to have several arrows leaving a state on the same symbol, or arrows that move for *free* without consuming a symbol at all (ε-transitions). It accepts a string if *some* path through these choices lands on an accept state. This is wonderfully convenient for building machines — you can bolt sub-machines together with ε-transitions — but it looks strictly stronger. It is not. Any NFA with $n$ states can be converted, by the **subset construction**, into a DFA whose states are *sets* of NFA states. The DFA can balloon to $2^n$ states in the worst case, but it exists, and it accepts the same language. Nondeterminism buys convenience, never power.
+
+The second is the **regular expression** — the algebraic notation `a(b|c)*` built from three operations: concatenation, alternation (`|`), and the Kleene star (`*`, meaning "zero or more"). And here is the theorem that ties it all together, **Kleene's theorem**:
+
+$$\text{DFA} \;\equiv\; \text{NFA} \;\equiv\; \text{regular expression}$$
+
+Every regular expression can be compiled into an NFA (Thompson's construction), every NFA determinizes into a DFA, and every DFA can be converted back into a regular expression (state elimination). Three notations that look nothing alike — a state diagram, a diagram with choices, a line of algebra — carve out the identical class of languages. That class has a name: the **regular languages**. When three independent definitions collapse onto the same object, it is a sign the object is natural, not arbitrary — the way $e$ shows up whether you approach it through compound interest, calculus, or probability.
+
+## What finiteness cannot buy
+
+Regular languages are exactly the languages some finite automaton can recognize, so their limits are the limits of finite memory. And the canonical thing they cannot do is **match**.
+
+Consider $L = \{\,a^n b^n : n \ge 0\,\}$ — some number of `a`s followed by the *same* number of `b`s. This is balanced brackets in disguise: `a` is an open paren, `b` is a close paren, and the language asks whether they pair up. It feels trivial. But no finite automaton can recognize it, and the reason is a counting argument that cuts to the heart of what "finite state" means.
+
+Suppose a DFA with $k$ states claims to recognize $L$. Feed it $a^k b^k$. As it reads the $a$'s, it passes through a sequence of states — one before the first $a$, one after, and so on: that is $k+1$ states visited while reading $k$ symbols. But the machine only *has* $k$ states. By the **pigeonhole principle**, two of those visited positions must be the very same state. The number of states is a hard bound on how many distinct "how many $a$'s have I seen" situations the machine can tell apart — and $k$ states can distinguish at most $k$ of them, while $a^n b^n$ demands infinitely many.
+
+<PumpingLemmaAnimation />
+
+Drag $n$ upward and step the machine through the $a$'s. While $n$ is small the run visits fresh states each time. Push $n$ past the state count and the position strip at the bottom lights up a **collision**: two positions carrying the identical state $s_2$, joined by a gold arc. Between those two positions the machine has done a full loop — it read some $a$'s and came back exactly where it started, remembering nothing about how many it consumed. That loop is the murder weapon.
+
+This is the **pumping lemma** made concrete. If a regular language contains a string $s$ at least as long as the number of states, then $s$ can be split as $s = xyz$ where the middle piece $y$ is that loop (non-empty, and inside the first $k$ symbols), and *every* pumped variant
+
+$$x\,y^{\,t}\,z \in L \quad\text{for all } t = 0, 1, 2, \dots$$
+
+must also be in the language. But look what pumping does to $a^n b^n$: the loop $y$ is all $a$'s, so repeating it makes $x y^2 z = a^{n+|y|} b^{\,n}$ — more $a$'s than $b$'s. The machine still accepts it (a loop returns to the same state, so the whole computation ends identically), yet it is not in $L$. The language forces the machine to accept strings it should reject. Contradiction: no such machine exists. **Balance requires unbounded counting, and a finite number of states can only count up to a bound before it is forced to repeat.**
+
+The same argument kills every language that needs unbounded memory: nested parentheses, `ww` (a string followed by a copy of itself), palindromes, arithmetic with matched brackets. To handle those you need a machine with a stack (a pushdown automaton, for the bracket languages) or a full tape (a Turing machine). Finiteness is a real, provable ceiling, not a failure of cleverness.
+
+## The regex that isn't
+
+This is where a correction has to be made, because it trips up almost everyone who writes code. The "regular expressions" in Perl, Python, JavaScript, Java, PCRE and friends are **not**, in general, regular expressions in the sense above. They are strictly more powerful, and it matters.
+
+The culprit is the **backreference**. A pattern like `(.+)\1` says "match some text, then match *the same text again*." That `\1` refers back to whatever the first group captured — which means the engine must **remember arbitrary earlier input and re-match it**. Remembering unbounded earlier input is exactly the power a finite automaton does not have. With backreferences you can match `ww` and even $a^n b^n$-style balance in some engines; the moment a pattern relies on one, it has left the regular languages behind. It is a "regex" in the programmer's sense and a non-regular language in the mathematician's sense, and both statements are true at once.
+
+The consequence is not academic. A true regular expression compiles to a DFA and matches any input in **linear time** — one state transition per character, no backtracking, guaranteed. But backreference-capable engines cannot use that DFA; they explore possible matches by **backtracking**, trying one branch, failing, and rewinding to try another. On an adversarial input this branching can explode. The pattern `(a+)+$` against a long string of `a`s followed by a `!` forces the engine to try exponentially many ways to partition the `a`s before it gives up — **catastrophic backtracking**, microseconds of input turning into minutes or hours of CPU. Real outages have been caused this way; a single user-supplied string has taken down production services when it hit a vulnerable pattern in a hot path (a class of denial-of-service now catalogued as "ReDoS").
+
+The fix is understanding the boundary. If your pattern uses only concatenation, alternation, character classes, and stars — no backreferences, no lookaround that smuggles in extra power — it *is* regular, and engines built on automata (RE2, Rust's `regex`, `grep`) will run it in guaranteed linear time. The instant you reach for a backreference, you have stepped up the computational hierarchy, and you have bought yourself the possibility of exponential blow-up. Knowing which side of the line you are on is the difference between a matcher that is provably fast and one that is a latent time bomb.
+
+## Where the tiny machines live
+
+For all their limits, finite automata are among the most heavily deployed abstractions in computing, precisely *because* they are so constrained. Guaranteed linear time, constant memory, and total decidability are exactly what you want in the tightest, most trusted layers of a system.
+
+- **Lexers.** Every compiler's first phase — chopping source text into tokens like identifiers, numbers, and keywords — is a bank of DFAs. Tools like `lex`/`flex` take your token definitions as regular expressions and compile them straight into a state machine. It is why tokenizing is never the bottleneck in a build.
+- **Text search.** `grep`, and DFA-based regex libraries like RE2, turn a pattern into an automaton and sweep the input once. This is what makes searching gigabytes of logs feel instant, and what makes those engines immune to the catastrophic backtracking above.
+- **Protocol and input validation.** Checking that a string is a well-formed IP address, a valid date, or a legal URL scheme is a regular-language question, and a finite automaton answers it in one pass with a fixed, auditable amount of memory — attractive when the input is hostile.
+- **Hardware controllers.** Traffic lights, elevators, vending machines, and the control logic inside CPUs are literally finite state machines burned into silicon. A fixed set of states and clean transitions is not a limitation there — it is a guarantee. You can enumerate every state the system can ever be in and prove properties about all of them, which is exactly what you want from the thing controlling an elevator.
+
+The lesson runs in both directions. When a problem *is* regular, a finite automaton is the best possible tool: fast, small, and provably correct. When a problem is not — balanced brackets, matched quotes, `ww` — no amount of engineering makes a finite automaton do it, and the pumping lemma tells you so before you waste an afternoon trying. Knowing which world you are in is the practical payoff of the whole theory.
+
+<KeyTakeaways>
+- A DFA is the simplest useful computer: states, an alphabet, and a transition function $\delta: Q \times \Sigma \to Q$, with **no memory beyond its current state**. That is why it always halts in linear time and every question about it is decidable.
+- DFAs, NFAs, and regular expressions all describe the **same** class — the regular languages (Kleene's theorem). Nondeterminism and the star notation buy convenience, never extra power.
+- The number of states is a hard bound on counting. By the pumping lemma, $a^n b^n$ (balanced brackets) is beyond any finite automaton: a long enough run must repeat a state, and the resulting loop can be pumped to break the balance.
+- Finite automata sit at the **bottom** of the computation hierarchy — the opposite extreme from the unbounded-tape Turing machine of [the halting problem](/articles/halting-problem). Their weakness is exactly what makes them fast and fully analyzable.
+- Programming-language "regexes" with **backreferences are not regular** — they are strictly more powerful and can suffer exponential-time catastrophic backtracking. Stick to automaton-based engines when you need guaranteed linear-time matching.
+</KeyTakeaways>
