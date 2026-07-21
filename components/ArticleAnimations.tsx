@@ -380,3 +380,13 @@ export const HerdImmunityAnimation = dynamic(
   () => import('@/components/animations/HerdImmunityAnimation').then(m => ({ default: m.HerdImmunityAnimation })),
   { ssr: false }
 )
+
+export const ResonanceAnimation = dynamic(
+  () => import('@/components/animations/ResonanceAnimation').then(m => ({ default: m.ResonanceAnimation })),
+  { ssr: false }
+)
+
+export const StandingWaveAnimation = dynamic(
+  () => import('@/components/animations/StandingWaveAnimation').then(m => ({ default: m.StandingWaveAnimation })),
+  { ssr: false }
+)

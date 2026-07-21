@@ -1,0 +1,146 @@
+---
+title: "Resonance and Standing Waves"
+subtitle: "Push at the right rhythm and a tiny force builds an enormous response."
+topic: "Physics"
+slug: "resonance"
+date: "2026-07-03"
+readTime: 10
+featured: false
+description: "Why timing beats strength in every oscillating system — from a playground swing to a radio tuner, an MRI scanner, and the strings of a violin."
+tags: ["oscillation", "waves", "resonance", "harmonics"]
+quiz:
+  - q: "Two identical oscillators are driven by the same small periodic force; one is lightly damped and one is heavily damped. What is the difference in their amplitude-versus-frequency curves?"
+    options:
+      - "The lightly damped one peaks higher but over a narrower band of frequencies, because both the peak height and the sharpness are set by Q"
+      - "The lightly damped one peaks higher and also responds strongly over a wider band of frequencies"
+      - "Both peak at the same height, but the lightly damped one peaks at a higher frequency"
+      - "Damping shifts the peak sideways without changing its height, since energy is conserved either way"
+    answer: 0
+    explanation: "The quality factor Q sets both properties at once — peak gain is approximately Q and the fractional width of the peak is approximately 1/Q — so a taller peak is necessarily a narrower one."
+  - q: "At exactly the resonant frequency, the displacement lags the driving force by 90 degrees. Why does that particular phase relationship maximise the energy fed into the oscillator?"
+    options:
+      - "Because a 90 degree lag means the force is largest exactly when the displacement is largest"
+      - "Because a 90 degree lag in displacement puts the velocity exactly in phase with the force, so the force does positive work through the entire cycle"
+      - "Because the phase lag cancels the damping term, leaving an undamped oscillator"
+      - "Because at 90 degrees the drive and the restoring force point in the same direction throughout the cycle"
+    answer: 1
+    explanation: "Velocity leads displacement by 90 degrees, so a 90 degree displacement lag makes force and velocity perfectly aligned, and power (force times velocity) never goes negative."
+  - q: "A string fixed at both ends is driven by a shaker whose frequency is swept smoothly upward. Why does a stable standing wave appear only at certain discrete frequencies?"
+    options:
+      - "The string can only vibrate at frequencies where the driving force happens to be strongest"
+      - "Friction damps out every frequency except those that are integer multiples of the fundamental"
+      - "Only wavelengths that fit a whole number of half-wavelengths between the fixed ends satisfy the zero-displacement boundary condition at both ends"
+      - "The string physically stiffens at the harmonic frequencies, allowing larger amplitudes"
+    answer: 2
+    explanation: "Both ends are forced to be nodes, so the string length must be a whole number of half-wavelengths, which quantises the allowed frequencies into the harmonic series."
+---
+
+## The child on the swing
+
+Push a child on a swing and you learn resonance in about fifteen seconds, without any equations.
+
+Push at random moments and almost nothing happens — some pushes help, some fight the motion, and the swing wanders along at whatever height it was already at. Push hard but at the wrong moment and you can bring the swing to a near stop. But push gently, once per swing, always just as the child begins to move away from you, and the arc grows and grows. Your hand delivers the same small force either way. The only thing that changed is *when*.
+
+That is the whole of resonance. A system driven at the right frequency accumulates energy cycle after cycle, because each push arrives in step with the motion it is reinforcing. Driven at the wrong frequency, the pushes alternately add and remove energy and cancel themselves out. Timing, not strength, decides the outcome.
+
+This turns out to be one of the most reused ideas in physics. It is how a violin makes a note loud enough to fill a hall, how a radio picks one station out of the thousands passing through the antenna, how an MRI scanner talks to hydrogen nuclei in your body, and how an earthquake can destroy one building while leaving its neighbour standing.
+
+## Every system has a preferred frequency
+
+Displace almost anything from equilibrium and it pushes back. A [pendulum](/articles/pendulum-motion) pulled sideways is pulled back by gravity. A mass on a spring stretched downward is pulled back up. Air compressed in a bottleneck springs back out. In each case the restoring force is, for small displacements, proportional to the displacement:
+
+$$F = -kx$$
+
+Combine that with Newton's second law and you get simple harmonic motion at one particular frequency, set entirely by the system's own properties:
+
+$$\omega_0 = \sqrt{\frac{k}{m}}$$
+
+This is the **natural frequency**. It is not something you choose; it is baked into the object. A guitar string's natural frequency depends on its tension, length, and thickness. A wine glass's depends on its geometry and the stiffness of the glass. A building's depends on its height and structural stiffness — roughly one second of period per ten storeys, as a rule of thumb.
+
+The pendulum article treats this **free** case: displace the system, let go, and watch it ring at $\omega_0$ while friction slowly drains the amplitude away. What happens if you refuse to let it wind down — if you keep pushing? That is the **driven** case, and it is where things get interesting.
+
+## Driving the oscillator
+
+Now attach an external force that oscillates at a frequency $\omega$ that you control, independent of the system's own $\omega_0$. The equation of motion picks up two new terms — a damping term proportional to velocity, and the drive:
+
+$$\ddot{x} + \gamma\dot{x} + \omega_0^2 x = \frac{F_0}{m}\cos(\omega t)$$
+
+After a brief transient, the oscillator forgets its initial conditions entirely and settles into oscillating at the **driving** frequency $\omega$ — not its own $\omega_0$. What depends on $\omega$ is not the rhythm but the *size* of the response.
+
+<ResonanceAnimation />
+
+Start with the drive frequency slider well below 1 and press play. The mass simply follows the force up and down, lazily, with the amplitude you would get by pushing on it steadily — that is the "static" deflection, the baseline against which everything here is measured. Now walk the slider up toward $\omega/\omega_0 = 1$. The amplitude climbs steeply, overshoots the static deflection by a factor of several, and peaks right at the natural frequency. Push past it and the response collapses again; at high frequency the mass barely twitches, because the force reverses before the mass has had time to go anywhere.
+
+Two more things to watch. First, drag the damping slider down and observe the response curve on the right: the peak grows dramatically taller **and** noticeably narrower at the same time. Those two effects are not independent, as the next section shows. Second, watch the two traces at the bottom — gold for the drive, green for the response. Below resonance they rise and fall together. Above resonance they are in opposition: the mass moves *up* while the force pushes *down*. And exactly at resonance the green trace sits precisely a quarter cycle behind the gold one. That quarter-cycle lag is the mathematical signature of the swing being pushed at exactly the right moment.
+
+## The amplitude response and the quality factor
+
+Substituting a trial solution $x(t) = A\cos(\omega t - \delta)$ into the equation of motion and solving for the steady state gives the **amplitude response**:
+
+$$A(\omega) = \frac{F_0/m}{\sqrt{\left(\omega_0^2 - \omega^2\right)^2 + \left(\gamma\omega\right)^2}}$$
+
+Read that denominator as a competition. The first term, $\omega_0^2 - \omega^2$, is the mismatch between drive and system; it vanishes when $\omega = \omega_0$. The second term, $\gamma\omega$, is damping, and it never vanishes. So when the drive is tuned to the natural frequency, the only thing left holding the amplitude down is friction — and if friction is small, the amplitude is enormous.
+
+The phase lag comes out of the same calculation:
+
+$$\tan\delta = \frac{\gamma\omega}{\omega_0^2 - \omega^2}$$
+
+This runs from $\delta \approx 0$ far below resonance, through exactly $\delta = \pi/2$ at $\omega = \omega_0$, to $\delta \to \pi$ far above. The quarter-cycle lag at resonance is not a coincidence: velocity leads displacement by a quarter cycle, so a quarter-cycle lag in displacement puts the *velocity* exactly in phase with the force. Power delivered is force times velocity, so at resonance the drive does positive work at every instant of the cycle and never has to undo its own work. That is the precise sense in which the pushes "arrive at the right moment".
+
+It is convenient to compress the whole shape of the response into one number, the **quality factor**:
+
+$$Q = \frac{\omega_0}{\gamma}$$
+
+$Q$ does triple duty:
+
+- **Peak height.** At resonance the amplitude is about $Q$ times the static deflection. A tuning fork with $Q \approx 1000$ responds to a matched drive a thousand times more strongly than to a steady push of the same size.
+- **Peak width.** The full width of the resonance peak, measured where the power falls to half its maximum, is $\Delta\omega \approx \gamma$, so the *fractional* width is $\Delta\omega/\omega_0 \approx 1/Q$. High $Q$ means a needle-sharp peak.
+- **Ring-down.** Stop driving and the free oscillation decays over roughly $Q$ cycles.
+
+So "tall" and "narrow" are the same statement. That is exactly what the damping slider demonstrates, and it is the central design trade-off in every resonant device: a high-$Q$ radio filter is beautifully selective but slow to respond to changes, while a low-$Q$ loudspeaker cabinet responds sluggishly to nothing in particular but reproduces a broad band of frequencies evenly.
+
+One small correction for the sake of honesty: the amplitude peak sits not at $\omega_0$ but very slightly below it, at $\omega_r = \sqrt{\omega_0^2 - \gamma^2/2}$. For anything with $Q$ above about 5 the shift is invisible, which is why it is almost always ignored.
+
+## Many resonances at once: standing waves
+
+A mass on a spring has exactly one natural frequency. An extended object — a string, an air column, a drumhead, a bridge deck — has an infinite ladder of them.
+
+Fix a string at both ends and pluck it. A wave travelling along it reflects off each end and interferes with itself. Most of the time that interference is a mess. But at certain wavelengths the returning wave lines up perfectly with the outgoing one, and the two combine into a pattern that does not travel at all: a **standing wave**, with fixed points that never move (**nodes**) alternating with points of maximum swing (**antinodes**).
+
+The condition is purely geometric. Both ends are clamped, so both ends must be nodes, so the string length $L$ must hold a whole number of half-wavelengths:
+
+$$L = n\frac{\lambda_n}{2} \quad\Rightarrow\quad \lambda_n = \frac{2L}{n}, \qquad n = 1, 2, 3, \dots$$
+
+Since $f = v/\lambda$, and the wave speed on a string under tension $T$ with mass per unit length $\mu$ is $v = \sqrt{T/\mu}$, the allowed frequencies are:
+
+$$f_n = \frac{nv}{2L} = \frac{n}{2L}\sqrt{\frac{T}{\mu}}$$
+
+An evenly spaced ladder: $f_1, 2f_1, 3f_1, \dots$ — the **harmonic series**. Each rung is a separate resonance of the same object, with its own $Q$, its own peak, and its own phase behaviour.
+
+<StandingWaveAnimation />
+
+Drag the frequency slider slowly upward from the left. For most of its travel the string thrashes about with no discernible shape and, importantly, with small amplitude — several modes are being weakly excited at once, each with a different phase, and they never line up. Then, at $f/f_1 = 1$, the motion suddenly organises itself into a single clean arc. Keep going: at 2 a node appears dead centre and the two halves move in opposition; at 3 there are two interior nodes; at 4, three. Use the $n$ buttons to jump between them and confirm the frequency ratios really are exactly $1 : 2 : 3 : 4 : 5$. The gold outline is the envelope of the motion, traced out as the string moves — off resonance it stays low and shapeless, on resonance it snaps into the classic bulging lobes.
+
+This is where resonance meets the [Fourier transform](/articles/fourier-transform). Because the natural frequencies of a string are exact integer multiples of the fundamental, the sound it makes is a sum of harmonics — and the *recipe*, the relative strength of each harmonic, is precisely what a Fourier transform extracts. Timbre is that recipe. A violin and a flute playing the same A both peak at 440 Hz; they sound different because they weight the overtones above it differently. Pluck a guitar string exactly at its midpoint and the even harmonics are conspicuously missing, because your finger sat on a node of every one of them and could not excite them. Pluck near the bridge and the high harmonics come alive, which is why the tone turns bright and nasal.
+
+Pipes work the same way with one twist: an open end is a pressure node and a closed end is a pressure antinode. A pipe closed at one end fits only *odd* quarter-wavelengths, so it sounds an octave lower than an open pipe of the same length and produces only odd harmonics — the reason a clarinet has its distinctively hollow voice while a flute of similar length does not.
+
+## Where it shows up
+
+**Musical instruments** are resonance engines end to end. A vibrating string moves almost no air by itself; the body of a violin or guitar is a broad, deliberately low-$Q$ resonator that couples the string's motion to the room. Instrument makers spend their careers shaping resonances — enough gain to be loud, but a peak flat enough that no single note leaps out.
+
+**Radio and every wireless device.** An antenna picks up every broadcast in the sky simultaneously. Tuning is a resonant $LC$ circuit with natural frequency $\omega_0 = 1/\sqrt{LC}$; turning the dial changes $C$ and slides the peak across the spectrum. Its $Q$ has to be high enough that a station 200 kHz away lands far out on the skirt of the curve and is rejected. The identical trick, at gigahertz frequencies with resonators etched into silicon, runs your phone.
+
+**MRI.** Place a hydrogen nucleus in a strong magnetic field and its spin precesses at the Larmor frequency, about 64 MHz per 1.5 tesla. Broadcast radio waves at exactly that frequency and the nuclei absorb energy and tip over; broadcast at a slightly different frequency and essentially nothing happens. Because the precession frequency scales with the local field strength, applying a deliberate field *gradient* makes the resonant frequency a map of position — which is how a resonance condition becomes an image. The "R" in MRI is resonance, and the selectivity is the whole point.
+
+**Structural engineering.** Buildings and bridges have natural frequencies in the range of periodic forces the world actually supplies: footsteps, machinery, wind gusts, seismic waves. The 1985 Mexico City earthquake is the textbook case done properly — soft lake-bed sediments amplified ground motion around a two-second period, which closely matched the natural period of the city's ten-to-twenty-storey buildings, and those buildings failed catastrophically while shorter and taller ones nearby often survived. Modern practice designs against this directly: stiffen the structure to move its natural frequency away from the expected excitation, or add damping to lower $Q$. Skyscrapers like Taipei 101 hang a several-hundred-tonne **tuned mass damper** near the top — a pendulum deliberately tuned to the building's own frequency, so that it swings out of phase and absorbs the energy the building would otherwise store.
+
+A word about the famous counterexample. The 1940 collapse of the Tacoma Narrows Bridge is endlessly cited as forced resonance — as though a steady wind supplied a periodic force that happened to match the bridge's natural frequency. That story is generally regarded as wrong. The accepted explanation is **aeroelastic flutter**, a self-excited instability: the deck's own twisting motion altered the airflow around it, which fed energy back into the twisting in a growing feedback loop. There was no external oscillator with a fixed frequency to match. The distinction matters, because the engineering fixes differ — flutter is cured by changing the deck's aerodynamic cross-section, not by retuning it away from some driving frequency.
+
+<KeyTakeaways>
+- Driven at a frequency $\omega$, an oscillator responds *at* $\omega$ — but the amplitude $A(\omega) = (F_0/m)/\sqrt{(\omega_0^2-\omega^2)^2 + (\gamma\omega)^2}$ peaks sharply when $\omega$ matches the system's natural frequency $\omega_0$. Timing beats strength.
+- The quality factor $Q = \omega_0/\gamma$ sets peak height ($\approx Q\times$ the static deflection), fractional peak width ($\approx 1/Q$), and ring-down time ($\approx Q$ cycles). Tall and narrow are the same statement, and that is the core design trade-off in every resonant device.
+- At resonance the displacement lags the drive by exactly a quarter cycle, which puts velocity in phase with force — so the drive does positive work at every instant and never fights itself.
+- An extended object has a whole ladder of resonances. Fixing a string at both ends forces $L = n\lambda_n/2$, quantising the allowed frequencies into the harmonic series $f_n = nv/2L$, whose relative strengths are exactly what a [Fourier transform](/articles/fourier-transform) reads off as timbre.
+- Tacoma Narrows is the wrong poster child: that collapse is attributed to aeroelastic flutter, a self-excited feedback instability, not to an external driving force matching a natural frequency.
+</KeyTakeaways>

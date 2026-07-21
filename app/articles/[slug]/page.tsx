@@ -93,6 +93,8 @@ import {
   TerminationAnimation,
   SIRModelAnimation,
   HerdImmunityAnimation,
+  ResonanceAnimation,
+  StandingWaveAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -172,6 +174,8 @@ const components = {
   TerminationAnimation,
   SIRModelAnimation,
   HerdImmunityAnimation,
+  ResonanceAnimation,
+  StandingWaveAnimation,
   KeyTakeaways,
 }
 

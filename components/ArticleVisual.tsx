@@ -1044,6 +1044,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  resonance: c => {
+    // Amplitude response for three Q values: the peak grows tall and narrow as damping falls.
+    const curve = (q: number) =>
+      Array.from({ length: 61 }, (_, i) => {
+        const r = 0.1 + (i / 60) * 2.1
+        const g = 1 / Math.sqrt((1 - r * r) ** 2 + (r / q) ** 2)
+        const x = Math.round((10 + (i / 60) * 280) * 100) / 100
+        const y = Math.round((108 - Math.min(g, 6.4) * 14.7) * 100) / 100
+        return `${x},${y}`
+      }).join(' ')
+    return (
+      <g>
+        <line x1={10} y1={108} x2={290} y2={108} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={130} y1={14} x2={130} y2={108} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <polyline points={curve(1.1)} fill="none" stroke={FAINT} strokeWidth={1.25} />
+        <polyline points={curve(2.2)} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        <polyline points={curve(6)} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={130} cy={19.8} r={4} fill={GOLD} />
+        <text x={134} y={26} fill={MUTE} fontSize={8} fontFamily="monospace">ω₀</text>
+        <text x={236} y={104} fill={MUTE} fontSize={8} fontFamily="monospace">ω</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
