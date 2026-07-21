@@ -1370,6 +1370,34 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'protein-folding': c => {
+    // An extended chain collapsing into a compact fold with hydrophobic residues buried.
+    const chain = [[14, 68], [27, 52], [40, 68], [53, 52], [66, 68], [79, 52], [92, 68], [105, 52], [118, 68]]
+    const fold = [[205, 40], [225, 40], [245, 40], [245, 60], [225, 60], [205, 60], [205, 80], [225, 80], [245, 80]]
+    return (
+      <g>
+        <circle cx={225} cy={60} r={34} fill={FAINT} />
+        <polyline points={chain.map(([x, y]) => `${x},${y}`).join(' ')} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        {chain.map(([x, y], i) => (
+          <circle key={`u${i}`} cx={x} cy={y} r={4}
+            fill={i % 3 === 1 ? `${c}33` : 'rgba(255,255,255,0.03)'}
+            stroke={i % 3 === 1 ? c : MUTE} strokeWidth={1} />
+        ))}
+        <line x1={132} y1={60} x2={166} y2={60} stroke={MUTE} strokeWidth={1} strokeDasharray="3 3" />
+        <polygon points="174,60 166,56 166,64" fill={MUTE} />
+        <polyline points={fold.map(([x, y]) => `${x},${y}`).join(' ')} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        {fold.map(([x, y], i) => {
+          const core = i === 3 || i === 4 || i === 7
+          return (
+            <circle key={`f${i}`} cx={x} cy={y} r={core ? 5 : 4}
+              fill={core ? GOLD : `${c}33`} stroke={core ? GOLD : c} strokeWidth={1} />
+          )
+        })}
+        <text x={66} y={98} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">unfolded</text>
+        <text x={225} y={106} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">buried core</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -480,3 +480,13 @@ export const PhaseDiagramAnimation = dynamic(
   () => import('@/components/animations/PhaseDiagramAnimation').then(m => ({ default: m.PhaseDiagramAnimation })),
   { ssr: false }
 )
+
+export const ProteinFoldingAnimation = dynamic(
+  () => import('@/components/animations/ProteinFoldingAnimation').then(m => ({ default: m.ProteinFoldingAnimation })),
+  { ssr: false }
+)
+
+export const EnergyLandscapeAnimation = dynamic(
+  () => import('@/components/animations/EnergyLandscapeAnimation').then(m => ({ default: m.EnergyLandscapeAnimation })),
+  { ssr: false }
+)

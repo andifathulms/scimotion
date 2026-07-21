@@ -113,6 +113,8 @@ import {
   LaminarTurbulentAnimation,
   PhaseTransitionAnimation,
   PhaseDiagramAnimation,
+  ProteinFoldingAnimation,
+  EnergyLandscapeAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -212,6 +214,8 @@ const components = {
   LaminarTurbulentAnimation,
   PhaseTransitionAnimation,
   PhaseDiagramAnimation,
+  ProteinFoldingAnimation,
+  EnergyLandscapeAnimation,
   KeyTakeaways,
 }
 
