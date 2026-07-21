@@ -410,3 +410,13 @@ export const LeChatelierAnimation = dynamic(
   () => import('@/components/animations/LeChatelierAnimation').then(m => ({ default: m.LeChatelierAnimation })),
   { ssr: false }
 )
+
+export const ChemicalBondAnimation = dynamic(
+  () => import('@/components/animations/ChemicalBondAnimation').then(m => ({ default: m.ChemicalBondAnimation })),
+  { ssr: false }
+)
+
+export const ElectronegativityAnimation = dynamic(
+  () => import('@/components/animations/ElectronegativityAnimation').then(m => ({ default: m.ElectronegativityAnimation })),
+  { ssr: false }
+)

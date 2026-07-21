@@ -99,6 +99,8 @@ import {
   SpectrumAnimation,
   EquilibriumAnimation,
   LeChatelierAnimation,
+  ChemicalBondAnimation,
+  ElectronegativityAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -184,6 +186,8 @@ const components = {
   SpectrumAnimation,
   EquilibriumAnimation,
   LeChatelierAnimation,
+  ChemicalBondAnimation,
+  ElectronegativityAnimation,
   KeyTakeaways,
 }
 

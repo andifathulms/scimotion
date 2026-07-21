@@ -1,0 +1,147 @@
+---
+title: "Why Atoms Bond"
+subtitle: "Not because they want full shells — because the bonded arrangement sits lower in energy."
+topic: "Chemistry"
+slug: "chemical-bonding"
+date: "2026-07-11"
+readTime: 10
+featured: false
+description: "Bring two hydrogen atoms together and they snap into a molecule, releasing energy. The potential-energy curve explains bond length, bond strength, and why covalent and ionic are two ends of one continuum."
+tags: ["chemical-bonding", "electronegativity", "molecules", "energy"]
+quiz:
+  - q: "Two hydrogen atoms are pushed closer together than the equilibrium bond length. What happens to the potential energy of the pair, and why?"
+    options:
+      - "It keeps falling, because the electron clouds overlap even more and attraction always increases with proximity"
+      - "It rises steeply, because nucleus–nucleus repulsion grows faster than the extra attraction from shared electron density"
+      - "It stays flat, because the bond has already reached its full strength at the minimum"
+      - "It rises gradually, because the electrons are forced into a higher-energy shell"
+    answer: 1
+    explanation: "Past the minimum the two positively charged nuclei are close enough that their mutual repulsion overwhelms the stabilizing shared electron density, so the curve turns sharply upward."
+  - q: "A student says sodium transfers an electron to chlorine 'because it wants a full outer shell'. What is the strongest objection to that explanation?"
+    options:
+      - "Sodium actually gains an electron rather than losing one"
+      - "The octet rule is wrong; atoms are stable with any number of valence electrons"
+      - "Atoms have no preferences — the transfer plus the electrostatic attraction of the resulting ions happens to lower the total energy, and the octet rule is a pattern that summarizes when it does"
+      - "Full shells are irrelevant because sodium chloride is held together by covalent bonds"
+    answer: 2
+    explanation: "The octet rule is a heuristic that describes which arrangements tend to be low in energy; the energy accounting, not any atomic desire, is what actually drives the bond."
+  - q: "Why is water a liquid at room temperature while methane, a molecule of similar size and mass, is a gas?"
+    options:
+      - "Water molecules are heavier, so they need more thermal energy to escape"
+      - "Each O–H bond is polar and water's bent geometry stops the bond dipoles from cancelling, so molecules attract each other strongly; methane's polar bonds cancel by symmetry"
+      - "Water contains ionic bonds while methane contains only covalent bonds"
+      - "Oxygen has a larger atomic radius, allowing the molecules to pack more tightly"
+    answer: 1
+    explanation: "Bond polarity only produces molecular polarity when the geometry prevents the individual bond dipoles from cancelling, which is exactly the difference between bent water and tetrahedral methane."
+---
+
+## Two atoms, one snap
+
+Take two hydrogen atoms far apart in a vacuum. Each is a proton with one electron smeared around it, perfectly content, perfectly stable. Now bring them together.
+
+Nothing happens for a while. Then, somewhere around a couple of ångströms, they begin to pull on each other. The pull strengthens, the atoms rush together — and at a separation of about 0.74 ångströms they lock. A molecule of H₂ now exists, and the process has dumped about 4.5 electron-volts of energy into the surroundings as heat and light. To pull the two atoms apart again, you must put every bit of that energy back.
+
+That released energy is the whole story. The bonded arrangement is *lower in energy* than two separate atoms, and systems fall into low-energy arrangements the same way a ball rolls into a valley. That is the only reason chemical bonds exist.
+
+You have probably been told a different reason: atoms bond because they "want" a full outer shell. Set that aside for now. Atoms want nothing. We will come back to the octet rule and give it the job it actually deserves — a good bookkeeping trick, and a bad explanation.
+
+## The valley between too far and too close
+
+What makes the energy fall? Two things compete, and they scale differently with distance.
+
+**Attraction.** As the atoms approach, each electron starts to feel *both* nuclei rather than just its own. An electron sitting in the region between the two protons is pulled left and right at once, and being attracted by two positive charges is lower in energy than being attracted by one. Electron density accumulates in that middle region, and it glues the nuclei together — each nucleus is attracted to a shared pool of negative charge that sits between them.
+
+**Repulsion.** The two nuclei are both positive, and they repel. So do the electrons among themselves. At long range this hardly matters, because the electron clouds screen the nuclei from each other. At short range the screening fails, the bare protons see each other, and Coulomb repulsion blows up.
+
+Attraction wins at moderate distance; repulsion wins at short distance. Between them lies a minimum. That minimum *is* the bond:
+
+- Its **position** is the bond length — the average separation the nuclei settle at.
+- Its **depth** is the bond energy — how much you must supply to break the molecule apart.
+
+Everything a chemist says about a bond being "long" or "strong" is a statement about the shape of this one curve.
+
+<ChemicalBondAnimation />
+
+Drag the nuclei along the axis and watch three things at once. Start far apart: the two electron clouds are nearly separate blobs and the energy trace sits almost flat at zero — this is the "two free atoms" baseline. Pull them inward and watch orange density fill the gap *between* the nuclei while the marker slides down into the well. Keep going past the green line and the density gets squeezed out while the curve rockets upward — that is the nuclei refusing to be shoved together. Now let go somewhere on either side and note that the shape of the curve tells you which way the atoms would move: downhill, always, toward the minimum.
+
+Try snapping to the bond length and reading off the energy: −4.52 eV. That number is the bond energy, measured from the flat baseline down to the floor of the valley. It is not a property of one atom. It is a property of the pair.
+
+## Writing the curve down
+
+The repulsive side comes straight from Coulomb's law. Two charges $q_1$ and $q_2$ separated by $r$ have potential energy
+
+$$U(r) = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{r}$$
+
+For two protons both charges are positive, so $U$ is positive and grows without bound as $r \to 0$. The attractive side has no such tidy closed form — it comes from quantum mechanics, from the fact that an electron delocalized over two nuclei has a lower kinetic and potential energy than one confined to a single nucleus.
+
+The sum of the two effects is captured well by the **Morse potential**, the curve in the widget above:
+
+$$V(r) = D_e\left(1 - e^{-a(r - r_0)}\right)^2 - D_e$$
+
+Three parameters, three physical meanings. $r_0$ is where the minimum sits — the equilibrium bond length. $D_e$ is how far the minimum lies below zero — the bond dissociation energy. And $a$ controls how sharply the walls rise, which sets the stiffness of the bond and therefore its vibrational frequency in an infrared spectrum.
+
+Two conditions define the minimum, and they are worth stating precisely:
+
+$$\left.\frac{dV}{dr}\right|_{r = r_0} = 0, \qquad \left.\frac{d^2V}{dr^2}\right|_{r = r_0} > 0$$
+
+The first says the net force $F = -dV/dr$ vanishes at the bond length: attraction and repulsion exactly balance. The second says the equilibrium is stable — nudge the atoms either way and the force pushes them back. Real molecules never sit still at the bottom; they oscillate about it, which is why a bond length is an average and why molecules absorb infrared light at all.
+
+Notice what the curve does *not* contain: any reference to shells, octets, or preferences. Just charges, distances, and energies.
+
+## The octet rule, demoted
+
+So where does "atoms want a full shell" come from?
+
+It comes from a genuine pattern. Configurations with eight valence electrons around a main-group atom often *are* low in energy, because the s and p subshells of that level are then full and the next available orbital is a big energy jump away. Counting to eight is a fast way to predict which structures a chemist will actually find. As bookkeeping, it earns its place in every introductory course.
+
+But it explains nothing, and it fails often:
+
+- **Boron** in BF₃ sits happily with six valence electrons.
+- **Phosphorus** in PCl₅ and **sulfur** in SF₆ carry ten and twelve.
+- **Nitric oxide**, NO, has an odd number of electrons — an octet is arithmetically impossible.
+- **Hydrogen and helium** are done at two, not eight.
+- Every **transition metal** plays a different game entirely, with d orbitals in the mix.
+
+A rule with that many exceptions is a summary, not a law. The energy argument has no exceptions, because it is not a rule about counting — it is a statement that systems settle into their lowest accessible energy. When the octet rule and the energy accounting disagree, the energy wins every time.
+
+## Sharing versus handing over
+
+Hydrogen bonds to hydrogen by sharing: the electron density piles up symmetrically between two identical nuclei, and both atoms have an equal claim. That is a **covalent** bond.
+
+Now bond sodium to chlorine. Chlorine's nucleus, poorly screened by its inner electrons, grips valence electrons far harder than sodium's does. So the shared density is not shared at all — it collapses almost entirely onto the chlorine. What is left is Na⁺ and Cl⁻, two ions held together by plain electrostatic attraction, the same Coulomb's law as before but now with charges of opposite sign so that $U$ is negative and the pair is bound. That is an **ionic** bond.
+
+The property doing the work here is **electronegativity**, $\chi$ — an atom's pull on electrons in a bond. Linus Pauling's scale runs from about 0.7 for caesium to 3.98 for fluorine. What matters is never the absolute value but the **difference** between the two bonded atoms, $\Delta\chi$. Pauling even gave an estimate for how ionic a bond is:
+
+$$f_{\text{ionic}} \approx 1 - e^{-\frac{1}{4}(\Delta\chi)^2}$$
+
+Look at that expression carefully. It is *smooth*. It has no steps, no thresholds, no branch where a bond stops being one kind and becomes another. Which means the textbook table with "covalent" in one column and "ionic" in the other is describing the two ends of a single continuous axis.
+
+<ElectronegativityAnimation />
+
+Slide $\Delta\chi$ from zero upward and watch the cloud. At zero it is a symmetric dumbbell — a pure covalent bond between identical atoms. Nudge it to 0.35, roughly a C–H bond, and the cloud leans a little; tiny partial charges δ+ and δ− appear and a small dipole arrow grows. At 1.24, the O–H bond in water, the lean is unmistakable. Push past 2 and the density has essentially abandoned the left atom: you are looking at two ions.
+
+The important thing is what you *don't* see: a moment where something snaps. The dashed lines at 0.4 and 1.7 are the conventional cutoffs chemists quote, and the widget draws them precisely so you can watch nothing happen as the marker crosses them. A bond at $\Delta\chi = 1.69$ and a bond at $\Delta\chi = 1.71$ are indistinguishable. "Ionic" and "covalent" are labels for regions of a spectrum, not species of bond.
+
+## From bond polarity to water
+
+The partial charges in the widget are not a curiosity — they are why chemistry looks the way it does at human scale.
+
+A polar bond gives a molecule a little separation of charge, measured as a **dipole moment** $\mu = \delta \cdot d$, where $\delta$ is the partial charge and $d$ the separation. But bond dipoles are vectors, and molecular polarity depends on whether they cancel:
+
+$$\vec{\mu}_{\text{molecule}} = \sum_i \vec{\mu}_i$$
+
+Carbon dioxide has two strongly polar C=O bonds, yet O=C=O is linear, the two dipoles point in exactly opposite directions, and they sum to zero. CO₂ is nonpolar despite polar bonds. Methane's four C–H dipoles point at the vertices of a tetrahedron and likewise cancel.
+
+Water does not get that cancellation. The O–H bonds are polar ($\Delta\chi = 1.24$), and the two lone pairs on oxygen bend the molecule to about 104.5° instead of a straight line — so the two bond dipoles add rather than cancel, leaving a net dipole of 1.85 D pointing along the bisector.
+
+Everything downstream follows from that failure to cancel. Water molecules stick to each other head-to-tail through hydrogen bonding, which is why water is a liquid at room temperature while methane — similar mass, nonpolar — boils at −161 °C. It is why water dissolves salts (the ends of the dipole swarm around Na⁺ and Cl⁻ and pull the crystal apart) but not oil. It is why water has an enormous heat capacity that stabilizes the climate, and why ice floats, and why proteins fold the way they do — hydrophobic residues hiding from the polar solvent is the single largest driving force in protein structure.
+
+A 104.5° angle and a 1.24 electronegativity difference. That is the entire chain from "the bonded arrangement is lower in energy" to "there is liquid water on this planet".
+
+<KeyTakeaways>
+- Atoms bond because the bonded arrangement is **lower in energy** than the separated one — the energy released is real, and you must repay it to break the bond.
+- The potential-energy curve contains everything: long-range attraction from shared electron density, short-range Coulomb repulsion between nuclei, and a minimum whose *position* is the bond length and whose *depth* $D_e$ is the bond energy.
+- "Atoms want a full octet" is backwards. The octet rule is a heuristic that summarizes which arrangements happen to be low in energy, and it fails for BF₃, SF₆, NO, hydrogen, and every transition metal.
+- Covalent and ionic are not two kinds of bond but the two ends of one continuum in $\Delta\chi$; Pauling's $f_{\text{ionic}} \approx 1 - e^{-(\Delta\chi)^2/4}$ is smooth, and the 0.4 and 1.7 cutoffs are convention.
+- Bond polarity becomes molecular polarity only when geometry stops the dipoles cancelling — that is the difference between linear CO₂ and bent water, and it is why liquid water exists.
+</KeyTakeaways>

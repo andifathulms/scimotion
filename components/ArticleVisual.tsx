@@ -1134,6 +1134,32 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'chemical-bonding': c => {
+    // Morse well: V(r) = De(1 - e^{-a(r-r0)})^2 - De, sampled and rounded to integers.
+    const pts = Array.from({ length: 47 }, (_, i) => {
+      const r = 0.32 + i * (2.28 / 46)
+      const t = 1 - Math.exp(-1.94 * (r - 0.74))
+      const V = 4.52 * t * t - 4.52
+      const x = Math.round(20 + ((r - 0.32) / 2.28) * 270)
+      const y = Math.round(14 + (3 - V) * 10.9)
+      return `${x},${y}`
+    }).join(' ')
+    return (
+      <g>
+        <line x1={16} y1={47} x2={294} y2={47} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <polyline points={pts} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={70} y1={96} x2={70} y2={110} stroke={FAINT} strokeWidth={1} />
+        <line x1={34} y1={47} x2={34} y2={96} stroke={GOLD} strokeWidth={1} />
+        <line x1={30} y1={47} x2={38} y2={47} stroke={GOLD} strokeWidth={1} />
+        <line x1={30} y1={96} x2={38} y2={96} stroke={GOLD} strokeWidth={1} />
+        <text x={42} y={76} fill={GOLD} fontSize={9} fontFamily="monospace">De</text>
+        <circle cx={63} cy={96} r={5} fill={GOLD} />
+        <circle cx={78} cy={96} r={5} fill={GOLD} />
+        <text x={70} y={116} textAnchor="middle" fill={MUTE} fontSize={9} fontFamily="monospace">r0</text>
+        <text x={252} y={40} textAnchor="middle" fill={MUTE} fontSize={8} fontFamily="monospace">E = 0</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
