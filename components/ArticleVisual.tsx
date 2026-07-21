@@ -1459,6 +1459,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'greenhouse-effect': c => {
+    // Sunlight passes straight through the layer; the surface's infrared does not.
+    return (
+      <g>
+        <line x1={10} y1={14} x2={290} y2={14} stroke={FAINT} strokeWidth={1} strokeDasharray="3 4" />
+        <rect x={10} y={44} width={280} height={22} rx={3} fill={c} opacity={0.12} />
+        <rect x={10} y={44} width={280} height={22} rx={3} fill="none" stroke={c} strokeWidth={1} strokeDasharray="4 3" />
+        <rect x={10} y={104} width={280} height={10} rx={2} fill={FAINT} />
+        <line x1={10} y1={104} x2={290} y2={104} stroke={MUTE} strokeWidth={1.25} />
+        <line x1={40} y1={6} x2={40} y2={96} stroke={GOLD} strokeWidth={3} />
+        <path d="M 40 104 L 35 94 L 45 94 Z" fill={GOLD} />
+        <line x1={64} y1={6} x2={64} y2={96} stroke={GOLD} strokeWidth={3} />
+        <path d="M 64 104 L 59 94 L 69 94 Z" fill={GOLD} />
+        <line x1={140} y1={104} x2={140} y2={76} stroke={c} strokeWidth={4} />
+        <path d="M 140 66 L 135 77 L 145 77 Z" fill={c} />
+        <line x1={140} y1={44} x2={140} y2={18} stroke={c} strokeWidth={1.5} opacity={0.65} />
+        <path d="M 140 8 L 136 18 L 144 18 Z" fill={c} opacity={0.65} />
+        <line x1={196} y1={44} x2={196} y2={18} stroke={c} strokeWidth={2.5} opacity={0.85} />
+        <path d="M 196 8 L 191 18 L 201 18 Z" fill={c} opacity={0.85} />
+        <line x1={252} y1={66} x2={252} y2={94} stroke={c} strokeWidth={2.5} opacity={0.8} />
+        <path d="M 252 104 L 247 94 L 257 94 Z" fill={c} opacity={0.8} />
+        <text x={196} y={94} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">+33 K</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

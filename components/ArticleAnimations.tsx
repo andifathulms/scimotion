@@ -510,3 +510,13 @@ export const KeelingCurveAnimation = dynamic(
   () => import('@/components/animations/KeelingCurveAnimation').then(m => ({ default: m.KeelingCurveAnimation })),
   { ssr: false }
 )
+
+export const GreenhouseEffectAnimation = dynamic(
+  () => import('@/components/animations/GreenhouseEffectAnimation').then(m => ({ default: m.GreenhouseEffectAnimation })),
+  { ssr: false }
+)
+
+export const RadiationSpectrumAnimation = dynamic(
+  () => import('@/components/animations/RadiationSpectrumAnimation').then(m => ({ default: m.RadiationSpectrumAnimation })),
+  { ssr: false }
+)

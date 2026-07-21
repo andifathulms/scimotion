@@ -119,6 +119,8 @@ import {
   QuorumAnimation,
   CarbonCycleAnimation,
   KeelingCurveAnimation,
+  GreenhouseEffectAnimation,
+  RadiationSpectrumAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -224,6 +226,8 @@ const components = {
   QuorumAnimation,
   CarbonCycleAnimation,
   KeelingCurveAnimation,
+  GreenhouseEffectAnimation,
+  RadiationSpectrumAnimation,
   KeyTakeaways,
 }
 

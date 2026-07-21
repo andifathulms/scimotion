@@ -1,0 +1,176 @@
+---
+title: "The Greenhouse Effect"
+subtitle: "Run the energy balance for a bare Earth and you get −18 °C. The real average is +15 °C. That 33 K gap is why anything lives here."
+topic: "Earth & Climate"
+slug: "greenhouse-effect"
+date: "2026-07-20"
+readTime: 11
+featured: false
+description: "Sunlight comes in as visible light and leaves as infrared, and a handful of molecules are transparent to one and opaque to the other. That asymmetry sets the temperature of the planet."
+tags: ["climate", "radiation", "atmosphere", "spectroscopy"]
+quiz:
+  - q: "Nitrogen and oxygen make up 99% of the atmosphere, yet neither is a greenhouse gas. What is the physical reason?"
+    options:
+      - "They are too light to absorb the long wavelengths of thermal infrared radiation"
+      - "Their molecular vibrations do not change the molecule's dipole moment, so they cannot exchange energy with an infrared electromagnetic wave"
+      - "They sit too low in the atmosphere to intercept radiation on its way to space"
+      - "They absorb infrared strongly but re-emit it upward rather than downward"
+    answer: 1
+    explanation: "An oscillating electric field can only drive a vibration that changes the molecule's charge separation, and a symmetric diatomic like N₂ or O₂ has no dipole moment to change."
+  - q: "Water vapour is by far the most abundant greenhouse gas, but climate scientists classify it as a feedback rather than a driver of warming. Why?"
+    options:
+      - "Its absorption bands overlap with CO₂'s, so it adds no independent warming"
+      - "Clouds reflect enough sunlight to cancel out its absorption exactly"
+      - "It condenses out within days, so its concentration is set by temperature rather than by emissions — it amplifies a change but cannot start one"
+      - "Human activity emits no water vapour, so it cannot be attributed to any forcing agent"
+    answer: 2
+    explanation: "Atmospheric water vapour has a residence time of about nine days and its equilibrium amount is fixed by the Clausius–Clapeyron relation, so it responds to a temperature change rather than causing one."
+  - q: "Satellites and radiosondes show the surface and troposphere warming while the stratosphere cools. Why does this pattern point to greenhouse gases rather than to a brighter Sun?"
+    options:
+      - "A brighter Sun would deposit more energy throughout the column and warm the stratosphere too, whereas added CO₂ traps heat below while making the thin upper air a more efficient radiator to space"
+      - "Solar variability is too small to be detected by satellites at any altitude"
+      - "The stratosphere cools whenever the troposphere warms, regardless of the cause"
+      - "Ozone destruction is the only process that can cool the stratosphere"
+    answer: 0
+    explanation: "Increased solar input warms the whole atmospheric column, so the observed vertical pattern — warming below, cooling above — is a signature specific to increased infrared opacity."
+---
+
+## A planet that should be frozen
+
+Do the accounting for Earth as if it had no atmosphere at all — a bare rock with the same reflectivity, orbiting the same Sun.
+
+Sunlight arrives at the top of the atmosphere at a rate of about **1361 W/m²**, the solar constant measured by the SORCE/TIM and TSIS instruments. But that figure is the flux through a surface facing the Sun. Earth intercepts sunlight across its disc, area $\pi R^2$, and radiates from its whole sphere, area $4\pi R^2$, so the globally averaged input is one quarter of it: 340 W/m². About 30% is reflected straight back by clouds, ice, desert and ocean glint — Earth's Bond albedo, $\alpha \approx 0.30$. What is left, roughly **238 W/m²**, is absorbed.
+
+A body in equilibrium must radiate away exactly what it absorbs. The Stefan–Boltzmann law says a perfect emitter at temperature $T$ radiates
+
+$$F = \sigma T^4, \qquad \sigma = 5.670 \times 10^{-8}\ \text{W}\,\text{m}^{-2}\,\text{K}^{-4}$$
+
+Set absorbed equal to emitted:
+
+$$\pi R^2 S_0 (1 - \alpha) = 4 \pi R^2 \sigma T_e^4 \quad\Longrightarrow\quad T_e = \left[\frac{S_0 (1-\alpha)}{4\sigma}\right]^{1/4}$$
+
+Put the numbers in and you get $T_e = 255$ K, which is **−18 °C**. The oceans would be ice.
+
+The actual global mean surface temperature is about 288 K, **+15 °C** (NASA GISS and NOAA both put the modern figure within a few tenths of that). The gap is 33 K, and it is not a rounding error or a missing term in the arithmetic. It is the greenhouse effect, and without it Earth would be a snowball. The effect itself is not a pollutant or a malfunction; it is the reason the planet is habitable. What is at issue is the *change* to it, which is a much smaller number sitting on top of a very large one.
+
+The physics was worked out in stages: Joseph Fourier noticed in the 1820s that Earth was warmer than a simple energy balance allowed, John Tyndall measured in 1859 which gases actually absorb infrared and found that the bulk of the air did not, and Svante Arrhenius computed in 1896 what doubling carbon dioxide would do. Their basic picture has not changed.
+
+## Shortwave in, longwave out
+
+The whole thing turns on one asymmetry: **energy arrives at Earth in a different part of the spectrum from the part it leaves in.**
+
+The Sun's photosphere is at about 5772 K, and Wien's law puts the peak of a 5772 K blackbody at $\lambda_{\max} = 2898/T \approx 0.50$ µm — green, in the middle of the visible band. Roughly half of the Sun's output is visible and most of the rest is near-infrared. This is *shortwave* radiation.
+
+Earth's surface is at about 288 K, twenty times cooler, so its emission peaks twenty times longer, near 10 µm — thermal infrared, invisible, the band a thermal camera sees. This is *longwave* radiation. The two distributions barely overlap: essentially nothing arrives from the Sun beyond 4 µm and essentially nothing leaves Earth below it.
+
+Now suppose you place in the atmosphere a substance that is transparent to shortwave and opaque to longwave. Sunlight passes through unimpeded and heats the ground. The ground tries to radiate its heat away as infrared and finds the sky partly closed. Some of that infrared is absorbed overhead and re-emitted in all directions, and the downward half comes back to the surface as an *additional* energy input on top of the sunlight. The surface must then run hotter to push enough radiation out through the remaining gaps to balance the books.
+
+That is the entire mechanism. Nothing is "trapped" in the sense of being held forever — in steady state exactly 238 W/m² leaves for space, the same as arrives. What changes is the *temperature required* to make that happen.
+
+## The layer that radiates back
+
+The crudest honest model puts all the absorbing gas into a single slab: transparent to sunlight, and absorbing a fraction $\varepsilon$ of the infrared coming up from below, which it re-emits half upward and half downward.
+
+<GreenhouseEffectAnimation />
+
+Start with the slider at zero. The layer is transparent, all 390-ish watts the surface emits go straight out, and the surface settles at the bare-rock 255 K. Now drag $\varepsilon$ upward and watch three things at once.
+
+First, the gold arrow on the left — incoming sunlight — **never changes width**. The Sun is not getting brighter in this model. Everything that happens, happens on the outgoing side.
+
+Second, the violet arrow on the right, the back radiation, thickens from nothing. That is the new term in the surface's energy budget, and it is the direct cause of the warming.
+
+Third, watch the readout line at the top right. The moment you move the slider the top-of-atmosphere budget goes *out of balance* — more comes in than goes out — and the temperature climbs until the outgoing flux has grown enough to close the gap again. That transient imbalance, in watts per square metre, is what "radiative forcing" means, and the climb that follows is the climate response to it.
+
+Set $\varepsilon = 0.78$ and the surface lands on 288 K. That is not a coincidence chosen to flatter the model; it is the opacity our actual atmosphere has, backed out of the observed temperature.
+
+Two honest caveats, because this is a toy. It is a **single-layer, radiation-only slab, not a general circulation model**: the real atmosphere is a deep column with temperature falling about 6.5 K per kilometre, radiating to space from many different heights depending on wavelength. And it moves roughly 100 W/m² from surface to air by convection and by evaporating water, which this model has no way to represent. That is why the back-radiation figure here (about 152 W/m²) is well below the observed global mean of roughly 342 W/m² from surface radiometer networks. The slab gets the *mechanism* and the *sign* right, and the 33 K, and nothing more.
+
+## Why nitrogen ignores infrared and CO₂ does not
+
+Here is the step most explanations skip, and it is the one that makes the whole subject make sense.
+
+The atmosphere is 78% nitrogen, 21% oxygen and 0.93% argon. **None of them is a greenhouse gas.** Carbon dioxide is 0.042% of the air and it matters enormously. Why should the trace constituent do all the work?
+
+A molecule absorbs infrared by having a vibration whose frequency matches the wave — but matching frequency is not sufficient. An electromagnetic wave is an oscillating *electric field*, and it can only push on a charge separation. The rule is that a vibrational mode absorbs infrared only if the vibration **changes the molecule's electric dipole moment**.
+
+- **N₂ and O₂** are homonuclear diatomics. Two identical atoms, charge distributed symmetrically, zero dipole moment. Their only vibration is the two atoms stretching apart and back — and by symmetry the dipole stays exactly zero throughout. The mode is infrared-inactive. Passing infrared does nothing to it. (Argon is monatomic and has no vibrations at all.) They are not entirely blind — dense N₂ and O₂ absorb weakly during collisions, when a transient dipole exists — but the effect is small.
+- **CO₂** is linear and symmetric, O=C=O, so it also has no *permanent* dipole. But it has three atoms and therefore four vibrational modes, and two of them break the symmetry while they run. The **bending** mode, where the molecule flexes out of line, puts the carbon off-axis and creates a dipole: it absorbs at 667 cm⁻¹, or **15 µm**. The **asymmetric stretch**, where one bond lengthens as the other shortens, absorbs at **4.3 µm**. (The symmetric stretch, both bonds moving together, keeps the symmetry and is invisible to infrared — which is exactly the point.)
+- **H₂O** is bent, at 104.5°, so it has a large permanent dipole and all three of its modes are infrared-active, plus a dense forest of rotational lines beyond 16 µm.
+- **CH₄, N₂O, O₃** and the halocarbons are all asymmetric enough to be strongly active.
+
+So the composition of the atmosphere is almost irrelevant to its infrared behaviour; what matters is molecular *geometry*. And note where CO₂'s bending mode falls: 15 µm is within a whisker of the peak of Earth's 288 K emission. Of all the places in the spectrum for that band to sit, it sits on the exhaust pipe.
+
+### Putting a number on added CO₂
+
+Adding CO₂ raises the opacity, which raises the average altitude from which infrared in those bands finally escapes to space. Because the troposphere gets colder with height, radiation escaping from a higher, colder level is *weaker* — so less energy leaves, and the surface must warm until balance is restored. The band centre is already effectively saturated; the extra absorption happens in the wings, which is why the response goes as the logarithm of concentration rather than linearly:
+
+$$\Delta F \approx 5.35 \ln\!\left(\frac{C}{C_0}\right)\ \text{W}\,\text{m}^{-2}$$
+
+That coefficient is from the standard fit of Myhre et al. (1998), still close to the values used in IPCC AR6. Doubling CO₂ gives $\Delta F \approx 3.7$ W/m². The Keeling curve — the continuous CO₂ record begun by Charles David Keeling at Mauna Loa in 1958, starting near 315 ppm — passed 420 ppm in 2023 and is climbing by roughly 2.5 ppm per year (NOAA Global Monitoring Laboratory). Against a preindustrial 280 ppm that is $5.35 \ln(1.5) \approx 2.2$ W/m², and IPCC AR6 puts CO₂'s effective radiative forcing for 1750–2019 at **2.16 W/m²**, with total anthropogenic forcing at **2.72 W/m²** (1.96 to 3.48).
+
+For scale: 2.7 W/m² against 238 W/m² of absorbed sunlight is a 1.1% nudge to the planetary energy budget. It is small. It is also the difference between an ice age and now, which was itself only about 5 K.
+
+## Where the bands sit
+
+The claim that greenhouse gases are transparent to sunlight and opaque to Earth's own glow deserves to be checked rather than asserted. Plot both blackbody curves on one logarithmic wavelength axis and lay the absorption bands underneath.
+
+<RadiationSpectrumAnimation />
+
+Notice first the **separation of the two curves**. The gold Sun curve at 5772 K and the cyan Earth curve at 288 K occupy almost disjoint stretches of the axis, meeting only in a shallow trough around 4 µm. Because they barely overlap, a gas can be opaque to one and invisible to the other — which is the loophole the entire greenhouse effect lives in. If the Sun and Earth radiated in the same band, no such thing would be possible.
+
+Now look at the coloured band rows and the shading they cast on the plot. CO₂'s 15 µm band lands squarely under the crest of the Earth curve. Water vapour's 6.3 µm bend and its rotational continuum beyond 16 µm bracket it on both sides. Methane's 7.7 µm band fills part of what is left. Meanwhile the visible strip — where nearly all the Sun's energy is — has no bands over it whatsoever.
+
+Watch the two percentages at the top left as you toggle gases on and off. With all three enabled, the fraction of the outgoing Earth curve falling under absorption is several times the fraction of incoming sunlight intercepted. **That asymmetry is the greenhouse effect, expressed as a number.**
+
+Toggle water vapour off on its own and the effect is dramatic — H₂O really is the dominant greenhouse gas today. Toggle CO₂ off instead and notice what opens up: the 13–17 µm region, which water vapour covers only weakly. CO₂ is not competing with water vapour so much as plugging a gap water vapour leaves.
+
+The dashed pair around 8–13 µm marks the **atmospheric window**, the stretch where none of the three absorbs much and infrared escapes almost directly to space. It is why thermal satellite imagery works, why clear desert nights get so cold, and why gases that happen to absorb inside that window — many halocarbons do — are so disproportionately potent per molecule.
+
+One caveat on the widget: band strengths are drawn schematically. The centres are the real vibrational modes, but a proper line-by-line calculation resolves each band into thousands of individual rotational lines whose overlap and pressure broadening set the actual absorption. The qualitative geography is right; the exact opacities come from HITRAN, not from a bar chart.
+
+## Forcing, feedback, and the water-vapour confusion
+
+Radiative forcing and climate response are different quantities, and conflating them causes most of the confusion in this subject.
+
+A **forcing** is an imposed change to the energy budget, in W/m², from something that acts independently of temperature: CO₂ and methane emissions, aerosols, volcanic sulphate, changes in solar output. A **feedback** is a change that temperature itself causes, which then feeds back on the budget.
+
+The most basic feedback is negative and stabilising. A warmer planet radiates more, as $T^4$, which pulls it back toward balance. Differentiating Stefan–Boltzmann at the effective emission temperature gives the **Planck feedback**, about $-3.2$ W m⁻² K⁻¹. On its own it would turn 3.7 W/m² of forcing into roughly 1.2 K of warming.
+
+The observed and modelled sensitivity is larger than that, and the biggest reason is water vapour. Warmer air holds more of it — the Clausius–Clapeyron relation gives about **7% more saturation vapour pressure per kelvin** — and water vapour is a powerful absorber, so the initial warming is amplified. IPCC AR6 assesses the combined water-vapour and lapse-rate feedback at about $+1.30$ W m⁻² K⁻¹.
+
+This is why the frequent objection "water vapour is the main greenhouse gas, so CO₂ cannot matter" gets the logic backwards. Water vapour is indeed the main greenhouse gas — and precisely because of that it cannot be the driver of a *change*. Its residence time in the atmosphere is about nine days: pump extra water into the air and it rains out almost immediately, returning to whatever amount the temperature supports. Its concentration is a *function of* temperature. CO₂'s is not — a substantial fraction of a CO₂ pulse remains airborne for centuries, because removing it depends on slow ocean uptake and rock weathering. So CO₂ can set the temperature, and water vapour then multiplies whatever CO₂ does. The abundant gas is the amplifier; the trace gas is the control knob.
+
+Add ice-albedo (melting bright ice exposes dark ocean, amplifying) and clouds (the largest remaining uncertainty, assessed as net amplifying but with wide error bars), and AR6's assessed **equilibrium climate sensitivity** to doubled CO₂ is a best estimate of **3 °C**, likely range 2.5–4 °C, very likely 2–5 °C. That range is the honest state of the science: the sign and the rough magnitude are settled, the third significant figure is not.
+
+## The fingerprint: a warming surface under a cooling stratosphere
+
+The single most useful test of whether observed warming is greenhouse warming is not the surface record at all. It is the *vertical* pattern.
+
+If the Sun brightened, more energy would be deposited throughout the atmospheric column and every level would warm — surface, troposphere and stratosphere together. Increased infrared opacity does something different. It keeps energy in the lower atmosphere while making the thin, dry upper atmosphere a *more efficient radiator to space*: in the stratosphere, where the temperature profile is inverted and warmed from above by ozone absorbing ultraviolet, CO₂ mostly emits rather than absorbs, so adding CO₂ increases the loss. More CO₂ below also means less upwelling 15 µm radiation reaching those levels in the first place, since it has already been absorbed lower down.
+
+The prediction, therefore, is a warming surface and troposphere beneath a **cooling stratosphere**. Syukuro Manabe and Richard Wetherald derived exactly this in their 1967 radiative–convective model, decades before satellites could check it, and Manabe shared the 2021 Nobel Prize in Physics for that line of work.
+
+Satellite microwave sounders and radiosondes since 1979 have observed it. The lower stratosphere has cooled by several tenths of a kelvin per decade — the trend is confounded in places by ozone depletion, which cools the stratosphere too, but it persists after accounting for ozone recovery. IPCC AR6 assesses stratospheric cooling as one of several detection-and-attribution fingerprints, alongside greater warming of night-time minima than daytime maxima, and Arctic amplification.
+
+Two other observations are worth knowing because they measure the mechanism directly rather than inferring it. Harries and colleagues (*Nature*, 2001) compared the infrared spectrum Earth emits to space as recorded by the IRIS satellite in 1970 with the IMG instrument in 1997, and found the outgoing radiation reduced specifically in the CO₂ and CH₄ absorption bands — the greenhouse effect strengthening, seen from orbit, in exactly the wavelengths the spectroscopy predicts. Feldman and colleagues (*Nature*, 2015) did the complementary measurement from the ground, tracking downward longwave radiation at two US sites from 2000 to 2010 and isolating an increase of about 0.2 W/m² per decade attributable to rising CO₂. The surface really is receiving more infrared from above, and the top of the atmosphere really is losing less in the same bands.
+
+## It is not how a greenhouse works
+
+The name is a historical accident and the analogy it suggests is wrong.
+
+A glass greenhouse does stay warm, and glass is indeed fairly opaque to thermal infrared. But that is not mainly why it is warm. A greenhouse is warm because the glass is a **physical barrier that stops convection**: sunlight heats the soil and benches, the air in contact with them warms, and the warm air cannot rise away and be replaced by cool air from outside. Trapped air, not trapped radiation.
+
+R. W. Wood tested this in 1909 by building two identical small enclosures, one covered with glass and one with rock salt — which is transparent to infrared where glass is not. If radiation trapping were the mechanism, the salt-covered box should have stayed much cooler. Both reached nearly the same temperature. The refinement since is that the radiative term is not quite zero, but suppressed convection dominates, and Wood's basic conclusion stands. It is also why greenhouse growers vent the roof on a hot day: opening a window restores convection and the temperature drops immediately. Nothing about the glass's infrared properties changed.
+
+The atmospheric effect has no lid and no barrier. Air convects freely — vigorously, in fact; that convection is what sets the lapse rate the whole radiative picture depends on. The warming comes entirely from the radiative asymmetry: transparent to the wavelengths coming in, absorbing at the wavelengths going out, and re-emitting from a colder height. Same outcome, different physics.
+
+If you want a planetary check on the mechanism rather than a horticultural one, look at Venus. It receives *less* sunlight at the surface than Earth does, because its clouds reflect about three quarters of what arrives, and its albedo alone would put it near 230 K. Its surface is at 737 K. An atmosphere of 96% CO₂ at 92 bar is what a very large $\varepsilon$ looks like. Mars, with a thin CO₂ atmosphere at about 6 mbar, gets roughly 5 K of greenhouse warming. The same equation, three planets, three answers — which is the strongest argument that the equation is right.
+
+<KeyTakeaways>
+- Balance absorbed sunlight against Stefan–Boltzmann emission for a bare Earth and you get 255 K, or −18 °C; the observed surface is 288 K. That 33 K gap is the greenhouse effect, and it is the natural condition that makes the planet habitable — the concern is the recent *change* to it, not its existence.
+- The mechanism is a spectral asymmetry: the Sun radiates near 0.5 µm and Earth near 10 µm, and certain gases are transparent to the first and opaque to the second. The surface must then run hotter to push the same 238 W/m² out through a partly closed sky.
+- **Molecular geometry decides everything.** N₂ and O₂ are symmetric, their stretching vibration changes no dipole moment, and infrared passes straight through them — which is why 99% of the air is irrelevant here. CO₂'s bending mode does create a dipole, and it absorbs at 15 µm, right on the peak of Earth's emission.
+- Water vapour is the strongest greenhouse gas but a **feedback, not a driver**: it rains out in about nine days, so its amount is set by temperature (roughly +7% per kelvin) rather than by emissions. CO₂ persists for centuries, so it moves the temperature and water vapour amplifies the result.
+- Adding CO₂ forces logarithmically, $\Delta F \approx 5.35\ln(C/C_0)$, giving about 3.7 W/m² per doubling; AR6's assessed sensitivity is 3 °C best estimate, 2.5–4 °C likely. The vertical fingerprint — warming surface, cooling stratosphere — separates this from a brighter Sun, which would warm both.
+- A glass greenhouse is warm mainly because it blocks convection, not because it traps infrared, as R. W. Wood's 1909 rock-salt experiment showed. The name is a misnomer; the atmosphere has no lid.
+</KeyTakeaways>
