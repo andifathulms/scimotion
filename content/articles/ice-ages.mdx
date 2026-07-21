@@ -1,0 +1,211 @@
+---
+title: "Ice Ages and Milankovitch Cycles"
+subtitle: "The total sunlight barely changes. What changes is where it lands, and when — and that is enough to build a two-kilometre ice sheet over Canada."
+topic: "Earth & Climate"
+slug: "ice-ages"
+date: "2026-07-19"
+readTime: 10
+featured: false
+description: "Three slow wobbles in Earth's orbit redistribute sunlight across latitude and season without changing the total. Feedbacks turn that whisper into a hundred-metre swing in sea level — and the ice cores that recorded it hold one of climate science's most misread details."
+tags: ["ice-ages", "orbital-forcing", "paleoclimate", "feedbacks"]
+quiz:
+  - q: "Averaged over a whole year and the whole planet, orbital changes alter the sunlight Earth receives by well under 1%. Why, then, is 65°N summer insolation treated as the pacemaker of the ice ages?"
+    options:
+      - "Because the 65°N latitude band receives more total sunlight than any other, so changes there dominate the global average"
+      - "Because ice sheets grow where there is land to grow on, and whether they grow depends on whether winter snow survives the following summer — a seasonal, regional condition, not an annual global one"
+      - "Because the Southern Hemisphere has no seasons strong enough to melt snow, so only the north matters"
+      - "Because the orbital cycles only change insolation in the Northern Hemisphere and leave the Southern Hemisphere untouched"
+    answer: 1
+    explanation: "Precession moves sunlight between hemispheres and seasons rather than adding or removing it, so what matters is the local seasonal threshold for snow survival — and the continents that can host ice sheets are overwhelmingly northern."
+  - q: "Antarctic ice cores show that at the start of past deglaciations, CO2 began rising some centuries after temperature. What does this establish?"
+    options:
+      - "That CO2 cannot warm the climate, since the cause must precede the effect"
+      - "That the ice-core CO2 measurements are contaminated and unreliable"
+      - "That in those events CO2 acted as an amplifying feedback rather than the initial trigger — which says nothing about what happens when CO2 is instead the quantity being changed first"
+      - "That temperature and CO2 are unrelated and their correlation over 800 kyr is coincidental"
+    answer: 2
+    explanation: "A lag identifies what started the event, not what did the work; orbital forcing triggered the warming, ocean outgassing released CO2, and that CO2 then supplied roughly half of the total glacial-interglacial temperature change."
+  - q: "Over the last ~800 kyr the glacial cycles run at roughly 100 kyr, matching eccentricity's period. Why is this considered an unsolved problem rather than a confirmation?"
+    options:
+      - "Because eccentricity's period is actually 41 kyr, so the match is illusory"
+      - "Because eccentricity changes global annual-mean insolation by only about 0.1%, far too weak to be the direct driver, and before ~1 Ma the cycles ran at obliquity's 41 kyr instead"
+      - "Because the ice cores do not extend far enough back to see a 100 kyr rhythm"
+      - "Because eccentricity and obliquity have identical periods and cannot be distinguished in the record"
+    answer: 1
+    explanation: "Eccentricity is by far the weakest of the three cycles in direct radiative terms yet dominates the recent record, and the switch from 41 kyr to 100 kyr pacing around 1 Ma happened with no corresponding change in the orbit."
+---
+
+## The sunlight that did not change
+
+Twenty-one thousand years ago, an ice sheet two to three kilometres thick covered the site of modern Montreal, Chicago and Stockholm. Global sea level stood about **120 metres** lower than today. Global mean surface temperature was roughly **6 °C** colder (IPCC AR6 assesses the Last Glacial Maximum at 5–7 °C below 1850–1900, with a best estimate near 6 °C).
+
+Now the number that makes this strange. Over a full year, averaged over the whole planet, the sunlight Earth received at the Last Glacial Maximum differed from today's by a fraction of a percent. The Sun was not dimmer. The orbit was not meaningfully larger.
+
+What changed was **distribution** — how the same annual budget of sunlight is parcelled out between latitudes and between seasons. Earth's orbit wobbles on timescales of tens of thousands of years, and those wobbles move sunlight around without changing the total. A little more to the northern summer, a little less; a little more to the tropics, a little less to the poles.
+
+That redistribution is the whole trigger. It is, on its own, far too feeble to build an ice sheet. The gap between "far too feeble" and "two kilometres of ice over Canada" is filled by feedbacks, and understanding how a whisper becomes a shout is the real subject of this article.
+
+## Three wobbles
+
+Earth's orbit is an [ellipse with the Sun at one focus](/articles/keplers-laws), and the planet spins on a tilted axis. Both the ellipse and the tilt are perturbed by the gravity of the other planets — chiefly Jupiter and Saturn — and by the Moon's torque on Earth's equatorial bulge. The perturbations are periodic, and there are three of them.
+
+**Eccentricity** ($e$) measures how squashed the orbit is:
+
+$$e = \sqrt{1 - \frac{b^{2}}{a^{2}}}$$
+
+It varies between about **0.0034 and 0.058**, with dominant periods near **405 kyr** and a cluster around **95–125 kyr** conventionally rounded to "100 kyr". Today $e = 0.0167$ — near the low end.
+
+**Obliquity** ($\varepsilon$), the tilt of the spin axis relative to the orbital plane, oscillates between **22.1° and 24.5°** with a period of about **41 kyr**. It is currently 23.44° and decreasing, having passed its maximum around 9 kyr ago.
+
+**Precession** is the slow gyroscopic wheeling of the spin axis, a full circuit every ~25.7 kyr. Combined with the slower rotation of the orbit's own long axis, the climatically relevant quantity — where in the orbit each solstice falls — cycles with periods near **19 kyr and 23 kyr**. The usual index is
+
+$$P = e\sin\varpi$$
+
+where $\varpi$ is the longitude of perihelion measured from the March equinox. Right now perihelion falls in early January, so the Northern Hemisphere has its winter when Earth is closest to the Sun: northern seasons are currently *damped*, southern seasons *sharpened*.
+
+Notice what $P = e \sin\varpi$ says. Precession's climatic effect is **multiplied by eccentricity**. On a perfectly circular orbit, moving the solstice around the orbit changes nothing at all, because every point is the same distance from the Sun. This is the hinge on which the whole subject turns, and we will come back to it.
+
+## Watching three simple cycles become one messy signal
+
+Each cycle on its own is a plain sinusoid. Their sum is not, and the composite is what the climate system actually sees.
+
+<MilankovitchAnimation />
+
+*The series here is a faithful reproduction of the cycles' real periods, amplitudes and present-day phases, not a computation of a full orbital solution such as Laskar's.*
+
+Play it once with everything on, then start isolating. Turn **obliquity** off and the 41 kyr beat vanishes from the composite — the curve keeps its fast wiggle but loses a regular medium-period pulse. Turn **precession** off instead and almost all of the structure disappears at once: precession supplies most of the amplitude in the 65°N summer curve.
+
+Then do the interesting one. Leave precession on but freeze **eccentricity** at its mean. The curve keeps beating at 19–23 kyr, but the *envelope* flattens — the alternation between epochs of violent precessional swings and epochs of near-nothing is gone. Switch eccentricity back on and watch that envelope return, pinching to a waist every time $e$ approaches zero.
+
+This is eccentricity's real job. Its own direct effect on insolation is nearly nil. What it does is **set the volume knob on precession**, and that is the only way a 100 kyr period gets into the climate signal at all.
+
+Note also the scale on the composite: 65°N midsummer insolation ranges from roughly **390 to 550 W m⁻²** across the record — a swing of over 30%, at that latitude, in that season. The global annual mean over the same interval moves by less than 0.5 W m⁻² out of 340.
+
+## The math: a whisper and an amplifier
+
+The daily-mean insolation at latitude $\phi$ on a day when the Sun's declination is $\delta$ is
+
+$$\overline{Q}_{\text{day}} = \frac{S_{0}}{\pi}\left(\frac{a}{r}\right)^{2}\bigl(h_{0}\sin\phi\sin\delta + \cos\phi\cos\delta\sin h_{0}\bigr)$$
+
+with $h_0$ the half-day length in radians. Every orbital element enters somewhere: $\varepsilon$ sets the range of $\delta$, $e$ and $\varpi$ set $r$ on that date, and $\phi$ is where you stand. The equation contains no physics beyond geometry — this is pure bookkeeping about where sunlight falls.
+
+Now integrate it over a whole year and the whole sphere. Almost everything cancels, and what survives is startlingly small:
+
+$$\overline{S} = \frac{S_{0}}{4}\cdot\frac{1}{\sqrt{1 - e^{2}}}$$
+
+That is the *only* way orbital variation changes the global annual energy input. Going from $e = 0.0034$ to $e = 0.058$ multiplies it by $1.0017$: with $S_0/4 \approx 340\ \mathrm{W\,m^{-2}}$, a change of about **0.5 W m⁻²**. Obliquity and precession contribute exactly zero to this average — they only move energy around.
+
+Half a watt per square metre is not an ice age. For comparison, the total human-caused effective radiative forcing since 1750 is about **2.7 W m⁻²** (IPCC AR6), five times larger, and it has produced roughly 1.2 °C rather than 6 °C.
+
+### Why 65°N
+
+Milutin Milanković, working through the 1920s and 30s and publishing his synthesis as the *Canon of Insolation* in 1941, made the move that turns this from a curiosity into a theory. He argued that the relevant quantity is not the global annual mean at all but **summer insolation at high northern latitudes** — conventionally 65°N.
+
+The reasoning is physical, not statistical. An ice sheet grows when snow that falls in winter fails to melt in summer, year after year. Winter is already cold enough for snow essentially everywhere it matters; the binding constraint is the summer. So the question is not "how much sunlight does Earth get" but "does the northern summer get weak enough to leave last winter's snow standing".
+
+And it is the *north* because that is where the land is. Ice sheets need continents. The Northern Hemisphere holds nearly all of the mid-to-high-latitude land area — North America, Fennoscandia, Siberia. The Southern Hemisphere at those latitudes is almost entirely ocean, which cannot accumulate ice sheets. Antarctica is already glaciated and largely saturated. The asymmetry is geographic accident, and it makes northern summer the control knob.
+
+**Hays, Imbrie and Shackleton (1976)**, in a *Science* paper titled "Variations in the Earth's Orbit: Pacemaker of the Ice Ages", tested this directly. They took two deep-sea sediment cores from the southern Indian Ocean, extracted the oxygen-isotope and faunal records, and ran spectral analysis. Peaks appeared at approximately **23, 42 and 100 kyr** — the orbital periods, sitting in marine sediment. That paper is the reason Milanković's idea moved from speculation to the standard framework.
+
+### The amplifier
+
+Orbital forcing sets the timing. It does not supply the energy. That comes from feedbacks, which the standard framework writes as a gain on a reference response:
+
+$$\Delta T = \frac{\lambda_{0}\,\Delta F}{1 - f}, \qquad G = \frac{1}{1 - f}$$
+
+Here $\lambda_0 \approx 0.31\ \mathrm{K\,(W\,m^{-2})^{-1}}$ is the bare Planck response — what you get from Stefan–Boltzmann alone with nothing else allowed to change — and $f$ is the summed feedback factor.
+
+Run the Last Glacial Maximum through it. Treating the slow components as imposed boundary conditions, AR6 and the PMIP model intercomparisons put the LGM forcing at roughly:
+
+| Contribution | Forcing (W m⁻²) |
+| --- | --- |
+| Ice-sheet albedo (Laurentide, Fennoscandian) | ~ −3.2 |
+| Lower CO2, CH4, N2O | ~ −2.8 |
+| Dust and vegetation change | ~ −1 to −2 |
+| **Total** | **~ −8** |
+
+The greenhouse term is worth checking by hand. Using the standard logarithmic approximation for CO2 (the [saturation of the absorption bands](/articles/greenhouse-effect) is what makes it logarithmic rather than linear):
+
+$$\Delta F = 5.35\ln\!\left(\frac{C}{C_{0}}\right) = 5.35\ln\!\left(\frac{180}{280}\right) \approx -2.4\ \mathrm{W\,m^{-2}}$$
+
+So CO2 alone accounts for about a third of the LGM forcing. With $\Delta F = -8$, the Planck-only response would be $0.31 \times (-8) \approx -2.5\ \mathrm{K}$. The reconstructed cooling is about $-6\ \mathrm{K}$, implying $G \approx 2.4$ and $f \approx 0.58$ — water vapour, lapse rate and clouds doing the rest. That gain is consistent with the fast-feedback climate sensitivity derived from entirely independent lines of evidence, which is one of the quieter successes of the field.
+
+The chain, then, is: orbit changes northern summer insolation by tens of W m⁻² → snow survives one summer, then another → **ice-albedo feedback** takes over, because fresh snow reflects ~0.8 of incident sunlight against ~0.15 for tundra, so growing ice cools its own surroundings and grows further → the cooling ocean and altered circulation draw CO2 out of the atmosphere → CO2 cools the whole planet, including the hemisphere the orbital forcing never touched.
+
+That last step matters. Orbital forcing is antisymmetric between hemispheres: when the north gets a weak summer, the south gets a strong one. Yet the glacial cycles are **global and synchronous in sign**. Something has to carry the signal across the equator, and the leading candidate is the well-mixed greenhouse gases.
+
+## What the ice remembers
+
+Snow buried in an ice sheet traps air. Drill deep enough and you recover a stratified archive: the isotopic composition of the ice ($\delta\mathrm{D}$ or $\delta^{18}\mathrm{O}$) gives a temperature proxy, and bubbles give a direct sample of ancient atmosphere. The **EPICA Dome C** core in East Antarctica reaches back **~800 kyr** (Lüthi et al. 2008 for the CO2 record); the older **Vostok** core covers ~420 kyr. For the longer view, the **Lisiecki–Raymo (2005) LR04 stack** averages benthic $\delta^{18}\mathrm{O}$ from 57 globally distributed sediment cores over 5.3 Myr.
+
+<IceCoreAnimation />
+
+*Again, a faithful reproduction of the record's shape, timing and values rather than a live data feed.*
+
+Start zoomed out. Three things should be immediately visible.
+
+First, the **sawtooth**. Glaciations take 80–90 kyr of ragged, stepwise cooling; deglaciations — the "terminations" — take **5–10 kyr**. The asymmetry is not an artefact. Building an ice sheet is limited by snowfall accumulation, which is slow. Destroying one is limited by melting plus mechanical collapse, which is fast, and once retreat exposes dark ground the albedo feedback runs in reverse and accelerates it.
+
+Second, the **rhythm**: roughly eight or nine terminations in 800 kyr. About 100 kyr apart, but not metronomically — cycle lengths in the record run from ~85 to ~120 kyr.
+
+Third, **CO2 and temperature move together**, over and over, for eight full cycles. CO2 swings between about **180 ppm** in full glacials and **280–300 ppm** in interglacials. That is a 100 ppm range, and it never once leaves it in 800,000 years.
+
+Now press **Show present-day CO2** and let the axis rescale. Today's ~423 ppm sits far above the entire 800 kyr record — more than 40% above the highest interglacial value the ice has ever recorded, reached in about 170 years rather than 5,000.
+
+Then zoom into a termination and look carefully at the two traces.
+
+## The lag, handled properly
+
+Here is the detail that gets quoted more than any other, usually with the wrong conclusion attached.
+
+In the ice cores, at the start of past deglaciations, **CO2 begins to rise after Antarctic temperature begins to rise** — by several centuries. Caillon et al. (2003), using an argon-isotope method that dates the trapped gas independently of the ice, put the offset at Termination III at **800 ± 600 years**. The widget reproduces that classic figure.
+
+The argument built on this runs: cause precedes effect; temperature moved first; therefore CO2 does not cause warming. It is a clean-looking syllogism, and the physics it ignores is the part that matters.
+
+**What a lag tells you is what *started* an event. It does not tell you what did the *work*.**
+
+The sequence at a termination is well characterised. Orbital forcing raises northern summer insolation. Ice sheets begin to retreat, freshwater enters the North Atlantic, the overturning circulation weakens, and heat redistributes southward — the "bipolar seesaw" — warming the Southern Ocean. That warming, plus shifting southern westerlies and reduced sea-ice cover, releases CO2 that the cold glacial ocean had been holding: gas solubility falls as water warms, and deep water that had been sealed under sea ice is ventilated. **The CO2 rise is caused by the initial warming.** Then, because CO2 is a greenhouse gas whatever put it there, it warms the whole planet — including the Northern Hemisphere, which the Southern Ocean warming by itself would not have reached.
+
+The quantitative version: roughly the first 10% of glacial-interglacial warming precedes the CO2 rise; the remaining ~90% accompanies or follows it. Shakun et al. (2012), assembling 80 proxy records to build a *global* temperature curve for the last deglaciation rather than an Antarctic one, found that **global** temperature lags CO2 even though Antarctic temperature leads it — exactly the pattern the mechanism above predicts. Later work using improved gas-age models (Parrenin et al. 2013) narrowed the Antarctic offset itself toward near-synchrony, within about ±200 years.
+
+The clean way to state it: **in the glacial cycles CO2 is an amplifying feedback; today it is the forcing.** Those are different roles for the same molecule, and there is no contradiction in a quantity being able to occupy either. A thermostat's output can be driven by room temperature on Monday and set by hand on Tuesday.
+
+There is a further point that cuts the other way from how the lag is usually deployed. The glacial cycles are the strongest available evidence that **CO2 is a powerful lever on climate**. A ~100 ppm change contributes about 2.4 W m⁻² and, through the same feedbacks discussed above, a substantial fraction of a 6 °C global swing. We have raised CO2 by ~145 ppm — more than the entire glacial-interglacial range — deliberately, and quickly. The ice cores do not undercut that concern. They calibrate it.
+
+## The 100,000-year problem
+
+The theory has a genuine unsolved piece, and it is worth stating plainly rather than smoothing over.
+
+Over the last ~800 kyr the dominant rhythm of glaciation is ~100 kyr, matching eccentricity. But eccentricity is by a wide margin the *weakest* of the three cycles in direct radiative terms — that 0.5 W m⁻² in the global annual mean, versus tens of W m⁻² from precession and obliquity at 65°N. The strongest response in the record belongs to the weakest forcing in the theory.
+
+Worse, it has not always been so. Before about **1.25–0.7 Ma** — the **Mid-Pleistocene Transition** — the LR04 stack shows glacial cycles running at a clean **41 kyr**, obliquity's period, with smaller amplitude. Then, over a few hundred thousand years, the record switched to larger, longer, more asymmetric ~100 kyr cycles. **The orbit did not change.** Eccentricity has been doing the same thing throughout. Something in the Earth system changed its response.
+
+Candidate explanations exist and are actively debated:
+
+- **Nonlinear rectification.** Ice sheets respond asymmetrically — slow to grow, fast to collapse — so a system forced at 19, 23 and 41 kyr can produce power at 100 kyr without any 100 kyr forcing. The eccentricity envelope then sets which precession peaks are strong enough to trigger a termination.
+- **Cycle-skipping.** Terminations occur every fourth or fifth precession cycle, or every second or third obliquity cycle, gated by how much ice has accumulated. This naturally gives cycles of 80–120 kyr rather than a clean 100.
+- **Regolith removal.** Repeated glaciation may have scraped soft sediment off the Canadian Shield, leaving bare bedrock that ice sheets grip more firmly — permitting thicker, more stable ice that only the largest forcing peaks can destroy. This is an attractive account of the MPT specifically, because it explains a one-way change with no orbital trigger.
+- **Ice-sheet size thresholds.** Once ice sheets exceed a critical height they intercept the jet stream and alter their own accumulation, introducing internal timescales unrelated to the forcing.
+
+Most workers regard some combination as likely, with nonlinear response to precession and obliquity gated by eccentricity as the mainstream position. But there is no consensus mechanism, and papers proposing new ones appear regularly. The honest summary is: the *pacing* by orbital cycles is extremely well established, and the *specific mechanism* by which a 100 kyr rhythm dominates the last million years is not.
+
+This is worth holding on to as a model of how a mature science looks. Hays–Imbrie–Shackleton settled that orbital variation paces glaciation. That result has not wobbled in fifty years. It sits directly alongside an open question about the same records — and the open question does not destabilise the settled one, because they are claims of different kinds.
+
+## Where it matters
+
+The orbital framework is not only retrospective. Because the orbital elements are computable, future insolation is computable too — Laskar's solutions are considered reliable for tens of millions of years, beyond which the solar system's chaotic dynamics prevent precise integration.
+
+Run them forward and the next several tens of thousands of years are unusual. Eccentricity is currently low ($e = 0.0167$ and falling toward ~0.005), which as we saw suppresses precession's effect. Northern summer insolation therefore stays relatively flat, with no deep minimum of the kind that has triggered past glaciations. Berger and Loutre (2002) concluded on this basis that the current interglacial would be unusually long — of order 50,000 years — even without human influence, and later work has broadly supported that. At present CO2 levels, glacial inception in the foreseeable future is not expected.
+
+The cycles also underpin the geological timescale. **Cyclostratigraphy** uses orbital signals preserved in sedimentary rhythms as a clock, tuning ages far more precisely than radiometric dating alone permits, back through the Mesozoic. The 405 kyr eccentricity cycle is the metronome of choice because it is the most stable component of the orbital solution.
+
+And they provide the tightest available constraint on how much the [carbon cycle](/articles/carbon-cycle) and climate interact on long timescales. Every proposed explanation of the 100 kyr rhythm has to reproduce a 100 ppm CO2 swing arriving in step with the ice. The ocean, the atmosphere and the ice sheets are one coupled system, and the ice cores are the longest continuous recording of it we have.
+
+<KeyTakeaways>
+- Orbital cycles change the **global annual** sunlight by only $\overline{S} = (S_0/4)(1-e^2)^{-1/2}$ — about **0.5 W m⁻²** across the full range of $e$. They work by **redistributing** sunlight across latitude and season, not by adding it.
+- The three cycles are **eccentricity** (~100 kyr and 405 kyr, $e = 0.0034$–$0.058$), **obliquity** (~41 kyr, 22.1°–24.5°) and **precession** (~19 and 23 kyr, index $e\sin\varpi$). Eccentricity's main role is to set the **amplitude of precession** — on a circular orbit precession would do nothing at all.
+- Milanković identified **65°N summer insolation** as the pacemaker, because ice sheets need land (overwhelmingly northern) and grow only when winter snow survives the summer. **Hays, Imbrie and Shackleton (1976)** found the 23, 42 and 100 kyr periods in deep-sea cores and confirmed it.
+- The forcing is far too weak on its own. **Ice-albedo and CO2 feedbacks** supply the energy: at the LGM, ~−8 W m⁻² of imposed forcing plus a fast-feedback gain of $G = 1/(1-f) \approx 2.4$ produces the observed ~6 °C cooling.
+- In the ice cores CO2 **lags** Antarctic temperature by centuries at terminations — because there it is an **amplifying feedback**, released by an orbitally triggered warming and then responsible for most of the resulting temperature change. That is a different role from today's, where CO2 is the quantity being changed first. Present-day 423 ppm sits far above the entire 800 kyr range of 180–300 ppm.
+- The **100 kyr problem** is genuinely open: the weakest cycle dominates the recent record, and the switch from 41 kyr to 100 kyr pacing at the Mid-Pleistocene Transition happened with no change in the orbit at all.
+</KeyTakeaways>

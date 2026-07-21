@@ -129,6 +129,8 @@ import {
   SeafloorSpreadingAnimation,
   NaturalSelectionAnimation,
   GeneticDriftAnimation,
+  MilankovitchAnimation,
+  IceCoreAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -244,6 +246,8 @@ const components = {
   SeafloorSpreadingAnimation,
   NaturalSelectionAnimation,
   GeneticDriftAnimation,
+  MilankovitchAnimation,
+  IceCoreAnimation,
   KeyTakeaways,
 }
 

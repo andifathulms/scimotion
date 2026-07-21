@@ -560,3 +560,13 @@ export const GeneticDriftAnimation = dynamic(
   () => import('@/components/animations/GeneticDriftAnimation').then(m => ({ default: m.GeneticDriftAnimation })),
   { ssr: false }
 )
+
+export const MilankovitchAnimation = dynamic(
+  () => import('@/components/animations/MilankovitchAnimation').then(m => ({ default: m.MilankovitchAnimation })),
+  { ssr: false }
+)
+
+export const IceCoreAnimation = dynamic(
+  () => import('@/components/animations/IceCoreAnimation').then(m => ({ default: m.IceCoreAnimation })),
+  { ssr: false }
+)

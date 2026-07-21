@@ -1621,6 +1621,32 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'ice-ages': c => {
+    // The glacial sawtooth: ~7 cycles across 800 kyr — long ragged descent into
+    // each glacial, then a rapid termination.
+    const pts: string[] = []
+    for (let i = 0; i <= 280; i++) {
+      const u = i / 280
+      const p = (u * 7) % 1
+      const base = p < 0.85 ? 26 + 68 * Math.pow(p / 0.85, 1.1) : 94 - 68 * ((p - 0.85) / 0.15)
+      const y = base - 3 * Math.sin(p * 2 * Math.PI * 3)
+      pts.push(`${10 + i},${Math.round(y * 100) / 100}`)
+    }
+    return (
+      <g>
+        <rect x={10} y={26} width={280} height={69} fill={FAINT} />
+        <line x1={10} y1={12} x2={290} y2={12} stroke={GOLD} strokeWidth={1} strokeDasharray="5 4" />
+        <text x={290} y={9} fontSize={7} fill={GOLD} fontFamily="monospace" textAnchor="end">today · 423 ppm</text>
+        <polyline points={pts.join(' ')} fill="none" stroke={c} strokeWidth={1.5} strokeLinejoin="round" />
+        {[50, 90, 130, 170, 210, 250].map(x => (
+          <polygon key={x} points={`${x},20 ${x - 3},26 ${x + 3},26`} fill={GOLD} opacity={0.75} />
+        ))}
+        <text x={10} y={112} fontSize={7} fill={MUTE} fontFamily="monospace">800 kyr BP</text>
+        <text x={150} y={112} fontSize={7} fill={GOLD} fontFamily="monospace" textAnchor="middle">~100 kyr</text>
+        <text x={290} y={112} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="end">now</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
