@@ -540,3 +540,13 @@ export const CirculationCellsAnimation = dynamic(
   () => import('@/components/animations/CirculationCellsAnimation').then(m => ({ default: m.CirculationCellsAnimation })),
   { ssr: false }
 )
+
+export const PlateTectonicsAnimation = dynamic(
+  () => import('@/components/animations/PlateTectonicsAnimation').then(m => ({ default: m.PlateTectonicsAnimation })),
+  { ssr: false }
+)
+
+export const SeafloorSpreadingAnimation = dynamic(
+  () => import('@/components/animations/SeafloorSpreadingAnimation').then(m => ({ default: m.SeafloorSpreadingAnimation })),
+  { ssr: false }
+)

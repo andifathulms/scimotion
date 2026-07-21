@@ -1552,6 +1552,45 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'plate-tectonics': c => {
+    // Cross-section: spreading ridge (left) -> plate travelling right -> trench
+    // and subducting slab (right), with a convection cell circulating beneath.
+    // All coordinates are integer literals; nothing is computed at render time.
+    return (
+      <g>
+        <line x1={0} y1={30} x2={300} y2={30} stroke={FAINT} strokeWidth={1} />
+        <path
+          d="M 0 30 L 300 30 L 300 34 L 232 34 L 222 74 L 214 72 L 170 58 L 116 52 L 92 46 L 88 50 L 84 46 L 60 52 L 0 60 Z"
+          fill={`${c}0D`}
+        />
+        <ellipse cx={110} cy={90} rx={64} ry={22} fill="none" stroke={c} strokeWidth={1} strokeDasharray="3 3" opacity={0.35} />
+        <polygon points="174,97 170,88 178,88" fill={c} opacity={0.55} />
+        <polygon points="46,83 42,92 50,92" fill={c} opacity={0.55} />
+        <circle cx={110} cy={68} r={1.5} fill={c} opacity={0.5} />
+        <circle cx={150} cy={75} r={1.5} fill={c} opacity={0.5} />
+        <circle cx={70} cy={75} r={1.5} fill={c} opacity={0.5} />
+        <circle cx={110} cy={112} r={1.5} fill={c} opacity={0.5} />
+        <path d="M 214 77 L 248 98 L 272 112" fill="none" stroke={c} strokeWidth={10} strokeLinecap="round" opacity={0.45} />
+        <path
+          d="M 0 60 L 60 52 L 84 46 L 88 50 L 92 46 L 116 52 L 170 58 L 214 72 L 214 82 L 170 68 L 116 62 L 92 56 L 88 60 L 84 56 L 60 62 L 0 70 Z"
+          fill={`${c}33`}
+          stroke={c}
+          strokeWidth={1.25}
+        />
+        <path d="M 222 74 L 232 34 L 300 34 L 300 52 L 224 52 Z" fill={`${c}14`} stroke={MUTE} strokeWidth={1} />
+        <line x1={88} y1={72} x2={88} y2={56} stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={88} cy={66} r={5} fill={GOLD} />
+        <polygon points="252,16 244,34 260,34" fill={GOLD} />
+        <circle cx={222} cy={80} r={1.8} fill={GOLD} />
+        <circle cx={236} cy={89} r={1.8} fill={GOLD} />
+        <circle cx={250} cy={98} r={1.8} fill={MUTE} />
+        <circle cx={264} cy={107} r={1.8} fill={MUTE} />
+        <line x1={130} y1={44} x2={156} y2={44} stroke={c} strokeWidth={1.25} />
+        <polygon points="162,44 155,41 155,47" fill={c} />
+        <text x={110} y={38} fill={MUTE} fontSize={8} fontFamily="monospace">5 cm/yr</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -46,6 +46,15 @@ export const learningPaths: LearningPath[] = [
     // before electrochemistry (the Nernst equation is equilibrium applied to redox).
     articleSlugs: ['atomic-structure', 'chemical-bonding', 'phase-transitions', 'reaction-kinetics', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
   },
+  {
+    slug: 'planet-earth',
+    title: 'Planet Earth',
+    description:
+      'The machinery of a working planet — the rock that moves beneath it, the air and ocean that carry its heat, and the carbon and radiation budgets that set its temperature.',
+    // Solid earth first, then the fluid envelopes that ride on it, then the two
+    // budgets — radiation and carbon — that the circulation articles feed into.
+    articleSlugs: ['plate-tectonics', 'atmospheric-convection', 'ocean-circulation', 'greenhouse-effect', 'carbon-cycle'],
+  },
 ]
 
 export function getPath(slug: string): LearningPath | undefined {

@@ -125,6 +125,8 @@ import {
   ThermohalineAnimation,
   ConvectionAnimation,
   CirculationCellsAnimation,
+  PlateTectonicsAnimation,
+  SeafloorSpreadingAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -236,6 +238,8 @@ const components = {
   ThermohalineAnimation,
   ConvectionAnimation,
   CirculationCellsAnimation,
+  PlateTectonicsAnimation,
+  SeafloorSpreadingAnimation,
   KeyTakeaways,
 }
 
