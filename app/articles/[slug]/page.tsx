@@ -131,6 +131,8 @@ import {
   GeneticDriftAnimation,
   MilankovitchAnimation,
   IceCoreAnimation,
+  PhotosynthesisAnimation,
+  CalvinCycleAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -248,6 +250,8 @@ const components = {
   GeneticDriftAnimation,
   MilankovitchAnimation,
   IceCoreAnimation,
+  PhotosynthesisAnimation,
+  CalvinCycleAnimation,
   KeyTakeaways,
 }
 

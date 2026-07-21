@@ -1,0 +1,177 @@
+---
+title: "Photosynthesis"
+subtitle: "A leaf runs a solar-powered electron transport chain that rips hydrogen off water — and the exhaust is the air you breathe."
+topic: "Biology"
+slug: "photosynthesis"
+date: "2026-07-18"
+readTime: 11
+featured: false
+description: "How a green pigment, a proton gradient, and one famously sloppy enzyme convert sunlight into the carbon in your body — and why the whole apparatus runs at about one percent efficiency."
+tags: ["photosynthesis", "bioenergetics", "chlorophyll", "rubisco"]
+quiz:
+  - q: "A plant is grown in an atmosphere where the CO₂ is labelled with heavy oxygen (C¹⁸O₂) while the water is ordinary H₂¹⁶O. Where does the ¹⁸O end up?"
+    options:
+      - "In the O₂ released from the leaf, since the oxygen gas is stripped from carbon dioxide"
+      - "In the sugars and in water made by the plant, because the O₂ released comes from splitting water, not CO₂"
+      - "Split evenly between the released O₂ and the sugars, since both oxygen sources mix in a common pool"
+      - "Nowhere measurable, because oxygen atoms exchange too fast between CO₂ and water for the label to persist"
+    answer: 1
+    explanation: "Photosystem II oxidises water to supply electrons, so every O₂ molecule is assembled from water oxygens while the CO₂ oxygens stay with the fixed carbon and the water it generates."
+  - q: "Increasing the light on a shaded C3 leaf raises its photosynthetic rate steeply at first, then the curve flattens even though more photons keep arriving. What is limiting it at the plateau?"
+    options:
+      - "Chlorophyll becomes photobleached and can no longer absorb photons"
+      - "The leaf reaches the thermodynamic maximum set by the energy of a red photon"
+      - "Photon capture is no longer the bottleneck — the downstream carbon reactions, chiefly RuBisCO turnover and CO₂ supply, cannot consume ATP and NADPH any faster"
+      - "The proton gradient collapses at high light, uncoupling ATP synthesis"
+    answer: 2
+    explanation: "At low light the rate is photon-limited and rises linearly, but at saturation the rate-limiting step moves downstream to CO₂ fixation, so extra photons are dissipated rather than used."
+  - q: "C4 plants spend two extra ATP per CO₂ operating a biochemical pump, yet they outperform C3 plants in hot, bright, dry conditions. Why does paying more win?"
+    options:
+      - "The pump lets them use green light, which C3 plants reflect"
+      - "Concentrating CO₂ around RuBisCO suppresses oxygenation, and the carbon and ATP saved by avoiding photorespiration exceeds the pump's cost under those conditions"
+      - "The pump removes their dependence on the proton gradient, so ATP is cheaper for them"
+      - "It allows them to keep stomata fully open, maximising CO₂ uptake"
+    answer: 1
+    explanation: "Photorespiration worsens as temperature rises and stomata close, so a pump that keeps RuBisCO's active site CO₂-rich pays for itself precisely under the conditions that make oxygenation frequent."
+---
+
+## You are made of air
+
+Take a moment with a claim that sounds wrong the first time you hear it. Almost every carbon atom in your body — in your muscles, your DNA, the fat under your skin — was, not very long ago, a molecule of carbon dioxide drifting around in the atmosphere. Something green pulled it out of the air and welded it onto a sugar. You ate that sugar, or you ate an animal that did.
+
+Trees are not built out of soil. Jan Baptist van Helmont demonstrated this in the seventeenth century by growing a willow in a weighed pot of earth for five years; the tree gained around 74 kg and the soil lost a couple of hundred grams. He concluded, wrongly, that it was made of water. He was half right, and about the far more surprising half: the mass came from the air and from water, not from the ground.
+
+And the energy currently contracting the muscles in your hand arrived here as sunlight. It crossed 150 million kilometres of vacuum, hit a chlorophyll molecule in a leaf, knocked an electron uphill, and was banked as chemical bonds. Every calorie you have ever eaten is stored starlight, with only two exceptions worth mentioning: deep-sea vents and the nuclear reactor.
+
+The machinery that does this is the most consequential chemistry on the planet. It is also, unusually for biology, understandable end to end.
+
+## Two reactions wearing one name
+
+The summary equation is deceptively tidy:
+
+$$6\,\mathrm{CO_2} \;+\; 6\,\mathrm{H_2O} \;\xrightarrow{\ \text{light}\ }\; \mathrm{C_6H_{12}O_6} \;+\; 6\,\mathrm{O_2}$$
+
+Balanced, memorable, and responsible for a great deal of confusion — because it looks as though the oxygen comes out of the carbon dioxide. It does not. The reaction is better written to show that water appears on both sides:
+
+$$6\,\mathrm{CO_2} \;+\; 12\,\mathrm{H_2O} \;\xrightarrow{\ \text{light}\ }\; \mathrm{C_6H_{12}O_6} \;+\; 6\,\mathrm{O_2} \;+\; 6\,\mathrm{H_2O}$$
+
+Twelve waters go in, six come back out, and **all twelve of the oxygen atoms released as O₂ came from water**. Cornelis van Niel inferred this in the 1930s by comparing plants with sulfur bacteria, which run the same trick using H₂S and excrete elemental sulfur instead of oxygen; Samuel Ruben and Martin Kamen confirmed it directly in 1941 with the ¹⁸O labelling experiment. Photosynthesis is not carbon dioxide being torn apart. It is **water being torn apart** to get at its electrons, with the oxygen discarded as waste. The most important gas in the biosphere is a by-product.
+
+That reframing makes the whole process legible, because it splits cleanly into two halves that meet only through two shuttle molecules:
+
+1. **The light-dependent reactions**, in the thylakoid membranes. Photons drive electrons from water up to a carrier, and the energy released along the way is stored as a proton gradient. Products: **ATP**, **NADPH**, and O₂ waste.
+2. **The Calvin cycle** (light-independent, but not "dark" — it runs in daylight), in the stroma. It spends that ATP and NADPH to attach CO₂ to a sugar skeleton.
+
+The first half is a solar-powered [redox reaction](/articles/electrochemistry), organised on exactly the same principle as a battery: separate the oxidation from the reduction and force the electrons to travel a route where you can extract work from them. In a galvanic cell that route is a wire through your device. In a chloroplast it is a chain of protein complexes, and the work extracted is a proton gradient.
+
+## Why leaves are green, and why that is slightly embarrassing
+
+Light does not come as a single thing. It arrives as a spectrum, and a pigment interacts with a photon only if the photon's energy matches an available electronic transition. The energy of a photon is set entirely by its wavelength ([electromagnetic waves](/articles/electromagnetic-waves) covers where that relation comes from):
+
+$$E \;=\; \frac{hc}{\lambda}$$
+
+With $h = 6.626 \times 10^{-34}\ \mathrm{J\,s}$ and $c = 3.00 \times 10^{8}\ \mathrm{m\,s^{-1}}$, a red photon at $\lambda = 680\ \mathrm{nm}$ carries
+
+$$E \;=\; \frac{(6.626\times10^{-34})(3.00\times10^{8})}{680\times10^{-9}} \;\approx\; 2.9\times10^{-19}\ \mathrm{J} \;\approx\; 1.8\ \mathrm{eV}$$
+
+Multiply by Avogadro's number and that is about **176 kJ per mole of photons**. A blue photon at 430 nm carries roughly 1.6 times as much.
+
+Chlorophyll *a* has two strong absorption bands: one in the blue around 430 nm (the Soret band) and one in the red around 662 nm, with chlorophyll *b* and the carotenoids filling in nearby. Between them sits a trough from roughly 500 to 600 nm. Green light is poorly absorbed, so it is scattered and transmitted — and that reflected remainder is what reaches your eye. **A leaf is green because green is the light it declines to use.**
+
+Which is faintly absurd, because green is close to where the Sun's spectral irradiance peaks. The Sun's surface at about 5,800 K emits a roughly blackbody spectrum whose peak, per unit wavelength, sits near 500 nm. Photosynthesis has arranged to reflect the most abundant photons on offer.
+
+There is no fully settled explanation, but the leading ones are instructive. Absorbing everything is not obviously desirable: a leaf in full sun already receives several times more photons than its carbon reactions can process, and excess excitation is dangerous — it generates singlet oxygen and destroys the very proteins doing the work. Recent work on light-harvesting also argues that sitting in a *steep* part of the spectrum, rather than at the peak, lets the two photosystems keep their inputs balanced as light conditions flicker; the trough is a noise-reduction strategy. And there is history: chlorophyll's chemistry was likely fixed early, perhaps under water or beneath a mat of organisms already using the middle of the spectrum, and evolution rarely re-engineers a component this deeply embedded.
+
+## Inside the thylakoid
+
+A chloroplast contains stacks of flattened membrane sacs. The membrane separates two compartments — the **stroma** outside and the **lumen** inside — and the whole light reaction is a machine for moving protons from the first into the second.
+
+<PhotosynthesisAnimation />
+
+Push the light slider up from zero and watch the sequence assemble itself. Photons strike **photosystem II**. Its reaction-centre chlorophyll, P680, loses an electron; the resulting P680⁺ is the strongest biological oxidant known, powerful enough to do something no other enzyme on Earth does routinely — **tear electrons off water**. The oxygen-evolving complex, a manganese–calcium cluster, holds two water molecules and strips them four electrons at a time:
+
+$$2\,\mathrm{H_2O} \;\longrightarrow\; \mathrm{O_2} \;+\; 4\,\mathrm{H^+} \;+\; 4\,e^-$$
+
+Watch where the O₂ in the widget comes from: it is assembled at the lumen face of photosystem II out of water molecules drawn in from below. It never touches the CO₂ side of the story, because in this widget there is no CO₂ at all. The four protons are dumped straight into the lumen, which is the first contribution to the gradient.
+
+The liberated electrons then travel: through plastoquinone within the membrane, to the **cytochrome b₆f complex** — which pumps more protons into the lumen as they pass — then across the lumen on plastocyanin to **photosystem I**, where a second photon boosts them again, and finally out to ferredoxin and onto NADP⁺ to make **NADPH**. Meanwhile the accumulated protons in the lumen have nowhere to go except back through **ATP synthase**, a rotary motor that turns roughly one revolution per 12 to 14 protons and phosphorylates ADP as it spins. The lumen becomes about a thousand times more acidic than the stroma — a ΔpH of around 3.
+
+Now the thing worth playing with. Raise the light from 10% to 40% and the entire chain speeds up more or less proportionally: twice the photons, twice the oxygen. Keep going toward 100% and the curve in the corner bends over and flattens. The photons are still arriving; the output has stopped responding. At low light the rate is **photon-limited**, and every extra photon buys you carbon. Past saturation the bottleneck has moved downstream — the carbon reactions cannot consume ATP and NADPH fast enough — and the surplus energy has to be deliberately thrown away as heat by the xanthophyll cycle, or it will damage the leaf. This is why a plant on a windowsill responds dramatically to a brighter room and a plant in an open field barely notices a passing cloud.
+
+## The Z-scheme, and the arithmetic of four photons
+
+Plot the electrons' energy against their position in the chain and you get a shape that gave the mechanism its name: up at photosystem II, gradually down through the carriers, up again at photosystem I, then down onto NADP⁺. A letter Z, drawn sideways.
+
+Two boosts are needed because one is not enough. To move an electron from water ($E^{\circ\prime} = +0.82\ \mathrm{V}$) to NADP⁺ ($E^{\circ\prime} = -0.32\ \mathrm{V}$) is an uphill climb of about **1.14 V**, and a single red photon's 1.8 eV cannot cover that span plus the unavoidable losses at each transfer while still leaving a driving force. So the chain does it in two lifts with a downhill run in between — and that downhill run is not wasted, because the cytochrome b₆f complex uses it to pump protons. The Z-scheme is a two-stage booster with an energy-recovery stage bolted on.
+
+The bookkeeping falls out of it. One O₂ requires four electrons removed from two waters. Each electron must be lifted twice, so **eight photons per O₂** is the theoretical minimum, and careful measurements put the real requirement at 8 to 10 — remarkably close to the limit. That is the **quantum yield**, usually quoted the other way round as moles of CO₂ fixed per mole of photons absorbed:
+
+$$\Phi \;=\; \frac{\text{mol CO}_2\ \text{fixed}}{\text{mol photons absorbed}} \;\approx\; \frac{1}{8}\ \text{to}\ \frac{1}{10} \;\approx\; 0.10\text{–}0.125$$
+
+Those eight photons yield, per CO₂ fixed, about **2 NADPH and 3 ATP** — which is exactly what the Calvin cycle is about to demand. The match is not coincidence: cyclic electron flow around photosystem I exists precisely to top up ATP without making NADPH, tuning the ratio to whatever the stroma currently needs.
+
+## The cycle that builds the sugar
+
+The ATP and NADPH now cross into the stroma, where the Calvin cycle spends them. It runs in three stages.
+
+**Fixation.** The enzyme RuBisCO attaches CO₂ to ribulose-1,5-bisphosphate (RuBP), a 5-carbon sugar. The 6-carbon product is unstable and immediately splits into two molecules of 3-phosphoglycerate (3-PGA).
+
+**Reduction.** Each 3-PGA is phosphorylated by ATP and reduced by NADPH to glyceraldehyde-3-phosphate (G3P). Per CO₂: 2 ATP and 2 NADPH.
+
+**Regeneration.** Most of the G3P is reshuffled, at a cost of 1 more ATP per turn, back into RuBP so the cycle can continue.
+
+The carbon accounting is the part worth being careful about, because a single turn fixes only one carbon atom, and G3P has three. **Three turns are needed per exported triose:**
+
+$$3\,\mathrm{CO_2} + 9\,\mathrm{ATP} + 6\,\mathrm{NADPH} \;\longrightarrow\; 1\ \mathrm{G3P}\ (3\mathrm{C}) + 9\,\mathrm{ADP} + 8\,\mathrm{P_i} + 6\,\mathrm{NADP^+}$$
+
+Of the six G3P produced by three turns, one leaves and five are recycled: $5 \times 3 = 15$ carbons rebuild $3 \times 5 = 15$ carbons of RuBP. Nothing is lost. Building one glucose takes six turns, 18 ATP and 12 NADPH.
+
+<CalvinCycleAnimation />
+
+Start with photorespiration switched **off** and let the wheel turn. Follow the ledger: turns tick up, ATP and NADPH drain at 3 and 2 per turn, and every third turn a G3P is exported. The ATP-per-exported-G3P figure settles on 9. That is the textbook cycle, running clean.
+
+Now switch photorespiration **on** and leave the CO₂ slider at its default — roughly the concentration RuBisCO actually experiences in a leaf in ordinary air. Pink turns start appearing. Watch what happens on those turns: RuBisCO grabs an O₂ molecule instead of a CO₂ one. Then drag the CO₂ slider down, as a plant does to itself on a hot dry day when it closes its stomata to save water, and the pink turns take over completely.
+
+## RuBisCO's expensive mistake
+
+RuBisCO is the most abundant protein on Earth — plausibly around 0.7 gigatonnes of it, several kilograms per person — and it is not very good at its job.
+
+It is slow, turning over roughly 3 CO₂ molecules per second where a typical enzyme manages thousands. Plants compensate by building preposterous quantities of it, up to half the soluble protein in a leaf. But the deeper problem is specificity: **RuBisCO cannot reliably tell CO₂ from O₂.** Both are small, linear, and nonpolar; the intermediate the enzyme forms is a chemical trap that either gas can spring. When O₂ wins, RuBP is cleaved into one 3-PGA and one molecule of 2-phosphoglycolate, a two-carbon compound the plant cannot use and which is toxic to the chloroplast.
+
+Salvaging it — **photorespiration** — is an expensive detour through the peroxisome and the mitochondrion that recovers three of every four salvaged carbons and **releases the fourth as CO₂**, while consuming ATP and reducing power. Carbon that was just fixed goes straight back out.
+
+The competition follows a simple ratio:
+
+$$\frac{v_o}{v_c} \;=\; \frac{1}{S_{c/o}} \cdot \frac{[\mathrm{O_2}]}{[\mathrm{CO_2}]}$$
+
+where $S_{c/o}$ is RuBisCO's specificity factor, about 90 in a typical C3 plant. In a leaf in ordinary air, dissolved O₂ is around 265 µM and CO₂ around 10 µM — a 26-fold excess of the wrong molecule — so $v_o/v_c \approx 0.3$. **Roughly one reaction in four is a mistake**, and the net cost to a C3 crop is on the order of 20–30% of potential yield. It gets worse with heat, because $S_{c/o}$ falls as temperature rises and O₂ becomes relatively more soluble, and worse again with drought, because closing stomata starves the leaf of CO₂ while photosynthesis keeps generating O₂ inside it.
+
+The usual explanation is that RuBisCO evolved in an anoxic world where the discrimination was never tested — and that once it sat at the centre of a network this large, improving it became nearly impossible. There is also a hard trade-off: across species, higher specificity comes with slower catalysis.
+
+So evolution went around the problem instead, at least twice.
+
+**C4 plants** (maize, sugarcane, sorghum, most tropical grasses) run a spatial pump. An entirely different enzyme, PEP carboxylase — which has no affinity for O₂ whatsoever — fixes CO₂ into a 4-carbon acid in the mesophyll cells. That acid is shuttled into sealed bundle-sheath cells and decarboxylated there, flooding RuBisCO with CO₂ at several times ambient concentration. Oxygenation nearly vanishes. It costs 2 extra ATP per CO₂, which is why C4 loses to C3 in cool, dim conditions and wins decisively in hot bright ones. C4 photosynthesis has evolved independently more than 60 times, which tells you how strong the pressure is.
+
+**CAM plants** (cacti, pineapples, agaves) run the same pump in time rather than space. They open their stomata at night, when evaporative demand is low, fix CO₂ into malic acid, store it in the vacuole, and then close up for the entire day and release it internally to RuBisCO behind sealed doors. It is slow, and it is why desert plants grow slowly, but water loss per carbon fixed drops by an order of magnitude.
+
+Trying to engineer this into C3 crops — installing C4 machinery in rice, or transplanting bacterial carbon-concentrating mechanisms, or shortcutting the salvage pathway — is one of the most active areas in plant science. Field trials of engineered photorespiratory bypasses have reported biomass gains above 20% in tobacco.
+
+## What it all adds up to
+
+Now the efficiency question, which is where photosynthesis looks least impressive and is most often misunderstood.
+
+Work down from the top. Of incoming sunlight, only about 45% is in the 400–700 nm band that photosynthesis can use at all. Some is reflected or transmitted. Then a hard thermodynamic loss: a 680 nm photon delivers 1.8 eV, but the useful charge separation banks appreciably less, and blue photons are degraded to the same value as red ones before doing any work — the extra energy becomes heat within femtoseconds. Then the losses in the carbohydrate synthesis, then photorespiration, then respiration by the plant's own non-photosynthetic tissue, which burns 30–60% of the gross product just to stay alive.
+
+The theoretical ceiling works out at roughly **4.6% for C3 and 6% for C4**. Actual field crops manage **1–2%**, and averaged over the whole biosphere the figure is nearer **0.3%**.
+
+A commercial silicon photovoltaic panel converts 20–22% of incident sunlight to electricity. Photosynthesis loses by an order of magnitude, and the comparison is not really fair in either direction — a leaf builds and repairs itself out of air and water, and it stores its output as a dense, stable, transportable chemical fuel rather than an electric current that must be used or expensively banked. But if the question is narrowly "what fraction of sunlight becomes usable energy", the panel wins easily, and that arithmetic is why growing biofuel crops needs so much land.
+
+And yet the aggregate is staggering. Global gross primary production is roughly **120 gigatonnes of carbon per year** — the single largest natural carbon flux on the planet, and one half of the fast [carbon cycle](/articles/carbon-cycle). It is very nearly cancelled by respiration and decomposition returning a similar amount, which is exactly why the atmospheric CO₂ record shows a seasonal sawtooth of about 6 ppm rather than a collapse: you are watching the biosphere inhale each Northern Hemisphere spring as leaves come out, and exhale each autumn as they rot. A 1% efficient process, run across every lit surface of a planet for three and a half billion years, oxygenated an atmosphere, buried the carbon that became coal and oil, and built every food chain there is.
+
+<KeyTakeaways>
+- The O₂ you breathe comes from **splitting water**, not from CO₂. Photosystem II oxidises H₂O to harvest its electrons and discards the oxygen as waste — a conclusion the ¹⁸O labelling experiments settled in 1941.
+- Leaves are green because chlorophyll absorbs **red and blue and reflects green** — mildly ironic, since green is close to where the Sun's output peaks. Reflecting the most abundant photons is probably about photoprotection and stability, not efficiency.
+- The light reactions are a solar-driven [redox chain](/articles/electrochemistry): two photon boosts (the Z-scheme) lift electrons from water at $+0.82$ V to NADP⁺ at $-0.32$ V, storing energy as a proton gradient that ATP synthase converts to ATP. The minimum cost is **8 photons per O₂**, a quantum yield of about $1/8$.
+- The Calvin cycle needs **three turns per exported G3P**: $3\,\mathrm{CO_2} + 9\,\mathrm{ATP} + 6\,\mathrm{NADPH}$. RuBisCO frequently grabs O₂ instead, and since $v_o/v_c = (1/S_{c/o})([\mathrm{O_2}]/[\mathrm{CO_2}]) \approx 0.3$ in ordinary air, photorespiration costs C3 crops 20–30% of their yield — which C4 and CAM plants dodge by concentrating CO₂ in space or in time.
+- Real-world conversion efficiency is only **1–2%** against ~20% for a photovoltaic panel, yet the process moves ~120 GtC per year — the largest flux in the [carbon cycle](/articles/carbon-cycle) and the origin of nearly every carbon atom in your body.
+</KeyTakeaways>

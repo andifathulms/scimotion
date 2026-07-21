@@ -1647,6 +1647,40 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  photosynthesis: c => {
+    // Thylakoid membrane: photons strike PS II and PS I, water is split in the
+    // lumen and the O2 rises out, protons drive the ATP synthase. All integers.
+    const protons = [24, 54, 84, 114, 144, 174, 204, 234]
+    const electrons = [86, 104, 122, 140]
+    return (
+      <g>
+        <rect x={10} y={80} width={280} height={24} fill={`${c}14`} />
+        <rect x={10} y={52} width={280} height={28} fill={FAINT} />
+        <line x1={10} y1={52} x2={290} y2={52} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={10} y1={80} x2={290} y2={80} stroke={MUTE} strokeWidth={0.75} />
+        <text x={14} y={16} fontSize={6} fill={MUTE} fontFamily="monospace">STROMA</text>
+        <text x={286} y={100} fontSize={6} fill={MUTE} fontFamily="monospace" textAnchor="end">LUMEN</text>
+        <line x1={22} y1={8} x2={50} y2={42} stroke={GOLD} strokeWidth={2} />
+        <line x1={86} y1={8} x2={72} y2={42} stroke={GOLD} strokeWidth={2} />
+        <line x1={104} y1={8} x2={134} y2={42} stroke={GOLD} strokeWidth={2} />
+        <line x1={120} y1={8} x2={150} y2={42} stroke={GOLD} strokeWidth={2} />
+        <rect x={44} y={44} width={34} height={44} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <rect x={132} y={44} width={32} height={44} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <rect x={228} y={44} width={26} height={44} rx={4} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <circle cx={241} cy={34} r={9} fill="none" stroke={c} strokeWidth={1.25} />
+        <text x={241} y={18} fontSize={7} fill={GOLD} fontFamily="monospace" textAnchor="middle">ATP</text>
+        <line x1={78} y1={70} x2={164} y2={70} stroke={MUTE} strokeWidth={0.75} />
+        {electrons.map(x => <circle key={x} cx={x} cy={70} r={2} fill={c} />)}
+        <text x={16} y={98} fontSize={7} fill={MUTE} fontFamily="monospace">H₂O</text>
+        <line x1={42} y1={95} x2={56} y2={88} stroke={MUTE} strokeWidth={1} />
+        <line x1={61} y1={88} x2={61} y2={32} stroke={c} strokeWidth={1} strokeDasharray="3 3" opacity={0.6} />
+        <circle cx={61} cy={22} r={9} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <text x={61} y={25} fontSize={7} fill={c} fontFamily="monospace" textAnchor="middle">O₂</text>
+        {protons.map(x => <circle key={x} cx={x} cy={92} r={2} fill={c} opacity={0.55} />)}
+        <line x1={241} y1={88} x2={241} y2={50} stroke={c} strokeWidth={1} opacity={0.5} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

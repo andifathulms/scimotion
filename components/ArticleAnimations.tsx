@@ -570,3 +570,13 @@ export const IceCoreAnimation = dynamic(
   () => import('@/components/animations/IceCoreAnimation').then(m => ({ default: m.IceCoreAnimation })),
   { ssr: false }
 )
+
+export const PhotosynthesisAnimation = dynamic(
+  () => import('@/components/animations/PhotosynthesisAnimation').then(m => ({ default: m.PhotosynthesisAnimation })),
+  { ssr: false }
+)
+
+export const CalvinCycleAnimation = dynamic(
+  () => import('@/components/animations/CalvinCycleAnimation').then(m => ({ default: m.CalvinCycleAnimation })),
+  { ssr: false }
+)
