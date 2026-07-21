@@ -1,0 +1,167 @@
+---
+title: "Ocean Circulation"
+subtitle: "How wind, rotation, and the density of salt water organise the sea into gyres, jets, and a conveyor that takes a thousand years to turn."
+topic: "Earth & Climate"
+slug: "ocean-circulation"
+date: "2026-07-13"
+readTime: 10
+featured: false
+description: "Why the Gulf Stream is narrow and fast, what the Coriolis effect actually does (and does not do), and what oceanographers really think about an AMOC collapse."
+tags: ["oceanography", "coriolis", "amoc", "climate"]
+quiz:
+  - q: "Every subtropical gyre on Earth has a narrow, fast current on its western side and a broad, sluggish return on its east. What is responsible for that asymmetry?"
+    options:
+      - "Continents on the western side of ocean basins are steeper, funnelling the flow"
+      - "The variation of the Coriolis parameter with latitude, so that vorticity balance can only close in a thin western boundary layer"
+      - "Prevailing winds are stronger over the western half of each basin"
+      - "Water is denser on the western side because rivers deliver less fresh water there"
+    answer: 1
+    explanation: "Stommel showed that if the Coriolis parameter were constant the gyre would be symmetric; it is the northward increase of f, the parameter beta, that forces the return flow into a narrow western jet."
+  - q: "Water draining from a bathtub in the northern hemisphere is often said to spiral one way because of the Coriolis effect. Why is this wrong?"
+    options:
+      - "The Coriolis effect vanishes for vertical motion, and drainage is vertical"
+      - "The Coriolis effect reverses direction for liquids denser than air"
+      - "At bathtub scales the Rossby number is enormous, so residual currents and basin shape overwhelm a rotational acceleration of order 10^-5 m/s^2"
+      - "Bathtubs are too far from the equator for the effect to apply"
+    answer: 2
+    explanation: "Rotation only organises a flow when the Rossby number U/(fL) is small, which requires large length scales or long timescales — a draining sink is thousands of times outside that regime."
+  - q: "Adding fresh water to the northern North Atlantic weakens the overturning circulation. What is the mechanism?"
+    options:
+      - "Fresh water is warmer, so it raises the surface temperature directly"
+      - "Fresh water lowers surface density, reducing the contrast with the water below and making deep convection harder to trigger"
+      - "Fresh water increases the viscosity of sea water, slowing the current"
+      - "Fresh water blocks the wind stress that drives the sinking"
+    answer: 1
+    explanation: "Sinking requires surface water to become denser than the water beneath it, and because density depends on salinity as well as temperature, freshening removes the density excess that drives convection."
+---
+
+## Britain sits at the latitude of Labrador
+
+Draw a line east from Goose Bay, Labrador. It runs across the Atlantic and strikes land again in northern England, near Newcastle. The two places sit at essentially the same distance from the pole and receive the same sunlight through the year.
+
+Their Januarys are not remotely comparable. Goose Bay averages about $-17\ ^\circ\mathrm{C}$; Newcastle averages about $+4\ ^\circ\mathrm{C}$. Twenty degrees of difference, at the same latitude, on the same planet.
+
+Something is moving heat. Roughly $5$–$6$ petawatts of it crosses each hemisphere's mid-latitudes, split between the atmosphere and the ocean, and in the Atlantic a large share is carried by a current so distinct that Benjamin Franklin had it charted in 1770. Understanding how the sea organises itself into currents like that — why they exist, why they run where they do, and why some of them are narrow and violent while others are broad and slow — turns out to require only two ingredients: something to push the water, and a planet that rotates underneath it.
+
+We will also have to be careful. The Britain-versus-Labrador comparison is the standard opening for this subject, and it is not quite as clean as it sounds. We will come back and fix it.
+
+## A push, and a planet turning underneath
+
+Start with the push. Wind blowing over water drags on the surface. The stress is small — a stiff breeze exerts perhaps $0.1\ \mathrm{Pa}$, about a thousandth of the pressure in a bicycle tyre — but it acts over an entire ocean, continuously, for the entire history of the ocean. Integrated, it is enormous.
+
+The prevailing winds are not random. Solar heating drives large overturning cells in the atmosphere which, deflected by the same rotation we are about to discuss, organise into bands: easterly trade winds in the tropics, westerlies in the mid-latitudes, easterlies again near the poles. Those bands are remarkably persistent, and the ocean beneath them feels a persistent, banded push.
+
+Now the rotation. A parcel of water moving across the Earth's surface is moving in a rotating reference frame, and in that frame its trajectory appears to curve. This is the **Coriolis effect**. No force is really acting: the parcel is going straight, and the ground beneath it is turning. But if you insist on doing your bookkeeping in the rotating frame — and living on the planet, you do — you must add an apparent acceleration perpendicular to the velocity, to the right in the northern hemisphere, to the left in the southern.
+
+Its strength is set by the **Coriolis parameter**
+
+$$f = 2\Omega \sin\phi$$
+
+where $\Omega = 7.292 \times 10^{-5}\ \mathrm{rad\,s^{-1}}$ is the Earth's rotation rate and $\phi$ is latitude. At $45^\circ\mathrm{N}$, $f \approx 1.03 \times 10^{-4}\ \mathrm{s^{-1}}$. At the equator $\sin\phi = 0$ and $f$ vanishes entirely; in the southern hemisphere it changes sign.
+
+That number deserves a moment. An acceleration of $10^{-4}$ times a velocity is tiny. For water moving at $0.1\ \mathrm{m\,s^{-1}}$ the Coriolis acceleration is $10^{-5}\ \mathrm{m\,s^{-2}}$ — one millionth of gravity. It only matters because the ocean gives it so much time and so much space to work.
+
+**Which is exactly why it does not drain your bathtub.** The relevant measure is the **Rossby number**, the ratio of the flow's own inertia to the Coriolis term:
+
+$$Ro = \frac{U}{fL}$$
+
+Rotation organises a flow only when $Ro$ is small. For a gyre, $U \sim 0.1\ \mathrm{m\,s^{-1}}$, $L \sim 10^6\ \mathrm{m}$, $f \sim 10^{-4}\ \mathrm{s^{-1}}$, giving $Ro \sim 10^{-3}$: rotation dominates completely. For a sink, $U \sim 0.1\ \mathrm{m\,s^{-1}}$ and $L \sim 0.3\ \mathrm{m}$, giving $Ro \sim 3000$. Rotation is three thousand times too weak to compete with whatever residual swirl the water already had from being poured, splashed, or stirred. Sinks drain whichever way the last disturbance left them. (The effect *has* been demonstrated in a bathtub — by Shapiro in 1962 and Trefethen in 1965 — but only in a symmetric tank, filled with great care, and left to stand still for a full day first. That is the experimental effort required to hear a signal that quiet.)
+
+The other consequence of $f$ acting on wind-driven water is **Ekman transport**. Wind drags the very top layer; that layer is deflected right (in the northern hemisphere); it drags the layer below, which is deflected further; and the result is a spiral that decays with depth. Vagn Walfrid Ekman worked this out in 1905 after Fridtjof Nansen noticed that Arctic ice floes drifted $20$–$40^\circ$ to the right of the wind rather than straight downwind. Integrate over the whole spiral and the *net* transport is exactly perpendicular to the wind:
+
+$$\mathbf{M}_{E} = \frac{\boldsymbol{\tau} \times \hat{\mathbf{k}}}{\rho f}$$
+
+Ninety degrees to the right of the wind in the north, ninety to the left in the south. Not a small correction — a right angle.
+
+## Watching gyres appear
+
+Here is the whole wind-driven system in one view: banded winds pushing on a rotating ocean, in basins bounded by continents.
+
+<OceanCirculationAnimation />
+
+Be clear about what this is. It is not an ocean model. It is a Stommel-style streamfunction — the classic 1948 idealisation of a rectangular wind-driven basin — with tracers released into it, blended against a purely zonal wind-driven flow so that the rotation knob has somewhere to go. The behaviour it shows is real; the pixels are a schematic.
+
+What to try:
+
+- **Leave rotation at $1.00\times$ first.** Each basin fills with closed **gyres**: clockwise in the northern subtropics, anticlockwise in the southern. Where the wind bands meet, the gyres stack. Below about $60^\circ\mathrm{S}$ the continents run out and the flow becomes a single circumpolar band — the Antarctic Circumpolar Current, the largest current on Earth precisely because nothing stands in its way.
+- **Watch the western edges.** The tracers on the west side of each basin move several times faster than anywhere else, and the trails go gold. That is western intensification, and it is the Gulf Stream, the Kuroshio, the Agulhas, the Brazil Current. Note that the return flow across the basin interior is so slow it barely registers.
+- **Now drag rotation to $0.00$.** Everything collapses. The gyres do not weaken — they cease to exist. Water simply runs downwind along each latitude band and piles up against the coast, and the Ekman deflection glyph in the corner falls to zero degrees. There is no closed circulation at all, because there is nothing to turn the flow.
+- **Bring it back up slowly.** Around $0.2$–$0.4\times$ the gyres reappear but are broad and lazy, with a wide western limb. As you push past $1\times$ the western boundary layer narrows further and the jet inside it gets faster.
+
+That last point is the one worth sitting with. The narrowness and the speed are the same phenomenon: the same volume of water has to return through a thinner strip, so it must move faster. Rotation is not making the ocean go faster overall. It is deciding *where* the ocean is allowed to be fast.
+
+## Why the fast lane is always on the west
+
+Formalise it. Away from boundaries and away from the equator, the ocean interior is in **geostrophic balance**: the pressure-gradient force and the Coriolis term almost exactly cancel, leaving
+
+$$f\,\hat{\mathbf{k}} \times \mathbf{u} = -\frac{1}{\rho}\nabla p$$
+
+Component-wise, $fu = -\frac{1}{\rho}\frac{\partial p}{\partial y}$ and $fv = \frac{1}{\rho}\frac{\partial p}{\partial x}$. This is a strange and powerful statement. In a non-rotating fluid, water flows *down* the pressure gradient, from high to low. In a rotating one it flows *along* the contours, at right angles to the gradient, with high pressure on its right in the northern hemisphere. Sea-surface height maps are therefore streamline maps: the mound of water in the middle of the North Atlantic subtropical gyre — about a metre higher than its edges — is not spreading out, it is being circled.
+
+Ekman transport supplies the mound. Under the subtropics the winds converge the surface layers (trades from the south side, westerlies from the north, each transport turned $90^\circ$ inward), water piles up, and the pile drives the geostrophic gyre. The depth-integrated interior flow follows the **Sverdrup relation**,
+
+$$\beta V = \frac{1}{\rho}\left(\nabla \times \boldsymbol{\tau}\right)_z, \qquad \beta \equiv \frac{\mathrm{d}f}{\mathrm{d}y} = \frac{2\Omega\cos\phi}{R}$$
+
+where $V$ is the meridional transport per unit width and $R$ is the Earth's radius. Negative wind-stress curl over the subtropics gives $V$ southward — the whole basin interior drifts equatorward, slowly.
+
+And now the puzzle that Henry Stommel solved in 1948. That equatorward interior drift has to come back. Sverdrup's relation cannot tell you where, because it breaks down at boundaries. Stommel's trick was to keep the latitude dependence of $f$ — to keep $\beta$ non-zero — and add a simple bottom friction. He found that with $\beta = 0$ the gyre is perfectly symmetric, east–west, with equally lazy flow on both sides. Restore $\beta$ and the symmetry shatters: the return flow is forced into a narrow layer on the **western** boundary, whose width scales as
+
+$$\delta_S = \frac{r}{\beta}$$
+
+with $r$ the friction coefficient. Walter Munk refined it in 1950 using lateral eddy viscosity, giving $\delta_M = (A_H/\beta)^{1/3}$ and the recirculating countercurrent seen offshore of the real Gulf Stream. Either way the physics is the same: a water column moving poleward gains planetary vorticity and must shed relative vorticity to compensate, and only a strong shear zone against a coast can supply the required torque. Because $f$ increases northward everywhere, the boundary layer is western in *both* hemispheres. There is no exception anywhere on Earth.
+
+The result is a current transporting around $30\ \mathrm{Sv}$ through the Florida Straits and over $100\ \mathrm{Sv}$ off Cape Hatteras, where $1\ \mathrm{Sv} = 10^6\ \mathrm{m^3\,s^{-1}}$ — more than every river on the planet combined, several times over. It runs at $2\ \mathrm{m\,s^{-1}}$ in a ribbon under $100\ \mathrm{km}$ wide, and it carries heat: the Atlantic's poleward ocean heat transport peaks near $1.2$–$1.3\ \mathrm{PW}$ at $26^\circ\mathrm{N}$. A petawatt is $10^{15}\ \mathrm{W}$, roughly sixty times humanity's total primary energy consumption.
+
+**The promised correction.** All of that is real, and yet the Britain-versus-Labrador gap is mostly *not* the Gulf Stream. Seager and colleagues showed in 2002 that if you remove ocean heat transport from a model, north-west Europe cools by only a few degrees — not twenty. The bulk of the contrast comes from the atmosphere: stationary waves set up by the Rockies push cold continental air south over eastern North America and warm maritime air north over Europe, and Europe's winters are further moderated by heat released from the seasonal warming stored in the Atlantic mixed layer. The ocean matters, but it is one of three mechanisms, not the whole story. Keep the number in mind for the next section — it is the same number people quote when discussing an AMOC collapse.
+
+## The other engine: temperature and salt
+
+Wind only reaches the top few hundred metres. The other ninety-five per cent of the ocean is driven differently — by density.
+
+Sea-water density depends on temperature, salinity, and pressure. Linearised about a reference state, it is
+
+$$\rho \approx \rho_0\left[1 - \alpha\,(T - T_0) + \beta_S\,(S - S_0)\right]$$
+
+with a thermal expansion coefficient $\alpha \approx 2 \times 10^{-4}\ \mathrm{K^{-1}}$ and a haline contraction coefficient $\beta_S \approx 7.6 \times 10^{-4}\ \mathrm{psu^{-1}}$. Cold water is dense; salty water is dense. Oceanographers usually quote $\sigma = \rho - 1000\ \mathrm{kg\,m^{-3}}$, so typical values run from about $26$ at the warm surface to $27.9$ in the deep Atlantic.
+
+Read the coefficients off and something important falls out: a change of $1\ \mathrm{psu}$ in salinity is worth roughly $3.8\ ^\circ\mathrm{C}$ in temperature. Salinity is not a minor correction. In the cold polar ocean, where $\alpha$ itself shrinks, salinity is very nearly the whole story.
+
+Where surface water becomes dense enough to sink, it does — in the Labrador and Nordic Seas, and around Antarctica. Two things conspire there. First, the water arrives already salty, having evaporated its way across the subtropical Atlantic. Second, when sea ice forms it is *fresh*: the crystal lattice excludes salt, which is rejected into the water below as dense brine. Freezing the surface makes the water beneath it saltier, and therefore heavier. The column becomes unstable and overturns, sometimes to three kilometres in a matter of days.
+
+<ThermohalineAnimation />
+
+This is the same ocean seen edge-on, south on the left and the far North Atlantic on the right. Again: schematic, not a model. The parcels follow prescribed loops; what is calculated honestly is the density from the linearised equation of state above, and the overturning strength derived from the density contrast.
+
+What to try:
+
+- **Run it with freshwater at $0.00\ \mathrm{Sv}$.** Warm gold parcels track poleward at the surface, cool to cyan, sink in the north, and return as a cold blue tongue at depth before upwelling in the south. The readout sits near $17\ \mathrm{Sv}$ — deliberately, since that is close to what the RAPID array has measured at $26.5^\circ\mathrm{N}$ since 2004.
+- **Now add freshwater slowly.** Watch the density panel, not the parcels. Surface salinity falls, $\sigma_{\text{surf}}$ falls with it, and the contrast against the deep water shrinks. The sinking limb narrows; the overturning readout drops.
+- **Find the point where it hits zero.** It arrives disconcertingly early — a freshening of only about $0.23\ \mathrm{psu}$ is enough to erase the entire density excess. Beyond it the parcels stop sinking altogether and short-circuit back at the surface. The system has switched to a different mode.
+
+That early threshold is the crux of the whole AMOC debate, and it is why Stommel's 1961 two-box model has stayed influential for sixty years. It contains a genuine positive feedback: a weaker overturning imports less salt into the north, which freshens the north further, which weakens the overturning again. Feedbacks like that permit multiple stable states and abrupt transitions between them, which is very different behaviour from a system that responds smoothly and proportionally.
+
+Zoom out and the sinking in the north is one limb of a **global overturning circulation** — deep water forming in the North Atlantic and around Antarctica, spreading south and then east through the Southern Ocean into the Indian and Pacific basins, upwelling diffusely and along wind-driven Southern Ocean pathways, and eventually returning at the surface. Radiocarbon dating puts the age of deep water in the North Pacific at roughly $1000$–$1500$ years since it last touched the atmosphere. That is the circuit time. Water sinking off Greenland this winter will not see the sky again until well after the year 3000.
+
+That timescale is why the ocean is the climate system's flywheel. It is also why parts of it are effectively unforgiving: heat and carbon delivered to the deep ocean now are committed there on a millennial schedule, and no policy operates on that clock.
+
+## What we actually know about the AMOC
+
+The Atlantic Meridional Overturning Circulation is the Atlantic's share of that global loop, and it is the piece under active scrutiny. Here is the state of play, stated as carefully as the evidence allows.
+
+**What is measured.** The RAPID-MOCHA array has monitored the AMOC at $26.5^\circ\mathrm{N}$ continuously since 2004, finding a mean near $17\ \mathrm{Sv}$ with large year-to-year swings. Two decades is a short record against a circulation with decadal variability, and the IPCC's Sixth Assessment Report is explicit that observations are not yet long enough to establish a robust long-term trend. Longer-range reconstructions from sea-surface temperature patterns and sediment proxies suggest weakening since the mid-twentieth century or earlier, but these are indirect and carry real uncertainty. Fresh water is arriving: Greenland's ice sheet has been losing mass at a few hundred gigatonnes per year, and the subpolar Atlantic has freshened.
+
+**What is projected.** AR6 assesses that the AMOC is *very likely* to weaken over the twenty-first century under all considered scenarios. That part is not seriously contested. On collapse, the assessment is that there is *medium confidence* the AMOC will not undergo an abrupt collapse before 2100. Some more recent studies argue the models used are biased toward stability and put a collapse this century within the range of possibility; that work is genuine and worth taking seriously, and it has not yet displaced the assessed position. The honest summary is: substantial weakening is expected, full collapse this century is considered unlikely, and the uncertainty on that judgement is not small.
+
+**What a collapse would and would not do.** This is where popular accounts go badly wrong. *The Day After Tomorrow* has the circulation stop and the northern hemisphere flash-freeze in a week, with a wall of super-cooled air descending on New York. Nothing in the physics permits this. There is no mechanism for an atmospheric cold pool of that kind, and there is no way to remove the ocean's stored heat on a timescale of days.
+
+What models actually produce for a full shutdown is a cooling of a few degrees over north-west Europe, developing over decades, partially offset by ongoing greenhouse warming — closer to the Seager estimate from the previous section than to an ice age. The more serious consequences are elsewhere and less cinematic: a southward shift of tropical rainfall belts affecting the monsoon systems that feed billions of people, a regional sea-level rise of tens of centimetres along the north-east coast of North America as the sea-surface slope maintained by the current relaxes, and disruption of the nutrient supply that sustains North Atlantic fisheries. Those are the reasons the AMOC is watched. They are quite bad enough without the wall of ice.
+
+The palaeoclimate record supplies the reason nobody dismisses the question. The **Dansgaard–Oeschger events** of the last glacial period show Greenland warming by $8$–$15\ ^\circ\mathrm{C}$ within a few decades, repeatedly, and the leading explanation involves reorganisations of North Atlantic deep-water formation. The circulation has changed mode abruptly before. That is not proof it will do so again under present conditions — the glacial world had ice sheets and meltwater routing that no longer exist — but it settles the question of whether abrupt change is physically available to this system. It is.
+
+<KeyTakeaways>
+- Surface ocean circulation is **wind pushing on a rotating planet**. Winds supply the momentum; the Coriolis parameter $f = 2\Omega\sin\phi$ turns it, sending net Ekman transport a full $90^\circ$ from the wind and organising each basin into closed gyres.
+- The Coriolis effect governs flows with a **small Rossby number** $Ro = U/(fL)$ — big, slow, long-lived ones. A draining sink has $Ro \sim 10^3$, so it is decided by residual swirl and basin shape, not by the hemisphere you are in.
+- **Western intensification** is a consequence of $\beta = \mathrm{d}f/\mathrm{d}y$ being non-zero: the return flow of every subtropical gyre is squeezed into a narrow, fast jet against the western boundary, in both hemispheres, with no exceptions.
+- The deep ocean is driven by **density**, and because $1\ \mathrm{psu}$ of salinity is worth about $3.8\ ^\circ\mathrm{C}$, freshening the North Atlantic is a direct brake on sinking. The resulting global overturning has a circuit time of roughly a **thousand years**.
+- On the AMOC, hold two things at once: weakening over this century is **very likely**, while an abrupt full collapse before 2100 is currently assessed as unlikely with only medium confidence. A genuine shutdown would cool north-west Europe by a few degrees over decades and shift tropical rainfall belts — not freeze New York in a week.
+</KeyTakeaways>

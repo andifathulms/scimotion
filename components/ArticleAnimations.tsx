@@ -520,3 +520,13 @@ export const RadiationSpectrumAnimation = dynamic(
   () => import('@/components/animations/RadiationSpectrumAnimation').then(m => ({ default: m.RadiationSpectrumAnimation })),
   { ssr: false }
 )
+
+export const OceanCirculationAnimation = dynamic(
+  () => import('@/components/animations/OceanCirculationAnimation').then(m => ({ default: m.OceanCirculationAnimation })),
+  { ssr: false }
+)
+
+export const ThermohalineAnimation = dynamic(
+  () => import('@/components/animations/ThermohalineAnimation').then(m => ({ default: m.ThermohalineAnimation })),
+  { ssr: false }
+)

@@ -121,6 +121,8 @@ import {
   KeelingCurveAnimation,
   GreenhouseEffectAnimation,
   RadiationSpectrumAnimation,
+  OceanCirculationAnimation,
+  ThermohalineAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -228,6 +230,8 @@ const components = {
   KeelingCurveAnimation,
   GreenhouseEffectAnimation,
   RadiationSpectrumAnimation,
+  OceanCirculationAnimation,
+  ThermohalineAnimation,
   KeyTakeaways,
 }
 

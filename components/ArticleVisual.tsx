@@ -1484,6 +1484,36 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'ocean-circulation': c => {
+    // Conveyor in cross-section: warm surface flow poleward, sinking under the
+    // sea ice, cold return at depth, upwelling in the south. Integers only.
+    return (
+      <g>
+        <rect x={10} y={16} width={280} height={90} rx={4} fill="none" stroke={FAINT} strokeWidth={1} />
+        <line x1={10} y1={32} x2={290} y2={32} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={10} y1={50} x2={17} y2={50} stroke={FAINT} strokeWidth={0.75} />
+        <line x1={10} y1={70} x2={17} y2={70} stroke={FAINT} strokeWidth={0.75} />
+        <line x1={10} y1={90} x2={17} y2={90} stroke={FAINT} strokeWidth={0.75} />
+        {[236, 250, 264].map(x => (
+          <rect key={x} x={x} y={26} width={11} height={5} rx={1} fill={MUTE} opacity={0.55} />
+        ))}
+        <path d="M 26 40 C 90 34 170 34 240 40" stroke={GOLD} strokeWidth={2.5} fill="none" strokeLinecap="round" />
+        <path d="M 130 31 L 142 36 L 130 41 Z" fill={GOLD} />
+        <path d="M 240 40 C 268 44 272 58 272 72 C 272 86 260 92 240 92 L 60 92" stroke={c} strokeWidth={2.5} fill="none" strokeLinecap="round" />
+        <path d="M 267 62 L 277 62 L 272 74 Z" fill={c} />
+        <path d="M 156 87 L 144 92 L 156 97 Z" fill={c} />
+        <path d="M 60 92 C 34 92 26 74 26 56 L 26 40" stroke={MUTE} strokeWidth={2} fill="none" strokeLinecap="round" />
+        <path d="M 21 62 L 31 62 L 26 50 Z" fill={MUTE} />
+        <circle cx={60} cy={38} r={2} fill={GOLD} />
+        <circle cx={100} cy={36} r={2} fill={GOLD} />
+        <circle cx={180} cy={36} r={2} fill={GOLD} />
+        <circle cx={200} cy={92} r={2} fill={c} />
+        <circle cx={120} cy={92} r={2} fill={c} />
+        <text x={62} y={28} fontSize={7} fill={GOLD} fontFamily="monospace">warm surface flow</text>
+        <text x={104} y={104} fontSize={7} fill={c} fontFamily="monospace">cold return at depth</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
