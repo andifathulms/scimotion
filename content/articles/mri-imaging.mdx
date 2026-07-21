@@ -1,0 +1,148 @@
+---
+title: "How MRI Sees Inside You"
+subtitle: "A scanner that listens to the water in your body singing back a radio note whose pitch says where it came from."
+topic: "Medicine"
+slug: "mri-imaging"
+date: "2026-07-17"
+readTime: 10
+featured: false
+description: "Nuclear spins, a resonance condition, and an inverse Fourier transform — how a magnet and a radio antenna build a picture of soft tissue without a single ionising photon."
+tags: ["imaging", "resonance", "fourier", "diagnostics"]
+quiz:
+  - q: "An RF pulse is broadcast at a frequency a few kilohertz away from the Larmor frequency of the hydrogen nuclei in a sample. Why does almost no signal come back?"
+    options:
+      - "The radio waves are absorbed by tissue before they reach the nuclei, so no energy arrives"
+      - "Off resonance the effective field the spins feel is dominated by the detuning rather than the RF field, so the magnetisation only wobbles slightly instead of tipping into the transverse plane"
+      - "The detuned pulse tips the magnetisation just as far, but the receiver coil is tuned too narrowly to hear the resulting signal"
+      - "Detuning reverses the direction of precession, so the induced voltages from different nuclei cancel exactly"
+    answer: 1
+    explanation: "Excitation is a resonance phenomenon: only when the drive matches the precession frequency does the small RF field accumulate a large rotation, and a detuned pulse leaves the magnetisation nearly along the main field."
+  - q: "Two soft tissues have almost identical hydrogen density but noticeably different T2 values. How can a scanner make them look different from each other?"
+    options:
+      - "It cannot; identical proton density always produces identical image brightness"
+      - "By raising the main field strength until the proton densities themselves diverge"
+      - "By waiting a while after excitation before measuring, so the tissue with the shorter T2 has already lost more of its transverse signal"
+      - "By increasing the gradient strength, which amplifies the signal from the tissue with the longer T2"
+    answer: 2
+    explanation: "Because transverse signal decays as an exponential in T2, delaying the measurement converts a difference in relaxation time into a difference in brightness — which is why MRI distinguishes tissues that X-rays cannot."
+  - q: "A radiographer reconstructs an image using only the outermost lines of k-space and discards the central ones. What does the result look like?"
+    options:
+      - "A small version of the full image, since fewer samples means a smaller field of view"
+      - "A blurred but correctly shaded image, because the outer lines set the overall brightness"
+      - "An image of edges and fine texture on a dark background, because the broad shading lives in the low spatial frequencies at the centre"
+      - "Random noise, because the outer lines contain no information about the object at all"
+    answer: 2
+    explanation: "The centre of k-space holds the low spatial frequencies that carry bulk contrast, so removing it leaves only the high-frequency content — outlines and fine detail with no overall shading."
+---
+
+## A body full of tiny radios
+
+You are, by mass, mostly water. Every water molecule carries two hydrogen nuclei, and every hydrogen nucleus is a single proton. There are roughly $7 \times 10^{19}$ of them in a cubic millimetre of tissue — a number so large that even a fantastically weak effect, multiplied across all of them, becomes measurable.
+
+An MRI scanner exploits exactly that. It puts you inside a very strong magnet, broadcasts a brief pulse of radio waves, and then goes quiet and listens. What comes back is a faint radio note, sung by the hydrogen nuclei themselves as they wobble back toward alignment. The scanner's trick — the one idea that turns a note into a picture — is to arrange the magnetic field so that **the pitch of the note tells you where in the body it came from**.
+
+Nothing is cut, nothing is injected, and, crucially, nothing ionising is used. The energy of a photon at MRI's operating frequencies is around $10^{-7}$ electronvolts, some fifty million times too small to break a chemical bond, let alone knock an electron off a molecule. That is a genuine and important difference from CT and plain X-ray, and we will come back to it.
+
+## Spin, and the magnet that lines it up
+
+A proton has a property called **spin**. It is not literally rotating, but it behaves in one important respect as though it were: it carries angular momentum, and with it a magnetic moment. A proton is, in effect, a minuscule bar magnet with a built-in gyroscope.
+
+Left alone, these tiny magnets point in every direction at random, and their fields cancel to nothing. Put them in a strong, uniform field $B_0$ — 1.5 or 3 tesla in a clinical scanner, tens of thousands of times the Earth's field — and two things happen.
+
+First, a slight statistical excess lines up with the field rather than against it. Only a slight one: thermal jostling at body temperature is far stronger than the magnetic energy, and the imbalance is about
+
+$$\frac{\Delta N}{N} \approx \frac{\gamma \hbar B_0}{2k_B T} \approx 5 \times 10^{-6}$$
+
+roughly five spins per million at 1.5 T. Everything else cancels. But five in a million of $10^{19}$ is still an enormous number of spins, and their sum is a real, macroscopic **net magnetisation** $M$ pointing along the field.
+
+Second — and this is the part that makes imaging possible — a magnetic moment with angular momentum does not simply swing into alignment like a compass needle. It **precesses**, sweeping out a cone around the field direction like a tilted spinning top, at a frequency set entirely by the field strength:
+
+$$\omega = \gamma B_0$$
+
+This is the **Larmor equation**, and it is the hinge of the whole subject. For hydrogen the gyromagnetic ratio is $\gamma = 2.675 \times 10^{8}\ \mathrm{rad\,s^{-1}\,T^{-1}}$, which is more usefully written as
+
+$$\frac{\gamma}{2\pi} = 42.58\ \mathrm{MHz\,T^{-1}}$$
+
+So at 1.5 T, hydrogen precesses at 63.9 MHz; at 3 T, at 127.7 MHz. Those are FM-radio and VHF frequencies — [radiofrequency electromagnetic waves](/articles/electromagnetic-waves), the long, low-energy end of the spectrum. Hydrogen's frequency is not a design choice. It is a physical constant of the nucleus, and every element has its own.
+
+## Tipping the magnetisation
+
+Aligned magnetisation is useless on its own: it sits parallel to a huge static field and changes nothing you could detect. To get a signal you must knock it sideways, and to knock it sideways you use [resonance](/articles/resonance).
+
+Broadcast a small oscillating magnetic field $B_1$ — thousands of times weaker than $B_0$ — at exactly the Larmor frequency, and each cycle nudges the precessing magnetisation in the same rotational sense, cycle after cycle, exactly like pushing a child on a swing in time with its arc. The nudges accumulate and $M$ spirals away from the field axis. A pulse of the right duration tips it a full 90°, leaving the entire magnetisation lying in the **transverse plane**, where it now precesses in a wide circle. A rotating magnetic vector next to a coil of wire induces a voltage. That voltage is the MRI signal.
+
+Broadcast a few kilohertz off that frequency and essentially nothing happens. The pushes fall out of step, the accumulated rotation collapses, and the magnetisation merely quivers around the axis it started on.
+
+<MRIAnimation />
+
+Press play and watch the sequence run. The spins start pointing every which way, with a net magnetisation of essentially zero. The field switches on, they settle toward the axis, and a net $M$ appears. Then the gold RF vector arrives and tips $M$ over into the transverse plane, where it precesses and its signal decays away in the trace at the bottom — the **free induction decay**, the raw voltage the receiver coil actually hears.
+
+Now the thing to actually play with: drag the **RF detuning** slider away from zero and keep watching. At $\pm 0.25$ kHz the tip is visibly incomplete; by $\pm 0.5$ kHz the magnetisation barely leaves the axis and the free induction decay shrinks to almost nothing. The green curve on the right is the resonance response — the transverse magnetisation the pulse manages to produce as a function of detuning — and the gold dot is where your slider sits. That curve is the same amplitude-versus-frequency peak from the resonance article, in a completely different costume. Its **width** is set by how hard and how briefly you pulse, and that width is not an inconvenience: it is the knob that selects which slice of the body gets excited.
+
+Also try the $B_0$ slider. It changes nothing about the physics on screen — but watch the Larmor readout climb from 21 MHz to 128 MHz as the field goes from 0.5 to 3 T. That proportionality is the entire imaging principle in one line.
+
+## The mathematics: relaxation and encoding
+
+After the pulse ends, the magnetisation returns to equilibrium by two independent processes with two different time constants.
+
+**T1 — longitudinal recovery.** The component along $B_0$ regrows as spins shed energy into their molecular surroundings:
+
+$$M_z(t) = M_0\left(1 - e^{-t/T_1}\right)$$
+
+**T2 — transverse decay.** Meanwhile the transverse component dies, not by losing energy but by losing *coherence*: neighbouring spins experience slightly different local fields, precess at slightly different rates, and fan out until their contributions cancel:
+
+$$M_{xy}(t) = M_0\, e^{-t/T_2}$$
+
+These are the source of MRI's contrast, and they vary enormously between tissues. At 1.5 T, white matter has $T_1 \approx 780$ ms and $T_2 \approx 90$ ms; cerebrospinal fluid has $T_1 \approx 4000$ ms and $T_2 \approx 2000$ ms; fat has a short $T_1$ of about 260 ms. So by choosing *when* to excite again (the repetition time, TR) and *when* to measure (the echo time, TE), a scanner converts a difference in relaxation time into a difference in brightness. Wait a long time and measure early, and brightness tracks proton density. Excite rapidly and measure early, and tissues with short $T_1$ light up — a "T1-weighted" image. Wait between excitations and measure late, and tissues with long $T_2$ light up, which is why fluid glows white on a T2-weighted scan. Same nuclei, same magnet, three different pictures.
+
+In practice the observed decay is faster still, because static imperfections in the magnet add their own dephasing; the combined constant is written $T_2^*$, with $1/T_2^* = 1/T_2 + \gamma \Delta B_0 / 2$. A clever refocusing pulse can reverse the static part and recover a true $T_2$ echo, which is the basis of the spin-echo sequence.
+
+**Encoding position.** Now the imaging step. Add to the uniform field a deliberate, linear **gradient** $G_x$, so the field strength varies smoothly across the body. The Larmor equation then makes precession frequency a linear function of position:
+
+$$\omega(x) = \gamma\left(B_0 + G_x x\right) = \omega_0 + \gamma G_x x$$
+
+Every location now sings a different note. A gradient of 10 mT/m spreads hydrogen's frequency by about 426 Hz per centimetre — small compared with 64 MHz, but easily resolved. Apply a gradient along a second axis for a short interval instead, and different rows acquire different *phase* offsets rather than different frequencies; the same idea, integrated over time rather than read out instantaneously.
+
+The signal the coil receives is therefore the sum, over the whole excited slice, of contributions from every point, each carrying a phase determined by where it is and which gradients have been played:
+
+$$S(k_x, k_y) = \iint \rho(x, y)\, e^{-i 2\pi (k_x x + k_y y)}\, dx\, dy, \qquad k_x(t) = \frac{\gamma}{2\pi}\int_0^t G_x(t')\, dt'$$
+
+Look carefully at that integral. It is exactly the definition of a two-dimensional [Fourier transform](/articles/fourier-transform) of the proton-density image $\rho(x,y)$. The scanner does not measure the image at all. It measures the image's Fourier transform, one sample at a time, and the gradients are simply the steering wheel that drives the sample point $(k_x, k_y)$ around that frequency plane. The plane has a name: **k-space**.
+
+Getting the picture back is then one line of mathematics:
+
+$$\rho(x, y) = \mathcal{F}^{-1}\big\{S(k_x, k_y)\big\}$$
+
+An inverse Fourier transform. That is the reconstruction.
+
+## Inside k-space
+
+k-space is not a picture, and it is worth building an intuition for what its regions mean. Each point in it is a sample of one spatial frequency — one particular striped pattern, at one particular spacing and orientation, weighted by how strongly that stripe pattern appears in the object. Near the centre lie the coarse, slowly varying patterns; far out lie the fine ones.
+
+<KSpaceAnimation />
+
+Press **Scan** and watch the acquisition. The scanner fills k-space one horizontal line at a time — one phase-encode step per line, each requiring its own excitation pulse, which is why an MRI sequence takes minutes rather than milliseconds. Notice *when* the image on the right suddenly resolves: not gradually, but abruptly as the scan crosses the middle. Almost all of the signal energy is concentrated in a handful of central lines.
+
+Then run the experiment that makes the point. Switch to **Centre only** and pull the "lines kept" slider down to 8 or 10. The image goes soft and blurry — but it is unmistakably a head, with the ventricles dark, the skull bright, and the lesion visible. Every tissue has the correct brightness; only the sharpness is gone. Now switch to **Edges only** with the same setting. Everything inverts: the shading vanishes into blackness and you are left with outlines, rims, and the fine comb pattern picked out in bright relief. Nothing tells you what is bright and what is dark any more, but every boundary is razor-sharp.
+
+That is the division of labour: **the centre of k-space carries contrast, the periphery carries detail.** It is a directly useful fact rather than a curiosity. Fast sequences deliberately acquire the central lines first, so a usable image exists early. Undersampling the periphery is how scan times get cut, at the price of blur. And the reason MRI is exquisitely sensitive to a patient moving is that a shift partway through the scan corrupts the phase relationship *across* k-space, so the error smears over the whole image rather than staying local.
+
+## Why it matters
+
+X-rays measure one thing: electron density, which is to say how much a tissue absorbs. Bone absorbs strongly and shows up brilliantly. Soft tissues — grey matter and white matter, a tumour and the healthy tissue around it, a torn ligament and the muscle behind it — absorb almost identically, and on a plain radiograph they are a nearly uniform grey. MRI is sensitive to something else entirely: the local chemical environment of hydrogen, expressed through $T_1$ and $T_2$. Two tissues with the same density can have relaxation times differing by a factor of several, and that is why MRI can distinguish structures that no amount of X-ray dose would ever separate.
+
+And the dose is the second half of the argument. CT builds its images from ionising photons at tens of kiloelectronvolts, each carrying thousands of times the energy needed to break a molecular bond, which is why CT dose is tracked and rationed. MRI uses only a static magnetic field, switched gradient fields, and radio waves at around $10^{-7}$ eV per photon. There is no ionisation mechanism available at those energies. The scanner's real hazards are of a completely different kind and are entirely mechanical or thermal: ferromagnetic objects becoming projectiles in the bore, implanted devices interacting with the field, RF heating, and gradient noise loud enough to require ear protection. Those risks are managed by screening, not by dose limits.
+
+The same machinery has been extended in directions the original designers did not need. Make the signal sensitive to the diffusion of water molecules and you get diffusion-weighted imaging, which reveals a stroke within minutes. Exploit the fact that oxygenated and deoxygenated haemoglobin have different magnetic properties and you get the BOLD contrast behind functional MRI. Read the frequency spectrum from a single voxel rather than an image and you get spectroscopy, which identifies metabolites by their chemical shift — the tiny frequency offsets that electron clouds impose on the Larmor equation.
+
+*This article is about the physics of image formation. It is not clinical or diagnostic guidance; decisions about scanning and interpretation belong with qualified medical professionals.*
+
+What should stay with you is the convergence. An MRI scanner is a [resonant](/articles/resonance) system, driven by [radio waves](/articles/electromagnetic-waves), whose output is read out with a [Fourier transform](/articles/fourier-transform). Three ideas that arrive in physics and mathematics from entirely separate directions, stacked on top of one another — and the result is a picture of the inside of a living person, taken without touching them.
+
+<KeyTakeaways>
+- Hydrogen nuclei precess at the Larmor frequency $\omega = \gamma B_0$, with $\gamma/2\pi = 42.58$ MHz/T — so 1.5 T means 63.9 MHz, squarely in the radio band.
+- Excitation is pure resonance: an RF pulse tipped only a few kilohertz off the Larmor frequency barely moves the magnetisation at all, and that sharp selectivity is what lets a scanner excite one thin slice at a time.
+- Contrast comes from relaxation, not density. $M_z$ recovers as $M_0(1-e^{-t/T_1})$ while $M_{xy}$ decays as $M_0 e^{-t/T_2}$, and choosing when to pulse and when to listen turns those time constants into brightness — which is how soft tissue becomes visible where X-rays see only uniform grey.
+- Gradients make frequency a map of position, $\omega(x) = \omega_0 + \gamma G_x x$, so what the coil records is the [Fourier transform](/articles/fourier-transform) of the image. The centre of k-space carries contrast, the periphery carries detail, and reconstruction is simply $\rho = \mathcal{F}^{-1}\{S\}$.
+- MRI uses non-ionising radiofrequency and magnetic fields only — a real distinction from CT and X-ray. Its hazards are mechanical and thermal (projectiles, implants, heating, noise), not radiation dose.
+</KeyTakeaways>

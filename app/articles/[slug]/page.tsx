@@ -137,6 +137,8 @@ import {
   EarthInteriorAnimation,
   AntibioticResistanceAnimation,
   HorizontalTransferAnimation,
+  MRIAnimation,
+  KSpaceAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -260,6 +262,8 @@ const components = {
   EarthInteriorAnimation,
   AntibioticResistanceAnimation,
   HorizontalTransferAnimation,
+  MRIAnimation,
+  KSpaceAnimation,
   KeyTakeaways,
 }
 

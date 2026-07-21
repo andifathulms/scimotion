@@ -1743,6 +1743,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'mri-imaging': c => {
+    // Magnetisation tipped off B0 and precessing, beside the decaying FID it induces.
+    const fid = Array.from({ length: 54 }, (_, i) => {
+      const x = 80 + i * 4
+      const y = 60 - 34 * Math.exp(-(x - 80) / 70) * Math.sin((x - 80) / 6)
+      return `${x},${Math.round(y * 100) / 100}`
+    }).join(' ')
+    const env = Array.from({ length: 54 }, (_, i) => {
+      const x = 80 + i * 4
+      const y = 60 - 34 * Math.exp(-(x - 80) / 70)
+      return `${x},${Math.round(y * 100) / 100}`
+    }).join(' ')
+    return (
+      <g>
+        <line x1={40} y1={14} x2={40} y2={104} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <text x={46} y={20} fill={MUTE} fontSize={8} fontFamily="monospace">B₀</text>
+        <ellipse cx={40} cy={78} rx={22} ry={7} fill="none" stroke={FAINT} strokeWidth={1} />
+        <line x1={40} y1={78} x2={58} y2={36} stroke={c} strokeWidth={2} />
+        <circle cx={58} cy={36} r={3.5} fill={c} />
+        <polyline points={env} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="2 3" />
+        <polyline points={fid} fill="none" stroke={c} strokeWidth={1.75} />
+        <circle cx={90} cy={31} r={3} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

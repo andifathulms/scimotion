@@ -600,3 +600,13 @@ export const HorizontalTransferAnimation = dynamic(
   () => import('@/components/animations/HorizontalTransferAnimation').then(m => ({ default: m.HorizontalTransferAnimation })),
   { ssr: false }
 )
+
+export const MRIAnimation = dynamic(
+  () => import('@/components/animations/MRIAnimation').then(m => ({ default: m.MRIAnimation })),
+  { ssr: false }
+)
+
+export const KSpaceAnimation = dynamic(
+  () => import('@/components/animations/KSpaceAnimation').then(m => ({ default: m.KSpaceAnimation })),
+  { ssr: false }
+)
