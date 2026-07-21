@@ -1105,6 +1105,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'chemical-equilibrium': c => {
+    // Forward and reverse rates converging onto a common plateau.
+    const PLATEAU = 0.5
+    const pts = (f: (t: number) => number) =>
+      Array.from({ length: 26 }, (_, i) => {
+        const t = i / 25
+        const x = 30 + i * 10
+        const y = Math.round((100 - 60 * f(t)) * 100) / 100
+        return `${x},${y}`
+      }).join(' ')
+    const forward = pts(t => PLATEAU + 0.45 * Math.exp(-3 * t))
+    const reverse = pts(t => PLATEAU - 0.5 * Math.exp(-3 * t))
+    return (
+      <g>
+        <line x1={30} y1={16} x2={30} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={30} y1={100} x2={288} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={30} y1={70} x2={288} y2={70} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <polyline points={forward} fill="none" stroke={c} strokeWidth={2} />
+        <polyline points={reverse} fill="none" stroke={GOLD} strokeWidth={2} />
+        <circle cx={280} cy={70} r={3} fill={GOLD} />
+        <circle cx={280} cy={70} r={6} fill="none" stroke={c} strokeWidth={0.75} />
+        <text x={34} y={26} fontSize={8} fill={MUTE} fontFamily="monospace">rate</text>
+        <text x={40} y={36} fontSize={8} fill={c} fontFamily="monospace">forward</text>
+        <text x={40} y={113} fontSize={8} fill={GOLD} fontFamily="monospace">reverse</text>
+        <text x={196} y={64} fontSize={8} fill={MUTE} fontFamily="monospace">rate_f = rate_r</text>
+        <text x={150} y={16} fontSize={11} fill={c} fontFamily="monospace" textAnchor="middle">A ⇌ B</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -97,6 +97,8 @@ import {
   StandingWaveAnimation,
   ElectromagneticWaveAnimation,
   SpectrumAnimation,
+  EquilibriumAnimation,
+  LeChatelierAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -180,6 +182,8 @@ const components = {
   StandingWaveAnimation,
   ElectromagneticWaveAnimation,
   SpectrumAnimation,
+  EquilibriumAnimation,
+  LeChatelierAnimation,
   KeyTakeaways,
 }
 

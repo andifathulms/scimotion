@@ -400,3 +400,13 @@ export const SpectrumAnimation = dynamic(
   () => import('@/components/animations/SpectrumAnimation').then(m => ({ default: m.SpectrumAnimation })),
   { ssr: false }
 )
+
+export const EquilibriumAnimation = dynamic(
+  () => import('@/components/animations/EquilibriumAnimation').then(m => ({ default: m.EquilibriumAnimation })),
+  { ssr: false }
+)
+
+export const LeChatelierAnimation = dynamic(
+  () => import('@/components/animations/LeChatelierAnimation').then(m => ({ default: m.LeChatelierAnimation })),
+  { ssr: false }
+)

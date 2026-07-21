@@ -1,0 +1,166 @@
+---
+title: "Chemical Equilibrium"
+subtitle: "The reaction that looks finished but never stops."
+topic: "Chemistry"
+slug: "chemical-equilibrium"
+date: "2026-07-15"
+readTime: 10
+featured: false
+description: "A sealed flask settles at a fixed shade of brown and stays there forever — not because the reaction ended, but because the forward and reverse reactions now run at exactly the same rate."
+tags: ["equilibrium", "thermodynamics", "kinetics", "le-chatelier"]
+quiz:
+  - q: "A sealed flask of N2O4 and NO2 has held a constant brown colour for hours. What is actually happening to the individual molecules?"
+    options:
+      - "The reaction has run to completion and the remaining molecules are unreactive"
+      - "Both the forward and reverse reactions are still running, at equal rates, so every N2O4 consumed is replaced by another one forming"
+      - "The molecules have too little energy left to react and the system is frozen"
+      - "The forward reaction continues but the reverse reaction has stopped, and the colour is set by the leftover NO2"
+    answer: 1
+    explanation: "Equilibrium is dynamic: interconversion never stops, but the two opposing rates are equal so every measurable concentration stays constant."
+  - q: "For an exothermic gas-phase reaction at equilibrium, why does raising the temperature change K itself while adding more reactant does not?"
+    options:
+      - "Adding reactant is instantaneous while heating is gradual, so only heating has time to affect K"
+      - "K is defined only at a fixed temperature; adding reactant changes Q and the system relaxes back to the same K, whereas T sets the value of K through the relation ΔG° = −RT ln K"
+      - "Temperature changes the stoichiometry of the reaction, which changes the exponents in K"
+      - "Adding reactant does change K, but the change is too small to measure in practice"
+    answer: 1
+    explanation: "K is fixed by ΔG° and T alone, so concentration, volume, and catalyst changes only move Q back toward the unchanged K, while a temperature change moves K itself."
+  - q: "A mixture has Q = 40 for a reaction with K = 4. Which direction does the reaction run, and what happens to ΔG?"
+    options:
+      - "Forward, because a large Q means plenty of reactant is still available"
+      - "Neither — the system is already at equilibrium because Q and K are both positive"
+      - "Reverse, because Q > K means the products are over-represented; ΔG = RT ln(Q/K) is positive for the forward direction, so the reverse direction is the spontaneous one"
+      - "Reverse, because reactions always run toward smaller Q regardless of the value of K"
+    answer: 2
+    explanation: "Q > K means there is too much product relative to equilibrium, making ΔG positive in the forward direction, so the system consumes product until Q falls to K."
+---
+
+## A flask that refuses to change
+
+Seal a little dinitrogen tetroxide, $\mathrm{N_2O_4}$, in a glass flask and leave it on the bench. It is colourless when you close it. Within seconds it darkens — a brown haze spreads through the flask — and then something odd happens.
+
+The brown stops deepening. Not because you ran out of anything, and not because you cooled it or interrupted it. The shade simply stops changing. Come back in an hour and it is the same brown. Come back next week: the same brown. Every instrument you point at it reports constants — the pressure, the composition, the absorbance at 400 nm.
+
+The obvious conclusion is that the reaction finished. It is also wrong.
+
+The brown gas is nitrogen dioxide, $\mathrm{NO_2}$, produced by
+
+$$\mathrm{N_2O_4}(g) \;\rightleftharpoons\; 2\,\mathrm{NO_2}(g)$$
+
+and inside that quiet flask, $\mathrm{N_2O_4}$ molecules are still splitting apart, billions of times a second, while $\mathrm{NO_2}$ molecules are still colliding and pairing back up. Nothing has stopped. What has happened is far stranger and more useful: the two opposing reactions have arrived at exactly the same rate, so every molecule consumed is replaced by an identical one formed elsewhere in the flask. The bookkeeping balances even though the traffic never does.
+
+That double arrow, $\rightleftharpoons$, is doing a lot of work. It is the difference between a reaction that ends and one that merely *appears* to.
+
+## Dynamic, not static
+
+This is the single most important correction in the whole topic, so it is worth stating bluntly: **equilibrium is a balance of rates, not an absence of reaction.**
+
+Static equilibrium is a book sitting on a table. Dynamic equilibrium is an escalator with people walking down it as fast as it carries them up — the crowd's position is fixed, every individual is moving.
+
+The proof is not a metaphor, it is an experiment. Take an equilibrium mixture and replace some of the reactant with an isotopically labelled version — deuterium in place of hydrogen, or $^{15}\mathrm{N}$ for $^{14}\mathrm{N}$. The concentrations do not budge, because chemically the labelled molecule behaves the same. But wait, then look at where the label ended up: it is distributed through the products. The label got there by reacting. Something that had stopped could not have scrambled it.
+
+Two consequences follow immediately, and both are counterintuitive until you have seen the rates picture:
+
+- **Equilibrium is reached from either side.** Start with pure $\mathrm{N_2O_4}$ or start with pure $\mathrm{NO_2}$ at the same temperature and total mass, and both mixtures end at the *same* composition. There is nothing special about the direction you approached from.
+- **Equilibrium does not mean equal amounts.** Nothing requires the balance point to sit near 50/50. Some equilibria lie so far right that we call them "complete"; some lie so far left that nothing appears to happen at all. Both are equilibria, just with lopsided balance points.
+
+## Watching the rates meet
+
+<EquilibriumAnimation />
+
+The vessel on the left holds a simplified $\mathrm{A} \rightleftharpoons \mathrm{B}$ system. Each molecule independently flips species with a fixed probability per unit time — that is all the chemistry there is here. On the right, the top panel tracks the amounts of A and B, and the bottom panel tracks the two *rates*: forward (gold, proportional to the amount of A) and reverse (violet, proportional to the amount of B).
+
+A few things to try.
+
+**Start with all A and press play.** At the beginning there is no B, so the reverse rate is zero and the forward rate is at its maximum — the gap between the gold and violet lines is enormous. As A is consumed the gold line falls; as B accumulates the violet line climbs. They meet. The instant they meet, the concentration traces above go flat. Equilibrium is exactly the crossing point of the two rate curves, and nothing else.
+
+**Now watch the vessel while the traces are flat.** The counters have stopped changing, but the dots keep flashing as they interconvert. This is the whole lesson in one frame: constant *macroscopic* composition, relentless *microscopic* churn.
+
+**Switch the start to "all B" and press play again.** The system now approaches from above — B falls, A rises — and it lands on the same final ratio. Same K, opposite direction of approach.
+
+**Finally, slide K.** Raising K makes forward flips more probable, so more B is needed before the reverse rate can catch up, and the balance point slides toward product. K is not a statement about which reaction is happening; it is a statement about where the two rates happen to become equal.
+
+## The equilibrium constant, and how to use it
+
+For a general reaction
+
+$$a\mathrm{A} + b\mathrm{B} \;\rightleftharpoons\; c\mathrm{C} + d\mathrm{D}$$
+
+the equilibrium composition always satisfies
+
+$$K = \frac{[\text{C}]^c[\text{D}]^d}{[\text{A}]^a[\text{B}]^b}$$
+
+Products on top, reactants on the bottom, each concentration raised to its stoichiometric coefficient. Guldberg and Waage found this empirically in 1864 as the law of mass action. The remarkable content of the equation is that this particular combination of concentrations is a *constant* — you can start from a hundred different mixtures at the same temperature and every one of them will end with the same value of that ratio, even though the individual concentrations differ wildly.
+
+Three practical notes. Pure solids and pure liquids are omitted, because their "concentration" is a fixed property of the substance and folds into K. For gases you may see $K_p$ written with partial pressures instead, related by $K_p = K_c(RT)^{\Delta n}$ where $\Delta n$ is the change in moles of gas. And K is genuinely dimensionless when defined properly, via activities relative to standard states — the units you sometimes see quoted are an artefact of the shortcut.
+
+### Q: the same expression, evaluated early
+
+Now write down that exact same ratio for a mixture that is *not* at equilibrium. That is the **reaction quotient**, $Q$:
+
+$$Q = \frac{[\text{C}]^c[\text{D}]^d}{[\text{A}]^a[\text{B}]^b} \quad\text{(any composition, any time)}$$
+
+Q is a running score; K is the final score the system is heading for. Comparing them tells you the direction of net change without any further thought:
+
+- $Q < K$ — too little product. Net reaction runs **forward**, and Q climbs to K.
+- $Q > K$ — too much product. Net reaction runs **reverse**, and Q falls to K.
+- $Q = K$ — equilibrium. Net change is zero; both reactions still run.
+
+This is one of the highest-leverage tools in chemistry: two numbers, one comparison, and you know which way an arbitrary mixture will move.
+
+### Why Q and K govern spontaneity
+
+The connection to thermodynamics makes the rule inevitable rather than empirical. The free energy change of a reaction under arbitrary conditions is
+
+$$\Delta G = \Delta G^\circ + RT\ln Q$$
+
+where $\Delta G^\circ$ is the standard free energy change and $R = 8.314\ \mathrm{J\,mol^{-1}K^{-1}}$. At equilibrium there is no driving force in either direction, so $\Delta G = 0$ and $Q = K$, which gives the bridge between thermodynamics and composition:
+
+$$\Delta G^\circ = -RT\ln K$$
+
+Substituting back produces the cleanest statement of the whole idea:
+
+$$\Delta G = RT\ln\!\left(\frac{Q}{K}\right)$$
+
+If $Q < K$ the logarithm is negative, $\Delta G < 0$, and the forward reaction is spontaneous. If $Q > K$ it is positive and the reverse reaction is the spontaneous one. The system slides down the free-energy surface to its minimum, and that minimum sits exactly where $Q = K$. Note also the scale: because K depends *exponentially* on $\Delta G^\circ$, a modest $-30\ \mathrm{kJ/mol}$ at room temperature corresponds to $K \approx 2 \times 10^5$. Small energy differences produce enormous swings in equilibrium position.
+
+## Poking the system: Le Chatelier's principle
+
+<LeChatelierAnimation />
+
+This widget runs an equilibrated $\mathrm{A}(g) \rightleftharpoons 2\,\mathrm{B}(g)$ system — the same stoichiometry as the $\mathrm{N_2O_4}/\mathrm{NO_2}$ flask, and endothermic in the forward direction. The plot shows both concentrations over time; the panel underneath shows Q and K as bars you can compare at a glance.
+
+**Press "add A".** Q drops instantly — you increased the denominator without touching the numerator — and the readout flips to "Q < K". The system responds by consuming some of what you added, and both traces bend until Q climbs back onto K. Watch the K bar throughout: it never moves.
+
+**Press "remove B".** Now the numerator shrinks, Q falls again, and the system replaces some of what you took. This is why removing a product as it forms is such a standard industrial trick: the system never stops trying to restore Q = K, so you can keep harvesting.
+
+**Press "compress ½V".** This one is more subtle, and it is where students most often go wrong. Halving the volume doubles *both* concentrations — but B appears squared in Q, so Q doubles as well. Q > K, and the system shifts **left**, toward the side with fewer moles of gas. That is the general rule: compression favours whichever side has fewer gas molecules. Again, K does not move.
+
+**Now press "heat".** Something categorically different happens: the **K bar itself grows**. Concentration and volume changes only ever displace Q and let the system chase a fixed target. Temperature moves the target. Since K is fixed by $\Delta G^\circ = -RT\ln K$, and $\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ$, temperature is the only variable in that relation you can actually turn. Quantitatively this is the van 't Hoff equation,
+
+$$\frac{d(\ln K)}{d(1/T)} = -\frac{\Delta H^\circ}{R}$$
+
+so K rises with temperature for endothermic reactions ($\Delta H^\circ > 0$) and falls for exothermic ones. The useful mnemonic is to treat heat as a reagent: for an endothermic reaction, heat sits on the reactant side, so adding it pushes the reaction right. Try "cool" and watch K shrink and the mixture pale.
+
+One thing you cannot do here, because it would do nothing: add a catalyst. A catalyst lowers the activation barrier for the forward and reverse reactions by exactly the same amount — it must, since both traverse the same transition state — so it multiplies both rates equally and leaves the crossing point untouched. Catalysts change *when* you arrive at equilibrium, never *where*.
+
+Le Chatelier's principle summarises all of this as: a system at equilibrium responds to a disturbance in the direction that partially offsets it. Treat it as a mnemonic, not a law. It has known failure cases — adding a reactant to a system with unusual stoichiometry can occasionally shift the equilibrium the "wrong" way — and the Q-versus-K comparison you have been watching is the rigorous version that never fails.
+
+## Where this pays off
+
+Equilibrium is not a chapter of chemistry; it is the accounting layer underneath most of it.
+
+- **The Haber–Bosch process.** $\mathrm{N_2} + 3\mathrm{H_2} \rightleftharpoons 2\mathrm{NH_3}$ is exothermic ($\Delta H^\circ \approx -92\ \mathrm{kJ/mol}$) and converts four moles of gas into two. Equilibrium therefore wants high pressure and *low* temperature. But at low temperature the reaction is hopelessly slow, so industry runs a deliberate compromise: 150–300 bar to exploit the mole change, an iron catalyst to fix the kinetics, and 400–500 °C — a temperature that sacrifices K in exchange for reaching it in seconds — while ammonia is continuously condensed out to keep Q below K. Roughly half the nitrogen in your body passed through that compromise.
+- **Oxygen in your blood.** Haemoglobin binding is an equilibrium. High oxygen partial pressure in the lungs pushes it toward the bound form; low partial pressure in working tissue pulls it back. Carbon dioxide and acidity shift the same equilibrium — the Bohr effect — so hard-working muscle automatically extracts more oxygen.
+- **Buffers and blood pH.** The carbonic acid system $\mathrm{CO_2} + \mathrm{H_2O} \rightleftharpoons \mathrm{H_2CO_3} \rightleftharpoons \mathrm{H^+} + \mathrm{HCO_3^-}$ holds arterial pH within about 0.05 units of 7.4. Add acid and the equilibrium consumes it; your lungs then adjust $\mathrm{CO_2}$ to reset the whole chain.
+- **Solubility and the oceans.** $K_{sp}$ is just an equilibrium constant for dissolution, which is why kidney stones precipitate, why caves grow, and why rising atmospheric $\mathrm{CO_2}$ acidifies seawater and dissolves carbonate shells.
+
+The flask on the bench and the fertiliser plant are running the same physics. Once you can compute Q, compare it to K, and predict the direction, you can reason about all of them with one tool.
+
+<KeyTakeaways>
+- Equilibrium is **dynamic**: the forward and reverse reactions both keep running, at equal rates, so concentrations stay constant while individual molecules never stop interconverting.
+- The equilibrium constant $K = \frac{[\text{C}]^c[\text{D}]^d}{[\text{A}]^a[\text{B}]^b}$ is the same at a given temperature no matter which side you start from — equal amounts are not required, only a fixed ratio.
+- The reaction quotient Q is that identical expression evaluated at any moment; $Q < K$ runs forward, $Q > K$ runs reverse, and $\Delta G = RT\ln(Q/K)$ is why.
+- Concentration, volume, and catalyst changes move Q and leave K alone. **Only temperature changes K**, via $\Delta G^\circ = -RT\ln K$ and the van 't Hoff equation.
+- Le Chatelier's principle is a useful mnemonic with real exceptions; comparing Q to K is the rigorous version, and it drives everything from Haber–Bosch to the oxygen in your blood.
+</KeyTakeaways>
