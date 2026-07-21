@@ -1160,6 +1160,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'acids-and-bases': c => {
+    // Weak-acid titration curve: a long buffering plateau through pH = pKa at
+    // half-equivalence, then the near-vertical jump at the equivalence point.
+    const curve = [
+      [12, 96], [20, 88], [30, 82], [44, 77], [62, 72], [80, 68],
+      [100, 63], [122, 58], [142, 52], [156, 46], [166, 38], [172, 27],
+      [178, 18], [188, 15], [210, 13], [244, 12], [290, 11],
+    ].map(([x, y]) => `${x},${y}`).join(' ')
+    return (
+      <g>
+        <rect x={40} y={10} width={112} height={100} fill={FAINT} />
+        <line x1={10} y1={110} x2={292} y2={110} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={10} y1={8} x2={10} y2={110} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={10} y1={63} x2={100} y2={63} stroke={GOLD} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={100} y1={63} x2={100} y2={110} stroke={GOLD} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={172} y1={10} x2={172} y2={110} stroke={MUTE} strokeWidth={0.75} strokeDasharray="2 4" />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2.25} />
+        <circle cx={100} cy={63} r={3} fill={GOLD} />
+        <circle cx={172} cy={27} r={3.5} fill={c} />
+        <text x={14} y={59} fontSize={7} fill={GOLD} fontFamily="monospace">pKa</text>
+        <text x={46} y={104} fontSize={7} fill={MUTE} fontFamily="monospace">buffer</text>
+        <text x={178} y={40} fontSize={7} fill={MUTE} fontFamily="monospace">eq. pt</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

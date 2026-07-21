@@ -1,0 +1,169 @@
+---
+title: "Acids, Bases and pH"
+subtitle: "A number that compresses ten trillion-fold swings in concentration into a scale from 0 to 14."
+topic: "Chemistry"
+slug: "acids-and-bases"
+date: "2026-07-09"
+readTime: 10
+featured: false
+description: "pH is a logarithm, which is why one unit is a factor of ten and why your blood can survive a lifetime of acidic meals. A tour of proton transfer, water's autoionisation, strong versus weak acids, buffers and titration curves."
+tags: ["acids-bases", "equilibrium", "buffers", "titration"]
+quiz:
+  - q: "A solution at pH 3 is diluted with pure water until its pH reads 5. Ignoring any further reaction, what happened to the hydrogen-ion concentration?"
+    options:
+      - "It fell by a factor of 2, since pH fell by 2 units"
+      - "It fell by a factor of 100, because each pH unit is a tenfold change in concentration"
+      - "It fell by a factor of 20, since the scale runs from 0 to 14 across four decades"
+      - "It stayed the same; dilution changes volume but not concentration ratios"
+    answer: 1
+    explanation: "pH is a base-ten logarithm, so a rise of 2 units means the hydrogen-ion concentration dropped by $10^2 = 100$."
+  - q: "0.1 M hydrochloric acid and 0.1 M acetic acid are at the same concentration, yet the hydrochloric acid has a far lower pH. What does 'strong' actually describe here?"
+    options:
+      - "How concentrated the acid is, since strong acids are sold at higher molarity"
+      - "How corrosive the acid is to skin and metal"
+      - "The fraction of acid molecules that donate their proton to water at equilibrium"
+      - "The total number of protons each molecule is able to donate"
+    answer: 2
+    explanation: "Strength is the position of the dissociation equilibrium — a strong acid is essentially fully dissociated, while a weak acid leaves most of its protons attached."
+  - q: "A buffer is made from a weak acid and its conjugate base at a 1:1 ratio, giving pH = pKa. Why does adding a little strong base barely move the pH?"
+    options:
+      - "The added hydroxide is converted to water by reaction with the acid form, changing the ratio only slightly"
+      - "The buffer prevents hydroxide from dissolving, so it never enters the solution"
+      - "The pKa of the acid shifts upward to absorb the added base"
+      - "Water's autoionisation stops entirely while a buffer is present"
+    answer: 0
+    explanation: "The reservoir of undissociated acid neutralises incoming hydroxide, and because pH depends on the logarithm of the base-to-acid ratio, a modest change in that ratio is a tiny change in pH."
+---
+
+## Something is absorbing the insults
+
+Your arterial blood sits at a pH of roughly 7.35 to 7.45. That band is narrow — a tenth of a unit either side of 7.4 — and it is not a matter of comfort. Drift to 7.0 or up to 7.8 and enzymes misfold, cardiac muscle stops responding properly, and the situation becomes an emergency. Life happens inside a window about 0.1 units wide.
+
+Now consider what you put into yourself. A glass of orange juice is around pH 3.5. Coffee is near 5. A vinaigrette is closer to 3. Your own metabolism is worse than your diet: burning glucose produces carbon dioxide at something like 15 000 millimoles a day, and dissolved carbon dioxide is an acid. Hard exercise adds lactic acid on top of that.
+
+Pour orange juice into a beaker of pure water and the water's pH plunges immediately. Pour it into a person and their blood pH moves by a few hundredths, if that. The difference is not that blood is somehow immune to protons. It is that blood is a **buffered** solution — a chemical shock absorber, holding a reservoir on both sides of a reaction so that added acid or base is consumed rather than felt.
+
+To see how that works, we need three things: what an acid actually *is*, why pH is a logarithm, and what a buffer is doing that plain water cannot.
+
+## Proton transfer, not a property of a substance
+
+The useful modern definition is Brønsted–Lowry, and its virtue is that it describes a **reaction**, not a label on a bottle. An acid is a proton donor. A base is a proton acceptor. Nothing is an acid on its own; something is an acid *with respect to* something else.
+
+When hydrogen chloride meets water:
+
+$$\mathrm{HCl} + \mathrm{H_2O} \;\longrightarrow\; \mathrm{Cl^-} + \mathrm{H_3O^+}$$
+
+HCl donates a proton; water accepts one. The products are a **conjugate pair** with each reactant: $\mathrm{Cl^-}$ is the conjugate base of HCl, and $\mathrm{H_3O^+}$ — the hydronium ion — is the conjugate acid of water. Every Brønsted acid–base reaction is a proton changing hands between two such pairs, and the reaction runs toward whichever side holds the proton more comfortably.
+
+Two consequences are worth pausing on. First, the bare proton written as $\mathrm{H^+}$ does not really exist in solution. It is a nucleus with no electrons, and in water it is always attached to something — $\mathrm{H_3O^+}$ at minimum, and in reality a shifting cluster of several water molecules. We write $[\mathrm{H^+}]$ because it is compact; read it as "hydronium".
+
+Second, water plays both roles. It accepted a proton from HCl above, but it will donate one to ammonia. A species that can do either is **amphiprotic**, and this is exactly why water can react with itself.
+
+## The scale, and why one unit is a factor of ten
+
+Two water molecules occasionally trade a proton. This is **autoionisation**:
+
+$$2\,\mathrm{H_2O} \;\rightleftharpoons\; \mathrm{H_3O^+} + \mathrm{OH^-}$$
+
+It is rare — at 25 °C only about one water molecule in 550 million is ionised at any moment — but it is never zero, and it fixes a relationship that every aqueous solution must obey:
+
+$$K_w = [\mathrm{H^+}][\mathrm{OH^-}] = 1.0 \times 10^{-14} \quad (25\ ^\circ\mathrm{C})$$
+
+The product is a constant. Push hydronium up and hydroxide must come down by exactly the reciprocal factor. In pure water the two are equal, so each is $10^{-7}$ M.
+
+Those exponents are the problem. Real solutions run from about $1$ M hydronium down to $10^{-14}$ M — fourteen orders of magnitude. Writing that on a linear axis is hopeless, so Søren Sørensen proposed in 1909 that we take the negative logarithm:
+
+$$\text{pH} = -\log_{10}[\mathrm{H^+}]$$
+
+The "p" is an operator meaning "minus the base-ten log of", which is why $\text{p}K_a$, $\text{p}K_w$ and $\text{pOH}$ all follow the same pattern. Taking logs of the $K_w$ relation gives the tidiest identity in the subject:
+
+$$\text{pH} + \text{pOH} = 14 \quad (25\ ^\circ\mathrm{C})$$
+
+And here is the point that most people carry through life slightly wrong. Because pH is a logarithm, **one unit is a tenfold change in concentration**. Not a small change; not a proportional step along a 0–14 ruler. pH 3 has ten times the hydronium of pH 4, a hundred times that of pH 5, a thousand times that of pH 6. The scale is compressed so aggressively that two numbers that look adjacent describe solutions an order of magnitude apart.
+
+<PHScaleAnimation />
+
+Drag the slider, or click straight onto the coloured bar. The two panels are literal dot counts: one dot represents $10^{-7}$ M, so pure water at pH 7 shows a single dot on each side.
+
+Start at 7 and press **−1 pH** four times, slowly. At pH 6 the orange panel has ten dots. At 5 it has a hundred. At 4 it has a thousand, and by pH 3 it has run off the panel entirely — while the blue hydroxide panel, obeying $K_w$, has been emptied out to keep the product fixed. That reciprocal seesaw is the whole content of the constant: you cannot add hydronium without destroying hydroxide.
+
+Then look at where the familiar substances land. Lemon juice near 2.3 and black coffee near 5 look like near-neighbours on the bar; in hydronium terms the lemon juice is roughly five hundred times more concentrated. The violet stripe is the blood band around 7.4, and it is worth noting how *thin* it is — the entire survivable range is a sliver you can barely resolve at this scale, even though it corresponds to a real 25% swing in hydronium concentration.
+
+One nuance the widget quietly assumes: pH 7 is neutral **only at 25 °C**. Autoionisation is endothermic, so heating water pushes the equilibrium forward and $K_w$ rises. At 37 °C, $K_w \approx 2.4 \times 10^{-14}$, so neutral water has $[\mathrm{H^+}] = [\mathrm{OH^-}] \approx 1.55 \times 10^{-7}$ M and neutral pH is about **6.8**. Water at 37 °C with pH 6.8 is not slightly acidic; it is exactly neutral, with equal hydronium and hydroxide. Neutrality is defined by the *equality* of the two ions, not by the number 7 — and blood at 7.4 is therefore about 0.6 units to the basic side of neutral at body temperature, not 0.4.
+
+## Strong means fully dissociated
+
+The single most common misconception in this subject is that "strong" means concentrated, or corrosive, or dangerous. It means none of those things. It is a statement about **where an equilibrium sits**.
+
+For a weak acid HA in water:
+
+$$\mathrm{HA} + \mathrm{H_2O} \rightleftharpoons \mathrm{A^-} + \mathrm{H_3O^+}, \qquad K_a = \frac{[\mathrm{A^-}][\mathrm{H^+}]}{[\mathrm{HA}]}$$
+
+$K_a$ measures how far to the right that reaction runs. A **strong** acid has a $K_a$ so large that the reverse reaction is negligible: essentially every molecule has handed its proton to water. Hydrochloric acid has $K_a$ around $10^{6}$, so $\text{p}K_a \approx -6$. A **weak** acid has a small $K_a$ and leaves most of its protons attached. Acetic acid has $K_a = 1.8 \times 10^{-5}$, hence $\text{p}K_a = 4.76$ — in a 0.1 M solution, about one molecule in a hundred is dissociated at any instant.
+
+That difference is directly visible. Both 0.1 M solutions contain the same total quantity of donatable protons, but:
+
+- 0.1 M HCl: dissociation is complete, $[\mathrm{H^+}] = 0.1$ M, so $\text{pH} = 1.0$.
+- 0.1 M acetic acid: solving $K_a = x^2/(0.1 - x)$ gives $x \approx 1.3 \times 10^{-3}$ M, so $\text{pH} \approx 2.87$.
+
+Nearly two pH units apart — a factor of about 75 in hydronium — from solutions with identical acid concentrations. Strength and concentration are independent axes. You can have a dilute strong acid ($10^{-5}$ M HCl, pH 5) and a concentrated weak one (glacial acetic acid, 17 M).
+
+Nor does strength track hazard. Hydrofluoric acid is a *weak* acid, $\text{p}K_a = 3.2$, and it is one of the most dangerous substances in a laboratory — it penetrates tissue as the neutral molecule and its fluoride ion attacks calcium in bone. Meanwhile a strong acid at $10^{-6}$ M is safe to drink. "Strong" is a thermodynamic statement about proton transfer, nothing more.
+
+The useful corollary: **weak acids are the interesting ones**, because a weak acid holds a reservoir of undissociated HA. It has protons in hand that it has not yet given away, and a supply of $\mathrm{A^-}$ ready to take protons back. That two-sided reservoir is a buffer.
+
+## Buffers and the Henderson–Hasselbalch equation
+
+Take the $K_a$ expression, solve it for $[\mathrm{H^+}]$, and take negative logs of both sides:
+
+$$[\mathrm{H^+}] = K_a\,\frac{[\mathrm{HA}]}{[\mathrm{A^-}]} \quad\Longrightarrow\quad \text{pH} = \text{p}K_a + \log_{10}\frac{[\mathrm{A^-}]}{[\mathrm{HA}]}$$
+
+This is the **Henderson–Hasselbalch equation**, and it is not new chemistry — it is the equilibrium constant rearranged into log form. But that rearrangement makes the buffering behaviour obvious in a way $K_a$ does not.
+
+Read it as: pH is set by the $\text{p}K_a$, plus a correction that depends on the **ratio** of base to acid — not on their absolute amounts. Three things follow immediately.
+
+**Equal amounts give pH = pKa.** When $[\mathrm{A^-}] = [\mathrm{HA}]$ the log term is $\log_{10}(1) = 0$. This is the defining measurement of $\text{p}K_a$ and the anchor point of every buffer recipe.
+
+**The ratio is inside a logarithm, so pH resists change.** Suppose you have 100 mmol of HA and 100 mmol of $\mathrm{A^-}$, and you add 10 mmol of strong base. The hydroxide converts HA into $\mathrm{A^-}$, leaving 90 and 110. The new pH is
+
+$$\text{pH} = \text{p}K_a + \log_{10}\frac{110}{90} = \text{p}K_a + 0.087$$
+
+A shift of less than a tenth of a unit. Add that same 10 mmol of base to a litre of pure water and the pH leaps from 7 to 12 — five units, a hundred-thousand-fold change. The buffer absorbed a blow that would otherwise have been catastrophic, and it did so simply by having material on both sides of the reaction.
+
+**Buffering has limits, and they are set by the ratio too.** Push the ratio to 10:1 in either direction and you are one unit from the $\text{p}K_a$; the log is now changing fast per millimole added, and the reservoir on the depleted side is nearly gone. This is why the practical rule is that a buffer works within about $\text{p}K_a \pm 1$, and why you choose a buffer whose $\text{p}K_a$ is close to your target pH. Phosphate ($\text{p}K_{a2} = 7.2$) for physiological work; acetate (4.76) for mildly acidic work. A buffer far from its $\text{p}K_a$ is just a salt solution.
+
+## Titration: watching a buffer work and then fail
+
+A titration adds base to acid in measured increments and records the pH. The resulting curve is the clearest single picture in acid–base chemistry, because it shows a buffer doing its job, running out, and collapsing — all on one axis.
+
+<TitrationAnimation />
+
+Press play with the weak acid selected. Notice the shape has three acts.
+
+The first is a **steep initial rise** over the first millilitre or so, as the small amount of free hydronium is neutralised. Then the curve flattens into the long **buffering plateau** shaded green. Between roughly 2.5 mL and 22.5 mL of titrant — twenty millilitres of strong base, most of the whole titration — the pH crawls from about 3.8 to 5.7. The solution has become a buffer of HA and $\mathrm{A^-}$, and Henderson–Hasselbalch is telling you why the movement is so small: you are travelling a factor of 81 in the ratio, which is under two units of pH.
+
+Watch the gold dot at 12.5 mL, the **half-equivalence point**. Exactly half the acid has been converted, so $[\mathrm{A^-}] = [\mathrm{HA}]$ and the pH equals the $\text{p}K_a$. Drag the pKa slider and watch the entire plateau slide up and down while that dot stays pinned to the line — this is how $\text{p}K_a$ values are measured in practice: titrate, find the midpoint, read the pH.
+
+Then the third act. At 25 mL — the **equivalence point**, where added base exactly matches the acid originally present — the curve goes nearly vertical. The reservoir of HA is exhausted, so there is nothing left to consume incoming hydroxide, and every further drop lands in solution unopposed. Watch the slope readout: it climbs by more than an order of magnitude across that jump. That vertical section is what makes titration a precise analytical technique — a single drop flips an indicator, so the endpoint is sharp.
+
+Note where the equivalence point actually sits: near pH 8.7, not 7. At equivalence the flask contains a solution of $\mathrm{A^-}$, the conjugate base of a weak acid, and that base takes protons back from water. **A weak acid titrated with a strong base has a basic equivalence point.** This is why phenolphthalein (colour change 8.2–10) is the standard indicator here and why a neutral-range indicator would report the endpoint too early.
+
+Now switch to **strong acid** and play it again, comparing against the dashed ghost curve. Two differences stand out. The curve starts much lower — pH 1 rather than 2.9 — because dissociation is complete. And the plateau is *gone*: there is no buffer region at all, because a strong acid has no undissociated reservoir. It runs flat and low, then jumps, then runs flat and high, with the jump centred on pH 7. Same equivalence volume, entirely different shape. The presence of a buffering plateau is the visible signature of weakness.
+
+## Where this shows up
+
+**Your blood.** The dominant buffer in plasma is the bicarbonate system, $\mathrm{CO_2 + H_2O \rightleftharpoons H_2CO_3 \rightleftharpoons HCO_3^- + H^+}$, with an apparent $\text{p}K_a$ near 6.1. That looks like a poor choice — it is 1.3 units from the target pH of 7.4, well outside the ideal buffering window, and the equation says the system runs at a lopsided 20:1 ratio of bicarbonate to dissolved carbon dioxide. What redeems it is that this buffer is **open**: the acid side is a gas. Breathing faster blows off carbon dioxide and shifts the equilibrium; the kidney adjusts bicarbonate over hours. A buffer whose components are independently regulated by two organ systems outperforms a thermodynamically better closed one. (This is physiology, not clinical guidance.)
+
+**Enzymes.** Catalytic residues work by donating or accepting protons, and whether a given side chain is protonated depends on the local pH relative to its $\text{p}K_a$ — histidine's imidazole sits near 6.0, which is precisely why it appears in so many active sites: it can be found in either state at physiological pH. Shift the pH by a unit and you change which residues are charged, which changes both catalysis and folding.
+
+**Oceans.** Atmospheric carbon dioxide dissolves into seawater and forms carbonic acid. Ocean surface pH has fallen from about 8.2 to 8.1 since the industrial revolution. That sounds negligible until you apply the logarithm: it is a **30% increase in hydronium concentration**, and it shifts the carbonate equilibrium away from the $\mathrm{CO_3^{2-}}$ that corals and shellfish need to build skeletons. It is the clearest case anywhere of why understanding that the scale is logarithmic is not pedantry.
+
+**Everything analytical.** Titration remains a workhorse for determining concentration, precisely because the equivalence jump is so sharp. And every laboratory buffer, every fermentation, every drug formulation involves choosing a weak acid whose $\text{p}K_a$ brackets the pH you need to hold.
+
+<KeyTakeaways>
+- An acid is a **proton donor** and a base a proton acceptor — acidity is a property of a reaction between a conjugate pair, not a label on a bottle.
+- pH is a **logarithm**: $\text{pH} = -\log_{10}[\mathrm{H^+}]$, so one unit is a tenfold change in concentration and pH 3 has a thousand times the hydronium of pH 6. Ocean pH falling 8.2 to 8.1 is a 30% rise in acidity, not a 1% one.
+- Water's autoionisation fixes $[\mathrm{H^+}][\mathrm{OH^-}] = K_w$, so the two ions always move reciprocally. Neutral means the two are *equal* — which is pH 7 only at 25 °C; at body temperature neutral is about pH 6.8.
+- **"Strong" means fully dissociated, not concentrated or corrosive.** 0.1 M HCl sits at pH 1 while 0.1 M acetic acid sits at pH 2.9, and weak hydrofluoric acid is far more hazardous than dilute strong acid.
+- A **buffer** — a weak acid plus its conjugate base — holds pH near its $\text{p}K_a$ because $\text{pH} = \text{p}K_a + \log_{10}([\mathrm{A^-}]/[\mathrm{HA}])$ depends on a *ratio* inside a log. On a titration curve this is the flat plateau, with pH = pKa at half-equivalence and a near-vertical jump once the reservoir runs out.
+</KeyTakeaways>

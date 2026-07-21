@@ -101,6 +101,8 @@ import {
   LeChatelierAnimation,
   ChemicalBondAnimation,
   ElectronegativityAnimation,
+  PHScaleAnimation,
+  TitrationAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -188,6 +190,8 @@ const components = {
   LeChatelierAnimation,
   ChemicalBondAnimation,
   ElectronegativityAnimation,
+  PHScaleAnimation,
+  TitrationAnimation,
   KeyTakeaways,
 }
 

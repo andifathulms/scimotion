@@ -420,3 +420,13 @@ export const ElectronegativityAnimation = dynamic(
   () => import('@/components/animations/ElectronegativityAnimation').then(m => ({ default: m.ElectronegativityAnimation })),
   { ssr: false }
 )
+
+export const PHScaleAnimation = dynamic(
+  () => import('@/components/animations/PHScaleAnimation').then(m => ({ default: m.PHScaleAnimation })),
+  { ssr: false }
+)
+
+export const TitrationAnimation = dynamic(
+  () => import('@/components/animations/TitrationAnimation').then(m => ({ default: m.TitrationAnimation })),
+  { ssr: false }
+)
