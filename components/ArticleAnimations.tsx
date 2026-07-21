@@ -430,3 +430,13 @@ export const TitrationAnimation = dynamic(
   () => import('@/components/animations/TitrationAnimation').then(m => ({ default: m.TitrationAnimation })),
   { ssr: false }
 )
+
+export const GalvanicCellAnimation = dynamic(
+  () => import('@/components/animations/GalvanicCellAnimation').then(m => ({ default: m.GalvanicCellAnimation })),
+  { ssr: false }
+)
+
+export const CellPotentialAnimation = dynamic(
+  () => import('@/components/animations/CellPotentialAnimation').then(m => ({ default: m.CellPotentialAnimation })),
+  { ssr: false }
+)

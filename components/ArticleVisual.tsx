@@ -1185,6 +1185,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  electrochemistry: c => {
+    // Two half-cells joined by a salt bridge; electrons detour through an
+    // external circuit and light a lamp on the way.
+    const ions: ReactNode[] = []
+    const left = [[36, 78], [50, 92], [78, 76], [92, 94], [64, 98]]
+    const right = [[200, 78], [214, 94], [228, 76], [256, 92], [268, 80]]
+    left.forEach(([x, y], i) => ions.push(
+      <circle key={`l${i}`} cx={x} cy={y} r={2} fill={c} opacity={0.75} />
+    ))
+    right.forEach(([x, y], i) => ions.push(
+      <circle key={`r${i}`} cx={x} cy={y} r={2} fill={MUTE} />
+    ))
+    return (
+      <g>
+        <rect x={18} y={64} width={100} height={44} fill={FAINT} />
+        <rect x={182} y={64} width={100} height={44} fill={FAINT} />
+        <path d="M 18 52 L 18 108 L 118 108 L 118 52" fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <path d="M 182 52 L 182 108 L 282 108 L 282 52" fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <path d="M 100 74 L 100 44 L 200 44 L 200 74" fill="none" stroke={c} strokeWidth={5} opacity={0.3} strokeLinejoin="round" />
+        <path d="M 100 74 L 100 44 L 200 44 L 200 74" fill="none" stroke={c} strokeWidth={1} strokeLinejoin="round" />
+        <path d="M 58 40 L 58 22 L 242 22 L 242 40" fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <rect x={56} y={40} width={4} height={58} fill={MUTE} />
+        <rect x={238} y={40} width={8} height={58} fill={c} />
+        <circle cx={150} cy={22} r={11} fill={GOLD} opacity={0.18} />
+        <circle cx={150} cy={22} r={6} fill={GOLD} />
+        <circle cx={88} cy={22} r={2.5} fill={c} />
+        <circle cx={116} cy={22} r={2.5} fill={c} />
+        <circle cx={186} cy={22} r={2.5} fill={c} />
+        <circle cx={214} cy={22} r={2.5} fill={c} />
+        {ions}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

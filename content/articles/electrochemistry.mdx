@@ -1,0 +1,138 @@
+---
+title: "Electrochemistry: How Batteries Work"
+subtitle: "A battery is a chemical reaction that has been cut in half and forced to send its electrons the long way round."
+topic: "Chemistry"
+slug: "electrochemistry"
+date: "2026-07-07"
+readTime: 10
+featured: false
+description: "Split a redox reaction into two half-cells and the electrons have to detour through your device. That detour is electricity — and its voltage, its limits, and its eventual death are all predictable."
+tags: ["electrochemistry", "redox", "batteries", "thermodynamics"]
+quiz:
+  - q: "A working Zn|Cu cell has its salt bridge lifted out. Within moments the current drops to zero even though plenty of zinc metal and Cu²⁺ remain. Why?"
+    options:
+      - "The reaction reaches chemical equilibrium as soon as the ion path is broken"
+      - "Electrons can no longer physically travel through the external wire once the internal circuit opens"
+      - "Each compartment accumulates net charge — positive at the anode, negative at the cathode — and that electric field opposes further electron transfer"
+      - "The zinc electrode passivates instantly, forming an insulating oxide layer"
+    answer: 2
+    explanation: "Oxidation leaves excess positive charge in the anode compartment and reduction leaves excess negative charge in the cathode compartment; without ions migrating to cancel that imbalance, the resulting field stops the electron flow almost immediately."
+  - q: "You wire four identical 1.5 V alkaline cells in series. What happens to the voltage and the charge capacity of the assembly?"
+    options:
+      - "Voltage stays 1.5 V and capacity quadruples, since four times as much reactant is present"
+      - "Voltage becomes 6 V while capacity in amp-hours stays that of a single cell"
+      - "Both voltage and capacity quadruple, because both scale with the amount of material"
+      - "Voltage becomes 6 V and capacity quadruples, because series connection multiplies both"
+    answer: 1
+    explanation: "Cell potential is intensive — set by the identity of the two redox couples, not the quantity — so series stacking adds voltages, while the same current must pass through every cell, leaving amp-hour capacity unchanged."
+  - q: "Two cells are built from the same Zn|Cu chemistry, one with electrodes the size of a coin and one with electrodes the size of a dinner plate. At standard concentrations, how do their voltages compare?"
+    options:
+      - "The large cell has a higher voltage because more surface area means more electron transfer"
+      - "The large cell has a lower voltage because internal resistance rises with electrode size"
+      - "Both read 1.10 V, because E° depends only on which couples are involved, not on how much metal there is"
+      - "Neither has a defined voltage until a load is connected"
+    answer: 2
+    explanation: "Doubling the amount of metal doubles both the electrons transferred and the free energy released, so the ratio ΔG/nF — the voltage — is unchanged."
+---
+
+## A reaction cut in half
+
+Drop a strip of zinc into a beaker of copper sulfate solution and something visibly happens. The zinc darkens and pits. A red-brown crust of copper metal grows on it. The blue of the solution fades. Zinc atoms are handing electrons to copper ions, and the whole exchange happens in a millimetre-thin skin at the metal's surface. It releases real energy — the beaker gets warm — but that energy escapes as heat, useless to you.
+
+Now do the same reaction, but sabotage it. Put the zinc in one beaker and the copper ions in another, several centimetres apart. The zinc still "wants" to give up its electrons and the Cu²⁺ still "wants" to take them, but they can no longer touch. Run a wire between the two beakers and the electrons finally get their route — a long detour, out through the wire, through whatever you put in its path, and only then into the copper ions.
+
+That detour is a battery. The chemistry is not new; the geography is. You have taken a reaction that would have dumped its energy as heat and forced its electrons to walk through your phone on the way to their destination.
+
+## Oxidation and reduction: follow the electrons
+
+Strip away the vocabulary and redox chemistry is bookkeeping about electrons.
+
+**Oxidation** is loss of electrons. **Reduction** is gain of electrons. They always happen together — electrons do not simply evaporate — so the two are written as half-reactions that sum to the whole:
+
+- Oxidation: $\mathrm{Zn} \rightarrow \mathrm{Zn^{2+}} + 2e^-$
+- Reduction: $\mathrm{Cu^{2+}} + 2e^- \rightarrow \mathrm{Cu}$
+- Overall: $\mathrm{Zn} + \mathrm{Cu^{2+}} \rightarrow \mathrm{Zn^{2+}} + \mathrm{Cu}$
+
+In the beaker version, those two half-reactions occur at the same point in space and the electrons hop directly across. In a cell, each half-reaction gets its own electrode and its own solution — a **half-cell** — and the electrons have to travel.
+
+The names follow the chemistry, not the wire colours. The **anode** is where oxidation happens; the **cathode** is where reduction happens. In a battery that is discharging, electrons leave the anode, so the anode is the negative terminal. (This flips in a charging or electrolytic cell, which is why memorising "anode = negative" will eventually betray you. Memorise "anode = oxidation" instead.)
+
+## Two beakers, one circuit
+
+Here is the full cell. The zinc electrode dissolves, releasing Zn²⁺ into the left solution and pushing electrons into the wire. The electrons cross to the copper electrode and are collected by Cu²⁺ ions from the right solution, which plate out as fresh copper metal. Between the two beakers sits a salt bridge — a tube of inert electrolyte, usually KNO₃ in a gel.
+
+<GalvanicCellAnimation />
+
+Watch it run for a few seconds first: electrons streaming left to right through the lamp, the zinc strip getting thinner, the copper strip getting thicker, ions drifting through the bridge in both directions at once. Then press **Remove salt bridge** and keep watching. The lamp does not dim gracefully over minutes — it dies in under a second.
+
+That collapse is the point most textbook diagrams quietly skip. Each electron that leaves the anode leaves behind a Zn²⁺ ion, so the left compartment accumulates net **positive** charge. Each electron that arrives at the cathode consumes a Cu²⁺ ion, so the right compartment accumulates net **negative** charge. That charge separation builds an electric field that pulls back on the very electrons trying to leave — and because moving a macroscopic amount of charge is enormously expensive, the field reaches stalling strength after a vanishingly small amount of reaction. Watch the imbalance readout: the current is throttled long before any measurable chemistry has occurred.
+
+The salt bridge fixes this by letting ions carry charge between compartments without letting the reactants mix. Its K⁺ ions migrate toward the cathode compartment to offset the incoming negative charge; its NO₃⁻ ions migrate toward the anode compartment to offset the accumulating positive charge. Both compartments stay electrically neutral, and the reaction can run to completion. Press **Restore salt bridge** and the imbalance drains away and the lamp comes back.
+
+So a battery has *two* circuits in series, not one: electrons through the external wire, ions through the electrolyte. Break either and nothing flows. This is why a real battery's electrolyte is not a passive filler but a load-bearing component, and why "the electrolyte dried out" is a complete explanation for a dead device.
+
+## Where the voltage comes from
+
+Every half-reaction has a measured tendency to run in the reduction direction, tabulated as a **standard reduction potential** $E^\circ$ in volts, relative to an arbitrary zero: the standard hydrogen electrode, $2\mathrm{H^+} + 2e^- \rightarrow \mathrm{H_2}$, defined as exactly $0.00$ V. A positive $E^\circ$ means the couple is more eager than hydrogen to accept electrons; a negative $E^\circ$ means it would rather give them up.
+
+Given two couples, the one with the more positive $E^\circ$ takes the electrons — it becomes the cathode — and the other is forced into oxidation as the anode. The cell voltage is simply the gap between them:
+
+$$E^\circ_{cell} = E^\circ_{cathode} - E^\circ_{anode}$$
+
+For zinc ($-0.76$ V) and copper ($+0.34$ V):
+
+$$E^\circ_{cell} = 0.34 - (-0.76) = 1.10\ \text{V}$$
+
+Voltage is energy per unit charge, so multiplying by the charge moved gives energy. If $n$ moles of electrons are transferred and $F = 96{,}485$ C/mol is the charge on a mole of electrons (the Faraday constant), the maximum useful work — the Gibbs free energy change — is:
+
+$$\Delta G^\circ = -nFE^\circ_{cell}$$
+
+For the zinc–copper cell, $n = 2$, so $\Delta G^\circ = -2(96{,}485)(1.10) \approx -212$ kJ/mol. The minus sign is doing real work here: a *positive* cell voltage means a *negative* $\Delta G^\circ$, which means the reaction is spontaneous. Voltage measured on a meter and thermodynamic favourability are the same statement in different units.
+
+But $E^\circ$ assumes standard conditions — every dissolved species at 1 M. A discharging battery does not stay there. As zinc dissolves, $[\mathrm{Zn^{2+}}]$ rises; as copper plates out, $[\mathrm{Cu^{2+}}]$ falls. The **Nernst equation** corrects for it:
+
+$$E = E^\circ - \frac{RT}{nF}\ln Q \;=\; E^\circ - \frac{0.0592}{n}\log_{10} Q \quad (25^\circ\text{C})$$
+
+where $Q$ is the reaction quotient — products over reactants — here $Q = [\mathrm{Zn^{2+}}]/[\mathrm{Cu^{2+}}]$. Piling up products and consuming reactants both push $Q$ up, which pushes $E$ down. Keep going and you reach $Q = K$, the equilibrium constant, where $E = 0$ exactly. **A dead battery is a battery at equilibrium.** There is nothing else wrong with it; the reaction simply has no remaining drive.
+
+## Picking the metals
+
+The ladder of standard reduction potentials is the whole design space for a cell. Pick any two rungs and the vertical gap between them is your voltage.
+
+<CellPotentialAnimation />
+
+Click the metal buttons to choose a pair. Notice that you never have to tell it which is the anode — the more easily oxidised metal (lower on the ladder, more negative $E^\circ$) is *always* forced into that role. Try Li with Ag for the biggest gap available here, then Fe with Pb for one of the smallest. The gold bracket on the ladder is the same number as the big voltage readout: the voltage *is* the gap.
+
+Watch $\Delta G^\circ$ too. Aluminium and magnesium give large negative values partly because they transfer three and two electrons respectively — $n$ multiplies the energy even when the voltage does not change. That is exactly why aluminium and lithium are attractive for high-energy-density batteries: lots of electrons per gram of metal.
+
+Then press **Show discharge** and run the sweep. Early on, the Nernst correction is almost invisible — the voltage plateau is why a battery feels like a constant-voltage source for most of its life, and it comes from the logarithm, which barely moves while concentrations are within an order of magnitude of each other. Only when the cathode reactant is nearly gone does the curve bend, and then the terminal voltage under load falls off a cliff as mass transport fails. This shape — long flat plateau, sudden knee — is why battery gauges are notoriously bad at predicting the last 10%.
+
+## Volts and amp-hours are not the same thing
+
+Here is the most common confusion in the subject, and it is worth being blunt about.
+
+**Voltage is intensive.** It does not depend on how much stuff you have. A coin cell and a car battery built from the same chemistry read the same voltage. Doubling the electrode size doubles the electrons transferred *and* doubles the energy released, and $E = -\Delta G / nF$ is a ratio of the two, so it is unchanged. Voltage is a property of *which* reaction is running.
+
+**Capacity is extensive.** Amp-hours scale directly with how many moles of reactant you have packed in. That is a property of *how much* reaction is available.
+
+So what does stacking cells do? Wiring cells in **series** puts their voltages end to end: four 1.5 V cells give 6 V. But the same current flows through every cell in a series string, and they all deplete together — so the capacity in amp-hours is that of a *single* cell. You bought voltage, not runtime. Wiring cells in **parallel** does the opposite: the voltage stays at 1.5 V while the currents add, so capacity multiplies. Every battery pack in your life is some rectangle of both, chosen to hit a target voltage and a target runtime independently.
+
+Energy, notably, is the product — watt-hours = volts × amp-hours — and *that* is extensive either way. Series or parallel, four cells store four cells' worth of energy. Only its packaging differs.
+
+## Rechargeables, lithium-ion, and rust
+
+If a discharging cell converts chemical energy into electrical work, then forcing current backwards through it should convert electrical work back into chemistry. That is a **rechargeable** battery: apply an external voltage larger than the cell's own and you drive the reaction uphill, replating the metal you dissolved. The anode and cathode swap roles, which is why battery datasheets specify terminals as *positive* and *negative* rather than anode and cathode.
+
+Not every chemistry survives the round trip. The failure mode is usually geometric rather than thermodynamic: metal that redeposits as spiky dendrites instead of a smooth layer can eventually bridge the two electrodes and short the cell. Managing *where* atoms land, not just whether the reaction reverses, is most of the engineering.
+
+Lithium-ion sidesteps the problem elegantly. Instead of dissolving and replating metal, Li⁺ ions shuttle between two host lattices — graphite on one side, a layered metal oxide on the other — slotting into vacant sites without either electrode dissolving. This is *intercalation*, and because the frameworks survive intact, cells last hundreds of cycles. Lithium is chosen for the reason the ladder makes obvious: at $-3.04$ V it sits at the very bottom, so pairing it with almost anything yields a large voltage, and it is extraordinarily light, so the amp-hours per kilogram are excellent.
+
+Corrosion is the same physics running without your permission. Iron in contact with water and oxygen forms a galvanic cell on its own surface: iron oxidises at one microscopic patch (the anode), oxygen is reduced at another (the cathode), and the water film is the electrolyte and salt bridge in one. Rust is a battery you did not want, discharging into itself. The cure follows directly: bolt on a metal further down the ladder — zinc or magnesium — and it becomes the anode instead, corroding preferentially and leaving the iron untouched. Sacrificial anodes on ship hulls and water heaters are electrochemistry deliberately aimed at a block of metal you are happy to lose.
+
+<KeyTakeaways>
+- A battery is a redox reaction split across two half-cells, so the electrons must travel through an external circuit to get where they were going anyway — the detour is the electricity.
+- The salt bridge is not decorative. Without an ion path, charge builds up in each compartment and the field it creates stops the current almost immediately; a cell has two circuits in series, electrons through the wire and ions through the electrolyte.
+- Cell voltage is the gap between two standard reduction potentials, $E^\circ_{cell} = E^\circ_{cathode} - E^\circ_{anode}$, and it is the same statement as thermodynamic favourability via $\Delta G^\circ = -nFE^\circ$.
+- **Voltage is intensive, capacity is extensive**: stacking cells in series buys volts, not amp-hours. Bigger electrodes of the same chemistry give the same voltage, just for longer.
+- The Nernst equation explains both the long flat voltage plateau and the sudden death at the end — a flat battery is simply a reaction that has reached equilibrium, where $Q = K$ and $E = 0$.
+</KeyTakeaways>

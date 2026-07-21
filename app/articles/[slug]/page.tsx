@@ -103,6 +103,8 @@ import {
   ElectronegativityAnimation,
   PHScaleAnimation,
   TitrationAnimation,
+  GalvanicCellAnimation,
+  CellPotentialAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -192,6 +194,8 @@ const components = {
   ElectronegativityAnimation,
   PHScaleAnimation,
   TitrationAnimation,
+  GalvanicCellAnimation,
+  CellPotentialAnimation,
   KeyTakeaways,
 }
 
