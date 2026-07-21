@@ -30,11 +30,15 @@ export const learningPaths: LearningPath[] = [
     articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'electromagnetic-waves', 'wave-particle-duality', 'superconductivity'],
   },
   {
-    slug: 'signals-cells-and-randomness',
-    title: 'Signals, Cells & Randomness',
+    slug: 'chance-chaos-and-information',
+    title: 'Chance, Chaos & Information',
     description:
-      'The electrical and statistical machinery of living systems — from a firing neuron to the heartbeat to molecular diffusion and the bell curve.',
-    articleSlugs: ['action-potential', 'cardiac-electrical-signal', 'brownian-motion', 'chaos-theory', 'markov-chains', 'nash-equilibrium', 'central-limit-theorem', 'bayes-theorem', 'information-theory', 'immune-response', 'epidemic-models', 'glucose-insulin-regulation', 'dna-replication', 'protein-folding', 'pharmacokinetics'],
+      'What can be said about a system nobody can predict — from a jittering pollen grain to the bell curve, the limits of forecasting, and the arithmetic of uncertainty itself.',
+    // Ordered as a widening treatment of unpredictability: physical randomness,
+    // then why it aggregates predictably, then reasoning under it, then processes
+    // in time, then deterministic-but-unpredictable, then measuring it, then
+    // acting under it.
+    articleSlugs: ['brownian-motion', 'central-limit-theorem', 'bayes-theorem', 'markov-chains', 'chaos-theory', 'information-theory', 'nash-equilibrium'],
   },
   {
     slug: 'matter-and-reactions',
@@ -54,6 +58,22 @@ export const learningPaths: LearningPath[] = [
     // Solid earth first, then the fluid envelopes that ride on it, then the two
     // budgets — radiation and carbon — that the circulation articles feed into.
     articleSlugs: ['plate-tectonics', 'seismic-waves', 'atmospheric-convection', 'ocean-circulation', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
+  },
+  {
+    slug: 'life-molecules-to-organisms',
+    title: 'Life: Molecules to Organisms',
+    description:
+      'Start with the principle that organises all of biology, then build upward — the code, what it folds into, how energy gets in, and how cells signal and defend.',
+    // Selection first, because it is the only thing that makes the rest
+    // non-arbitrary; then molecules, then energy, then cells.
+    articleSlugs: ['natural-selection', 'dna-replication', 'protein-folding', 'photosynthesis', 'action-potential', 'immune-response'],
+  },
+  {
+    slug: 'the-clinical-body',
+    title: 'The Clinical Body',
+    description:
+      'Medicine as measurement and control — reading the heart’s electrical trace, holding glucose in range, tracking a drug through the body, seeing inside it, and losing ground to resistant bacteria.',
+    articleSlugs: ['cardiac-electrical-signal', 'glucose-insulin-regulation', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
   },
 ]
 
