@@ -1875,6 +1875,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'kinetic-theory': c => {
+    // Molecules flying in straight lines inside a box (left), with the emergent
+    // Maxwell-Boltzmann speed distribution (right). Literal integer coordinates only.
+    const parts: [number, number, number, number, boolean][] = [
+      [50, 42, 8, -5, false],
+      [96, 34, -7, 6, false],
+      [140, 60, 9, 4, true],
+      [72, 78, 6, -8, false],
+      [120, 44, -8, -4, false],
+      [168, 72, 7, 7, true],
+      [100, 64, 4, 9, false],
+    ]
+    const curve =
+      '210,98 214,96 218,90 222,80 226,68 230,58 233,52 236,54 240,60 246,70 252,78 258,84 266,90 274,94 282,96 292,98'
+    return (
+      <g>
+        <rect x={16} y={22} width={180} height={76} rx={3} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        {parts.map(([x, y, dx, dy, fast], i) => (
+          <g key={i}>
+            <line x1={x - dx} y1={y - dy} x2={x} y2={y} stroke={`${fast ? GOLD : c}88`} strokeWidth={1.5} />
+            <circle cx={x} cy={y} r={3} fill={fast ? GOLD : c} />
+          </g>
+        ))}
+        <line x1={210} y1={40} x2={210} y2={98} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={210} y1={98} x2={292} y2={98} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={233} y1={52} x2={233} y2={98} stroke={GOLD} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={233} cy={52} r={3.5} fill={GOLD} />
+        <text x={214} y={48} fontSize={8} fill={MUTE} fontFamily="monospace">f(v)</text>
+        <text x={286} y={110} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">v</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

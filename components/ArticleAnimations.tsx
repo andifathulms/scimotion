@@ -650,3 +650,13 @@ export const ETCAnimation = dynamic(
   () => import('@/components/animations/ETCAnimation').then(m => ({ default: m.ETCAnimation })),
   { ssr: false }
 )
+
+export const KineticTheoryAnimation = dynamic(
+  () => import('@/components/animations/KineticTheoryAnimation').then(m => ({ default: m.KineticTheoryAnimation })),
+  { ssr: false }
+)
+
+export const MaxwellBoltzmannAnimation = dynamic(
+  () => import('@/components/animations/MaxwellBoltzmannAnimation').then(m => ({ default: m.MaxwellBoltzmannAnimation })),
+  { ssr: false }
+)

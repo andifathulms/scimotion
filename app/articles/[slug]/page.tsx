@@ -149,6 +149,8 @@ import {
   ChainReactionAnimation,
   RespirationAnimation,
   ETCAnimation,
+  KineticTheoryAnimation,
+  MaxwellBoltzmannAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -299,6 +301,8 @@ const components = {
   ChainReactionAnimation,
   RespirationAnimation,
   ETCAnimation,
+  KineticTheoryAnimation,
+  MaxwellBoltzmannAnimation,
   KeyTakeaways,
 }
 

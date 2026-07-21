@@ -48,7 +48,7 @@ export const learningPaths: LearningPath[] = [
     // Ordered so each article supplies what the next one assumes: kinetics and
     // equilibrium come before acids/bases (Ka is an equilibrium constant) and
     // before electrochemistry (the Nernst equation is equilibrium applied to redox).
-    articleSlugs: ['atomic-structure', 'chemical-bonding', 'phase-transitions', 'reaction-kinetics', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
+    articleSlugs: ['atomic-structure', 'chemical-bonding', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
   },
   {
     slug: 'planet-earth',
