@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllArticles, getAllTags } from '@/lib/articles'
 import { learningPaths } from '@/lib/paths'
+import { TOPICS, topicToSlug } from '@/lib/topics'
 import { SITE_URL } from '@/lib/site'
 
 // Required by `output: 'export'` — metadata routes must be statically emitted.
@@ -13,9 +14,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL, changeFrequency: 'weekly', priority: 1 },
     { url: `${SITE_URL}/learn`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/topics`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}/about`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/tags`, changeFrequency: 'monthly', priority: 0.4 },
   ]
+
+  const topicRoutes: MetadataRoute.Sitemap = TOPICS.map(topic => ({
+    url: `${SITE_URL}/topics/${topicToSlug(topic)}`,
+    changeFrequency: 'monthly',
+    priority: 0.5,
+  }))
 
   const pathRoutes: MetadataRoute.Sitemap = learningPaths.map(p => ({
     url: `${SITE_URL}/learn/${p.slug}`,
@@ -36,5 +44,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.3,
   }))
 
-  return [...staticRoutes, ...pathRoutes, ...articleRoutes, ...tagRoutes]
+  return [...staticRoutes, ...topicRoutes, ...pathRoutes, ...articleRoutes, ...tagRoutes]
 }

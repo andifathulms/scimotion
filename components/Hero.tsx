@@ -62,7 +62,7 @@ export function Hero() {
 
         <motion.div variants={item} className="flex items-center gap-4">
           <a
-            href="#topics"
+            href="#explore"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90"
             style={{ background: '#F59E0B', color: '#0F0D0A' }}
           >

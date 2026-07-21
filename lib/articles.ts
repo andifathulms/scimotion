@@ -99,6 +99,20 @@ export async function getArticlesByTag(tag: string): Promise<ArticleMeta[]> {
   return articles.filter(a => a.tags.includes(tag))
 }
 
+export async function getArticlesByTopic(topic: Topic): Promise<ArticleMeta[]> {
+  const articles = await getAllArticles()
+  return articles.filter(a => a.topic === topic)
+}
+
+// Article count per topic, in the canonical TOPICS order.
+export async function getTopicCounts(): Promise<{ topic: Topic; count: number }[]> {
+  const articles = await getAllArticles()
+  return TOPICS.map(topic => ({
+    topic,
+    count: articles.filter(a => a.topic === topic).length,
+  }))
+}
+
 // Rank other articles by shared tags first, then same topic, for "related" lists.
 export function rankRelated(current: ArticleMeta, all: ArticleMeta[]): ArticleMeta[] {
   return all
