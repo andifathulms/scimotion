@@ -1,0 +1,169 @@
+---
+title: "The Carbon Cycle"
+subtitle: "Nature moves ten times more carbon than we do every year — and that is exactly why our emissions accumulate."
+topic: "Earth & Climate"
+slug: "carbon-cycle"
+date: "2026-07-15"
+readTime: 10
+featured: false
+description: "Photosynthesis and ocean exchange dwarf human emissions, yet the atmospheric stock is rising. The resolution is the difference between a balanced two-way flux and a small one-way one — and it is the whole story of the carbon cycle."
+tags: ["carbon-cycle", "climate", "biogeochemistry", "box-models"]
+quiz:
+  - q: "Gross photosynthesis removes roughly 120 GtC per year from the atmosphere and human emissions add roughly 11 GtC per year. Why does the atmospheric stock still rise?"
+    options:
+      - "Photosynthesis has slowed sharply since the industrial revolution, so the natural sink no longer keeps up"
+      - "Photosynthesis is nearly cancelled by respiration and decomposition returning a similar amount, so the natural exchange is close to a two-way balance while the human flux is one-way"
+      - "The carbon released by burning fossil fuels is chemically different and cannot be taken up by plants"
+      - "Only about a tenth of photosynthesis actually removes carbon; the rest is re-emitted immediately by the leaf"
+    answer: 1
+    explanation: "A large flux that returns almost all of what it takes changes the stock very little, whereas a small flux with no matching return adds to the stock every single year."
+  - q: "The residence time of a CO2 molecule in the atmosphere is only about four years, yet the IPCC states that a fraction of a CO2 pulse persists for many centuries. What resolves this?"
+    options:
+      - "The residence-time figure is an outdated estimate that newer isotope measurements have corrected"
+      - "Residence time measures how long an individual molecule stays before being exchanged, while adjustment time measures how long a perturbation to the total stock takes to be removed"
+      - "Molecules emitted from fossil fuels are heavier and therefore sink out of the atmosphere more slowly"
+      - "Residence time applies to the surface ocean and adjustment time applies to the atmosphere"
+    answer: 1
+    explanation: "Rapid two-way exchange swaps individual molecules in a few years without removing the excess carbon, which can only leave via much slower sinks."
+  - q: "The airborne fraction has stayed near 45% for six decades even as emissions roughly tripled. What does that imply about the land and ocean sinks?"
+    options:
+      - "The sinks have a fixed annual capacity that emissions have not yet exceeded"
+      - "The sinks have grown roughly in proportion to emissions so far, because uptake scales with how far the atmosphere is above its pre-industrial level"
+      - "The sinks are saturated and the stability of the fraction is a coincidence of the measurement period"
+      - "Roughly 45% of emitted carbon is chemically converted in the atmosphere and the rest is buried"
+    answer: 1
+    explanation: "Ocean and land uptake respond to the atmospheric excess, so as that excess grew alongside emissions the removed share stayed roughly constant — a relationship that is not guaranteed to hold indefinitely."
+---
+
+## A flux that should not matter
+
+Here is a fact that sounds like it settles the argument in the opposite direction from the way it actually does.
+
+Every year, photosynthesis pulls roughly **120 gigatonnes of carbon** out of the atmosphere. Every year, the ocean surface absorbs roughly **80 GtC** more. Against those numbers, human activity — burning fossil fuels, making cement, clearing land — releases about **11 GtC per year** (Global Carbon Project, 2023 budget: 9.9 GtC from fossil fuels and cement, 1.1 GtC from land-use change).
+
+So the natural fluxes are each around ten times larger than ours. A tenth of a percent shift in the efficiency of photosynthesis would swamp the entire fossil fuel industry. How could a flux that small possibly control the atmosphere?
+
+It is a genuinely good question, and the answer is not "the numbers are wrong". The numbers are right. What is wrong is the assumption that the size of a flux tells you what it does to a stock.
+
+Think about a bank account. Suppose £120,000 flows through it each year and £120,000 flows out. Enormous throughput; the balance never moves. Now suppose someone adds £11,000 a year and takes nothing back. The balance climbs by £11,000 a year even though that deposit is a rounding error against the traffic. Nobody looks at that account and concludes the small deposit cannot matter, because everyone understands intuitively that **flows do not change balances — imbalances do.**
+
+That is the carbon cycle in one paragraph. The large natural fluxes are **two-way exchanges that very nearly cancel**. The human flux is **one-way**. Carbon taken out of a geological reservoir where it had been sequestered for hundreds of millions of years, oxidised, and released does not have a matching return path on any timescale you would notice. And a small one-way flux, applied year after year, accumulates.
+
+## Stocks and flows
+
+The carbon cycle is best understood as a **box model**: a handful of reservoirs (stocks, measured in GtC) connected by fluxes (flows, measured in GtC per year). The stocks span four orders of magnitude.
+
+| Reservoir | Size (GtC) |
+| --- | --- |
+| Atmosphere | ~890 today (~590 pre-industrial) |
+| Surface ocean | ~900 |
+| Land biosphere (vegetation + soils) | ~2,300 |
+| Deep ocean | ~37,000 |
+| Fossil reserves (recoverable) | ~1,000 |
+| Sedimentary rock (carbonates, kerogen) | tens of millions |
+
+These are approximate; IPCC AR6 Chapter 5 gives ranges rather than points, and soil carbon in particular is uncertain by several hundred GtC. But the *ratios* are robust, and they are what the argument turns on. The deep ocean holds about forty times what the atmosphere does. The atmosphere is by far the smallest of the actively exchanging reservoirs — which is precisely why it is the one that visibly moves.
+
+A useful conversion: **1 ppm of atmospheric CO2 ≈ 2.13 GtC.** So the rise from 278 ppm in 1750 to about 420 ppm today is roughly 300 GtC added to the air.
+
+Now the fluxes, and the crucial distinction between two kinds of them:
+
+**Balanced pairs.** Photosynthesis takes ~120 GtC/yr from the atmosphere into plants; respiration by those plants plus decomposition of dead material returns very nearly the same amount. Air–sea gas exchange moves ~80 GtC/yr into the ocean and ~80 GtC/yr back out, driven by the partial pressure difference across the interface. Neither pair is exactly balanced — that is the whole point, as we will see — but each is balanced to within a few percent.
+
+**Unbalanced flux.** Fossil carbon extraction and combustion. There is no return path. Reburying it as coal takes a hundred million years.
+
+For context on what "small but one-way" means: **volcanic outgassing is roughly 0.1 GtC/yr**, about one percent of the human flux. This is the point people are reaching for when they say volcanoes emit more CO2 than humans; the measured numbers say otherwise by two orders of magnitude, and geologically the volcanic flux is itself balanced — over millions of years, silicate weathering removes carbon at close to the same rate.
+
+## Watching the stock move
+
+The widget below is that box model, drawn to scale. Box areas are proportional to reservoir size, and the drifting particles along each arrow are proportional to flux magnitude.
+
+<CarbonCycleAnimation />
+
+Start with **human emissions off** and press play. The particles stream busily between air, land, and ocean — a great deal of visible traffic — and the atmospheric stock in the chart below simply sits there. That is a cycle in steady state: enormous throughput, zero net change.
+
+Now switch **human emissions on**. The change to the picture is almost invisible: a thin one-way trickle from the fossil box, plainly the smallest arrow on the diagram. Watch the chart instead. The atmospheric line lifts and keeps lifting, year after year, while every other arrow keeps doing exactly what it was doing. Nothing about the big fluxes changed. The small one that has no return path did all of the work.
+
+Then switch emissions **off again mid-run** and watch what happens next — because this is where most intuitions fail. The line does not snap back. It bends over and begins a slow decline toward, but not down to, where it started. That is the asymmetry at the heart of the problem: the stock is easy to raise and slow to lower.
+
+One honesty note about the model. It uses a single lumped sink whose strength is proportional to the atmospheric excess. That reproduces the historical airborne fraction well and is the right first-order intuition, but it makes recovery look *faster and simpler* than reality. Real removal happens on several timescales at once, and the slowest ones are very slow indeed.
+
+## The math of a leaky box
+
+Write $M_a$ for the mass of carbon in the atmosphere. Conservation of mass gives the whole model:
+
+$$\frac{dM_a}{dt} \;=\; \sum F_{\text{in}} \;-\; \sum F_{\text{out}}$$
+
+Expanded into the actual fluxes:
+
+$$\frac{dM_a}{dt} \;=\; \underbrace{\left(F_{\text{resp}} - F_{\text{photo}}\right)}_{\approx\,0} \;+\; \underbrace{\left(F_{\text{oc}\to\text{a}} - F_{\text{a}\to\text{oc}}\right)}_{\approx\,0} \;+\; \underbrace{E_{\text{human}}}_{>\,0}$$
+
+The two bracketed terms are differences of large numbers that nearly cancel. The third has nothing to cancel against. Note what this means for sensitivity: the terms we know *least* precisely (the gross biological fluxes, uncertain by several GtC/yr) enter only as differences, while the term we know *best* — fossil carbon, which is inventoried because it is sold — enters directly.
+
+### Residence time is not adjustment time
+
+Define the **residence time** of the atmospheric reservoir as the stock divided by the rate at which it drains:
+
+$$\tau_{\text{res}} \;=\; \frac{M_a}{\sum F_{\text{out}}} \;\approx\; \frac{890\ \text{GtC}}{120 + 80\ \text{GtC yr}^{-1}} \;\approx\; 4.5\ \text{years}$$
+
+This number is correct, and it is the single most misused quantity in the subject. It says that an *individual* CO2 molecule spends about four or five years in the air before being swapped into a leaf or the sea surface. It says **nothing** about how long an *excess* takes to disappear, because most of those molecules are replaced by others coming the other way. Rapid exchange shuffles the molecules; it does not remove the carbon.
+
+What matters instead is the **adjustment time** — the timescale on which a perturbation to the total stock decays. Model the net sink as proportional to the excess above the pre-industrial level $M_0$:
+
+$$\frac{dM_a}{dt} \;=\; E(t) \;-\; k\,\bigl(M_a - M_0\bigr), \qquad \tau_{\text{adj}} \;=\; \frac{1}{k}$$
+
+This is the equation the widget integrates. It is deliberately crude: the true response is a sum of several exponentials with very different time constants, because the fast sinks saturate. Surface ocean uptake is limited within years by carbonate chemistry, mixing into the deep ocean takes centuries, and the final removal — reaction with carbonate sediments and ultimately silicate weathering — takes tens to hundreds of thousands of years. IPCC AR6 summarises the consequence: after 1,000 years, something like **15–40% of an emitted CO2 pulse is still in the atmosphere**. A four-year residence time and a multi-century adjustment time are both true, of the same gas, at the same time.
+
+### The airborne fraction
+
+If emissions are $E$ and the atmospheric growth rate is $dM_a/dt$, the **airborne fraction** is
+
+$$\mathrm{AF} \;=\; \frac{dM_a/dt}{E}$$
+
+Empirically, over 1959–2022, the Global Carbon Project puts it at roughly **46%**, and remarkably it has stayed near that value while emissions roughly tripled. The other ~54% is split fairly evenly: the ocean takes about 26% and the land about 29%, with the residual imbalance in the budget absorbing the rest.
+
+Substituting recent numbers: of ~11 GtC/yr emitted, ocean uptake is ~2.9 GtC/yr and land uptake ~3.3 GtC/yr, leaving ~5.2 GtC/yr — about 2.4 ppm — added to the air annually. The land and ocean are, at present, doing us an enormous favour that appears in no ledger.
+
+Whether they continue to is genuinely open. A constant airborne fraction falls naturally out of the linear model above, since uptake scales with the excess, which has grown alongside emissions. But the underlying processes are not linear forever: warmer water holds less CO2, ocean carbonate chemistry becomes less able to buffer additions as it accumulates them (the Revelle factor rises), and land uptake depends on water, nutrients and disturbance. AR6 assesses with high confidence that the *fraction* taken up will decline as emissions and warming continue, while noting that the magnitude of that decline is one of the larger uncertainties in the carbon cycle.
+
+## The planet breathing: the Keeling curve
+
+Everything above is a stock argument. The measurement that made it undeniable is a time series.
+
+In 1958 Charles David Keeling began continuously measuring CO2 at Mauna Loa, chosen because it sits in well-mixed free troposphere far from local sources. The record — now maintained by NOAA and Scripps — is the longest of its kind and shows two things at once.
+
+<KeelingCurveAnimation />
+
+*The series here is a faithful reproduction of the record's shape and values, not a live data feed.*
+
+Zoom all the way **in** first, to a two- or three-year window. The trace rises and falls by about **6 ppm** every year, and the shape is asymmetric: a steep drawdown through spring and summer, a slower climb through autumn and winter. This is the **fast carbon cycle** made visible. Northern Hemisphere land — which holds most of the planet's vegetated area — leafs out in May, photosynthesis outruns respiration, and CO2 falls; leaves drop in October, decomposition wins, and it rises. You are watching the biosphere inhale and exhale on an annual cycle, and the amplitude tells you how large the gross fluxes are.
+
+Now zoom all the way **out** to the full record. The wiggle shrinks to a fringe on a line that climbs from about **315 ppm in 1958 to past 420 ppm in the 2020s**. Six ppm of seasonal breathing, over a hundred ppm of trend.
+
+And look at the growth-rate strip beneath the plot, which is the slope of the trend. The curve is not a straight line — it is bending upward. Growth averaged around **0.8 ppm/yr in the 1960s** and around **2.4 ppm/yr in the 2010s**. The rate at which we are filling the reservoir has itself roughly tripled.
+
+The two features answer each other. The sawtooth proves the natural fluxes are huge and fast. The trend proves they are balanced, because if the biosphere were removing carbon on net, its enormous annual breath would show up as a downward drift rather than a return to a rising baseline every year.
+
+## Where the carbon goes, and what it does there
+
+About a quarter of emitted CO2 dissolves into the ocean, and dissolving is not the same as disappearing.
+
+CO2 in seawater reacts with water to form carbonic acid, which dissociates:
+
+$$\mathrm{CO_2} + \mathrm{H_2O} \rightleftharpoons \mathrm{H_2CO_3} \rightleftharpoons \mathrm{H^+} + \mathrm{HCO_3^-} \rightleftharpoons 2\,\mathrm{H^+} + \mathrm{CO_3^{2-}}$$
+
+The released hydrogen ions lower pH — and, because they react with carbonate ions to form bicarbonate, they simultaneously *reduce the carbonate concentration* that calcifying organisms need to build shells. Surface ocean pH has fallen from about 8.2 to about 8.1 since the industrial revolution. That sounds trivial until you remember the scale is logarithmic: a 0.1 unit drop is roughly a **30% increase in hydrogen ion concentration**. AR6 reports current surface acidification at 0.017–0.027 pH units per decade and assesses it as virtually certain, since it follows from the chemistry as directly as anything in the field. The same reaction that makes the ocean a helpful sink is what makes it a corrosive one.
+
+Then there is the **slow cycle**, which operates on the timescales that made the fossil reservoirs in the first place. Carbon leaves the surface system when organic matter or carbonate is buried in marine sediment; it returns when subduction carries that sediment down and volcanism outgasses it. In between, silicate weathering — rain, slightly acidic with dissolved CO2, dissolving continental rock and delivering the products to the sea — draws CO2 down at roughly **0.2–0.3 GtC/yr**. This is the planet's long-run thermostat: weathering speeds up when it is warmer and wetter, which pulls CO2 down, which cools things, which slows weathering. It has kept Earth's climate broadly habitable for billions of years.
+
+It also operates on a timescale of **hundreds of thousands of years**, which is the real significance of the fossil reservoirs. The coal, oil and gas we are burning is slow-cycle carbon — buried organic matter that the fast cycle had permanently retired. Moving it back into the fast cycle takes a couple of centuries at current rates. The thermostat is real, and it will eventually handle this; it simply operates roughly a thousand times slower than the perturbation.
+
+That is the structural point the box model makes, and it is why "the natural fluxes are much bigger than ours" is exactly backwards as an argument. The natural fluxes are big *and closed*. Ours is small *and open*. Over a century, the open one wins — not because it is large, but because nothing sends it back.
+
+<KeyTakeaways>
+- Flux size does not determine stock change; **imbalance** does. Photosynthesis (~120 GtC/yr) and air–sea exchange (~80 GtC/yr each way) are near-balanced two-way pairs, while the ~11 GtC/yr human flux is one-way, so only the small one accumulates.
+- **Residence time and adjustment time are different quantities.** An individual CO2 molecule is exchanged in about $M_a/\sum F_{\text{out}} \approx 4.5$ years, but 15–40% of an emitted pulse remains after 1,000 years (IPCC AR6), because exchange swaps molecules without removing the excess.
+- The **airborne fraction** $\mathrm{AF} = (dM_a/dt)/E$ has averaged about 46% since 1959 (Global Carbon Project). Land and ocean absorb the rest, and that share is expected to fall as sinks weaken.
+- The Keeling curve shows both cycles at once: a ~6 ppm annual sawtooth from Northern Hemisphere growing seasons riding a trend from ~315 ppm (1958) past 420 ppm (2020s), with the growth rate itself steepening from ~0.8 to ~2.4 ppm/yr.
+- Ocean uptake is not free: the same carbonate chemistry that makes seawater a sink has lowered surface pH by ~0.1 units — roughly a 30% rise in $\mathrm{H^+}$ — while the slow silicate-weathering thermostat that would eventually restore balance runs on hundred-thousand-year timescales.
+</KeyTakeaways>

@@ -500,3 +500,13 @@ export const QuorumAnimation = dynamic(
   () => import('@/components/animations/QuorumAnimation').then(m => ({ default: m.QuorumAnimation })),
   { ssr: false }
 )
+
+export const CarbonCycleAnimation = dynamic(
+  () => import('@/components/animations/CarbonCycleAnimation').then(m => ({ default: m.CarbonCycleAnimation })),
+  { ssr: false }
+)
+
+export const KeelingCurveAnimation = dynamic(
+  () => import('@/components/animations/KeelingCurveAnimation').then(m => ({ default: m.KeelingCurveAnimation })),
+  { ssr: false }
+)

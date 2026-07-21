@@ -1434,6 +1434,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'carbon-cycle': c => {
+    // Keeling-style seasonal sawtooth riding a steepening rise, above the
+    // pre-industrial baseline. All emitted coordinates are explicitly rounded.
+    const pts: string[] = []
+    for (let i = 0; i <= 140; i++) {
+      const u = i / 140
+      const x = 10 + u * 280
+      const trend = 98 - (26 * u + 52 * u * u)
+      const wiggle = (3 + 2 * u) * Math.sin(u * 2 * Math.PI * 9)
+      pts.push(`${Math.round(x * 100) / 100},${Math.round((trend - wiggle) * 100) / 100}`)
+    }
+    return (
+      <g>
+        <rect x={0} y={98} width={300} height={22} fill={FAINT} />
+        <line x1={10} y1={98} x2={290} y2={98} stroke={GOLD} strokeWidth={0.75} strokeDasharray="4 4" />
+        <text x={10} y={112} fontSize={7} fill={MUTE} fontFamily="monospace">1958 · 315 ppm</text>
+        <text x={290} y={112} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="end">2020s · 420 ppm</text>
+        <polyline points={pts.join(' ')} fill="none" stroke={c} strokeWidth={1.5} strokeLinejoin="round" />
+        <circle cx={290} cy={20} r={3.5} fill={c} />
+        <line x1={252} y1={92} x2={252} y2={30} stroke={GOLD} strokeWidth={1} opacity={0.55} />
+        <polygon points="252,26 249,33 255,33" fill={GOLD} opacity={0.8} />
+        <text x={246} y={92} fontSize={6} fill={MUTE} fontFamily="monospace" textAnchor="end">one-way</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

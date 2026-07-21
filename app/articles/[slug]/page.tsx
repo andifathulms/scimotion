@@ -117,6 +117,8 @@ import {
   EnergyLandscapeAnimation,
   ConsensusAnimation,
   QuorumAnimation,
+  CarbonCycleAnimation,
+  KeelingCurveAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -220,6 +222,8 @@ const components = {
   EnergyLandscapeAnimation,
   ConsensusAnimation,
   QuorumAnimation,
+  CarbonCycleAnimation,
+  KeelingCurveAnimation,
   KeyTakeaways,
 }
 
