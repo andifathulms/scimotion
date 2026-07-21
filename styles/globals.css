@@ -24,6 +24,8 @@
   --color-accent-teal: #10B981;
   --color-accent-blue: #60A5FA;
   --color-accent-pink: #F472B6;
+  --color-accent-lime: #A3E635;
+  --color-accent-cyan: #22D3EE;
   --color-text-primary: #F5F0E8;
   --color-text-secondary: rgba(245,240,232,0.6);
   --color-text-muted: rgba(245,240,232,0.35);
@@ -54,6 +56,8 @@
   --color-accent-teal: #047857;
   --color-accent-blue: #1D4ED8;
   --color-accent-pink: #BE185D;
+  --color-accent-lime: #4D7C0F;
+  --color-accent-cyan: #0E7490;
 }
 
 /* Aliases for the hand-written rules below. Values come from --color-* above. */
@@ -67,6 +71,8 @@
   --accent-teal: var(--color-accent-teal);
   --accent-blue: var(--color-accent-blue);
   --accent-pink: var(--color-accent-pink);
+  --accent-lime: var(--color-accent-lime);
+  --accent-cyan: var(--color-accent-cyan);
   --text-primary: var(--color-text-primary);
   --text-secondary: var(--color-text-secondary);
   --text-muted: var(--color-text-muted);
