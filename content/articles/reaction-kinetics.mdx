@@ -1,0 +1,176 @@
+---
+title: "Reaction Rates and Catalysis"
+subtitle: "Why a flask of hydrogen and oxygen can sit on a shelf for a century without doing the thing it is desperate to do."
+topic: "Chemistry"
+slug: "reaction-kinetics"
+date: "2026-07-13"
+readTime: 10
+featured: false
+description: "Collision theory, the activation-energy barrier, and the Arrhenius exponential — how chemistry decides not whether a reaction happens but how fast, and what a catalyst can and cannot change."
+tags: ["kinetics", "catalysis", "activation-energy", "arrhenius"]
+quiz:
+  - q: "A reaction is strongly exergonic — it releases a great deal of free energy — yet a sealed mixture of its reactants shows no measurable change after a year at room temperature. What does this tell you?"
+    options:
+      - "The equilibrium constant must be close to 1, so very little product can form"
+      - "Thermodynamics favours the products, but the activation barrier is high enough that almost no collision carries the energy to cross it"
+      - "The reaction must be endothermic under these particular conditions"
+      - "The reactants have already reached equilibrium with an undetected intermediate"
+    answer: 1
+    explanation: "Free-energy change fixes where the reaction ends up, while the activation barrier fixes how fast it gets there, and a large barrier can make a thermodynamically favourable reaction effectively frozen."
+  - q: "Adding a catalyst to a reversible reaction at equilibrium has what effect on the position of that equilibrium?"
+    options:
+      - "It shifts the equilibrium towards the products, because the forward barrier is lowered"
+      - "It shifts the equilibrium towards whichever side has fewer molecules"
+      - "It leaves the equilibrium exactly where it was, because the forward and reverse barriers are lowered by the same amount"
+      - "It raises the equilibrium constant in proportion to the amount of catalyst added"
+    answer: 2
+    explanation: "A catalyst changes only the height of the transition state, which sits on both pathways, so the forward and reverse rates are multiplied by the same factor and their ratio — the equilibrium constant — is untouched."
+  - q: "The rate of reaction A + B → P is found to be unchanged when the concentration of B is doubled, but doubles when the concentration of A is doubled. What does this establish?"
+    options:
+      - "The reaction is first order in A and zero order in B, so B does not appear in the rate-determining step"
+      - "B is a catalyst, because it is not consumed"
+      - "The reaction must proceed by a single-step bimolecular collision between A and B"
+      - "The activation energy depends only on A"
+    answer: 0
+    explanation: "Reaction orders are experimental facts about the rate-determining step, not read off the balanced equation, and a zero-order dependence means that species is absent from the slowest step."
+---
+
+## A flask that will not explode
+
+Take a glass flask, fill it with a two-to-one mixture of hydrogen and oxygen, seal it, and put it on a shelf. Come back in a year. Come back in fifty. Nothing will have happened.
+
+This is a strange thing for the mixture to do, because that reaction is one of the most energetically favourable in ordinary chemistry. Burning hydrogen to water releases about 286 kJ for every mole of hydrogen consumed. Every thermodynamic quantity you can compute says the products are enormously more stable than the reactants. The mixture *wants* to be water. Touch it with a spark and it will become water in a few milliseconds, violently.
+
+So why does it wait?
+
+Because there are two entirely separate questions you can ask about a chemical reaction, and beginners routinely fuse them into one. **Thermodynamics** asks: given unlimited time, where does this system end up? **Kinetics** asks: how long is unlimited time? The first is answered by free energies and equilibrium constants; the second by barriers and collision rates. A reaction can be overwhelmingly favourable and still take longer than the age of the universe. Diamond is thermodynamically unstable relative to graphite at room temperature and pressure — every diamond in every ring is slowly, and I mean *extremely* slowly, on its way to becoming pencil lead. Kinetics is the reason nobody notices.
+
+This article is about the second question.
+
+## Collisions that count
+
+Start with the simplest possible mechanical picture. For two molecules to react, they must meet. In a gas at ordinary pressure, a given molecule collides with others something like a billion times a second. If every collision produced a reaction, all gas-phase reactions would be over instantly. They are not — so the vast majority of collisions do nothing at all.
+
+Two conditions separate a productive collision from a wasted one.
+
+**Energy.** Bonds have to break before new ones can form, and breaking a bond costs energy. There is a moment, partway through the rearrangement, when the old bonds are stretched and weakened but the new ones have not yet paid back their energy. That moment is the **transition state**, and it sits at the top of an energy hill. A collision that arrives with less kinetic energy than the height of that hill simply bounces: the molecules approach, deform slightly, and spring apart unchanged. The height of the hill is the **activation energy**, $E_a$.
+
+**Orientation.** Even an energetic collision fails if the molecules hit each other in the wrong place. Consider $\mathrm{CH_3Br} + \mathrm{OH^-}$: the hydroxide has to arrive at the carbon from the side *opposite* the bromine. A hydroxide that slams into the bromine end at any speed will not do the substitution. For large molecules with one small reactive site, the fraction of geometrically acceptable approaches can be tiny — this is the **steric factor**, and for some reactions it is smaller than $10^{-4}$.
+
+Put the two together and collision theory gives a rate of the rough form
+
+$$\text{rate} = (\text{collision frequency}) \times (\text{fraction correctly oriented}) \times (\text{fraction energetic enough})$$
+
+The first two factors are large-ish and vary slowly. The third factor is the interesting one, because it is the one that varies over many orders of magnitude — and it is the one temperature controls.
+
+## How many molecules are hot enough?
+
+Molecules in a sample do not all move at the same speed. They exchange energy constantly through collisions, and the result is a stable statistical spread — the **Maxwell–Boltzmann distribution**. It has a characteristic asymmetric shape: a rise from zero, a peak near the typical energy, and a long tail running out to arbitrarily high energies with ever-decreasing population.
+
+Only the molecules out in that tail — beyond $E_a$ — can react.
+
+<ReactionRateAnimation />
+
+Press play at the default 300 K and watch for a while. The molecules rattle around and collide constantly, and essentially nothing happens: at this temperature almost every molecule is blue, meaning it carries less than the barrier energy, and the shaded tail on the right-hand plot is a sliver you can barely see. This is the hydrogen–oxygen flask.
+
+Now drag the **temperature** slider up slowly and watch two things that behave very differently. The *peak* of the distribution shifts to the right only gently — going from 300 K to 600 K merely doubles the average energy. But the *tail beyond the barrier* does not merely double; it inflates dramatically, and the reaction counter goes from stalled to busy. That mismatch is the whole point. Temperature has a modest effect on typical molecules and a violent effect on exceptional ones, and reactions are run entirely by exceptional molecules.
+
+Then hold the temperature fixed and drag $E_a$ instead. Moving the barrier a short distance to the right cuts the tail away sharply. A barrier increase of a few kJ/mol — a small change on the energy axis — can slow a reaction by orders of magnitude, because you are slicing into an exponentially thinning population.
+
+## The math: rate laws and Arrhenius
+
+### Rate laws
+
+The **rate law** connects the observed rate to the concentrations of the species present:
+
+$$\text{rate} = k\,[\mathrm{A}]^m[\mathrm{B}]^n$$
+
+Here $k$ is the **rate constant** and the exponents $m$ and $n$ are the **reaction orders** with respect to A and B. Their sum is the overall order.
+
+The single most important thing to know about $m$ and $n$ is that **they are not read off the balanced equation**. They are measured. A reaction written $\mathrm{A} + 2\mathrm{B} \to \mathrm{P}$ may well be first order in A and zero order in B, and if it is, that is telling you something real: B does not participate in the slowest step of the mechanism. Orders are a window into mechanism precisely because they refuse to match stoichiometry.
+
+The orders control the shape of the concentration-versus-time curve. For a first-order reaction, $-d[\mathrm{A}]/dt = k[\mathrm{A}]$, which integrates to the exponential decay
+
+$$[\mathrm{A}]_t = [\mathrm{A}]_0\,e^{-kt}$$
+
+and gives a half-life that is independent of how much you started with:
+
+$$t_{1/2} = \frac{\ln 2}{k}$$
+
+That independence is the signature of first-order kinetics, and it is the same mathematics that governs radioactive decay and the elimination of most drugs. For a second-order reaction the half-life is $1/(k[\mathrm{A}]_0)$ — it *depends* on the starting concentration, so the reaction slows down disproportionately as it proceeds.
+
+### The Arrhenius equation
+
+The rate constant $k$ contains everything except concentration, and its temperature dependence is captured by an equation Svante Arrhenius proposed in 1889:
+
+$$k = A e^{-E_a/RT}$$
+
+The two pieces map directly onto the collision picture. The **pre-exponential factor** $A$ collects the collision frequency and the orientation requirement. The **exponential factor** $e^{-E_a/RT}$ is the fraction of collisions carrying at least $E_a$ — the area of that Boltzmann tail. It is the reason kinetics is a subject of exponentials rather than proportions.
+
+Taking logarithms gives the form used to extract $E_a$ from data:
+
+$$\ln k = \ln A - \frac{E_a}{R}\cdot\frac{1}{T}$$
+
+Plot $\ln k$ against $1/T$ and a straight line of slope $-E_a/R$ falls out. This *Arrhenius plot* is one of the workhorses of experimental chemistry, and its linearity over a wide temperature range is good evidence that a single mechanism is operating throughout.
+
+For two temperatures the constants cancel:
+
+$$\ln\frac{k_2}{k_1} = \frac{E_a}{R}\left(\frac{1}{T_1} - \frac{1}{T_2}\right)$$
+
+### The "doubles every 10 K" rule, and its fine print
+
+You will often hear that reaction rates roughly double for every 10 K rise in temperature. Put numbers into the expression above and you can see exactly where that comes from — and how far to trust it.
+
+Take $E_a = 50$ kJ/mol, a fairly typical value, and go from 300 K to 310 K:
+
+$$\ln\frac{k_2}{k_1} = \frac{50}{8.314\times10^{-3}}\left(\frac{1}{300}-\frac{1}{310}\right) \approx 0.65 \quad\Rightarrow\quad \frac{k_2}{k_1} \approx 1.9$$
+
+So the rule is a decent description of a reaction with a moderate barrier near room temperature. But every ingredient matters. With $E_a = 25$ kJ/mol the same 10 K gives a factor of about 1.4; with $E_a = 100$ kJ/mol it gives about 3.6. And the effect weakens as the baseline temperature rises: the same 50 kJ/mol barrier going from 500 K to 510 K yields only about 1.3, because the $1/T$ dependence flattens out. Treat "doubles every 10 K" as a rule of thumb for room-temperature chemistry with an ordinary barrier, not as a law.
+
+The practical consequences are everywhere anyway. A refrigerator at 4 °C is not doing anything exotic — it is dividing the rate of every spoilage reaction and every bacterial enzyme by a factor of several, which converts two days into two weeks. A pressure cooker's extra 20 K does the same arithmetic in the opposite direction.
+
+## What a catalyst actually does
+
+Raising the temperature is one way to get more molecules over a barrier. The other is to lower the barrier — and that is a **catalyst**.
+
+A catalyst provides a different route from reactants to products, one whose transition state sits lower in energy. It participates in the mechanism, forming and then releasing intermediates, and it emerges from the reaction chemically unchanged: it is not consumed, which is why a small amount can process an enormous quantity of reactant, over and over.
+
+Because the effect is exponential, a modest reduction buys an extravagant speed-up. Lowering $E_a$ by 30 kJ/mol at 298 K multiplies the rate by
+
+$$e^{\Delta E_a / RT} = e^{30/(8.314\times10^{-3}\times298)} \approx 1.8\times10^{5}$$
+
+Nearly two hundred thousandfold, from a change most of a kilojoule scale would call small.
+
+<CatalysisAnimation />
+
+Start with the catalyst off and let it run. The violet molecule keeps attempting the climb and keeps rolling back down — successful crossings are rare. Now hit **Catalyst: on**. The hill collapses to a bump, and crossings become routine.
+
+But watch the two dashed gold lines while you do it, because they are the point of the widget. The reactant level does not move. The product level does not move. And so $\Delta G$, printed between them, does not move — and neither does the equilibrium constant $K$, which depends only on $\Delta G$ through
+
+$$\Delta G^\circ = -RT\ln K$$
+
+Watch the barrier readouts as well: the forward $E_a$ and the reverse $E_a$ both drop by exactly the same amount, because there is only *one* transition state and both directions have to go over it. Forward and reverse rates are therefore multiplied by the same factor. **A catalyst gets you to equilibrium faster; it does not move equilibrium.** Finally, drag the $\Delta G$ slider: the destination changes, the barrier does not follow it, and you can see that the two quantities are genuinely independent knobs.
+
+This is worth stating bluntly because it is one of the most persistent misconceptions in introductory chemistry. A catalyst cannot increase your theoretical yield. It cannot make an uphill reaction go downhill. It cannot create product that thermodynamics forbids. What it can do — which is often the entire commercial problem — is make a favourable reaction happen on a timescale a factory can use.
+
+The corollary trips people up too: a catalyst speeds up the *reverse* reaction just as much. The same metal that hydrogenates an alkene will dehydrogenate the alkane, given conditions that favour it. Catalysts are direction-blind.
+
+## Where this shows up
+
+**Industrial synthesis.** The Haber–Bosch process combines nitrogen and hydrogen into ammonia. The thermodynamics are perfectly acceptable at moderate temperature; the kinetics are hopeless, because the nitrogen triple bond is one of the strongest in chemistry and splitting it has a formidable barrier. An iron catalyst provides a surface on which $\mathrm{N_2}$ dissociates far more easily. Without that catalyst the process does not exist, and without the process a large fraction of the world's food supply does not exist either.
+
+**Catalytic converters.** A car's exhaust contains carbon monoxide and nitrogen oxides that are thermodynamically unstable with respect to $\mathrm{CO_2}$ and $\mathrm{N_2}$. Left alone in the tailpipe they do not have time to convert. A platinum, palladium and rhodium surface lowers the barriers enough that the conversion happens in the fraction of a second the gas spends in the converter.
+
+**Enzymes.** Biology's catalysts are proteins, and they are staggeringly good ones — rate enhancements of $10^{10}$ to $10^{17}$ over the uncatalysed reaction are routine. They achieve this partly by the mechanisms above and partly by a trick: an enzyme's active site is shaped to bind the *transition state* more tightly than it binds the substrate, which is precisely equivalent to lowering the transition state's energy. They also solve the orientation problem outright, holding two reactants in exactly the geometry the reaction requires rather than waiting for a lucky collision. Carbonic anhydrase converts around $10^6$ molecules of $\mathrm{CO_2}$ per second — fast enough that the physical arrival of substrate, not the chemistry, is the limiting step.
+
+And every one of these enzymes obeys the rule from the previous section. None of them changes any equilibrium in your body. They only decide what happens quickly enough to matter.
+
+Which returns us to the flask. Hydrogen and oxygen do not need help to be thermodynamically eager. What a spark supplies is a small population of molecules with enough energy to cross, whose reaction releases enough heat to push their neighbours over too — and the whole thing runs away. What a platinum catalyst supplies instead is a lower barrier, which is why hydrogen fuel cells produce the same water at room temperature, quietly, and generate electricity rather than an explosion. Same reaction, same destination, different path.
+
+<KeyTakeaways>
+- Thermodynamics decides **where** a reaction ends up; kinetics decides **how fast** it gets there. A hugely favourable reaction can be indefinitely slow, which is why hydrogen and oxygen coexist and why diamonds do not visibly turn into graphite.
+- Only collisions that are both energetic enough to clear $E_a$ and correctly oriented produce a reaction — a small fraction of a very large number.
+- The Arrhenius equation $k = Ae^{-E_a/RT}$ makes rate *exponentially* sensitive to temperature and to barrier height. "Rate doubles per 10 K" holds for a moderate barrier near room temperature and drifts substantially with $E_a$ and with $T$.
+- Reaction orders are measured, not read off the balanced equation; they report on the rate-determining step. First order gives $[\mathrm{A}]_0 e^{-kt}$ and a concentration-independent half-life $t_{1/2} = \ln 2 / k$.
+- A catalyst opens a lower-barrier pathway, is not consumed, and lowers the forward and reverse barriers **equally** — so it changes the rate, never $\Delta G$, never $K$, and never the equilibrium position. Enzymes are this idea perfected.
+</KeyTakeaways>

@@ -1218,6 +1218,42 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'reaction-kinetics': c => {
+    // Reaction coordinate: the catalysed path drops the barrier while the
+    // reactant and product levels — and hence the overall dG — stay put.
+    const path = (amp: number) => {
+      const pts: string[] = []
+      for (let i = 0; i <= 56; i++) {
+        const t = i / 56
+        const s = Math.min(1, Math.max(0, (t - 0.2) / 0.6))
+        const base = 70 + 25 * (s * s * (3 - 2 * s))
+        const u = Math.min(1, Math.max(0, (t - 0.12) / 0.76))
+        const bump = Math.sin(Math.PI * u) ** 2
+        // x = 10 + i * 5 is an exact integer; only y needs rounding.
+        pts.push(`${10 + i * 5},${Math.round((base - amp * bump) * 100) / 100}`)
+      }
+      return pts.join(' ')
+    }
+    return (
+      <g>
+        <line x1={0} y1={114} x2={300} y2={114} stroke={FAINT} strokeWidth={1} />
+        <line x1={10} y1={70} x2={290} y2={70} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <line x1={10} y1={95} x2={290} y2={95} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <polyline points={path(64)} fill="none" stroke={GOLD} strokeWidth={1.25} strokeDasharray="5 4" strokeLinejoin="round" />
+        <polyline points={path(38)} fill="none" stroke={c} strokeWidth={2} strokeLinejoin="round" />
+        <circle cx={142} cy={19} r={2} fill={GOLD} />
+        <circle cx={142} cy={45} r={2.5} fill={c} />
+        <line x1={264} y1={70} x2={264} y2={95} stroke={GOLD} strokeWidth={1} />
+        <line x1={261} y1={70} x2={267} y2={70} stroke={GOLD} strokeWidth={1} />
+        <line x1={261} y1={95} x2={267} y2={95} stroke={GOLD} strokeWidth={1} />
+        <text x={100} y={14} fontSize={7} fill={GOLD} fontFamily="monospace">Ea</text>
+        <text x={152} y={40} fontSize={7} fill={c} fontFamily="monospace">Ea&#39;</text>
+        <text x={270} y={85} fontSize={7} fill={GOLD} fontFamily="monospace">dG</text>
+        <text x={14} y={66} fontSize={7} fill={MUTE} fontFamily="monospace">reactants</text>
+        <text x={198} y={106} fontSize={7} fill={MUTE} fontFamily="monospace">products</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

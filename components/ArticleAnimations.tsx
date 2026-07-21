@@ -440,3 +440,13 @@ export const CellPotentialAnimation = dynamic(
   () => import('@/components/animations/CellPotentialAnimation').then(m => ({ default: m.CellPotentialAnimation })),
   { ssr: false }
 )
+
+export const ReactionRateAnimation = dynamic(
+  () => import('@/components/animations/ReactionRateAnimation').then(m => ({ default: m.ReactionRateAnimation })),
+  { ssr: false }
+)
+
+export const CatalysisAnimation = dynamic(
+  () => import('@/components/animations/CatalysisAnimation').then(m => ({ default: m.CatalysisAnimation })),
+  { ssr: false }
+)

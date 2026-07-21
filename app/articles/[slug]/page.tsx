@@ -105,6 +105,8 @@ import {
   TitrationAnimation,
   GalvanicCellAnimation,
   CellPotentialAnimation,
+  ReactionRateAnimation,
+  CatalysisAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -196,6 +198,8 @@ const components = {
   TitrationAnimation,
   GalvanicCellAnimation,
   CellPotentialAnimation,
+  ReactionRateAnimation,
+  CatalysisAnimation,
   KeyTakeaways,
 }
 
