@@ -1514,6 +1514,44 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'atmospheric-convection': c => {
+    // One convection cell in cross-section: heated ground, a buoyant column
+    // rising to a flat cloud base, anvil outflow aloft, dry subsidence returning
+    // on both flanks. All literal integers — nothing to round, nothing to drift.
+    return (
+      <g>
+        <line x1={10} y1={30} x2={290} y2={30} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 4" />
+        <line x1={10} y1={86} x2={290} y2={86} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 4" />
+        <rect x={10} y={104} width={280} height={6} rx={2} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={0.75} />
+        <line x1={130} y1={102} x2={130} y2={92} stroke={GOLD} strokeWidth={1} />
+        <line x1={150} y1={102} x2={150} y2={90} stroke={GOLD} strokeWidth={1} />
+        <line x1={170} y1={102} x2={170} y2={92} stroke={GOLD} strokeWidth={1} />
+        <path d="M 142 100 C 136 86 148 76 142 62" fill="none" stroke={c} strokeWidth={1.5} />
+        <path d="M 158 100 C 164 86 152 76 158 62" fill="none" stroke={c} strokeWidth={1.5} />
+        <line x1={112} y1={62} x2={188} y2={62} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 3" />
+        <circle cx={126} cy={48} r={14} fill={`${c}2E`} stroke={c} strokeWidth={0.75} />
+        <circle cx={174} cy={48} r={14} fill={`${c}2E`} stroke={c} strokeWidth={0.75} />
+        <circle cx={150} cy={42} r={20} fill={`${c}2E`} stroke={c} strokeWidth={0.75} />
+        <rect x={112} y={54} width={76} height={8} fill={`${c}2E`} />
+        <line x1={132} y1={28} x2={98} y2={24} stroke={c} strokeWidth={1} />
+        <polyline points="104,21 98,24 104,27" fill="none" stroke={c} strokeWidth={1} />
+        <line x1={168} y1={28} x2={202} y2={24} stroke={c} strokeWidth={1} />
+        <polyline points="196,21 202,24 196,27" fill="none" stroke={c} strokeWidth={1} />
+        <line x1={64} y1={34} x2={64} y2={94} stroke={MUTE} strokeWidth={1} />
+        <polyline points="60,88 64,94 68,88" fill="none" stroke={MUTE} strokeWidth={1} />
+        <line x1={236} y1={34} x2={236} y2={94} stroke={MUTE} strokeWidth={1} />
+        <polyline points="232,88 236,94 240,88" fill="none" stroke={MUTE} strokeWidth={1} />
+        <line x1={86} y1={99} x2={126} y2={99} stroke={GOLD} strokeWidth={1} />
+        <polyline points="120,96 126,99 120,102" fill="none" stroke={GOLD} strokeWidth={1} />
+        <line x1={214} y1={99} x2={174} y2={99} stroke={GOLD} strokeWidth={1} />
+        <polyline points="180,96 174,99 180,102" fill="none" stroke={GOLD} strokeWidth={1} />
+        <text x={64} y={30} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">dry</text>
+        <text x={236} y={30} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">dry</text>
+        <text x={150} y={16} textAnchor="middle" fontSize={7} fill={c} fontFamily="monospace">moist</text>
+        <text x={196} y={72} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">LCL</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

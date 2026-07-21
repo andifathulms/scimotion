@@ -530,3 +530,13 @@ export const ThermohalineAnimation = dynamic(
   () => import('@/components/animations/ThermohalineAnimation').then(m => ({ default: m.ThermohalineAnimation })),
   { ssr: false }
 )
+
+export const ConvectionAnimation = dynamic(
+  () => import('@/components/animations/ConvectionAnimation').then(m => ({ default: m.ConvectionAnimation })),
+  { ssr: false }
+)
+
+export const CirculationCellsAnimation = dynamic(
+  () => import('@/components/animations/CirculationCellsAnimation').then(m => ({ default: m.CirculationCellsAnimation })),
+  { ssr: false }
+)

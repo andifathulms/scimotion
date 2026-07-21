@@ -123,6 +123,8 @@ import {
   RadiationSpectrumAnimation,
   OceanCirculationAnimation,
   ThermohalineAnimation,
+  ConvectionAnimation,
+  CirculationCellsAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -232,6 +234,8 @@ const components = {
   RadiationSpectrumAnimation,
   OceanCirculationAnimation,
   ThermohalineAnimation,
+  ConvectionAnimation,
+  CirculationCellsAnimation,
   KeyTakeaways,
 }
 

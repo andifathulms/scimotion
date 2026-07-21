@@ -1,0 +1,191 @@
+---
+title: "Why Weather Happens"
+subtitle: "The Sun overheats the tropics, and every storm on Earth is the atmosphere trying to fix that."
+topic: "Earth & Climate"
+slug: "atmospheric-convection"
+date: "2026-07-11"
+readTime: 10
+featured: false
+description: "Differential heating, adiabatic lapse rates, and latent heat — how one energy imbalance builds thunderstorms, deserts, jet streams, and a hard two-week limit on forecasting."
+tags: ["convection", "meteorology", "thermodynamics", "atmosphere"]
+quiz:
+  - q: "A parcel of air is lifted from the surface to 2 km and its temperature drops by about 20 K. What is the dominant reason for the cooling?"
+    options:
+      - "It has mixed with the colder air it encountered at that height"
+      - "Pressure falls with height, so the parcel expands and does work on its surroundings, and with no heat exchanged its internal energy — and therefore its temperature — must fall"
+      - "It has radiated its heat away to space during the ascent"
+      - "Water vapour inside it has evaporated, absorbing the latent heat"
+    answer: 1
+    explanation: "Ascent is very nearly adiabatic, so the cooling comes from the parcel's own expansion against falling pressure, not from contact with colder surroundings."
+  - q: "The environmental lapse rate one afternoon is 7 K/km. What can you say about the atmosphere's stability?"
+    options:
+      - "It is absolutely unstable, because 7 K/km exceeds the moist adiabatic rate"
+      - "It is absolutely stable, because 7 K/km is less than the dry adiabatic rate"
+      - "It is conditionally unstable: an unsaturated parcel is stable, but a parcel lifted past its condensation level becomes buoyant and can run away"
+      - "Stability cannot be assessed without knowing the surface pressure"
+    answer: 2
+    explanation: "Because 7 K/km sits between the moist rate of roughly 5–6 K/km and the dry rate of 9.8 K/km, whether a parcel keeps rising depends entirely on whether it saturates."
+  - q: "The world's great subtropical deserts cluster near 30 degrees latitude in both hemispheres. What does the three-cell circulation say is responsible?"
+    options:
+      - "These latitudes receive the most direct sunlight, so evaporation exceeds rainfall"
+      - "Air that rose and rained out at the equator returns to the surface here, and sinking air warms by compression, driving its relative humidity down"
+      - "The subtropical jet stream physically blocks moist air from reaching these latitudes"
+      - "Ocean currents at these latitudes are too cold to supply water vapour"
+    answer: 1
+    explanation: "The descending branch of the Hadley cell delivers air that is already dry and then warms it adiabatically on the way down, which suppresses cloud formation year-round."
+---
+
+## The imbalance that runs the planet
+
+Point a satellite radiometer at the Earth and measure two things: the sunlight absorbed, and the infrared radiated back to space. Between roughly 35°S and 35°N the first number is bigger. Poleward of that, the second one is. The tropics run a permanent energy surplus; the poles run a permanent deficit.
+
+If nothing moved that energy, the surplus would keep accumulating. The tropics would heat until they radiated enough to balance their own books, which would take them past 60 °C, and the poles would cool towards 200 K. That is not the planet we live on. The observed equator-to-pole temperature difference is far smaller than pure radiative balance predicts, because something is carrying about **5.5 petawatts** — roughly three hundred times humanity's total power consumption — from the tropics towards the poles, continuously, forever.
+
+That something is the atmosphere and the ocean, and the atmosphere does most of it outside the tropics. Every feature you associate with "weather" is part of that transport machinery. A thunderstorm is a vertical heat pump. A mid-latitude low-pressure system is a device for sliding warm air poleward and cold air equatorward at the same time. A hurricane is a heat engine drawing its fuel from a warm ocean surface. The trade winds, the jet stream, the monsoon — all of it is the same imbalance, expressed at different scales.
+
+This article is about the smallest unit of that machinery: a single parcel of air deciding whether to rise.
+
+## Warm air rises — but not for the reason you were told
+
+The usual one-liner is "warm air rises". True, but it hides the mechanism, and the hidden part is where all the interesting physics lives.
+
+Air rises when it is **less dense than its surroundings at the same height**. Density and temperature are linked through the ideal gas law, $p = \rho R_d T$, so at a given pressure a warmer parcel is a lighter parcel, and Archimedes does the rest. The buoyant acceleration is
+
+$$a = g\,\frac{T_p - T_e}{T_e}$$
+
+where $T_p$ is the parcel's temperature and $T_e$ the environment's at the same level. A parcel just 1 K warmer than its surroundings at 290 K accelerates upward at about $0.034\ \mathrm{m/s^2}$ — a third of a percent of gravity. Feeble. But apply it over several kilometres and the parcel arrives at the top doing tens of metres per second.
+
+So far, so ordinary. Here is the part that trips people up.
+
+## Why rising air cools
+
+Ask why the air on a mountaintop is colder and you'll often be told the rising air "reaches the cold air up there" and mixes with it. That is essentially wrong, and it is worth killing carefully, because almost all of meteorology rests on the correct answer.
+
+A rising parcel cools **because it expands**. Pressure falls with height — the parcel at 3 km is being squeezed by roughly 30% less atmosphere than it was at the surface. As it rises it expands to match, and expanding means pushing the surrounding air outward, which is work. Air is a poor conductor and the parcel is large, so over the timescale of an ascent essentially no heat crosses its boundary: the process is **adiabatic**. Energy for the expansion work has to come from the parcel's own internal energy, and internal energy is temperature.
+
+Nothing about the surroundings' temperature enters this argument. A parcel lifted into a layer that happens to be *warmer* than the layer below it — a temperature inversion — still cools on the way up, at exactly the same rate.
+
+Make it quantitative. The first law for an adiabatic process in an ideal gas, written per unit mass and using the enthalpy form, is
+
+$$c_p\,dT = \frac{1}{\rho}\,dp$$
+
+and the atmosphere is in near-perfect hydrostatic balance, so the pressure a parcel feels changes with height as
+
+$$\frac{dp}{dz} = -\rho g$$
+
+Substitute the second into the first and the density cancels completely:
+
+$$\Gamma_d \equiv -\frac{dT}{dz} = \frac{g}{c_p} = \frac{9.81\ \mathrm{m/s^2}}{1005\ \mathrm{J\,kg^{-1}K^{-1}}} \approx 9.8\ \mathrm{K/km}$$
+
+This is the **dry adiabatic lapse rate**, and it is one of the cleanest numbers in atmospheric science. It is not a measurement or a fit. It is $g$ divided by the specific heat of air. Every unsaturated parcel anywhere on Earth cools at 9.8 K per kilometre of ascent — dry desert air, polar air, the air over your house — because that ratio does not care where you are.
+
+Keep two things strictly separate from here on:
+
+- The **dry adiabatic lapse rate** $\Gamma_d = 9.8$ K/km is how fast a *moving parcel* cools. It is fixed.
+- The **environmental lapse rate** $\Gamma_e$ is how temperature actually varies with height in the *stationary air column* around it, measured by a weather balloon. It is whatever the atmosphere happens to be doing that day: typically about 6.5 K/km on average, but it can be steeper than 9.8 near a baking desert surface, or negative in an inversion.
+
+Whether weather happens is decided by the comparison between those two numbers.
+
+## Watching a parcel decide
+
+<ConvectionAnimation />
+
+The left panel is a schematic of convection cells over a heated surface: parcels leave the ground, rise while they are buoyant, spread out at the level where their buoyancy runs out, and sink back down at the edges of each cell. The right panel is the thermodynamic story for the same air — height against temperature, with the environment in cyan and the parcel's own path in gold (dry) and violet (moist). The shaded green region is where the parcel is warmer than its surroundings, which is exactly where it is accelerating upward.
+
+Be honest about what this is: a schematic, not a weather model. There is no real fluid solve here, no moisture budget, no radiation. The parcel's buoyancy and the two lapse rates are computed properly; the cell circulation around them is hand-drawn choreography that makes the pattern legible.
+
+Things to try:
+
+- **Drag surface heating to the left.** The environmental profile (cyan) tilts shallow — around 4 K/km. The gold parcel line immediately falls to the left of it: colder than its surroundings from a few hundred metres up. Watch the left panel and you will see parcels lift off the ground, stall almost at once, and sink straight back. This is a **stable** atmosphere. It is why fog and haze sit trapped in valleys on a still morning.
+- **Push heating to the right.** The environmental lapse rate steepens past 9.8 K/km and the parcel is buoyant from the ground up with no help at all. That is **absolute instability** — a state so unstable it destroys itself within minutes, which is why you only find it in a thin superheated layer right against a hot surface.
+- **Now park heating in the middle, around 7 K/km, and sweep humidity.** This is the interesting case, and the one the real atmosphere is in most of the time. At low humidity the condensation level sits high; the parcel cools along the dry adiabat, goes negatively buoyant, and dies before it gets there. Raise the humidity and the cloud base drops. At some point the parcel reaches saturation *while it is still warmer than its surroundings* — and everything changes. The path kinks from gold to violet, the shaded buoyant region opens up above it, and the updraft speed readout climbs instead of falling.
+
+That kink is the whole difference between a pleasant afternoon and a severe thunderstorm, and it comes from one thing: condensation.
+
+## Latent heat: the fuel supply
+
+When water vapour condenses into droplets, it releases the energy that was spent evaporating it. The latent heat of vaporisation is $L_v \approx 2.5 \times 10^6\ \mathrm{J/kg}$ — an enormous number next to the specific heat of air. If a mass of air containing a mixing ratio $q$ of vapour condenses all of it, the temperature rise is
+
+$$\Delta T = \frac{L_v\,\Delta q}{c_p}$$
+
+A humid tropical parcel might carry $q = 18$ g of vapour per kilogram of air. Condensing 10 g/kg of that gives $\Delta T = (2.5\times10^6 \times 0.010)/1005 \approx 25\ \mathrm{K}$ of warming, released gradually through the ascent. This is why the ocean is the atmosphere's battery: evaporation charges it at the surface, condensation discharges it kilometres up, and the net effect is a colossal vertical transport of energy.
+
+Because that heat is released as the parcel rises, a saturated parcel cools more slowly than a dry one. The **moist (saturated) adiabatic lapse rate** is
+
+$$\Gamma_m = \Gamma_d\;\frac{1 + \dfrac{L_v q_s}{R_d T}}{1 + \dfrac{L_v^2 q_s}{c_p R_v T^2}}$$
+
+with $q_s$ the saturation mixing ratio. Unlike $\Gamma_d$, this is not a constant: it depends on temperature, because warm air can hold far more vapour. Near the ground in the tropics it falls to about **4 K/km**; at mid-levels a typical value is **5–6 K/km**; and high in the troposphere, where the air is so cold it holds almost no vapour, $\Gamma_m$ creeps back up towards $\Gamma_d$. Take 5.5 K/km as the working number.
+
+Now the **stability criterion** writes itself. Compare the environment to the two parcel rates:
+
+$$\Gamma_e < \Gamma_m \quad\Rightarrow\quad \text{absolutely stable}$$
+
+$$\Gamma_m < \Gamma_e < \Gamma_d \quad\Rightarrow\quad \text{conditionally unstable}$$
+
+$$\Gamma_e > \Gamma_d \quad\Rightarrow\quad \text{absolutely unstable}$$
+
+The middle line is where weather lives. "Conditional" means the condition is saturation: the same sounding is stable for dry air and unstable for cloudy air. All a forecaster needs is some mechanism — surface heating, a front, a mountain, a sea breeze — to shove a parcel up to its condensation level. Past that point the atmosphere pays for the rest of the ascent itself.
+
+Meteorologists integrate the buoyancy over the layer where the parcel is warmer to get **CAPE**, the convective available potential energy:
+
+$$\mathrm{CAPE} = \int_{z_f}^{z_n} g\,\frac{T_p - T_e}{T_e}\,dz$$
+
+which is the green shaded area in the widget, in energy units. Equating it to kinetic energy gives the theoretical updraft ceiling $w_{\max} = \sqrt{2\,\mathrm{CAPE}}$. A CAPE of 2500 J/kg — a solidly severe environment over the US Great Plains — implies 70 m/s. Real updrafts reach perhaps half that, because entrainment of dry air and the weight of the condensed water take their cut. It is still enough to loft hailstones the size of golf balls and hold them there while they grow.
+
+An equivalent and often tidier way to say all of this uses **potential temperature**, $\theta = T\left(p_0/p\right)^{R_d/c_p}$ — the temperature a parcel would have if brought adiabatically to a reference pressure. Because $\theta$ is conserved during dry adiabatic motion, the stability test collapses to a single sign: $d\theta/dz > 0$ is stable, $d\theta/dz < 0$ is not.
+
+## From one cell to the whole planet
+
+Scale the same argument up to the size of the Earth and the excess tropical heat has to go somewhere. The naive answer — one giant cell per hemisphere, rising at the equator and sinking at the pole — was George Hadley's in 1735, and it is wrong for a reason worth knowing.
+
+<CirculationCellsAnimation />
+
+This is a pole-to-pole cross-section: latitude across, altitude up, with parcels circulating around each cell. It is a schematic of the *climatological average*, not a snapshot — on any given day the real atmosphere is far messier, and the Ferrel cell in particular is a statistical residue of travelling storms rather than a smooth overturning you could point at.
+
+What to look for:
+
+- **The rising band at the equator** is the Intertropical Convergence Zone, where the trade winds of both hemispheres collide and are forced upward. Deep convection, daily thunderstorms, and the world's rainforests — the Amazon, the Congo, Indonesia — sit directly beneath it.
+- **Follow that air poleward aloft and watch where it comes down: near 30°.** It rained out its moisture at the equator, and now it warms by compression on the way down, which drops its relative humidity even further. Toggle the climate zone bar and the consequence is unmissable. The Sahara, Arabian, Kalahari, Atacama, Sonoran and Australian deserts are not a coincidence of geography. **They are the descending branch of the Hadley cell drawn on a map.**
+- **Toggle Coriolis off and on.** With rotation switched off, the return flow at the surface is purely north–south. Switch it back on and each belt acquires an east–west component: the trades blow from the east, the mid-latitude westerlies from the west. Same circulation, deflected.
+- **The green markers near the cell boundaries** are the jet streams, sitting where the horizontal temperature contrast is sharpest and the tropopause steps down.
+
+Why three cells instead of Hadley's one? Angular momentum. Air moving poleward conserves it, so it must accelerate eastward as the distance to the rotation axis shrinks. By 30° a parcel that left the equator at rest relative to the ground would be moving eastward at over 100 m/s, and long before that the flow becomes baroclinically unstable and breaks into eddies. The single cell cannot survive the trip; it collapses near 30°, and the mid-latitudes hand the job of heat transport over to travelling weather systems instead.
+
+The deflection itself is the **Coriolis effect** — not a force, but the appearance of one when you insist on doing physics in a rotating frame:
+
+$$\mathbf{a}_{\mathrm{Cor}} = -2\,\boldsymbol{\Omega} \times \mathbf{v}, \qquad f = 2\Omega \sin\varphi$$
+
+The Coriolis parameter $f$ vanishes at the equator and is largest at the poles, which is why hurricanes never form within about 5° of the equator: there is nothing there to spin them up. Away from the equator, where $f$ is appreciable, the pressure gradient and Coriolis terms come into near-balance and the wind flows *along* the isobars rather than across them — **geostrophic balance**, the reason weather maps can be read as flow charts.
+
+Jet streams are the extreme case: fast, narrow ribbons of wind near 10 km, strongest where the equator-to-pole temperature gradient is sharpest. They steer surface storms, which is why a forecaster's first question about next week is where the jet will be.
+
+## Turbulence, chaos, and the two-week wall
+
+Everything above is the tidy version. The atmosphere is a fluid at a Reynolds number around $10^{12}$, which puts it about as far into the [turbulent regime](/articles/fluid-dynamics) as anything on Earth. A convective updraft is not the neat column of the widget; it is a churning plume entraining dry air across its whole surface, shedding vortices, and coupling to eddies from the scale of a cumulus to the scale of a continent.
+
+That coupling has a famous consequence. In 1963 Edward Lorenz took a stripped-down model of exactly the phenomenon in this article — Rayleigh–Bénard convection, a fluid layer heated from below — reduced it to three ordinary differential equations for the roll's amplitude and two temperature modes, and found that the solution never repeated and never settled. Two runs from nearly identical starting states diverged completely. **The Lorenz attractor is a convection model.** The butterfly shape that became the emblem of [chaos theory](/articles/chaos-theory) came from asking the same question this article asks: what does a heated layer of fluid do?
+
+The practical answer is a hard ceiling on forecasting. Errors in the initial state grow roughly as $\varepsilon e^{\lambda t}$, with atmospheric doubling times of a day or two at synoptic scales, so the horizon $T \approx \lambda^{-1}\ln(D/\varepsilon)$ depends only *logarithmically* on how well you measured the starting conditions. Better satellites push the wall out by days, not decades. Operational forecasts stop having useful deterministic skill somewhere around **two weeks**, and recent estimates put the intrinsic limit near 14–15 days even with a perfect model.
+
+Notice what that limit does *not* touch. We cannot tell you whether it will rain in Kansas on a Tuesday five weeks from now. We can tell you with great confidence that the Sahara will still be a desert, that the ITCZ will migrate north in July, and that the jet stream will run west to east. Those are properties of the attractor — of the imbalance and the machinery it drives — and they are as robust as the two-week limit is unavoidable. Weather is chaotic; climate is the statistics of the chaos.
+
+## Where the machinery shows up
+
+Once you see the atmosphere as a heat engine responding to one imbalance, a lot of apparently unrelated things line up:
+
+- **Hurricanes** are the purest case. Warm ocean water evaporates into the inflowing surface air, the vapour condenses in the eyewall, and the released latent heat is exhausted at the top; Kerry Emanuel's Carnot-cycle treatment predicts maximum intensity directly from the sea-surface-to-outflow temperature difference. They require sea-surface temperatures above about 26 °C and a value of $f$ large enough to organise rotation.
+- **Sea breezes** are convection with a horizontal temperature contrast: land heats faster than water, air rises over the land, and the cooler marine air slides in underneath.
+- **Föhn and chinook winds** are the adiabatic argument run in both directions. Air ascending a mountain range cools at 5.5 K/km once saturated and rains out; descending the far side, now dry, it warms at the full 9.8 K/km — arriving hotter and much drier than it started. That asymmetry is what makes rain shadows.
+- **Aviation turbulence** near cumulus is the small end of the same cascade, and clear-air turbulence is jet-stream shear.
+- **Climate projection** works despite the two-week wall precisely because it is a boundary-value problem, not an initial-value one. Change the radiative forcing and you change the attractor's statistics, which is a question with an answer.
+
+The next time a cumulus tower goes up on a summer afternoon, you can read it. Sunlight heated a patch of ground; that ground heated the air touching it; the parcel became a fraction of a kelvin buoyant and started up; it cooled at 9.8 K/km until it hit its condensation level, which is why the cloud has that famous flat base; and above that base, latent heat took over and the tower built itself. What you are watching is a few grams of ocean water delivering their energy several kilometres above the ground — one small piece of the machinery that keeps the tropics from cooking and the poles from freezing.
+
+<KeyTakeaways>
+- Essentially all weather is transport: the tropics absorb more energy than they radiate and the poles do the reverse, and roughly 5.5 PW must move poleward continuously. Storms, jets and hurricanes are the machinery that moves it.
+- Rising air cools because it **expands** against falling pressure and does work on its surroundings — not because it mixes with colder air above. That gives the dry adiabatic lapse rate $\Gamma_d = g/c_p \approx 9.8$ K/km, a constant everywhere on Earth.
+- Stability is a **comparison**, not a property of the air itself: the environmental lapse rate against $\Gamma_d$ and the moist rate $\Gamma_m \approx 5.5$ K/km. Most of the time the atmosphere is conditionally unstable — stable while dry, explosive once a parcel reaches saturation.
+- **Latent heat** is the fuel. Condensing 10 g/kg of vapour warms a parcel by about 25 K, which is what turns a fair-weather cumulus into a thunderstorm and what a hurricane runs on.
+- The three-cell circulation puts rainforests under the rising branch at the equator and the great deserts under the sinking branch near 30° — global climate zones as a direct consequence of the overturning, deflected into wind belts and jet streams by the Coriolis effect.
+- Lorenz derived his strange attractor from a **convection model**, and the [chaos](/articles/chaos-theory) he found there caps deterministic forecasting near two weeks — while leaving the long-run statistics, the climate, entirely predictable.
+</KeyTakeaways>
