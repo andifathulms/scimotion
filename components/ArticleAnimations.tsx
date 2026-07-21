@@ -550,3 +550,13 @@ export const SeafloorSpreadingAnimation = dynamic(
   () => import('@/components/animations/SeafloorSpreadingAnimation').then(m => ({ default: m.SeafloorSpreadingAnimation })),
   { ssr: false }
 )
+
+export const NaturalSelectionAnimation = dynamic(
+  () => import('@/components/animations/NaturalSelectionAnimation').then(m => ({ default: m.NaturalSelectionAnimation })),
+  { ssr: false }
+)
+
+export const GeneticDriftAnimation = dynamic(
+  () => import('@/components/animations/GeneticDriftAnimation').then(m => ({ default: m.GeneticDriftAnimation })),
+  { ssr: false }
+)

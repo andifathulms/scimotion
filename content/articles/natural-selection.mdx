@@ -1,0 +1,174 @@
+---
+title: "Natural Selection"
+subtitle: "The mechanism is arithmetic: whatever gets copied more often becomes more common."
+topic: "Biology"
+slug: "natural-selection"
+date: "2026-07-20"
+readTime: 10
+featured: false
+description: "How three plain requirements — variation, heritability, and differential reproduction — force populations to change, why the algebra of allele frequencies makes it inevitable, and where random drift takes over from selection."
+tags: ["evolution", "genetics", "population-genetics", "adaptation"]
+quiz:
+  - q: "The per-generation change in allele frequency under constant selection is Δp = spq / (1 − sq). What does the pq factor imply about how a new beneficial mutation spreads?"
+    options:
+      - "It spreads fastest at the very start, when it is rare and has the whole population to expand into"
+      - "It spreads slowest when it is very rare and again when it is nearly fixed, and fastest near p = 0.5, because change requires both variants to be present"
+      - "It spreads at a constant rate until it reaches fixation, since s is constant"
+      - "It cannot spread at all until it reaches a frequency of 0.5, below which selection is inactive"
+    answer: 1
+    explanation: "Selection acts on differences between variants, so the product pq — which is largest at p = 0.5 and vanishes at either boundary — sets the rate of change."
+  - q: "Two populations carry the same allele at the same frequency and experience the same selection coefficient s = 0.01, but one has N = 50 and the other N = 50,000. Why is the outcome much less predictable in the small one?"
+    options:
+      - "Small populations have higher mutation rates, which overwhelm the selective difference"
+      - "Selection coefficients are defined only for large populations and become meaningless below a few hundred individuals"
+      - "The sampling variance in allele frequency each generation is about pq/2N, so with 2Ns near 1 the random step size is comparable to the selective step and the trajectory wanders"
+      - "Small populations reach Hardy–Weinberg equilibrium faster, which erases the effect of selection"
+    answer: 2
+    explanation: "Drift is a sampling effect whose magnitude scales as 1/N, so selection reliably dominates only when 2Ns is well above 1."
+  - q: "A bacterial culture is exposed to an antibiotic and a resistant population grows back. Replica-plating experiments show the resistant lineages descend from cells that were already resistant before the antibiotic was ever applied. What does this establish?"
+    options:
+      - "That the antibiotic induced a directed change in the cells that happened to be useful"
+      - "That resistance arose by variation that was present independently of the antibiotic, and the antibiotic only sorted among existing variants"
+      - "That mutation rates rise sharply whenever a population is stressed"
+      - "That the resistant cells were a different species contaminating the culture"
+    answer: 1
+    explanation: "Selection sorts pre-existing heritable variation; it does not instruct organisms to produce the variants they need."
+---
+
+## An accounting identity, not a force
+
+It is tempting to picture natural selection as something that acts *on* organisms — a pressure that pushes lineages toward being better. That picture is misleading, and the truth is stranger for being so plain.
+
+Suppose a population contains two kinds of individuals, and suppose the difference between them is passed to offspring. Suppose further that one kind leaves, on average, more surviving offspring than the other. Then in the next generation that kind makes up a larger share of the population. Not because anything pushed it. Because that is what "leaves more offspring" *means*.
+
+That is nearly the whole mechanism. Natural selection is bookkeeping. If a heritable variant is over-represented among the parents of the next generation, it is more common in the next generation. Repeat for a thousand generations and the population is measurably different from the one you started with; repeat for ten million and you may not recognise it.
+
+The unsettling part is not that this is complicated. It is that it isn't. Nothing in the argument requires a designer, a goal, or a tendency toward improvement. It requires only that copying be imperfect and that the imperfections matter.
+
+## Three requirements
+
+Darwin's argument, stripped to its logical skeleton, needs exactly three things to be true of a population.
+
+**Variation.** Individuals must differ. Beak depths in a finch population span a range; bacterial cells in a flask differ in which membrane pumps they express; moths on a tree trunk differ in wing pigment. Without differences there is nothing to sort.
+
+**Heritability.** Some of that variation must be transmitted to offspring. Offspring must resemble their parents more than they resemble the population average. This is where [DNA replication](/articles/dna-replication) enters the story — and where it enters twice over. The high fidelity of replication is what makes traits heritable at all: a copying machine with a one-in-a-billion error rate is why your children resemble you. But the errors that do slip through are the origin of new variation. A polymerase that never made mistakes would produce a population with nothing to select among.
+
+**Differential reproductive success.** The variants must differ in the expected number of descendants they leave. Note the careful wording. Survival is only instrumental — an organism that lives for two centuries and never reproduces contributes nothing. What is being counted is copies in the next generation.
+
+Given all three, the change is not a hypothesis about what might happen. It is a deduction about what must. This is why the argument transfers so cleanly to systems that are not organisms at all: it runs equally well inside your body, where [the adaptive immune response](/articles/immune-response) generates a huge diverse repertoire of lymphocytes, selects the few whose receptors happen to bind an invader, and lets those few proliferate. Same three requirements, same arithmetic, a timescale of days instead of millennia.
+
+## Watching selection run
+
+The clearest textbook case is wing colour in the peppered moth, *Biston betularia*. Pale, speckled moths are nearly invisible against lichen-covered bark and conspicuous against soot-blackened bark; dark moths are the reverse. Birds find the conspicuous ones. Across nineteenth-century industrial England the dark form went from rare to overwhelmingly common in a few decades, and after clean-air legislation it went back.
+
+The widget below runs that logic as a population of sixty moths on a bark background you control.
+
+<NaturalSelectionAnimation />
+
+Things worth doing here. Start with the default pale bark and press **Evolve**: the pale allele begins at $p = 0.15$ and sweeps upward, slowly at first, fastest through the middle, then decelerating as it approaches fixation. That S-shape is not an artefact of the drawing — it falls straight out of the algebra in the next section.
+
+Then, *while it is still running*, drag the bark slider to sooty. The population does not "know" the environment changed and nothing about any individual moth changes. What changes is which moths the birds find, and within a few dozen generations the frequency curve bends and heads the other way. The strip above the plot records the environment's history so you can line up cause and effect.
+
+Finally, set **Selection s** to zero and run again. Now the two morphs are equally visible, no variant is favoured, and yet the frequency does not sit still — it wanders. That wandering is genetic drift, and it is the subject of the second half of this article. Shrink **Pop N** to 20 and it becomes violent enough to drive an allele to fixation on its own.
+
+## The algebra of allele frequencies
+
+To make this quantitative we track allele frequencies rather than organisms. Consider one gene with two alleles, $A$ and $a$, at frequencies $p$ and $q = 1 - p$.
+
+First, a null model. If nothing at all is happening — no selection, no mutation, no migration, random mating, and an effectively infinite population — then the genotype frequencies after one generation of random mating settle at
+
+$$p^2 + 2pq + q^2 = 1$$
+
+with $p^2$ homozygous $AA$, $2pq$ heterozygous, and $q^2$ homozygous $aa$. This is the **Hardy–Weinberg equilibrium**, and its importance is easy to misstate. It is not a claim that populations usually look like this. It is the statement that *allele frequencies do not change by themselves*: inheritance alone is not a force. Hardy–Weinberg is the "nothing is happening" baseline against which something happening becomes visible. A locus that deviates from it is telling you that one of the listed conditions has failed, and that is a measurement, not a curiosity.
+
+Now switch selection on. Assign each genotype a **relative fitness** — its expected reproductive contribution, scaled so the best variant is 1. Take the simple case where $A$ is favoured and the effect is additive at the level of the allele:
+
+$$w_A = 1, \qquad w_a = 1 - s$$
+
+The quantity $s$ is the **selection coefficient**: the fractional reproductive disadvantage of carrying $a$. It is a small number in nature. Values around $s = 0.01$ — a one-percent difference in expected offspring — are considered strong.
+
+The mean fitness of the population is $\bar w = p w_A + q w_a = 1 - sq$, and the allele frequency after one generation of selection is each allele's share of the reproductive output:
+
+$$p' = \frac{p\,w_A}{\bar w} = \frac{p}{1 - sq}$$
+
+Subtracting gives the per-generation change:
+
+$$\Delta p = p' - p = \frac{s\,p\,q}{1 - sq}$$
+
+Read the $pq$ in the numerator carefully, because it explains most of what the animation showed. When $p$ is near 0 the favoured allele is too rare for its advantage to move the average much; when $p$ is near 1 there is almost nothing left to replace. Change is fastest at $p = 0.5$, where the two variants are equally represented and the difference between them has the most material to work on. **Selection needs variation the way an engine needs fuel** — at either boundary $\Delta p \to 0$ and evolution at that locus stops, not because selection weakened but because the variation ran out.
+
+For small $s$ the denominator is close to 1 and we can treat generations as continuous:
+
+$$\frac{dp}{dt} \approx s\,p(1-p)$$
+
+which is the logistic equation. Integrating it gives the **time to sweep** from frequency $p_0$ to frequency $p_1$:
+
+$$t \approx \frac{1}{s}\,\ln\!\left[\frac{p_1(1-p_0)}{p_0(1-p_1)}\right]$$
+
+Put numbers in. With $s = 0.01$, taking an allele from 1% to 99% takes
+
+$$t \approx \frac{1}{0.01}\ln\!\left[\frac{0.99 \times 0.99}{0.01 \times 0.01}\right] = 100 \times \ln(9801) \approx 920 \text{ generations}$$
+
+For a fruit fly, under a year. For a bacterium, a fortnight. For a large mammal, twenty thousand years — an eyeblink in the fossil record. This is the sense in which "slow" evolution is slow only on human clocks.
+
+## Drift, or why small populations wander
+
+The algebra above quietly assumed an infinite population, so that expected frequencies are realised exactly. Real populations are finite, and the next generation is a *sample* drawn from this one. Samples are noisy.
+
+If $2N$ gene copies are drawn to found the next generation, the allele frequency has sampling variance
+
+$$\mathrm{Var}(\Delta p) = \frac{p\,q}{2N}$$
+
+so the typical random step per generation is about $\sqrt{pq/2N}$. That $1/N$ is the entire theory of **genetic drift**: it is not a separate mechanism layered on top of selection, it is the finite-sample error of the same bookkeeping. In a population of 25 the random step is roughly $0.1$ per generation; in a population of 25,000 it is about $0.003$. Selection reliably wins when its step $spq$ is much larger than the random one, which happens when
+
+$$2Ns \gg 1$$
+
+Below that threshold an allele's fate is mostly luck. Note what this means: whether a given mutation counts as "beneficial enough to matter" is not a property of the mutation alone. It depends on the size of the population it appears in.
+
+The second widget makes the comparison directly by running thirty identical populations side by side — same starting frequency, same selection coefficient, different luck.
+
+<GeneticDriftAnimation />
+
+Start at the default $N = 25$, $s = 0.04$. The thirty trajectories fan out immediately and slam into 0 or 1 more or less at random; the blue dashed line is what selection *alone* predicts, and almost none of the replicates follow it. Then push $N$ up to 500 with $s$ unchanged. The same selection coefficient now produces a tight bundle hugging the deterministic curve, and nearly every replicate fixes the favoured allele. Nothing about the selective advantage changed — only the sample size.
+
+Watch the panel on the right. The **fixed fraction** is the empirical answer; the **theory** figure below it is the diffusion prediction for the probability that an allele starting at frequency $p$ eventually fixes,
+
+$$u(p) = \frac{1 - e^{-2Nsp}}{1 - e^{-2Ns}}$$
+
+which collapses to $u(p) = p$ when $Ns \to 0$ — pure drift, where an allele's chance of taking over is simply its current share and its advantage is irrelevant. Setting $s = 0$ makes this exact: about half the replicates fix and half are lost, regardless of $N$.
+
+One consequence deserves to be stated plainly. A brand-new beneficial mutation starts at frequency $1/N$, and for it the formula gives a fixation probability of roughly $2s$. A mutation with a solid 1% advantage is lost to bad luck about **98% of the time**. Adaptation is not a matter of good variants arriving and being accepted; it is a matter of good variants arriving repeatedly until one of them survives its own improbable infancy.
+
+## What "fitness" means, and three things selection is not
+
+The slogan "survival of the fittest" — Herbert Spencer's phrase, which Darwin adopted only in later editions — sounds circular, and read casually it is. Who are the fittest? The ones who survive. Why did they survive? They were the fittest.
+
+The circle breaks as soon as fitness is defined operationally. **Fitness is not a rating of an organism's quality; it is a measured expected number of descendants for a specified variant, in a specified environment, over a specified time.** It is a statement about a variant's relationship to its circumstances, not about the variant in isolation. The pale moth allele has high fitness on lichen and low fitness on soot; neither number is a property of the allele. Crucially, fitness can be estimated independently of the outcome you want to explain — by measuring predation rates, or clutch sizes, or germination success — and then used to predict the frequency change. When Peter and Rosemary Grant measured beak dimensions on Daphne Major before the 1977 drought, they could predict which birds would survive the shortage of small seeds, and did. That prediction is what turns the tautology into science.
+
+Three misconceptions are worth correcting carefully, because they are the ones that survive an introductory course.
+
+**Evolution is not goal-directed, and not progressive.** There is no destination and no ladder. Selection has no memory of past environments and no model of future ones; it acts only on what is present now. This is why loss is as common as gain: cave fish lose eyes, parasites lose entire organ systems, flightless birds lose flight. Every one of those is evolution proceeding normally, because an eye that is never used still costs energy to build and is a route for infection. The word "advanced" has no technical meaning here. A bacterium with three billion years of continuous ancestry is exactly as evolved as you are, and considerably better at living in a hot spring.
+
+**Individuals do not evolve; populations do.** An organism's genome is fixed at conception and does not change to suit its environment. What changes across generations is the *distribution* of variants in a population. This distinction is not pedantic — it is what separates the modern account from Lamarck's. Bacteria do not become resistant in response to an antibiotic; a few of them already carry a resistance allele, generated by a replication error long before the drug appeared, and the drug removes the rest. Joshua and Esther Lederberg demonstrated exactly this in 1952 with replica plating: they identified resistant colonies on plates that had *never been exposed* to the selecting agent. The variation came first. Selection only sorted it.
+
+**"Theory" in science does not mean "conjecture."** In everyday speech a theory is a hunch. In science a theory is the most robust thing on offer: an explanatory framework that unifies a large body of observations, has generated risky predictions, and has survived attempts to break it. Germ theory, atomic theory, and the theory of gravitation carry the same label. A conjecture awaiting test is called a **hypothesis**; a theory is what a hypothesis becomes after decades of surviving evidence that could have overturned it. The relevant tests for evolution have been unusually varied — the nested structure of the fossil record, the agreement between molecular phylogenies built from independent genes, transitional forms found where stratigraphy predicted they would be, and directly observed frequency changes in the field and the laboratory. That these independent lines converge is the substance of the claim.
+
+## From changing frequencies to new species
+
+Everything so far describes one population drifting away from where it started. Speciation is what happens when *two* populations drift apart far enough that they stop exchanging genes.
+
+The usual route is **allopatric**: a population is split by a physical barrier — a river changes course, a glacier advances, a few birds are blown to an island. The two halves then experience different environments and independent mutations, and their allele frequencies diverge. Nothing in the process is aiming at incompatibility; it accumulates as a by-product. Eventually the differences are large enough that hybrids are inviable, sterile, or simply never form because courtship signals no longer match, and the two lineages are on permanently separate trajectories. Reproductive isolation is the criterion, and it is usually the *last* thing to arrive, not the first.
+
+Divergence without a physical barrier — **sympatric** speciation — is harder but documented. The apple maggot fly *Rhagoletis pomonella* fed on hawthorn until apples were introduced to North America; the flies that shifted to apples now breed weeks earlier, matching the earlier fruiting, and the two host races have become substantially genetically distinct in under two centuries. Timing was the barrier.
+
+Selection is also not always a matter of an organism against a fixed environment. Very often the environment *is* other organisms, and the best strategy depends on what everyone else is doing — the payoff to being a rare morph, or a cheat, or a signal-mimic, changes as that morph becomes common. This is **frequency-dependent selection**, and its mathematics is the replicator equation of [evolutionary game theory](/articles/nash-equilibrium): a strategy grows in proportion to how far its payoff exceeds the population average. That is precisely the $\Delta p = spq$ logic with $s$ allowed to depend on $p$. It is why stable polymorphisms exist at all — why a population can settle at 30% of one morph and 70% of another and stay there, rather than resolving to a single winner.
+
+The practical stakes are immediate. Antibiotic resistance, herbicide resistance, insecticide resistance, and the seasonal reformulation of influenza vaccines are all applied population genetics, running on the timescale of $s$ and $N$ rather than of geology. Every one of them is the same three requirements and the same arithmetic — and every one of them is a case where knowing that $\Delta p$ scales with $spq$ tells you what to do: reduce the selection you apply, or reduce the variation available for it to act on.
+
+<KeyTakeaways>
+- Natural selection needs only three conditions — **variation**, **heritability**, and **differential reproductive success** — and given all three, change in the population is a matter of arithmetic rather than a hypothesis.
+- The per-generation change $\Delta p = spq/(1-sq)$ contains the whole dynamic: change is fastest at intermediate frequencies and stops at either boundary, because selection sorts variation and cannot create it.
+- **Genetic drift** is the finite-sample error of the same bookkeeping, with step size $\sqrt{pq/2N}$; selection reliably dominates only when $2Ns \gg 1$, so whether a mutation "matters" depends on the size of the population it appears in.
+- **Fitness** is an operationally measurable expected number of descendants for a variant in a specified environment — not a rating of quality — which is what rescues "survival of the fittest" from circularity.
+- Evolution has no goal and no ladder; individuals never evolve, populations do; and "theory" denotes a tested explanatory framework, with a *hypothesis* being the untested conjecture the word is often mistaken for.
+</KeyTakeaways>

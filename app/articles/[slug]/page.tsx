@@ -127,6 +127,8 @@ import {
   CirculationCellsAnimation,
   PlateTectonicsAnimation,
   SeafloorSpreadingAnimation,
+  NaturalSelectionAnimation,
+  GeneticDriftAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -240,6 +242,8 @@ const components = {
   CirculationCellsAnimation,
   PlateTectonicsAnimation,
   SeafloorSpreadingAnimation,
+  NaturalSelectionAnimation,
+  GeneticDriftAnimation,
   KeyTakeaways,
 }
 

@@ -1591,6 +1591,36 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'natural-selection': c => {
+    // A heritable variant sweeping to fixation: the curve is the allele
+    // frequency, the bars below are the population's changing composition.
+    const P = [6, 11, 20, 34, 52, 70, 84, 93] // frequency, percent
+    const bx = (k: number) => 16 + k * 34 // bar left edge
+    const cx = (k: number) => 31 + k * 34 // bar centre
+    const cy = (k: number) => 78 - Math.round((66 * P[k]) / 100)
+    const pts = P.map((_, k) => `${cx(k)},${cy(k)}`).join(' ')
+    return (
+      <g>
+        <line x1={16} y1={12} x2={284} y2={12} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <line x1={16} y1={78} x2={284} y2={78} stroke={MUTE} strokeWidth={0.75} />
+        <text x={10} y={15} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="end">1</text>
+        <text x={10} y={81} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="end">0</text>
+        {P.map((p, k) => {
+          const h = Math.round((24 * p) / 100)
+          return (
+            <g key={`bar-${k}`}>
+              <rect x={bx(k)} y={88} width={30} height={24 - h} fill={GOLD} opacity={0.35} />
+              <rect x={bx(k)} y={112 - h} width={30} height={h} fill={c} opacity={0.85} />
+            </g>
+          )
+        })}
+        <polyline points={pts} fill="none" stroke={c} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+        {P.map((_, k) => (
+          <circle key={`pt-${k}`} cx={cx(k)} cy={cy(k)} r={2} fill={c} />
+        ))}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
