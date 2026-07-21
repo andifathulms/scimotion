@@ -3,6 +3,9 @@ import { getAllArticles, getAllTags } from '@/lib/articles'
 import { learningPaths } from '@/lib/paths'
 import { SITE_URL } from '@/lib/site'
 
+// Required by `output: 'export'` — metadata routes must be statically emitted.
+export const dynamic = 'force-static'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await getAllArticles()
   const tags = await getAllTags()
