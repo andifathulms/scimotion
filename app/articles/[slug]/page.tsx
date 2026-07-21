@@ -145,6 +145,8 @@ import {
   RootsOfUnityAnimation,
   FiniteAutomatonAnimation,
   PumpingLemmaAnimation,
+  BindingEnergyAnimation,
+  ChainReactionAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -291,6 +293,8 @@ const components = {
   RootsOfUnityAnimation,
   FiniteAutomatonAnimation,
   PumpingLemmaAnimation,
+  BindingEnergyAnimation,
+  ChainReactionAnimation,
   KeyTakeaways,
 }
 

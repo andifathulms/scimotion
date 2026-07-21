@@ -1,0 +1,130 @@
+---
+title: "Nuclear Fission and Fusion"
+subtitle: "Split a heavy atom or fuse two light ones — both release energy, and for exactly the same reason."
+topic: "Physics"
+slug: "nuclear-energy"
+date: "2026-06-30"
+readTime: 10
+featured: false
+description: "The energy in nuclear reactions comes from mass literally disappearing — and one curve explains why fission and fusion both liberate it."
+tags: ["nuclear-physics", "energy", "mass-energy"]
+quiz:
+  - q: "Fission splits heavy nuclei and fusion joins light ones — opposite operations. Why do both release energy?"
+    options:
+      - "Fission releases energy but fusion absorbs it; they are genuine opposites in effect"
+      - "Both processes move nuclei toward iron-56, the peak of the binding-energy-per-nucleon curve, raising the binding energy per nucleon"
+      - "Both processes destroy neutrons, and free neutrons carry the released energy"
+      - "Both increase the total number of nucleons, and more nucleons always means more energy"
+    answer: 1
+    explanation: "The binding-energy-per-nucleon curve peaks at iron; heavy nuclei climb toward it by splitting and light nuclei climb toward it by fusing, so both release energy."
+  - q: "When a uranium nucleus fissions, where does the released energy physically come from?"
+    options:
+      - "From the kinetic energy the neutrons had before the collision"
+      - "From chemical bonds breaking between the atoms"
+      - "The fission products together weigh slightly less than the original nucleus, and that missing mass appears as energy via E = mc²"
+      - "From the electrostatic potential energy stored in the electron cloud"
+    answer: 2
+    explanation: "The products have a smaller combined mass than the reactants; that mass defect, multiplied by c², is exactly the energy released."
+  - q: "Why does fusion require temperatures of millions of degrees while fission can proceed at room temperature?"
+    options:
+      - "Fusion nuclei are heavier and therefore harder to move"
+      - "Both nuclei are positively charged, so they must overcome a Coulomb repulsion barrier to get close enough for the strong force to act — which demands enormous kinetic energy"
+      - "Fission does not release neutrons, so no activation energy is needed"
+      - "Fusion can only occur in a vacuum, which is difficult to heat"
+    answer: 1
+    explanation: "Two positive nuclei repel electrostatically, and only at stellar kinetic energies (plus quantum tunneling) can they approach within range of the short-range strong force."
+---
+
+## Energy from missing mass
+
+Burning a lump of coal rearranges electrons. Splitting a uranium nucleus rearranges the nucleus itself — and releases roughly ten million times more energy per atom. That factor of ten million is the difference between chemistry and nuclear physics, and it has a single, startling source.
+
+The energy comes from mass. Not from mass being *converted* in some exotic reactor-only process, but from the plain fact that the products of a nuclear reaction weigh very slightly less than what you started with. Weigh the uranium nucleus before, weigh all the fragments after, and a tiny sliver of mass has simply gone missing. That missing mass, multiplied by the speed of light squared, is the energy that comes out:
+
+$$E = mc^2$$
+
+Because $c^2$ is enormous — about $9 \times 10^{16}$ in SI units — a mass defect far too small to notice on any scale releases a colossal amount of energy. This is [mass–energy equivalence](/articles/time-dilation), the same relation that falls out of special relativity, doing its most consequential job.
+
+## What holds a nucleus together
+
+To see where the missing mass hides, you have to ask what a nucleus is fighting against. A nucleus is a tight ball of protons and neutrons. The protons all carry positive charge, and like charges repel — at the femtometer distances inside a nucleus, that electrostatic repulsion is ferocious. By itself it would blow every nucleus apart instantly.
+
+Something stronger holds it together: the **strong nuclear force**. It acts between any two nucleons (proton or neutron), it is attractive, and it is far stronger than electromagnetism — but only at extremely short range. Beyond about a couple of femtometers it drops to essentially nothing.
+
+This range mismatch shapes everything. The strong force only pulls on immediate neighbors, so its total contribution grows roughly with the *number* of nucleons. Electrostatic repulsion, by contrast, is long-range: every proton pushes on every other proton, so it grows with the *square* of the proton count. Small nuclei are dominated by the strong force and are tightly bound. Pile on more protons and the repulsion eventually catches up — which is why very heavy nuclei sit on a knife's edge, and why there is a heaviest stable element at all.
+
+## Binding energy, and the one curve that explains everything
+
+Here is the key quantity. The **binding energy** of a nucleus is the energy you would have to supply to pull it completely apart into free nucleons. Equivalently — and this is the crucial equivalence — it is the energy released when those nucleons come together, which is exactly the mass that went missing when they bound. A tightly bound nucleus is a low-energy, light configuration; its constituents gave up mass to fall into that bound state.
+
+What matters for comparing nuclei is not total binding energy but binding energy *per nucleon* — how tightly the average nucleon is held. Plot that against mass number for every nucleus, and you get the single most important graph in nuclear physics.
+
+<BindingEnergyAnimation />
+
+Pick a nucleus and watch where it lands. Light nuclei like deuterium sit low — loosely bound. Climb through helium, carbon, oxygen, and the curve rises steeply. It reaches a broad maximum around **iron-56**, at about 8.8 MeV per nucleon, then declines gently through the heavy elements to uranium. Iron sits at the bottom of the energy well: it is the most tightly bound, most stable nucleus there is.
+
+Now read the graph the way nature does. **Energy is released by any process that moves a nucleus *up* this curve, toward iron.** There are two ways to climb. A heavy nucleus on the right can split into two middle-weight fragments that sit higher — that is **fission**. Two light nuclei on the left can merge into a more tightly bound one that sits higher — that is **fusion**. Both move toward iron; both climb; both release the difference in binding energy. Select uranium and then deuterium in the widget and watch the marker travel toward the peak from opposite sides.
+
+This is why the common intuition that fission and fusion are *opposite in effect* is wrong. They are opposite in mechanism — one splits, one joins — but identical in outcome, because both increase the binding energy per nucleon by heading for iron. The curve rises from both ends toward the same summit, and everything rolls downhill into that summit.
+
+## The mass defect, made quantitative
+
+Take helium-4, the product of stellar hydrogen fusion. Add up the masses of its parts, using atomic mass units where the neutron is $1.00867\,\text{u}$ and the hydrogen atom is $1.00783\,\text{u}$:
+
+$$2(1.00783) + 2(1.00867) = 4.03300\ \text{u}$$
+
+But a helium-4 atom actually weighs $4.00260\,\text{u}$. The difference — the **mass defect** — is:
+
+$$\Delta m = 4.03300 - 4.00260 = 0.03040\ \text{u}$$
+
+Converting with $1\ \text{u} = 931.5\ \text{MeV}/c^2$:
+
+$$E_b = \Delta m \, c^2 = 0.03040 \times 931.5 \approx 28.3\ \text{MeV}$$
+
+That is helium-4's total binding energy; divided among 4 nucleons it is the $\approx 7.07\ \text{MeV}$ per nucleon plotted above. The helium nucleus is genuinely lighter than its ingredients, and that missing $0.7\%$ of mass is the energy the Sun lives on.
+
+The same bookkeeping gives the energy of a fission event. Uranium-235 has about $7.59\ \text{MeV}$ of binding per nucleon; a representative split into barium-141 and krypton-92 lands both fragments near $8.3\ \text{MeV}$ per nucleon. Comparing total binding energies:
+
+$$\underbrace{(141)(8.33) + (92)(8.52)}_{\text{products} \,\approx\, 1958\ \text{MeV}} - \underbrace{(235)(7.59)}_{\text{uranium} \,\approx\, 1784\ \text{MeV}} \approx 174\ \text{MeV}$$
+
+With the kinetic energy of the released neutrons and subsequent decays, a single U-235 fission liberates roughly **200 MeV**. For comparison, burning one carbon atom releases about $4\ \text{eV}$ — fifty million times less.
+
+## Fission and the chain reaction
+
+One fission releasing 200 MeV is a lot for one atom, but useless on its own. What makes fission a *power source* is that each fission is triggered by a neutron and, in splitting, throws out two or three fresh neutrons. Those neutrons can trigger further fissions, which release more neutrons — a **chain reaction**.
+
+Whether the chain grows, holds, or dies is captured by a single number, the multiplication factor $k$: the average number of neutrons from one fission that go on to cause another fission. Everything hinges on how $k$ compares to 1.
+
+<ChainReactionAnimation />
+
+Drag $k$ and run it. With $k < 1$ (**subcritical**), each generation is smaller than the last and the reaction fizzles out. With $k = 1$ (**critical**), the population holds steady — this is exactly the state a power reactor is engineered to sit at, generation after generation, its heat tapped off at a constant rate. With $k > 1$ (**supercritical**), the population climbs exponentially. Notice how the log-scaled curve becomes a straight rising line: constant multiplication per generation is exponential growth.
+
+The value of $k$ depends on geometry as much as on material. Neutrons that leak out through the surface before hitting a nucleus are lost. Make the assembly bigger and the volume (where fissions happen) grows faster than the surface (where neutrons escape), so at some size $k$ crosses 1. That threshold size is the **critical mass**. A control system holds a reactor at $k = 1$ by inserting neutron-absorbing rods to soak up the surplus — nudging $k$ a hair below 1 to power down, a hair above to ramp up.
+
+## Fusion and the Coulomb barrier
+
+Fusion sits on the rising left side of the curve, and per unit mass it releases even more energy than fission — it is what powers every star. So why isn't it powering our cities?
+
+The obstacle is the very repulsion the strong force normally overcomes. To fuse, two positively charged nuclei must be brought within a couple of femtometers of each other — inside the range of the strong force. But as they approach, their electrostatic potential energy climbs steeply. This is the **Coulomb barrier**:
+
+$$U(r) = \frac{1}{4\pi\varepsilon_0}\frac{Z_1 Z_2 e^2}{r}$$
+
+Using the convenient constant $\dfrac{e^2}{4\pi\varepsilon_0} = 1.44\ \text{MeV·fm}$, two hydrogen isotopes ($Z_1 = Z_2 = 1$) meeting at a separation of $r \approx 3\ \text{fm}$ face a barrier of
+
+$$U \approx \frac{1.44 \times (1)(1)}{3} \approx 0.5\ \text{MeV}$$
+
+To climb that barrier by brute thermal motion, nuclei need kinetic energies corresponding to temperatures of *billions* of kelvin. The Sun's core is only about $1.5 \times 10^7\ \text{K}$ — a hundred times too cold, classically. Fusion happens there anyway for two reasons: the high-energy tail of the thermal distribution always has a few nuclei moving far faster than average, and quantum **tunneling** lets nuclei penetrate the barrier without fully surmounting it. Even so, the required temperatures are stellar, which is why controlled fusion on Earth — confining a plasma at tens of millions of degrees for long enough to gain net energy — remains one of the hardest engineering problems ever attempted. The barrier is not a detail; it is the whole difficulty.
+
+## Why the numbers are so extreme
+
+Step back and the comparison is the headline. A chemical reaction shuffles electrons and releases a few electron-volts per atom. A nuclear reaction reshapes the nucleus and releases millions of electron-volts. The ratio — roughly $10^6$ to $10^7$ — is why a kilogram of uranium holds the energy of thousands of tonnes of coal, and why the Sun has shone for billions of years on a fuel supply that chemistry would have exhausted in a few thousand.
+
+It all traces back to one graph and one equation. Binding energy per nucleon rises toward iron from both directions; move toward the peak, by splitting or by fusing, and the products weigh a little less than the reactants; and that vanished mass, times $c^2$, is the energy that lights a reactor or a star.
+
+<KeyTakeaways>
+- Nuclear energy comes from mass: the products of a fission or fusion reaction weigh slightly less than the reactants, and that mass defect times $c^2$ is the energy released.
+- The binding-energy-per-nucleon curve peaks at **iron-56**. Both fission of heavy nuclei and fusion of light nuclei release energy because both move *toward* iron and climb the curve — they are opposite in mechanism but identical in effect.
+- A fission chain reaction lives or dies by the multiplication factor $k$: below 1 it fizzles, at 1 it holds steady (a working reactor), above 1 it grows exponentially, and the crossover depends on reaching a critical mass.
+- Fusion releases even more energy per unit mass but must overcome the **Coulomb barrier** between two positive nuclei, which is why it needs the millions-of-degrees temperatures found in stars.
+- Nuclear reactions release roughly $10^6$–$10^7$ times more energy per atom than chemical reactions, all because they rearrange the tightly bound nucleus rather than the loosely held electrons.
+</KeyTakeaways>

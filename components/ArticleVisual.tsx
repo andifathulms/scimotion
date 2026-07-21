@@ -1817,6 +1817,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'nuclear-energy': c => {
+    // Binding-energy-per-nucleon curve: steep rise (with the He-4 spike),
+    // broad peak at iron-56, gentle decline to uranium. Gold arrows converge
+    // on iron from both sides — fusion climbing from the left, fission from
+    // the right. All coordinates are integer literals.
+    const curve = '14,98 17,42 26,36 35,33 47,29 58,28 76,26 116,28 173,30 242,34 286,37'
+    return (
+      <g>
+        <line x1={8} y1={108} x2={292} y2={108} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={76} y1={20} x2={76} y2={108} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={76} cy={26} r={4} fill={GOLD} />
+        <text x={76} y={16} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">⁵⁶Fe</text>
+        <line x1={24} y1={100} x2={60} y2={100} stroke={GOLD} strokeWidth={1} />
+        <polygon points="66,100 60,97 60,103" fill={GOLD} />
+        <line x1={92} y1={100} x2={130} y2={100} stroke={GOLD} strokeWidth={1} />
+        <polygon points="86,100 92,97 92,103" fill={GOLD} />
+        <text x={40} y={94} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">fusion</text>
+        <text x={112} y={94} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">fission</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

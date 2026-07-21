@@ -630,3 +630,13 @@ export const PumpingLemmaAnimation = dynamic(
   () => import('@/components/animations/PumpingLemmaAnimation').then(m => ({ default: m.PumpingLemmaAnimation })),
   { ssr: false }
 )
+
+export const BindingEnergyAnimation = dynamic(
+  () => import('@/components/animations/BindingEnergyAnimation').then(m => ({ default: m.BindingEnergyAnimation })),
+  { ssr: false }
+)
+
+export const ChainReactionAnimation = dynamic(
+  () => import('@/components/animations/ChainReactionAnimation').then(m => ({ default: m.ChainReactionAnimation })),
+  { ssr: false }
+)
