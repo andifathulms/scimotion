@@ -1,0 +1,176 @@
+---
+title: "Antibiotics and Resistance"
+subtitle: "Natural selection running fast enough to watch, inside a population that doubles every twenty minutes."
+topic: "Medicine"
+slug: "antibiotic-resistance"
+date: "2026-07-14"
+readTime: 10
+featured: false
+description: "What antibiotics actually attack, why they do nothing to viruses, the four ways bacteria defeat them, and why a dose that is almost strong enough is the worst dose of all."
+tags: ["microbiology", "evolution", "pharmacology", "resistance"]
+quiz:
+  - q: "A culture contains ten billion bacteria, of which roughly one in a hundred million already carries a mutation conferring resistance. What does exposure to a drug concentration above the susceptible MIC but below the resistant MIC do to that population?"
+    options:
+      - "It creates new resistant mutants, because the drug damages bacterial DNA"
+      - "It kills the susceptible majority while sparing the pre-existing resistant minority, which then regrows into the empty space"
+      - "It kills both strains at similar rates, since the mechanism of action is the same"
+      - "It has no effect, because the concentration is below the resistant strain's MIC"
+    answer: 1
+    explanation: "The drug does not generate the mutants — it removes their competitors, converting a rare variant into the founder of the whole regrown population."
+  - q: "Why is horizontal gene transfer a qualitatively different problem from ordinary vertical evolution?"
+    options:
+      - "It produces mutations at a much higher rate than DNA replication errors do"
+      - "It allows a resistance gene that evolved once, in one lineage, to move sideways into unrelated bacteria — including other species — without being inherited"
+      - "It only occurs in the presence of an antibiotic, so it can be prevented by stopping treatment"
+      - "It permanently alters the host's chromosome so the trait cannot be lost"
+    answer: 1
+    explanation: "Conjugation, transformation, and transduction move ready-made resistance genes between contemporaries and across species boundaries, so the trait spreads through a community far faster than descent alone allows."
+  - q: "Why do antibiotics have no effect on a viral infection such as influenza?"
+    options:
+      - "Viruses replicate too quickly for the drug to reach an effective concentration"
+      - "Viruses lack the bacterial structures antibiotics target — cell walls, bacterial ribosomes, bacterial replication enzymes — and reproduce using the host cell's machinery"
+      - "Viruses are protected by the host cell membrane, which antibiotics cannot cross"
+      - "Viruses have already evolved resistance to all known antibiotics"
+    answer: 1
+    explanation: "Antibiotic selective toxicity depends on hitting structures unique to bacteria, and a virus simply does not have them."
+---
+
+## A warning issued at the moment of triumph
+
+In December 1945, Alexander Fleming stood up in Stockholm to accept a Nobel Prize for penicillin and used part of the lecture to warn that the drug would stop working. Penicillin was barely out of the laboratory. Most of the world had never received a dose. And the man who discovered it was already describing, in detail, how it would fail: expose bacteria to concentrations too low to kill them, he said, and you will educate them to resist.
+
+That warning was not pessimism, and it was not a complaint about the drug. It was a prediction that followed from something Fleming understood better than almost anyone: resistance is not a defect in penicillin. It is natural selection, operating exactly as Darwin described, on organisms that can double their numbers in twenty minutes.
+
+Put those two facts together and the timescale becomes strange. A process we usually illustrate with finches and fossils — variation, differential survival, inheritance — runs to completion in a bacterial population over a weekend. The same machinery that took millions of years to reshape a beak takes about a day to reshape a species' response to a molecule, because the generation time is measured in minutes and the population size is measured in billions. If you want to see [natural selection](/articles/natural-selection) actually happen rather than infer it from its products, this is where to look.
+
+## What an antibiotic is actually attacking
+
+Start with the thing that makes antibiotics possible at all. A poison that kills bacteria is easy; bleach does it. A drug is something that kills bacteria *inside a person* while leaving the person intact. That property is called **selective toxicity**, and it exists because bacterial cells differ from ours in specific, exploitable ways.
+
+Bacteria are prokaryotes. They have no nucleus, no mitochondria, a distinctive cell envelope, and ribosomes built to a different specification than ours. Each of those differences is a place to aim. The major antibiotic classes sort neatly by target:
+
+- **Cell wall synthesis.** Bacteria are wrapped in peptidoglycan, a mesh of sugar chains cross-linked by short peptides, which holds the cell against an internal osmotic pressure of several atmospheres. β-lactams — penicillins, cephalosporins, carbapenems — block the transpeptidase enzymes that make those cross-links. The wall keeps being remodelled but stops being repaired, and the cell bursts under its own pressure. Human cells have no peptidoglycan at all, which is why this class is among the least toxic to us and why penicillin was such a spectacular gift.
+- **Protein synthesis.** The bacterial ribosome is a 70S particle assembled from 30S and 50S subunits; ours is 80S, from 40S and 60S. Aminoglycosides and tetracyclines bind the 30S subunit, macrolides and chloramphenicol the 50S. The shape difference is the entire margin of safety — and it is narrower than the cell-wall margin, because our mitochondria descend from bacteria and retain bacteria-like ribosomes, which is part of why this class carries more toxicity.
+- **Nucleic acid replication.** Fluoroquinolones inhibit DNA gyrase and topoisomerase IV, the enzymes that manage supercoiling as the bacterial chromosome is unwound. Human topoisomerases are structurally distinct enough to be largely spared. Rifamycins hit bacterial RNA polymerase, again a different enzyme from ours.
+- **Folate metabolism.** Sulfonamides and trimethoprim block consecutive steps in folate synthesis. Bacteria must build folate themselves; we simply eat it. The drug attacks a pathway we do not run.
+
+The pattern is always the same: find something the pathogen has and the host does not, then break it. Which explains the most consequential misconception in the whole subject.
+
+### Antibiotics do nothing to viruses
+
+A virus is not a small bacterium. It is not a cell at all — it is a genome in a protein coat, with no cell wall, no ribosomes, no metabolism, and no replication enzymes of its own. It gets into one of your cells and makes that cell build copies of it.
+
+So run down the target list. No peptidoglycan to disrupt. No 70S ribosome to jam. No bacterial gyrase or bacterial RNA polymerase to inhibit. No folate pathway to starve. Every mechanism above is inapplicable, not weakly effective. An antibiotic given for influenza, a common cold, or most sore throats and bronchitis does not fight the infection a little bit — it does nothing to it whatsoever.
+
+It is not, however, inert. It still reaches every bacterial population in your body: the commensals in your gut, on your skin, in your throat. For those bacteria, it is a selection event. You get no benefit and they get an evolutionary push. This is the reason "just in case" antibiotic use is a genuine harm rather than a harmless precaution, and it is why the misconception matters enough to state bluntly.
+
+## Watching a rare mutant take over
+
+The widget below is a bacterial lawn. Almost every cell is susceptible (blue); three, placed before anything else happens, carry a resistance mutation (pink). They are rare, and they are slightly worse at growing than their neighbours — resistance usually costs something. The drug arrives at generation 4 at whatever concentration you choose.
+
+<AntibioticResistanceAnimation />
+
+Run it first at **dose 0**. Nothing dramatic: the resistant cells stay rare and, if anything, lose ground, because their fitness cost is real and there is no drug to pay it back. That is the world in which resistance mutations exist and go nowhere.
+
+Now set the dose to **12 or above**, past the resistant strain's MIC, and run again. Everything dies. The composition chart collapses to nothing. There were resistant cells present, and it made no difference — they were killed too, because they were never immune, only harder to kill.
+
+Then set the dose to about **4**, above the susceptible MIC but below the resistant one, and watch carefully. The blue lawn is annihilated within two or three generations. Then look at what happens to the empty space: the three pink cells are still there, and now they have no competitors. They expand into the vacancy, and within a dozen generations the population is back to full size and entirely resistant. Same total number of bacteria, completely different population.
+
+Nothing in that run created resistance. The mutants were present at generation 0. What the drug did was **remove their competition** — and a variant that cannot get above 1% while competing with a fitter majority reaches 100% the moment the majority is deleted. That band of concentrations, high enough to kill the susceptible strain but not the resistant one, is the **mutant selection window**, and everything that follows is about how wide it is and how to stay out of it.
+
+## The arithmetic of fast evolution
+
+Bacteria grow by binary fission, so an unconstrained population is exponential:
+
+$$N(t) = N_0\,2^{\,t/T_d}$$
+
+where $T_d$ is the doubling time. Equivalently $N(t) = N_0 e^{\mu t}$ with growth rate $\mu = \ln 2 / T_d$. For *E. coli* in rich medium $T_d \approx 20$ minutes, which means
+
+$$\frac{N(24\text{ h})}{N_0} = 2^{72} \approx 4.7 \times 10^{21}$$
+
+if nothing ran out. Nothing ever grows unchecked for that long, but the number tells you the relevant thing: population sizes in an untreated infection routinely reach $10^9$–$10^{12}$.
+
+Now bring in mutation. Point mutations conferring resistance to a given drug arise spontaneously at roughly $10^{-8}$ to $10^{-9}$ per cell per division. Multiply:
+
+$$\mathbb{E}[\text{mutants}] \approx N \times \mu_{\text{res}} \approx 10^{10} \times 10^{-8} = 100$$
+
+The expected number of pre-existing resistant cells in an ordinary infection is not zero, and it is not one. It is hundreds — before any drug has been administered. This is the single most important number in the article, and it was established experimentally by Luria and Delbrück in 1943, who showed that resistant variants appear *before* exposure rather than being induced by it. The drug is a filter, never a mutagen.
+
+### MIC, and the window between two of them
+
+The **minimum inhibitory concentration** (MIC) of a drug against a strain is the lowest concentration that prevents visible growth. It is a property of the pairing, not of the drug alone: the same molecule has one MIC against the susceptible population and a much higher one against a resistant mutant. Write them $\text{MIC}_S$ and $\text{MIC}_R$.
+
+The **mutant prevention concentration** (MPC) is the concentration that blocks growth of the least susceptible single-step mutant present — effectively $\text{MIC}_R$ for the most resistant variant in the population. The interval
+
+$$\text{MSW} = \left[\,\text{MIC}_S,\ \text{MPC}\,\right]$$
+
+is the mutant selection window. Its behaviour splits into three regimes:
+
+$$\begin{aligned}
+C < \text{MIC}_S &: \text{neither strain is inhibited; no selection} \\
+\text{MIC}_S \le C < \text{MPC} &: \textbf{susceptibles die, resistants are enriched} \\
+C \ge \text{MPC} &: \text{both are inhibited; nothing is selected for}
+\end{aligned}$$
+
+The middle line is the counter-intuitive one, and it inverts the usual intuition about drugs. For most of pharmacology, more drug means more effect and less drug means less. Here, *less drug can be actively worse than none*, because a concentration too low to finish the job is precisely the concentration that runs the selection experiment for you.
+
+Formalise the middle regime with a **selection coefficient**. If susceptible and resistant strains have net growth rates $r_S$ and $r_R$ under a given concentration $C$, then
+
+$$s(C) = r_R(C) - r_S(C)$$
+
+and the ratio of resistant to susceptible cells changes as
+
+$$\frac{n_R(t)}{n_S(t)} = \frac{n_R(0)}{n_S(0)}\,e^{\,s(C)\,t}$$
+
+Without drug, $s < 0$: resistance carries a fitness cost (a modified target enzyme that works less well, or the metabolic burden of running efflux pumps), so the mutants slowly lose ground — the dose-0 run. Inside the window, $r_S$ goes sharply negative while $r_R$ stays positive, so $s$ becomes large and positive. With $s \approx 0.5$ per generation and 20-minute generations, an initial ratio of $10^{-8}$ is inverted in
+
+$$t = \frac{\ln(10^{8})}{s} \approx \frac{18.4}{0.5} \approx 37 \text{ generations} \approx 12 \text{ hours}$$
+
+That is the whole point about timescale. Twelve hours, in the right conditions, to convert a variant present at one in a hundred million into the dominant strain. Fleming's warning was arithmetic.
+
+The concentration $C$ in these expressions is not a constant, either — it is the rising and falling curve from [pharmacokinetics](/articles/pharmacokinetics). A drug spends part of every dosing interval on its way down through the window. The design problem for a dosing regimen is not only staying inside the therapeutic window for the patient, but minimising the time spent inside the *selection* window for the bacteria, and those are different targets that do not always agree.
+
+## Four ways to survive a drug
+
+Resistance is not one trick. There are four broad mechanisms, and a single organism often runs several at once.
+
+1. **Enzymatic degradation.** Make an enzyme that destroys the drug. β-lactamases hydrolyse the β-lactam ring — the reactive centre the whole class depends on — and thousands of variants are known. Extended-spectrum β-lactamases (ESBLs) and carbapenemases are successive escalations, each expanding the range of β-lactams destroyed. This mechanism is the reason some penicillins are co-formulated with a β-lactamase inhibitor: a decoy molecule that occupies the enzyme.
+2. **Target modification.** Change the thing the drug binds. MRSA is the canonical case: it acquires *mecA*, encoding an alternative penicillin-binding protein (PBP2a) that cross-links the cell wall perfectly well but that β-lactams barely bind. Point mutations in gyrase produce quinolone resistance; ribosomal RNA methylation blocks macrolides. The drug is intact and the cell is unharmed, because the lock has been changed.
+3. **Efflux pumps.** Pump the drug back out. Membrane transporters, often with broad substrate ranges, keep the intracellular concentration below the level that matters. Because one pump can export several unrelated drug classes, this mechanism generates multi-drug resistance in a single step.
+4. **Reduced permeability.** Stop the drug getting in. Gram-negative bacteria have an outer membrane that many drugs cross only through porin channels; losing or narrowing a porin cuts the influx rate. Combine reduced permeability with efflux and the steady-state internal concentration can fall by orders of magnitude without any change to the target at all.
+
+Notice that mechanisms 3 and 4 are quantitative. They do not make a cell invulnerable; they raise its MIC. That is exactly what widens the mutant selection window — and it is why partial, incremental resistance is more dangerous than it sounds.
+
+## Sideways inheritance
+
+Everything so far treats resistance the way we treat any evolved trait: it appears by mutation in one lineage and is passed to descendants. That is **vertical** inheritance, and on its own it is slow — a gene that arises in one species stays in that species.
+
+Bacteria do not respect that limit. They exchange DNA with contemporaries, by three routes: **transformation** (taking up naked DNA from the environment), **transduction** (a bacteriophage carrying bacterial genes between hosts), and **conjugation** (direct cell-to-cell transfer of a plasmid through a pilus). Plasmids are small circular DNA molecules that replicate independently of the chromosome, and resistance genes are frequently carried on them — often several at once, bundled into integrons, so a single transfer event can deliver resistance to four unrelated drug classes in one package.
+
+<HorizontalTransferAnimation />
+
+The dish holds two species: circles (A) and rods (B). One species-A cell starts with a resistance plasmid, drawn as a small loop inside it. Both modes assume a drug is present, so carriers outgrow non-carriers when they divide.
+
+Start with **conjugation off**. The plasmid spreads only into daughter cells, so the pink fraction climbs in a slow logistic curve — and watch the species B counter at the right of the chart. It stays at zero, permanently. Vertical inheritance cannot cross a species boundary, by definition.
+
+Now switch **conjugation on** and run it again. The stored vertical-only curve stays on the chart as a dashed green line, so you can see the two side by side. Gold flashes are transfer events. The pink curve leaves the green one behind almost immediately, and the species B counter starts climbing within seconds. Push the transfer rate slider up and the whole community converts.
+
+That is the qualitative difference. Under vertical inheritance, resistance spreads at the rate at which its carriers out-reproduce everyone else, and it stays inside one lineage. Under horizontal transfer, resistance spreads like an *infection* — a gene that evolved once, anywhere, can end up in an unrelated species on another continent. It is why resistance in agricultural or environmental bacteria is a clinical problem, and why the useful unit of accounting is the resistance gene rather than the resistant organism.
+
+## Why this is hard to fix
+
+The uncomfortable structure of the problem is that every effective use of an antibiotic also applies selection pressure. There is no way to treat an infection without running a small evolution experiment, so the goal was never to eliminate selection — only to avoid paying for it when there is nothing to gain. That is where the misconception about viruses turns into millions of unnecessary selection events, and it is where the mutant selection window turns sub-therapeutic exposure into the worst of all worlds: too little drug to help, exactly enough to select. Sub-therapeutic exposure arises in many ways — agricultural use at growth-promoting rather than treating concentrations, poor tissue penetration into an abscess or a biofilm, substandard or counterfeit product — and the window does not care which.
+
+The commonly repeated instruction to "always finish the course" deserves more honesty than it usually gets. It was long taught as though the biology were settled, and it is not. The traditional argument is that stopping early leaves a surviving population exposed to declining drug levels — a trip straight through the selection window. The counter-argument, which has gained considerable ground since the mid-2010s, is that for many common infections the historical course lengths were never derived from evidence, that longer exposure means more total selection pressure on your commensal flora, and that several trials have found shorter courses non-inferior for specific indications. The genuine current position is that the right duration depends on the infection, the drug, and the patient, and that it is a question for the person treating you rather than for a slogan in either direction. If you are taking an antibiotic, ask your clinician about the course rather than deciding from an article.
+
+Meanwhile the pipeline is thin. Most antibiotic classes in use were discovered between the 1940s and the 1960s, and the economics of new ones are unusually bad: a successful new antibiotic is one that gets *reserved*, used sparingly and only when older drugs fail, which is the opposite of a profitable product. So the practical levers are mostly about slowing the selection rather than outrunning it — diagnostics that distinguish bacterial from viral illness before prescribing, narrow-spectrum choices that spare the bystander flora, combination regimens that require two simultaneous mutations, and infection control that keeps resistant lineages from spreading. That last one shares its mathematics with [epidemic models](/articles/epidemic-models): a resistant strain moving through a hospital is an outbreak with its own $R_0$, and the interventions that reduce transmission are the same interventions.
+
+*This article is about the biology and pharmacology of antibiotics. It is not medical guidance, and nothing here should be used to decide how to take, stop, or dose any medication — those decisions belong with a qualified clinician who knows your situation.*
+
+<KeyTakeaways>
+- Antibiotics work by **selective toxicity** — attacking peptidoglycan cell walls, 70S ribosomes, bacterial gyrase, or bacterial folate synthesis, structures we either lack or build differently.
+- Viruses have none of those structures, so antibiotics do **nothing** to a viral infection while still selecting on every bacterium in your body. This is the misconception with the highest cost.
+- The drug never creates resistance. In a population of $10^{10}$ with mutation rates near $10^{-8}$, hundreds of resistant cells are already present; the drug removes their competitors, and the selection coefficient $s(C)$ does the rest in hours.
+- The **mutant selection window** between $\text{MIC}_S$ and the mutant prevention concentration is why a sub-therapeutic exposure can be worse than no exposure at all — high enough to clear the susceptible majority, too low to touch the mutants.
+- Resistance also travels **sideways**. Conjugation, transformation, and transduction move plasmid-borne resistance genes between unrelated species, so the gene, not the organism, is the unit that spreads.
+</KeyTakeaways>

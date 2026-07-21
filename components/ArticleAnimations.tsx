@@ -590,3 +590,13 @@ export const EarthInteriorAnimation = dynamic(
   () => import('@/components/animations/EarthInteriorAnimation').then(m => ({ default: m.EarthInteriorAnimation })),
   { ssr: false }
 )
+
+export const AntibioticResistanceAnimation = dynamic(
+  () => import('@/components/animations/AntibioticResistanceAnimation').then(m => ({ default: m.AntibioticResistanceAnimation })),
+  { ssr: false }
+)
+
+export const HorizontalTransferAnimation = dynamic(
+  () => import('@/components/animations/HorizontalTransferAnimation').then(m => ({ default: m.HorizontalTransferAnimation })),
+  { ssr: false }
+)

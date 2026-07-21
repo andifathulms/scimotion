@@ -135,6 +135,8 @@ import {
   CalvinCycleAnimation,
   SeismicWaveAnimation,
   EarthInteriorAnimation,
+  AntibioticResistanceAnimation,
+  HorizontalTransferAnimation,
 } from '@/components/ArticleAnimations'
 
 const components = {
@@ -256,6 +258,8 @@ const components = {
   CalvinCycleAnimation,
   SeismicWaveAnimation,
   EarthInteriorAnimation,
+  AntibioticResistanceAnimation,
+  HorizontalTransferAnimation,
   KeyTakeaways,
 }
 

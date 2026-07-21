@@ -1721,6 +1721,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'antibiotic-resistance': c => {
+    // A population crashing under a sub-MIC dose, then regrowing entirely resistant.
+    const total = '0,34 20,34 40,33 60,34 80,34 90,34 100,60 110,84 120,100 130,106 145,96 160,76 175,56 190,42 205,34 220,32 260,32 300,32'
+    const res = '0,108 40,108 80,108 90,108 100,107 110,106 120,105 130,106 145,96 160,76 175,56 190,42 205,34 220,32 260,32 300,32'
+    const resRev = '300,32 260,32 220,32 205,34 190,42 175,56 160,76 145,96 130,106 120,105 110,106 100,107 90,108 80,108 40,108 0,108'
+    return (
+      <g>
+        <line x1={0} y1={110} x2={300} y2={110} stroke={FAINT} strokeWidth={1} />
+        <polygon points={`${total} ${resRev}`} fill={FAINT} />
+        <polyline points={total} fill="none" stroke={MUTE} strokeWidth={1} />
+        <polygon points={`${res} 300,110 0,110`} fill={`${c}33`} />
+        <polyline points={res} fill="none" stroke={c} strokeWidth={2} strokeLinejoin="round" />
+        <line x1={95} y1={20} x2={95} y2={112} stroke={GOLD} strokeWidth={1} strokeDasharray="3 3" />
+        <text x={98} y={17} fontSize={8} fill={GOLD} fontFamily="monospace">sub-MIC dose</text>
+        <circle cx={105} cy={107} r={2} fill={c} />
+        <circle cx={113} cy={105} r={2} fill={c} />
+        <circle cx={122} cy={104} r={2} fill={c} />
+        <text x={6} y={28} fontSize={7} fill={MUTE} fontFamily="monospace">susceptible</text>
+        <text x={296} y={26} textAnchor="end" fontSize={8} fill={c} fontFamily="monospace">100% resistant</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
