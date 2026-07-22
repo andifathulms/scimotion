@@ -157,6 +157,8 @@ import {
   RadialVelocityAnimation,
   ExpandingUniverseAnimation,
   HubbleDiagramAnimation,
+  StellarLifecycleAnimation,
+  HydrostaticBalanceAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -315,6 +317,8 @@ const components = {
   RadialVelocityAnimation,
   ExpandingUniverseAnimation,
   HubbleDiagramAnimation,
+  StellarLifecycleAnimation,
+  HydrostaticBalanceAnimation,
   KeyTakeaways,
 }
 

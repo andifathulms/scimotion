@@ -1973,6 +1973,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'life-cycle-of-stars': c => {
+    // H-R diagram: the main-sequence diagonal (hot/bright top-left -> cool/dim
+    // bottom-right), the giant branch peeling up-and-right, the Sun on the
+    // sequence, and a faint white dwarf at bottom-left. All coordinates literal.
+    const ms: [number, number, number][] = [
+      [52, 30, 3.5], [92, 46, 2.6], [128, 61, 2.4], [168, 77, 2.4], [206, 92, 2.6],
+    ]
+    return (
+      <g>
+        <line x1={30} y1={16} x2={30} y2={104} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={30} y1={104} x2={286} y2={104} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={52} y1={30} x2={206} y2={92} stroke={c} strokeWidth={3} strokeLinecap="round" opacity={0.5} />
+        {ms.map(([x, y, r], i) => (
+          <circle key={i} cx={x} cy={y} r={r} fill={c} />
+        ))}
+        <polyline points="150,69 178,54 210,42" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" />
+        <circle cx={210} cy={42} r={5} fill={GOLD} />
+        <circle cx={128} cy={61} r={4} fill={GOLD} />
+        <circle cx={64} cy={96} r={2.5} fill={c} />
+        <text x={182} y={40} fill={MUTE} fontSize={8} fontFamily="monospace">giants</text>
+        <text x={40} y={26} fill={MUTE} fontSize={8} fontFamily="monospace">L</text>
+        <text x={276} y={116} fill={MUTE} fontSize={8} fontFamily="monospace">T</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

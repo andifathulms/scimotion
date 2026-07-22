@@ -690,3 +690,13 @@ export const HubbleDiagramAnimation = dynamic(
   () => import('@/components/animations/HubbleDiagramAnimation').then(m => ({ default: m.HubbleDiagramAnimation })),
   { ssr: false }
 )
+
+export const StellarLifecycleAnimation = dynamic(
+  () => import('@/components/animations/StellarLifecycleAnimation').then(m => ({ default: m.StellarLifecycleAnimation })),
+  { ssr: false }
+)
+
+export const HydrostaticBalanceAnimation = dynamic(
+  () => import('@/components/animations/HydrostaticBalanceAnimation').then(m => ({ default: m.HydrostaticBalanceAnimation })),
+  { ssr: false }
+)
