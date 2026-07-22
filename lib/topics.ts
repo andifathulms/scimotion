@@ -14,6 +14,7 @@ export const TOPICS = [
   'Chemistry',
   'Biology',
   'Earth & Climate',
+  'Astronomy & Cosmology',
   'Computer Science',
   'Medicine',
 ] as const
@@ -29,6 +30,7 @@ export const TOPIC_DESCRIPTIONS: Record<Topic, string> = {
   Chemistry: 'Atoms, bonds and reactions — how matter is built and how it rearranges.',
   Biology: 'Life from the molecule up — the code, the machinery that reads it, and the cells it builds.',
   'Earth & Climate': 'The machinery of a working planet — its shifting crust, its circulating air and ocean, and the budgets that set its temperature.',
+  'Astronomy & Cosmology': 'The universe at large scale — how stars live and forge the elements, how we find other worlds, and how space itself is expanding.',
   'Computer Science': 'Algorithms, complexity and the limits of computation — how machines solve problems, and what they provably cannot.',
   Medicine: 'The body as a system to measure and manage — its signals, its chemistry, and the tools that see inside it.',
 }

@@ -6,6 +6,7 @@ const topicStyles: Record<Topic, string> = {
   Chemistry: 'text-accent-orange bg-accent-orange/15 border-accent-orange/25',
   Biology: 'text-accent-lime bg-accent-lime/15 border-accent-lime/25',
   'Earth & Climate': 'text-accent-cyan bg-accent-cyan/15 border-accent-cyan/25',
+  'Astronomy & Cosmology': 'text-accent-indigo bg-accent-indigo/15 border-accent-indigo/25',
   'Computer Science': 'text-accent-blue bg-accent-blue/15 border-accent-blue/25',
   Medicine: 'text-accent-pink bg-accent-pink/15 border-accent-pink/25',
 }
