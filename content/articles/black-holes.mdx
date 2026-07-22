@@ -1,0 +1,121 @@
+---
+title: "Black Holes"
+subtitle: "Not a cosmic vacuum cleaner — a place where gravity curves spacetime too steeply for light to climb out."
+topic: "Astronomy & Cosmology"
+slug: "black-holes"
+date: "2026-07-15"
+readTime: 10
+featured: false
+description: "How escape velocity reaching the speed of light defines an event horizon, why the Sun would be 3 km across, and what a black hole would — and would not — do to Earth."
+tags: ["black-holes", "relativity", "gravitation", "astronomy"]
+quiz:
+  - q: "If the Sun were suddenly replaced by a black hole of exactly one solar mass, what would happen to Earth's orbit?"
+    options:
+      - "Earth would spiral inward and be swallowed within days"
+      - "Nothing would change — the mass is the same, so the gravitational field beyond the old surface is identical and Earth keeps its orbit"
+      - "Earth would be flung out of the solar system as the field weakened"
+      - "Earth's orbit would shrink to the radius of the event horizon"
+    answer: 1
+    explanation: "Gravity outside a spherical mass depends only on the enclosed mass and distance, so with the Sun's mass unchanged Earth's orbit is unchanged; only very close to the tiny horizon does anything new appear."
+  - q: "The Schwarzschild radius is r_s = 2GM/c². What does this formula tell you about how the horizon size scales with mass?"
+    options:
+      - "The horizon radius grows with the square of the mass"
+      - "The horizon radius is independent of mass and fixed by c"
+      - "The horizon radius is directly proportional to mass, so a 10× heavier black hole has a 10× larger horizon"
+      - "The horizon radius shrinks as mass increases because gravity is stronger"
+    answer: 2
+    explanation: "Because r_s = 2GM/c² is linear in M, doubling the mass doubles the horizon radius — the Sun gives about 3 km, so ten solar masses gives about 30 km."
+  - q: "Why does a clock hovering just outside the event horizon appear, to a distant observer, to tick ever more slowly and its light to redshift toward nothing?"
+    options:
+      - "The clock is physically damaged by the intense gravity"
+      - "Light loses energy fighting air resistance on the way out"
+      - "Gravitational time dilation: the factor √(1 − r_s/r) falls toward zero as r approaches r_s, stretching every emitted wave and slowing every tick as seen from afar"
+      - "The distant observer is moving away, so it is an ordinary Doppler shift"
+    answer: 2
+    explanation: "The gravitational time-dilation factor √(1 − r_s/r) shrinks to zero at the horizon, so from far away the near clock slows toward a freeze and each wave of light it emits is stretched to longer and longer wavelengths."
+---
+
+## A place, not a vacuum cleaner
+
+Popular images give the black hole a personality: a cosmic drain that reaches out across the galaxy and sucks in everything nearby. That picture is wrong in the way that matters most. A black hole is not a special kind of *force*. It is a special kind of *place* — a region where gravity has curved spacetime so steeply that not even light, the fastest thing there is, moves quickly enough to climb back out.
+
+From a safe distance, a black hole pulls exactly like any ordinary object of the same mass. Replace the Sun with a black hole weighing precisely one solar mass and, out here at Earth's distance, the gravitational field is *identical* to the one we have now. The planets would keep their orbits, unbothered. What makes a black hole extraordinary is not extra pull at a distance — it is what happens when you get very, very close.
+
+## Escape velocity reaching light speed
+
+Throw a ball upward and it comes back. Throw it faster and it goes higher. Throw it fast enough — Earth's **escape velocity** of about 11.2 km/s — and it never returns. Escape velocity is the speed at which an object's kinetic energy just balances the gravitational potential well it sits in:
+
+$$v_{\text{esc}} = \sqrt{\frac{2GM}{r}}$$
+
+Notice what happens as you shrink $r$: pack the same mass $M$ into a smaller and smaller radius and the escape velocity climbs. Keep going, and you eventually reach the speed at which escape velocity equals the speed of light:
+
+$$c = \sqrt{\frac{2GM}{r_s}} \quad\Longrightarrow\quad r_s = \frac{2GM}{c^2}$$
+
+That radius $r_s$ is the **Schwarzschild radius**. At $r_s$, escape would require moving at $c$; inside it, no speed is enough, and since nothing outruns light, nothing gets out. This heuristic gives the exactly correct answer that Karl Schwarzschild derived in 1916 from Einstein's field equations — while serving on the Eastern Front, months before his death.
+
+The numbers are startling because $c^2$ in the denominator is enormous. Compress the entire **Sun** to $r_s$ and you get a sphere just **~3 km** across. Compress the whole **Earth** and the horizon is about **9 mm** — smaller than a marble. Everyday objects have Schwarzschild radii unimaginably tinier than an atomic nucleus. Gravity only wins this contest for objects that nature can actually crush this far: the collapsed cores of dead massive stars.
+
+## Watching light bend and get captured
+
+The Schwarzschild radius marks the **event horizon** — the one-way surface. But light does something interesting well before it reaches the horizon: it bends. Spacetime near a massive body is curved, and light, always taking the straightest available path, follows that curvature. Pass far from a black hole and a light ray deflects only slightly. Pass closer and it swings hard. At a special radius of $1.5\,r_s$ — the **photon sphere** — light can orbit the hole in a circle. Closer still, and it spirals in and is captured.
+
+<BlackHoleAnimation />
+
+Drag the **impact parameter** slider — how close the incoming ray passes — and watch the single bright ray transition through the regimes: a gentle deflection when it passes wide, a dramatic whip-around near the photon sphere (the ray turns green), and outright capture (pink) once it crosses the horizon. Push the **mass** slider and the whole structure grows: the horizon radius scales linearly with mass, and the readout shows the real Schwarzschild radius in kilometres. Then hit **Sweep** to watch the impact parameter fall smoothly from far to captured. One honest caveat: this widget is a *schematic* — it models the pull as a smooth force rather than integrating the true null geodesics of the Schwarzschild metric, so the qualitative regimes are right but the exact bending angles are not.
+
+## Curved spacetime: the modern picture
+
+Newton described gravity as a force acting instantly across space. Einstein's **general relativity** (1915) replaced that with geometry: mass and energy tell spacetime how to curve, and curved spacetime tells matter how to move. A planet orbits not because a rope of force pulls it, but because it is following the straightest possible path — a *geodesic* — through spacetime that the Sun has bent.
+
+This is the same framework behind the [special-relativistic time dilation](/articles/time-dilation) of moving clocks, now extended to gravity. There, a clock ran slow because it was *moving*. Here, a clock runs slow because it sits *deep in curved spacetime*. A black hole is simply the most extreme curvature that exists — steep enough that the geodesics of light itself all bend inward past the horizon. There is no "surface" and no material wall at $r_s$; it is a boundary in the geometry, the last place from which a light ray can still, just barely, escape to infinity.
+
+## Time slows and light reddens near the horizon
+
+General relativity predicts that a clock deeper in a gravitational well ticks slower than one higher up. For a non-rotating black hole, a clock hovering at radius $r$ runs slow, as seen by a distant observer, by the factor
+
+$$\frac{d\tau}{dt} = \sqrt{1 - \frac{r_s}{r}}$$
+
+Far away ($r \gg r_s$) this is essentially 1 — clocks tick normally. But as $r \to r_s$, the factor falls to **zero**. A clock lowered toward the horizon appears, from far off, to tick ever more slowly and finally to *freeze* at the horizon itself. It never quite gets there in the distant observer's time; it seems to hover, fading, forever.
+
+The same factor stretches light. A photon climbing out of the well loses energy, and because a photon's energy sets its frequency, it emerges at a lower frequency — a longer wavelength. Light from near the horizon is **gravitationally redshifted**, sliding from blue toward red and, right at $r_s$, toward infinite wavelength and invisibility.
+
+<GravitationalTimeDilationAnimation />
+
+Two clocks tick side by side: one far away (blue) as a fixed reference, one that *you* lower toward the horizon with the slider (r/rₛ). Watch their hands and the two rate bars diverge, with the $\sqrt{1 - r_s/r}$ factor shown live. As you push the near clock toward $r = r_s$, its ticks crawl toward a standstill and the wave of light it sends upward stretches and reddens as it climbs. This is precisely the effect that makes [GPS satellite clocks](/articles/time-dilation) run fast by ~45 μs/day — higher in Earth's much gentler well — carried all the way to its limit.
+
+## Tides and spaghettification
+
+If falling into a black hole slowed your clock and reddened your light, it would also *stretch* you. Gravity is stronger closer to the hole, so your feet (nearer) are pulled harder than your head (farther). The difference — the **tidal force** — is what matters, and it scales brutally with distance:
+
+$$F_{\text{tidal}} \propto \frac{GM \, \ell}{r^3}$$
+
+for a body of length $\ell$ at distance $r$. That $1/r^3$ is far steeper than gravity's own $1/r^2$: halve your distance and the stretching grows eightfold. Near a small (stellar-mass) black hole the tides become lethal *outside* the horizon — you would be drawn into a thin stream, a fate physicists cheerfully call **spaghettification**.
+
+Counterintuitively, tides are *gentler* at the horizon of a **supermassive** black hole. Because $r_s \propto M$ but the tidal force at the horizon scales as $M/r_s^3 \propto 1/M^2$, a million-solar-mass hole has a horizon so large that its tidal gradient there is mild — you could cross it without being torn apart, at least for a while. The horizon is a local feature of the geometry, not a place where anything dramatic must happen to you on the spot.
+
+## How we actually find them
+
+A black hole emits no light of its own, so we detect it by its effects:
+
+- **Orbiting stars.** Watch stars whip around an invisible point and Kepler's laws weigh it. At the centre of our galaxy, the star S2 orbits an unseen object of ~4 million solar masses on a 16-year ellipse — Sagittarius A*.
+- **Accretion-disk X-rays.** Gas spiralling in forms a disk, and friction heats its inner edge to millions of degrees, blazing in X-rays. The first strong stellar-mass candidate, Cygnus X-1, was found this way in the 1970s.
+- **Gravitational waves.** When two black holes merge they shake spacetime itself. In 2015, LIGO caught the ripple from a merger 1.3 billion light-years away — the first direct detection of gravitational waves, and of black holes colliding.
+- **The Event Horizon Telescope.** In 2019 a planet-wide array imaged the shadow of the supermassive black hole in galaxy M87 — a dark disk ringed by glowing, lensed light, the horizon's silhouette against its own accretion glow. In 2022 it did the same for Sagittarius A*.
+
+## The misconception, corrected
+
+Here is the idea to retire for good: *if the Sun became a black hole, Earth would be sucked in.* It would not.
+
+Gravity outside any spherically symmetric mass depends only on the total mass enclosed and your distance from the centre — a result Newton proved (the shell theorem) and general relativity confirms (Birkhoff's theorem). Swap the Sun for a one-solar-mass black hole and the field at Earth's orbit, 150 million km out, is *exactly what it is now*. The same mass, the same distance, the same orbit. Earth would keep circling, indifferent — though it would, of course, go dark and cold, since the black hole emits no sunlight.
+
+The only thing a black hole adds is a new possibility *very close in*. The Sun's actual surface is ~700,000 km from its centre; its Schwarzschild radius is 3 km. Everything between 3 km and 700,000 km — a region normally *inside* the Sun and therefore inaccessible — becomes, for the black hole, open space where gravity keeps intensifying. Only if you ventured into that tiny inner zone would anything genuinely new happen. Out where the planets live, a black hole is just an ordinary mass wearing a very small, very dark coat.
+
+Black holes are one of the endpoints written into a star's biography. Which stars end this way, and why the most massive ones collapse rather than settling into a white dwarf or neutron star, is the story of the [life cycle of stars](/articles/life-cycle-of-stars).
+
+<KeyTakeaways>
+- A black hole is a *place*, not a vacuum cleaner: from a distance it pulls exactly like any mass of the same weight — swap the Sun for a one-solar-mass black hole and Earth's orbit does not change at all.
+- The event horizon sits at the Schwarzschild radius $r_s = 2GM/c^2$, which is tiny — ~3 km for the Sun, ~9 mm for the Earth — because $c^2$ in the denominator is enormous.
+- Curved spacetime is the modern picture: light bends near the hole, orbits at the photon sphere ($1.5\,r_s$), and is captured inside the horizon — the extreme case of the same geometry behind ordinary [time dilation](/articles/time-dilation).
+- Deep in the well, clocks slow by $\sqrt{1 - r_s/r}$ (freezing at the horizon as seen from afar) and escaping light is redshifted; tidal forces scale as $1/r^3$, stretching infalling objects into "spaghetti".
+- We find black holes indirectly — orbiting stars, X-ray accretion disks, gravitational waves from mergers, and the Event Horizon Telescope's shadow images — because they shine no light of their own.
+</KeyTakeaways>

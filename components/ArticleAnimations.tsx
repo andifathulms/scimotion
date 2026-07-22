@@ -660,3 +660,13 @@ export const MaxwellBoltzmannAnimation = dynamic(
   () => import('@/components/animations/MaxwellBoltzmannAnimation').then(m => ({ default: m.MaxwellBoltzmannAnimation })),
   { ssr: false }
 )
+
+export const BlackHoleAnimation = dynamic(
+  () => import('@/components/animations/BlackHoleAnimation').then(m => ({ default: m.BlackHoleAnimation })),
+  { ssr: false }
+)
+
+export const GravitationalTimeDilationAnimation = dynamic(
+  () => import('@/components/animations/GravitationalTimeDilationAnimation').then(m => ({ default: m.GravitationalTimeDilationAnimation })),
+  { ssr: false }
+)

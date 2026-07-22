@@ -1909,6 +1909,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'black-holes': c => {
+    // Event horizon (black disk, gold rim) with a dashed photon sphere. Light enters
+    // from the left: the outer pair deflect gently, the inner pair bend hard and are
+    // captured. Static integer polylines — byte-identical on server and client.
+    const rays = [
+      '6,18 70,19 112,21 148,25 190,30 240,34 294,37',
+      '6,102 70,101 112,99 148,95 190,90 240,86 294,83',
+      '6,34 78,36 116,40 138,47 150,56 150,60',
+      '6,86 78,84 116,80 138,73 150,64 150,60',
+    ]
+    return (
+      <g>
+        <circle cx={150} cy={60} r={30} fill="none" stroke={c} strokeWidth={0.75} strokeDasharray="3 3" opacity={0.6} />
+        <polyline points={rays[0]} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        <polyline points={rays[1]} fill="none" stroke={MUTE} strokeWidth={1.25} />
+        <polyline points={rays[2]} fill="none" stroke={GOLD} strokeWidth={1.75} />
+        <polyline points={rays[3]} fill="none" stroke={GOLD} strokeWidth={1.75} />
+        <circle cx={150} cy={60} r={20} fill="#000000" stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={150} cy={60} r={30} fill="none" stroke={c} strokeWidth={0.5} opacity={0.35} />
+        <text x={150} y={108} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">event horizon</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

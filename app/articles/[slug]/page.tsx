@@ -151,6 +151,8 @@ import {
   ETCAnimation,
   KineticTheoryAnimation,
   MaxwellBoltzmannAnimation,
+  BlackHoleAnimation,
+  GravitationalTimeDilationAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -303,6 +305,8 @@ const components = {
   ETCAnimation,
   KineticTheoryAnimation,
   MaxwellBoltzmannAnimation,
+  BlackHoleAnimation,
+  GravitationalTimeDilationAnimation,
   KeyTakeaways,
 }
 
