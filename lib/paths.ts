@@ -73,7 +73,7 @@ export const learningPaths: LearningPath[] = [
     title: 'The Clinical Body',
     description:
       'Medicine as measurement and control — reading the heart’s electrical trace, holding glucose in range, tracking a drug through the body, seeing inside it, and losing ground to resistant bacteria.',
-    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'glucose-insulin-regulation', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
+    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'glucose-insulin-regulation', 'the-kidney', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
   },
   {
     slug: 'across-the-universe',

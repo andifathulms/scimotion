@@ -780,3 +780,13 @@ export const IsomerAnimation = dynamic(
   () => import('@/components/animations/IsomerAnimation').then(m => ({ default: m.IsomerAnimation })),
   { ssr: false }
 )
+
+export const NephronAnimation = dynamic(
+  () => import('@/components/animations/NephronAnimation').then(m => ({ default: m.NephronAnimation })),
+  { ssr: false }
+)
+
+export const ClearanceAnimation = dynamic(
+  () => import('@/components/animations/ClearanceAnimation').then(m => ({ default: m.ClearanceAnimation })),
+  { ssr: false }
+)

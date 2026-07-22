@@ -2207,6 +2207,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'the-kidney': c => {
+    // A big filtered volume funnelling down to a tiny urine output, with water
+    // reabsorbed back up to the blood along the way. Integer literals only.
+    const waterDrops = [[70, 50], [92, 58], [70, 72], [112, 52], [134, 60], [112, 70], [156, 59], [178, 62]]
+    const reabArrows = [72, 106, 140, 174]
+    return (
+      <g>
+        <line x1={0} y1={18} x2={300} y2={18} stroke={FAINT} strokeWidth={1} strokeDasharray="4 4" />
+        <text x={296} y={14} textAnchor="end" fontSize={7} fill={MUTE} fontFamily="monospace">to blood</text>
+        <line x1={4} y1={60} x2={16} y2={60} stroke={c} strokeWidth={3} />
+        <polygon points="16,56 24,60 16,64" fill={c} />
+        <circle cx={36} cy={60} r={17} fill={`${c}1f`} stroke={c} strokeWidth={1.5} />
+        <circle cx={31} cy={55} r={3} fill={GOLD} />
+        <circle cx={43} cy={58} r={3} fill={GOLD} />
+        <circle cx={36} cy={67} r={3} fill={GOLD} />
+        <polygon points="53,34 248,55 248,65 53,86" fill={`${c}26`} stroke={c} strokeWidth={1} />
+        {waterDrops.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={2} fill={c} opacity={0.7} />)}
+        {reabArrows.map((x, i) => (
+          <g key={i}>
+            <line x1={x} y1={46} x2={x} y2={26} stroke={GOLD} strokeWidth={1} />
+            <polygon points={`${x - 3},30 ${x},24 ${x + 3},30`} fill={GOLD} />
+          </g>
+        ))}
+        <circle cx={258} cy={60} r={4} fill={GOLD} />
+        <text x={64} y={30} fontSize={8} fill={MUTE} fontFamily="monospace">180 L</text>
+        <text x={240} y={80} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">1.5 L</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
