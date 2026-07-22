@@ -173,6 +173,8 @@ import {
   GeneticCodeAnimation,
   ParallaxAnimation,
   DistanceLadderAnimation,
+  FunctionalGroupAnimation,
+  IsomerAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -347,6 +349,8 @@ const components = {
   GeneticCodeAnimation,
   ParallaxAnimation,
   DistanceLadderAnimation,
+  FunctionalGroupAnimation,
+  IsomerAnimation,
   KeyTakeaways,
 }
 

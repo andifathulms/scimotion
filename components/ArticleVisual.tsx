@@ -2188,6 +2188,25 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'organic-chemistry': c => {
+    // A benzene ring (carbon skeleton) with a highlighted hydroxyl handle — phenol.
+    // The functional group in gold is where the chemistry lives.
+    const ring = '153,60 134,93 96,93 77,60 96,27 134,27'
+    const verts: Array<[number, number]> = [
+      [153, 60], [134, 93], [96, 93], [77, 60], [96, 27], [134, 27],
+    ]
+    return (
+      <g>
+        <polygon points={ring} fill={`${c}14`} stroke={c} strokeWidth={2} />
+        <circle cx={115} cy={60} r={22} fill="none" stroke={c} strokeWidth={1.25} strokeDasharray="3 3" opacity={0.7} />
+        {verts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={3} fill={c} />)}
+        <line x1={153} y1={60} x2={186} y2={60} stroke={GOLD} strokeWidth={2} />
+        <circle cx={196} cy={60} r={10} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={196} y={63} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">OH</text>
+        <text x={222} y={64} fontSize={8} fill={MUTE} fontFamily="monospace">–ol</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

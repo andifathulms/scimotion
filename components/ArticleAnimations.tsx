@@ -770,3 +770,13 @@ export const DistanceLadderAnimation = dynamic(
   () => import('@/components/animations/DistanceLadderAnimation').then(m => ({ default: m.DistanceLadderAnimation })),
   { ssr: false }
 )
+
+export const FunctionalGroupAnimation = dynamic(
+  () => import('@/components/animations/FunctionalGroupAnimation').then(m => ({ default: m.FunctionalGroupAnimation })),
+  { ssr: false }
+)
+
+export const IsomerAnimation = dynamic(
+  () => import('@/components/animations/IsomerAnimation').then(m => ({ default: m.IsomerAnimation })),
+  { ssr: false }
+)
