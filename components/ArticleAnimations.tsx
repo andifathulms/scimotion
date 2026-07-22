@@ -760,3 +760,13 @@ export const GeneticCodeAnimation = dynamic(
   () => import('@/components/animations/GeneticCodeAnimation').then(m => ({ default: m.GeneticCodeAnimation })),
   { ssr: false }
 )
+
+export const ParallaxAnimation = dynamic(
+  () => import('@/components/animations/ParallaxAnimation').then(m => ({ default: m.ParallaxAnimation })),
+  { ssr: false }
+)
+
+export const DistanceLadderAnimation = dynamic(
+  () => import('@/components/animations/DistanceLadderAnimation').then(m => ({ default: m.DistanceLadderAnimation })),
+  { ssr: false }
+)

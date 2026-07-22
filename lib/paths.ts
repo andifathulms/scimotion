@@ -82,7 +82,7 @@ export const learningPaths: LearningPath[] = [
       'Outward through the cosmos — from the life and death of a single star to the elements it forges, the worlds around others, the extremes of gravity, and the expansion of everything.',
     // Scale outward: one star, what stars make, other stars' planets, the most
     // extreme endpoint, and finally the whole expanding universe.
-    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'exoplanets', 'black-holes', 'galaxies-and-dark-matter', 'expanding-universe'],
+    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'exoplanets', 'black-holes', 'galaxies-and-dark-matter', 'cosmic-distance-ladder', 'expanding-universe'],
   },
 ]
 

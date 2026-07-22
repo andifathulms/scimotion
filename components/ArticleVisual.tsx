@@ -2156,6 +2156,38 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'cosmic-distance-ladder': c => {
+    // A rising staircase of four overlapping distance ranges on a log axis:
+    // parallax (near) up through redshift. Each bar overlaps its neighbour
+    // where one method calibrates the next.
+    const rungs = [
+      { x: 20, y: 84, w: 100, fill: c, op: 1 },
+      { x: 80, y: 64, w: 110, fill: GOLD, op: 0.9 },
+      { x: 150, y: 44, w: 100, fill: c, op: 0.7 },
+      { x: 210, y: 24, w: 78, fill: GOLD, op: 0.6 },
+    ]
+    const links = [
+      { x: 100, y1: 84, y2: 73 },
+      { x: 170, y1: 64, y2: 53 },
+      { x: 230, y1: 44, y2: 33 },
+    ]
+    return (
+      <g>
+        <line x1={14} y1={104} x2={292} y2={104} stroke={MUTE} strokeWidth={0.75} />
+        {[20, 92, 164, 236].map(x => (
+          <line key={x} x1={x} y1={101} x2={x} y2={107} stroke={FAINT} strokeWidth={1} />
+        ))}
+        {links.map(l => (
+          <line key={l.x} x1={l.x} y1={l.y1} x2={l.x} y2={l.y2} stroke={GOLD} strokeWidth={0.75} strokeDasharray="2 2" opacity={0.7} />
+        ))}
+        {rungs.map((r, i) => (
+          <rect key={i} x={r.x} y={r.y} width={r.w} height={9} rx={3} fill={r.fill} opacity={r.op} />
+        ))}
+        <circle cx={286} cy={28} r={3} fill={GOLD} />
+        <text x={292} y={116} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">log d →</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
