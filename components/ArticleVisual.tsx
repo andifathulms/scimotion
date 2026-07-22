@@ -2020,6 +2020,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'blood-pressure': c => {
+    // Arterial pressure waveform oscillating between marked systolic and
+    // diastolic lines. All coordinates are integer literals.
+    const wave = [
+      [6, 80], [14, 30], [28, 50], [36, 56], [42, 50], [66, 72], [94, 80],
+      [102, 30], [116, 50], [124, 56], [130, 50], [154, 72], [182, 80],
+      [190, 30], [204, 50], [212, 56], [218, 50], [242, 72], [270, 80],
+      [278, 30], [292, 48],
+    ].map(([x, y]) => `${x},${y}`).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={30} x2={300} y2={30} stroke={FAINT} strokeWidth={1} strokeDasharray="4 4" />
+        <line x1={0} y1={82} x2={300} y2={82} stroke={FAINT} strokeWidth={1} strokeDasharray="4 4" />
+        <line x1={0} y1={63} x2={300} y2={63} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <polyline points={wave} fill="none" stroke={c} strokeWidth={2} strokeLinejoin="round" />
+        <circle cx={102} cy={30} r={3.5} fill={GOLD} />
+        <circle cx={94} cy={80} r={2.5} fill={MUTE} />
+        <text x={4} y={26} fontSize={7} fill={MUTE} fontFamily="monospace">systolic</text>
+        <text x={4} y={92} fontSize={7} fill={MUTE} fontFamily="monospace">diastolic</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

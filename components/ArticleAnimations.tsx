@@ -710,3 +710,13 @@ export const ElementOriginAnimation = dynamic(
   () => import('@/components/animations/ElementOriginAnimation').then(m => ({ default: m.ElementOriginAnimation })),
   { ssr: false }
 )
+
+export const BloodPressureAnimation = dynamic(
+  () => import('@/components/animations/BloodPressureAnimation').then(m => ({ default: m.BloodPressureAnimation })),
+  { ssr: false }
+)
+
+export const VascularResistanceAnimation = dynamic(
+  () => import('@/components/animations/VascularResistanceAnimation').then(m => ({ default: m.VascularResistanceAnimation })),
+  { ssr: false }
+)

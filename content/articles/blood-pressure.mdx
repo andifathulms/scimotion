@@ -1,0 +1,131 @@
+---
+title: "Blood Pressure and Circulation"
+subtitle: "A reading like 120/80 is not one number and a spare — it is the peak and the trough of a pressure wave, and the gap between them tells its own story."
+topic: "Medicine"
+slug: "blood-pressure"
+date: "2026-07-13"
+readTime: 9
+featured: false
+description: "Why a blood-pressure reading has two numbers, how elastic arteries smooth a pulsing heart into steady flow, and why a fourth-power law makes tiny vessels the body's master control valves."
+tags: ["physiology", "circulation", "hemodynamics", "feedback"]
+quiz:
+  - q: "Poiseuille's law makes flow through a vessel scale with the fourth power of its radius. Why does that make the small arterioles, rather than the large arteries, the body's main pressure-control valves?"
+    options:
+      - "Arterioles carry the most blood, so changing them affects flow the most"
+      - "A tiny change in radius changes resistance enormously — halving the radius raises resistance sixteenfold — so a small muscular constriction there moves pressure a great deal"
+      - "Large arteries are too stiff to change diameter, while arterioles are the only vessels that can dilate"
+      - "Arterioles are closest to the capillaries, so pressure is set there by definition"
+    answer: 1
+    explanation: "Because resistance goes as 1/r^4, a small radius change at the arterioles produces an outsized change in resistance and therefore in pressure, which is exactly what makes them effective control valves."
+  - q: "A person's systolic pressure is high but their diastolic is normal, giving a wide pulse pressure. Two clinicians look at the same numbers. Which reading reflects what the pressure wave is actually doing?"
+    options:
+      - "Only the systolic number matters, so the diastolic value can be ignored"
+      - "The wide gap between the two numbers is itself informative — it points to stiffer, less compliant arteries, and neither number alone captures that"
+      - "The numbers must be an error, since systolic and diastolic always move together"
+      - "The mean pressure is simply the average of the two, so the gap carries no extra information"
+    answer: 1
+    explanation: "Systolic and diastolic are the crest and trough of one wave, and their difference — the pulse pressure — reflects arterial stiffness, so the gap carries information neither endpoint does alone."
+  - q: "The baroreceptor reflex is described as a negative-feedback loop. If arterial pressure suddenly drops when you stand up, what does the reflex do?"
+    options:
+      - "It lowers heart rate and dilates vessels to save energy"
+      - "It senses the fall, then raises heart rate and constricts vessels to push pressure back toward its set point"
+      - "It waits for pressure to recover on its own, acting only if the drop persists for minutes"
+      - "It increases pressure without limit until the sensors are switched off manually"
+    answer: 1
+    explanation: "Like any negative-feedback controller, the baroreflex acts opposite to the disturbance: a sensed drop triggers faster heart rate and vasoconstriction to restore the set point."
+---
+
+## Two numbers, and what they actually mean
+
+A blood-pressure reading is two numbers stacked like a fraction — 120 over 80, say — and almost everyone misreads what they are. They are not a value and a margin of error. They are the **peak and the trough of a pressure wave** that your heart launches into your arteries roughly once a second, all day, for your whole life.
+
+The top number, **systolic** pressure, is the crest: the highest the arterial pressure climbs each time the heart squeezes. The bottom number, **diastolic** pressure, is the trough: the lowest it falls between beats, while the heart is refilling. The gap between them — the **pulse pressure** — is not noise. It tells you as much about your arteries as either number alone, and by the end of this article you will be able to read it.
+
+*This article is about the physiology of the circulation. It is not clinical or diagnostic guidance, and nothing here should be used to interpret a reading or make decisions about managing blood pressure.*
+
+## A pump that pulses
+
+The heart is not a steady pump. It is a **pulsatile** one — it ejects blood in discrete beats, not a continuous stream. Each beat has two phases, and the two numbers come directly from them.
+
+During **systole**, the left ventricle contracts and drives a bolus of blood into the aorta. Pressure in the arteries rises fast to its peak: systolic pressure. This is the same squeeze whose electrical trigger is traced in [how the heart's electrical signal works](/articles/cardiac-electrical-signal) — the QRS spike on an ECG is the electrical command that produces the systolic upstroke you feel as a pulse.
+
+During **diastole**, the ventricle relaxes and refills. No new blood is being pushed out, so arterial pressure falls, coasting downward until the next beat catches it. The lowest point it reaches is diastolic pressure.
+
+So the two numbers are simply the top and bottom of one oscillation, repeated with every heartbeat. A reading of 120/80 mmHg means the wave crests at 120 millimetres of mercury and bottoms out at 80.
+
+## The waveform, and why arteries are elastic
+
+If the heart pulses but blood needs to reach your tissues *steadily*, something has to smooth the pulse out. That something is the **elasticity of the large arteries**.
+
+<BloodPressureAnimation />
+
+Press play and watch a single arterial pressure wave scroll past, oscillating between the marked diastolic and systolic lines with the mean pressure drawn between them. Now drag the **arterial compliance** slider.
+
+What to try:
+
+- **Start compliant (a young, elastic artery).** The wave is a modest pulse — a rounded crest around 120, a gentle runoff to 80. The systolic-to-diastolic gap is small.
+- **Drag toward stiff.** At the *same* cardiac output, the whole wave stretches vertically: the crest climbs higher and the trough drops lower, opening up a much wider pulse pressure. The mean barely moves, but the swing around it grows.
+
+This is the **Windkessel effect**, named for the air-filled pressure chamber old fire engines used to turn a pulsing pump into a smooth jet. A compliant aorta *balloons* during systole, storing part of each ejected bolus in the stretch of its own wall. During diastole it recoils, squeezing that stored blood onward and holding pressure up between beats. The elastic wall acts as a buffer, converting the heart's stop-start output into something much closer to continuous flow at the capillaries — and keeping the pulse pressure small. A stiff artery cannot store and release like this, so more of the beat shows up as raw swing: higher systolic, lower diastolic, a wider gap. The gap *is* the stiffness, made visible.
+
+## The math of flow and pressure
+
+To see where pressure is actually set, follow the blood downstream. Flow through a cylindrical vessel is governed by **Poiseuille's law**:
+
+$$Q = \frac{\pi\,\Delta P\, r^4}{8\,\eta\, L}$$
+
+where $Q$ is the volumetric flow, $\Delta P$ the pressure difference driving it, $r$ the vessel radius, $\eta$ the blood's viscosity, and $L$ the vessel length. This is the same laminar, viscosity-dominated flow explored in [turbulence and the Reynolds number](/articles/fluid-dynamics) — in vessels this small and slow, flow is orderly and the equation holds well.
+
+Every term matters, but one dominates all the others: the radius enters as $r^4$. Not $r$, not $r^2$ — the **fourth power**. Double the radius and flow leaps by a factor of sixteen for the same driving pressure. Halve it and flow collapses to one-sixteenth. Rearranged as a resistance, $R = 8\eta L / (\pi r^4)$, so resistance scales as $1/r^4$: a small narrowing spikes resistance dramatically.
+
+That extreme sensitivity is why the body puts its pressure-control valves not in the big arteries but in the tiny **arterioles**. Wrapped in rings of smooth muscle, an arteriole can constrict or dilate its radius by a modest fraction — and because of the fourth power, that modest change swings its resistance enormously. The arterioles are, collectively, the dial the body turns to set pressure.
+
+Zoom out to the whole circulation and the same idea becomes a single clean relation:
+
+$$\mathrm{MAP} = \mathrm{CO} \times \mathrm{SVR}$$
+
+**Mean arterial pressure** equals **cardiac output** (how much blood the heart pumps per minute) times **systemic vascular resistance** (the summed resistance of all those arterioles). It is the circulatory version of "pressure = flow × resistance". To hold pressure steady, the body trades these off: if cardiac output falls, tightening the arterioles raises SVR and props MAP back up.
+
+And the mean itself is not the plain average of your two numbers. Because the wave spends more of each cycle down near diastole than up at the peak, the mean is weighted toward the bottom:
+
+$$\mathrm{MAP} \approx \mathrm{DBP} + \tfrac{1}{3}\,(\mathrm{SBP} - \mathrm{DBP})$$
+
+For 120/80 that gives about 93 mmHg — noticeably below the arithmetic mean of 100, precisely because diastole lasts longer than systole.
+
+## The fourth power, up close
+
+The $r^4$ law is easy to write and hard to feel. The widget below makes it visceral.
+
+<VascularResistanceAnimation />
+
+You control the radius of a single vessel. As you change it, the flow and the resistance update by the fourth-power law in real time, with the current values shown against a baseline of 100%.
+
+What to try:
+
+- **Halve the radius (drag to 0.5).** Watch the flow reading crash to about **6%** — one-sixteenth. A vessel half as wide carries a *sixteenth* the flow at the same driving pressure. Nothing else changed; only the radius.
+- **Nudge it the other way, to 1.25 or 1.5.** Flow more than doubles, then more than quadruples. A little dilation opens the floodgates.
+- **Read the resistance number as you go.** It moves inversely and just as violently — a small constriction sends resistance soaring, which at a fixed flow is exactly the pressure spike an arteriole produces when it clamps down.
+
+This is why vasoconstriction and vasodilation are such powerful levers. A blush, a cold hand, the flush of exercise, the faint on standing too fast — all of them are the fourth power doing its work in the arterioles.
+
+## Holding the line: the baroreflex
+
+Pressure has to be held steady moment to moment despite constant disturbance — standing up, lying down, a fright, a sprint. The body does this with a **negative-feedback loop** called the **baroreceptor reflex**, and it has exactly the structure of the control loop that regulates blood sugar in [glucose and insulin: a feedback loop](/articles/glucose-insulin-regulation).
+
+The **sensor** is a patch of stretch-sensitive nerve endings — baroreceptors — in the walls of the carotid arteries and the aortic arch. They fire faster when the vessel is stretched harder, so their firing rate is a direct readout of pressure. The **controller** is the brainstem, which compares that signal against a set point. The **effectors** are the heart and the arterioles.
+
+When you stand and pressure momentarily drops, the baroreceptors fire less, the brainstem detects the fall, and it responds *opposite* to the disturbance: it speeds the heart (raising cardiac output) and constricts the arterioles (raising SVR), and by $\mathrm{MAP} = \mathrm{CO}\times\mathrm{SVR}$, pressure climbs back toward the set point. Pressure too high, and the reflex runs the other way. Like any negative-feedback controller — a thermostat, the insulin loop — it acts to erase the error that drives it.
+
+This loop is the source of two common misconceptions, both worth correcting.
+
+**Heart rate is not the same as blood pressure.** Heart rate is how *often* the heart beats; blood pressure is the *force* the blood exerts on the arterial walls. The baroreflex routinely moves them in **opposite** directions — a drop in pressure triggers a *rise* in heart rate to compensate. A fast pulse does not mean high pressure, and a calm one does not mean low; they are different quantities linked by a controller, not two names for one thing.
+
+**The systolic number is not the only one that matters.** Because systole is the dramatic peak, it gets the attention — but diastolic pressure is what perfuses the heart's own muscle between beats, and the *gap* between the two, the pulse pressure, reports on arterial stiffness in a way neither endpoint does alone. A reading is a wave. Reading only its crest throws away half the wave.
+
+<KeyTakeaways>
+- A blood-pressure reading is the **crest and trough of one pressure wave**: systolic is the peak as the heart ejects, diastolic the low as it refills, and their gap (pulse pressure) carries its own information.
+- Elastic arteries perform the **Windkessel effect** — ballooning in systole and recoiling in diastole to smooth the heart's pulsing output into steadier flow; stiffer arteries can't buffer, so the pulse pressure widens at the same cardiac output.
+- Poiseuille's law makes flow scale as $r^4$, so a tiny change in vessel radius swings resistance enormously — which is why the muscular **arterioles** are the body's main pressure-control valves, and why $\mathrm{MAP} = \mathrm{CO}\times\mathrm{SVR}$.
+- Pressure is held moment to moment by the **baroreflex**, a negative-feedback loop with the same sensor–controller–effector structure as the glucose–insulin loop.
+- Two myths, corrected: **heart rate is not blood pressure** (the reflex often moves them oppositely), and the **systolic number is not the only one that matters** (diastole and the pulse pressure both count).
+</KeyTakeaways>
