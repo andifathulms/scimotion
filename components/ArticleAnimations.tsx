@@ -730,3 +730,13 @@ export const GravitationalLensingAnimation = dynamic(
   () => import('@/components/animations/GravitationalLensingAnimation').then(m => ({ default: m.GravitationalLensingAnimation })),
   { ssr: false }
 )
+
+export const FreeEnergyAnimation = dynamic(
+  () => import('@/components/animations/FreeEnergyAnimation').then(m => ({ default: m.FreeEnergyAnimation })),
+  { ssr: false }
+)
+
+export const ReactionExtentAnimation = dynamic(
+  () => import('@/components/animations/ReactionExtentAnimation').then(m => ({ default: m.ReactionExtentAnimation })),
+  { ssr: false }
+)

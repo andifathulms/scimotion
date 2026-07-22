@@ -1,0 +1,170 @@
+---
+title: "Free Energy: Why Reactions Happen"
+subtitle: "The single quantity that decides whether a reaction can go — and why 'can' and 'will' are different questions."
+topic: "Chemistry"
+slug: "gibbs-free-energy"
+date: "2026-07-06"
+readTime: 10
+featured: false
+description: "Diamond spontaneously turns into graphite and yet your ring survives — the gap between those two facts is the whole story of Gibbs free energy, the referee between energy and disorder."
+tags: ["thermodynamics", "free-energy", "spontaneity", "equilibrium"]
+quiz:
+  - q: "Diamond is thermodynamically unstable relative to graphite at room temperature, so ΔG for diamond → graphite is negative. Why does a diamond ring not visibly crumble?"
+    options:
+      - "ΔG is negative but very small, so only a little graphite ever forms before equilibrium is reached"
+      - "Spontaneity is a thermodynamic statement about direction, not rate; the conversion has an enormous activation barrier, so it is astronomically slow"
+      - "The pressure of the surrounding air keeps the carbon atoms locked in the diamond structure"
+      - "ΔG is actually positive at room temperature, so the reaction does not occur at all"
+    answer: 1
+    explanation: "A negative ΔG says only that the reaction can proceed and where it ends up; the rate is governed entirely by the activation barrier, which for diamond is so high the reaction is imperceptibly slow."
+  - q: "Ammonium nitrate dissolving in water is strongly endothermic — the beaker gets cold — yet it happens spontaneously. What must be true of ΔG?"
+    options:
+      - "ΔH is negative after all, because dissolving always releases energy"
+      - "ΔG is positive, so the process is actually non-spontaneous and driven by stirring"
+      - "ΔG is negative because the large positive ΔS makes the −TΔS term outweigh the positive ΔH"
+      - "ΔG equals ΔH for dissolving, so an endothermic process can never be spontaneous"
+    answer: 2
+    explanation: "Exothermicity is not the criterion for spontaneity; here the entropy increase of dissolving is large enough that −TΔS beats the positive ΔH and drives ΔG below zero."
+  - q: "For an endothermic reaction with a positive entropy change (ΔH > 0, ΔS > 0), what does raising the temperature do?"
+    options:
+      - "Nothing — the signs of ΔH and ΔS fix spontaneity regardless of temperature"
+      - "It makes the reaction less spontaneous, because heating always favours the reactants"
+      - "It can flip the reaction from non-spontaneous to spontaneous once T exceeds ΔH/ΔS"
+      - "It changes ΔH and ΔS until they both become negative"
+    answer: 2
+    explanation: "With both terms positive, ΔG = ΔH − TΔS starts positive and becomes negative once T passes the crossover T = ΔH/ΔS, so heating switches the reaction on."
+---
+
+## A diamond is not forever
+
+Put a diamond on the bench and wait. At the temperature and pressure of that room, the carbon atoms locked in its rigid lattice are in the wrong arrangement — graphite, the grey stuff in a pencil, is the more stable form. The conversion
+
+$$\mathrm{C_{(diamond)}} \longrightarrow \mathrm{C_{(graphite)}}$$
+
+releases energy. Nothing about the laws of thermodynamics is protecting your ring. Diamond is, in the strict technical sense, *spontaneously* turning into pencil lead right now.
+
+You are not watching it happen because "spontaneous" in chemistry is one of the most badly named words in all of science. It says nothing — nothing at all — about speed. It is a statement about *direction*: which way a reaction can run on its own, without being pushed. Whether a reaction **can** go and whether it **will** go in any human timescale are two completely separate questions, answered by two completely separate parts of chemistry. The diamond can. It simply won't, for something like the age of the universe, because the atoms have no cheap route to rearrange.
+
+This article is about the first question — can it go? — and the quantity that answers it. That quantity is the **Gibbs free energy**, and learning to read its sign is learning to predict the direction of essentially every chemical and physical change around you.
+
+## The quantity that decides
+
+Here is the whole idea in one line. For a process at constant temperature and pressure — the conditions of almost all bench chemistry and all of biology — define the change in Gibbs free energy as
+
+$$\Delta G = \Delta H - T\Delta S$$
+
+and then the rule is brutally simple:
+
+- $\Delta G < 0$ — the reaction is **spontaneous** in the forward direction (it can go).
+- $\Delta G > 0$ — it is **non-spontaneous** forward; the reverse direction is the spontaneous one.
+- $\Delta G = 0$ — the system is at **equilibrium**; neither direction has a net push.
+
+Everything else is unpacking what the two terms mean. $\Delta H$ is the **enthalpy** change — roughly, the heat released or absorbed. A negative $\Delta H$ (exothermic) means the products sit at lower energy than the reactants; the reaction sheds energy, which is favourable. $\Delta S$ is the **entropy** change — the change in the number of microscopic arrangements available, loosely "disorder". A positive $\Delta S$ means the products are more spread out among possibilities, which is also favourable. And $T$ is the absolute temperature, always positive, which sets how much weight the entropy term carries.
+
+So $\Delta G = \Delta H - T\Delta S$ is a **competition**. Enthalpy pulls toward low energy. Entropy, amplified by temperature, pulls toward high disorder. Free energy is the referee that combines the two into a single verdict. The minus sign in front of $T\Delta S$ is the crux: a reaction can be favourable either by *releasing energy* or by *increasing disorder*, and often the two pull in opposite directions.
+
+## The tug-of-war, refereed by temperature
+
+<FreeEnergyAnimation />
+
+The plot shows $\Delta G = \Delta H - T\Delta S$ as a straight line against temperature — its height is $\Delta G$, and it dips below the dashed $\Delta G = 0$ line wherever the reaction is spontaneous (the dot turns green). The meter underneath is the tug-of-war itself: the gold bar is the enthalpy term $\Delta H$, the blue bar is the entropy term $-T\Delta S$, and the orange/green bar is their sum, $\Delta G$.
+
+A few things to try.
+
+**Start with the defaults ($\Delta H < 0$, $\Delta S < 0$) and press *Sweep T*.** This is a reaction that gives off heat but also *orders* the products — freezing is the classic example. At low temperature the negative $\Delta H$ wins and $\Delta G$ is negative: spontaneous. But watch the line climb as $T$ rises. The $-T\Delta S$ term (blue) grows in the unfavourable direction, and at the crossover $T^* = \Delta H/\Delta S$ the line cuts through zero. Above it the reaction is non-spontaneous. Water freezes below 0 °C and melts above it, and this is the entire reason why.
+
+**Now set both sliders positive ($\Delta H > 0$, $\Delta S > 0$).** This is the opposite case: the reaction absorbs heat but increases disorder — melting, boiling, most dissolving. Sweep the temperature and the flip runs the other way: non-spontaneous when cold, spontaneous once $T$ climbs past $T^*$. Heating switches the reaction *on*.
+
+**Then explore the two easy corners.** Set $\Delta H < 0$ and $\Delta S > 0$: both terms favour the products, the line sits below zero at *every* temperature — **always spontaneous**, no crossover, nothing you can do to stop it thermodynamically. Set $\Delta H > 0$ and $\Delta S < 0$: both terms oppose, the line is above zero everywhere — **never spontaneous**, at any temperature.
+
+Those are the four regimes, and they are the conceptual heart of the whole subject:
+
+| | $\Delta S > 0$ | $\Delta S < 0$ |
+|---|---|---|
+| $\Delta H < 0$ | always spontaneous | spontaneous at **low** $T$ |
+| $\Delta H > 0$ | spontaneous at **high** $T$ | never spontaneous |
+
+The two diagonal cases — where the signs disagree — are the interesting ones, because temperature gets to cast the deciding vote. Everything from why ice melts to why the Haber process needs the temperature it does lives in those two boxes.
+
+## Why $\Delta G < 0$ is really the Second Law
+
+Here is the part that turns free energy from a formula you memorise into something inevitable. Where does the rule "$\Delta G < 0$ means spontaneous" actually come from? It is not a new law. It is the **[Second Law of Thermodynamics](/articles/entropy-and-the-second-law)** — that the total entropy of the universe never decreases — wearing a disguise.
+
+The Second Law is a statement about the *universe*, not about your flask. The entropy that must increase is the total:
+
+$$\Delta S_\text{universe} = \Delta S_\text{sys} + \Delta S_\text{surr} \geq 0$$
+
+The trouble is that the surroundings are the entire rest of the world, which you cannot measure. The trick is to notice that the surroundings only interact with your reaction in one way: they absorb or supply heat. When a reaction at constant temperature and pressure releases heat $\Delta H$, that heat flows into the surroundings and raises *their* entropy by exactly
+
+$$\Delta S_\text{surr} = -\frac{\Delta H}{T}$$
+
+(negative $\Delta H$, heat released, so the surroundings' entropy goes up). Substitute that into the Second Law:
+
+$$\Delta S_\text{universe} = \Delta S_\text{sys} - \frac{\Delta H}{T} \geq 0$$
+
+Now multiply through by $-T$ (which is negative, so the inequality flips):
+
+$$\Delta H - T\Delta S_\text{sys} \leq 0$$
+
+The left side is exactly $\Delta G$. So
+
+$$\boxed{\;\Delta G = -T\,\Delta S_\text{universe}\;}$$
+
+**Gibbs free energy is nothing but the total entropy change of the universe, measured in energy units and with the sign flipped**, rewritten so you only ever have to look at the system. "$\Delta G < 0$" and "$\Delta S_\text{universe} > 0$" are literally the same statement. This is why the criterion works and why it is universal: free energy is bookkeeping that folds the unmeasurable surroundings into two quantities you *can* measure, $\Delta H$ and $\Delta S_\text{sys}$. The $-T\Delta S$ term in the Gibbs equation is the entropy of the surroundings in disguise; the $\Delta S$ term is the entropy of the system. Free energy just adds them up.
+
+This immediately dismantles a stubborn misconception: that **exothermic means spontaneous**. Releasing heat is only *one* of the two ways to increase the universe's entropy. An endothermic reaction — one that *absorbs* heat and lowers the surroundings' entropy — can still be spontaneous, provided the system's own entropy rises by more. Ice melting at room temperature absorbs heat ($\Delta H > 0$) yet happens eagerly, because liquid water has far more accessible arrangements than the crystal. Dissolve ammonium nitrate in water and the beaker turns cold enough to sting — strongly endothermic — and yet it dissolves without any coaxing, because the entropy of ions dispersing through the solvent overwhelms the energy cost. In both cases $\Delta H > 0$ but $-T\Delta S$ is negative enough to drag $\Delta G$ below zero. Heat is not the currency of spontaneity. Total entropy is.
+
+## Spontaneous is not fast
+
+Return to the diamond, because it corrects the *other* great misconception — that **spontaneous means fast**. It means neither fast nor slow. It means thermodynamically favourable, and that is all.
+
+Free energy answers "where does this system want to go?" It is completely silent on "how long will it take to get there?" That second question belongs to **[chemical kinetics](/articles/reaction-kinetics)**, which is governed not by $\Delta G$ but by the *activation barrier* — the energy hill the reactants must climb through a transition state before they can become products. The two quantities are independent knobs. You can have:
+
+- Large negative $\Delta G$, low barrier — favourable and fast (an explosion).
+- Large negative $\Delta G$, huge barrier — favourable and imperceptibly slow (diamond to graphite; a log that will not burn until you light it).
+- Positive $\Delta G$ — won't go forward at all, however low the barrier.
+
+A mixture of hydrogen and oxygen has a hugely negative $\Delta G$ for forming water and will happily sit in a sealed flask for centuries, because no molecule has enough energy to cross the barrier — until a spark supplies it, and then it is over in milliseconds. The thermodynamics never changed. Only the kinetics did. Confusing the two is the most common mistake in introductory chemistry, and the diamond on your finger is the standing reminder: it *can* become graphite, and it *never will* on any timescale you care about. Free energy tells you the destination; it tells you nothing about the journey.
+
+## Free energy and equilibrium
+
+So far $\Delta G$ has been a single verdict — go or don't go. But real reactions don't run all the way to pure product and stop; they settle at an **[equilibrium](/articles/chemical-equilibrium)** mixture. Free energy explains that too, and it is the same idea taken one level deeper.
+
+The catch is that $\Delta G$ depends on the current composition. The value you compute from tables, $\Delta G^\circ$ (the *standard* free energy change, everything at reference concentrations), is only the starting push. The actual driving force at any moment is
+
+$$\Delta G = \Delta G^\circ + RT\ln Q$$
+
+where $Q$ is the reaction quotient — the same products-over-reactants expression as the equilibrium constant $K$, but evaluated at the current, not-yet-equilibrated composition. As the reaction proceeds, $Q$ changes, and so $\Delta G$ changes. The reaction runs — forward while $\Delta G < 0$ — and each step nudges $Q$ upward, which nudges $\Delta G$ upward, until it reaches exactly zero. At that point the reaction *stops having a direction*: it is at equilibrium. Setting $\Delta G = 0$ gives $Q = K$ and the bridge between thermodynamics and equilibrium:
+
+$$\Delta G^\circ = -RT\ln K$$
+
+This is the equation that [chemical equilibrium](/articles/chemical-equilibrium) uses and that [electrochemistry](/articles/electrochemistry) rewrites as $\Delta G^\circ = -nFE^\circ$. A large negative $\Delta G^\circ$ means a large $K$ — equilibrium sits far toward products. A positive $\Delta G^\circ$ means $K < 1$ — it barely goes. Because the relationship is *exponential*, a modest $\Delta G^\circ$ of $-30$ kJ/mol at room temperature already corresponds to $K \approx 2\times10^5$: small energy differences produce enormous swings in how far a reaction goes.
+
+<ReactionExtentAnimation />
+
+The picture that makes all of this click is free energy plotted not against temperature but against the **extent of reaction** $\xi$ — how far the reaction has run, from all reactant on the left to all product on the right. The total free energy $G$ traces out a **bowl**. Press *Roll*.
+
+**Watch where the mixture settles.** It rolls downhill and stops at the bottom of the bowl. That minimum is the equilibrium mixture — not pure product, not pure reactant, but the composition where $G$ is lowest. The reason the curve bottoms out short of the ends is the entropy of mixing: a blend of reactant and product always has more arrangements than either pure extreme, so it always drags the minimum inward.
+
+**Watch the tangent line — the gold slope through the ball.** Its steepness *is* $\Delta G = \Delta G^\circ + RT\ln Q$, the local driving force. Where the bowl slopes down to the right ($\Delta G < 0$, $Q < K$) the reaction runs forward. Where it slopes down to the left ($\Delta G > 0$, $Q > K$) it runs backward. At the bottom the tangent is flat: $\Delta G = 0$, $Q = K$, no net push in either direction. **Release from either end** and the mixture arrives at the same minimum — equilibrium is reached from both sides.
+
+**Now drag $\Delta G^\circ$ more negative.** The whole bowl tilts toward product and its minimum slides right — more product at equilibrium, a larger $K$. Tilt it positive and the minimum slides back toward reactant. You are watching $\Delta G^\circ = -RT\ln K$ in action: the standard free energy sets the *tilt* of the bowl, and the tilt sets where the bottom — the equilibrium constant — lands.
+
+## Where this shows up
+
+Once you can read the sign of $\Delta G$, an enormous amount of the world becomes predictable from a single competition between energy and disorder.
+
+- **Life runs on coupled free energy.** Building a protein or pumping ions against a gradient is a $\Delta G > 0$ process — non-spontaneous on its own. Cells drive it by *coupling* it to the hydrolysis of ATP, which has a large negative $\Delta G$; the combined reaction has $\Delta G < 0$ and proceeds. Every muscle contraction and nerve impulse is free-energy accounting, borrowing spontaneity from ATP to pay for order.
+- **Temperature-flipped reactions in industry.** Smelting metal oxides, cracking limestone into lime and $\mathrm{CO_2}$, and countless other endothermic, entropy-increasing reactions ($\Delta H > 0$, $\Delta S > 0$) are simply run *hot*, above their crossover temperature $T^* = \Delta H/\Delta S$, so that $-T\Delta S$ wins.
+- **Why some things just won't react.** A positive $\Delta G^\circ$ tells you, before you ever touch a beaker, that a proposed synthesis cannot work as written — no catalyst, no stirring, no patience will make it go. Catalysts change the barrier, never $\Delta G$. To make an uphill reaction go you must change the conditions until $\Delta G$ itself turns negative.
+- **The Second Law with a price tag.** Because $\Delta G = -T\Delta S_\text{universe}$, the free energy released by a spontaneous process is the maximum useful work you can extract from it. Every engine, battery, and fuel cell is bounded by this, and the shortfall is entropy the universe demanded as payment.
+
+The bench diamond, the cold pack, the melting ice cube, and the fertiliser plant are all running the same arithmetic: enthalpy against entropy, refereed by temperature, tallied by free energy. Learn to read $\Delta G$ and you can predict the direction of change across all of them with one idea.
+
+<KeyTakeaways>
+- **Gibbs free energy decides direction.** $\Delta G = \Delta H - T\Delta S$; $\Delta G < 0$ means a reaction is spontaneous (it *can* go), $\Delta G > 0$ means the reverse is, and $\Delta G = 0$ is equilibrium.
+- **It is a competition between energy and disorder.** Enthalpy favours low energy, entropy favours high disorder, and temperature sets how much the entropy term weighs — giving four regimes, two of which flip at $T^* = \Delta H/\Delta S$.
+- **$\Delta G < 0$ is the Second Law in disguise:** $\Delta G = -T\Delta S_\text{universe}$, with $-T\Delta S$ standing in for the entropy of the surroundings. This is why endothermic reactions like melting ice or dissolving ammonium nitrate can still be spontaneous — **exothermic does not mean spontaneous**.
+- **Spontaneous does not mean fast.** $\Delta G$ fixes the destination; the activation barrier ([kinetics](/articles/reaction-kinetics)) fixes the speed. Diamond can become graphite and effectively never will.
+- **Free energy drives systems to [equilibrium](/articles/chemical-equilibrium).** $\Delta G = \Delta G^\circ + RT\ln Q$ falls to zero as $Q$ climbs to $K$, and $\Delta G^\circ = -RT\ln K$ ties the standard free energy directly to how far a reaction goes.
+</KeyTakeaways>

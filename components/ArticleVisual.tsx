@@ -2064,6 +2064,27 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'gibbs-free-energy': c => {
+    // Free-energy bowl over the extent of reaction; the minimum (gold) is the
+    // equilibrium mixture, where the tangent is flat and dG = 0, Q = K.
+    const bowl = '24,32 44,50 66,66 90,79 116,88 144,93 175,94 206,91 232,84 256,72 276,58'
+    const eqX = 175, eqY = 94
+    return (
+      <g>
+        <line x1={18} y1={14} x2={18} y2={108} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={18} y1={108} x2={288} y2={108} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points={bowl} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={eqX} y1={eqY} x2={eqX} y2={108} stroke={GOLD} strokeWidth={1} strokeDasharray="3 3" />
+        <line x1={157} y1={94} x2={193} y2={94} stroke={GOLD} strokeWidth={1.25} />
+        <circle cx={eqX} cy={eqY} r={4} fill={GOLD} />
+        <circle cx={24} cy={32} r={2.5} fill={c} />
+        <circle cx={276} cy={58} r={2.5} fill={c} />
+        <text x={26} y={26} fill={MUTE} fontSize={9} fontFamily="monospace">G</text>
+        <text x={44} y={118} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">ξ=0</text>
+        <text x={eqX} y={118} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">Q = K</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
