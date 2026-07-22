@@ -1998,6 +1998,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'stellar-nucleosynthesis': c => {
+    // Fusion ladder climbing the binding-energy curve to the gold iron peak,
+    // then the endothermic decline past it (dashed, muted). All coords integer.
+    const rungs: [number, number][] = [[30, 98], [70, 64], [105, 52], [135, 45], [165, 41], [200, 30], [235, 22]]
+    const asc = rungs.map(p => `${p[0]},${p[1]}`).join(' ')
+    return (
+      <g>
+        <line x1={20} y1={100} x2={280} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={235} y1={14} x2={235} y2={100} stroke={GOLD} strokeWidth={0.75} strokeDasharray="3 3" />
+        <polyline points={asc} fill="none" stroke={c} strokeWidth={2} />
+        <polyline points="235,22 270,36" fill="none" stroke={MUTE} strokeWidth={1.5} strokeDasharray="3 3" />
+        {rungs.slice(0, 6).map((p, i) => (
+          <circle key={i} cx={p[0]} cy={p[1]} r={3} fill={c} />
+        ))}
+        <circle cx={235} cy={22} r={5} fill={GOLD} />
+        <circle cx={270} cy={36} r={3} fill={MUTE} />
+        <text x={235} y={12} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">Fe</text>
+        <text x={30} y={113} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">H</text>
+        <text x={258} y={52} fontSize={8} fill={MUTE} fontFamily="monospace">A→</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

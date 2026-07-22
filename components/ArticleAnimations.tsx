@@ -700,3 +700,13 @@ export const HydrostaticBalanceAnimation = dynamic(
   () => import('@/components/animations/HydrostaticBalanceAnimation').then(m => ({ default: m.HydrostaticBalanceAnimation })),
   { ssr: false }
 )
+
+export const NucleosynthesisAnimation = dynamic(
+  () => import('@/components/animations/NucleosynthesisAnimation').then(m => ({ default: m.NucleosynthesisAnimation })),
+  { ssr: false }
+)
+
+export const ElementOriginAnimation = dynamic(
+  () => import('@/components/animations/ElementOriginAnimation').then(m => ({ default: m.ElementOriginAnimation })),
+  { ssr: false }
+)

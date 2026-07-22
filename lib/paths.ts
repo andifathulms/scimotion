@@ -75,6 +75,15 @@ export const learningPaths: LearningPath[] = [
       'Medicine as measurement and control — reading the heart’s electrical trace, holding glucose in range, tracking a drug through the body, seeing inside it, and losing ground to resistant bacteria.',
     articleSlugs: ['cardiac-electrical-signal', 'glucose-insulin-regulation', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
   },
+  {
+    slug: 'across-the-universe',
+    title: 'Across the Universe',
+    description:
+      'Outward through the cosmos — from the life and death of a single star to the elements it forges, the worlds around others, the extremes of gravity, and the expansion of everything.',
+    // Scale outward: one star, what stars make, other stars' planets, the most
+    // extreme endpoint, and finally the whole expanding universe.
+    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'exoplanets', 'black-holes', 'expanding-universe'],
+  },
 ]
 
 export function getPath(slug: string): LearningPath | undefined {

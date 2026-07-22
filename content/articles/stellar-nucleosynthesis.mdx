@@ -1,0 +1,120 @@
+---
+title: "Where the Elements Come From"
+subtitle: "Every atom heavier than hydrogen was forged in a star or the explosion of one."
+topic: "Astronomy & Cosmology"
+slug: "stellar-nucleosynthesis"
+date: "2026-07-08"
+readTime: 10
+featured: false
+description: "The calcium in your bones and the iron in your blood were built by nuclear fusion in stellar cores — a ladder that climbs to iron and then can climb no further."
+tags: ["nucleosynthesis", "stellar-evolution", "nuclear-fusion", "supernovae"]
+quiz:
+  - q: "A massive star fuses hydrogen to helium, helium to carbon, and so on up to iron — but no star fuses iron into heavier elements to release energy. Why does the fusion ladder stop there?"
+    options:
+      - "The strong nuclear force cannot reach across a nucleus as large as iron's"
+      - "Iron-56 sits at the peak of the binding-energy-per-nucleon curve, so fusing it into anything heavier would absorb energy instead of releasing it"
+      - "By the time iron forms, the star has always exhausted its entire fuel supply"
+      - "Iron nuclei are electrically neutral and so cannot be pulled together"
+    answer: 1
+    explanation: "Iron sits at the summit of the binding-energy-per-nucleon curve, so there is no higher rung to climb — fusing past iron costs energy rather than releasing it."
+  - q: "Which elements were produced in the Big Bang itself, before any star existed?"
+    options:
+      - "Every element up to iron"
+      - "Only hydrogen, helium, and a trace of lithium"
+      - "Hydrogen, helium, carbon, and oxygen"
+      - "Only hydrogen"
+    answer: 1
+    explanation: "Big Bang nucleosynthesis lasted only a few minutes and made essentially only hydrogen and helium, with a whisper of lithium — everything heavier came later, from stars."
+  - q: "Gold and uranium are far heavier than iron, so ordinary fusion cannot build them. Where do they come from?"
+    options:
+      - "Slow ordinary fusion deep in massive-star cores, given enough time"
+      - "Rapid neutron capture — the r-process — in the intense neutron flux of supernovae and neutron-star mergers"
+      - "The radioactive decay of iron over billions of years"
+      - "Chemical combination of lighter atoms in cold interstellar clouds"
+    answer: 1
+    explanation: "Elements beyond iron are built by piling neutrons onto seed nuclei faster than they can decay, which only happens in the extreme neutron floods of exploding and colliding stars."
+---
+
+## You are made of star-stuff
+
+The calcium in your bones. The oxygen you just breathed in. The iron ferrying that oxygen through your blood. Every one of those atoms — every atom in your body heavier than the hydrogen you are partly made of — was forged in the core of a star or the explosion of one. You are, quite literally, made of star-stuff.
+
+This is not a metaphor. It is a bookkeeping claim about where specific atoms were manufactured, and it is one of the great confirmed results of twentieth-century physics. The universe did not begin stocked with a full periodic table. It began with the two lightest elements and almost nothing else, and the rest — carbon, oxygen, silicon, gold — had to be built, one nuclear reaction at a time, inside stars. This article is the story of that assembly line, and of the single curve that decides how far it can run.
+
+## The universe started nearly empty
+
+Roughly three minutes after the Big Bang, the universe was hot and dense enough to be one enormous fusion reactor. Protons and neutrons collided and stuck, building nuclei. But the window slammed shut fast: the universe was expanding and cooling, and within about twenty minutes it was too cold and too thin for fusion to continue.
+
+In that brief window, **Big Bang nucleosynthesis** produced essentially only the lightest nuclei — about 75% hydrogen and 25% helium-4 by mass, plus a trace of deuterium, helium-3, and lithium-7. And then it stopped. There is no stable nucleus of mass 5 or mass 8, so the chain could not bridge past helium to build carbon before the reactor cooled off. The observed cosmic abundances of hydrogen and helium match this prediction with remarkable precision — it is one of the pillars of Big Bang cosmology.
+
+So the early universe handed the first stars a fuel supply of hydrogen and helium and a nearly blank [periodic table](/articles/atomic-structure). Everything from carbon on up is a stellar product. To see how stars fill in the rest, we need to follow a single massive star through its life.
+
+## Climbing the ladder to iron
+
+A star is a sustained fight between gravity, which pulls its gas inward, and the outward pressure of a hot core. Fusion is what keeps the core hot. When a star fuses light nuclei into heavier ones, it releases energy, and that energy is the pressure holding the star up. A star's whole life is a sequence of fusion stages, each igniting when the one before runs out of fuel and the core contracts and heats until the next reaction can begin. In the life story told in [the life cycle of stars](/articles/life-cycle-of-stars), this is the long stable middle age — here we look inside the core.
+
+The widget below follows a massive star's core up that ladder. Advance it through the burning stages — hydrogen to helium, helium to carbon, then oxygen, neon, silicon, and finally iron.
+
+<NucleosynthesisAnimation />
+
+Watch two things move together. On the left, the star grows an **onion-shell** structure: each new ash accumulates as a fresh inner layer, the heaviest element sitting deepest and hottest, wrapped in shells of the lighter elements that came before. On the right, a marker climbs the [binding-energy-per-nucleon curve](/articles/nuclear-energy) — the master graph of nuclear physics — one rung at a time, heading for the iron peak.
+
+Two things are worth noticing as you climb. First, the energy released per stage shrinks: hydrogen burning liberates about 7 MeV per nucleon, but the later stages yield only fractions of that. Second — and this is the astonishing part — the stages collapse in time. A massive star burns hydrogen for millions of years, but silicon for only about a day. The star is running out of profitable fuel, and it burns the last rungs in a frantic rush.
+
+Then the marker reaches iron, and stops. Try to advance past it and there is nowhere to go: the curve turns downward. That wall is the pivot the whole story turns on.
+
+## Why fusion is exothermic only up to iron
+
+The reason lives entirely in that curve. The **binding energy per nucleon** measures how tightly the average proton or neutron is held inside a nucleus — how far it has fallen into the nuclear energy well. A reaction releases energy exactly when it moves nucleons into a *more* tightly bound configuration, one higher on the curve. That extra binding is paid for out of mass, via $E = mc^2$: the products weigh slightly less than the reactants, and the missing mass emerges as energy.
+
+Fusion in the Sun starts with the **proton–proton chain**, which welds four hydrogen nuclei into one helium-4:
+
+$$p + p \to {}^{2}\text{H} + e^{+} + \nu_e$$
+$${}^{2}\text{H} + p \to {}^{3}\text{He} + \gamma$$
+$${}^{3}\text{He} + {}^{3}\text{He} \to {}^{4}\text{He} + 2p$$
+
+Summed, the net reaction is
+
+$$4\,{}^{1}\text{H} \to {}^{4}\text{He} + 2e^{+} + 2\nu_e + 2\gamma$$
+
+and it releases about $26.7\ \text{MeV}$ — because helium-4, at $7.07\ \text{MeV}$ per nucleon, sits far above hydrogen on the curve.
+
+Once helium builds up and the core is hot enough, the **triple-alpha process** takes over, fusing three helium nuclei into carbon by way of a fleeting beryllium-8 intermediate:
+
+$${}^{4}\text{He} + {}^{4}\text{He} \rightleftharpoons {}^{8}\text{Be}, \qquad {}^{8}\text{Be} + {}^{4}\text{He} \to {}^{12}\text{C} + \gamma$$
+
+releasing about $7.27\ \text{MeV}$. From there the ladder continues: carbon to oxygen and neon, oxygen to silicon, silicon to the iron peak. Each step climbs the curve, so each step releases energy — but the curve is flattening as it rises, so each step releases less.
+
+At **iron-56** (and its neighbours around nickel-62), the curve reaches its maximum, about $8.8\ \text{MeV}$ per nucleon. Iron is the most tightly bound nucleus there is: the very bottom of the nuclear energy well. Fusing two iron-group nuclei into something heavier would move nucleons to a *lower* rung — a less bound state — which means it would **absorb** energy rather than release it:
+
+$$\Delta E \;\propto\; \left(\frac{B}{A}\right)_{\text{product}} - \left(\frac{B}{A}\right)_{\text{reactants}}$$
+
+To the left of iron this difference is positive and fusion pays; to the right of iron it is negative and fusion costs. This is the endothermic wall. An iron core produces no fusion energy, so it generates no pressure to resist gravity. For a massive star the consequence is catastrophic and fast: the inert iron core, once it grows past about 1.4 solar masses, collapses in less than a second, rebounds, and blows the star apart as a **core-collapse supernova**. The fusion ladder does not merely stop at iron — stopping at iron is what destroys the star.
+
+This corrects a common misconception. Stars do *not* fuse elements upward without limit. Fusion is a profitable business only while it climbs toward iron; at the summit the profit vanishes, and the star's life ends there.
+
+## So where do gold and uranium come from?
+
+If fusion stops at iron, then every element heavier than iron — silver, iodine, gold, platinum, lead, uranium — must be made some other way. It is. The trick is to sidestep the charged-particle barrier entirely by using **neutrons**, which carry no charge and so feel no electrostatic repulsion. A nucleus can swallow a neutron easily; the new nucleus is often unstable and beta-decays, turning a neutron into a proton and nudging the element one step up the periodic table.
+
+There are two speeds for this. The slow **s-process**, running inside dying low-mass stars, adds neutrons gently, one every thousand years or so — slow enough that unstable nuclei decay between captures. But building the heaviest elements requires the **r-process** (*rapid*), which floods seed nuclei with so many neutrons — densities above $10^{22}$ per cubic centimetre — that a nucleus captures dozens before it has time to decay, racing far out along the chart of nuclides before beta-decaying back to stability. That only happens in the most violent events in the universe: **core-collapse supernovae** and the **mergers of neutron stars**. In 2017, the gravitational-wave event GW170817 caught two neutron stars colliding and directly detected the glow of freshly minted heavy elements in the debris — confirming that the gold in a wedding ring was very likely forged in a collision of stellar corpses.
+
+So the periodic table is not a random list. It is a map of cosmic history, colour-coded by where each element was made. Hover across it below.
+
+<ElementOriginAnimation />
+
+Notice the pattern. The lightest elements (blue) are Big Bang relics. Carbon and nitrogen (green) drifted out of dying Sun-like stars. The oxygen, silicon, and calcium of rocky planets and bones (indigo) were fused in massive stars and scattered by their supernovae. The iron-peak metals (gold-coloured) were minted in the explosions themselves. And the heaviest treasures — the gold, the platinum, the uranium (pink) — came from the r-process, in the shredded remains of colliding neutron stars. Every colour is a different chapter of the same story.
+
+## Why this is the payoff of the binding-energy curve
+
+Step back and the whole of nucleosynthesis is one curve read two ways. Nuclear energy — [in reactors and in stars alike](/articles/nuclear-energy) — comes from moving nucleons toward the iron peak, because that is the direction that releases energy. Light elements fuse *up* toward iron; that is what powers stars and builds the elements from helium to the iron group. Heavy elements, past the peak, cannot be built by fusion at all and must be assembled by neutron capture in cataclysms.
+
+The peak at iron is therefore doing double duty. It is the reason a star can shine for billions of years, and the reason a massive star must eventually die: the same summit that makes fusion profitable on the way up makes it impossible past the top. The curve that explains why the Sun burns also explains why supernovae happen — and why, when you look at the elements in your own body, you are looking at the ash of stars that lived and died before the Sun was born.
+
+<KeyTakeaways>
+- The Big Bang made essentially only hydrogen and helium (plus a trace of lithium); every heavier element was built later, inside stars and their explosions.
+- Stellar fusion climbs the binding-energy-per-nucleon curve from hydrogen toward iron — helium, carbon, oxygen, neon, silicon — releasing energy at every rung, but less and less as the curve flattens toward the peak.
+- Fusion **stops at iron** because iron-56 sits at the summit of that curve: fusing it into anything heavier would absorb energy, so an iron core cannot hold the star up, and it collapses into a supernova.
+- Stars do *not* fuse elements upward without limit — that is the key misconception; the profitable direction runs only *toward* iron, never past it.
+- Elements heavier than iron are made not by fusion but by rapid neutron capture — the r-process — in the extreme neutron floods of supernovae and neutron-star mergers, making the periodic table a map of cosmic history.
+</KeyTakeaways>
