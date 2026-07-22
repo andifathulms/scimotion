@@ -169,6 +169,8 @@ import {
   ReactionExtentAnimation,
   GeodynamoAnimation,
   MagnetosphereAnimation,
+  GeneExpressionAnimation,
+  GeneticCodeAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -339,6 +341,8 @@ const components = {
   ReactionExtentAnimation,
   GeodynamoAnimation,
   MagnetosphereAnimation,
+  GeneExpressionAnimation,
+  GeneticCodeAnimation,
   KeyTakeaways,
 }
 

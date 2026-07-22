@@ -2114,6 +2114,48 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'gene-expression': c => {
+    // DNA duplex -> mRNA copy -> ribosome -> growing peptide chain.
+    const r = (v: number) => Math.round(v * 100) / 100
+    const helix = (s: number) =>
+      Array.from({ length: 15 }, (_, i) => {
+        const x = 12 + i * 6
+        return `${x},${r(60 + s * 12 * Math.sin((x - 12) / 9))}`
+      }).join(' ')
+    const mrna = Array.from({ length: 15 }, (_, i) => {
+      const x = 116 + i * 5
+      return `${x},${r(60 + 8 * Math.sin((x - 116) / 7))}`
+    }).join(' ')
+    const rungs: ReactNode[] = []
+    for (let i = 0; i <= 14; i += 2) {
+      const x = 12 + i * 6
+      const dy = r(12 * Math.sin((x - 12) / 9))
+      rungs.push(<line key={x} x1={x} y1={60 + dy} x2={x} y2={60 - dy} stroke={FAINT} strokeWidth={1} />)
+    }
+    const beads: [number, number, string][] = [
+      [248, 42, c], [261, 35, GOLD], [274, 30, c], [287, 27, GOLD],
+    ]
+    return (
+      <g>
+        {rungs}
+        <polyline points={helix(1)} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <polyline points={helix(-1)} fill="none" stroke={MUTE} strokeWidth={1.5} />
+        <line x1={99} y1={60} x2={110} y2={60} stroke={GOLD} strokeWidth={1.25} />
+        <polygon points="111,60 105,56 105,64" fill={GOLD} />
+        <polyline points={mrna} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={186} y1={58} x2={258} y2={58} stroke={c} strokeWidth={1.5} />
+        <ellipse cx={232} cy={48} rx={20} ry={13} fill={`${c}22`} stroke={MUTE} strokeWidth={1.25} />
+        <ellipse cx={232} cy={67} rx={18} ry={9} fill={`${c}22`} stroke={MUTE} strokeWidth={1.25} />
+        <polyline points="238,36 248,42 261,35 274,30 287,27" fill="none" stroke={MUTE} strokeWidth={1.25} />
+        {beads.map(([x, y, col], i) => (
+          <circle key={i} cx={x} cy={y} r={4} fill={col} />
+        ))}
+        <text x={54} y={104} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">DNA</text>
+        <text x={150} y={104} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">mRNA</text>
+        <text x={268} y={104} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">protein</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -1,0 +1,125 @@
+---
+title: "From DNA to Protein"
+subtitle: "How a cell reads a gene, copies it into a disposable message, and translates that message three letters at a time into a working machine."
+topic: "Biology"
+slug: "gene-expression"
+date: "2026-07-14"
+readTime: 10
+featured: false
+description: "The central dogma as information flow: transcription into messenger RNA, the triplet code and its built-in redundancy, translation at the ribosome, and why one genome can build hundreds of different cells."
+tags: ["genetics", "molecular-biology", "genetic-code", "transcription"]
+quiz:
+  - q: "The genetic code uses 64 codons to specify 20 amino acids plus a stop signal. What does that surplus directly imply?"
+    options:
+      - "Every amino acid is specified by exactly three different codons"
+      - "The code is degenerate — most amino acids are encoded by more than one codon, so many single-base changes are silent"
+      - "Forty-four of the codons are never used by any organism"
+      - "Twenty codons code for amino acids and all the rest are stop signals"
+    answer: 1
+    explanation: "With more codons than amino acids, several codons map to the same amino acid, which is exactly why some point mutations leave the protein unchanged."
+  - q: "A single base substitution changes a codon from UGG (Trp) to UGA. Why is this classed as a nonsense mutation rather than a missense one?"
+    options:
+      - "Because it shifts the reading frame of every codon downstream"
+      - "Because UGA is a stop codon, so translation terminates early and the protein is truncated"
+      - "Because tryptophan and the substituted amino acid differ sharply in charge"
+      - "Because the change occurred in the third base of the codon"
+    answer: 1
+    explanation: "UGA tells the ribosome to release the chain, so translation ends prematurely instead of merely swapping one residue for another."
+  - q: "Every cell in your body carries essentially the same genome, yet a neuron and a liver cell could hardly be more different. What accounts for the difference?"
+    options:
+      - "Each cell type deletes the genes it does not need as it matures"
+      - "Different cell types express — transcribe and translate — different subsets of the same shared genes"
+      - "Neurons and liver cells inherit different genomes from each parent"
+      - "The genetic code itself is read differently in different tissues"
+    answer: 1
+    explanation: "Cell identity comes from which genes are switched on, not from differences in the DNA, which is nearly identical in every cell of the body."
+---
+
+## The library, not the blueprint
+
+Every cell in your body — with a few deliberate exceptions — carries the same three-billion-letter genome. The neuron firing as you read this sentence and the liver cell filtering your blood hold identical DNA, letter for letter. And yet they could not be more different: one conducts electrical signals a metre down your leg, the other runs a chemical refinery. Same text, unrecognisably different machines.
+
+That fact rules out the usual metaphor. DNA is often called a blueprint, but a blueprint is built once, literally, into the thing it describes. A genome is not built into anything. It is closer to a **library** — a vast reference collection that is never consumed, only read. What makes a cell what it is, is not which books it owns, because every cell owns all of them. It is which books it chooses to open.
+
+This article is about the reading. It sits between two others: [DNA replication](/articles/dna-replication) is how the library is copied and shelved, and [protein folding](/articles/protein-folding) is what happens to a book's contents once they are read aloud. Here we cover the step in the middle — how the information in a gene is turned into a working protein — and why that step, not the DNA itself, is where the real decisions get made.
+
+## The central dogma is about information
+
+Francis Crick's **central dogma**, stated in 1958, is usually written as a diagram:
+
+$$\text{DNA} \longrightarrow \text{RNA} \longrightarrow \text{protein}$$
+
+The arrows are the important part, and they are easy to misread. They do not mean that DNA turns into RNA the way ice turns into water — no atoms move from one to the next. The arrows are about **information**: the sequence of a gene determines the sequence of an RNA, which determines the sequence of a protein. What flows is order, not material. Crick's real claim was about which direction that flow can run — sequence information, once it has passed into protein, cannot come back out.
+
+The first arrow, DNA to RNA, is **transcription**. The second, RNA to protein, is **translation**. Between them sits a molecule that trips up a lot of people, so it is worth being blunt about it.
+
+**DNA never leaves the nucleus to make a protein.** This is the single most common misconception about the whole process, and it gets the geography exactly backwards. In a eukaryotic cell the DNA stays locked in the nucleus; a disposable copy — **messenger RNA**, mRNA — is what travels out to the cytoplasm where proteins are built. The master text stays in the reference room. Only photocopies circulate.
+
+Why bother with a copy at all, instead of reading the DNA directly? Several reasons, all of them the reasons a library keeps its rare books behind glass:
+
+- **The master stays safe.** RNA is chemically less stable than DNA and is made to be thrown away. Damaging a working copy costs you a copy; damaging the original would cost you the gene.
+- **The message amplifies.** One gene can be transcribed into thousands of mRNA molecules, each translated many times over. A cell that needs a lot of one protein does not need a lot of DNA — it needs a lot of mRNA.
+- **The copy can be edited and controlled.** Between transcription and translation the cell caps the message, tails it, and — crucially — splices it, cutting pieces out and rejoining the rest. That editing step is where a single gene stops meaning a single protein, as we will see.
+
+## Watching a gene become a protein
+
+Transcription works much like replication's copying, with one enzyme doing the heavy lifting. **RNA polymerase** binds near the start of a gene, prises the double helix open, and reads one strand — the **template** — in the 3′→5′ direction. As it moves, it builds an mRNA strand base by base, obeying the same complementary pairing that holds the helix together, with one substitution: RNA uses **uracil (U)** wherever DNA would use thymine. The mRNA it produces is therefore a copy of the *other* DNA strand, the coding strand, spelled in RNA.
+
+Translation is stranger and more mechanical. The mRNA threads through a **ribosome**, a two-part machine built largely of RNA, which reads the message in non-overlapping blocks of three bases called **codons**. For each codon, a small adapter molecule — a **transfer RNA**, tRNA — shows up carrying one specific amino acid. The tRNA's own three-base **anticodon** pairs with the codon; if it matches, the ribosome adds that tRNA's amino acid to the growing chain and moves on by exactly three bases. Codon by codon, a protein is spelled out.
+
+The widget below runs one short gene all the way through both steps.
+
+<GeneExpressionAnimation />
+
+Press **Play** and watch the two phases in sequence, or use **Step** to advance one event at a time and read the sequence as it is built. In the first phase, RNA polymerase (violet) crawls along the DNA template and lays down a complementary mRNA strand in lime beneath it — note that every mRNA base is the Watson–Crick partner of the template base above it, and that the copy carries U in place of T. In the second phase the DNA is gone (it stayed in the nucleus) and the same mRNA is now threaded through a ribosome (blue). For each codon a gold tRNA rises from below carrying its amino acid, its anticodon pairing the codon, and the amino acid clicks onto the chain: `AUG` → Met, `GCC` → Ala, `UAU` → Tyr, and so on. Two things to watch for. First, the chain always starts with **Met**, because the start codon `AUG` doubles as the signal to begin. Second, when the ribosome hits `UAA`, no tRNA fits — that is a **stop codon**, and the finished chain is released. What comes off is a bare linear string of amino acids, which then does what the next article is about: it [folds into a three-dimensional protein](/articles/protein-folding). The gene specified the sequence; the sequence specifies the shape; the shape does the work.
+
+## The genetic code
+
+Why three bases per codon? Count the possibilities. There are four bases, so a one-base code could name only 4 amino acids and a two-base code $4^2 = 16$ — still short of the 20 that proteins use. Three bases give
+
+$$4^3 = 64$$
+
+which is the first power of four that clears 20. The code had to be at least triplet, and triplet is what it is.
+
+But 64 is a lot more than 20, and that gap is the most important feature of the code. Sixty-one of the codons specify amino acids and three (`UAA`, `UAG`, `UGA`) are stop signals, so on average each amino acid is named by about three codons. The code is **degenerate** — or, less pejoratively, **redundant**: most amino acids have several synonymous codons, which usually differ only in the third base. Leucine has six codons; methionine and tryptophan have exactly one each.
+
+That redundancy is not clutter. It is error tolerance built directly into the dictionary. Because synonyms cluster — the four codons `GGU`, `GGC`, `GGA`, `GGG` all mean glycine — a mistake in the third base of a codon very often changes nothing at all. The code is arranged so that many single-letter slips are silent.
+
+It is worth pausing on how much information a code this size can address. A modest protein is a chain of, say, 100 amino acids, and at each position any of 20 can appear, so the number of distinct sequences of that length is
+
+$$20^{100} \approx 10^{130}$$
+
+a number with more digits than there are atoms in the observable universe has zeros. The genome does not store proteins; it stores the far shorter recipes for picking one point out of that unimaginable space. A gene is an address, and the code is how the address is written.
+
+## When a letter changes
+
+Because the code is a lookup table, you can see exactly what a mutation does by looking the new codon up. Change one base of a codon and one of three things happens. If the new codon is a synonym of the old one, nothing changes — a **silent** mutation, absorbed by the redundancy. If it names a different amino acid, you get a **missense** mutation: one residue in the protein is swapped, which may be harmless or may be catastrophic depending on where it lands. And if the change turns a coding codon into a stop, you get a **nonsense** mutation, which truncates the protein partway through and usually destroys it.
+
+The widget lets you make these substitutions yourself.
+
+<GeneticCodeAnimation />
+
+The coloured grid is the whole standard code — all 64 codons, tinted by the chemical class of the amino acid they specify, so the redundancy is visible as blocks of one colour. Start from the reference codon `GAA` (glutamate) and use the buttons to mutate one base at a time, or jump straight to a worked example. Change the third base to make `GAG` and the amino acid does not budge — **silent**, because `GAA` and `GAG` are synonyms. Change the middle base to make `GGA` and glutamate becomes glycine — **missense**. Change the first base to make `UAA` and the codon becomes a stop — **nonsense**, and the protein ends there. The badge classifies each result, and the highlighted cell shows you where in the code you have landed.
+
+This is the exact hinge on which [natural selection](/articles/natural-selection) turns. Selection cannot act on DNA sequence directly; it acts on the *protein*, and it only ever sees a mutation if that mutation reaches the protein and changes what it does. A silent mutation is invisible to selection because the machine is unchanged. A missense mutation is the raw material selection works with — sometimes worse, occasionally better. The textbook case is sickle-cell: a single base change in the β-globin gene turns the codon for glutamate into one for valine, and that one-residue swap makes haemoglobin polymerise and deform the red cell. It is unambiguously harmful — and yet it persists at high frequency where malaria is common, because carrying one copy is protective. That is the code, a point mutation, and selection, all in the same story.
+
+## One genome, hundreds of cell types
+
+Return to the neuron and the liver cell. If both carry the same genes, and the code is the same in every cell, why are they different? The answer is the payoff of this entire article, and it is a single word: **regulation**.
+
+At any moment a given cell is transcribing only a fraction of its genes. The rest are switched off — packed away in condensed chromatin, or simply never engaged by the proteins that recruit RNA polymerase. Which genes are on is controlled by **transcription factors**, by chemical marks on the DNA and its packaging, and by signals from outside the cell. A neuron and a liver cell run different programs not because they hold different books but because they have opened different ones. Development is largely the process of cells committing to particular patterns of expression and passing those patterns to their daughters.
+
+This corrects the last two misconceptions worth naming outright:
+
+- **Not every cell uses its whole genome.** Expression is selective by design. If a cell transcribed everything at once it would be no cell type at all. Specialisation *is* selective reading.
+- **One gene does not reliably make exactly one protein.** The tidy "one gene, one enzyme" slogan from the 1940s is a useful first approximation and no more. Through **alternative splicing**, a single gene's transcript can be cut and rejoined in different combinations to yield several distinct proteins, and further chemical modification after translation multiplies the possibilities again. The human genome has on the order of 20,000 protein-coding genes but expresses a substantially larger number of distinct proteins. The gene is a template; how it is read and edited decides what actually gets made.
+
+So the genome is not a parts list that is simply assembled. It is a library that each cell reads selectively, transcribes into disposable messages, translates through a redundant code, and edits along the way — and it is those choices, far more than the DNA itself, that make a neuron a neuron and a liver cell a liver cell.
+
+<KeyTakeaways>
+- The central dogma — DNA → RNA → protein — is a flow of **information**, not material: a gene's sequence specifies an mRNA's, which specifies a protein's. The DNA itself stays in the nucleus; a disposable mRNA copy is what carries the message out to be translated.
+- The genetic code is triplet because $4^3 = 64$ is the smallest power of four that covers 20 amino acids, and the surplus makes it **degenerate** — most amino acids have several synonymous codons, so many single-base changes are silent.
+- A point mutation resolves through the code into one of three outcomes — **silent** (a synonym), **missense** (a swapped residue), or **nonsense** (a premature stop) — and this is precisely the variation that [natural selection](/articles/natural-selection) acts on, because selection sees the protein, not the DNA.
+- Translation hands the ribosome's bare amino-acid chain straight to [protein folding](/articles/protein-folding): the gene fixes the sequence, and the sequence fixes the shape that does the chemistry.
+- One genome builds hundreds of cell types through **regulation** — different cells express different subsets of the same genes — which is also why "every cell uses its whole genome" and "one gene makes one protein" are both false.
+</KeyTakeaways>

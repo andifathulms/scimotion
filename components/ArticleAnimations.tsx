@@ -750,3 +750,13 @@ export const MagnetosphereAnimation = dynamic(
   () => import('@/components/animations/MagnetosphereAnimation').then(m => ({ default: m.MagnetosphereAnimation })),
   { ssr: false }
 )
+
+export const GeneExpressionAnimation = dynamic(
+  () => import('@/components/animations/GeneExpressionAnimation').then(m => ({ default: m.GeneExpressionAnimation })),
+  { ssr: false }
+)
+
+export const GeneticCodeAnimation = dynamic(
+  () => import('@/components/animations/GeneticCodeAnimation').then(m => ({ default: m.GeneticCodeAnimation })),
+  { ssr: false }
+)
