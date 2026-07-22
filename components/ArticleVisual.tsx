@@ -2236,6 +2236,43 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'ozone-layer': c => {
+    // A stratospheric ozone band absorbing incoming UV, with a thinned patch
+    // where UV leaks through to the surface. Integer literals only.
+    const arrows: ReactNode[] = []
+    for (const x of [30, 62, 94, 206, 238, 270]) {
+      arrows.push(
+        <g key={`a${x}`}>
+          <line x1={x} y1={12} x2={x} y2={46} stroke={GOLD} strokeWidth={1.5} />
+          <polygon points={`${x},49 ${x - 3},43 ${x + 3},43`} fill={GOLD} />
+        </g>
+      )
+    }
+    arrows.push(
+      <g key="leak">
+        <line x1={149} y1={12} x2={149} y2={99} stroke={GOLD} strokeWidth={1.75} />
+        <polygon points="149,104 146,98 152,98" fill={GOLD} />
+      </g>
+    )
+    const mols: ReactNode[] = []
+    for (let x = 20; x <= 284; x += 16) {
+      if (x > 120 && x < 178) continue
+      mols.push(<circle key={`m${x}`} cx={x} cy={56} r={3} fill={c} />)
+    }
+    return (
+      <g>
+        <rect x={8} y={48} width={112} height={16} rx={3} fill={`${c}22`} />
+        <rect x={120} y={48} width={58} height={16} rx={3} fill={FAINT} />
+        <rect x={178} y={48} width={114} height={16} rx={3} fill={`${c}22`} />
+        {mols}
+        {arrows}
+        <line x1={0} y1={108} x2={300} y2={108} stroke={MUTE} strokeWidth={0.75} />
+        <text x={124} y={41} fill={MUTE} fontSize={8} fontFamily="monospace">thinned</text>
+        <text x={10} y={20} fill={GOLD} fontSize={9} fontFamily="monospace">UV</text>
+        <text x={288} y={60} textAnchor="end" fill={c} fontSize={8} fontFamily="monospace">O₃</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

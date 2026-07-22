@@ -790,3 +790,13 @@ export const ClearanceAnimation = dynamic(
   () => import('@/components/animations/ClearanceAnimation').then(m => ({ default: m.ClearanceAnimation })),
   { ssr: false }
 )
+
+export const OzoneCycleAnimation = dynamic(
+  () => import('@/components/animations/OzoneCycleAnimation').then(m => ({ default: m.OzoneCycleAnimation })),
+  { ssr: false }
+)
+
+export const OzoneVsClimateAnimation = dynamic(
+  () => import('@/components/animations/OzoneVsClimateAnimation').then(m => ({ default: m.OzoneVsClimateAnimation })),
+  { ssr: false }
+)
