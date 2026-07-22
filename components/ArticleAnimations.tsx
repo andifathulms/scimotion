@@ -670,3 +670,13 @@ export const GravitationalTimeDilationAnimation = dynamic(
   () => import('@/components/animations/GravitationalTimeDilationAnimation').then(m => ({ default: m.GravitationalTimeDilationAnimation })),
   { ssr: false }
 )
+
+export const TransitMethodAnimation = dynamic(
+  () => import('@/components/animations/TransitMethodAnimation').then(m => ({ default: m.TransitMethodAnimation })),
+  { ssr: false }
+)
+
+export const RadialVelocityAnimation = dynamic(
+  () => import('@/components/animations/RadialVelocityAnimation').then(m => ({ default: m.RadialVelocityAnimation })),
+  { ssr: false }
+)

@@ -1,0 +1,106 @@
+---
+title: "How We Find Other Worlds"
+subtitle: "We have confirmed thousands of planets around other stars, and almost none of them have ever been seen."
+topic: "Astronomy & Cosmology"
+slug: "exoplanets"
+date: "2026-07-12"
+readTime: 9
+featured: false
+description: "Exoplanets are found not by their light but by the shadow they cast and the tug they exert — a periodic dip in starlight and a Doppler wobble in the star's spectrum."
+tags: ["exoplanets", "astronomy", "doppler", "orbits"]
+quiz:
+  - q: "A clean transit light curve pins down a planet's radius but says nothing about its mass. Why is the depth blind to how heavy the planet is?"
+    options:
+      - "The transit depth depends only on the fraction of the stellar disk the planet's silhouette covers, which is set by the area ratio (R_p/R★)² and not by mass"
+      - "The planet's gravity is too weak to affect the light it blocks"
+      - "Mass only changes the transit's timing, and timing is discarded when the depth is measured"
+      - "The star's brightness variations swamp any mass-dependent signal in the dip"
+    answer: 0
+    explanation: "A transit measures a shadow, so its depth reports the blocked area — the radius — while mass must come from the star's radial-velocity wobble."
+  - q: "Hot Jupiters — massive planets on short orbits — were the first exoplanets found around Sun-like stars, even though they are astronomically rare. What best explains this?"
+    options:
+      - "Massive close-in planets are actually the most common kind of planet in the galaxy"
+      - "They emit enough infrared light to be photographed directly with early instruments"
+      - "Big, close-in planets produce both the deepest transits and the largest, fastest stellar wobbles, making them by far the easiest to detect — a selection effect, not a true abundance"
+      - "Their short periods make Kepler's third law inapplicable, which simplified the early analysis"
+    answer: 2
+    explanation: "Detectability, not frequency, drove the early sample: large radius deepens the transit and large mass on a tight orbit maximises the radial-velocity amplitude."
+  - q: "The radial-velocity method returns only a *minimum* mass, written m_p sin i, rather than the true planet mass. What causes this ambiguity?"
+    options:
+      - "The star's mass is never known precisely enough to solve for the planet's mass"
+      - "The method senses only the line-of-sight component of the star's velocity, so an unknown orbital inclination i leaves the true mass undetermined unless something else fixes i"
+      - "Relativistic corrections to the Doppler shift scale with sin i and cannot be removed"
+      - "The planet's own light contaminates the spectrum by a factor of sin i"
+    answer: 1
+    explanation: "Only the velocity projected onto our line of sight shifts the spectrum, so a face-on orbit shows no wobble; a transit, which requires an edge-on view, fixes i ≈ 90° and turns the minimum mass into the true mass."
+---
+
+## Worlds you cannot see
+
+As of the mid-2020s, astronomers have confirmed more than five thousand planets orbiting other stars. Here is the strange part: almost none of them have ever been *seen*. A planet next to its star is a firefly next to a lighthouse — a billion times fainter, and separated on the sky by a hair's breadth. Point the finest telescope ever built at a nearby Sun-like star and the planet vanishes in the glare.
+
+So we do not look for the planet. We watch the star, and we wait for the planet to give itself away. It does this in two ways. When a planet crosses in front of its star it blocks a sliver of light, and the star dims by a fraction of a percent, on schedule, every orbit — a **shadow**. And because a star and its planet both orbit their shared centre of mass, the star is never quite still; it traces a tiny circle and its light rocks between blue and red — a **tug**.
+
+Two whole worlds, inferred entirely from a dip in brightness and a wobble in a spectrum. This article is where two earlier ideas on this site finally pay off: the reflex orbit is [Kepler's laws](/articles/keplers-laws) applied to a star instead of a planet, and the wobble is the [Doppler effect](/articles/doppler-effect) read off starlight. Two other techniques — direct imaging and gravitational microlensing — do exist and matter, but the transit and the wobble account for the overwhelming majority of the catalogue, so they are where we will stay.
+
+## The shadow: transits
+
+Imagine a planet whose orbit happens to be lined up edge-on to us, so that once per orbit it passes directly between us and its star. During that crossing — the **transit** — the planet's opaque disk covers part of the bright stellar disk, and the total light we receive drops. The star does not flicker or flare; it steps down by a fixed amount, holds there while the planet crosses, and steps back up. Plot brightness against time and you get a flat line with a shallow, flat-bottomed box carved out of it: the **light curve**.
+
+Everything you want to know is written in the shape of that box. Its *depth* tells you how big the planet is relative to the star. Its *duration* and spacing tell you about the orbit. And its exquisite regularity — the same dip, repeating on a fixed clock — is what separates a planet from a passing sunspot or a fluke of the weather in the star's atmosphere.
+
+<TransitMethodAnimation />
+
+Grab the **planet size** slider first. As you enlarge the planet, the box gets deeper — and only deeper; a bigger silhouette blocks more light. Read the depth straight off the light curve: that number *is* the planet's size, converted. Now drag the **geometry** slider. This is the impact parameter — how centrally the planet crosses the disk. A dead-central pass (b = 0) gives the longest, squarest transit; slide toward a grazing pass and the box narrows and softens as the planet clips only the star's edge. Notice what does *not* change as you adjust the geometry: the floor of a full transit sits at the same depth, because the same disk is being covered whichever chord the planet takes.
+
+## The math: what a shadow and a wobble each tell you
+
+**From the transit, a radius.** At the bottom of the dip, the planet's disk of radius $R_p$ blocks part of the stellar disk of radius $R_\star$. The fraction of light removed is just the ratio of the two areas — the **transit depth**:
+
+$$\delta = \left(\frac{R_p}{R_\star}\right)^{2}$$
+
+A Jupiter-sized planet ($R_p \approx 0.1\,R_\star$ for a Sun-like star) gives $\delta \approx 0.01$ — a 1% dip. An Earth ($R_p \approx 0.009\,R_\star$) gives $\delta \approx 8\times10^{-5}$, under a hundredth of a percent, which is why finding small planets demands a space telescope watching from above the atmosphere. Crucially, $\delta$ contains no reference to mass: a puffball and a cannonball of the same radius carve the same box. **A transit measures size, full stop.**
+
+**From the wobble, a mass.** The star and planet orbit their common **barycentre**, so the star swings back and forth along our line of sight, and its spectral lines shift by the Doppler effect. The star's line-of-sight speed traces a curve whose semi-amplitude $K$ is
+
+$$K = \left(\frac{2\pi G}{P}\right)^{1/3}\frac{m_p \sin i}{(M_\star + m_p)^{2/3}}\,\frac{1}{\sqrt{1-e^{2}}}$$
+
+Strip that to what matters. For a circular orbit around a star much heavier than its planet, $K \propto m_p\,P^{-1/3}\,M_\star^{-2/3}$: the wobble grows with **planet mass**, and shrinks slowly as the orbit widens (longer $P$). The $\sin i$ is the catch — we see only the component of the star's motion *along our line of sight*, so a face-on orbit ($i = 0$) produces no shift at all, and radial velocity alone yields a **minimum mass** $m_p \sin i$. Jupiter tugs the Sun by about 12 m/s; Earth by a mere 9 cm/s — a walking pace, extracted from a star trillions of kilometres away.
+
+**The orbit, from Kepler.** The transit hands you the period $P$ directly — it is the time between dips. [Kepler's third law](/articles/keplers-laws), the same relation that orders the solar system, converts that period into an orbital distance:
+
+$$P^{2} = \frac{4\pi^{2}}{G(M_\star + m_p)}\,a^{3}\;\approx\;a^{3}\quad(\text{in years and AU for }M_\star=M_\odot)$$
+
+**And when you have both, a density.** Transits give $R_p$; radial velocity gives $m_p$ (with $i$ nailed to $\approx 90°$ by the very fact that a transit occurs). Together they give the one number neither can supply alone:
+
+$$\rho_p = \frac{m_p}{\tfrac{4}{3}\pi R_p^{3}}$$
+
+Density is what tells a small rocky world from a puffy gas dwarf of identical size — the difference between a place with a surface and a ball of hydrogen. It is why the two methods are so much more than the sum of their parts.
+
+## The tug: radial velocity
+
+The radial-velocity curve is worth watching on its own, because it makes the mass-dependence tangible. Below, a star and planet orbit their shared barycentre; the star's small reflex circle produces the Doppler wobble, drawn as a velocity curve on the right.
+
+<RadialVelocityAnimation />
+
+Turn up the **planet mass**. The barycentre is the balance point of the star–planet seesaw, so a heavier planet drags it further from the star's centre — the star's own orbit grows, its wobble widens, and the velocity curve's amplitude $K$ climbs in step. Watch the star's colour as it goes around: it tints **blue** as it swings toward Earth (its lines crowd to shorter wavelengths) and **red** as it recedes, exactly the [Doppler effect](/articles/doppler-effect) that reddens a receding galaxy, only here it flips sign twice per orbit. A bigger planet does not change the *shape* of that curve — still a clean sine for a circular orbit — only its height. That height, in metres per second, is the planet's mass talking.
+
+## The habitable zone, and why we found the wrong planets first
+
+Convert an orbital distance into a temperature and you can ask the question everyone actually cares about: could liquid water sit on the surface? A planet's equilibrium temperature scales as $T_{\text{eq}} \propto (L_\star / a^{2})^{1/4}$, so the band of orbits where water neither boils nor freezes — the **habitable zone** — sits at a distance that grows with the square root of the star's luminosity:
+
+$$a_{\text{HZ}} \sim \sqrt{\frac{L_\star}{L_\odot}}\;\text{AU}$$
+
+A star ten times as luminous as the Sun pushes its habitable zone out to roughly $\sqrt{10} \approx 3$ AU; a dim red dwarf at a hundredth of the Sun's output hugs its warm band in to about 0.1 AU, closer than Mercury. That last fact is a gift to planet-hunters: around small cool stars the habitable zone is a *short* orbit, which means frequent transits and a larger wobble, so the most detectable planets are also the ones most worth examining.
+
+Which brings us to a caution baked into every catalogue. The first exoplanet found around a Sun-like star, 51 Pegasi b in 1995, was a **hot Jupiter** — a gas giant whipping around its star in four days. For years such planets dominated the tally, and it was tempting to conclude they were common. They are not; they are *rare*. They were found first because they are the loudest signal in both methods at once: a giant radius carves a deep transit, and a giant mass on a tight, fast orbit produces the largest, quickest radial-velocity swing. Small planets on wide orbits — the Earths — whisper, and we simply could not hear them yet. This is **observational bias**, and reading a raw exoplanet catalogue without correcting for it is like surveying a city's population by standing in the loudest nightclub.
+
+One more misconception deserves correcting, because science-fiction art has cemented it: we do **not**, as a rule, photograph these planets. Direct imaging has captured a few dozen young, self-luminous giants far from their stars, and microlensing has caught others by the way a planet's gravity briefly bends a background star's light. But the number of exoplanets ever resolved as a dot of their own light is a tiny fraction of the total. The thousands we know are known by shadow and by tug — by a dimming and a Doppler shift — not by their portrait.
+
+<KeyTakeaways>
+- Exoplanets are found indirectly: the **transit** method reads a planet's *radius* from the depth $\delta = (R_p/R_\star)^{2}$ of a periodic dip in starlight, and the **radial-velocity** method reads its *mass* from the Doppler wobble the planet's gravity induces in the star.
+- The two methods are complementary. A transit gives size but is blind to mass; radial velocity gives a minimum mass $m_p\sin i$ but not size. Together they yield **density** — the difference between a rocky world and a gas ball.
+- Both are the payoff of earlier ideas: the star's reflex orbit is [Kepler's laws](/articles/keplers-laws) seen from the star's side, and the wobble is the [Doppler effect](/articles/doppler-effect) applied to a stellar spectrum, with the period feeding Kepler's third law to give the orbital distance.
+- **Hot Jupiters came first not because they are common but because they are loud** — big radius and big mass on a short orbit maximise both signals. Correcting for this observational bias is essential before drawing conclusions about how common any kind of planet is.
+- Contrary to popular imagination, almost no exoplanet has been directly photographed. Direct imaging and microlensing exist but are the exception; the catalogue of thousands was built from shadows and tugs, not pictures.
+</KeyTakeaways>

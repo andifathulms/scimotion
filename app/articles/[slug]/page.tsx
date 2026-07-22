@@ -153,6 +153,8 @@ import {
   MaxwellBoltzmannAnimation,
   BlackHoleAnimation,
   GravitationalTimeDilationAnimation,
+  TransitMethodAnimation,
+  RadialVelocityAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -307,6 +309,8 @@ const components = {
   MaxwellBoltzmannAnimation,
   BlackHoleAnimation,
   GravitationalTimeDilationAnimation,
+  TransitMethodAnimation,
+  RadialVelocityAnimation,
   KeyTakeaways,
 }
 

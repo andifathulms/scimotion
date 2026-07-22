@@ -1932,6 +1932,24 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  exoplanets: c => {
+    // A planet transiting its star (top) and the light curve it carves out below:
+    // a flat line, a flat-bottomed dip of depth delta = (Rp/R*)^2, then flat again.
+    const curve = '20,74 116,74 132,96 168,96 184,74 280,74'
+    return (
+      <g>
+        <line x1={120} y1={30} x2={180} y2={30} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={150} cy={30} r={17} fill={GOLD} />
+        <circle cx={161} cy={30} r={5} fill={c} stroke={BG} strokeWidth={1} />
+        <line x1={20} y1={74} x2={280} y2={74} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <line x1={20} y1={108} x2={280} y2={108} stroke={FAINT} strokeWidth={1} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={150} y1={74} x2={150} y2={96} stroke={GOLD} strokeWidth={1} />
+        <text x={154} y={89} fill={MUTE} fontSize={8} fontFamily="monospace">δ</text>
+        <text x={244} y={70} fill={MUTE} fontSize={8} fontFamily="monospace">flux</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
