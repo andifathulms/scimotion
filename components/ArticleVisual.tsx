@@ -1950,6 +1950,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'expanding-universe': c => {
+    // A grid of galaxies receding from a central gold "home": every arrow points
+    // outward and the far galaxies carry the long ones — Hubble's law, no centre.
+    const gals: [number, number, number, number][] = [
+      [40, 30, 22, 25], [95, 30, 86, 25], [150, 30, 150, 25], [205, 30, 214, 25], [260, 30, 278, 25],
+      [40, 60, 22, 60], [95, 60, 86, 60], [205, 60, 214, 60], [260, 60, 278, 60],
+      [40, 90, 22, 95], [95, 90, 86, 95], [150, 90, 150, 95], [205, 90, 214, 95], [260, 90, 278, 95],
+    ]
+    return (
+      <g>
+        {gals.map(([gx, gy, tx, ty], i) => (
+          <g key={i}>
+            <line x1={gx} y1={gy} x2={tx} y2={ty} stroke={c} strokeWidth={1.5} opacity={0.6} />
+            <circle cx={tx} cy={ty} r={2} fill={c} opacity={0.6} />
+            <circle cx={gx} cy={gy} r={3} fill={c} />
+          </g>
+        ))}
+        <circle cx={150} cy={60} r={9} fill="none" stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={150} cy={60} r={5} fill={GOLD} />
+        <text x={150} y={113} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">v = H₀d</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

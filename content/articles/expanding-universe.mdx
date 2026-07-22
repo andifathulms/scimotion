@@ -1,0 +1,114 @@
+---
+title: "The Expanding Universe"
+subtitle: "Every galaxy is rushing away from us — and from every other galaxy too, because it is space itself that grows."
+topic: "Astronomy & Cosmology"
+slug: "expanding-universe"
+date: "2026-07-19"
+readTime: 10
+featured: false
+description: "Distant galaxies recede faster the farther they are, yet there is no centre and no edge. Run the picture backward and you arrive at a hot dense beginning whose afterglow still fills the sky at 2.725 K."
+tags: ["cosmology", "redshift", "hubble-law", "dark-energy"]
+quiz:
+  - q: "From our galaxy, every distant galaxy recedes, and the farther ones recede faster. Why is this NOT evidence that the Milky Way sits at the centre of the expansion?"
+    options:
+      - "We only appear central because our telescopes cannot yet see the galaxies moving toward us on the far side"
+      - "Uniform expansion makes every observer, in every galaxy, see exactly the same law — everything receding, proportional to distance — so no vantage point is special"
+      - "The Milky Way is in fact near the centre, but the offset is too small to measure"
+      - "Recession is an optical illusion caused by light losing energy as it crosses intergalactic space"
+    answer: 1
+    explanation: "If space stretches uniformly, the distance between any two galaxies grows in proportion to that distance, so every galaxy sees itself as the still point and all others fleeing — the pattern has no centre."
+  - q: "A galaxy's spectral lines are shifted toward the red. In what sense is the standard cosmological redshift different from an ordinary Doppler shift?"
+    options:
+      - "There is no difference; cosmological redshift is just the Doppler formula applied to very fast galaxies"
+      - "The wavelength is stretched because the space the light travels through expands while the light is in transit, not because the galaxy is moving through space toward or away from us"
+      - "Cosmological redshift is caused by the light climbing out of the galaxy's gravitational well"
+      - "The redshift comes from dust between the galaxies absorbing the blue end of the spectrum"
+    answer: 1
+    explanation: "In the expanding-space picture the photon's wavelength grows in step with the scale factor during its journey; the shift measures how much the universe expanded while the light travelled, not a velocity through space."
+  - q: "Some galaxies have recession speeds implied by their redshift that exceed the speed of light. Why is this not a violation of relativity?"
+    options:
+      - "Their redshifts are measurement errors; nothing actually recedes faster than light"
+      - "Relativity's speed limit applies to motion through space; the growth of space between distant objects is not motion through space and is not capped at c"
+      - "Time dilation slows their clocks so much that the apparent speed is not real"
+      - "They are moving faster than light only in our frame, not in their own"
+    answer: 1
+    explanation: "The cosmic speed limit constrains how fast anything can move through space past a local observer; the recession of distant galaxies is the expansion of the space between them, which carries no such bound."
+---
+
+## Everything is running away
+
+Point a spectrograph at almost any galaxy beyond our own small neighbourhood and you find the same thing: its light is shifted toward the red. The sharp absorption lines that atoms stamp into starlight — hydrogen, calcium, magnesium, at wavelengths fixed by physics and identical in every laboratory — sit at longer wavelengths than they should. The galaxy is receding.
+
+That alone would be strange. The truly startling part is the pattern. In 1929 Edwin Hubble plotted the recession speeds of a few dozen galaxies against his best estimates of their distances and found a straight line: the farther a galaxy, the faster it flees, in direct proportion. Double the distance, double the speed.
+
+It sounds like we are standing at ground zero of a cosmic explosion, watching the debris blow outward. But that reading is wrong, and seeing exactly why it is wrong is the whole subject. It is not that the galaxies are hurtling away from *us* through space. It is that space itself is expanding, carrying the galaxies along with it — and from that one idea, every observer in every galaxy sees precisely what we see, with no one at the centre.
+
+## Hubble's law, and what "no centre" means
+
+The observation compresses into one clean line, **Hubble's law**:
+
+$$v = H_0\, d$$
+
+where $d$ is a galaxy's distance, $v$ is its recession speed, and $H_0$ — the Hubble constant — is the slope. Its measured value sits somewhere near $70$ kilometres per second for every megaparsec of distance (a megaparsec is about $3.26$ million light-years); we will return to the fact that different methods disagree about the exact number.
+
+The proportionality is the key. Imagine raisins baked into a loaf of bread that doubles in size as it rises. Pick any raisin and call it home. A raisin that started $1$ cm away ends up $2$ cm away — it moved $1$ cm during the bake. A raisin that started $3$ cm away ends up $6$ cm away — it moved $3$ cm in the same time, so it moved three times as fast. Every raisin sees its neighbours recede, and the far ones recede faster, in exact proportion to distance. That is Hubble's law, and it falls out of *uniform* expansion automatically.
+
+Crucially, **there is no special raisin**. Choose any one as home and you get the identical picture. The dough has no centre that the raisins fly from; it simply has more dough everywhere, so every pair of raisins drifts apart. (The bread analogy has one flaw — a real loaf has an edge and a centre. The better picture is the surface of a balloon being inflated: dots painted on it all recede from one another, and on the two-dimensional surface there is no centre and no edge at all.)
+
+<ExpandingUniverseAnimation />
+
+Press **Expand** and watch the grid — which stands in for space itself — stretch. The galaxies do not swim through the grid; they stay pinned to their intersections while the grid grows between them. Every arrow points away from your gold home galaxy, and the arrows to the distant galaxies are the long ones: Hubble's law, drawn.
+
+Now the important move. Click a *different* galaxy to make it home, and expand again. Nothing about the picture changes in character — the new home also sees every other galaxy recede, the far ones fastest. Try three or four different homes. The pattern is the same from all of them, and that is the undeniable content of "no centre": every vantage point is the still point of its own view. We are not central. Neither is anyone else.
+
+## Cosmological redshift is not a Doppler shift
+
+Here is the correction that almost every popular account gets slightly wrong, and it matters. We measured the recession with a redshift — the same red shift that a receding [siren or star produces by the Doppler effect](/articles/doppler-effect). It is tempting to conclude that the galaxy is *moving away through space* and the redshift is its Doppler signature. For nearby galaxies that reading is harmless and gives the right answer. For distant ones it is genuinely the wrong physics.
+
+The honest picture uses a **scale factor** $a(t)$: a single number describing how large the universe is at time $t$, conventionally set to $a_0 = 1$ today. When $a$ doubles, every distance between galaxies doubles. Light is a wave riding through this stretching space, and its wavelength stretches with everything else. A photon emitted with wavelength $\lambda_\text{emit}$ when the scale factor was $a_\text{emit}$ arrives today, at scale factor $a_0$, stretched to
+
+$$1 + z = \frac{\lambda_\text{obs}}{\lambda_\text{emit}} = \frac{a_0}{a_\text{emit}}$$
+
+Read that carefully: the redshift $z$ does not measure a velocity. It measures *how much the universe expanded while the light was in flight*. A galaxy at $z = 1$ emitted its light when the universe was half its present size; the wavelength has been stretched by a factor of two en route. The photon was not Doppler-shifted at launch and then coasting — it was stretched continuously, all the way here, by the expansion of the space it crossed.
+
+This distinction does real work. It is why a redshift of $z = 7$ does not mean a galaxy moving at seven times light speed — the Doppler formula was never the right one. And it dissolves the paradox of **superluminal recession**: galaxies distant enough have recession speeds $v = H_0 d$ that exceed $c$, and this violates nothing. Relativity forbids anything from moving *through space* past a local observer faster than light. It says nothing about how fast the space between two far-apart objects may grow. No galaxy ever races through its own local space; it sits quietly while the distances pile up. Two misreadings, one cure: it is space that expands, not galaxies that fly.
+
+## Running the film backward
+
+If space is expanding, then it was smaller yesterday, smaller still last year, and — pushing the logic as far as it goes — arbitrarily small in the finite past. Everything that is now flying apart was once packed together. Rewind the expansion and the universe grows hotter and denser, because the same energy is squeezed into less volume. This is the physical content of the **Big Bang**: not an explosion *in* space at a point, but a hot dense state of the *whole* of space, everywhere at once.
+
+How long ago? The crudest estimate comes free from Hubble's law. If galaxies have always receded at their present speeds, then a galaxy now at distance $d$ took time $d / v = d / (H_0 d) = 1/H_0$ to get there — a time that is the *same for every galaxy*, since the distance cancels. That quantity is the **Hubble time**:
+
+$$t_H = \frac{1}{H_0} \approx \frac{978\ \text{Gyr}}{H_0 / (\text{km/s/Mpc})}$$
+
+For $H_0 \approx 70$ that is about $14$ billion years. It is only a rough figure — gravity slowed the early expansion and dark energy has been speeding up the recent one, so the true age is not exactly $1/H_0$ — but it lands remarkably close to the carefully modelled value of $13.8$ billion years. The expansion rate and the age of the universe are two faces of one measurement.
+
+<HubbleDiagramAnimation />
+
+This is Hubble's diagram, rebuilt from a faithful reproduction of the data (baked-in numbers, not a live feed): each gold point is a galaxy, plotted by distance and recession velocity, and they fall along a line whose slope is $H_0$. Drag the slider through the plausible range and watch two things move together. A *steeper* line means a *larger* $H_0$ — a faster expansion — and the age read off the inverse slope, $1/H_0$, gets *smaller*: a universe that expanded faster reached its present size sooner. A shallower line means a slower expansion and an older universe. Slope and age are locked together, which is why pinning down $H_0$ is really a measurement of how long everything has been going on.
+
+## The afterglow
+
+The hot-dense-beginning story makes a sharp, checkable prediction. Early on, the universe was an opaque plasma — so hot that electrons and nuclei could not bind, and photons scattered endlessly off free electrons like light in fog. As space expanded and cooled through about $3000$ kelvin, the electrons finally combined with nuclei into neutral atoms, the fog lifted, and the photons streamed free. That light has been travelling ever since, stretching with the expansion the whole way.
+
+We should therefore be bathed in that ancient light, redshifted by the enormous factor the universe has expanded since — from a glow of thousands of degrees down into the microwaves. Arno Penzias and Robert Wilson found it in 1965, at first as unaccountable noise in a radio antenna. It is the **cosmic microwave background** (CMB), and it arrives from every direction with a near-perfect thermal spectrum at a temperature of
+
+$$T = 2.725\ \text{K}$$
+
+barely three degrees above absolute zero. It is the oldest light there is, the afterglow of the hot beginning, and its faint temperature ripples — one part in $100{,}000$ across the sky — are the seeds from which galaxies later grew. Nothing in the steady, unchanging universe that many astronomers once preferred predicts a uniform microwave bath at a few kelvin. The expanding, cooling universe predicts it exactly.
+
+## Dark energy, and an honest tension
+
+For decades the open question was how fast gravity was *slowing* the expansion — everyone expected the mutual pull of all that matter to be applying the brakes. In 1998 two teams measuring distant supernovae found the opposite: the expansion has been *accelerating* for the last several billion years. Distant supernovae were fainter — farther away — than a decelerating universe allowed.
+
+The standard accounting attributes this to **dark energy**, an energy of space itself whose density stays roughly constant even as space expands, so its repulsive effect comes to dominate as matter thins out. In the prevailing model it makes up about $70\%$ of the universe's energy budget. This is the current best model and it fits a wide range of data strikingly well — but it deserves to be hedged exactly as strongly as the science hedges it. "Dark energy" is a name for an observation, not an explanation; whether it is a true cosmological constant, some evolving field, or a sign that our theory of gravity needs revising on the largest scales is genuinely open.
+
+The honesty extends to $H_0$ itself. Measure the Hubble constant from the CMB and the physics of the early universe (the *Planck* satellite's 2018 analysis) and you get $H_0 \approx 67.4$ km/s/Mpc. Measure it locally, by climbing the cosmic distance ladder from nearby stars out to supernovae, and you get roughly $73$ km/s/Mpc. Both are careful measurements with small stated error bars, and they do not overlap. This gap is the **Hubble tension**, and as of the mid-2020s it is unresolved — possibly an unrecognised systematic error in one method, possibly a hint that the standard model is missing something. The broad strokes of the expanding universe are settled beyond reasonable doubt; the third decimal place is a live frontier, and it would be dishonest to quote a single value of $H_0$ as if the matter were closed.
+
+<KeyTakeaways>
+- Distant galaxies recede at speeds proportional to their distance ($v = H_0 d$, Hubble 1929), yet there is no centre and no edge — uniform expansion makes every observer, in every galaxy, see the identical pattern.
+- Cosmological redshift is the stretching of light by expanding space, encoded in the scale factor as $1 + z = a_0/a_\text{emit}$ — it measures how much the universe grew during the light's journey, **not** a Doppler shift from motion through space.
+- Because it is space that expands rather than galaxies moving through it, sufficiently distant galaxies recede faster than light with no violation of relativity, whose speed limit governs only motion *through* space.
+- Rewind the expansion to a hot dense beginning and the leftover afterglow is the cosmic microwave background at $2.725$ K; the Hubble time $1/H_0 \approx 14$ Gyr is a rough age estimate close to the modelled $13.8$ Gyr.
+- The expansion is accelerating, attributed to dark energy (~$70\%$ of the energy budget) as the current best model — stated carefully, since its nature is unknown and the $H_0$ tension between Planck's $\approx 67$ and local $\approx 73$ km/s/Mpc remains unresolved.
+</KeyTakeaways>

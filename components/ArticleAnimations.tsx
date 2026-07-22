@@ -680,3 +680,13 @@ export const RadialVelocityAnimation = dynamic(
   () => import('@/components/animations/RadialVelocityAnimation').then(m => ({ default: m.RadialVelocityAnimation })),
   { ssr: false }
 )
+
+export const ExpandingUniverseAnimation = dynamic(
+  () => import('@/components/animations/ExpandingUniverseAnimation').then(m => ({ default: m.ExpandingUniverseAnimation })),
+  { ssr: false }
+)
+
+export const HubbleDiagramAnimation = dynamic(
+  () => import('@/components/animations/HubbleDiagramAnimation').then(m => ({ default: m.HubbleDiagramAnimation })),
+  { ssr: false }
+)
