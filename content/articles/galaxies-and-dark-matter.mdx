@@ -1,0 +1,130 @@
+---
+title: "Galaxies and Dark Matter"
+subtitle: "Stars at a galaxy's edge orbit far too fast for the matter we can see — so most of the mass must be something we cannot."
+topic: "Astronomy & Cosmology"
+slug: "galaxies-and-dark-matter"
+date: "2026-07-03"
+readTime: 10
+featured: false
+description: "Vera Rubin's flat rotation curves, gravitational lensing, and the Bullet Cluster all point to the same conclusion: galaxies are embedded in vast halos of unseen mass that gravitates but does not shine."
+tags: ["dark-matter", "galaxies", "cosmology", "gravitation"]
+quiz:
+  - q: "Outside the visible disk of a galaxy, the orbital speed of stars stays roughly flat with radius instead of falling off. What does a flat rotation curve, v(r) ≈ constant, imply about the mass enclosed within radius r?"
+    options:
+      - "The enclosed mass is constant, so all the galaxy's matter lies in the bright central bulge"
+      - "The enclosed mass grows in proportion to r, so mass keeps accumulating out where almost no light is emitted"
+      - "The enclosed mass falls as 1/r, matching the fading brightness of the disk"
+      - "The enclosed mass grows as r², the same way the surface area of a sphere does"
+    answer: 1
+    explanation: "Setting v = √(GM(<r)/r) constant forces M(<r) ∝ r, so mass must keep piling up with radius even where there is essentially no starlight."
+  - q: "In the Bullet Cluster, two galaxy clusters have passed through each other. X-rays show the hot gas — most of the ordinary matter — lagging in the middle, while gravitational lensing places most of the mass out with the galaxies. Why is this considered strong evidence for dark matter over a mere modification of gravity?"
+    options:
+      - "The gas is hotter than any modified-gravity theory predicts"
+      - "The lensing mass is spatially separated from the bulk of the visible (gas) matter, so the gravity traces something that is not the ordinary matter"
+      - "The galaxies are moving faster than the speed of light after the collision"
+      - "The clusters emit no light at all, proving the matter is dark"
+    answer: 1
+    explanation: "Because the lensing mass sits where the visible gas is not, the gravitating stuff cannot simply be the ordinary matter we see — it points to a separate, collisionless mass component."
+  - q: "Why is ordinary but dim matter — cold gas, dust, faint stars, or MACHOs like stray planets and black holes — ruled out as the main constituent of dark matter?"
+    options:
+      - "Such objects would be too heavy and would collapse the galaxy"
+      - "Independent evidence — microlensing surveys, the cosmic abundance of light elements, and the CMB — limits how much ordinary matter can exist, and it falls far short of the required mass"
+      - "Dust and faint stars would make galaxies rotate more slowly, not faster"
+      - "Ordinary matter cannot form halos, only disks"
+    answer: 1
+    explanation: "Big Bang nucleosynthesis and the CMB fix the total amount of ordinary (baryonic) matter at roughly a sixth of the total, and microlensing rules out enough compact dark objects to make up the rest, so the missing mass must be non-baryonic."
+---
+
+## Spin a galaxy and something breaks
+
+Build a model solar system and set it spinning. The inner planets race; the outer ones crawl. Mercury laps the Sun every 88 days at 47 km/s, while Neptune plods along at 5 km/s and takes 165 years to come around. This is not an accident of history — it is what gravity from a central mass *demands*. Almost the entire mass of the solar system sits in the Sun, so a planet at distance $r$ feels a pull set by that fixed central mass, and the farther out it orbits, the slower it must go to stay in orbit. The speed falls off smoothly with distance, exactly as [Kepler's laws](/articles/keplers-laws) describe.
+
+Now spin a galaxy. A galaxy is not one central mass with tiny planets around it — it is a hundred billion stars, plus gas, spread across a bright disk. But most of that visible material is concentrated toward the middle, so beyond the glowing disk you would expect the same story: stars far from the crowded centre should orbit slowly, their speed tailing off with distance just like Neptune's.
+
+They don't. Measure the orbital speed of gas and stars in a spiral galaxy as you move outward, and the speed climbs to some value and then just *stays there* — flat, out past the visible edge of the disk, as far as we can detect anything orbiting at all. The outer stars move just as fast as stars well inside them. For that to be true, the galaxy must weigh far more than everything we can see, with the extra mass reaching out well beyond the light. That missing mass is what we call **dark matter**.
+
+## What galaxies are, and what they should do
+
+Galaxies come in a few broad flavours. **Spirals** like our own Milky Way are flattened, rotating disks with winding arms of gas and young stars, wrapped around a central bulge. **Ellipticals** are rounder, dispersion-supported swarms of mostly old stars. **Irregulars** are smaller and lumpier. Spirals are the cleanest laboratory for what follows, because their orderly rotation lets us measure orbital speed against radius directly — a **rotation curve**.
+
+Here is the prediction from visible matter alone. Well outside the bright disk, where almost all the starlight is already behind you, a star orbits a nearly fixed enclosed mass $M$, just as a planet orbits the Sun. Balancing gravity against the centripetal requirement gives an orbital speed
+
+$$v(r) = \sqrt{\frac{G\,M(<r)}{r}}$$
+
+where $M(<r)$ is the mass enclosed within radius $r$. Once you are past essentially all the mass, $M(<r)$ stops growing, and the speed falls off as
+
+$$v(r) \propto \frac{1}{\sqrt{r}}$$
+
+This is the **Keplerian falloff** — the very same $1/\sqrt{r}$ decline that makes Neptune crawl. Every honest expectation from the visible mass says the outskirts of a galaxy should show it.
+
+## Rubin's flat curves
+
+In the 1970s, the astronomer **Vera Rubin**, working with Kent Ford and their sensitive spectrograph, set out to measure rotation curves of spiral galaxies precisely — beginning with Andromeda. She measured how fast the gas and stars orbited at increasing distances from each galaxy's centre, expecting the outer regions to trace the Keplerian decline.
+
+Instead, the curves went flat. Speed rose in the crowded inner region, then levelled off and stayed nearly constant out to the last measurable point — no falloff at all. Rubin found the same thing galaxy after galaxy. The outer stars were not slowing down the way distant planets do; they were orbiting far too fast for the mass she could see to hold them. Either they should have been flung away long ago, or there was a great deal of mass out there that emitted no light.
+
+The primary widget makes the mismatch concrete. It plots orbital speed against radius, and lets you compare the prediction from visible matter against the observed curve — and then close the gap yourself.
+
+<RotationCurveAnimation />
+
+Start with the **halo mass at zero**. The blue curve is what the visible disk alone predicts: it rises through the bright inner region, peaks, then rolls over into the $1/\sqrt{r}$ Keplerian decline. The gold curve is what Rubin actually measured — stubbornly flat. The shaded gap between them is the problem: at large radius the observed stars are moving *much* faster than the visible mass can explain. Watch the two orbiting stars, one on each curve, and you will see the outer star on the flat curve refusing to fall behind. Now drag the **halo mass** slider up. As you add an extended halo of unseen mass, the predicted curve lifts at large radius and flattens — and at the right halo mass it lands right on top of the observed curve. The extra mass is exactly what flattens the curve. That is the whole argument, made undeniable by your own hand on the slider.
+
+## What "flat" forces the mass to do
+
+The flat curve is not just qualitatively surprising — it pins down how the unseen mass must be distributed. Rearrange the orbital-speed relation for the enclosed mass:
+
+$$M(<r) = \frac{v(r)^2\, r}{G}$$
+
+If the observed speed $v(r)$ is constant with radius, then $M(<r) \propto r$. The mass enclosed keeps **growing in direct proportion to radius**, out into regions where the starlight has all but vanished. Double the radius and you double the enclosed mass — but you do not double the light. In the visible-matter picture, by contrast, once you are past the disk $M(<r)$ is nearly constant and $v \propto 1/\sqrt{r}$.
+
+So the galaxy is not a bright disk sitting in empty space. It is a bright disk embedded in a vast, roughly spherical **halo** of invisible mass that extends far beyond the light and whose mass keeps accumulating with radius. Adding up the numbers across many galaxies, the halo typically outweighs all the stars and gas by something like five or ten to one. The luminous galaxy is the small, bright tip of a much larger dark iceberg.
+
+It is worth being careful about what this shows and what it does not. The rotation curves robustly demonstrate **extra unseen mass acting gravitationally** — that part is not in serious doubt. What they do *not* tell you is what that mass is made of. Keep those two claims separate; almost every overstatement about dark matter comes from blurring them.
+
+## Weighing what we cannot see: gravitational lensing
+
+Rotation curves are one line of evidence. If they stood alone, a cautious scientist might wonder whether we simply misunderstand gravity on galactic scales. They do not stand alone, and the most visually direct corroboration comes from **gravitational lensing**.
+
+Mass bends the path of light. This is the same effect that lets a [black hole](/articles/black-holes) deflect and capture passing rays, but here it operates gently and on enormous scales: a foreground concentration of mass — a galaxy or a cluster — bends the light from a more distant galaxy behind it, smearing that background galaxy into arcs, rings, or multiple images. Crucially, the amount of bending depends only on the *total* mass in the way, whether or not that mass shines. Lensing is a scale that weighs mass directly, light or dark.
+
+<GravitationalLensingAnimation />
+
+A bright background galaxy sits behind a foreground mass concentration that is mostly invisible. With the mass near zero, its light reaches you almost straight, as a single point. Turn up the **lens mass** and watch the light bend: the background image stretches into arcs and splits into multiple images, and near perfect alignment it wraps into a ring. The stronger the lensing, the more mass must be there — and when astronomers do this for real clusters, the mass they infer from the bending vastly exceeds the mass of all the visible stars and gas. They are weighing something they cannot see, and independently arriving at the same missing mass the rotation curves demanded. (This widget is a schematic that mimics the geometry of bending; it is not a full gravitational ray-trace, so the arcs are illustrative rather than exact.)
+
+## The evidence converges — and rules out the boring answers
+
+Two independent methods agreeing is good. Several are better, and the case for dark matter is strong precisely because so many unrelated observations point the same way.
+
+- **The Bullet Cluster.** Two galaxy clusters have collided and passed through each other. The galaxies, being tiny and far apart, sailed past like widely spaced gnats; the clusters' hot gas — which is most of the *ordinary* matter — collided, slowed, and piled up in the middle, glowing in X-rays. But gravitational lensing shows most of the *mass* is not in the middle with the gas — it sits out with the galaxies, having passed straight through. The gravitating mass and the bulk of the visible matter are spatially *separated*. That is very hard to explain by tweaking the law of gravity, and natural if most of the mass is collisionless dark matter that flew through the collision untouched.
+- **The cosmic microwave background.** The faint temperature ripples in the [afterglow of the Big Bang](/articles/expanding-universe) encode the early universe's contents. Their detailed pattern only fits if there is far more gravitating matter than the ordinary kind — and, tellingly, matter that does *not* interact with light, so it could clump early while the ordinary matter was still held smooth by radiation pressure.
+- **Large-scale structure.** The cosmic web of galaxies, filaments, and voids grew from those early ripples. Simulations only reproduce the observed web when dark matter is included to provide the gravitational scaffolding on which ordinary matter later collected.
+
+These same lines of evidence quietly demolish the tempting idea that dark matter is just ordinary stuff too faint to see. Could it be cold gas, dust, dim failed stars, stray planets, or a swarm of black holes — collectively **MACHOs**, MAssive Compact Halo Objects? No. Compact dark objects passing in front of stars would betray themselves by briefly brightening them through microlensing; dedicated surveys watched millions of stars for years and found nowhere near enough events. More decisively, two independent cosmic measurements — the abundances of the light elements forged in the first minutes ([Big Bang nucleosynthesis](/articles/expanding-universe)) and the CMB — fix the total amount of *ordinary* (baryonic) matter at only about a sixth of all the matter. There simply are not enough protons and neutrons in the universe to be the dark matter, however you hide them. The missing mass must be something **non-baryonic** — a kind of matter not made of the ordinary particles at all.
+
+## What it is — and what we honestly don't know
+
+So what *is* it? Here the honesty has to sharpen, because the evidence for dark matter's gravitational effects is far stronger than our knowledge of its nature.
+
+What the evidence robustly shows: there is extra mass that gravitates, is spread in extended halos, does not emit, absorb, or scatter light (it is **transparent** by nature, not merely dim), is not made of ordinary matter, and barely interacts except through gravity. The leading hypothesis is that it is a **new elementary particle** left over from the early universe — one that is massive and interacts only weakly, if at all, beyond gravity. Historically the front-runner was a class called **WIMPs** (Weakly Interacting Massive Particles); another long-standing candidate is a very light particle called the **axion**. Both are actively hunted in underground detectors, at particle colliders, and with dedicated telescopes.
+
+But — and this is the part that popular accounts rush past — **no dark-matter particle has yet been detected directly.** Decades of increasingly sensitive experiments have turned up no confirmed signal, which has steadily squeezed the simplest WIMP models. The particle interpretation is the leading idea, not an established fact. A minority of physicists pursue modified theories of gravity instead, though these struggle to account for the Bullet Cluster and the CMB together. It is entirely fair to say we have overwhelming evidence that dark matter *acts*, and no confirmed idea of what it *is*.
+
+## The cosmic budget, and a misconception to retire
+
+Zoom out to the whole universe and dark matter takes its place in a startling inventory. Combining the CMB with other data, the *Planck* satellite's measurements give an energy budget of roughly:
+
+- **~5% ordinary matter** — everything made of atoms: stars, planets, gas, you.
+- **~27% dark matter** — the unseen gravitating mass of this article.
+- **~68% dark energy** — the mysterious component driving the [accelerating expansion](/articles/expanding-universe).
+
+Everything we have ever seen through a telescope, every atom in every catalogue, is that first slim slice. Dark matter outweighs ordinary matter by more than five to one, and together they are still dwarfed by dark energy, which is a different puzzle altogether.
+
+Which brings us to the misconception worth retiring: that dark matter is a *fudge factor* — a name astronomers invented to paper over a mistake, or just "stuff too faint to see." Neither is right. Dark matter is not assumed; it is **inferred from gravity**, and inferred over and over by methods that know nothing about each other — rotation curves, lensing, the Bullet Cluster, the CMB, the growth of cosmic structure. It is transparent to light not because our telescopes are too weak but *by its nature*, which is exactly why it can pull without glowing. The genuinely open question is not *whether* there is unseen mass — the evidence for that is overwhelming — but *what it is made of*, and there the answer is a candid "we don't yet know."
+
+<KeyTakeaways>
+- Stars in a galaxy's outskirts orbit at a nearly constant speed instead of the Keplerian $v \propto 1/\sqrt{r}$ falloff — Vera Rubin's flat rotation curves of the 1970s. Because $v(r) = \sqrt{G\,M(<r)/r}$, a flat curve forces $M(<r) \propto r$: mass keeps piling up where there is no light.
+- The evidence is multiple and independent — rotation curves, gravitational lensing weighing unseen mass, the Bullet Cluster separating mass from visible gas, and the CMB plus large-scale structure — and they all agree there is far more gravitating matter than shines.
+- Dark matter is not ordinary matter that is merely faint: microlensing rules out MACHOs, and Big Bang nucleosynthesis and the CMB cap ordinary matter at ~1/6 of all matter, so it must be non-baryonic. It is transparent to light by nature, not by dimness.
+- What the evidence robustly shows (extra unseen mass acting gravitationally) is far more certain than what dark matter *is*. The leading idea is a new weakly-interacting particle (WIMPs, axions), but none has been detected — the nature of dark matter is genuinely unknown.
+- In the *Planck* cosmic budget, ordinary matter is only ~5%, dark matter ~27%, and dark energy ~68%. Dark matter is inferred from gravity by many independent methods — it is not a fudge factor.
+</KeyTakeaways>

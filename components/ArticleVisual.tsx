@@ -2042,6 +2042,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'galaxies-and-dark-matter': c => {
+    // Rotation curve: flat observed line (accent) above the falling Keplerian
+    // prediction (mute, dashed). The shaded gap is the dark matter; gold dots
+    // are fast outer stars on the flat curve. Integer literals.
+    const observed = '30,100 50,62 70,44 100,40 140,40 190,40 240,40 280,40'
+    const prediction = '30,100 50,64 70,52 100,60 140,74 190,85 240,92 280,96'
+    const gap = '30,100 50,62 70,44 100,40 140,40 190,40 240,40 280,40 280,96 240,92 190,85 140,74 100,60 70,52 50,64'
+    return (
+      <g>
+        <line x1={30} y1={18} x2={30} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={30} y1={100} x2={288} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <polygon points={gap} fill={`${c}1A`} />
+        <polyline points={prediction} fill="none" stroke={MUTE} strokeWidth={1.5} strokeDasharray="4 3" />
+        <polyline points={observed} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={140} cy={40} r={2.5} fill={GOLD} />
+        <circle cx={190} cy={40} r={2.5} fill={GOLD} />
+        <circle cx={240} cy={40} r={2.5} fill={GOLD} />
+        <text x={206} y={34} fill={c} fontSize={8} fontFamily="monospace">observed</text>
+        <text x={214} y={106} fill={MUTE} fontSize={8} fontFamily="monospace">∝1/√r</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

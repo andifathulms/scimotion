@@ -720,3 +720,13 @@ export const VascularResistanceAnimation = dynamic(
   () => import('@/components/animations/VascularResistanceAnimation').then(m => ({ default: m.VascularResistanceAnimation })),
   { ssr: false }
 )
+
+export const RotationCurveAnimation = dynamic(
+  () => import('@/components/animations/RotationCurveAnimation').then(m => ({ default: m.RotationCurveAnimation })),
+  { ssr: false }
+)
+
+export const GravitationalLensingAnimation = dynamic(
+  () => import('@/components/animations/GravitationalLensingAnimation').then(m => ({ default: m.GravitationalLensingAnimation })),
+  { ssr: false }
+)
