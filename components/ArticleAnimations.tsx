@@ -740,3 +740,13 @@ export const ReactionExtentAnimation = dynamic(
   () => import('@/components/animations/ReactionExtentAnimation').then(m => ({ default: m.ReactionExtentAnimation })),
   { ssr: false }
 )
+
+export const GeodynamoAnimation = dynamic(
+  () => import('@/components/animations/GeodynamoAnimation').then(m => ({ default: m.GeodynamoAnimation })),
+  { ssr: false }
+)
+
+export const MagnetosphereAnimation = dynamic(
+  () => import('@/components/animations/MagnetosphereAnimation').then(m => ({ default: m.MagnetosphereAnimation })),
+  { ssr: false }
+)

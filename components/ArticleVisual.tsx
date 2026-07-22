@@ -2085,6 +2085,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'earths-magnetic-field': c => {
+    // Dipole field looping around the Earth (right), with the solar wind
+    // streaming in from the left and deflected around the magnetopause.
+    const ex = 196, ey = 60, nY = 34, sY = 86
+    const loops: [number, number][] = [[40, 0.9], [66, 0.6], [92, 0.4]]
+    const wind = [30, 90]
+    return (
+      <g>
+        <path d="M 150 8 Q 96 60 150 112" fill="none" stroke={GOLD} strokeWidth={1} strokeDasharray="4 3" opacity={0.6} />
+        {wind.map(y => <line key={`w${y}`} x1={8} y1={y} x2={104} y2={y} stroke={MUTE} strokeWidth={1} />)}
+        {wind.map(y => [24, 48, 72].map(x => <circle key={`d${x}-${y}`} cx={x} cy={y} r={1.5} fill={GOLD} opacity={0.75} />))}
+        <polygon points="104,30 98,27 98,33" fill={MUTE} />
+        <polygon points="104,90 98,87 98,93" fill={MUTE} />
+        <path d="M 104 30 Q 130 30 140 12" fill="none" stroke={MUTE} strokeWidth={1} opacity={0.7} />
+        <path d="M 104 90 Q 130 90 140 108" fill="none" stroke={MUTE} strokeWidth={1} opacity={0.7} />
+        {loops.map(([L, op]) => (
+          <g key={L}>
+            <path d={`M ${ex} ${nY} Q ${ex - L} ${ey} ${ex} ${sY}`} fill="none" stroke={c} strokeWidth={1.25} opacity={op} />
+            <path d={`M ${ex} ${nY} Q ${ex + L} ${ey} ${ex} ${sY}`} fill="none" stroke={c} strokeWidth={1.25} opacity={op} />
+          </g>
+        ))}
+        <circle cx={ex} cy={ey} r={22} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <circle cx={ex} cy={ey} r={7} fill={GOLD} />
+        <circle cx={ex} cy={nY} r={2} fill={c} />
+        <circle cx={ex} cy={sY} r={2} fill={c} />
+        <text x={ex} y={30} textAnchor="middle" fontSize={7} fill={c} fontFamily="monospace">N</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
