@@ -1,0 +1,132 @@
+---
+title: "Heredity and Mendelian Genetics"
+subtitle: "Traits are not blended like paint — they are passed as discrete packets that hide, reappear, and obey the arithmetic of probability."
+topic: "Biology"
+slug: "heredity"
+date: "2026-07-15"
+readTime: 10
+featured: false
+description: "How Mendel's pea experiments overturned blending inheritance, why a monohybrid cross gives 3:1 and a dihybrid 9:3:3:1, and how the Punnett square is just a probability calculation over discrete alleles."
+tags: ["genetics", "inheritance", "probability", "mendel"]
+quiz:
+  - q: "In a monohybrid cross Aa × Aa, a couple has exactly four children. Which statement is correct?"
+    options:
+      - "Exactly three will show the dominant trait and one the recessive, because the ratio is fixed at 3:1"
+      - "Each child independently has a 3/4 chance of the dominant trait, so four children could easily come out 4:0 or 2:2 — the 3:1 is only the expectation averaged over many offspring"
+      - "All four will show the dominant trait, because a dominant allele overrides the recessive one every time"
+      - "The 3:1 ratio applies to genotypes but never to phenotypes"
+    answer: 1
+    explanation: "The 3:1 is the expected proportion across many independent offspring, not a guaranteed count in any single small family."
+  - q: "A 'dominant' allele in a population is best described as which of the following?"
+    options:
+      - "The allele that is more common, since dominance means it out-competes the other over time"
+      - "The allele that produces a stronger, fitter, or healthier organism"
+      - "The allele whose phenotype is the one expressed in a heterozygote, regardless of how common it is or whether it is beneficial"
+      - "The allele carried on the longer of the two paired chromosomes"
+    answer: 2
+    explanation: "Dominance only describes which allele's phenotype shows in a heterozygote; it says nothing about frequency or fitness, and many dominant traits are rare while many recessive ones are common."
+  - q: "Why does a dihybrid cross AaBb × AaBb produce a 9:3:3:1 phenotype ratio?"
+    options:
+      - "Because the two genes are physically linked and are always inherited together as a unit"
+      - "Because each gene independently segregates 3:1, and for unlinked genes the joint probabilities multiply: (3/4)(3/4) : (3/4)(1/4) : (1/4)(3/4) : (1/4)(1/4)"
+      - "Because there are nine possible genotypes and each is equally likely"
+      - "Because dominant traits are always nine times more common than recessive ones"
+    answer: 1
+    explanation: "Independent assortment makes the two separate 3:1 ratios statistically independent, so multiplying them gives 9:3:3:1."
+---
+
+## Inheritance is not paint
+
+For most of human history, the obvious theory of inheritance was that offspring are a blend of their parents. A tall parent and a short parent should give a medium child; a black hen and a white rooster, a grey chick. Cross the greys back together and you should get more grey. On this **blending** view, variation is like paint: mix two colours and you get a third, and once mixed there is no getting the originals back. Run it forward a few generations and every difference should average out into a uniform middle. The whole population should slowly turn grey.
+
+This picture has a fatal problem, one that Darwin himself worried about: if variation blends away every generation, then there is nothing left for [natural selection](/articles/natural-selection) to act on. A population that homogenises cannot evolve. And yet variation plainly does *not* disappear — recessive traits skip a generation and come back unchanged, and rare features resurface in a grandchild that neither parent showed.
+
+The resolution came from a monk counting peas. Between 1856 and 1863, Gregor Mendel grew tens of thousands of pea plants in a monastery garden and did something biologists before him had not: he counted. His result was that inheritance is nothing like paint. Traits come in **discrete packets** that are passed on whole, stay intact while hidden, and reappear generations later exactly as they were. Inheritance is **particulate**, not blending — and that single correction is the foundation of all of genetics.
+
+## Genes, alleles, and two kinds of description
+
+Mendel could not see DNA, but he could infer its logic. Each of his traits — seed shape, flower colour, plant height — is governed by a **gene**, a unit of heredity. A gene comes in alternative versions called **alleles**. For flower colour, say, there is a purple allele and a white allele. Every pea plant carries **two copies** of each gene, one inherited from each parent, and those two copies may be the same allele or different ones.
+
+We write alleles as letters: `A` for one version, `a` for another. A plant's pair of alleles is its **genotype** — `AA`, `Aa`, or `aa`. What the plant actually looks like is its **phenotype** — purple or white flowers. The crucial and non-obvious fact Mendel uncovered is that the genotype does not map onto the phenotype one-to-one.
+
+When the two alleles differ (`Aa`, a **heterozygote**), one of them wins: the plant looks exactly as if it were `AA`. The allele that shows is **dominant** (write it uppercase, `A`); the one that is masked is **recessive** (`a`). So three of the genotypes collapse onto two appearances:
+
+- `AA` (homozygous dominant) → purple
+- `Aa` (heterozygous) → purple
+- `aa` (homozygous recessive) → white
+
+This is why a trait can *hide*. A purple-flowered plant might be `AA` or `Aa`; you cannot tell by looking. The white allele in an `Aa` plant is not diluted or weakened — it is fully present, fully intact, and simply not expressed. Cross two such carriers and it can reappear at full strength. That is the particulate idea made concrete, and it is the piece that blending inheritance could never explain.
+
+One warning that matters and is almost always misunderstood: **dominant does not mean stronger, better, or more common.** Dominance is purely a statement about which allele's phenotype appears in a heterozygote. Plenty of dominant alleles are rare (many harmful dominant conditions affect a tiny fraction of people), and plenty of recessive alleles are extremely common. Dominance is about *expression*, not *fitness* and not *frequency* — a distinction we will sharpen when we reach the population level.
+
+## Watching a cross fill in
+
+The tool Mendel's successors invented to bookkeep a cross is the **Punnett square**. Each parent puts one of its two alleles into each gamete (egg or pollen) — this is **segregation**, the physical separation of the paired alleles into different gametes. The square lists one parent's possible gametes along the top, the other's down the side, and each interior cell is one equally likely way to combine them into an offspring.
+
+<PunnettSquareAnimation />
+
+Start in **Monohybrid** mode with both parents set to `Aa` — the classic cross of two heterozygotes. The square fills with four cells: `AA`, `Aa`, `Aa`, `aa`. Three of the four are purple, one is white, and the caption reads a **3:1** phenotype ratio. Now press **Breed offspring** and watch the simulation actually sample thousands of children, one gamete drawn at random from each parent. The bars climb and settle onto the white expectation markers — but notice they *wobble* there rather than landing on it exactly. The 3:1 is where the counts converge, not a quota any individual family must fill.
+
+Try a few deliberate changes. Set one parent to `AA` and the other to `aa`: every cell is `Aa`, every offspring purple, and the recessive trait vanishes from view for a generation even though every single child carries it. Set both parents to `aa` and every child is white. Then switch to **Dihybrid** mode, leave both parents at `AaBb`, and watch a 4×4 square appear with the famous **9:3:3:1** ratio — the subject of the math below.
+
+## The arithmetic of a cross
+
+Everything the square does is probability. A single gene in an `Aa` parent segregates so that a random gamete carries `A` with probability $\tfrac12$ and `a` with probability $\tfrac12$. An offspring's genotype is one allele from each parent, drawn **independently**, so its probability is a product:
+
+$$P(aa) = P(a \text{ from parent 1}) \times P(a \text{ from parent 2}) = \tfrac12 \times \tfrac12 = \tfrac14$$
+
+Do this for all four combinations of the `Aa × Aa` cross and you recover the **genotype ratio**
+
+$$AA : Aa : aa \;=\; \tfrac14 : \tfrac12 : \tfrac14 \;=\; 1 : 2 : 1$$
+
+where the `Aa` box gets a factor of 2 because there are two independent routes to it (`A` from mother and `a` from father, or the reverse). Fold in dominance — `AA` and `Aa` both look purple — and the genotype ratio collapses to the **phenotype ratio**:
+
+$$\underbrace{\tfrac14 + \tfrac12}_{\text{purple}} : \underbrace{\tfrac14}_{\text{white}} \;=\; \tfrac34 : \tfrac14 \;=\; 3 : 1$$
+
+That the Punnett square is a probability table is exactly the point of contact with [Bayes' theorem](/articles/bayes-theorem). Both are bookkeeping devices for combining probabilities of independent events, and both are routinely misread the same way — as certainties rather than expectations. The 3:1 ratio is the *long-run average* over many offspring, in precisely the sense that a fair coin gives heads "half the time." Four children of an `Aa × Aa` cross are four independent coin-like draws; getting all four purple has probability $(3/4)^4 \approx 0.32$, which is not rare at all. **The ratio is a statistical expectation, not a guarantee** — the law of large numbers, not a law of small families.
+
+Now put two genes together. Mendel's second great result, the **law of independent assortment**, says that for genes on different chromosomes, the allele an offspring gets for gene $A$ is independent of the allele it gets for gene $B$. Independence means the joint probability is again a product. Each gene on its own gives a 3:1 phenotype ratio, so the two combine as
+
+$$\left(\tfrac34 A\_ + \tfrac14\, aa\right)\left(\tfrac34 B\_ + \tfrac14\, bb\right)$$
+
+which multiplies out to
+
+$$\tfrac{9}{16}\,A\_B\_ \;:\; \tfrac{3}{16}\,A\_bb \;:\; \tfrac{3}{16}\,aaB\_ \;:\; \tfrac{1}{16}\,aabb \;=\; 9:3:3:1$$
+
+The dihybrid ratio is not a new phenomenon; it is two 3:1 ratios multiplied, exactly as two independent coin flips give a 1:1:1:1 split of HH:HT:TH:TT. This is why the dihybrid mode of the widget converges on 9:3:3:1 and why, crucially, **new combinations appear** — an `A_bb` or `aaB_` offspring pairs a trait from one grandparent with a trait from the other. Independent assortment is a shuffling engine that generates novel heritable variation every generation.
+
+## The allele that hides and returns
+
+A Punnett square is a snapshot of one cross. The deeper claim of particulate inheritance — that an allele travels through generations *intact*, hidden in carriers and re-emerging unchanged — is a statement about pedigrees, and it is best watched over time.
+
+<InheritanceAnimation />
+
+The pedigree starts with two founders in generation I who are both healthy-looking `Aa` **carriers**: squares and circles are the standard symbols for male and female, a small violet dot marks a hidden recessive allele, and a filled pink symbol marks an individual who actually shows the recessive trait (`aa`). One child of the founders (ringed in gold) continues the family line and marries a carrier from outside. Press **Draw families** and watch new pedigrees stream past, or click **New family** to draw them one at a time.
+
+Two things are worth watching for. First, follow a run where the continuing parent is a carrier (`Aa`): both of that individual's own parents may look unaffected, the individual looks unaffected, and yet an affected `aa` grandchild appears in generation III. The recessive allele was never diluted on the way down — it sat silently in a heterozygote for a whole generation and then resurfaced at full strength. That is the death of blending inheritance in a single picture. Second, watch the running tally in the corner. Over many families the trait resurfaces only a fraction of the time, and dragging **Children** up or down changes that fraction — because whether a recessive trait *appears* is, once again, a probability, not a certainty.
+
+## Where the clean ratios lead — and where they bend
+
+Return to the worry we opened with. Blending inheritance destroys variation; particulate inheritance *preserves* it. Every `Aa` carrier is a reservoir holding a recessive allele in reserve, and independent assortment reshuffles alleles into fresh combinations each generation. This is precisely the heritable variation that [natural selection](/articles/natural-selection) requires as its raw material — Mendel supplied the mechanism of inheritance that Darwin's theory had been missing. The two ideas only fused into the "modern synthesis" in the 1930s and 40s.
+
+Scaling Mendel's arithmetic from a single family to a whole population gives the **Hardy–Weinberg** relation. If an allele has frequency $p$ and its alternative frequency $q = 1 - p$, then random mating distributes genotypes as
+
+$$p^2 + 2pq + q^2 = 1$$
+
+with $p^2$ homozygous dominant, $2pq$ heterozygous carriers, and $q^2$ homozygous recessive. This is nothing more than the 1:2:1 logic applied to the gene pool at large, and it is the baseline against which the changes in the [natural selection](/articles/natural-selection) article become visible. It also settles the misconception about dominance directly: a *dominant* phenotype's frequency is $p^2 + 2pq$, a *recessive* one's is $q^2$, and these depend entirely on $p$ and $q$ — not on which allele is dominant. A recessive allele can be overwhelmingly the more common one in a population; dominance never changes an allele's frequency by itself.
+
+Finally, honesty about the model. Mendel chose his seven traits well: each is controlled by a single gene with two cleanly dominant/recessive alleles on separate chromosomes. Real inheritance is often messier, and the clean ratios are the simple, foundational case rather than the whole story.
+
+- **Incomplete dominance** and **codominance**: sometimes the heterozygote is genuinely intermediate (a red and a white snapdragon give pink) or shows both alleles at once (AB blood type). Note this is *not* blending — cross two pink snapdragons and you get red, pink, and white in a 1:2:1 ratio, the alleles resurfacing intact. The phenotypes are intermediate; the alleles are still discrete particles.
+- **Polygenic traits**: height, skin colour, and most quantitative traits are shaped by many genes plus environment, producing smooth bell-curve variation rather than two crisp categories.
+- **Linkage**: genes physically close together on the same chromosome are inherited together and *violate* independent assortment, which is exactly what lets geneticists map genes by how often they are separated.
+
+None of this overturns Mendel. It layers on top of him. Every one of these cases is still built from discrete alleles passed on whole — the packets are just combined in richer ways. The particulate foundation, and the probability arithmetic that goes with it, remains the bedrock. It is why a gene defined at the molecular level in [gene expression](/articles/gene-expression) can be tracked as a clean symbol through a family tree, and why the variation it produces is durable enough for selection to act on across deep time.
+
+<KeyTakeaways>
+- Inheritance is **particulate, not blending**: traits are discrete alleles passed on intact, so a recessive allele can hide in a heterozygous carrier for generations and reappear unchanged — the central correction Mendel supplied.
+- **Genotype is not phenotype.** In a heterozygote the dominant allele's phenotype shows, but "dominant" means only *which allele is expressed* — never stronger, fitter, or more common. Many dominant traits are rare and many recessive ones common.
+- A Punnett square is a **probability calculation**: offspring genotypes are products of independent segregation events, giving 1:2:1 genotypes and a **3:1** phenotype ratio for a monohybrid cross — an expectation over many offspring, not a quota for any one family.
+- **Independent assortment** makes two genes' ratios multiply, so `AaBb × AaBb` gives **9:3:3:1** and generates brand-new trait combinations — the shuffling that keeps heritable variation alive.
+- This variation is exactly what [natural selection](/articles/natural-selection) acts on; scaled to a population it becomes **Hardy–Weinberg** ($p^2 + 2pq + q^2 = 1$). Real traits add incomplete dominance, polygenic effects, and linkage on top of this foundation, but never undo it.
+</KeyTakeaways>

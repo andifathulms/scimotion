@@ -2273,6 +2273,40 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  heredity: c => {
+    // A 2x2 monohybrid Punnett square (Aa x Aa): three dominant cells and one
+    // recessive read the 3:1 phenotype ratio, echoed by the swatch row.
+    const GX = 66, GY = 42, S = 34
+    const cells = [
+      { r: 0, col: 0, gt: 'AA', dom: true },
+      { r: 0, col: 1, gt: 'Aa', dom: true },
+      { r: 1, col: 0, gt: 'Aa', dom: true },
+      { r: 1, col: 1, gt: 'aa', dom: false },
+    ]
+    return (
+      <g>
+        <text x={GX + S} y={28} textAnchor="middle" fontSize={10} fill={MUTE} fontFamily="monospace">Aa × Aa</text>
+        <text x={GX + 17} y={38} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">A</text>
+        <text x={GX + 51} y={38} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">a</text>
+        <text x={GX - 10} y={GY + 21} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">A</text>
+        <text x={GX - 10} y={GY + 55} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">a</text>
+        {cells.map((cell, i) => {
+          const x = GX + cell.col * S, y = GY + cell.r * S
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={30} height={30} rx={4} fill={cell.dom ? `${c}33` : `${GOLD}33`} stroke={cell.dom ? c : GOLD} strokeWidth={0.75} />
+              <text x={x + 15} y={y + 19} textAnchor="middle" fontSize={11} fill={cell.dom ? c : GOLD} fontFamily="monospace">{cell.gt}</text>
+            </g>
+          )
+        })}
+        <rect x={190} y={50} width={12} height={12} rx={2} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <rect x={206} y={50} width={12} height={12} rx={2} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <rect x={222} y={50} width={12} height={12} rx={2} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <rect x={244} y={50} width={12} height={12} rx={2} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={0.75} />
+        <text x={224} y={82} textAnchor="middle" fontSize={12} fill={MUTE} fontFamily="monospace">3 : 1</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

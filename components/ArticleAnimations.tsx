@@ -800,3 +800,13 @@ export const OzoneVsClimateAnimation = dynamic(
   () => import('@/components/animations/OzoneVsClimateAnimation').then(m => ({ default: m.OzoneVsClimateAnimation })),
   { ssr: false }
 )
+
+export const PunnettSquareAnimation = dynamic(
+  () => import('@/components/animations/PunnettSquareAnimation').then(m => ({ default: m.PunnettSquareAnimation })),
+  { ssr: false }
+)
+
+export const InheritanceAnimation = dynamic(
+  () => import('@/components/animations/InheritanceAnimation').then(m => ({ default: m.InheritanceAnimation })),
+  { ssr: false }
+)
