@@ -810,3 +810,13 @@ export const InheritanceAnimation = dynamic(
   () => import('@/components/animations/InheritanceAnimation').then(m => ({ default: m.InheritanceAnimation })),
   { ssr: false }
 )
+
+export const GasExchangeAnimation = dynamic(
+  () => import('@/components/animations/GasExchangeAnimation').then(m => ({ default: m.GasExchangeAnimation })),
+  { ssr: false }
+)
+
+export const HemoglobinAnimation = dynamic(
+  () => import('@/components/animations/HemoglobinAnimation').then(m => ({ default: m.HemoglobinAnimation })),
+  { ssr: false }
+)

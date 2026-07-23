@@ -1,0 +1,128 @@
+---
+title: "Breathing and Gas Exchange"
+subtitle: "Oxygen is never pumped into your blood — it drifts downhill across a barrier thinner than a soap bubble, over a surface the size of a tennis court folded into your chest."
+topic: "Medicine"
+slug: "gas-exchange"
+date: "2026-07-10"
+readTime: 10
+featured: false
+description: "How each breath is a passive physics problem: oxygen diffusing down a partial-pressure gradient across the alveolar membrane, loaded onto hemoglobin by an S-shaped curve built for delivery."
+tags: ["physiology", "respiration", "diffusion", "hemoglobin"]
+quiz:
+  - q: "A common belief is that the lungs actively pump oxygen into the blood. What actually drives oxygen from the alveolar air into the capillary?"
+    options:
+      - "Muscular contraction of the alveolar walls squeezes oxygen through the membrane"
+      - "Oxygen diffuses passively down its partial-pressure gradient, from ~100 mmHg in the alveolus to ~40 mmHg in arriving blood"
+      - "Hemoglobin reaches out through the membrane and pulls oxygen across"
+      - "The pressure of each inhalation forces oxygen bodily into the bloodstream"
+    answer: 1
+    explanation: "Gas exchange is passive diffusion down a partial-pressure gradient — no pumping is involved; oxygen simply moves from where its partial pressure is high to where it is low."
+  - q: "Fick's law makes the rate of diffusion scale as area × pressure difference ÷ barrier thickness. Why does thickening the alveolar barrier reduce oxygen uptake more than an equal fractional drop in surface area?"
+    options:
+      - "Thickness and area affect the rate in opposite directions but by exactly the same amount"
+      - "Thickness sits in the denominator while area is in the numerator, but both enter linearly, so neither has a special advantage"
+      - "Area is squared in Fick's law, so it dominates thickness"
+      - "Thickness does not appear in Fick's law at all; only area and pressure matter"
+    answer: 1
+    explanation: "Both area and thickness enter Fick's law linearly (area in the numerator, thickness in the denominator), so a given fractional change in either changes the flux by the same proportion."
+  - q: "The oxygen–hemoglobin dissociation curve is S-shaped rather than a straight line. Why is that sigmoidal shape ideal for a delivery system?"
+    options:
+      - "It means saturation is proportional to pO₂, so blood always carries oxygen in exact proportion to the air"
+      - "The flat top lets blood load to near-full saturation in the lungs despite pO₂ variation, while the steep middle unloads a large fraction of oxygen for a small drop in tissue pO₂"
+      - "It ensures hemoglobin never releases oxygen until pO₂ falls to zero"
+      - "The shape has no functional consequence; it is an accident of hemoglobin's structure"
+    answer: 1
+    explanation: "Cooperative binding gives a flat plateau at high pO₂ (robust loading in the lungs) and a steep slope at tissue pO₂ (large unloading for a small pressure drop) — exactly what a delivery system needs."
+---
+
+## The tennis court in your chest
+
+You breathe about 20,000 times a day, and almost none of them cross your mind. Each one is a small, silent physics problem that your body solves without a single muscle touching the oxygen itself. Air comes in; oxygen leaves it and enters your blood; carbon dioxide goes the other way. No pump reaches into the air to grab the oxygen. It simply *diffuses* — drifts down a pressure gradient, from where there is more of it to where there is less — across a barrier thinner than a soap bubble, over a surface that, unfolded, would roughly cover a tennis court.
+
+That is the whole trick of breathing, and the surprising part is how passive it is. The muscular work of respiration — the diaphragm, the ribs — is spent entirely on *ventilation*: moving fresh air in and stale air out. The actual transfer of oxygen into the blood costs the body nothing extra. It is thermodynamics doing the work for free, the same downhill diffusion that carries a drop of ink through still water.
+
+*This article is about the physiology of breathing and gas exchange. It is educational, not clinical or diagnostic guidance, and nothing here should be used to interpret symptoms or make decisions about anyone's breathing or health.*
+
+## A surface built for diffusion
+
+Diffusion is fast over microscopic distances and hopelessly slow over large ones — a molecule crosses a thousandth of a millimetre almost instantly but would take years to cross a room by [random-walk wandering alone](/articles/brownian-motion). Any organ that relies on diffusion to move gas therefore has exactly two levers: make the distance tiny, and make the area enormous. The lung pushes both to their limits.
+
+Instead of two simple balloons, your lungs branch into roughly 300 million **alveoli** — minuscule air sacs, each wrapped in a mesh of capillaries. Bundled together they present a gas-exchange surface of about **70 square metres**, the tennis court, packed into a few litres of chest. And the wall separating air from blood — the **respiratory membrane** of a flattened alveolar cell, a shared basement membrane, and the capillary wall — is only about **half a micrometre** thick. Oxygen has to cross a distance a hundred times thinner than a sheet of paper.
+
+Huge area, minuscule distance: the alveolus is a structure engineered, by evolution, to make one equation come out large.
+
+## What actually moves the gas: partial pressures
+
+Here is the idea that most people never quite get told. Air is a mixture, and in a mixture each gas exerts its own **partial pressure** — the share of the total pressure it would exert if it alone filled the space. This is **Dalton's law**: the partial pressures of all the gases add up to the total. Sea-level air is about 21% oxygen, so of the ~760 mmHg of atmospheric pressure, oxygen's slice is around 150 mmHg. By the time that air is warmed, humidified, and mixed with leftover air deep in the alveoli, alveolar oxygen settles at about **100 mmHg**.
+
+Gas does not care about *concentration* across the membrane; it moves according to **partial pressure**. Oxygen diffuses from wherever its partial pressure is high to wherever it is low. Blood returning from the tissues arrives with a pO₂ of only about **40 mmHg** — it has just given up its oxygen to hungry cells. So across the alveolar wall there is a gradient of roughly 100 down to 40, and oxygen rolls downhill across it. Carbon dioxide runs the opposite way: venous blood carries a pCO₂ near 46 mmHg, alveolar air about 40, so CO₂ diffuses *out* of the blood and into the air you exhale.
+
+<GasExchangeAnimation />
+
+Press play. Gold oxygen molecules stream **down** through the barrier from the air into the blood, while violet carbon-dioxide molecules cross **up** the other way — each moving down its own gradient, at the same time, in opposite directions. Watch a red blood cell enter at the left a dull blue (deoxygenated) and leave at the right a bright red (oxygenated): it picks up its cargo in the fraction of a second it spends passing the alveolus.
+
+What to try:
+
+- **Drag alveolar pO₂ down.** As the air's oxygen partial pressure falls toward the blood's, the gradient shrinks, the oxygen stream thins, and the cells leave less red. The gradient *is* the driving force — flatten it and exchange nearly stops.
+- **Thicken the barrier.** Fatten the membrane and the same gradient now pushes oxygen across far more slowly; the flux reading drops and the blood leaves the capillary less saturated. Thin it back down and the stream surges. This is why the lung keeps its wall so absurdly thin.
+- **Notice what you are *not* seeing.** Nothing pushes the oxygen. There is no pump, no active step — just molecules drifting from high partial pressure to low, exactly as they would across any membrane.
+
+## Fick's law, in one line
+
+Everything the widget shows is captured by **Fick's law of diffusion**. For the rate at which a gas crosses a thin sheet:
+
+$$\dot{V}_{\text{gas}} \;\propto\; \frac{A \,\cdot\, \Delta P}{T}$$
+
+where $A$ is the surface area, $\Delta P$ the partial-pressure difference across the barrier, and $T$ its thickness. Read it and the lung's whole design falls out of it. A huge alveolar area $A$ (the tennis court) and a micron-thin barrier $T$ (the soap bubble) both push the rate up — the first multiplies, the second divides. The lung maximises exchange by maximising the numerator and minimising the denominator.
+
+The driving term $\Delta P$ is the partial-pressure gradient the previous section built:
+
+$$\Delta P_{\text{O}_2} \;=\; P_{\text{alv}} - P_{\text{blood}} \;\approx\; 100 - 40 \;=\; 60\ \text{mmHg}$$
+
+Note also that a given fractional change in $T$ and in $A$ matter equally — both enter linearly, one on top and one on the bottom — so doubling the barrier thickness cuts the flux just as much as halving the area would. There is no hidden power law here as there is in [Poiseuille's fourth-power flow law](/articles/blood-pressure); gas exchange is a plain, linear diffusion problem, and that is precisely what makes it robust and cheap.
+
+## Carrying the oxygen: hemoglobin and its S-shaped curve
+
+Diffusion gets oxygen *into* the blood, but plasma can barely dissolve any — nowhere near enough to keep you alive. The solution is **hemoglobin**, the iron-bearing protein packed into red blood cells, each molecule able to grip four oxygen molecules. Something like 98% of the oxygen you carry rides on hemoglobin; the dissolved fraction is almost a rounding error.
+
+What makes hemoglobin remarkable is not that it binds oxygen but *how*. Plot its saturation against blood pO₂ and you do not get a straight line — you get a characteristic **S-shape** (sigmoid). This comes from **cooperativity**: when one of hemoglobin's four sites grabs an oxygen, the protein subtly changes shape and the remaining sites bind *more eagerly*. Binding begets binding. That single structural fact bends the curve into exactly the right shape for a delivery system.
+
+<HemoglobinAnimation />
+
+The curve plots hemoglobin saturation against blood pO₂. Two operating points are marked: the **lungs** (pO₂ ~100 mmHg) and the resting **tissues** (~40 mmHg). Drag the slider to move a point along the curve, and toggle the **Bohr shift**.
+
+What to try:
+
+- **Sit at the lung end (~100 mmHg).** Saturation is ~98% — right up on the flat plateau. The plateau is the point: even if alveolar pO₂ sags somewhat, blood still loads to near-full. Loading is robust.
+- **Slide down toward the tissues (~40 mmHg).** Saturation falls to ~75%. That drop between the two points is the oxygen *delivered* to the tissues — a big release for a modest pressure change, because you are on the **steep** middle of the S. A straight-line carrier could never unload so much for so small a drop.
+- **Turn on the Bohr shift.** Active tissue is warm and acidic (more CO₂, lower pH), and that shifts the whole curve **right** — hemoglobin's grip loosens, so at the same tissue pO₂ it releases *even more* oxygen. The muscle that is working hardest, and producing the most CO₂, automatically gets extra oxygen delivered exactly where it is needed.
+
+The flat top and the steep middle are not a quirk; they are the design. Robust loading up high, generous unloading down low, and a built-in bias toward the tissues that need it most.
+
+## Carbon dioxide, pH, and the drive to breathe
+
+Oxygen is only half the exchange. The [cells consuming that oxygen](/articles/cellular-respiration) produce carbon dioxide as the waste of burning fuel, and it has to come back out. Only a small share of CO₂ rides dissolved or bound to hemoglobin; most of it travels as **bicarbonate**. In the tissues, CO₂ combines with water inside red cells to form carbonic acid, which splits into bicarbonate and a hydrogen ion:
+
+$$\mathrm{CO_2} + \mathrm{H_2O} \;\rightleftharpoons\; \mathrm{H_2CO_3} \;\rightleftharpoons\; \mathrm{H^+} + \mathrm{HCO_3^-}$$
+
+In the lungs the whole reaction runs backward: bicarbonate reforms CO₂, which diffuses into the alveoli and is breathed off. This ties breathing directly to your blood's **pH**. Because CO₂ generates H⁺, more CO₂ means a more acidic blood, and less means a more alkaline one. That is also the very acidity that drives the Bohr shift — the same chemistry that unloads oxygen in busy tissue.
+
+It is why your breathing is controlled far more tightly by CO₂ than by oxygen. Chemoreceptors in the brainstem and arteries watch pCO₂ (through its effect on pH) and adjust the rate and depth of breathing to hold it steady — the ventilatory arm of the kind of [negative-feedback loop](/articles/blood-pressure) the body uses everywhere. Hold your breath and it is rising CO₂, not falling oxygen, that eventually forces you to gasp.
+
+## Two myths, and where this all connects
+
+Two everyday beliefs about breathing are worth correcting, because both hide how gas exchange actually works.
+
+**You do not exhale "used-up" air with no oxygen left.** Inhaled air is ~21% oxygen; exhaled air is still about **16%**. You extract only a fraction of the oxygen you breathe on each pass — which is exactly *why* rescue breathing works, and why the air you blow out can revive someone. There was never a risk of running the alveolar oxygen down to zero; diffusion stops as soon as the gradient closes, long before that.
+
+**Oxygen is not pumped into your blood.** It diffuses, passively, down a partial-pressure gradient — the single idea this whole article rests on. Your muscles move air; physics moves the oxygen.
+
+Zoom out and gas exchange is the hinge between two systems this site treats separately. The [circulation](/articles/blood-pressure) delivers deoxygenated blood to the lung and carries the freshly loaded blood away to the body — the transport network. The [respiring cells](/articles/cellular-respiration) are the consumers at the far end, burning the oxygen and generating the CO₂ that comes back for exchange. The lung is simply the exquisitely thin, enormous interface where the atmosphere and the bloodstream meet and, by nothing more than diffusion, trade their gases.
+
+<KeyTakeaways>
+- Gas exchange is **passive diffusion down a partial-pressure gradient**, not pumping: oxygen moves from ~100 mmHg in the alveolus to ~40 mmHg in arriving blood, and CO₂ goes the other way.
+- The alveoli optimise **Fick's law** ($\dot{V} \propto A\,\Delta P / T$) by combining an enormous surface area (~70 m², a tennis court) with a barrier only ~0.5 µm thick — huge $A$, tiny $T$.
+- Almost all oxygen is carried on **hemoglobin**, whose **S-shaped** curve (from cooperative binding) loads blood to near-full in the lungs and unloads a large fraction in the tissues; the **Bohr shift** releases still more where CO₂ is high and pH is low.
+- CO₂ travels mostly as **bicarbonate** and ties breathing to blood **pH** — which is why ventilation is driven chiefly by CO₂, not by oxygen.
+- Two myths, corrected: **exhaled air is still ~16% oxygen** (we extract only a fraction), and **oxygen is never actively pumped** — it diffuses. Gas exchange is the interface between the [circulation](/articles/blood-pressure) that transports the gases and the [cells](/articles/cellular-respiration) that consume and produce them.
+</KeyTakeaways>

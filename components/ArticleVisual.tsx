@@ -2307,6 +2307,33 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'gas-exchange': c => {
+    // Oxygen-hemoglobin dissociation curve: sigmoid (Hill n=2.7, P50=26).
+    const r = (v: number) => Math.round(v * 100) / 100
+    const n = 2.7, p50 = 26
+    const hill = (p: number) => (p <= 0 ? 0 : Math.pow(p, n) / (Math.pow(p50, n) + Math.pow(p, n)))
+    const X = (p: number) => 30 + p * 2.5
+    const Y = (s: number) => 100 - s * 78
+    const curve = Array.from({ length: 41 }, (_, i) => {
+      const p = i * 2.5
+      return `${r(X(p))},${r(Y(hill(p)))}`
+    }).join(' ')
+    const lung = hill(100), tissue = hill(40)
+    return (
+      <g>
+        <line x1={30} y1={100} x2={288} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={30} y1={20} x2={30} y2={100} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={r(X(40))} y1={r(Y(tissue))} x2={r(X(40))} y2={r(Y(lung))} stroke={FAINT} strokeWidth={6} />
+        <polyline points={curve} fill="none" stroke={c} strokeWidth={2} />
+        <line x1={r(X(26))} y1={100} x2={r(X(26))} y2={r(Y(0.5))} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={r(X(26))} cy={r(Y(0.5))} r={2.5} fill={MUTE} />
+        <circle cx={r(X(40))} cy={r(Y(tissue))} r={3.5} fill={GOLD} />
+        <circle cx={r(X(100))} cy={r(Y(lung))} r={3.5} fill={GOLD} />
+        <text x={34} y={30} fill={MUTE} fontSize={9} fontFamily="monospace">SₒO₂</text>
+        <text x={250} y={116} fill={MUTE} fontSize={9} fontFamily="monospace">pO₂</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
