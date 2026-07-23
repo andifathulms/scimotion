@@ -187,6 +187,10 @@ import {
   InterferometerAnimation,
   MembraneTransportAnimation,
   OsmosisAnimation,
+  WaterCycleAnimation,
+  WaterReservoirAnimation,
+  IntermolecularForceAnimation,
+  WaterAnomalyAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -375,6 +379,10 @@ const components = {
   InterferometerAnimation,
   MembraneTransportAnimation,
   OsmosisAnimation,
+  WaterCycleAnimation,
+  WaterReservoirAnimation,
+  IntermolecularForceAnimation,
+  WaterAnomalyAnimation,
   KeyTakeaways,
 }
 

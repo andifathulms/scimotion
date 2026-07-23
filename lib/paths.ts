@@ -48,7 +48,7 @@ export const learningPaths: LearningPath[] = [
     // Ordered so each article supplies what the next one assumes: kinetics and
     // equilibrium come before acids/bases (Ka is an equilibrium constant) and
     // before electrochemistry (the Nernst equation is equilibrium applied to redox).
-    articleSlugs: ['atomic-structure', 'chemical-bonding', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
+    articleSlugs: ['atomic-structure', 'chemical-bonding', 'intermolecular-forces', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
   },
   {
     slug: 'planet-earth',
@@ -57,7 +57,7 @@ export const learningPaths: LearningPath[] = [
       'The machinery of a working planet — the rock that moves beneath it, the air and ocean that carry its heat, and the carbon and radiation budgets that set its temperature.',
     // Solid earth first, then the fluid envelopes that ride on it, then the two
     // budgets — radiation and carbon — that the circulation articles feed into.
-    articleSlugs: ['plate-tectonics', 'seismic-waves', 'earths-magnetic-field', 'atmospheric-convection', 'ocean-circulation', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
+    articleSlugs: ['plate-tectonics', 'seismic-waves', 'earths-magnetic-field', 'atmospheric-convection', 'ocean-circulation', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
   },
   {
     slug: 'life-molecules-to-organisms',

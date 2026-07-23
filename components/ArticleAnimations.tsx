@@ -840,3 +840,23 @@ export const OsmosisAnimation = dynamic(
   () => import('@/components/animations/OsmosisAnimation').then(m => ({ default: m.OsmosisAnimation })),
   { ssr: false }
 )
+
+export const WaterCycleAnimation = dynamic(
+  () => import('@/components/animations/WaterCycleAnimation').then(m => ({ default: m.WaterCycleAnimation })),
+  { ssr: false }
+)
+
+export const WaterReservoirAnimation = dynamic(
+  () => import('@/components/animations/WaterReservoirAnimation').then(m => ({ default: m.WaterReservoirAnimation })),
+  { ssr: false }
+)
+
+export const IntermolecularForceAnimation = dynamic(
+  () => import('@/components/animations/IntermolecularForceAnimation').then(m => ({ default: m.IntermolecularForceAnimation })),
+  { ssr: false }
+)
+
+export const WaterAnomalyAnimation = dynamic(
+  () => import('@/components/animations/WaterAnomalyAnimation').then(m => ({ default: m.WaterAnomalyAnimation })),
+  { ssr: false }
+)

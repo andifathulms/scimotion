@@ -2392,6 +2392,64 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'water-cycle': c => {
+    // A closed loop: the Sun evaporates the sea, a cloud carries it, rain falls
+    // on the land, and runoff returns it. All coordinates are integer literals.
+    const cloud: [number, number, number][] = [
+      [132, 40, 14], [152, 32, 17], [174, 40, 15], [196, 44, 12], [156, 48, 13],
+    ]
+    const evap = [214, 236, 258]
+    const rain = [118, 132, 146, 160]
+    return (
+      <g>
+        <circle cx={34} cy={26} r={12} fill={GOLD} opacity={0.9} />
+        <line x1={34} y1={9} x2={34} y2={3} stroke={GOLD} strokeWidth={1.5} />
+        <line x1={16} y1={26} x2={9} y2={26} stroke={GOLD} strokeWidth={1.5} />
+        <line x1={21} y1={13} x2={16} y2={8} stroke={GOLD} strokeWidth={1.5} />
+        <line x1={47} y1={13} x2={52} y2={8} stroke={GOLD} strokeWidth={1.5} />
+        <rect x={96} y={94} width={204} height={26} fill={`${c}1F`} />
+        <path d="M 96 94 Q 116 90 136 94 T 176 94 T 216 94 T 256 94 T 296 94" fill="none" stroke={c} strokeWidth={1.5} />
+        <path d="M 0 100 Q 44 78 96 94 L 96 120 L 0 120 Z" fill={FAINT} stroke={MUTE} strokeWidth={0.75} />
+        {cloud.map(([cx, cy, r], i) => (
+          <circle key={`c${i}`} cx={cx} cy={cy} r={r} fill={`${c}2E`} stroke={c} strokeWidth={1} />
+        ))}
+        <text x={164} y={44} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">H₂O</text>
+        {evap.map((x, i) => (
+          <g key={`e${i}`}>
+            <line x1={x} y1={90} x2={x} y2={60} stroke={c} strokeWidth={1.5} />
+            <polygon points={`${x - 4},66 ${x},58 ${x + 4},66`} fill={c} />
+          </g>
+        ))}
+        {rain.map((x, i) => (
+          <line key={`r${i}`} x1={x} y1={64} x2={x - 3} y2={84} stroke={c} strokeWidth={1.25} opacity={0.55} />
+        ))}
+        <line x1={70} y1={98} x2={104} y2={98} stroke={MUTE} strokeWidth={1} strokeDasharray="3 3" />
+        <polygon points="104,95 110,98 104,101" fill={MUTE} />
+      </g>
+    )
+  },
+  'intermolecular-forces': c => {
+    // Two water molecules joined by a dashed hydrogen bond: strong covalent
+    // O-H bonds within each molecule, a weak attraction between them.
+    return (
+      <g>
+        <line x1={140} y1={59} x2={196} y2={60} stroke={GOLD} strokeWidth={1.5} strokeDasharray="3 3" />
+        <line x1={100} y1={60} x2={140} y2={58} stroke={MUTE} strokeWidth={2} />
+        <line x1={100} y1={60} x2={74} y2={34} stroke={MUTE} strokeWidth={2} />
+        <circle cx={100} cy={60} r={9} fill={c} />
+        <circle cx={140} cy={58} r={4} fill={GOLD} />
+        <circle cx={74} cy={34} r={4} fill={GOLD} />
+        <line x1={196} y1={60} x2={232} y2={36} stroke={MUTE} strokeWidth={2} />
+        <line x1={196} y1={60} x2={232} y2={84} stroke={MUTE} strokeWidth={2} />
+        <circle cx={196} cy={60} r={9} fill={c} />
+        <circle cx={232} cy={36} r={4} fill={GOLD} />
+        <circle cx={232} cy={84} r={4} fill={GOLD} />
+        <text x={100} y={83} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">δ−</text>
+        <text x={196} y={44} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">δ−</text>
+        <text x={168} y={52} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">H-bond</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
