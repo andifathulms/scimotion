@@ -2357,6 +2357,41 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'cell-membranes': c => {
+    // A phospholipid bilayer with simple diffusion, a facilitated channel, and
+    // an ATP-driven Na/K pump. Integer coordinates only.
+    const heads: ReactNode[] = []
+    for (let x = 12; x <= 288; x += 16) {
+      if ((x >= 104 && x <= 132) || (x >= 192 && x <= 240)) continue
+      heads.push(
+        <g key={x}>
+          <circle cx={x} cy={46} r={3} fill={c} opacity={0.85} />
+          <circle cx={x} cy={74} r={3} fill={c} opacity={0.85} />
+          <line x1={x} y1={49} x2={x} y2={59} stroke={MUTE} strokeWidth={0.75} />
+          <line x1={x} y1={71} x2={x} y2={61} stroke={MUTE} strokeWidth={0.75} />
+        </g>
+      )
+    }
+    return (
+      <g>
+        <rect x={0} y={42} width={300} height={36} fill={FAINT} />
+        {heads}
+        <line x1={56} y1={24} x2={56} y2={96} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <circle cx={56} cy={30} r={3} fill={c} />
+        <circle cx={56} cy={60} r={3} fill={c} opacity={0.6} />
+        <circle cx={56} cy={90} r={3} fill={c} opacity={0.35} />
+        <rect x={104} y={40} width={7} height={40} rx={2} fill={c} opacity={0.5} />
+        <rect x={125} y={40} width={7} height={40} rx={2} fill={c} opacity={0.5} />
+        <circle cx={118} cy={60} r={4} fill={GOLD} />
+        <rect x={196} y={38} width={44} height={44} rx={6} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.25} />
+        <line x1={210} y1={90} x2={210} y2={30} stroke={GOLD} strokeWidth={1.25} />
+        <polyline points="205,38 210,30 215,38" fill="none" stroke={GOLD} strokeWidth={1.25} />
+        <circle cx={210} cy={30} r={4} fill={GOLD} />
+        <circle cx={226} cy={92} r={4} fill={c} />
+        <text x={218} y={64} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">ATP</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -830,3 +830,13 @@ export const InterferometerAnimation = dynamic(
   () => import('@/components/animations/InterferometerAnimation').then(m => ({ default: m.InterferometerAnimation })),
   { ssr: false }
 )
+
+export const MembraneTransportAnimation = dynamic(
+  () => import('@/components/animations/MembraneTransportAnimation').then(m => ({ default: m.MembraneTransportAnimation })),
+  { ssr: false }
+)
+
+export const OsmosisAnimation = dynamic(
+  () => import('@/components/animations/OsmosisAnimation').then(m => ({ default: m.OsmosisAnimation })),
+  { ssr: false }
+)
