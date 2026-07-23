@@ -2334,6 +2334,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'gravitational-waves': c => {
+    // A rising chirp — amplitude and frequency both climb — running into a
+    // merger point ringed by radiating ripples. Every coordinate is rounded.
+    const r2 = (v: number) => Math.round(v * 100) / 100
+    const wave = Array.from({ length: 72 }, (_, i) => {
+      const u = i / 71
+      const amp = 5 + 33 * u * u
+      const phi = 2 * Math.PI * (0.5 * u + 7 * u * u * u)
+      const x = 8 + i * 3.4
+      const y = 58 - amp * Math.sin(phi)
+      return `${r2(x)},${r2(y)}`
+    }).join(' ')
+    return (
+      <g>
+        <line x1={0} y1={58} x2={300} y2={58} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <circle cx={256} cy={58} r={32} fill="none" stroke={c} strokeWidth={0.75} opacity={0.2} />
+        <circle cx={256} cy={58} r={22} fill="none" stroke={c} strokeWidth={0.75} opacity={0.35} />
+        <circle cx={256} cy={58} r={12} fill="none" stroke={c} strokeWidth={1} opacity={0.55} />
+        <polyline points={wave} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={256} cy={58} r={5} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

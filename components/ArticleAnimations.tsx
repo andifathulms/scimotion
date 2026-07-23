@@ -820,3 +820,13 @@ export const HemoglobinAnimation = dynamic(
   () => import('@/components/animations/HemoglobinAnimation').then(m => ({ default: m.HemoglobinAnimation })),
   { ssr: false }
 )
+
+export const GravitationalWaveAnimation = dynamic(
+  () => import('@/components/animations/GravitationalWaveAnimation').then(m => ({ default: m.GravitationalWaveAnimation })),
+  { ssr: false }
+)
+
+export const InterferometerAnimation = dynamic(
+  () => import('@/components/animations/InterferometerAnimation').then(m => ({ default: m.InterferometerAnimation })),
+  { ssr: false }
+)
