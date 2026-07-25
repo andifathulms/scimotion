@@ -2451,6 +2451,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'ip-and-routing': c => {
+    const S = { x: 30, y: 60 }, n1 = { x: 95, y: 30 }, n2 = { x: 95, y: 90 },
+      n3 = { x: 160, y: 60 }, n4 = { x: 225, y: 30 }, n5 = { x: 225, y: 90 },
+      D = { x: 275, y: 60 }
+    return (
+      <g>
+        <line x1={S.x} y1={S.y} x2={n2.x} y2={n2.y} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={n2.x} y1={n2.y} x2={n3.x} y2={n3.y} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={n3.x} y1={n3.y} x2={n5.x} y2={n5.y} stroke={MUTE} strokeWidth={0.75} />
+        <line x1={n5.x} y1={n5.y} x2={D.x} y2={D.y} stroke={MUTE} strokeWidth={0.75} />
+        <polyline points="30,60 95,30 160,60 225,30 275,60" fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={n2.x} cy={n2.y} r={5} fill="#1A1712" stroke={MUTE} strokeWidth={1} />
+        <circle cx={n5.x} cy={n5.y} r={5} fill="#1A1712" stroke={MUTE} strokeWidth={1} />
+        <circle cx={n1.x} cy={n1.y} r={5} fill="#1A1712" stroke={c} strokeWidth={1.5} />
+        <circle cx={n3.x} cy={n3.y} r={5} fill="#1A1712" stroke={c} strokeWidth={1.5} />
+        <circle cx={n4.x} cy={n4.y} r={5} fill="#1A1712" stroke={c} strokeWidth={1.5} />
+        <circle cx={S.x} cy={S.y} r={6} fill={c} />
+        <circle cx={D.x} cy={D.y} r={7} fill="none" stroke={GOLD} strokeWidth={2} />
+        <circle cx={D.x} cy={D.y} r={3} fill={GOLD} />
+        <circle cx={128} cy={45} r={3} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

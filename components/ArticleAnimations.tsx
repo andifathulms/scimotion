@@ -860,3 +860,13 @@ export const WaterAnomalyAnimation = dynamic(
   () => import('@/components/animations/WaterAnomalyAnimation').then(m => ({ default: m.WaterAnomalyAnimation })),
   { ssr: false }
 )
+
+export const RoutingAnimation = dynamic(
+  () => import('@/components/animations/RoutingAnimation').then(m => ({ default: m.RoutingAnimation })),
+  { ssr: false }
+)
+
+export const IPAddressAnimation = dynamic(
+  () => import('@/components/animations/IPAddressAnimation').then(m => ({ default: m.IPAddressAnimation })),
+  { ssr: false }
+)

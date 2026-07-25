@@ -1,0 +1,115 @@
+---
+title: "IP Addresses and Routing"
+subtitle: "How a packet with no map finds its way across the internet, one local decision at a time."
+topic: "Networks & the Internet"
+slug: "ip-and-routing"
+date: "2026-07-04"
+readTime: 10
+featured: false
+description: "IP gives every device an address and lets routers forward packets hop by hop toward it — best-effort, connectionless, and with no single router that knows the whole route."
+tags: ["networking", "internet", "routing", "ip"]
+quiz:
+  - q: "A packet leaves your laptop bound for a server on the other side of the world. Which statement best describes how it gets there?"
+    options:
+      - "Your laptop computes the full route in advance and stamps it onto the packet"
+      - "The first router looks up the complete path and every later router follows those instructions"
+      - "Each router along the way independently picks the next hop toward the destination using its own routing table"
+      - "A central internet controller assigns the packet a fixed path before it is sent"
+    answer: 2
+    explanation: "Routing is a chain of local next-hop decisions — no single device knows or dictates the entire path."
+  - q: "Why does IP deliberately provide only best-effort, connectionless delivery instead of guaranteeing packets arrive in order?"
+    options:
+      - "Guaranteed delivery is mathematically impossible over unreliable links"
+      - "Keeping the network core simple pushes reliability to the endpoints, where a higher layer like TCP can add it"
+      - "Routers are too slow to track which packets have been delivered"
+      - "Best-effort delivery is faster because it skips the addressing step"
+    answer: 1
+    explanation: "IP stays simple and stateless on purpose, leaving ordering, retransmission, and de-duplication to end-host protocols such as TCP."
+  - q: "IPv4 uses 32-bit addresses. Why did this eventually force the move toward IPv6?"
+    options:
+      - "32-bit addresses cannot encode a subnet prefix"
+      - "There are only about 4.3 billion possible addresses, fewer than the number of connected devices"
+      - "IPv4 addresses are too slow for routers to look up"
+      - "32 bits cannot be split into a network part and a host part"
+    answer: 1
+    explanation: "A 32-bit space holds only 2^32 ≈ 4.3 billion addresses, which the growth of internet-connected devices exhausted, motivating IPv6's 128-bit addresses."
+---
+
+## A packet with no map
+
+Every packet carries a destination address, but no packet carries a map. Not one of the routers it passes through knows the full route to where it is going. Each router just glances at the destination address, consults a small local table, and forwards the packet one hop closer — trusting the next router to do the same.
+
+That is the quietly astonishing thing about the internet: it finds its way with millions of small, local decisions and no central map. There is no master plan for your packet's journey, no coordinator that plots the course from your laptop to a server in another country. There is only a relay of routers, each answering one narrow question — *which of my neighbours is in the right general direction?* — and passing the packet along.
+
+This is the job of the **Internet Protocol (IP)**. In the [previous article](/articles/packet-switching) we saw how a message is chopped into packets that travel independently. IP is what gives each packet a destination worth chasing and defines the rules by which routers chase it.
+
+## Addresses as universal locators
+
+For any of this to work, every device needs an address — a name that means the same thing everywhere on the network. That is what an **IP address** is: a universal locator. In IPv4, an address is a 32-bit number, almost always written as four decimal octets like `192.168.10.37`.
+
+Crucially, an IP address is not a flat, random label. It is **hierarchical**, split into two parts:
+
+- a **network part** that identifies *which network* the device belongs to, and
+- a **host part** that identifies the *specific device* within that network.
+
+This hierarchy is what makes routing tractable. A router does not need a table entry for every one of the billions of hosts on the internet — it only needs to know roughly *which direction* each **network** lies in. The network part of the address tells it that. When a packet for `192.168.10.37` arrives, the router matches the network prefix, finds "that network is out this way", and forwards the packet — without ever needing to know that host `.37` exists.
+
+The split point between network and host is set by a **subnet prefix**, written `/n`, meaning "the first $n$ bits are the network part." A block written `192.168.10.0/24` means the first 24 bits name the network and the remaining $32 - 24 = 8$ bits name hosts within it. That leaves $2^{8} = 256$ addresses in the block. In general a `/n` prefix leaves
+
+$$2^{32 - n}$$
+
+addresses per network. Slide the prefix in the widget below and watch the boundary move: a longer prefix means more networks, each smaller; a shorter prefix means fewer, larger networks. Try dragging it to `/30` (just four addresses — a point-to-point link) and back down to `/8` (a vast block of over sixteen million).
+
+<IPAddressAnimation />
+
+Notice the trade-off the slider makes concrete. The 32 bits are a fixed budget: every bit you give to the network part is a bit taken from the host part. Push the prefix right and you carve the space into many tiny networks; push it left and you get a handful of enormous ones. The "routes on" line at the bottom shows the network address a router actually matches against — the host bits masked away to zero. That masked prefix, not the full address, is what a routing table stores.
+
+## Best-effort, on purpose
+
+Here is the part that surprises people: **IP promises almost nothing.** Its delivery model is *best-effort* and *connectionless*. Best-effort means IP will try to deliver each packet but guarantees nothing — a packet may be **lost**, **duplicated**, **corrupted**, or **arrive out of order**, and IP makes no promise about any of it. Connectionless means routers hold no per-conversation state: each packet is handled on its own, with no memory of the ones before it.
+
+This looks like a flaw. It is a design decision, and a deliberate one. By refusing to guarantee delivery, IP keeps the routers in the middle of the network **simple and stateless**. A router does not track which packets it has seen, does not buffer copies in case one is needed again, and does not coordinate with other routers about a given flow. It just forwards. That simplicity is exactly what lets the core scale to billions of packets per second.
+
+The reliability you actually experience — web pages that load completely, files that arrive intact — is added at the **edges**, on the two end hosts, by a higher-layer protocol. That is the *end-to-end principle*: put the smarts in the endpoints, keep the network dumb and fast. In the [next article](/articles/tcp) we will see how **TCP** builds exactly that guaranteed, ordered stream on top of IP's unreliable packets — numbering them, acknowledging them, and retransmitting whatever IP dropped. IP loses packets; TCP notices and fixes it.
+
+## Routing: a chain of local decisions
+
+So how does a packet actually cross the network? By **hop-by-hop routing**. Each router holds a **routing table** — a set of rules of the form "for destinations in network *X*, send to neighbour *Y*." When a packet arrives, the router reads its destination address, looks up the matching network entry, and forwards the packet out toward that next hop. Then it forgets about it.
+
+No router computes the whole path. Each makes one **local next-hop decision** and hands the packet on. The full route is nothing more than the sum of these independent choices, discovered link by link as the packet travels. This is why cutting one link doesn't break the internet: the routers on either side simply start choosing a different next hop.
+
+<RoutingAnimation />
+
+Watch a packet (gold) hop from **host A** to the destination router. At each stop, the violet glow marks the router making the current decision, and its local table is shown below the graph — *for each destination, which neighbour do I forward to?* The active route lights up in red, but notice that no single router ever "sees" the full red path; each only knows its own next hop.
+
+Now change things. Pick a different destination and the routers quietly re-plan. Better still, **click a link to cut it** — sever the one currently in use and the routers on each side, consulting only their own tables, pick a new next hop and the packet re-routes around the break. There was no global recalculation and no central authority; each router just answered its one local question again with the link gone. (Cut enough links to fully isolate the destination and you will see the other half of best-effort delivery: IP simply drops the packet.)
+
+## How the tables get built
+
+Routing tables don't appear by magic — routers fill them in by running **routing protocols** that share reachability information with their neighbours, gradually converging on a consistent picture of which direction each network lies. Under the hood this is a **shortest-path problem over a graph**: routers are nodes, links are edges, and the goal is a lowest-cost route to every destination network. The number of links a packet crosses is its **hop count**; a simple protocol tries to minimise it, choosing the route with the smallest
+
+$$\text{hops} = \sum_{i} 1 \quad \text{(one per link traversed)}.$$
+
+If that framing feels familiar, it should: this is the same territory as [graph traversal and shortest paths](/articles/graph-traversal). Distance-vector protocols are essentially a distributed relative of the shortest-path algorithms there, computed cooperatively by routers that each see only their own neighbourhood — no single node ever holds the whole graph. Real networks weight edges by more than raw hop count (link speed, congestion, cost), but the shape of the problem is unchanged: find good paths through a graph, using only local information.
+
+## An internet of networks
+
+The name says it. The **internet** is not one network but an *inter*-network — a vast interconnection of independently run networks, stitched together by routers that agree to forward each other's packets according to IP. Your home network, your ISP, a university campus, a data centre: each is its own network with its own address blocks, and IP is the common language that lets a packet cross from one into the next. The hierarchy of addresses is what makes this scalable — a router at the boundary only needs to know how to reach whole *networks*, not every host inside them.
+
+There is one catch, and it was baked in from the start. Thirty-two bits can encode only
+
+$$2^{32} \approx 4.29 \times 10^{9}$$
+
+distinct addresses — about 4.3 billion. In 1981 that seemed limitless. But with billions of phones, laptops, servers, and internet-connected devices, the world simply ran out of IPv4 addresses. The long-term fix is **IPv6**, which widens the address to **128 bits** — a space of $2^{128}$ addresses so large it is effectively inexhaustible. The addressing and routing ideas are the same; there are just far more addresses to go around.
+
+## A little history
+
+The model is not an accident of evolution — it was designed. In 1974, **Vint Cerf** and **Bob Kahn** published the paper that defined **TCP/IP**, the pairing that splits the work cleanly: IP for best-effort addressing and routing, TCP for end-to-end reliability on top. It took years to refine and deploy, but on **1 January 1983** — remembered as the "flag day" — the ARPANET switched over to TCP/IP wholesale, and the architecture we still use was locked in. Every design choice above, especially the decision to make IP simple and unreliable and to push guarantees to the edges, traces back to that split.
+
+<KeyTakeaways>
+- An IP address is a hierarchical, universal locator: a network part (set by a `/n` prefix) tells routers roughly *where* to send a packet, and a host part identifies the specific device — so routers can reason about whole networks, not billions of individual hosts.
+- IP is **best-effort and connectionless by design**: packets may be lost, duplicated, or reordered, and IP guarantees none of it. This keeps the network core simple; reliability is added at the edges by TCP, coming up next.
+- Routing is a **chain of local next-hop decisions** — no packet carries its route and no single router knows the whole path. Cut a link and routers re-plan locally around it.
+- Building the routing tables is **shortest-path over a graph**, computed cooperatively from local information — the same problem as [graph traversal](/articles/graph-traversal), distributed across routers.
+- IPv4's 32-bit space holds only ~4.3 billion addresses, which the internet outgrew — motivating IPv6's 128-bit addresses.
+</KeyTakeaways>
