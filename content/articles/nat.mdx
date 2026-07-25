@@ -1,0 +1,110 @@
+---
+title: "NAT: How Billions Share Four Billion Addresses"
+subtitle: "Your laptop, phone, and TV do not have public internet addresses. A little translation table in your router lets them all share one."
+topic: "Networks & the Internet"
+slug: "nat"
+date: "2026-07-12"
+readTime: 9
+featured: false
+description: "There are about four billion possible IPv4 addresses and far more than four billion connected devices — yet everything works. Network Address Translation is the stopgap hiding in every home router that lets a whole network share a single public address, disambiguated by port."
+tags: ["networking", "internet", "nat", "ipv4"]
+quiz:
+  - q: "Three laptops on the same home wifi all load different websites at the same time. From the public internet's point of view, how many distinct source addresses do their packets appear to come from?"
+    options:
+      - "Three — each device keeps its own public address end to end"
+      - "One — the router's single public IP, with the three flows told apart by different source ports"
+      - "Three, but only because the ISP temporarily lends each device a public address"
+      - "Zero — private-addressed packets travel across the internet unchanged"
+    answer: 1
+    explanation: "The router rewrites every outgoing packet's source to its one public IP and a unique port, so all three flows share one address and are disambiguated by port."
+  - q: "Why is it awkward to run a public web server on a normal home internet connection behind NAT?"
+    options:
+      - "Home routers deliberately encrypt all inbound traffic for security"
+      - "Private IP addresses are slower than public ones and cannot serve pages quickly"
+      - "An unsolicited inbound packet has no matching entry in the translation table, so the router does not know which internal device to send it to and drops it"
+      - "IPv4 forbids servers from using private address ranges"
+    answer: 2
+    explanation: "NAT only builds table entries for connections started from inside, so unsolicited inbound traffic has nowhere to go unless you configure an explicit port-forwarding rule."
+  - q: "What is the primary reason NAT was created?"
+    options:
+      - "To act as a firewall that hides internal machines from attackers"
+      - "To speed up routing by shortening addresses"
+      - "To stretch the scarce IPv4 address space by letting many devices share one public address"
+      - "To encrypt traffic leaving the home network"
+    answer: 2
+    explanation: "NAT was designed as a stopgap for IPv4 address exhaustion; the inbound-blocking that looks like a firewall is a side effect, not its purpose."
+---
+
+## Four billion addresses, far more than four billion devices
+
+Count the addressable slots in the original internet and you get a fixed, surprisingly small number. An IPv4 address is 32 bits, so there are only
+
+$$2^{32} \approx 4.29 \times 10^{9}$$
+
+distinct addresses — about **4.3 billion**. Now count the connected devices in the world: phones, laptops, TVs, thermostats, doorbells, watches. There are many *billions more* devices than there are addresses. By simple arithmetic, most devices cannot possibly have their own public internet address. And yet everything works. You open three tabs on your phone while your laptop streams video and your TV updates in the background, and all of it reaches the right servers and gets the right replies.
+
+The trick hiding in every home router is that your laptop, phone, and TV **do not actually have public internet addresses at all**. They share one. A little translation table quietly rewrites every packet on its way out and on its way back, so that a whole household of devices masquerades behind a single public address — and the replies still find their way home. That trick is **Network Address Translation (NAT)**, and it is the direct sequel to the story of [IPv4 running out](/articles/ip-and-routing).
+
+## The addresses your devices actually have
+
+Look at what IP address your laptop reports on a home network and you will almost always see something like `192.168.1.24` or `10.0.0.7`. These are not arbitrary. They come from three blocks reserved by **RFC 1918** for *private* use:
+
+- `10.0.0.0/8` — one huge block (over 16 million addresses),
+- `172.16.0.0/12` — a middle block, and
+- `192.168.0.0/16` — the familiar home-router range.
+
+The defining property of these ranges is that they are **not routable on the public internet**. No router out on the backbone will forward a packet toward `192.168.1.24`, because that address means something different inside millions of separate homes at once. It is a *local* name, valid only within your own network — like the phrase "the corner office," which is unambiguous inside one building and meaningless between them.
+
+So your devices each have a private address that works fine for talking to each other and to the router, but that is useless the moment a packet needs to cross into the public internet. Something has to stand in for them out there. That something is the router, and it owns the one genuinely public address in the house — a routable IP like `203.0.113.7`, handed to it by your ISP.
+
+## One address, many devices
+
+Here is the mechanism, and it is beautifully mechanical. When a device sends a packet toward a server on the internet, the packet leaves with a private source address the outside world cannot use. The router intercepts it and performs a **translation**:
+
+1. It **rewrites the source** of the packet from `(private IP : source port)` to `(the router's one public IP : a freshly chosen port)`.
+2. It **records that swap** as a row in a **translation table**.
+3. It **forwards** the now-public packet on toward the server.
+
+When the reply comes back — addressed to the public IP and that chosen port — the router looks up the row, **reverses the translation**, and delivers the packet to the correct internal device on its private address. The server on the far side never knew there was a private network at all; it only ever saw the router's public address.
+
+<NATTranslationAnimation />
+
+Send a packet from `192.168.1.11` and watch the router rewrite its source and write a row in the table. Then send from `.12` and `.13` — notice that each device gets a **different public port**, and the rows pile up. That accumulating table is the whole idea made undeniable: **one public address, many devices, told apart by port.** When each reply returns, the router reads the port, finds the matching row, and routes it back to the one device that was waiting for it. Finally, try the **unsolicited inbound** packet: it arrives at the public IP with a port that matches no row, and the router simply drops it — there is nowhere to send it. Add a port-forward rule and that same packet suddenly has a home.
+
+## Why the port is the key
+
+What makes one address serve a whole network is that the router does not translate addresses alone — it translates the `(address, port)` pair. This is technically **NAPT** (Network Address Port Translation), often called **PAT**; the plain address-for-address NAT of the original design is rarely what a home router does. The extra ingredient is the port number, and there are a lot of them. A port is a 16-bit field, so a single IP address offers
+
+$$2^{16} = 65{,}536$$
+
+port numbers to hand out. That is the multiplier. One public IP is not one conversation — it is up to tens of thousands of simultaneous conversations, each labelled by a distinct port. When your phone opens six connections to load one page and your laptop opens twenty more, the router assigns each a different public port and keeps them all straight in the table. The pair `(203.0.113.7 : 40001)` is a different key from `(203.0.113.7 : 40002)`, and that is enough to disambiguate every flow in the house.
+
+Multiply it out across the whole address space and the scale of the stretch is clear:
+
+$$\underbrace{2^{32}}_{\text{IPv4 addresses}} \times \underbrace{2^{16}}_{\text{ports per address}} = 2^{48} \approx 2.8 \times 10^{14}$$
+
+The port field turns a pool of ~4.3 billion addresses into a space of hundreds of trillions of *simultaneous connection endpoints* — enough headroom to absorb an internet of far more devices than there were ever addresses.
+
+## Stretching a scarce resource
+
+It helps to see the scarcity and the fix side by side. Without NAT, every device needs its own public address, and the fixed IPv4 pool drains one slot per device. With NAT, an entire network — however many devices it holds — consumes just **one** public address.
+
+<AddressExhaustionAnimation />
+
+Add devices and watch the two counters diverge. Without NAT, the "public addresses used" line climbs in lockstep with the device count, marching toward the edge of the finite pool. Switch NAT on and that same growing crowd of devices collapses onto a single public address; add a second and third home network and each still costs only one. This is exactly what happened in the real world: RFC 1631 introduced NAT in 1994 (refined by RFC 3022) precisely as a **stopgap** to slow IPv4 exhaustion, and it worked well enough that the "temporary" fix has now outlived a generation of predictions about its demise. The permanent fix, noted at the far right of the widget, is **IPv6**, whose 128-bit addresses ($2^{128}$) are so numerous that every device can have its own again and the translation trick becomes unnecessary.
+
+## The cost: a broken end-to-end principle
+
+NAT is not free. The early internet was built on the **end-to-end principle**: any host could address any other host directly, as a peer. NAT quietly breaks that. Because a translation-table row is only ever created when a packet goes *out*, an outside host has no way to start a conversation *in*. Its unsolicited packet arrives at your public IP with a port that matches no row, and the router, having no idea which of your devices it is for, drops it.
+
+For everyday browsing this is invisible — you always initiate, so the table always has a row waiting for the reply. But it is exactly why **running a server from your home connection is awkward**. If you want the outside world to reach a game server or a website on a machine inside your house, you must manually punch a hole: a **port-forwarding** rule that statically maps an inbound port on the public IP to a specific internal device. It is a deliberate exception to NAT's default "inside-out only" behaviour, and technologies like [HTTP](/articles/http-and-the-web)'s virtual hosting and various NAT-traversal tricks exist partly to work around the constraints NAT imposes.
+
+That inbound-blocking is worth naming carefully, because it is the source of the internet's most common NAT misconception. Because unsolicited inbound traffic is dropped by default, NAT *looks* like a firewall — and people often describe it as a security feature. **That is backwards.** NAT's purpose is address sharing; the blocking is a side effect of there being no table entry to route inbound packets by, not a security policy. It stops nothing that a device deliberately reaches out to invite, and a real firewall is a separate, purpose-built thing. The other misconception is quieter but just as common: that every device has its own public internet address. Most do not. The public IP belongs to the **router**; your devices sit behind it on private addresses, sharing that one public identity.
+
+<KeyTakeaways>
+- There are only about $2^{32} \approx 4.3$ billion IPv4 addresses but far more devices, so most devices cannot have a public address — they share one via **NAT**.
+- Your devices have **private** RFC 1918 addresses (`192.168.x`, `10.x`) that are not routable on the public internet; the single public IP belongs to the **router**.
+- Home routers do **NAPT/PAT**: they rewrite each outgoing packet's source to `(public IP : a unique port)`, log it in a translation table, and reverse the swap on replies — the ~16-bit port space ($2^{16}$) is what lets one address serve thousands of simultaneous flows.
+- NAT breaks the **end-to-end principle**: outside hosts cannot reach inside hosts unsolicited without explicit **port forwarding**, which is why hosting a server from home is awkward.
+- NAT is an address-sharing stopgap (RFC 1631, 1994), **not** a firewall — the inbound-blocking is a side effect. **IPv6**'s vast address space is the real fix.
+</KeyTakeaways>

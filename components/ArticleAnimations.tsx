@@ -950,3 +950,13 @@ export const GlobalLatencyAnimation = dynamic(
   () => import('@/components/animations/GlobalLatencyAnimation').then(m => ({ default: m.GlobalLatencyAnimation })),
   { ssr: false }
 )
+
+export const NATTranslationAnimation = dynamic(
+  () => import('@/components/animations/NATTranslationAnimation').then(m => ({ default: m.NATTranslationAnimation })),
+  { ssr: false }
+)
+
+export const AddressExhaustionAnimation = dynamic(
+  () => import('@/components/animations/AddressExhaustionAnimation').then(m => ({ default: m.AddressExhaustionAnimation })),
+  { ssr: false }
+)

@@ -2703,6 +2703,45 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  nat: c => {
+    // Three private devices funnel through one NAT router to a single public IP,
+    // with the translation table mapping each to a distinct port.
+    const devs = [
+      { y: 12, l: '.11', p: ':40001' },
+      { y: 49, l: '.12', p: ':40002' },
+      { y: 86, l: '.13', p: ':40003' },
+    ]
+    const wireY = [23, 60, 97]
+    const rtrY = [52, 60, 68]
+    return (
+      <g>
+        {devs.map((d, i) => (
+          <g key={d.l}>
+            <line x1={56} y1={wireY[i]} x2={92} y2={rtrY[i]} stroke={MUTE} strokeWidth={0.75} />
+            <rect x={6} y={d.y} width={50} height={22} rx={4} fill={`${c}22`} stroke={c} strokeWidth={1} />
+            <text x={31} y={d.y + 15} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">{d.l}</text>
+          </g>
+        ))}
+        <rect x={92} y={44} width={38} height={32} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <text x={111} y={63} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">NAT</text>
+        <text x={149} y={52} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">203.0.113.7</text>
+        <line x1={130} y1={60} x2={166} y2={60} stroke={GOLD} strokeWidth={1.5} />
+        <polygon points="166,60 160,57 160,63" fill={GOLD} />
+        <rect x={172} y={14} width={122} height={92} rx={4} fill="rgba(255,255,255,0.03)" stroke={MUTE} strokeWidth={0.75} />
+        <text x={178} y={28} fontSize={8} fill={MUTE} fontFamily="monospace">NAT table</text>
+        {devs.map((d, i) => {
+          const y = 46 + i * 20
+          return (
+            <g key={d.l}>
+              <text x={178} y={y} fontSize={8} fill={c} fontFamily="monospace">{d.l}</text>
+              <text x={200} y={y} fontSize={8} fill={MUTE} fontFamily="monospace">→</text>
+              <text x={214} y={y} fontSize={8} fill={GOLD} fontFamily="monospace">{d.p}</text>
+            </g>
+          )
+        })}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

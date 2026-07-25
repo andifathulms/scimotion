@@ -91,7 +91,7 @@ export const learningPaths: LearningPath[] = [
       'The internet told as a chain of inventions — each one solving the exact limit the last success ran into, from raw packets up to the web you are reading this on.',
     // Strict historical/dependency order: packets exist, then find their way,
     // then become reliable, then get names, then serve documents.
-    articleSlugs: ['packet-switching', 'ip-and-routing', 'tcp', 'dns', 'http-and-the-web'],
+    articleSlugs: ['packet-switching', 'ip-and-routing', 'tcp', 'dns', 'http-and-the-web', 'nat', 'tls', 'certificates', 'load-balancers', 'cdns'],
   },
 ]
 
