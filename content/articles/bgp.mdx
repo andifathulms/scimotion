@@ -1,0 +1,118 @@
+---
+title: "BGP: How the Internet's Networks Agree on Routes"
+subtitle: "There is no master map of the internet — just tens of thousands of networks each announcing to their neighbours what they can reach."
+topic: "Networks & the Internet"
+slug: "bgp"
+date: "2026-07-26"
+readTime: 10
+featured: false
+description: "The internet is a mesh of ~75,000 independently run networks. BGP is how they advertise reachable prefixes to each other and negotiate routes — driven by business policy, not shortest path, and held together by trust."
+tags: ["networking", "internet", "bgp", "routing"]
+quiz:
+  - q: "Which statement best captures how the internet's global routing picture is built?"
+    options:
+      - "A central authority computes the best route to every network and distributes it to all routers"
+      - "Each Autonomous System advertises to its neighbours which prefixes it can reach, and along what AS-path, so every network assembles its own view"
+      - "Every router runs a shortest-path algorithm over a complete map of the entire internet"
+      - "IANA assigns a fixed path to each prefix when the address block is allocated"
+    answer: 1
+    explanation: "There is no central map — BGP is a decentralised negotiation in which each Autonomous System learns reachability from its neighbours and builds its own routing table."
+  - q: "Why does BGP often not pick the path with the fewest AS hops?"
+    options:
+      - "Routers cannot count AS hops reliably at internet scale"
+      - "Shorter paths are usually more congested, so BGP avoids them"
+      - "Route selection is driven by business policy and relationships — a network prefers cheaper customer routes over more expensive provider routes, even if longer"
+      - "BGP always prefers the path with the most AS hops for redundancy"
+    answer: 2
+    explanation: "AS-path length is only one tiebreaker; local policy reflecting customer/provider/peer economics is applied first, so a longer but cheaper path frequently wins."
+  - q: "In a BGP prefix hijack, why does the bogus announcement so easily spread?"
+    options:
+      - "BGP encrypts announcements, so routers cannot tell them apart"
+      - "BGP largely trusts what neighbours announce, so a network claiming a prefix it does not own can be believed and propagated unless filtering or RPKI rejects it"
+      - "The hijacking network must first break into the victim's routers"
+      - "Hijacks only work if the attacker controls a Tier-1 backbone"
+    answer: 1
+    explanation: "BGP has little built-in authentication of who owns a prefix, so a false origin can be accepted and re-advertised globally until route filtering or RPKI Route Origin Validation catches it."
+---
+
+## No one is in charge of the map
+
+There is no master map of the internet, and no office that computes one. The route your packets take across the world is not planned by any authority — it is stitched together, moment to moment, from the promises of tens of thousands of independent networks, each announcing to its neighbours: *traffic for these addresses can reach them through me.*
+
+Those announcements ripple outward. A network hears them from its neighbours, decides which to believe, and passes on the ones it chooses — and out of that endless cross-talk, every network on the planet assembles a working picture of how to reach every other. The whole thing holds together on trust. Which is exactly why a single wrong announcement, made in one country, can — and has — knocked a global service offline for everyone.
+
+This is the job of **BGP**, the **Border Gateway Protocol** (current version BGP-4, specified in [RFC 4271](https://datatracker.ietf.org/doc/html/rfc4271)). In [IP Addresses and Routing](/articles/ip-and-routing) we saw a packet cross the network as a chain of *local* next-hop decisions: each router glances at the destination, consults its own table, and forwards one hop closer. That article left one question open — **where do those tables come from** once a packet has to leave your ISP and cross the wider internet? BGP is the answer. It is the protocol by which the internet's separately-run networks tell each other what they can reach, so the local next-hop decision at every hop has something to go on.
+
+## An internet of Autonomous Systems
+
+The internet is not one network. It is an *inter*-network: a mesh of roughly **75,000** independently administered networks, each called an **Autonomous System (AS)**. Your ISP is an AS. A large content provider is an AS — Google's is **AS15169**, Cloudflare's is **AS13335**. A university campus, a bank, a national carrier: each runs its own AS, with its own equipment, its own policies, and a globally unique **AS number**.
+
+Routing splits cleanly into two problems at the AS boundary:
+
+- **Interior routing** happens *inside* a single AS, where one organisation controls everything. Protocols like **OSPF** compute shortest paths over that AS's own links — the [graph-traversal shortest-path problem](/articles/graph-traversal), solved cooperatively by routers that trust each other because they share an owner.
+- **Interdomain routing** happens *between* ASes, where no one is in charge and no one trusts anyone by default. This is BGP's domain — the glue that binds independent networks into one internet.
+
+Each AS is responsible for a set of **IP prefixes** — address blocks like `8.8.8.0/24`, written in the `/n` notation from the [previous article](/articles/ip-and-routing). BGP's core message is a **route advertisement**: an AS tells a neighbour, *"I can reach prefix `P`, and the sequence of networks to get there is this AS-path."* The **AS-path** is the list of AS numbers the announcement has traversed — say `AS64500 AS64510 AS15169` — a running record of which networks vouch for the route.
+
+When a neighbour accepts that advertisement, it adds itself to the front of the AS-path and re-announces to *its* neighbours. Reachability information spreads AS by AS across the whole mesh. No single network ever sees the full graph; each only hears what its direct neighbours choose to tell it — and from that partial view, builds a table of which neighbour to hand a packet to for each destination prefix. The prepending of AS numbers also does something vital: because an AS refuses any announcement whose path already contains its own number, **routing loops are prevented** without any global coordinator.
+
+## Watching routes propagate
+
+The animation below is a small internet of Autonomous Systems. Each node is an AS with its own number; the destination prefix `203.0.113.0/24` lives at one AS on the far side. Press play and watch **advertisements ripple outward** from the origin: each AS that accepts a route prepends itself to the AS-path and passes it on, until every AS has learned at least one way to reach the prefix. Then a packet is launched from the source AS and follows the **selected AS-path** across independent networks to the destination.
+
+<BGPRoutingAnimation />
+
+Now make it concrete. The source AS often has more than one path to choose from — a shorter one through a **provider** and a longer one through a **peer** — and the highlighted path shows which it currently prefers. **Toggle the policy** between "prefer shortest AS-path" and "prefer the cheaper relationship" and watch the chosen path jump to a completely different set of networks, even though *nothing about the physical links changed*. Then **cut a link** on the active path: the advertisements re-propagate and the ASes converge on an alternative, exactly as the local routers did in the [IP routing article](/articles/ip-and-routing) — only now the units re-planning are entire networks, not single routers. The lesson the widget makes tangible: each AS advertises reachability, and paths are chosen *across* independent networks, by policy, from purely local knowledge.
+
+## The scale, and why "shortest" is the wrong word
+
+Two numbers explain why interdomain routing is hard. There are on the order of
+
+$$N_{\text{AS}} \approx 7.5 \times 10^{4}$$
+
+Autonomous Systems, and the **global routing table** — the set of prefixes every internet-facing BGP router must hold — has grown past
+
+$$N_{\text{routes}} \approx 1 \times 10^{6}$$
+
+entries. Every default-free router on the internet carries a route for roughly a million prefixes, learned and re-learned as advertisements flow.
+
+You might expect BGP to simply minimise the number of AS hops — to pick, for each prefix, the path with the smallest
+
+$$\text{AS-path length} = \sum_{i} 1 \quad \text{(one per AS traversed)}.$$
+
+It does not. AS-path length is only **one tiebreaker among many**, and it sits well down BGP's decision list. What comes first is **policy**, and policy encodes **money**. The relationships between ASes fall into three commercial types:
+
+- **Customer** — a network that *pays* this AS to carry its traffic. Routes learned from customers earn revenue.
+- **Provider** — a network this AS *pays* for transit. Routes through providers cost money.
+- **Peer** — a settlement-free swap, where two networks exchange each other's traffic for free but carry no one else's for the other.
+
+The near-universal rule of thumb — the **Gao–Rexford** conditions — is to prefer **customer routes over peer routes over provider routes**, because that ordering maximises revenue and minimises cost. A route through a customer wins even if it is *longer* in AS hops than a route through a provider. Only when policy leaves a tie does AS-path length break it, and only after *that* do finer tie-breakers apply. So the internet's routes are chosen the way a business chooses shipping carriers: cost and contracts first, distance a distant afterthought. There is no global shortest-path computation, because there is no global anything.
+
+## When trust breaks: hijacks and leaks
+
+BGP's fatal beauty is that it mostly **believes what it is told**. An advertisement carries no proof that the announcing AS actually owns the prefix. That worked when the internet was a handful of research networks that knew each other. At today's scale it is a standing vulnerability, exploitable two ways:
+
+- A **prefix hijack**: an AS announces a prefix it does not own. Neighbours that find the bogus route shorter or otherwise preferable believe it, re-advertise it, and traffic for those addresses is drawn to the wrong network — **misdirected** (intercepted, snooped) or **black-holed** (silently dropped).
+- A **route leak**: an AS improperly propagates routes it should have kept to itself — for instance re-advertising a provider's routes to a peer — funnelling traffic through a network that was never meant to carry it.
+
+The animation below stages a hijack. A legitimate AS owns `203.0.113.0/24`, and traffic flows to it correctly. Then a rogue AS starts announcing the **same prefix**, claiming addresses it does not own. Watch nearby ASes that hear the closer, shorter bogus announcement switch to it — and their traffic bend away from the rightful owner into the black hole.
+
+<RouteHijackAnimation />
+
+Now switch on the defence. **Toggle route filtering / RPKI validation** and watch the bogus announcement get rejected at the border and traffic snap back to the legitimate AS. **RPKI** (Resource Public Key Infrastructure) with **Route Origin Validation** lets a prefix's true owner publish a signed statement — a **ROA**, Route Origin Authorisation — declaring which AS is allowed to originate it. A validating router can then discard any announcement whose origin does not match. Combined with **route filtering** (neighbours agreeing in advance on exactly which prefixes each may announce), it is the main mitigation for hijacks and leaks. It is also **still incompletely deployed**: a large share of prefixes remain unsigned, and a large share of networks still do not validate, so the trust problem is contained but not solved.
+
+## Why it matters
+
+This is not hypothetical. In **2008**, a Pakistani ISP tried to block YouTube domestically by announcing a more-specific route for YouTube's prefix into its own network — a local black hole. The announcement **leaked to its upstream provider and propagated globally**, and because it was more specific it out-competed YouTube's own route. For a couple of hours, much of the world's YouTube traffic was drawn toward Pakistan and dropped. One AS's misconfiguration took down a global service — the canonical illustration of BGP's fragility.
+
+The mirror image appeared in the **2021 Facebook/Meta outage**: a configuration error caused Facebook's own routers to **withdraw the BGP routes** to its network. From the internet's point of view Facebook's prefixes simply vanished from the global table — if no one advertises a path to you, you are unreachable, no matter that your servers are running fine. Both incidents trace to the same root: BGP is a decentralised negotiation among independent networks, and the picture it assembles is only as trustworthy as the announcements feeding it.
+
+That is also the corrective to the two most common misconceptions. There is **no central authority** computing the internet's routes — the map is negotiated, not decreed. And routes are **not chosen by shortest path** — they follow policy and business relationships, over a substrate of trust that RPKI and filtering are still working to shore up.
+
+<KeyTakeaways>
+- The internet is a mesh of ~75,000 **Autonomous Systems** — independently run networks — and **BGP** is how they advertise reachable prefixes and AS-paths to their neighbours so each can build its own picture of how to reach the rest.
+- There is **no central authority** computing internet routes and **no global map**: it is a decentralised, hop-by-hop negotiation, the interdomain complement to the local next-hop decisions in [IP routing](/articles/ip-and-routing).
+- Route selection follows **policy and business relationships** (customer over peer over provider), not shortest path — AS-path length is just one tiebreaker among many.
+- BGP largely **trusts what it is told**, so a **prefix hijack** or **route leak** can misdirect or black-hole traffic worldwide — as the 2008 YouTube/Pakistan incident showed, and as route withdrawals caused in the 2021 Facebook outage.
+- **RPKI Route Origin Validation** and **route filtering** are the main defences, letting networks reject announcements from ASes not authorised to originate a prefix — but they remain incompletely deployed.
+</KeyTakeaways>
