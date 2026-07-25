@@ -13,6 +13,7 @@ const topicColors: Record<string, string> = {
   'Earth & Climate': '#22D3EE',
   'Astronomy & Cosmology': '#818CF8',
   'Computer Science': '#60A5FA',
+  'Networks & the Internet': '#F87171',
   Medicine: '#F472B6',
 }
 

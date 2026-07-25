@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Search — Scimotion',
-  description: 'Search interactive science articles across Mathematics, Physics, Chemistry, Biology, Earth & Climate, Astronomy & Cosmology, Computer Science, and Medicine.',
+  description: 'Search interactive science articles across Mathematics, Physics, Chemistry, Biology, Earth & Climate, Astronomy & Cosmology, Computer Science, Networks & the Internet, and Medicine.',
 }
 
 export default async function SearchPage() {
