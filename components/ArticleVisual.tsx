@@ -2856,6 +2856,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  wifi: c => {
+    // An access point radiating concentric signal arcs to devices at increasing
+    // distance; the farther device is drawn fainter (weaker signal).
+    const ap = { x: 40, y: 60 }
+    const devices = [
+      { x: 120, y: 34, col: c, op: 1 },
+      { x: 180, y: 82, col: c, op: 0.7 },
+      { x: 245, y: 48, col: MUTE, op: 0.5 },
+    ]
+    return (
+      <g>
+        {devices.map((d, i) => (
+          <line key={`l${i}`} x1={ap.x} y1={ap.y} x2={d.x} y2={d.y} stroke={c} strokeWidth={1} strokeDasharray="3 3" opacity={d.op * 0.5} />
+        ))}
+        <path d="M 58 42 A 26 26 0 0 1 58 78" fill="none" stroke={c} strokeWidth={1.75} opacity={0.9} />
+        <path d="M 73 27 A 46 46 0 0 1 73 93" fill="none" stroke={c} strokeWidth={1.5} opacity={0.55} />
+        <path d="M 87 13 A 66 66 0 0 1 87 107" fill="none" stroke={c} strokeWidth={1.25} opacity={0.3} />
+        <circle cx={40} cy={60} r={9} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={40} cy={60} r={2.5} fill={GOLD} />
+        {devices.map((d, i) => (
+          <g key={`d${i}`}>
+            <rect x={d.x - 11} y={d.y - 8} width={22} height={16} rx={3} fill={`${c}22`} stroke={d.col} strokeWidth={1.25} opacity={d.op} />
+            <line x1={d.x - 6} y1={d.y + 4} x2={d.x + 6} y2={d.y + 4} stroke={d.col} strokeWidth={0.75} opacity={d.op} />
+          </g>
+        ))}
+        <text x={104} y={112} fontSize={9} fill={MUTE} fontFamily="monospace">802.11</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -219,6 +219,8 @@ import {
   QUICvsTCPAnimation,
   VPNTunnelAnimation,
   VPNEavesdropperAnimation,
+  WiFiContentionAnimation,
+  SignalRangeAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -439,6 +441,8 @@ const components = {
   QUICvsTCPAnimation,
   VPNTunnelAnimation,
   VPNEavesdropperAnimation,
+  WiFiContentionAnimation,
+  SignalRangeAnimation,
   KeyTakeaways,
 }
 

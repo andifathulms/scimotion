@@ -1000,3 +1000,13 @@ export const VPNEavesdropperAnimation = dynamic(
   () => import('@/components/animations/VPNEavesdropperAnimation').then(m => ({ default: m.VPNEavesdropperAnimation })),
   { ssr: false }
 )
+
+export const WiFiContentionAnimation = dynamic(
+  () => import('@/components/animations/WiFiContentionAnimation').then(m => ({ default: m.WiFiContentionAnimation })),
+  { ssr: false }
+)
+
+export const SignalRangeAnimation = dynamic(
+  () => import('@/components/animations/SignalRangeAnimation').then(m => ({ default: m.SignalRangeAnimation })),
+  { ssr: false }
+)

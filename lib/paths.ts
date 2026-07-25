@@ -93,6 +93,15 @@ export const learningPaths: LearningPath[] = [
     // then become reliable, then get names, then serve documents.
     articleSlugs: ['packet-switching', 'ip-and-routing', 'tcp', 'dns', 'http-and-the-web', 'nat', 'tls', 'certificates', 'load-balancers', 'cdns'],
   },
+  {
+    slug: 'networks-in-depth',
+    title: 'Networks in Depth',
+    description:
+      'The layers the first tour skipped and the extensions built on top — how bits reach the wire and the airwaves, how independent networks agree on routes, how the web reinvented its transport, and how private networks span the public internet.',
+    // Bottom of the stack up and outward: link layer (wired, then wireless),
+    // interdomain routing, the modern app transport, and overlays on top.
+    articleSlugs: ['ethernet', 'wifi', 'bgp', 'http-evolution', 'vpns'],
+  },
 ]
 
 export function getPath(slug: string): LearningPath | undefined {

@@ -1,0 +1,122 @@
+---
+title: "Wi-Fi: Networking Through the Air"
+subtitle: "Ethernet gave every device its own wire; Wi-Fi cannot — so its whole cleverness is in the taking of turns on one slice of shared, invisible air."
+topic: "Networks & the Internet"
+slug: "wifi"
+date: "2026-07-24"
+readTime: 10
+featured: false
+description: "How Wi-Fi carries a link-layer over a shared radio medium, why it must avoid collisions instead of detecting them, and why the rated speed on the box is a ceiling everyone shares, not a promise to each device."
+tags: ["networking", "wifi", "wireless", "csma-ca"]
+quiz:
+  - q: "Wired Ethernet uses CSMA/CD (collision detection), but Wi-Fi uses CSMA/CA (collision avoidance). What is the physical reason a Wi-Fi station cannot simply detect collisions the way a shared-coax Ethernet station could?"
+    options:
+      - "Radios are too slow to react within the time a collision takes to occur"
+      - "A transmitting radio's own signal is vastly stronger than any distant signal arriving at its antenna, so it cannot hear another station transmitting at the same time — it must instead avoid collisions in advance and confirm success with an explicit ACK"
+      - "Wireless frames are encrypted, so a station cannot read another station's frame to notice the overlap"
+      - "Collision detection was removed from the standard purely to save battery power"
+    answer: 1
+    explanation: "A station's own transmission swamps its receiver, so it cannot listen for a competing signal while sending; Wi-Fi therefore avoids collisions with carrier sensing and random backoff and relies on a returned ACK to learn whether the frame actually got through."
+  - q: "You upgrade to a router advertised at 1200 Mbps, yet with a dozen busy devices on it each one feels far slower than that. Why?"
+    options:
+      - "The rated number is a lie invented by marketing and has no physical meaning"
+      - "Each device is guaranteed 1200 Mbps but your internet plan is the bottleneck"
+      - "The rated figure is a shared PHY ceiling for the whole half-duplex channel; because only one station transmits at a time and airtime is divided among all active devices (minus overhead and backoff), per-device throughput falls as more devices contend"
+      - "Wi-Fi speed is fixed per device and cannot change once you associate"
+    answer: 2
+    explanation: "The advertised rate is the best-case airtime speed of one shared, half-duplex channel; devices take turns, so that capacity is split across everyone active and eroded by contention, overhead, distance and interference."
+  - q: "In the 'hidden node problem', two stations A and C can both reach access point B but cannot hear each other. Why is this a problem, and what mechanism most directly addresses it?"
+    options:
+      - "A and C will get different IP addresses; DHCP resolves it"
+      - "Because neither senses the other's transmission, both can think the channel is idle and transmit to B at once, colliding at B; an optional RTS/CTS handshake, in which B's CTS reserves the channel for everyone in earshot, is the classic remedy"
+      - "The signals interfere permanently and the only fix is to move to a different building"
+      - "It only affects wired networks, so a switch must be added"
+    answer: 1
+    explanation: "Carrier sensing fails when stations are mutually out of earshot, so both may transmit simultaneously and collide at the receiver; RTS/CTS lets the access point announce an upcoming transmission to all stations in its range, reserving the channel even for those that cannot hear the sender."
+---
+
+## Everyone is shouting into the same air
+
+Right now your phone, your neighbour's phone through the wall, a laptop two rooms over, and the microwave down the hall are all pushing energy into the same narrow slice of empty air — the same handful of radio frequencies. None of them has a private channel. There is no wire between your phone and the router that belongs to your phone alone. And yet your video call keeps flowing, the page loads, the music does not stutter.
+
+That it works at all is the surprising part. Wired [Ethernet](/articles/ethernet) eventually solved the problem of sharing by refusing to share: a modern switched network gives every device its own dedicated wire, so there is simply nothing to collide over. Wi-Fi cannot do that. Radio is inherently a **broadcast medium** — when an antenna transmits, the signal spreads out to *everyone* nearby, whether they wanted it or not. You cannot hand each device its own patch of air. So Wi-Fi keeps the one thing switched Ethernet threw away: a genuinely shared medium, contended for by everyone at once. Its entire cleverness lives in the etiquette of taking turns.
+
+## Wi-Fi is a link layer — over radio instead of copper
+
+It helps to say exactly what Wi-Fi *is*, because the word gets stretched to mean far more than it should. **Wi-Fi is IEEE 802.11**, a family of standards first published in **1997**, that defines how to move a link-layer frame between a device and a nearby **access point** over radio. The name is not an abbreviation of anything — "Wi-Fi" is a certification trademark owned by the **Wi-Fi Alliance**, applied to gear that passes their interoperability tests. It does *not* stand for "wireless fidelity", however often you have heard that.
+
+Structurally, Wi-Fi sits in exactly the same place as Ethernet: it is the **link layer**, the bottom rung that carries a frame across a single local hop. Everything you learned about that layer still holds. Frames still carry 48-bit **MAC addresses**. An IP packet still rides *inside* a link-layer frame for its trip across the local hop. The difference is entirely in the medium beneath: Ethernet's frame crosses a private copper wire to a switch port; Wi-Fi's frame crosses open air to an access point, which is typically wired into the rest of the network by ordinary Ethernet. Wi-Fi is the *last wireless hop* — from your device to the access point — and no further.
+
+That single hop is where every wireless-specific complication lives, because the medium is now:
+
+- **Shared** — one channel, many devices, no per-device wire.
+- **Half-duplex** — a station cannot meaningfully transmit and receive on the same channel at the same instant, so the air carries one frame at a time.
+- **Contention-based** — no central scheduler hands out permission; stations must negotiate turns among themselves.
+
+## Why you cannot detect a collision mid-transmission
+
+Ethernet's original shared-coax design used **CSMA/CD** — *Carrier Sense Multiple Access with Collision Detection*. The trick that made it work was the "CD": a station kept listening to the wire *while it transmitted*, and if it heard its own signal getting garbled, it knew a collision had happened and backed off. On a wire, that is feasible — the station can compare what it sent against what is on the wire.
+
+On radio it is essentially impossible. When your device transmits, its own signal leaves its antenna at overwhelming strength, while any competing signal arriving from another station across the room is fantastically weaker — many orders of magnitude down. A receiver trying to listen *through* its own transmission is like trying to hear a whisper while shouting into your own ear. So a Wi-Fi station **cannot reliably tell, while it is transmitting, that someone else is transmitting too.** The whole premise of collision *detection* is gone.
+
+Wi-Fi's answer is to change the goal from detecting collisions to **avoiding** them: **CSMA/CA**, *Carrier Sense Multiple Access with Collision Avoidance*. It runs like this:
+
+1. **Sense** the channel. If another transmission is in progress, treat the air as busy.
+2. **Wait** until the channel has been idle for a defined interval.
+3. **Back off** — pick a *random* number of idle time-slots to count down before transmitting. If the channel goes busy again, freeze the counter and resume when it clears. The random wait makes it unlikely that two waiting stations start at the same instant.
+4. **Transmit** the frame when the counter reaches zero.
+5. **Confirm with an ACK.** Because the sender could not hear a collision, the *only* way it learns the frame arrived is that the access point sends back an explicit **acknowledgement**. No ACK means "assume it was lost" — the station doubles its backoff window and tries again.
+
+Optionally, before a big frame, a station and the access point can exchange a tiny **RTS/CTS** handshake — *Request To Send / Clear To Send*. The access point's **CTS** is heard by everyone in its range and effectively *reserves* the channel for the coming frame, which is the standard defence against stations that cannot hear each other directly. The listen-wait-backoff-confirm loop is the heart of Wi-Fi, and it is the direct wireless counterpart to Ethernet's listen-and-detect.
+
+<WiFiContentionAnimation />
+
+Press **Run** and watch a few devices share one channel. Each device shows a **backoff** counter ticking down only while the air is idle; when a counter hits zero the device flips to **TX** and seizes the channel. Follow the *shared airtime* strip along the bottom — each slot is coloured by whichever device won it, grey when idle, red when two devices fired at once and **collided**. Notice what happens after a collision: there was no way to detect it mid-air, so the clash only surfaces as a *missing ACK*, and both losers double their backoff and retry. Now use the **+ Device** button to add stations. The single most important thing to watch is each device's throughput bar shrinking: with more of you sharing, the idle gaps fill, collisions rise, and every device's slice of the air gets smaller. *Listen, wait, random backoff, confirm — more of us, less each.*
+
+## The math: shared airtime, fading signal, and a capacity ceiling
+
+Three quantitative facts explain almost everything you feel on a real network.
+
+**Airtime is divided, not multiplied.** The channel is half-duplex, so at any instant it carries at most one frame. If $N$ devices are all busy and share the medium fairly, each can expect roughly
+
+$$\text{throughput per device} \approx \frac{R_{\text{eff}}}{N},$$
+
+where $R_{\text{eff}}$ is the channel's *effective* rate — already below the rated PHY figure because backoff, inter-frame spacing, headers and ACKs all consume airtime that carries no user data. Doubling the number of active devices roughly halves each one's share. This is why the number on the box is a **ceiling for the whole channel**, not a per-user guarantee.
+
+**Signal power falls with distance.** In free space, received power drops with roughly the square of the distance $r$ from the transmitter:
+
+$$P_{\text{rx}} \;\propto\; \frac{1}{r^{2}}.$$
+
+Double the distance and the received power falls by a factor of about four; walls, floors and interference make the real fall-off steeper still. Since a receiver must pick the signal out of a fixed noise floor, moving away steadily worsens the **signal-to-noise ratio (SNR)**.
+
+**Less signal means a lower rate — by Shannon.** The most a channel can carry is bounded by the Shannon–Hartley limit,
+
+$$C = B \,\log_2\!\left(1 + \frac{S}{N}\right),$$
+
+where $B$ is the channel bandwidth and $S/N$ the signal-to-noise ratio. Capacity *rises* with signal-to-noise and with bandwidth — so as SNR degrades with distance and interference, the ceiling $C$ comes down. Real hardware responds by **adapting its modulation**: close to the access point it uses dense, fast schemes; at the edge it falls back to slower, more robust ones that survive a noisy channel. The link does not simply cut out at some radius — it gracefully *slows down* as the signal weakens, then finally drops when even the most robust scheme cannot be decoded.
+
+## Distance, bands, and the rate that follows
+
+<SignalRangeAnimation />
+
+Drag the device away from the access point and watch the readout. **RSSI** (received signal strength) and **SNR** sink as distance grows, and the **PHY rate** steps down with them — the link adapting to slower, more robust modulation to stay alive — until, past the edge of coverage, it reads *out of range*. Then flip the band toggle between **2.4 GHz** and **5 GHz** and compare the two curves on the chart. This is the central wireless trade-off. **2.4 GHz** travels farther and penetrates walls better, but the band is narrow and crowded — shared with Bluetooth, old cordless phones, and, yes, microwave ovens — so it is slower and noisier. **5 GHz** (and the newer **6 GHz**) offers much wider channels and far higher top rates, but those higher frequencies attenuate faster and are stopped more easily by walls, so their reach is shorter. Farther and weaker always means slower; the airwaves are a shared, fading resource, and every metre and every wall spends some of it.
+
+The chart also makes the **hidden node problem** intuitive. Coverage is a matter of who can hear whom. Two devices can each be close enough to reach the access point while being too far apart, or too obstructed, to hear *each other*. When that happens, carrier sensing fails for them: each senses an idle channel, both transmit, and their frames collide *at the access point* even though neither could have known. That is precisely the case RTS/CTS was designed for — the access point's CTS is heard by everyone in range, reserving the channel even for stations the sender itself cannot reach.
+
+## Why it matters, and two myths to retire
+
+Wireless is now the *default* way people touch the internet, and almost every frustration with it traces back to the shared-medium reality this article describes. A call degrades in a packed café not because the café's link to the internet is slow but because dozens of devices are contending for the same slice of air. Moving one room closer to the router speeds things up because signal power climbs and the link negotiates a faster modulation. A neighbour's network on the same channel slows yours because, to your radios, it is simply more traffic in the same air to wait behind.
+
+Two misconceptions are worth dismantling directly.
+
+**"Every device on my Wi-Fi gets the full rated speed."** No. That number is the peak PHY rate of one **half-duplex, shared** channel, achievable only by one device, up close, under ideal conditions. Airtime is *divided* among everyone active and *eroded* by contention, overhead, distance, and interference. Wi-Fi is contention-based sharing, not a bundle of private lines.
+
+**"Wi-Fi and the internet are the same thing."** They are not. Wi-Fi is only the *last wireless hop* — the link from your device to your access point. Beyond the access point, your traffic crosses ordinary wired links and is delivered end-to-end by [IP and routing](/articles/ip-and-routing), exactly as it would be for a wired machine. "The Wi-Fi is down" usually means the local radio link or the access point failed; "the internet is down" is a different, larger claim about everything past that first hop. Wi-Fi is the doorway, not the house.
+
+<KeyTakeaways>
+- Wi-Fi (IEEE 802.11, first standardised 1997; "Wi-Fi" is a Wi-Fi Alliance trademark, not an abbreviation) is a **link layer over a shared radio medium** — the same job as Ethernet, but over air instead of a private wire, and only for the last hop to your access point.
+- A radio cannot hear a competing signal while transmitting, so Wi-Fi cannot *detect* collisions; it uses **CSMA/CA** instead — sense, wait, random backoff, and an explicit **ACK** to confirm delivery, with optional **RTS/CTS** to reserve the channel.
+- The medium is **half-duplex and contention-based**, so the rated PHY speed is a **ceiling for the whole channel**, not a per-device guarantee: real throughput falls as more devices share the air ($\approx R_{\text{eff}}/N$) and as distance or interference weaken the signal.
+- Signal power falls roughly as $1/r^2$, and by Shannon ($C = B\log_2(1+S/N)$) a weaker signal supports a lower rate — hence the **2.4 GHz (farther, slower, crowded) vs 5/6 GHz (faster, shorter-range)** trade-off and the graceful rate step-down toward the edge.
+- Two myths to drop: every device does **not** get the full rated speed (airtime is shared), and Wi-Fi is **not** the internet (it is only the wireless hop to the access point; [IP and routing](/articles/ip-and-routing) carries you the rest of the way).
+</KeyTakeaways>
