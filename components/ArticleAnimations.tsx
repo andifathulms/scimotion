@@ -910,3 +910,13 @@ export const CookieStateAnimation = dynamic(
   () => import('@/components/animations/CookieStateAnimation').then(m => ({ default: m.CookieStateAnimation })),
   { ssr: false }
 )
+
+export const TLSHandshakeAnimation = dynamic(
+  () => import('@/components/animations/TLSHandshakeAnimation').then(m => ({ default: m.TLSHandshakeAnimation })),
+  { ssr: false }
+)
+
+export const SymmetricVsAsymmetricAnimation = dynamic(
+  () => import('@/components/animations/SymmetricVsAsymmetricAnimation').then(m => ({ default: m.SymmetricVsAsymmetricAnimation })),
+  { ssr: false }
+)

@@ -2595,6 +2595,28 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  tls: c => {
+    // A padlock sealing an encrypted channel of ciphertext between client and server.
+    const cipher = [80, 96, 112, 190, 206, 222]
+    return (
+      <g>
+        <rect x={12} y={44} width={52} height={38} rx={5} fill="rgba(255,255,255,0.03)" stroke={c} strokeWidth={1.25} />
+        <rect x={236} y={44} width={52} height={38} rx={5} fill="rgba(255,255,255,0.03)" stroke={c} strokeWidth={1.25} />
+        <text x={38} y={38} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">client</text>
+        <text x={262} y={38} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">server</text>
+        <text x={38} y={67} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">GET</text>
+        <text x={262} y={67} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">200</text>
+        <line x1={64} y1={63} x2={236} y2={63} stroke={FAINT} strokeWidth={1} />
+        {cipher.map((x, i) => (
+          <rect key={i} x={x} y={59} width={9} height={8} rx={1.5} fill={`${GOLD}44`} stroke={GOLD} strokeWidth={0.75} />
+        ))}
+        <path d="M 141 58 A 9 9 0 0 1 159 58" fill="none" stroke={GOLD} strokeWidth={2} />
+        <rect x={135} y={58} width={30} height={26} rx={4} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <circle cx={150} cy={69} r={3} fill={GOLD} />
+        <rect x={149} y={69} width={2} height={7} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

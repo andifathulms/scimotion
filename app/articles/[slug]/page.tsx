@@ -201,6 +201,8 @@ import {
   DNSHierarchyAnimation,
   HTTPRequestAnimation,
   CookieStateAnimation,
+  TLSHandshakeAnimation,
+  SymmetricVsAsymmetricAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -403,6 +405,8 @@ const components = {
   DNSHierarchyAnimation,
   HTTPRequestAnimation,
   CookieStateAnimation,
+  TLSHandshakeAnimation,
+  SymmetricVsAsymmetricAnimation,
   KeyTakeaways,
 }
 

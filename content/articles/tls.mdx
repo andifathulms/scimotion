@@ -1,0 +1,110 @@
+---
+title: "TLS: Encrypting the Web"
+subtitle: "How the web turned its open postcards into sealed envelopes — slow public-key crypto just long enough to agree a fast shared secret."
+topic: "Networks & the Internet"
+slug: "tls"
+date: "2026-07-14"
+readTime: 10
+featured: false
+description: "Plaintext HTTP let anyone on the path read your passwords. TLS wraps the connection in encryption by using slow asymmetric crypto only to authenticate the server and agree a key, then switching to fast symmetric crypto for the data."
+tags: ["tls", "encryption", "security", "internet"]
+quiz:
+  - q: "TLS is often described as 'encrypting the web with public-key cryptography'. What is the more precise account of how it uses public-key crypto?"
+    options:
+      - "Every byte of the connection is encrypted and decrypted with the server's public and private keys"
+      - "Public-key crypto is used only during the handshake to authenticate the server and agree on a shared secret; the bulk of the data is then encrypted with a fast symmetric key"
+      - "Public-key crypto encrypts the request and symmetric crypto encrypts the response"
+      - "The public key encrypts small messages and the private key is sent to the client to decrypt large ones"
+    answer: 1
+    explanation: "Asymmetric crypto is orders of magnitude slower, so TLS uses it only to bootstrap a shared symmetric session key and then does all the real work symmetrically."
+  - q: "Modern TLS uses ephemeral Diffie–Hellman key exchange for forward secrecy. What does forward secrecy actually protect against?"
+    options:
+      - "An attacker altering packets in flight during the current session"
+      - "A future compromise of the server's long-term private key being used to decrypt traffic that was recorded earlier"
+      - "The client accidentally reusing the same session key twice"
+      - "A certificate authority issuing a fraudulent certificate for the domain"
+    answer: 1
+    explanation: "Because the session keys are ephemeral and discarded, a key stolen later cannot decrypt past recordings — the keys that protected them no longer exist."
+  - q: "A padlock icon appears next to a site's address. What does it actually guarantee?"
+    options:
+      - "The site's operator is honest and the business behind it is trustworthy"
+      - "The transport is encrypted and you are talking to the domain named in a valid certificate — nothing about the intentions of whoever runs it"
+      - "The site cannot contain malware or attempt to defraud you"
+      - "Your data is safe from the website's own operators once it arrives"
+    answer: 1
+    explanation: "The padlock certifies an encrypted channel to the named domain; a scam site can hold a perfectly valid certificate, so it says nothing about the operator's honesty."
+---
+
+## The postcard problem
+
+When HTTP was born, every request and every reply crossed the network as plain, readable text. You saw this directly in the [HTTP article](/articles/http-and-the-web): a request is literally lines like `GET /index.html HTTP/1.1`, and the response is a status line and a body, all in the clear. For sharing physics papers between universities, that was perfectly fine — there was nothing to hide, and the openness made the protocol trivial to implement and debug.
+
+It became catastrophic the moment the web started carrying passwords and credit-card numbers. A plaintext request is a **postcard**: everyone who handles it can read it. And a lot of parties handle it. The wifi access point in the café, everyone else sharing that café's airwaves, your internet provider, every router along the path, the operator of the network at your office or hotel — each of them sees the raw bytes stream past. On an open network, capturing someone else's plaintext HTTP was not an elite attack; it was a menu item in freely downloadable tools.
+
+So the web had a problem. The thing that made HTTP wonderful — that it was simple, open, readable text over a [TCP](/articles/tcp) connection — was exactly what made commerce on it impossible. **TLS** is the layer that fixed this. It takes the same TCP byte-stream and wraps it in encryption, turning the open postcard of HTTP into a sealed envelope that only the two endpoints can open. The `s` in `https` is TLS underneath.
+
+## The core trick: borrow slow crypto to buy fast crypto
+
+Here is the tension TLS has to resolve. There are two families of cryptography, and each is missing exactly what the other has.
+
+**Symmetric crypto** uses a single shared key: the same key encrypts and decrypts. It is *fast* — modern CPUs have dedicated instructions for it, and it runs at gigabytes per second. Its fatal flaw is the setup: encryption is useless until both sides hold the same key, and two strangers meeting over an open wire have no way to agree on one without an eavesdropper hearing it too.
+
+**Asymmetric** — public-key — crypto solves precisely that agreement problem. As the [public-key cryptography article](/articles/public-key-cryptography) shows in detail, two parties who have never met can end a fully public conversation holding the same secret, while an eavesdropper with the complete transcript cannot. But it buys that magic with arithmetic on enormous numbers, which makes it *slow* — hundreds to thousands of times slower per byte than symmetric crypto. Encrypting a video stream with it directly would be absurd.
+
+TLS's whole design is one idea: **use the slow tool only long enough to set up the fast one.** Public-key crypto does just enough work to authenticate the server and let the two sides agree on a shared **symmetric session key**; then TLS throws the expensive machinery away and encrypts all the actual traffic symmetrically. You bootstrap with asymmetric, then switch to symmetric. That switch is the heart of the protocol.
+
+This idea has a long history. **SSL** — Secure Sockets Layer — was created by Netscape to make its browser safe for commerce; SSL 2.0 shipped in 1995 and a redesigned SSL 3.0 in 1996. The IETF then standardised and renamed it **TLS**: TLS 1.0 in 1999 (RFC 2246), through to **TLS 1.3** in 2018 (RFC 8446), which streamlined the handshake and dropped everything that had aged badly.
+
+## Watching the handshake
+
+The setup conversation is called the **handshake**. Walk through it in the widget below.
+
+<TLSHandshakeAnimation />
+
+Press **Run**, or use **Step** to advance one message at a time, and watch the four moves. First the **ClientHello** goes out: the client proposes which ciphers it supports and sends a random number. Then the server replies with its **certificate and public key** — a certificate is how the client will later decide it is talking to the real server and not an impostor, a story we pick up in the forthcoming [certificates article](/articles/certificates). Third, an **ephemeral key exchange**: using the public-key math, both sides independently derive one identical shared secret. Watch the two endpoints: neither had a shared key, and then — without any key ever crossing the wire — both light up holding the same symmetric session key. From that point on, the fourth move, the data flows **encrypted with that fast symmetric key**.
+
+Now the important experiment. Leave the **eavesdropper** panel visible and step through again, reading what the tap captures. It sees the ClientHello. It sees the certificate and public key — those are public by design, so that leaks nothing. It sees the key-exchange value. And then it sees the application data as `░░░░` — pure ciphertext. The line it can never fill in is the session key itself, **because that key was never transmitted.** Both sides computed it locally from the exchange. The attacker holds a perfect recording of the entire conversation and still cannot read a single byte of the payload. That is the guarantee in one gesture: public key to *agree* a secret, symmetric key to *do* the work, attacker sees nothing usable.
+
+## Why not just use public-key crypto for everything?
+
+A fair question at this point: if asymmetric crypto is what makes the secret agreement possible, why bother switching at all — why not encrypt the whole connection with it and skip the handoff?
+
+The answer is speed, and it is not a small difference. The reason asymmetric crypto is secure is that it rests on operations like modular exponentiation on thousands-of-bits numbers — the same one-way arithmetic the [public-key article](/articles/public-key-cryptography) dissects. A single such operation is cheap in isolation but ruinous per byte. Symmetric ciphers, by contrast, are simple bit-mixing that hardware executes in a handful of cycles. If symmetric crypto encrypts at throughput $R_\text{sym}$ and asymmetric at $R_\text{asym}$, then in practice
+
+$$\frac{R_\text{sym}}{R_\text{asym}} \;\sim\; 10^2 \text{ to } 10^3,$$
+
+so encrypting a large stream asymmetrically would be two or three orders of magnitude slower. The next widget makes that concrete.
+
+<SymmetricVsAsymmetricAnimation />
+
+Press **Race** and watch three ways to encrypt the same stream. The **symmetric-only** lane fills almost instantly. The **asymmetric-only** lane barely crawls — it is doing the same job with the expensive tool. The third lane is what TLS actually does: it pays one small asymmetric cost up front to hand over a symmetric key (the little lock-box at the top), and then finishes at full symmetric speed. Notice that the hybrid lane finishes essentially level with the pure-symmetric one; the entire asymmetric cost was a single tiny handover, not the bulk of the data. That is exactly why TLS combines them rather than picking one.
+
+## Forward secrecy: keys that self-destruct
+
+There is a subtle upgrade hidden in that word **ephemeral**. In older TLS the client could encrypt the session key directly to the server's long-term public key. It worked, but it had a chilling weakness: an attacker who *recorded* the encrypted traffic today and *stole the server's private key years later* could go back and decrypt everything. The long-term key was a single point of failure across all of history.
+
+Modern TLS fixes this with **ephemeral Diffie–Hellman**: for every connection, both sides generate a brand-new throwaway key pair, use it to agree the session key, and then discard it. The long-term key is used only to *sign* the exchange — to prove the server is who it claims — never to encrypt the secret itself. This gives **forward secrecy**: because the ephemeral keys are gone the moment the session ends, a future compromise of the server's long-term key cannot decrypt past recordings. The keys that protected last year's traffic no longer exist anywhere. Recording ciphertext now and hoping to crack it later — the "harvest now, decrypt later" threat — is defeated for every session that used ephemeral exchange.
+
+## SNI: one IP, many certificates, in the clear
+
+The HTTP article introduced **virtual hosting**: one server at one IP address serving thousands of sites, using the `Host:` header to know which one you want. TLS creates a chicken-and-egg problem for this. The server must present *the right certificate* — the one matching the site you asked for — but the certificate is presented during the handshake, *before* any encrypted HTTP request (and its `Host:` header) can be read. So how does the server know which of its hundreds of certificates to offer?
+
+The fix is **Server Name Indication (SNI)**, added in 2003 (RFC 3546, later folded into RFC 6066). The client puts the target hostname into the ClientHello — the very first message — so the server learns immediately which site is wanted and presents the matching certificate. SNI is what reconciles TLS with virtual hosting; without it, encrypted HTTPS could not share an IP among many sites.
+
+But note carefully: **classic SNI is not encrypted.** It travels in the clear in the ClientHello, before any session key exists — which is why the eavesdropper in the first widget could read the hostname. So while an observer cannot see *what* you do on a site, plain SNI reveals *which* site you connected to. **Encrypted Client Hello (ECH)** is a newer mechanism that closes this last gap by encrypting the ClientHello itself, but it is still deploying across the web.
+
+## What the padlock does and does not mean
+
+All of this earns a small icon: the padlock beside the address. It is worth being precise about what it certifies, because the padlock is one of the most misread symbols on the internet.
+
+The padlock means two specific things: the transport is **encrypted**, and you are talking to **the domain named in a valid certificate**. That is genuinely valuable — it is the difference between a sealed envelope and a postcard, and between reaching your bank and reaching an impostor who cannot produce a valid certificate for your bank's name.
+
+It does **not** mean the site is "safe" or its operator "trustworthy". A phishing site, a scam shop, or an outright malware distributor can obtain a perfectly valid certificate for its own domain — certificates are free and automatic now — and will show the same padlock. The lock says *your connection to this domain is private and authentic*; it says nothing about whether the person running that domain is honest, or what they will do with what you send them. Encryption protects the channel, not your judgement about who is on the other end.
+
+<KeyTakeaways>
+- Plaintext HTTP was an open postcard: anyone on the path — your ISP, the café next to you — could read passwords and card numbers, which made commerce on the early web untenable. TLS wraps the same TCP stream in encryption.
+- The core trick is a **hybrid**: use slow public-key crypto only to authenticate the server and agree a shared **symmetric** session key, then encrypt all the real traffic with fast symmetric crypto. It does *not* use public-key crypto for everything — that would be orders of magnitude too slow.
+- The session key is derived independently at both ends and **never crosses the wire**, so an eavesdropper with a full recording sees only ciphertext. **Ephemeral** keys add **forward secrecy**: a stolen key tomorrow cannot decrypt traffic recorded today.
+- **SNI** sends the hostname in the ClientHello so one IP can serve many HTTPS sites with the right certificate — but classic SNI is *unencrypted*, revealing which site you visited (Encrypted Client Hello is the still-deploying fix).
+- The padlock means **encrypted transport to a certified domain** — nothing more. A scam site can hold a valid certificate, so the lock is never a verdict on the honesty of whoever runs the site.
+</KeyTakeaways>
