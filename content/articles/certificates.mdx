@@ -1,0 +1,120 @@
+---
+title: "Certificates and the Chain of Trust"
+subtitle: "How your browser knows the public key it was handed really belongs to your bank."
+topic: "Networks & the Internet"
+slug: "certificates"
+date: "2026-07-16"
+readTime: 10
+featured: false
+description: "TLS hands your browser a public key and says 'encrypt to me' — but anyone can generate a key. Certificates and a chain of signatures reaching back to a short list of preinstalled authorities are what tie that key to a real identity."
+tags: ["networking", "security", "cryptography", "tls"]
+quiz:
+  - q: "A site's certificate validates cleanly and the padlock appears. What has the browser actually established?"
+    options:
+      - "That the site's operator is honest and the site is safe to use"
+      - "That you are talking to the entity that controls the named domain, over an encrypted channel — nothing about whether that entity is trustworthy"
+      - "That the Certificate Authority has inspected the site's content and approved it"
+      - "That no attacker anywhere on the internet can read the traffic, now or in the future"
+    answer: 1
+    explanation: "A certificate binds a key to a domain and encrypts the channel; it says nothing about the honesty of whoever controls that domain — a phishing site can hold a perfectly valid certificate."
+  - q: "Why can a browser validate a certificate chain without contacting the Certificate Authority on every page load?"
+    options:
+      - "It caches a fresh copy of the whole internet's certificates once per day"
+      - "Each certificate carries the CA's signature, which the browser verifies locally using the CA's public key, all the way up to a root already in its trust store"
+      - "The CA pushes a real-time approval to the browser through a persistent connection"
+      - "The operating system silently phones the CA in the background for each request"
+    answer: 1
+    explanation: "Validation is local cryptography: the browser checks each signature against a public key it already holds, anchored in the preinstalled root store — no network call to the CA is required (revocation checks are a separate, softer mechanism)."
+  - q: "What is the structural weakness of the CA system that Certificate Transparency is designed to mitigate?"
+    options:
+      - "Root certificates expire too quickly, breaking old sites"
+      - "Any CA the browser trusts can issue a valid certificate for any domain, so a single careless or compromised CA endangers every site"
+      - "Digital signatures can be forged if the attacker has enough computing power"
+      - "Certificates are too large to transmit efficiently over TLS"
+    answer: 1
+    explanation: "Trust is symmetric across all roots — every trusted CA can vouch for every domain — so the system is only as strong as its weakest CA; Certificate Transparency logs make every issued certificate public so mis-issuance can be detected."
+---
+
+## A key that could belong to anyone
+
+In the [TLS handshake](/articles/tls), the server hands your browser a public key and, in effect, says: *encrypt everything to this key, and only I can read it.* The mathematics of [public-key cryptography](/articles/public-key-cryptography) makes that promise airtight — anything sealed with the public key can be opened only by whoever holds the matching private key.
+
+But notice what the handshake has *not* established. Anyone can generate a key pair in a fraction of a second. The key that arrived over the wire is just a large number with no name attached. It could belong to your bank. It could equally belong to an attacker sitting on the same coffee-shop Wi-Fi, who intercepted your connection, generated a fresh key, and presented it as if it were the bank's. You would encrypt your password with beautiful, unbreakable cryptography — and mail it straight to the impostor.
+
+Encryption without identity is a lock with no idea who holds the key. The entire security of the web rests on a second question, the one TLS alone cannot answer: **how do you know the key you were handed actually belongs to who you think?**
+
+The answer is a certificate — and behind it, a chain of digital signatures reaching back to a short list of authorities your browser was born trusting.
+
+## What a certificate actually is
+
+Strip away the file formats and a **certificate** is a very small, very specific claim:
+
+> *This public key belongs to the domain `bank.example`.*
+
+— plus a **digital signature** from a **Certificate Authority (CA)** attesting to that claim. That is the whole idea. A certificate *binds* a public key to a name, and a trusted third party vouches for the binding by signing it.
+
+The signature is where public-key cryptography reappears, running in reverse. When you *encrypt*, you use someone's public key so that only their private key can decrypt. A **signature** flips the roles: the CA processes the certificate's contents with its *private* key, producing a value that anyone can check with the CA's *public* key — but that nobody without the private key could have produced. Because only the CA holds its private key, a valid signature is proof the CA, and only the CA, signed this exact certificate.
+
+So the trust doesn't come from the server. It comes from the CA. The server's certificate is only as believable as your browser's reasons to trust the CA that signed it — which pushes the question up a level. Why does the browser trust the CA? Because *its* certificate was signed by a CA above it, and so on, until the chain reaches a root the browser simply trusts by fiat, because it shipped with it.
+
+## Walking the chain
+
+Real certificates almost never chain in a single step. Your bank's certificate — the **leaf** — is signed by an **intermediate CA**, whose certificate is in turn signed by a **root CA**. Only the root sits in the browser's **trust store**: a set of a few hundred root certificates preinstalled with your browser or operating system. Intermediates are kept one step removed so the enormously valuable root keys can live offline in a vault and rarely be used.
+
+To validate, the browser walks the chain from the leaf upward, checking one signature at a time, until it either reaches a root it already trusts or runs out of chain.
+
+<ChainOfTrustAnimation />
+
+Start with the default **valid chain** and press Play. Watch the browser confirm the leaf names the domain you asked for, then verify the leaf's signature using the intermediate's public key, then the intermediate's signature using the root's key — and finally recognize that root sitting in the trust store on the left. Each green check is a *local* cryptographic verification; the anchor at the top is what makes the whole chain mean something.
+
+Now switch the dropdown to **self-signed leaf** and replay. The certificate is internally perfect — the signature verifies fine — but it verifies against *its own* key, and that key is nowhere in the trust store. The chain has nothing to hang from. Switch to **signed by an untrusted CA**: here every signature in the chain checks out, yet the root at the top still isn't one the browser was born trusting. Both fail for the same reason, and it is worth saying precisely: *the signatures are valid; the trust is not anchored.* That un-anchored chain is exactly what produces the browser's red "Not secure" warning.
+
+The lesson the widget is built to make concrete: **trust is transitive, but it is anchored.** You trust the leaf because you trust the intermediate because you trust the root — and you trust the root only because it was placed in your store ahead of time by someone you already decided to rely on.
+
+## The signature underneath
+
+What is the browser actually *checking* at each step? A certificate is signed not by encrypting the whole thing but by encrypting a **cryptographic hash** of it. Let $C_i$ be a certificate, $H$ a hash function, and $k^{-}_{i+1}$ the private key of the CA one level up. The signature is
+
+$$\sigma_i = \text{Sign}\big(k^{-}_{i+1},\; H(C_i)\big)$$
+
+Signing compresses the certificate to a short fixed-length fingerprint with $H$, then transforms that fingerprint with the CA's private key. To verify, the browser recomputes the hash itself and checks it against what the signature yields under the CA's *public* key $k^{+}_{i+1}$:
+
+$$\text{Verify}(k^{+}_{i+1},\, C_i,\, \sigma_i)\;\equiv\;\Big(\text{recover}(k^{+}_{i+1},\, \sigma_i) \;\stackrel{?}{=}\; H(C_i)\Big)$$
+
+If the two hashes match, two things are true at once: the certificate was signed by the holder of $k^{-}_{i+1}$ (authenticity), and not one bit of it has changed since (integrity). Change a single character of the domain name and $H(C_i)$ moves to a completely different value, the check fails, and the certificate is rejected.
+
+Now stack these checks. A chain is a sequence of certificates $C_0$ (the leaf) up to $C_n$ (the root), where each $C_i$ is signed by the key of $C_{i+1}$. The browser accepts the leaf only if every link verifies *and* the top certificate is a member of the trust store $\mathcal{T}$:
+
+$$\text{trusted}(C_0)\;\iff\;\Big(\bigwedge_{i=0}^{n-1}\text{Verify}(k^{+}_{i+1},\, C_i,\, \sigma_i)\Big)\;\wedge\;C_n \in \mathcal{T}$$
+
+Read that conjunction carefully, because it is the entire security model in one line. Every signature must check out — *and* the chain must terminate at a preinstalled root. Drop either condition and the whole thing collapses: a self-signed certificate satisfies the signatures but fails $C_n \in \mathcal{T}$; a chain to an unknown root fails the same clause. And crucially, every one of those `Verify` calls is arithmetic the browser does on its own machine, against keys it already holds. It does **not** phone the CA. Validation is local.
+
+## The attack certificates exist to stop
+
+To feel why all this machinery is worth the trouble, watch the attack it defeats. The threat model is the **man-in-the-middle**: an attacker positioned on the network path — a rogue Wi-Fi access point, a compromised router — who intercepts your connection and impersonates the server.
+
+<MITMAnimation />
+
+Leave certificate validation **Off** and press Play. You reach out to `bank.example`; the attacker intercepts the connection and answers with *its own* certificate, generated moments ago, claiming to be the bank. With no check, your browser accepts it, and you encrypt your password to the attacker's key. The attacker decrypts it, reads everything, and quietly relays your traffic on to the real bank so nothing looks amiss. The encryption worked perfectly — it just protected the wrong conversation.
+
+Now flip validation **On** and replay. The same intercepted certificate arrives, but this time the browser asks the only question that matters: *is this signed by a trusted CA for `bank.example`?* It is not — the attacker cannot get a real CA to sign a certificate for a domain it does not control — and the connection is refused before a single secret is sent. The attacker still holds a perfectly good key; it simply cannot produce the one thing it needs, a signature from an authority you already trust binding that key to the bank's name.
+
+That is the exact value a certificate buys: not secrecy — [public-key cryptography](/articles/public-key-cryptography) already gave us that — but the guarantee that the key you are encrypting to belongs to the party you meant to reach.
+
+## Free certificates, revocation, and the system's weak spot
+
+For most of the web's history, certificates were a paid, manual chore, and plenty of sites stayed on unencrypted HTTP rather than bother. That changed in 2015 when **Let's Encrypt**, run by the non-profit ISRG, began issuing certificates for free and, more importantly, *automatically* — a program on your server proves control of the domain and installs a certificate without a human in the loop. Free plus automated is why the encrypted web went from a minority to the default: the fraction of web traffic served over HTTPS crossed from roughly half to the overwhelming majority in the years that followed.
+
+Certificates carry an expiry date and are issued for a fixed term, but keys are sometimes stolen before that term is up. For a compromised certificate there is **revocation** — a way to declare a still-valid-looking certificate dead early. The two mechanisms are Certificate Revocation Lists (**CRLs**), signed lists of revoked serial numbers, and the Online Certificate Status Protocol (**OCSP**), which lets a client ask about one certificate's status. Revocation is the exception that clarifies the rule: *ordinary* validation is the offline signature-chain check above, and revocation is a separate, and historically unreliable, layer bolted on for the rare compromised cert — browsers often treat a failed revocation check softly rather than blocking.
+
+Which brings us to the structural crack in the whole edifice. Your trust store holds hundreds of roots, and **any one of them can issue a valid certificate for any domain.** Trust is symmetric: a CA in Beijing and a CA in Amsterdam can both sign a certificate for your bank, and your browser will accept either. So the system is only as strong as its *most careless or most compromised* CA — and there have been real incidents where a breached or negligent CA issued certificates it never should have. The mitigation is **Certificate Transparency**: CAs must publish every certificate they issue to public, append-only logs, so that a domain owner (or a watchdog) can notice a certificate they never requested. It does not *prevent* mis-issuance — a rogue certificate can still be minted — but it makes issuance auditable, so abuse is detected rather than silent.
+
+Two misconceptions are worth killing off explicitly. First, a padlock does **not** mean a site is safe or its operator honest. A certificate proves domain identity and encrypts the channel; a phishing site at `bank-example-login.com` can obtain a perfectly valid certificate for *its own* deceptive name and show you a padlock while it steals your credentials. Second, the browser does **not** check with the CA on every visit — it validates the signature chain locally against its trust store, as the math above makes clear.
+
+<KeyTakeaways>
+- A certificate binds a public key to a **domain name** and is **digitally signed** by a Certificate Authority — it answers the question TLS alone cannot: does this key really belong to who I think?
+- Real certificates **chain**: a leaf is signed by an intermediate, signed by a root that sits in the browser's **preinstalled trust store**. The browser verifies each signature locally, up to a trusted anchor — trust is transitive but anchored, and it never phones the CA to do it.
+- The threat is the **man-in-the-middle**: without certificate validation, an attacker's own key is indistinguishable from the server's. The unforgeable CA signature is what exposes the impostor.
+- A padlock proves **domain identity and encryption, not honesty or safety** — a phishing site can hold a valid certificate. Revocation (CRL/OCSP) handles compromised certs as a separate, softer layer.
+- **Let's Encrypt** (2015) made certificates free and automated, driving HTTPS to near-universal. The system's weakness is that **any trusted CA can vouch for any domain**, so one bad CA endangers everyone — **Certificate Transparency** logs make mis-issuance detectable.
+</KeyTakeaways>

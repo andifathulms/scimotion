@@ -930,3 +930,23 @@ export const ReverseProxyAnimation = dynamic(
   () => import('@/components/animations/ReverseProxyAnimation').then(m => ({ default: m.ReverseProxyAnimation })),
   { ssr: false }
 )
+
+export const ChainOfTrustAnimation = dynamic(
+  () => import('@/components/animations/ChainOfTrustAnimation').then(m => ({ default: m.ChainOfTrustAnimation })),
+  { ssr: false }
+)
+
+export const MITMAnimation = dynamic(
+  () => import('@/components/animations/MITMAnimation').then(m => ({ default: m.MITMAnimation })),
+  { ssr: false }
+)
+
+export const CDNEdgeAnimation = dynamic(
+  () => import('@/components/animations/CDNEdgeAnimation').then(m => ({ default: m.CDNEdgeAnimation })),
+  { ssr: false }
+)
+
+export const GlobalLatencyAnimation = dynamic(
+  () => import('@/components/animations/GlobalLatencyAnimation').then(m => ({ default: m.GlobalLatencyAnimation })),
+  { ssr: false }
+)

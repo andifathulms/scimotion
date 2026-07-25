@@ -205,6 +205,10 @@ import {
   SymmetricVsAsymmetricAnimation,
   LoadBalancerAnimation,
   ReverseProxyAnimation,
+  ChainOfTrustAnimation,
+  MITMAnimation,
+  CDNEdgeAnimation,
+  GlobalLatencyAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -411,6 +415,10 @@ const components = {
   SymmetricVsAsymmetricAnimation,
   LoadBalancerAnimation,
   ReverseProxyAnimation,
+  ChainOfTrustAnimation,
+  MITMAnimation,
+  CDNEdgeAnimation,
+  GlobalLatencyAnimation,
   KeyTakeaways,
 }
 

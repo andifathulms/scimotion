@@ -2648,6 +2648,61 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  certificates: c => {
+    // A three-link chain: leaf -> intermediate -> root, checkmark on the trusted root.
+    return (
+      <g>
+        <polyline points="241,24 247,30 259,15" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        <line x1={84} y1={60} x2={115} y2={60} stroke={MUTE} strokeWidth={1} />
+        <line x1={185} y1={60} x2={216} y2={60} stroke={MUTE} strokeWidth={1} />
+        <circle cx={99} cy={60} r={3} fill={GOLD} />
+        <circle cx={200} cy={60} r={3} fill={GOLD} />
+        <rect x={14} y={38} width={70} height={44} rx={6} fill={FAINT} stroke={c} strokeWidth={1.25} />
+        <text x={49} y={57} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">leaf</text>
+        <text x={49} y={70} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">server</text>
+        <rect x={115} y={38} width={70} height={44} rx={6} fill={FAINT} stroke={c} strokeWidth={1.25} />
+        <text x={150} y={57} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">int. CA</text>
+        <text x={150} y={70} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">signs leaf</text>
+        <rect x={216} y={38} width={70} height={44} rx={6} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={251} y={57} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">root</text>
+        <text x={251} y={70} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">trusted</text>
+      </g>
+    )
+  },
+  cdns: c => {
+    const O = { x: 150, y: 60 }
+    const edges = [
+      { x: 55, y: 28 },
+      { x: 245, y: 28 },
+      { x: 55, y: 92 },
+      { x: 245, y: 92 },
+    ]
+    const users = [
+      { x: 30, y: 18 }, { x: 40, y: 42 },
+      { x: 270, y: 18 }, { x: 262, y: 44 },
+      { x: 30, y: 102 }, { x: 42, y: 80 },
+      { x: 262, y: 78 },
+    ]
+    const hot = { x: 270, y: 102 }
+    return (
+      <g>
+        {edges.map((e, i) => (
+          <line key={`oe${i}`} x1={O.x} y1={O.y} x2={e.x} y2={e.y} stroke={FAINT} strokeWidth={1} />
+        ))}
+        <line x1={hot.x} y1={hot.y} x2={O.x} y2={O.y} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={hot.x} y1={hot.y} x2={245} y2={92} stroke={c} strokeWidth={2} />
+        {users.map((u, i) => (
+          <circle key={`u${i}`} cx={u.x} cy={u.y} r={2.5} fill={MUTE} />
+        ))}
+        {edges.map((e, i) => (
+          <circle key={`e${i}`} cx={e.x} cy={e.y} r={5} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.25} />
+        ))}
+        <circle cx={hot.x} cy={hot.y} r={3.5} fill={c} />
+        <circle cx={O.x} cy={O.y} r={9} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <circle cx={O.x} cy={O.y} r={3} fill={c} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
