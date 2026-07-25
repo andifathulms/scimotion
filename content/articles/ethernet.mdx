@@ -1,0 +1,125 @@
+---
+title: "Ethernet: How Machines Share a Wire"
+subtitle: "Beneath the IP address is a 48-bit number burned into your network card — and a small protocol whose whole job is to shout \"who has this IP?\" and wait."
+topic: "Networks & the Internet"
+slug: "ethernet"
+date: "2026-07-22"
+readTime: 10
+featured: false
+description: "The layer beneath IP: how a packet physically crosses a local network, why every device has a 48-bit MAC address, how a switch learns where each machine lives, and how ARP turns an IP into the MAC needed to actually deliver a frame."
+tags: ["networking", "ethernet", "mac-address", "arp"]
+quiz:
+  - q: "Your laptop wants to send data to another machine on the same local network. It knows that machine's IP address. What must happen before the very first frame can be delivered?"
+    options:
+      - "Nothing — the local switch delivers frames using the IP address directly"
+      - "The laptop must resolve the IP to the destination's MAC address, which it does by broadcasting an ARP request and waiting for the owner to reply"
+      - "A router must compute an end-to-end path across the internet first"
+      - "The laptop must open a TCP connection, which supplies the MAC address in its handshake"
+    answer: 1
+    explanation: "Local delivery is by MAC address, not IP, so the sender first uses ARP — broadcasting \"who has this IP?\" — to learn the destination's MAC before it can build and send the frame."
+  - q: "What is the essential difference between an old Ethernet hub and a modern switch?"
+    options:
+      - "A hub is faster because it does not inspect frames, while a switch adds delay by reading every address"
+      - "A hub assigns IP addresses; a switch assigns MAC addresses"
+      - "A hub blindly repeats every incoming frame out of every other port, while a switch learns which MAC lives on which port and forwards each frame only to the correct port"
+      - "A hub works with MAC addresses and a switch works with IP addresses"
+    answer: 2
+    explanation: "A hub floods every frame to all ports, whereas a switch builds a MAC-to-port table by watching source addresses and then forwards each frame selectively to just the port where the destination lives."
+  - q: "Original shared-coax Ethernet used CSMA/CD, yet modern switched Ethernet has essentially no collisions. Why did the collisions disappear?"
+    options:
+      - "Modern network cards transmit too fast for two frames to ever overlap"
+      - "CSMA/CD was replaced by a protocol that detects collisions before they happen"
+      - "Each device now has its own dedicated full-duplex link to a switch instead of sharing one wire, so there is no shared medium left to collide on"
+      - "Switches schedule a fixed time slot for every device, eliminating contention"
+    answer: 2
+    explanation: "Collisions were a property of many devices sharing one physical wire; a switched network gives every device a private point-to-point full-duplex link, removing the shared medium and with it the possibility of collision."
+---
+
+## The address you use is a polite fiction
+
+When you type an address into a browser, or your router hands your laptop a `192.168.1.x` number, it is tempting to think that number is *how* your data moves. It is not. The IP address is a **logical** label — a convenient, portable name that means the same thing across the whole internet. But when your laptop actually puts bits on the wire to the machine sitting next to it, it does not use that IP address at all.
+
+It uses a different number entirely: a **48-bit hardware address burned into the network card at the factory**. And to find out *which* hardware address belongs to the IP it wants to reach, it runs a small, almost comically blunt protocol whose entire job is to shout into the local network — *"who has 192.168.1.20? tell me your hardware address"* — and wait for the owner to answer.
+
+We have already seen how [packet switching](/articles/packet-switching) chops a message into independently-routed packets, and how [IP and routing](/articles/ip-and-routing) gets each packet across the planet through a chain of local next-hop decisions. But both of those stories quietly skipped a step. IP delivers a packet *hop by hop*, and every one of those hops is a jump across a single **local link** — your laptop to your router, one router to the next. This article is about that bottom layer: how a packet physically crosses one link, from one machine to the machine right beside it. That layer is **Ethernet**.
+
+## Frames inside packets: the layer beneath IP
+
+Here is the key layering idea, and everything else hangs off it. IP works with **packets** and end-to-end **IP addresses**. Ethernet works with **frames** and local **MAC addresses**. On each local hop, the IP packet does not travel naked down the wire — it rides **inside** an Ethernet frame, wrapped in a header that carries the source and destination *MAC* addresses for that one hop.
+
+Think of it as an envelope inside an envelope. The IP packet is a letter addressed to a distant city — that address (the IP address) stays the same for the whole journey. But to move the letter from one post office to the next, each post office puts it in a local courier's bag labelled with the courier's next stop (the MAC address), and the *next* office unwraps it and re-bags it for *its* next hop. The inner letter never changes; the outer bag is rewritten at every hop.
+
+So the two addresses do genuinely different jobs:
+
+- **IP address** — the *end-to-end, logical* address. It identifies the final destination and does not change as the packet crosses the internet.
+- **MAC address** — the *hop-by-hop, physical* address. It identifies the specific network card on *this* local link, and is rewritten on every hop.
+
+A **MAC address** (Media Access Control address) is a 48-bit number, usually written as six hex pairs like `3C:5A:B4:1A:2E:01`. The first half is an **OUI** (Organizationally Unique Identifier) — a prefix assigned to the hardware vendor — and the second half is a per-device serial the vendor assigns. Together they are meant to be globally unique, so no two cards ship with the same address.
+
+## Where Ethernet came from: one wire, everyone shouting
+
+Ethernet was invented in **1973** by **Bob Metcalfe** and **David Boggs** at **Xerox PARC**, later standardised commercially as DIX (Digital–Intel–Xerox) and then formally as **IEEE 802.3**. The name is a joke that stuck: the "ether" was the imaginary all-pervading medium through which 19th-century physicists thought light travelled, and the original Ethernet really was one shared medium — a single length of coaxial cable that *every* machine tapped into.
+
+That design raises an obvious problem. If everyone shares one wire, what happens when two machines transmit at once? Their signals overlap and garble each other — a **collision**. Ethernet's answer was a protocol called **CSMA/CD**, *Carrier Sense Multiple Access with Collision Detection*, and it works exactly like polite conversation in a crowded room:
+
+1. **Carrier Sense** — before transmitting, listen. If someone else is already sending, wait.
+2. **Multiple Access** — everyone shares the one medium; no central scheduler grants permission.
+3. **Collision Detection** — keep listening *while* you transmit. If you hear your own signal getting stepped on, a collision happened. Stop, send a brief jam signal so everyone notices, then **back off** for a random interval and try again.
+
+The random backoff is the clever part: if two machines collided, having them each wait a *different* random time makes it unlikely they collide again on the retry. It is a fully decentralised way to share one wire, and it is what let dozens of computers cooperate on a single cable with no traffic cop.
+
+## Hub versus switch: flooding versus learning
+
+The shared-wire model had a cheap early cousin: the **hub**. A hub is a shared medium folded into a box — it has ports for several devices, but internally it does exactly what the coax did. When a frame arrives on one port, the hub **blindly repeats it out of every other port**. Every machine sees every frame, whether it was addressed to them or not, and simply ignores the ones not carrying their MAC. It is electrically simple and behaviourally dumb: the hub understands nothing about who is where.
+
+A **switch** is where Ethernet got smart. A switch also has ports, but it *reads* the frames it forwards. Specifically it reads the **source** MAC of every frame and remembers *which port that frame came in on* — building up a **MAC address table** (a forwarding table) that maps each MAC to a port. Once it knows where a destination MAC lives, it forwards a frame **only to that one port**. No flooding, no wasted copies, no other machine even seeing the traffic.
+
+<SwitchLearningAnimation />
+
+Start in **HUB** mode and send a frame from one machine to another. Watch it get repeated out to *every* other device — three copies delivered when only one was wanted, and every machine having to inspect and discard traffic that was never for it. Now switch to **SWITCH** mode and reset. Send a frame from PC 0 to PC 3: the switch has an empty table, so it *floods* this first frame — but notice it also **learns** that PC 0's MAC lives on port P0 (watch the MAC table fill in). Now send a frame *back* from PC 3 to PC 0: the switch already knows P0, so it forwards **only** to that port, and it learns P3 in the process. Send once more from PC 0 to PC 3 and delivery is now perfectly targeted. The lesson is undeniable: *a hub floods; a switch learns and forwards only where needed.*
+
+## The math beneath the addresses
+
+Two numbers make the design work, and both are worth making precise.
+
+First, the **address space**. A MAC address is 48 bits, so the total number of distinct hardware addresses is
+
+$$2^{48} \approx 2.81 \times 10^{14},$$
+
+about 281 *trillion*. That enormous space is what lets every network card ever manufactured carry a (nominally) globally unique address baked in at the factory, with the vendor's OUI prefix carving the space into per-manufacturer blocks. The uniqueness is what makes a switch's learning trustworthy: when it sees a source MAC, it can treat it as a stable name for one specific machine.
+
+Second, the **cost of sharing**. On the old shared medium, a collision happens when two stations transmit during the same vulnerable window. If each of $n$ stations independently has a small probability $p$ of starting to transmit in a given slot, the chance that *no other* station transmits while one does is $(1-p)^{\,n-1}$, so the probability a given transmission suffers a collision is
+
+$$P_{\text{collision}} = 1 - (1-p)^{\,n-1}.$$
+
+The shape of that expression is the whole story of the shared wire: as the number of active stations $n$ grows, or as each one gets busier (larger $p$), the collision probability climbs and more of the medium's capacity is burned on collisions and backoff rather than useful data. A shared Ethernet segment works beautifully when lightly loaded and degrades as it fills — which is precisely the pressure that pushed the design toward switches.
+
+## Switched Ethernet: the collisions vanish
+
+Modern wired Ethernet almost never collides, and the reason is structural, not a cleverer CSMA/CD. In a **switched, full-duplex** network, every device has its **own dedicated point-to-point link** to a switch port. There is no longer a shared medium — just a private wire between one machine and one port, with separate send and receive paths so a device can transmit and receive **at the same time** (full duplex). With no shared wire, there is nothing to contend for and **no collision is even possible**. CSMA/CD still exists in the standard for backward compatibility, but on a full-duplex switched link it simply never fires.
+
+So Ethernet quietly inverted its own premise. It began as *one wire everyone shares, arbitrated by listening and backing off*, and became *a private wire per machine, arbitrated by a switch that knows exactly where everything is*. The frame format and the 48-bit addresses carried straight through; the shared medium — and the collisions that defined the early design — is what got left behind.
+
+## ARP: turning a known IP into a MAC
+
+There is still a gap in the story. IP hands Ethernet a packet destined for some local IP address, say `192.168.1.20`. But Ethernet cannot deliver anything to an IP — it delivers frames to **MAC** addresses. The sender knows the IP; it does *not* yet know the MAC. Something has to bridge the two.
+
+That something is **ARP**, the *Address Resolution Protocol* (RFC 826, 1982). Its job is exactly one thing: given a local IP address, find the MAC address that owns it. And it does so with a beautifully crude broadcast. The sender shouts a request to **every** machine on the local network — *"who has 192.168.1.20? tell 192.168.1.10"* — and only the machine that actually owns that IP replies, unicast, *"192.168.1.20 is at 1A:2B:3C:4D:5E:6F"*. The sender **caches** that mapping, then finally builds the Ethernet frame with the right destination MAC and sends it. IP is the question; MAC is the answer; ARP is how you get from one to the other.
+
+<ARPAnimation />
+
+Click **Resolve & send** and watch the pattern in three beats. First a **broadcast**: the ARP request (cyan) fans out to *every* host on the LAN — the sender has no idea which one owns the IP, so it asks all of them. Second, exactly one **reply**: only `192.168.1.20` recognises its own IP and answers, unicast, with its MAC (green); the other hosts see the question, shrug, and ignore it. Third, the **data frame** (red) goes straight to that MAC, and the mapping lands in Host A's ARP cache. Now click **Send again**: because the mapping is cached, there is *no broadcast at all* — the sender goes directly to a unicast frame. That is why ARP's noisy broadcast happens once and then stays quiet: the whole point is to learn the answer and remember it.
+
+## Why this layer matters
+
+It is easy to treat "the network" as a single thing, but it is really a stack of layers each solving a problem the one below leaves open, and Ethernet is the floor the rest stands on. Every hop of every IP packet — and therefore every web page, video call, and message — is ultimately a sequence of Ethernet frames crossing single local links, each one addressed by a MAC that ARP resolved and a switch delivered. The internet's grand end-to-end IP addressing only works because, at the very bottom, this humble hop-by-hop machinery reliably moves a frame from one card to the card beside it.
+
+The two misconceptions worth retiring are the ones this whole article dismantles. First, machines on your local network do **not** deliver data using IP addresses — locally, delivery is by **MAC address**, and ARP is the glue that bridges the IP you know to the MAC you need. Second, a hub and a switch are **not** the same box with different labels — a hub floods every frame to every port in ignorance, while a switch learns where each machine lives and forwards only where needed. Understand those two things and the bottom of the stack stops being magic.
+
+<KeyTakeaways>
+- On each local hop, an IP packet rides **inside** an Ethernet **frame**: the **IP address** is the end-to-end logical label (unchanged across the internet), while the **MAC address** is the hop-by-hop physical address (rewritten every hop).
+- A **MAC address** is a 48-bit hardware address ($2^{48} \approx 2.8 \times 10^{14}$ of them) burned into the network card, with a vendor **OUI** prefix — locally, delivery is by MAC, not by IP.
+- Original shared-coax Ethernet (Metcalfe & Boggs, Xerox PARC, 1973) put everyone on one wire and used **CSMA/CD** — listen, send, and back off on collision; modern **switched, full-duplex** Ethernet gives each device its own link, so collisions essentially vanish.
+- A **hub floods** every frame to every port; a **switch learns** which MAC lives on which port and **forwards selectively** — the single most important distinction at this layer.
+- **ARP** (RFC 826, 1982) resolves a local IP to a MAC by broadcasting *"who has this IP?"*, caching the reply, and then delivering the frame — IP is the question, MAC is the answer, ARP bridges the two.
+</KeyTakeaways>
