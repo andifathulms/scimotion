@@ -1,0 +1,120 @@
+---
+title: "HTTP/2 and HTTP/3: Reinventing the Web's Transport"
+subtitle: "HTTP barely changed in thirty years — but twice the web tore out and rebuilt the machinery underneath it, chasing the same enemy: one slow thing holding up everything queued behind it."
+topic: "Networks & the Internet"
+slug: "http-evolution"
+date: "2026-07-28"
+readTime: 10
+featured: false
+description: "The verbs and headers of HTTP are the same as 1997, but the transport under them was re-engineered twice. HTTP/2 multiplexes many streams over one TCP connection; HTTP/3 throws out TCP entirely for QUIC over UDP to escape head-of-line blocking."
+tags: ["http", "quic", "protocols", "internet"]
+quiz:
+  - q: "HTTP/2 multiplexes many streams over a single TCP connection, yet a single lost packet can still stall every one of those streams. Why can't HTTP/2 escape this?"
+    options:
+      - "HTTP/2 only opens one stream at a time, so a loss on that stream blocks the whole connection by definition"
+      - "TCP delivers its bytes strictly in order, so a gap left by one lost segment holds back all later bytes — including every other multiplexed stream — until it is retransmitted"
+      - "HPACK header compression corrupts the other streams whenever a packet is lost"
+      - "The browser deliberately pauses the other streams to save bandwidth during a retransmission"
+    answer: 1
+    explanation: "The head-of-line blocking lives in TCP's in-order byte stream, one layer below HTTP/2, so multiplexing above it cannot avoid it — every stream shares the same ordered pipe."
+  - q: "A colleague argues HTTP/3 must be less reliable than HTTP/2 because it runs over UDP, which does not guarantee delivery. What is the most accurate correction?"
+    options:
+      - "HTTP/3 is indeed unreliable and simply accepts occasional data loss for speed"
+      - "HTTP/3 falls back to TCP whenever a packet is lost, so it is really just TCP in disguise"
+      - "QUIC reimplements reliability, ordering, and retransmission on top of UDP — per stream — so data is delivered reliably, but a loss only stalls its own stream instead of all of them"
+      - "UDP is actually a reliable protocol, so the premise is wrong"
+    answer: 2
+    explanation: "QUIC builds its own reliability and ordering on top of UDP; using UDP lets it manage streams independently, so it is fully reliable without TCP's shared in-order stall."
+  - q: "Why does opening a fresh HTTPS connection to a never-visited HTTP/2 server cost more startup latency than the same page over HTTP/3?"
+    options:
+      - "HTTP/3 servers are physically closer to users than HTTP/2 servers"
+      - "HTTP/2 must complete a TCP handshake and then a separate TLS handshake before any request, whereas QUIC folds the TLS 1.3 handshake into its own, cutting a round trip (and allowing 0-RTT resumption)"
+      - "HTTP/3 skips encryption entirely to save round trips"
+      - "HTTP/2 sends every request twice for reliability, doubling the round trips"
+    answer: 1
+    explanation: "QUIC integrates the TLS 1.3 handshake into its transport setup, collapsing the separate TCP-then-TLS round trips of HTTP/2 into fewer, and enabling 0-RTT resumption on repeat visits."
+---
+
+## The protocol that stopped changing
+
+Open the network tab on any website and look at a request. `GET /style.css HTTP/2`. A method, a path, a stack of headers, a response with a status code and a body. It is the same shape [HTTP](/articles/http-and-the-web) had in 1997 — the same verbs, the same `200` and `404`, the same `Host:` header, the same cookies. As a *language* between browser and server, HTTP has barely changed in a generation.
+
+And yet the number on that request line — `HTTP/2`, or `HTTP/3` — marks two of the most disruptive re-engineering efforts in the web's history. Because while the language stayed frozen, the **machinery underneath it** was torn out and rebuilt. Twice. Both times chasing the same enemy: one slow or lost thing holding up everything queued behind it. The fix in HTTP/2 was clever. The fix in HTTP/3 was to throw out the transport protocol the entire internet was built on.
+
+This article is about that machinery — the plumbing between HTTP's polite request and the reliable byte-pipe that [TCP](/articles/tcp) provides — and why the web kept slamming into the same wall.
+
+## One page, a hundred little requests, one lane
+
+The trouble starts with a fact about modern pages: they are not one document. A single page pulls in dozens or hundreds of separate resources — a stylesheet, a font, scripts, a dozen images, tracking pixels — each of which is its own HTTP request.
+
+Now recall how HTTP/1.1 (RFC 2068, 1997) actually moves those requests. On a single TCP connection, it is essentially **one request at a time**: the browser sends a request, waits for the whole response to come back, and only then sends the next. The connection is a single-file lane. A big, slow response at the front holds up every small one behind it — head-of-line blocking, right at the level of HTTP requests.
+
+Browsers papered over this with brute force: they opened **many parallel TCP connections** to the same server — typically six per hostname — so six requests could be in flight at once. It helped, but it is a workaround, not a fix. Six lanes is not a hundred, each new connection pays its own handshake cost, and every extra connection adds load to the server and the network. The structural limit remained: a page of many resources spends most of its load time *waiting*, and the waiting is dominated by round trips.
+
+## Multiplexing: many streams, one connection
+
+<MultiplexingAnimation />
+
+This is the problem HTTP/2 (RFC 7540, standardised 2015 and derived from Google's earlier **SPDY** experiment) was built to solve. Its central idea is **multiplexing**: many independent request/response **streams** interleaved over a *single* TCP connection.
+
+The widget lets you load a page of several resources two ways. On the HTTP/1.1 side, watch the requests go out roughly one after another — a large, slow resource stalls the small ones queued behind it, and the page finishes only when the last one in line finally gets its turn. Switch to HTTP/2 and load the same page: the resources are chopped into small **frames** and interleaved on one connection, all making progress at once. The big resource no longer blocks the little ones — they interleave around it, and the page completes far sooner. Try making one resource much larger than the rest and compare the finish times; the serial side is hostage to its slowest item, the multiplexed side is not.
+
+Two pieces of engineering make this work. HTTP/2 replaced HTTP/1.1's plain-text messages with a **binary framing** layer: each message is split into small frames tagged with a stream identifier, so frames from different streams can be interleaved on the wire and reassembled at the other end. And it added **HPACK** header compression, because the headers themselves — long cookies, repeated `User-Agent` and `Accept` lines sent on every one of those hundred requests — were a real chunk of the bytes. Same HTTP semantics on top; a completely different transport underneath.
+
+## The cost is measured in round trips
+
+To see why any of this matters, count the thing that actually dominates a page load: **round trips**. A round trip is one message to the server and its reply back — one unavoidable unit of the speed of light and the distance to the server. If the server is $100\text{ ms}$ away, every round trip costs about $100\text{ ms}$ no matter how fat your connection is.
+
+Under strict HTTP/1.1 on one connection, $N$ resources fetched one after another cost on the order of
+
+$$
+T_{\text{serial}} \;\approx\; N \times \text{RTT}
+$$
+
+round trips of latency — the requests are *serialised*, so their waits add up. For a page of $100$ resources and a $100\text{ ms}$ RTT, that is seconds of pure waiting, which is exactly why browsers opened six connections and why HTTP/2's multiplexing — issuing all $N$ requests together and letting the responses stream back interleaved — was such a leap. The latency stops being a sum over resources and becomes closer to a single round trip's worth of waiting plus transfer time.
+
+Head-of-line blocking is easiest to feel as a queue. Picture a single checkout line where the total wait for the person at the back is
+
+$$
+W_{\text{back}} \;=\; \sum_{i} t_i
+$$
+
+the sum of *everyone's* service times ahead of them. One customer with a full trolley — one slow item — freezes the whole line. Multiplexing opens more registers so a full trolley no longer traps the quick shoppers behind it. Hold that image: it is exactly the wall HTTP/2 was about to hit again, one layer down.
+
+## The wall: HTTP/2 still runs on TCP
+
+<QUICvsTCPAnimation />
+
+Here is the catch that took years to become obvious. HTTP/2 multiplexes many streams — but it multiplexes them over **one TCP connection**, and TCP delivers its payload as a single, strictly **in-order byte stream**. TCP guarantees that the bytes handed to the application come out in exactly the order they went in, with no gaps. That guarantee is TCP's whole job, and normally it is exactly what you want.
+
+But it means that if a *single* TCP segment is lost, TCP will not hand *any* later bytes to the application until the lost one is retransmitted and arrives — even bytes that already showed up and belong to completely different streams. The data is sitting in the receiver's buffer, but TCP holds it back to preserve order. Every multiplexed HTTP/2 stream is stalled behind one missing packet. This is **TCP-level head-of-line blocking**, and it is a property of TCP itself, not of HTTP/2 — which is precisely why HTTP/2 could not escape it. It had moved the many parallel connections down to one, and inherited that one connection's single point of stall.
+
+The widget makes the contrast undeniable. Several streams share one connection. In the **TCP (HTTP/2)** mode, inject a packet loss on one stream and watch *every* stream freeze — they are all waiting on the same in-order pipe — until the retransmission arrives. Switch to **QUIC (HTTP/3)** mode, drop the same packet, and only its own stream pauses; the others keep flowing right past it. Toggle back and forth with loss injected and the structural difference is stark: TCP's one ordered stream blocks everyone, QUIC's independent streams do not.
+
+## HTTP/3: throw out the transport
+
+If the blocking lives in TCP, and you cannot fix TCP without changing every operating system and middlebox on the internet, then the radical move is to **stop using TCP**. That is HTTP/3 (RFC 9114, standardised 2022). It runs HTTP over **QUIC** (RFC 9000), a new transport protocol built on top of **UDP**.
+
+UDP is the internet's other transport: a bare, connectionless way to send individual datagrams with no delivery guarantees at all. That sounds like a step backwards, and it is the source of a stubborn misconception — that HTTP/3 must be unreliable *because* it uses UDP. It is not. QUIC uses UDP only as a thin, unopinionated carrier and then **reimplements reliability, ordering, and retransmission itself** — but crucially, *per stream* rather than over one shared byte stream. Each stream has its own ordering. A lost packet belonging to stream 3 stalls only stream 3; streams 1, 2, and 4 have their own sequencing and keep delivering. QUIC gets TCP's reliability guarantee back, without TCP's shared in-order stall. Reliability was never the property that caused head-of-line blocking; *shared ordering* was, and QUIC drops the sharing while keeping the reliability.
+
+Building the transport in **user space** on top of UDP bought a second prize. QUIC folds the [TLS](/articles/tls) 1.3 handshake directly into its own connection setup. Where HTTP/2 needs a TCP handshake *and then* a separate TLS handshake before the first request — the round trips add up:
+
+$$
+T_{\text{setup}} \;\approx\; \underbrace{1}_{\text{TCP}} \;+\; \underbrace{1}_{\text{TLS 1.3}} \;=\; 2\ \text{RTT}
+$$
+
+QUIC collapses these into a single combined handshake, roughly halving the setup latency, and on a repeat visit it can resume with **0-RTT** — sending application data in the very first packet. The encryption that used to be a bolt-on tax on top of the connection is now baked into the transport from the first byte.
+
+## Why the story is one of transport, not "speed"
+
+It is tempting to file HTTP/2 and HTTP/3 under "faster HTTP", and to leave it there. That is the misconception worth burying. They are not tuned-up versions of the same thing running quicker; they are **structural changes to different layers of the machinery**. HTTP/2 changed how requests are *multiplexed* — from serial messages and parallel connections to interleaved streams and binary frames over one connection. HTTP/3 changed the *transport itself* — from TCP to QUIC over UDP — to break a blocking property that lived below HTTP entirely. The methods, the status codes, the headers, the cookies you learned in the previous article all carry forward unchanged. What moved is everything beneath the request line.
+
+And the enemy was the same both times. A single-file lane where one slow request blocks the rest. A single ordered byte stream where one lost packet blocks every stream sharing it. The web's transport was re-engineered twice to attack the same shape of problem at two different depths — first above TCP, then by replacing TCP. That is the throughline: not raw speed, but the relentless dismantling of head-of-line blocking, layer by layer.
+
+<KeyTakeaways>
+- HTTP the **language** barely changed — same verbs, headers, and status codes since 1997 — but the **transport machinery underneath it** was re-engineered twice, both times to kill head-of-line blocking.
+- **HTTP/2** (2015, from SPDY) multiplexes many independent streams over **one TCP connection** using binary framing and HPACK header compression, replacing HTTP/1.1's roughly-one-request-at-a-time lane and the parallel-connections workaround.
+- HTTP/2 still hit a wall: because TCP delivers a **strictly in-order byte stream**, one lost segment stalls *every* multiplexed stream — **TCP-level head-of-line blocking**, a property of TCP that HTTP/2 could not escape.
+- **HTTP/3** (2022) runs HTTP over **QUIC on UDP**, reimplementing reliability and ordering **per stream**, so a lost packet stalls only its own stream — and folds the TLS 1.3 handshake in to cut round trips and enable 0-RTT.
+- Two misconceptions to drop: HTTP/2 and HTTP/3 are **not merely "faster HTTP"** but structural changes to multiplexing and transport; and HTTP/3 is **not unreliable** because it uses UDP — QUIC rebuilds reliability on top of it, per stream.
+</KeyTakeaways>
