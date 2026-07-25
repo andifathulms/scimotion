@@ -1,0 +1,132 @@
+---
+title: "CDNs: Bringing the Web Closer"
+subtitle: "You can stack a thousand servers in one building and a user across the planet still waits for light itself — so the last trick is to move the content, not the servers."
+topic: "Networks & the Internet"
+slug: "cdns"
+date: "2026-07-20"
+readTime: 10
+featured: false
+description: "A load balancer scales a site in one place, but distance sets a floor on latency that no amount of hardware can beat. CDNs scale geographically — caching content at hundreds of edge locations near users, and steering each request to the closest one."
+tags: ["networking", "internet", "cdn", "caching"]
+quiz:
+  - q: "A load balancer already spreads a site across dozens of machines in one data centre. Why does adding a CDN still help a user on another continent?"
+    options:
+      - "A CDN encrypts the traffic, which makes each packet travel through the network faster"
+      - "Those machines are all in one place, so every request still crosses the same physical distance; a CDN serves the user from a nearby edge instead, cutting the round-trip that distance forces"
+      - "A CDN gives the site more total CPU, so pages render before they are sent"
+      - "A CDN replaces the origin entirely, so there is no distant server left to reach"
+    answer: 1
+    explanation: "Load balancing scales capacity in one location, but latency is set by distance and the speed of light; a CDN attacks that by placing copies of the content physically close to the user."
+  - q: "On a CDN, what is the difference between a cache hit and a cache miss?"
+    options:
+      - "A hit means the edge already has the content and serves it locally; a miss means the edge fetches it from the origin, caches it with an expiry, then serves it"
+      - "A hit means the request succeeded and a miss means it returned a 404 error"
+      - "A hit is served over HTTPS and a miss is served over plain HTTP"
+      - "A hit copies the whole website to the edge permanently; a miss deletes it"
+    answer: 0
+    explanation: "The edge serves a hit instantly from its local copy; a miss goes to the origin once, is cached under a TTL, and then future requests for that content become hits."
+  - q: "How does a CDN get you routed to a nearby edge rather than a distant one?"
+    options:
+      - "It emails your browser the address of the closest edge before you visit"
+      - "Every edge has a unique name that you must type by hand"
+      - "Through DNS-based steering and anycast — the same IP is announced from many locations, so the network delivers your packets to the topologically nearest edge"
+      - "Your ISP manually assigns each customer to one fixed edge for life"
+    answer: 2
+    explanation: "CDNs reuse the internet's existing machinery: DNS can hand back a nearby edge's address, and with anycast many edges share one IP so routing itself picks the closest."
+---
+
+## The limit you cannot engineer away
+
+Every article in this arc has been a story of hitting a wall and inventing a way over it. [Packet switching](/articles/packet-switching) beat the brittleness of dedicated circuits; [IP and routing](/articles/ip-and-routing) beat the problem of finding a path; [TCP](/articles/tcp) beat unreliable delivery; [DNS](/articles/dns) beat the un-scalable single file of names; [HTTP](/articles/http-and-the-web) turned all of it into the web. And when a single web server buckled under load, a [load balancer](/articles/load-balancers) spread the work across a fleet of machines.
+
+But a load balancer scales a site in *one place*. You can stack a thousand servers in a single data centre in Virginia, and a user in Sydney still has to send every request across the Pacific and wait for the answer to come back. No amount of hardware in Virginia shortens that ocean. The wall this time is not a machine that is too slow or too busy. It is **physics**: the finite speed of light sets a floor on how fast a reply can arrive, and that floor is set by *distance*.
+
+The last scaling trick of the web is therefore not more servers in one place. It is copies of your content in *hundreds* of places, so the bytes never have to travel far. That is a **content delivery network** — a CDN.
+
+## Distance is latency, and light is the speed limit
+
+Signals in optical fibre travel at roughly two-thirds of the speed of light in vacuum — about $v \approx 2 \times 10^{8}$ m/s, or $200{,}000$ km/s. Fast, but not instant. A request and its reply must make a **round trip**, so the unavoidable latency for a distance $d$ is
+
+$$
+L \;\approx\; \frac{2d}{v}.
+$$
+
+Put real numbers in. New York to London is about $5{,}600$ km of great-circle distance; a straight fibre round trip is
+
+$$
+L \approx \frac{2 \times 5.6\times10^{6}\ \text{m}}{2\times10^{8}\ \text{m/s}} = 56\ \text{ms},
+$$
+
+and real fibre routes wander, so 70–90 ms is typical. New York to Sydney (~16,000 km) is well over 100 ms one way even in a straight line. **This is not slow hardware.** It is the speed of light, and you cannot buy your way under it. Worse, a single page load is rarely one round trip — DNS, the TCP handshake, TLS, and then the HTTP request each cost their own trip, so the distance penalty is paid several times over before a byte of content appears.
+
+The primary animation makes the consequence tangible. Instead of moving a distant server closer, the CDN puts a copy of the content near the user and serves from there.
+
+<CDNEdgeAnimation />
+
+Press **Request**. The very first request is a **cache miss**: the nearby edge is empty, so it forwards the request all the way to the distant origin — watch the latency meter climb to the ~170 ms an intercontinental round trip costs. But notice what happens on the way back: the edge *keeps a copy*. Press **Request** again and it is a **cache hit** — served straight from the edge in a handful of milliseconds, the origin never touched. Keep pressing: every request after the first is fast. Then press **Expire cache** to simulate the content's time-to-live elapsing, and the next request is a miss again, refilling the copy. The shape to take away: *the first visitor pays the long trip once; everyone after them rides the cache.*
+
+## The idea: cache copies at the edge
+
+A CDN is a network of **edge locations** — also called **points of presence**, or PoPs — scattered across the globe, often hundreds of them in as many cities. Each edge holds cached copies of content, and a user is served from a nearby edge instead of the far-away **origin server** where the content actually lives.
+
+The commercial CDN was pioneered by **Akamai**, founded in 1998 out of MIT, whose founders saw that the web's growth was throttled not by server speed but by the distance between servers and users. Their answer was to push copies of popular content out to the network's edges, close to where the requests came from.
+
+The mechanism at each edge is a **cache**:
+
+- A **hit** means the edge already holds the requested content and serves it immediately from its local copy — one short round trip.
+- A **miss** means the edge does not have it, so it fetches the content from the origin *once*, stores it under an **expiry** (a TTL, just like [DNS](/articles/dns) records), serves it, and now holds it for the next requester.
+
+This is the crucial correction to two common misconceptions. First, the idea that "a website lives on one server in one place" is wrong for anything popular: its content is cached across hundreds of edges at once. Second, a CDN does **not** permanently copy your entire site everywhere. It caches content *on demand* — only what is actually requested, only for as long as its TTL allows — sitting *in front of* an origin that still exists and is still the source of truth. The origin is not replaced; it is shielded.
+
+## The math: why the first visitor pays and the rest do not
+
+The reason a CDN feels fast is that most requests are hits, and a hit is cheap. If a fraction $h$ of requests are hits (the **cache hit ratio**), the average latency a user experiences is a blend of the two paths:
+
+$$
+\bar{L} \;=\; h\,L_{\text{edge}} \;+\; (1-h)\,L_{\text{origin}}.
+$$
+
+Take the numbers from the animation: $L_{\text{edge}} \approx 6$ ms (a short hop to a nearby PoP) and $L_{\text{origin}} \approx 170$ ms (an intercontinental round trip). With no CDN, every request pays $L_{\text{origin}}$ and $\bar{L} = 170$ ms. With a CDN achieving a very ordinary $h = 0.95$,
+
+$$
+\bar{L} = 0.95 \times 6 + 0.05 \times 170 = 5.7 + 8.5 = 14.2\ \text{ms},
+$$
+
+more than a **tenfold** improvement — and the higher the hit ratio, the closer the average slides toward the edge's few milliseconds. The origin still sees the misses, but only a trickle of them: at $h = 0.95$, the origin handles one request in twenty, and at $h = 0.99$ it handles one in a hundred. The same blend that speeds users up also *drains load off the origin*, which is the second half of what a CDN buys you.
+
+The hit ratio is not free — it is governed by the TTL, exactly as in DNS. Longer TTLs raise $h$ (more hits, but staler content); shorter TTLs lower it (fresher, but more trips to the origin). The TTL is the knob that trades freshness against speed and load.
+
+## Finding the nearest edge
+
+Placing copies everywhere is only half the job. The other half is making sure your request actually *reaches the closest copy* — and remarkably, CDNs solve this by reusing the internet's existing address machinery rather than inventing anything new.
+
+There are two standard techniques, often combined:
+
+- **DNS-based steering.** When your browser resolves the CDN's hostname, the CDN's authoritative [DNS](/articles/dns) server can look at *where the query is coming from* and hand back the [IP address](/articles/ip-and-routing) of a nearby edge. The same name resolves to different addresses depending on who is asking — the "layer of indirection" that DNS makes possible.
+- **Anycast.** Many edges *announce the same IP address* to the internet's routing system. Because routing naturally forwards packets along the shortest path, the network itself delivers you to the **topologically nearest** edge announcing that address — no per-user decision required. This is the same trick that lets the [13 DNS root "servers"](/articles/dns) actually be hundreds of machines behind a handful of addresses.
+
+The secondary animation makes the geography concrete.
+
+<GlobalLatencyAnimation />
+
+Drag the **you** marker anywhere on the map. In the default **nearest-edge** mode, the widget connects you to your closest edge PoP and shows the round-trip latency — a few milliseconds almost everywhere, because there is nearly always an edge nearby. Now press **Show: origin only** and watch every user, including the stationary ones, get tethered to the single distant origin instead: the lines stretch, and the latency for far-away users balloons into the hundreds of milliseconds. Drag yourself to the far corner of the map in each mode and compare the readouts. The point the map drives home is the one the equation states: latency is set by *distance*, distance is bounded by the *speed of light*, and a CDN wins by shrinking the distance every user actually has to cover.
+
+## Why it matters
+
+A CDN buys three things at once, and all three come from the same move — putting copies close to users.
+
+**Speed.** The obvious payoff: pages, images, video, and scripts arrive with edge latency instead of origin latency. For content-heavy sites and video streaming especially, this is the difference between instant and sluggish, and it is why virtually every large site on the web sits behind one.
+
+**Absorbing spikes and offloading the origin.** Because the edges answer the overwhelming majority of requests, the origin sees only the misses. A sudden flood of traffic — a viral post, a product launch, a breaking-news event — is soaked up by hundreds of edges rather than hammering one data centre. The CDN acts as an enormous distributed buffer in front of the origin.
+
+**Resilience.** With content replicated across hundreds of independent locations, no single failure takes the content down. An edge or even a whole region can go dark and users are steered to the next-nearest one. The same anycast and DNS steering that finds the closest edge also routes *around* a broken one.
+
+This is the natural end of the first arc of how the internet works — the chain from raw packets up through addressing, reliability, naming, the web, and scaling a site both within one place and across the whole planet. The story does not stop here: newer chapters (HTTP/2's multiplexing, HTTP/3 and QUIC's collapsing of the round trips, TLS everywhere, edge compute that runs code at the PoP rather than just caching bytes) keep chipping away at the same enemy — latency — from new angles. But the CDN is the answer to the one limit none of the earlier tricks could touch: that light, even in glass, takes time to cross the world, and the only way to beat the distance is to not have to cross it.
+
+<KeyTakeaways>
+- Latency is set by **distance and the finite speed of light** — even at ~200,000 km/s in fibre, an intercontinental round trip is tens to hundreds of milliseconds you physically cannot beat, and a page load pays it several times over.
+- A **CDN** caches copies of content at **hundreds of edge PoPs** near users (pioneered by Akamai, 1998), so requests are served from nearby instead of the distant origin. It caches *on demand with an expiry* and sits *in front of* an origin that still exists — it does not replace it or copy the whole site everywhere.
+- A cache **hit** is served instantly from the edge; a **miss** fetches from the origin once, caches it under a TTL, then serves it — so the average latency $\bar{L}=h\,L_{\text{edge}}+(1-h)\,L_{\text{origin}}$ collapses toward the edge as the hit ratio $h$ rises.
+- You reach the nearest edge through **DNS-based steering and anycast** — the same address machinery from the DNS and IP articles, now used to shrink the distance every request must travel.
+- The payoff is threefold: **speed**, **absorbing traffic spikes while offloading the origin**, and **resilience** — all from the single idea of keeping content close.
+</KeyTakeaways>
