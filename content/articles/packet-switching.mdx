@@ -1,0 +1,136 @@
+---
+title: "Packet Switching"
+subtitle: "The counterintuitive decision to chop every message into little numbered pieces — and the reason the internet exists at all."
+topic: "Networks & the Internet"
+slug: "packet-switching"
+date: "2026-07-02"
+readTime: 10
+featured: false
+description: "Why the internet chops your data into hundreds of independently-routed packets instead of reserving a wire for you, and how that one choice buys both efficiency and resilience."
+tags: ["networks", "packet-switching", "internet", "arpanet"]
+quiz:
+  - q: "A link is shared by many users who each transmit only in short bursts. Why does packet switching support far more of them than circuit switching for the same link capacity?"
+    options:
+      - "Packets travel faster down the wire than a reserved circuit's bits do"
+      - "Circuit switching reserves each user's peak rate for the whole session, so capacity sits idle during silences; packet switching only uses capacity when a packet is actually being sent, letting bursty users statistically share it"
+      - "Packet switching compresses the data, so each user needs less bandwidth"
+      - "Circuit switching can only ever support one user per physical wire"
+    answer: 1
+    explanation: "A reserved circuit holds its full peak rate even during silence, whereas packets consume capacity only when present, so many bursty senders can share one link because they are rarely all active at once."
+  - q: "One link on the path between two hosts suddenly fails mid-transfer. Why does a packet-switched network typically keep the transfer going while a circuit-switched call drops?"
+    options:
+      - "Packet-switched networks have backup wires that circuit-switched networks lack"
+      - "A circuit reserves one fixed end-to-end path for the whole call, so losing any link on it kills the call; packets carry their own destination address and are routed hop-by-hop, so subsequent packets simply take a different route around the break"
+      - "Packets are stored permanently in each router until the link is repaired"
+      - "Circuit switching cannot detect a broken link, so it waits forever"
+    answer: 1
+    explanation: "A circuit is a single reserved path with no alternative, while each packet is independently addressed and forwarded, so routers can steer later packets around a failed link."
+  - q: "Which statement about the origins of packet switching is historically accurate?"
+    options:
+      - "ARPANET was built to keep the United States' command able to communicate after a nuclear war"
+      - "Packet switching was invented by a single team at ARPA in 1969"
+      - "Paul Baran at RAND and Donald Davies at the UK's NPL conceived the idea independently in the mid-1960s — Davies coined the word 'packet' — with Kleinrock contributing queueing theory, and ARPANET's first link ran in 1969 for resource sharing among researchers"
+      - "The telephone companies designed packet switching to make phone calls cheaper"
+    answer: 2
+    explanation: "Baran and Davies arrived at the idea independently around 1964–66, Davies named the packet, Kleinrock supplied queueing theory, and the 1969 ARPANET was built for resource sharing, not nuclear survivability."
+---
+
+## Your data does not travel down a wire reserved for you
+
+When you load a web page, it is tempting to picture a private pipe opening between your laptop and the server — a clean, continuous stream of bytes flowing down a line held open just for you until the page finishes.
+
+That is not what happens. Your request, and the page that comes back, are chopped into hundreds of little numbered **packets**. Each packet is stamped with a destination address and flung into a shared network, where it jostles for space against everyone else's packets — a video call, a software update, ten thousand strangers' web pages. Different packets from your own single page may take different routes, pass through different machines, and arrive at the far end out of order. At the destination they are sorted back into sequence and reassembled into the page you asked for.
+
+This sounds chaotic, even reckless. It is instead the single design choice the entire internet is built on. Everything else — IP, routing, TCP, the web — is scaffolding erected on top of one decision: **send data as independent packets that share the network, rather than as a stream down a path reserved for you.** This article is about why that decision was made, and why it was right.
+
+## The old way: circuit switching
+
+To feel why packets matter, start with the thing they replaced. The telephone network was **circuit-switched**. When you dialled a number, the network's job — before you said a word — was to find a physical path of wires and switches from your phone to the other, and *reserve it*, end to end, for the entire duration of the call.
+
+That reservation had two defining consequences.
+
+**It wasted capacity.** Once the circuit was yours, its full capacity was yours whether you were talking, listening, or sitting in silence. Human conversation is mostly silence and pauses; a reserved voice circuit sits idle for well over half of a typical call. But the capacity could not be lent to anyone else, because it was reserved. You paid for the peak and used a fraction of it.
+
+**It was fragile.** The call lived or died with its one path. If any single link along that reserved route was cut — a backhoe through a cable, a switch losing power — the call did not reroute. It dropped. There was no notion of "try another way," because the whole model was built on committing to one way in advance.
+
+Circuit switching is not stupid. For a steady, predictable stream — a continuous voice call at a constant bit rate — reserving a path gives you a guaranteed, jitter-free channel. The trouble is that computer traffic is nothing like a steady stream.
+
+## The packet-switching alternative
+
+Computer traffic is **bursty**. You click a link, and for a few hundred milliseconds data pours down; then you read the page and send nothing at all for thirty seconds; then you click again. Reserving a peak-rate circuit for a source that is silent 95% of the time is almost pure waste.
+
+Packet switching throws out the reservation entirely. The idea, in three moves:
+
+1. **Chop** the message into small pieces. Each piece — a packet — carries a chunk of the data plus a header: who it is *from*, who it is *for*, and where it sits in the sequence.
+2. **Address each packet independently.** A packet is self-contained. It does not rely on a pre-arranged path; it carries everything a router needs to decide where to send it next.
+3. **Forward hop by hop.** Each router along the way reads a packet's destination, picks a good outgoing link *at that moment*, and passes it on. This is called **store-and-forward**: a router receives the whole packet, then forwards it. (How routers choose that outgoing link is the subject of the companion article on [IP and routing](/articles/ip-and-routing).)
+
+No path is reserved. Packets from your page and packets from a thousand other conversations flow over the same links, interleaved, each finding its own way. Sharing a link this way — many bursty sources taking turns on demand instead of each reserving a slice — is called **statistical multiplexing**, and it is the source of packet switching's efficiency.
+
+<PacketSwitchingAnimation />
+
+The widget puts the two worlds side by side. In **circuit mode**, watch a call reserve an entire path first: those links light up as *held*, and other traffic is blocked from them for the whole call. Now click **Cut a link** on that path — the call drops instantly, because its one reserved route is gone. Switch to **packet mode** and send the same message: it shatters into numbered packets that pour independently across the shared mesh, no link reserved, everyone's traffic mingling. Cut a link now and the packets in flight simply reroute around the break and still arrive. The contrast is the whole lesson: *a circuit reserves and breaks; packets share and route around damage.*
+
+## Why sharing beats reserving: the multiplexing gain
+
+The efficiency claim can be made precise, and the arithmetic is striking.
+
+Take a link of capacity 1 Mbps, shared by users who each transmit at 100 kbps *when active*, but who are active only 10% of the time (bursty). Write $p = 0.1$ for the probability any given user is active at a random instant.
+
+**Circuit switching** must reserve 100 kbps per user for as long as they hold the line. The link supports at most
+
+$$N_{\text{circuit}} = \frac{1\,\text{Mbps}}{100\,\text{kbps}} = 10 \text{ users},$$
+
+and if all ten are silent — which is the common case — the link sits nearly empty.
+
+**Packet switching** reserves nothing. It only needs enough capacity for the users who happen to be active *right now*. Put 35 users on the same link. The number active at any instant, $A$, is binomial, $A \sim \text{Binomial}(35, 0.1)$, with mean $np = 3.5$. The link is overloaded only when more than 10 users are active at once, and
+
+$$P(A > 10) = \sum_{i=11}^{35} \binom{35}{i}\, p^{i}\,(1-p)^{35-i} \approx 0.0004.$$
+
+So 35 users share a link that circuit switching could give to only 10, and they collide into congestion less than 0.05% of the time. That factor — more users carried per unit of capacity — is the **statistical multiplexing gain**, and it grows as traffic gets burstier and as the pool of users gets larger, because independent bursts average out.
+
+The same idea read as **link utilisation**: a reserved circuit carrying a source active a fraction $p$ of the time achieves utilisation $p$ — here a dismal 10%. A shared packet link pooling many such sources can run its utilisation up toward 1 while overload stays rare. Reservation pays for the peak and wastes the rest; statistical sharing pays for the average.
+
+The price of this efficiency is that packets are not guaranteed a free path at every instant. When a burst of packets converges on one link faster than it can send them, the excess must wait in the router's **queue** — and if the queue overflows, packets are dropped. Packet switching trades the circuit's rigid guarantee for on-demand sharing, and the cost of that trade is variable delay and occasional loss. Leonard Kleinrock's application of **queueing theory** to data networks, in the early 1960s, was precisely the mathematics of how long those queues get and how much delay they add — the theoretical underpinning that showed packet switching would actually work at scale.
+
+## Out of order by design
+
+Because each packet is routed independently, two packets from the same message can take different paths with different delays — so they can arrive **out of order**. Packet 5 might overtake packet 3 because it happened to find a shorter, less congested route. The network does not promise to fix this. It promises only *best effort*: it will try to deliver each packet, but makes no guarantee about order, timing, or even delivery at all.
+
+Reassembly is therefore the receiver's job, and it is exactly what the sequence numbers in the headers are for. The destination buffers the packets as they trickle in, reorders them by sequence number, notices any gaps where a packet was lost, and only then hands the reconstructed message up to the application.
+
+<PacketReassemblyAnimation />
+
+Split one message into numbered packets and watch them fan out across the network on different paths at different speeds. They reach the destination jumbled — 1, 4, 2, 5, 3 — and the receiver slots each into its correct position by sequence number, holding the message incomplete until every gap is filled. Turn up the number of packets, or widen the spread of path delays, and the arrival order gets more scrambled while the reassembled result stays perfectly correct.
+
+This is a deliberate foreshadowing. The network itself does *not* guarantee order or delivery — so something has to. That "something" is [TCP](/articles/tcp), the layer that turns this unreliable, out-of-order stream of packets into the ordered, gap-free byte stream that applications expect. The sequence numbers you are watching here are the seed of the entire next chapter.
+
+## Where it came from — and a myth to retire
+
+The idea of packet switching was conceived independently, on two continents, in the mid-1960s.
+
+**Paul Baran**, at the RAND Corporation, published a series of reports (culminating around 1964) on *distributed, survivable communications*. His motivation was genuinely about resilience: he wanted a communications network that could keep functioning even if large parts of it were destroyed, and his answer was a distributed mesh over which messages travel as small blocks that route around damage.
+
+**Donald Davies**, at the UK's National Physical Laboratory, arrived at essentially the same concept independently around 1965–66, aimed at efficient *data* communication between computers. It was Davies who coined the term **"packet"** for the small blocks, and much of our vocabulary comes from his work.
+
+**Leonard Kleinrock** developed the queueing-theory analysis of message and packet delay that gave the field its mathematical footing.
+
+These ideas came together in the **ARPANET**, funded by the US Advanced Research Projects Agency, whose first link came up in 1969 between UCLA and SRI. And here is the myth worth retiring: **ARPANET was not built to survive a nuclear war.** That story fuses Baran's separate RAND work — which *did* have survivability motivations — onto ARPANET itself, which it did not share. ARPANET was built for a far more prosaic and human reason: **resource sharing**. Computers were phenomenally expensive, and researchers at different universities wanted to share access to each other's scarce machines and data. The network that became the internet was born not of doomsday planning but of scientists wanting to log in to one another's computers.
+
+## Why this is the foundation
+
+Nearly everything distinctive about the internet traces back to the choice to switch packets rather than circuits.
+
+- **It scales cheaply.** Statistical multiplexing lets one shared backbone carry the bursty traffic of billions of users, instead of reserving a dedicated slice per conversation.
+- **It survives failure.** With no single reserved path to break, routers reroute packets around outages continuously — the resilience Baran was after, now the ordinary behaviour of the network.
+- **It is general.** A packet does not know or care whether it carries web data, video, voice, or a game's state. The network moves addressed packets; meaning lives at the edges. That neutrality is why one network can host every application ever invented, including ones its designers never imagined.
+
+That generality is also why the internet could be built in *layers*, each solving the limit the one below it leaves open. Packet switching gives us cheap, resilient, best-effort delivery of independent packets — but "best effort" means unordered, and no promise a packet arrives at all. The next link in the chain, [IP and routing](/articles/ip-and-routing), answers *how a packet actually finds its way* across a planet-spanning mesh of independent networks; and [TCP](/articles/tcp) answers *how to build a reliable, ordered conversation* on top of a network that guarantees neither. Each is a response to a limit the previous idea left standing — and it all rests on the little numbered packet.
+
+<KeyTakeaways>
+- Your data does not travel as one continuous stream down a reserved wire; it is split into independently-addressed, numbered packets that share the network with everyone else's and are reassembled at the destination.
+- Circuit switching reserves a whole end-to-end path (wasting capacity during silence and dropping the call if any link breaks); packet switching shares links on demand via **statistical multiplexing**, so many bursty users pack into far less capacity — 35 users on a link that circuit switching gives to 10, with congestion under 0.05% of the time.
+- The same independence that makes packets efficient also makes them resilient: with no single reserved path, routers steer later packets around a failed link — the survivability motivation behind Baran's RAND work.
+- Packets can arrive out of order or not at all — the network is "best effort" — which is exactly why sequence numbers exist and why [TCP](/articles/tcp) is needed on top.
+- Historically: Baran (RAND, ~1964) and Davies (NPL, ~1965–66, who coined "packet") conceived it independently, Kleinrock supplied the queueing theory, and ARPANET's first link (1969) was built for **resource sharing among researchers** — not to survive a nuclear war.
+</KeyTakeaways>

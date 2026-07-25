@@ -1,0 +1,131 @@
+---
+title: "TCP: Reliability on an Unreliable Network"
+subtitle: "How two endpoints manufacture a clean, ordered, reliable pipe on top of a network that guarantees none of it."
+topic: "Networks & the Internet"
+slug: "tcp"
+date: "2026-07-06"
+readTime: 10
+featured: false
+description: "IP loses, duplicates and reorders packets and promises to fix none of it. TCP turns that mess into a perfect ordered byte stream — entirely at the two endpoints, without ever changing the network in between."
+tags: ["tcp", "reliability", "congestion-control", "transport-layer"]
+quiz:
+  - q: "In what sense does TCP make a connection 'reliable' if the underlying IP network still drops, duplicates, and reorders packets?"
+    options:
+      - "TCP reconfigures the routers along the path to guarantee delivery once a connection is open"
+      - "TCP reserves a dedicated physical circuit for the connection so no other traffic can interfere"
+      - "The reliability lives only in state at the two endpoints — sequence numbers, acknowledgements and retransmission make the loss invisible, while the network keeps behaving exactly as before"
+      - "TCP switches to a different, lossless network protocol once the handshake completes"
+    answer: 2
+    explanation: "Reliability is an endpoint illusion: the network never changes, but the sender's retransmissions and the receiver's reordering reconstruct a perfect stream from an imperfect delivery."
+  - q: "During congestion control, why does TCP increase its window by roughly one segment per round trip but halve it on a single loss (AIMD)?"
+    options:
+      - "Halving is simply faster to compute than any other back-off rule"
+      - "Additive increase probes gently for spare capacity while multiplicative decrease backs off hard enough to relieve congestion quickly and let competing flows converge to a fair share"
+      - "The receiver's advertised window forces the sender to double and halve in step with it"
+      - "Loss always destroys exactly half the packets in flight, so halving restores the balance"
+    answer: 1
+    explanation: "Additive-increase/multiplicative-decrease is chosen because it drives competing flows toward an equal, stable share of the link while reacting to overload fast enough to avoid collapse."
+  - q: "Ports appear in the headers of both TCP and UDP. What problem do they solve?"
+    options:
+      - "They encrypt the payload so intermediate routers cannot read the data"
+      - "They let a single host multiplex many simultaneous connections and services, so replies are demultiplexed to the right application"
+      - "They were added to TCP alone to make it reliable, which is why UDP is unreliable"
+      - "They reserve bandwidth on the path so each application gets a guaranteed rate"
+    answer: 1
+    explanation: "A port number identifies an endpoint within a host, letting one IP address carry hundreds of independent conversations that the transport layer sorts to the correct process."
+---
+
+## The pipe that isn't there
+
+You download a file and it arrives perfect — every byte in place, in order, nothing missing, nothing doubled. It feels like the network handed you a clean pipe.
+
+It did no such thing. The network underneath loses packets, duplicates them, and shuffles their order, and it promises to fix none of it. A router with a full queue simply discards whatever arrives next. A packet that takes a slower path overtakes one sent later. A retransmission that was not actually needed leaves a duplicate wandering the internet. This is [IP](/articles/ip-and-routing) doing its job exactly as designed: **best-effort** delivery, which is a polite way of saying *no guarantees at all*.
+
+So where does the clean pipe come from? It is manufactured entirely at the two endpoints, by TCP — the Transmission Control Protocol. The network in the middle never changed. Your machine and the server run a shared piece of bookkeeping that numbers every byte, notices what went missing, resends it, and refuses to hand data to the application until the gaps are filled. The illusion of a reliable, ordered stream is built on top of an unreliable, unordered one, and the seam is invisible from above.
+
+TCP and IP were designed together by Vint Cerf and Bob Kahn in the 1970s — together they are *TCP/IP*, the pair that the internet runs on — and TCP itself was pinned down in **RFC 793** in 1981. This is the story of how it turns a mess into a stream.
+
+## What IP promises, and what it doesn't
+
+IP moves a packet from one address to another, one hop at a time, and that is the whole of its contract. It does not promise the packet arrives. It does not promise that, if two arrive, they arrive in the order you sent them. It does not tell the sender whether anything was lost. Each packet is an independent gamble routed on its own, a direct consequence of [packet switching](/articles/packet-switching): there is no reserved path, so there is nothing to keep two packets together or to notice when one falls out.
+
+Concretely, an application handing bytes to a best-effort network faces four failure modes:
+
+- **Loss** — a packet is dropped, usually because a router's queue was full.
+- **Duplication** — the same packet arrives twice (often a retransmission whose original was merely late, not lost).
+- **Reordering** — packet 5 arrives before packet 3 because it took a faster route.
+- **Corruption** — a bit flips in transit; a checksum lets the receiver detect this and treat the segment as lost.
+
+For a lot of software this is intolerable. If you are transferring a program, an out-of-order or missing byte is not a glitch, it is a broken file. Something has to convert *"a pile of packets that mostly show up, eventually, in some order"* into *"a stream of bytes, all present, in the order I sent them."* That something is TCP, and crucially it lives only at the endpoints — the routers in between keep forwarding packets in blissful ignorance that any connection exists at all.
+
+## Building a reliable stream
+
+TCP starts by establishing a **connection** — but hold onto that word, because it does not mean what it sounds like. There is no wire reserved, no circuit switched into place. A TCP connection is nothing but *shared state* held at the two endpoints: a set of sequence numbers and window sizes that both sides agree on. The network is not a party to it.
+
+That agreement is set up with the **three-way handshake**. The initiator sends a **SYN** (synchronize) carrying its randomly chosen starting sequence number. The receiver replies with a **SYN-ACK** — acknowledging the initiator's number and offering its own. The initiator answers with an **ACK**. After three messages both sides know each other's starting sequence numbers and the connection is open. No router was consulted; the state exists only in two places.
+
+Then the real work begins. Every byte in the stream has a **sequence number**, so the receiver can put bytes back in order and detect a gap the moment one appears. For each chunk it receives contiguously, the receiver returns an **acknowledgement** naming the next byte it expects. If the sender does not hear an ACK for some data within a timeout, it assumes the data was lost and **retransmits** it. Order comes from the numbers; reliability comes from the ACK-or-resend loop.
+
+<TCPHandshakeAnimation />
+
+Watch the handshake play out first: SYN, SYN-ACK, ACK, and the connection lights up. Then numbered segments start flowing left to right, each drawing an ACK back from the receiver, and the reassembled stream fills in on the right. Now the interesting part — press **Drop next** to make the network swallow a segment in flight. Notice what happens: the receiver keeps ACKing the *last in-order byte* it has, so the missing number stands out as a gap; the sender's timer for that segment expires; it **retransmits** exactly that segment; and the receiver slots it into place. The stream on the right still ends up perfect and in order. That is the whole illusion in one gesture: the network dropped it, TCP noticed, TCP resent it, and the application never saw the wound.
+
+One more thing to try: the receiver's **window** — the little gauge showing how much buffer space it has free. TCP does not fire data as fast as the sender can produce it; the receiver advertises, in every ACK, how many more bytes it can currently accept. This is **flow control**, and its job is narrow but essential: *do not overwhelm a slow receiver*. The sender may have any number of bytes ready, but it never lets more unacknowledged data be in flight than the window allows. Shrink the receiver's window in the widget and watch the sender throttle itself to match.
+
+## The arithmetic of a sliding window
+
+The window is a **sliding** window: as ACKs come back and free up buffer at the receiver, the window slides forward and the sender is allowed to inject new data. At any instant, the amount of unacknowledged data in flight is capped by the window size $W$. That single number sets a hard ceiling on speed.
+
+Think about why. A byte sent now cannot be acknowledged until it has travelled to the receiver and its ACK has travelled back — one **round-trip time**, $\text{RTT}$. So in one RTT the sender can push at most $W$ bytes before it must stop and wait for the window to slide. The best achievable throughput is therefore
+
+$$\text{throughput} \;\le\; \frac{W}{\text{RTT}}.$$
+
+To actually *fill* a link of bandwidth $B$, the window has to be large enough to keep the pipe full for a whole round trip. The magic number is the **bandwidth-delay product**:
+
+$$W_{\text{needed}} \;=\; B \cdot \text{RTT},$$
+
+the amount of data "in flight" when the pipe is exactly full. A window smaller than $B\cdot\text{RTT}$ leaves the link idle while the sender waits for ACKs; on a fast, high-latency path (say a satellite link) a too-small window can waste almost all the available bandwidth. This is why the window, not the raw link speed, is often what actually bounds a transfer.
+
+The retransmission timeout is the other tuned quantity, and its intuition is worth stating. Set the timer too short and you resend data that was merely delayed, wasting the link; too long and you sit idle after a real loss. TCP estimates the round trip continuously — a smoothed average $\text{SRTT}$ and a measure of its variability $\text{RTTVAR}$ — and sets the timeout above both:
+
+$$\text{RTO} \;=\; \text{SRTT} + 4\,\text{RTTVAR}.$$
+
+The timeout tracks the connection's actual behaviour: it tightens on a steady path and loosens on a jittery one, so a "no ACK yet" is treated as loss only once it is genuinely surprising.
+
+## Sharing the road: congestion control
+
+Flow control protects the *receiver*. But there is a second thing that can drown a connection: the *network itself*. If every sender blasts a full window into a shared link, the routers' queues overflow, packets are dropped en masse, senders time out and retransmit, and the retransmissions cause still more loss. In 1986 this actually happened to the early internet — throughput on some links collapsed by a factor of a thousand. It is called **congestion collapse**.
+
+The fix, added by **Van Jacobson in 1988**, is **congestion control**, and it is the counterpart to flow control: the sender keeps a second limit, the **congestion window**, and sends no more than the smaller of the two windows. The catch is that no one tells the sender how much capacity the network has — it has to *feel it out*, using loss as its only signal.
+
+It does this in two phases. **Slow start**: begin tiny and grow the congestion window exponentially — roughly doubling each round trip — to find the rough scale of the pipe fast. Then, past a threshold, switch to **congestion avoidance**, which probes gently: add about one segment per round trip. The instant a loss appears, treat it as the network saying *too much*, and cut back hard. This is **AIMD** — additive increase, multiplicative decrease. Per round trip with no loss,
+
+$$w \;\leftarrow\; w + 1,$$
+
+and on a detected loss,
+
+$$w \;\leftarrow\; \tfrac{1}{2}\,w.$$
+
+The result is the famous **sawtooth**: a slow linear climb as the sender probes for more room, then a sudden halving when it finds the ceiling, over and over. The window forever circles the true capacity without ever needing to be told what it is.
+
+<CongestionControlAnimation />
+
+Let it run and watch the congestion window trace that sawtooth: the steep exponential ramp of slow start, then the gentle additive climb, then a loss and the vertical drop to half. Now grab the **bandwidth** control and lower it. Watch the window notice — it starts hitting loss sooner, so the teeth shrink and the whole trace settles around the new, lower capacity. Raise the bandwidth and the teeth grow to fill it. You can also **Inject loss** by hand and see the immediate halving. The point to take away is that TCP is not handed a rate; it *continuously discovers* one, and because every flow follows the same additive-up/multiplicative-down rule, several flows sharing a link are driven toward an equal share of it. Fairness is an emergent property of everyone backing off the same way.
+
+## Ports, multiplexing, and when to skip TCP
+
+One address, many conversations. Your laptop has a single IP address but is talking to dozens of servers at once — this article, a chat app, a software update, a mail sync. What keeps their bytes from getting mixed up is the **port number**, a 16-bit label in the transport header that identifies an endpoint *within* a host. A connection is really identified by the four-tuple (source IP, source port, destination IP, destination port), and that lets one machine **multiplex** hundreds of independent streams over one address, **demultiplexing** each arriving packet back to the right process.
+
+Ports are not a TCP invention, and it matters not to say so: they live in the header of **both TCP and UDP**. The **User Datagram Protocol** is TCP's connectionless sibling — it has ports for multiplexing and a checksum for corruption, and that is essentially all. No handshake, no sequence numbers, no acknowledgements, no retransmission, no congestion control. A UDP packet is fire-and-forget: it may arrive, may not, may arrive out of order, and UDP will not lift a finger.
+
+Why would anyone want that? Because sometimes **speed beats reliability**. In a live video call, a packet carrying a frame from 200 milliseconds ago is worthless — by the time TCP retransmitted it, the moment is gone, and the retransmission would only add delay to everything behind it. Better to drop the stale frame and keep moving. So real-time media, online games, and [DNS](/articles/dns) lookups (a single tiny request-and-reply, where setting up a connection would cost more than just asking again) all ride on UDP. When an application does need reliability on top of UDP, it builds its own — which is exactly what modern protocols like QUIC do, reimplementing TCP's ideas in user space for finer control.
+
+TCP is the right default whenever *every byte matters and order matters* — a file, an email, a web page. When you fetch a page over [HTTP](/articles/http-and-the-web), it is TCP underneath quietly turning the best-effort network into the perfect stream the browser assumes it has. Which returns us to the two ideas most worth holding onto: TCP does **not** make the network reliable — it makes the *connection appear* reliable while the network goes on dropping packets exactly as before; and a TCP connection is **not** a dedicated circuit — it is just a bit of shared state at two endpoints, an agreement about numbers, laid over the same anonymous, best-effort packet network everything else uses.
+
+<KeyTakeaways>
+- Reliability is an **endpoint illusion**: sequence numbers, acknowledgements and retransmission live only at the two endpoints and reconstruct a perfect ordered stream. TCP never changes the network — IP keeps losing, duplicating and reordering packets throughout.
+- A TCP **connection is not a circuit**. It is shared state (sequence numbers and window sizes) agreed by the two hosts via the three-way handshake (SYN / SYN-ACK / ACK); the routers in between hold no connection state at all.
+- **Two different windows** govern the sender: flow control (the receiver's advertised window) keeps a slow receiver from being overwhelmed, while congestion control's window keeps the shared network from collapsing. Throughput is bounded by $W/\text{RTT}$, so filling a link needs a window of at least the bandwidth-delay product $B\cdot\text{RTT}$.
+- **Congestion control** (Van Jacobson, 1988, after real congestion collapse) uses AIMD — grow by one per round trip, halve on loss — producing the sawtooth that probes for capacity and drives competing flows toward a fair share.
+- **Ports live in both TCP and UDP** and let one host multiplex many conversations. UDP drops all of TCP's guarantees for speed, which is the right trade when a late byte is a useless byte — video calls, games, DNS.
+</KeyTakeaways>

@@ -2474,6 +2474,127 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'packet-switching': c => {
+    const S = { x: 28, y: 60 }
+    const D = { x: 272, y: 60 }
+    const routers = [
+      { x: 110, y: 30 }, { x: 110, y: 90 },
+      { x: 190, y: 30 }, { x: 190, y: 90 },
+    ]
+    const edges: [{ x: number; y: number }, { x: number; y: number }][] = [
+      [S, routers[0]], [S, routers[1]],
+      [routers[0], routers[2]], [routers[0], routers[3]],
+      [routers[1], routers[2]], [routers[1], routers[3]],
+      [routers[2], routers[3]],
+      [routers[2], D], [routers[3], D],
+    ]
+    const packets = [
+      { x: 69, y: 45, n: 1, hot: true },
+      { x: 69, y: 75, n: 2, hot: false },
+      { x: 150, y: 30, n: 3, hot: false },
+      { x: 231, y: 75, n: 4, hot: false },
+    ]
+    return (
+      <g>
+        {edges.map(([a, b], i) => (
+          <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={FAINT} strokeWidth={1.25} />
+        ))}
+        {routers.map((r, i) => (
+          <circle key={i} cx={r.x} cy={r.y} r={6} fill="rgba(26,23,18,0.9)" stroke={MUTE} strokeWidth={1} />
+        ))}
+        <circle cx={S.x} cy={S.y} r={11} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <circle cx={D.x} cy={D.y} r={11} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <text x={S.x} y={S.y + 4} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">S</text>
+        <text x={D.x} y={D.y + 4} textAnchor="middle" fontSize={10} fill={c} fontFamily="monospace">D</text>
+        {packets.map(p => (
+          <g key={p.n}>
+            <circle cx={p.x} cy={p.y} r={8} fill={p.hot ? GOLD : c} />
+            <text x={p.x} y={p.y + 3} textAnchor="middle" fontSize={9} fill={BG} fontFamily="monospace">{p.n}</text>
+          </g>
+        ))}
+      </g>
+    )
+  },
+  tcp: c => {
+    // The three-way handshake: SYN then ACK from host A (accent), SYN-ACK from B (gold).
+    const L = 48, R = 252
+    return (
+      <g>
+        <line x1={L} y1={30} x2={L} y2={110} stroke={FAINT} strokeWidth={1} />
+        <line x1={R} y1={30} x2={R} y2={110} stroke={FAINT} strokeWidth={1} />
+        <circle cx={L} cy={20} r={7} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        <circle cx={R} cy={20} r={7} fill={`${GOLD}26`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={L} y={23} fontSize={7} fill={c} fontFamily="monospace" textAnchor="middle">A</text>
+        <text x={R} y={23} fontSize={7} fill={GOLD} fontFamily="monospace" textAnchor="middle">B</text>
+        <line x1={L} y1={44} x2={R} y2={58} stroke={c} strokeWidth={1.5} />
+        <polygon points="252,58 243,54 245,61" fill={c} />
+        <text x={150} y={45} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="middle">SYN</text>
+        <line x1={R} y1={66} x2={L} y2={80} stroke={GOLD} strokeWidth={1.5} />
+        <polygon points="48,80 57,76 55,83" fill={GOLD} />
+        <text x={150} y={67} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="middle">SYN-ACK</text>
+        <line x1={L} y1={88} x2={R} y2={102} stroke={c} strokeWidth={1.5} />
+        <polygon points="252,102 243,98 245,105" fill={c} />
+        <text x={150} y={89} fontSize={7} fill={MUTE} fontFamily="monospace" textAnchor="middle">ACK</text>
+        <text x={150} y={116} fontSize={7} fill={c} fontFamily="monospace" textAnchor="middle">connection open</text>
+      </g>
+    )
+  },
+  'http-and-the-web': c => {
+    // One IP fielding a GET, routing by Host header to one of several sites.
+    const sites = [
+      { y: 12, host: 'blog.example', on: false },
+      { y: 47, host: 'shop.example', on: true },
+      { y: 82, host: 'news.example', on: false },
+    ]
+    const sx = 206, sw = 86, sh = 26
+    return (
+      <g>
+        <rect x={8} y={40} width={62} height={40} rx={5} fill="rgba(255,255,255,0.03)" stroke={c} strokeWidth={1} />
+        <text x={39} y={35} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">browser</text>
+        <text x={16} y={58} fontSize={8} fill={c} fontFamily="monospace">GET /</text>
+        <text x={16} y={72} fontSize={7} fill={GOLD} fontFamily="monospace">Host:</text>
+        <line x1={70} y1={60} x2={104} y2={60} stroke={MUTE} strokeWidth={1} />
+        <polygon points="104,60 98,57 98,63" fill={MUTE} />
+        <rect x={104} y={44} width={54} height={32} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <text x={131} y={58} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">1 IP</text>
+        <text x={131} y={70} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">server</text>
+        {sites.map((s, i) => (
+          <g key={i}>
+            <line x1={158} y1={60} x2={sx} y2={s.y + sh / 2} stroke={s.on ? GOLD : FAINT} strokeWidth={s.on ? 1.25 : 0.75} strokeDasharray={s.on ? undefined : '3 3'} />
+            <rect x={sx} y={s.y} width={sw} height={sh} rx={4} fill={s.on ? `${GOLD}22` : 'rgba(255,255,255,0.03)'} stroke={s.on ? GOLD : MUTE} strokeWidth={s.on ? 1.25 : 0.75} />
+            <text x={sx + 8} y={s.y + 16} fontSize={8} fill={s.on ? GOLD : MUTE} fontFamily="monospace">{s.host}</text>
+            {s.on && <text x={sx + sw - 6} y={s.y + 16} textAnchor="end" fontSize={8} fill={GOLD} fontFamily="monospace">200</text>}
+          </g>
+        ))}
+      </g>
+    )
+  },
+  dns: c => {
+    return (
+      <g>
+        <line x1={150} y1={16} x2={90} y2={54} stroke={FAINT} strokeWidth={1} />
+        <line x1={150} y1={16} x2={210} y2={54} stroke={FAINT} strokeWidth={1} />
+        <line x1={150} y1={54} x2={96} y2={92} stroke={FAINT} strokeWidth={1} />
+        <line x1={150} y1={16} x2={150} y2={54} stroke={GOLD} strokeWidth={2} />
+        <line x1={150} y1={54} x2={150} y2={92} stroke={GOLD} strokeWidth={2} />
+        <circle cx={90} cy={54} r={8} fill={`${c}22`} stroke={MUTE} strokeWidth={1} />
+        <circle cx={210} cy={54} r={8} fill={`${c}22`} stroke={MUTE} strokeWidth={1} />
+        <circle cx={96} cy={92} r={7} fill="rgba(255,255,255,0.03)" stroke={FAINT} strokeWidth={1} />
+        <circle cx={150} cy={16} r={9} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        <circle cx={150} cy={54} r={8} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={150} cy={92} r={8} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={150} y={19} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">.</text>
+        <text x={90} y={57} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">org</text>
+        <text x={210} y={57} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">id</text>
+        <text x={134} y={57} textAnchor="end" fontSize={7} fill={GOLD} fontFamily="monospace">com</text>
+        <text x={150} y={111} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">example</text>
+        <line x1={159} y1={92} x2={202} y2={92} stroke={GOLD} strokeWidth={1.5} />
+        <polygon points="202,92 195,88 195,96" fill={GOLD} />
+        <rect x={206} y={82} width={84} height={20} rx={3} fill={`${c}22`} stroke={c} strokeWidth={1} />
+        <text x={248} y={95} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">93.184.216.34</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

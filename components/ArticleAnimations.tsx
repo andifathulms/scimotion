@@ -870,3 +870,43 @@ export const IPAddressAnimation = dynamic(
   () => import('@/components/animations/IPAddressAnimation').then(m => ({ default: m.IPAddressAnimation })),
   { ssr: false }
 )
+
+export const PacketSwitchingAnimation = dynamic(
+  () => import('@/components/animations/PacketSwitchingAnimation').then(m => ({ default: m.PacketSwitchingAnimation })),
+  { ssr: false }
+)
+
+export const PacketReassemblyAnimation = dynamic(
+  () => import('@/components/animations/PacketReassemblyAnimation').then(m => ({ default: m.PacketReassemblyAnimation })),
+  { ssr: false }
+)
+
+export const TCPHandshakeAnimation = dynamic(
+  () => import('@/components/animations/TCPHandshakeAnimation').then(m => ({ default: m.TCPHandshakeAnimation })),
+  { ssr: false }
+)
+
+export const CongestionControlAnimation = dynamic(
+  () => import('@/components/animations/CongestionControlAnimation').then(m => ({ default: m.CongestionControlAnimation })),
+  { ssr: false }
+)
+
+export const DNSResolutionAnimation = dynamic(
+  () => import('@/components/animations/DNSResolutionAnimation').then(m => ({ default: m.DNSResolutionAnimation })),
+  { ssr: false }
+)
+
+export const DNSHierarchyAnimation = dynamic(
+  () => import('@/components/animations/DNSHierarchyAnimation').then(m => ({ default: m.DNSHierarchyAnimation })),
+  { ssr: false }
+)
+
+export const HTTPRequestAnimation = dynamic(
+  () => import('@/components/animations/HTTPRequestAnimation').then(m => ({ default: m.HTTPRequestAnimation })),
+  { ssr: false }
+)
+
+export const CookieStateAnimation = dynamic(
+  () => import('@/components/animations/CookieStateAnimation').then(m => ({ default: m.CookieStateAnimation })),
+  { ssr: false }
+)

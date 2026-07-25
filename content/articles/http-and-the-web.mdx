@@ -1,0 +1,137 @@
+---
+title: "HTTP and the World Wide Web"
+subtitle: "The astonishingly simple protocol — a client asks, a server answers — that turned the internet into the web."
+topic: "Networks & the Internet"
+slug: "http-and-the-web"
+date: "2026-07-10"
+readTime: 10
+featured: false
+description: "The web is one application running on top of the internet's plumbing. HTTP is how a browser asks a server for a resource — a stateless request and response that cookies and the Host header quietly extend into logins and shared hosting."
+tags: ["http", "web", "protocols", "internet"]
+quiz:
+  - q: "Why does HTTP need a `Host:` header in every HTTP/1.1 request, given that the browser already opened a TCP connection to a specific IP address?"
+    options:
+      - "The Host header encrypts the request so intermediaries cannot read the path being requested"
+      - "One IP address can serve many different websites, so the server needs the requested hostname to know which site's content to return"
+      - "TCP connections do not carry any address information, so the Host header is the only way the server learns where the request came from"
+      - "The Host header tells the browser which DNS server to use for the next lookup"
+    answer: 1
+    explanation: "Virtual hosting lets a single IP host many sites; the Host header names which one the request wants, which became essential as IPv4 addresses grew scarce."
+  - q: "HTTP is described as a stateless protocol. What does statelessness actually mean here?"
+    options:
+      - "The server crashes and loses all data if it is restarted between requests"
+      - "The protocol cannot transfer any data larger than a single packet"
+      - "The server does not inherently remember anything about previous requests; each request is treated as if it were the first"
+      - "The connection is torn down and cannot be reused for a second request"
+    answer: 2
+    explanation: "Each request is self-contained and the server keeps no built-in memory of prior ones, which is why sessions must be layered on top with cookies."
+  - q: "A friend says 'HTTP loads the internet.' What is the most accurate correction?"
+    options:
+      - "HTTP is the internet; the two words mean the same thing"
+      - "HTTP fetches web resources over a TCP connection to a server the browser already resolved via DNS — the web is one application running on the internet, not the internet itself"
+      - "HTTP replaced TCP/IP as the internet's core protocol in 1997"
+      - "HTTP only works for downloading files, while the internet handles everything else"
+    answer: 1
+    explanation: "The web is a single application built on the internet's plumbing; email, video calls, and file transfer are other applications running on the same network."
+---
+
+## Type an address, and a document arrives
+
+You type `example.com` into the address bar and press enter. In under a second, a name has become a server, a connection has opened across the world, and a document has arrived on your screen. It feels like one seamless act, but it is the visible tip of everything the previous articles built: [packet switching](/articles/packet-switching) chops the conversation into datagrams, [DNS](/articles/dns) turns the name into an address, and [TCP](/articles/tcp) opens a reliable, ordered byte-stream to that address.
+
+All of that is plumbing. It moves bytes from one machine to another and guarantees they arrive intact. But plumbing does not tell the two machines *what to say* to each other. That last, top layer — the agreement that a browser asks for a resource and a server sends it back — is the **HyperText Transfer Protocol**, HTTP. And here is the surprise: after all the intricate machinery underneath, the web itself is almost embarrassingly simple. A client asks for a resource. A server sends it back. That is very nearly the whole protocol.
+
+## The web is not the internet
+
+The single most important idea in this article is a distinction people blur constantly: **the web is one application running on top of the internet, not the internet itself.**
+
+The internet is the network — the global system of packet-switched links, addresses, and routers that carries bytes between any two machines. Many different applications ride on top of it. Email uses SMTP. Video calls use RTP. File transfer uses FTP. Streaming, online games, software updates — each is its own application with its own protocol, all sharing the same underlying network.
+
+The **World Wide Web** is just one of those applications. Tim Berners-Lee invented it at CERN, the particle-physics lab near Geneva, proposing it in 1989 and building the first browser, the first server, and the first website in 1990–91. His invention was really three interlocking pieces:
+
+- **URLs** — a uniform way to name any resource, anywhere: `https://example.com/page`.
+- **HTML** — a markup language for documents that can link to other documents.
+- **HTTP** — the protocol a browser and server speak to move those documents around.
+
+None of that is the internet. It is a system *built on* the internet — so successful that for most people the web became synonymous with "online". But when your friend says "HTTP loads the internet," the precise correction is: HTTP fetches web resources over a TCP connection to a server your browser already resolved via DNS. It is one conversation among many that the internet is happy to carry.
+
+## Ask and answer
+
+HTTP is a **request/response** protocol. The browser opens a TCP connection to the resolved IP address, then sends a request that is, remarkably, just lines of readable text. The first line names a **method** and a **path**; the lines after it are **headers**:
+
+```
+GET /index.html HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+```
+
+`GET` is the method — "fetch me this resource". `POST` submits data, `PUT` and `DELETE` modify and remove. The path `/index.html` says which resource on the server. And the `Host:` header names which site is wanted — we will see in a moment why that line matters so much.
+
+The server replies in the same plain-text shape: a **status line**, some **headers**, a blank line, then the **body**.
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 1256
+
+<!doctype html> ...
+```
+
+The `200` is a **status code**: 200 means "here it is". The famous `404` means "no such resource"; `301` means "moved"; `500` means "the server broke". Three digits, and both ends know exactly what happened. That is the entire core of the protocol — a text request naming a method and path, a text response carrying a status and a body.
+
+## One request, and one IP serving many sites
+
+<HTTPRequestAnimation />
+
+The widget shows a single request travelling over an already-open connection, and the server's response coming back with its status line, headers, and body. Press **Send** and watch the `GET` line and its headers arrive at the server; the reply returns with `200 OK` and the page.
+
+Now do the interesting experiment. Use the site selector to change the `Host:` header, and send again. **The IP address never changes** — the same server, at the same address, answers every time. But the content that comes back is completely different: `blog.example.com` returns the blog, `shop.example.com` returns the store, `news.example.com` returns something else again. Try requesting a path the chosen site does not have and watch the status flip from `200 OK` to `404 Not Found`.
+
+This is **virtual hosting**, and it is why the `Host:` header exists. HTTP/1.0 requests did not require it — one IP address was assumed to mean one website. But that assumption became untenable. Commercial web hosting exploded in the mid-1990s, and [IPv4](/articles/packet-switching) addresses were growing scarce; giving every small site its own public IP was wasteful and soon impossible. HTTP/1.1 (RFC 2068, 1997, later RFC 2616) made the `Host:` header effectively mandatory, so a single server at a single IP could host thousands of sites and route each request by the hostname named *inside* it. Almost every shared web host on earth runs on this trick.
+
+## The cost of one page load
+
+Because HTTP sits on top of everything else, the first byte of a page is not free — it costs a sequence of **round trips**, each one a message out to the server and an acknowledgement back. Count them for a fresh `https://` request to a name you have never visited:
+
+$$
+\underbrace{1}_{\text{DNS}} \;+\; \underbrace{1}_{\text{TCP handshake}} \;+\; \underbrace{1}_{\text{TLS setup}} \;+\; \underbrace{1}_{\text{HTTP request}}
+$$
+
+DNS resolves the name to an address. TCP's three-way handshake opens the reliable connection. TLS (the `s` in `https`) negotiates encryption — a story for another day. Only *then* does the HTTP request go out and the response come back. Four round trips of latency before a single byte of HTML appears. If the server is 100 ms away, that is nearly half a second spent on setup alone — which is exactly why later versions of the protocol work so hard to reuse connections and collapse these steps.
+
+The request/response cycle itself is a tiny state machine. Each request begins in the same place regardless of what came before:
+
+$$
+\textsf{idle} \xrightarrow{\;\text{send request}\;} \textsf{waiting} \xrightarrow{\;\text{status + body}\;} \textsf{done}
+$$
+
+And then it returns to `idle`, remembering nothing. That "remembering nothing" is not a limitation to work around casually — it is a deliberate design choice with deep consequences.
+
+## HTTP forgets you the moment you leave
+
+HTTP is **stateless**: the server does not inherently remember anything about previous requests. Each request is self-contained and treated as if it were the first the server had ever seen. This is wonderful for scaling — any server in a farm can answer any request, because none of them needs to remember you — but it raises an obvious problem. If the server forgets you between clicks, how does a shopping cart keep your items? How does a site keep you logged in?
+
+<CookieStateAnimation />
+
+Run the widget with cookies off first. Send several requests and watch the server's reaction: every one is anonymous. The server literally cannot tell that two requests came from the same person — each arrives with no memory attached, so it greets a stranger every time. Add an item to the cart and reload; the cart is empty again, because the server had nowhere to store the fact that *you* added it.
+
+Now let the server issue a **`Set-Cookie`** header on its response. The browser stores that small token and — this is the whole mechanism — automatically attaches it as a `Cookie:` header on *every* subsequent request to that site. Send more requests and watch the server recognise the session: you are logged in, and the cart persists across reloads. Then click **Clear cookie** and watch the server forget you instantly, back to anonymous.
+
+Cookies were introduced by Netscape around 1994 for exactly this purpose. The crucial point is that **the state does not live in HTTP** — the protocol is still stateless, still forgetting you between requests. The cookie is a token the client carries and re-presents, bolting session memory on top of a protocol that has none. So the second misconception to bury: HTTP does not remember who you are between requests. It never has. Cookies are the trick that makes it feel as though it does.
+
+## Why this simplicity won
+
+It is worth asking why *this* design — plain-text messages, a stateless request/response, a handful of methods and status codes — beat every richer, more clever alternative to become the way the world reads, shops, banks, and talks.
+
+The answer is that simplicity composed. Because a request is just text over a TCP connection, anyone could write a client or a server in an afternoon, and they would interoperate with everyone else's. Because the server holds no per-user state, you scale by adding more identical servers behind a load balancer. Because the protocol is a clean ask-and-answer, you can slot machinery *between* client and server without either noticing: a **cache** that keeps a copy of a popular response, a **proxy** that filters or logs, a **content delivery network** that serves the page from a city near you. Each is possible precisely because HTTP demands so little.
+
+And the story is not finished. The `s` in `https` — TLS encryption — turned the web from a place you read into a place you could safely bank. Newer protocol versions (HTTP/2 and HTTP/3) keep the same request/response semantics you have learned here while multiplexing many requests over one connection and cutting those round trips down. The methods, the status codes, the headers, the Host, the cookies — all of it carries forward. What Berners-Lee sketched at CERN in 1989 was simple enough to survive being scaled by a factor of a billion, and that simplicity was the point.
+
+<KeyTakeaways>
+- The **web is one application on top of the internet**, not the internet itself. HTTP fetches web resources over a TCP connection to an address DNS already resolved; email, video, and file transfer are other applications on the same network.
+- HTTP is a **stateless request/response** protocol made of readable text: a method and path (`GET /page HTTP/1.1`), headers, and a response carrying a status code (`200`, `404`) and a body.
+- A page load costs a stack of **round trips** — DNS, the TCP handshake, TLS, then the HTTP request — which is why setup latency dominates and why later versions work to reuse connections.
+- The **`Host:` header** (effectively mandatory since HTTP/1.1 in 1997) lets one IP address serve many sites — virtual hosting — a response to IPv4 scarcity and the boom in commercial hosting.
+- HTTP **remembers nothing** between requests. **Cookies** (Netscape, ~1994) are a token the browser stores and re-sends to layer sessions and logins on top of a protocol that is, by design, forgetful.
+</KeyTakeaways>

@@ -1,0 +1,146 @@
+---
+title: "DNS: The Internet's Phone Book"
+subtitle: "How a name made of letters becomes an address the network can actually route to."
+topic: "Networks & the Internet"
+slug: "dns"
+date: "2026-07-08"
+readTime: 10
+featured: false
+description: "Humans use names; the network routes to numbers. DNS bridges the gap with a distributed, delegated tree — no single machine holds the whole thing, and caching makes it feel instant."
+tags: ["networking", "internet", "dns", "distributed-systems"]
+quiz:
+  - q: "Before DNS, every host kept a copy of a single central HOSTS.TXT file. Why did DNS's delegated hierarchy scale where that flat file could not?"
+    options:
+      - "The tree stores names in sorted order, so lookups became O(log n) instead of O(n)"
+      - "Authority is partitioned across zones, so each owner edits only their own slice and no server has to hold or redistribute the entire namespace"
+      - "DNS compresses the names, so the same information fits in far less space"
+      - "A faster central server replaced the old one, so updates propagated more quickly"
+    answer: 1
+    explanation: "The scaling win is administrative, not algorithmic: delegation means no single machine holds the whole list and every change is a local edit to one zone."
+  - q: "You type example.com and the page loads. What did the DNS lookup itself actually produce?"
+    options:
+      - "The HTML of the page, fetched from the authoritative nameserver"
+      - "An IP address, after which the browser opens a separate TCP connection to that address to fetch the page"
+      - "A cached copy of the site served directly by the recursive resolver"
+      - "A route through the network that the packets then follow"
+    answer: 1
+    explanation: "DNS only translates the name into an address; fetching the page is a separate step the browser does by connecting to that address over TCP."
+  - q: "A recursive resolver caches an answer with a TTL of 3600 seconds. What does that TTL let it do?"
+    options:
+      - "Guarantee the record can never change for the next hour anywhere on the internet"
+      - "Reuse the stored answer for repeat queries during the next hour instead of walking root → TLD → authoritative again"
+      - "Keep the underlying TCP connection to the authoritative server open for an hour"
+      - "Limit the name to a maximum of 3600 lookups before it must be re-registered"
+    answer: 1
+    explanation: "The TTL is how long the resolver may serve the cached answer before it must re-resolve, which is what makes repeat lookups effectively free."
+---
+
+## A single file, emailed to everyone
+
+You type `example.com` into a browser and a page appears. But the network underneath does not route to letters — it routes to [numeric IP addresses](/articles/ip-and-routing). Something has to turn `example.com` into an address like `93.184.216.34` before a single packet can move.
+
+In the earliest days of the ARPANET, that something was a text file. One file, `HOSTS.TXT`, listed every host on the network and its address. It was maintained by hand at the Stanford Research Institute's Network Information Center (SRI-NIC), and every machine on the network downloaded its own copy. Want to reach a host? Look it up in your local copy of the file.
+
+That obviously could not last. Every time a host was added, renamed, or moved, someone edited the master file, and every other machine had to fetch the new version to stay current. With a few hundred hosts it was merely tedious. As the network grew into the thousands, a single hand-edited file copied to every computer became an absurdity: a naming bottleneck that pushed against a central point of failure, stale copies everywhere, and an update process that could never keep up.
+
+In 1983 Paul Mockapetris designed the replacement — the Domain Name System (RFC 882/883, soon superseded by the RFC 1034/1035 specification we still use). It is one of the quiet triumphs of internet architecture: a naming system with no center at all.
+
+## Names, numbers, and the file that could not scale
+
+The problem is easy to state. Humans remember names; routers forward to numbers. You want to type `example.com`; the network needs `93.184.216.34`. So somewhere there must be a mapping from one to the other, and something must answer the question *"what is the address for this name?"*
+
+`HOSTS.TXT` answered it with a flat list: one giant table, `name → address`, `name → address`, repeated for every host in existence. A flat list has two fatal properties at scale.
+
+First, **it has a single owner.** One organization edits the authoritative copy. Every registration, every change, funnels through them. That is a bottleneck by construction — one editor for the entire internet.
+
+Second, **it must be redistributed in full.** Because every host needs the whole table, every change means pushing the whole file out again. There is no way to update just your own entry; you update the global file or nothing. Consistency across thousands of machines that each hold a private copy is hopeless.
+
+Neither problem is about lookup speed. They are about *ownership and distribution*. The insight behind DNS is that both dissolve if you stop keeping the mapping in one place.
+
+## DNS's answer: a delegated hierarchy
+
+DNS replaces the one flat table with a **tree**, and — this is the crucial move — it hands out ownership of each branch to a different party. Nobody holds the whole thing.
+
+Read a name right-to-left and you are reading a path down the tree:
+
+```
+                    . (root)
+                 /     |      \
+              com     org      id
+               |       |        \
+           example  wikipedia   go.id
+             /  \                 |
+           www  mail            lapor
+```
+
+- The **root** sits at the top. It does not know where `example.com` is. It knows exactly one thing: which servers are responsible for each **top-level domain** (TLD) — `.com`, `.org`, `.id`, and the rest. The root *delegates* `.com` to the operators who run it.
+- The **`.com` TLD servers** do not know the address of `www.example.com` either. They know which nameservers are authoritative for `example.com`, and they *delegate* to them.
+- The **`example.com` nameservers** — run by whoever owns that domain — hold the actual records: `www`, `mail`, and the addresses they point to.
+
+Each level knows only its own children and who to hand off to next. Authority is **delegated** down the branches, so that whoever owns a domain controls everything beneath it and edits only their own zone. When you change `www.example.com`'s address you touch one small file on your own nameserver — not a global table, not anyone else's zone. The single-owner bottleneck is gone because there is no single owner. The redistribution problem is gone because there is nothing global to redistribute.
+
+This is why the common mental model of "one big server that knows every domain name" is wrong. There is no such server, not even the root. The root knows the TLDs; the TLDs know the domains; the domains know their own hosts. The knowledge is spread across millions of independently operated zones.
+
+## Walking the tree: how a lookup works
+
+If no single server has the answer, how does anyone find it? A **recursive resolver** — usually run by your ISP or a public service — does the walking for you. Given a name, it starts at the root and follows the delegations down until it reaches a server that can actually answer, then hands the address back.
+
+<DNSResolutionAnimation />
+
+Pick a name and press Play. Watch the resolver ask the **root**, which does not answer with an address — it *refers* the resolver down to the TLD. The resolver then asks the **TLD server**, which refers it to the domain's **authoritative nameserver**. Only that last server returns the actual address. Three questions, each one step further down the tree, each answered by a different operator who owns only their slice.
+
+Then run the **same name a second time.** Notice it returns instantly, with no walk at all — the resolver **cached** the answer the first time, along with a **TTL** (time-to-live) that says how long the answer may be reused. Try both names, and try re-running one immediately after the other to feel the difference between a cold lookup and a warm one.
+
+One thing the animation makes concrete: the walk ends with an *address*, and that is all. DNS does not fetch the page. It does not open a connection to the site. It translates `example.com` into `93.184.216.34` and stops. Only then does the browser open a separate [TCP connection](/articles/tcp) to that address and ask for the page — a step covered in [HTTP and the web](/articles/http-and-the-web). Conflating the two ("DNS loads the website") is the second common misconception, and the animation is deliberately built to separate them.
+
+## The math: why a tree scales, and why caching wins
+
+Two numbers explain why DNS works, and both are worth writing down.
+
+**Why the tree beats the flat list.** Suppose the namespace holds $N$ names. A flat file stores all $N$ in one table that one party maintains. A tree with branching factor $b$ and depth $d$ holds
+
+$$N = b^{\,d} \quad\Longrightarrow\quad d = \log_b N$$
+
+names, but any single name is found in just $d$ delegated steps — and, crucially, *each node stores only its own $\approx b$ children, not all $N$ entries.* Growth that is exponential in the number of names costs only logarithmic depth to traverse and constant fan-out to store per node. With a realistic branching factor the depth stays tiny: the entire public namespace resolves in a handful of hops no matter how many billions of names exist. The flat list's $O(N)$ storage-everywhere and single editor become the tree's $O(b)$ storage-per-zone and one editor *per zone*. That redistribution of work — not raw lookup speed — is the whole point.
+
+**Why caching makes it feel instant.** A full walk costs $d$ round-trips (root, TLD, authoritative). A cache hit costs essentially one — the resolver already has the answer. If a resolver serves a record to many clients, only the *first* query in each TTL window pays for a walk; the rest are hits. Model the average cost as
+
+$$\bar{c} = h \cdot c_{\text{hit}} + (1 - h)\, c_{\text{miss}}, \qquad c_{\text{hit}} \approx 1,\; c_{\text{miss}} = d$$
+
+where $h$ is the cache hit ratio. If a record is queried at rate $\lambda$ and the TTL is $T$, then a window holds about $\lambda T$ queries of which exactly one is a miss, so
+
+$$h = 1 - \frac{1}{\lambda T}$$
+
+For a popular record with $\lambda T = 1000$, that is $h = 0.999$ and $\bar{c} \approx 1.003$ — practically a single step. This is why DNS survives the load of the entire internet on a hierarchy whose upper levels are queried comparatively rarely: the TTL turns almost every lookup into a local cache hit, and the root and TLD servers only see the misses. Longer TTLs raise $h$ (faster, but slower to propagate changes); shorter TTLs lower $h$ (more agile, more traffic). The TTL is the knob that trades freshness against load.
+
+## Who owns what: the namespace tree
+
+The resolution walk shows the *path*. Step back and look at the whole *tree*, and the ownership story becomes vivid.
+
+<DNSHierarchyAnimation />
+
+Pick a name from the menu and the widget highlights its delegation chain from the root down, marking each edge where authority is handed off to a different operator and naming who is **authoritative** for that name. Click any branch node to collapse or expand its subtree — a reminder that no view ever needs to show the whole namespace at once, because no server ever holds it. Try `www.example.com` and `lapor.go.id` and notice that they diverge at the very first hop: one is delegated through `.com`, the other through `.id` and then `go.id`, run by entirely different organizations on different continents.
+
+That is the payoff to sit with. Each `⇩` on the tree is a boundary where one party stops being responsible and hands control to the next. The owner of `example.com` can create, delete, and re-point every host beneath it without asking anyone — and cannot touch anything in `wikipedia.org` or `go.id`. Ownership of the namespace is *partitioned*, and that partition is the entire design.
+
+## Why it matters
+
+DNS is worth understanding because its shape is the shape of a good distributed system, and because it quietly underpins nearly everything you do online.
+
+**Decentralized ownership.** Because authority is delegated, control of naming is spread across millions of independent operators rather than concentrated in one registry. You own your domain's zone; nobody has to approve your day-to-day changes.
+
+**Resilience.** No single machine is the internet's phone book, so no single machine's failure erases it. The root itself is not one computer: the "13 root servers" you may have heard of are 13 *named* root identities (letters A through M, each a single IP address in the configuration), but each of those is served by many **anycast** instances scattered across the globe, so the same address is answered by the nearest of hundreds of physical machines. Losing any one changes nothing.
+
+**Scale.** Caching with TTLs means the busy lower levels absorb almost all the traffic and the upper levels stay quiet. A system that names billions of hosts runs on a hierarchy whose apex handles a trickle.
+
+**A layer of indirection.** Because a name is decoupled from an address, you can move a service to a new machine — a new IP entirely — by editing one DNS record, and the world follows the name to the new place. That indirection is what makes content delivery networks, load balancing, and failover possible: the same name resolves to different addresses depending on who is asking and what is healthy.
+
+DNS took a single hand-edited file that could not survive its own success and replaced it with a tree that has no center, no bottleneck, and no global copy to keep in sync — while making the common case feel instant. It is the layer that lets you think in names while the network moves in numbers.
+
+<KeyTakeaways>
+- The network routes to numbers, but people use names; DNS is the system that translates a name like `example.com` into an IP address so a connection can be made.
+- The original `HOSTS.TXT` — one flat file maintained centrally at SRI-NIC and copied to every host — failed not on lookup speed but on **ownership and distribution**: one editor, and a whole-file redistribution for every change.
+- DNS is a **distributed, hierarchical, delegated** tree: the root delegates TLDs, TLDs delegate domains, domains own their hosts. No server holds the whole namespace, so growth is exponential in names but logarithmic in depth and constant in per-zone storage.
+- A recursive resolver walks root → TLD → authoritative, then **caches** the answer under a **TTL**, so almost every real query is a local cache hit — that is why a global system runs on a quiet apex.
+- DNS resolves a name to an address and *stops*; it does not fetch the page. The browser then opens a separate [TCP](/articles/tcp) connection to that address, as [HTTP and the web](/articles/http-and-the-web) picks up.
+</KeyTakeaways>

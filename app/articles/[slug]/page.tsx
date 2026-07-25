@@ -193,6 +193,14 @@ import {
   WaterAnomalyAnimation,
   RoutingAnimation,
   IPAddressAnimation,
+  PacketSwitchingAnimation,
+  PacketReassemblyAnimation,
+  TCPHandshakeAnimation,
+  CongestionControlAnimation,
+  DNSResolutionAnimation,
+  DNSHierarchyAnimation,
+  HTTPRequestAnimation,
+  CookieStateAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -387,6 +395,14 @@ const components = {
   WaterAnomalyAnimation,
   RoutingAnimation,
   IPAddressAnimation,
+  PacketSwitchingAnimation,
+  PacketReassemblyAnimation,
+  TCPHandshakeAnimation,
+  CongestionControlAnimation,
+  DNSResolutionAnimation,
+  DNSHierarchyAnimation,
+  HTTPRequestAnimation,
+  CookieStateAnimation,
   KeyTakeaways,
 }
 
