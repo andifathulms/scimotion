@@ -920,3 +920,13 @@ export const SymmetricVsAsymmetricAnimation = dynamic(
   () => import('@/components/animations/SymmetricVsAsymmetricAnimation').then(m => ({ default: m.SymmetricVsAsymmetricAnimation })),
   { ssr: false }
 )
+
+export const LoadBalancerAnimation = dynamic(
+  () => import('@/components/animations/LoadBalancerAnimation').then(m => ({ default: m.LoadBalancerAnimation })),
+  { ssr: false }
+)
+
+export const ReverseProxyAnimation = dynamic(
+  () => import('@/components/animations/ReverseProxyAnimation').then(m => ({ default: m.ReverseProxyAnimation })),
+  { ssr: false }
+)

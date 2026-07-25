@@ -2617,6 +2617,37 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'load-balancers': c => {
+    const servers = [
+      { y: 17, ok: true },
+      { y: 45, ok: true },
+      { y: 73, ok: false },
+      { y: 101, ok: true },
+    ]
+    return (
+      <g>
+        <line x1={8} y1={60} x2={118} y2={60} stroke={MUTE} strokeWidth={1} />
+        <circle cx={26} cy={60} r={4} fill={GOLD} />
+        <circle cx={54} cy={60} r={4} fill={c} />
+        <circle cx={82} cy={60} r={4} fill={GOLD} />
+        {servers.map((s, i) => (
+          <line key={`l${i}`} x1={150} y1={60} x2={244} y2={s.y}
+            stroke={s.ok ? `${c}88` : FAINT} strokeWidth={s.ok ? 1.5 : 1}
+            strokeDasharray={s.ok ? undefined : '3 3'} />
+        ))}
+        <rect x={120} y={42} width={30} height={36} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <text x={135} y={64} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">LB</text>
+        {servers.map((s, i) => (
+          <g key={`s${i}`}>
+            <rect x={244} y={s.y - 9} width={48} height={18} rx={3}
+              fill={s.ok ? `${c}1F` : 'rgba(255,255,255,0.03)'}
+              stroke={s.ok ? c : MUTE} strokeWidth={1} />
+            <circle cx={253} cy={s.y} r={2.5} fill={s.ok ? GOLD : MUTE} />
+          </g>
+        ))}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

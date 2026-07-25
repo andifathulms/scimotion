@@ -1,0 +1,118 @@
+---
+title: "Load Balancers and Reverse Proxies"
+subtitle: "How a crowd of identical machines behind a traffic director carries millions of users — and quietly routes around the ones that fall over."
+topic: "Networks & the Internet"
+slug: "load-balancers"
+date: "2026-07-18"
+readTime: 10
+featured: false
+description: "One server has a ceiling and a single point of failure. Reverse proxies and load balancers turn many fragile machines into one fast, reliable service by spreading load and health-checking around failures."
+tags: ["load-balancing", "reverse-proxy", "scaling", "reliability"]
+quiz:
+  - q: "What is the essential difference between a reverse proxy and a forward proxy?"
+    options:
+      - "A reverse proxy encrypts traffic while a forward proxy only caches it"
+      - "A reverse proxy sits in front of servers and forwards client requests to them; a forward proxy sits in front of clients and forwards their requests out to the internet"
+      - "A reverse proxy works at layer 4 while a forward proxy works at layer 7"
+      - "They are two names for the same component and can be used interchangeably"
+    answer: 1
+    explanation: "The two sit at opposite ends of the conversation — a reverse proxy represents the servers to the world, a forward proxy represents the clients to the world."
+  - q: "Why does adding a load balancer in front of a pool of identical backends not, by itself, remove the single point of failure?"
+    options:
+      - "Because health checks cannot detect a backend that has crashed"
+      - "Because the load balancer becomes the new single point of failure unless it is itself made redundant"
+      - "Because round-robin sends every request to the same server anyway"
+      - "Because TLS termination must happen on the backends, not the balancer"
+    answer: 1
+    explanation: "All traffic now flows through the balancer, so if there is only one of it and it dies, the whole service dies — the balancer must be replicated too."
+  - q: "What distinguishes layer 4 load balancing from layer 7 load balancing?"
+    options:
+      - "Layer 4 balances by HTTP path and Host header; layer 7 balances by IP address and port"
+      - "Layer 4 balances by transport-level information like IP and port; layer 7 reads the HTTP request and can route by path, Host, or cookie"
+      - "Layer 4 requires TLS termination; layer 7 forbids it"
+      - "Layer 4 can only round-robin; layer 7 can only hash"
+    answer: 1
+    explanation: "Layer 4 routes on the transport envelope (IP/port) without reading the payload, while layer 7 understands HTTP and can make content-aware routing decisions."
+---
+
+## The two ways a single server dies
+
+Every request you have followed so far in this series arrives, eventually, at a server. [Packet switching](/articles/packet-switching) chops your message into datagrams, [DNS](/articles/dns) turns the name into an address, [TCP](/articles/tcp) opens a reliable byte-stream, [TLS](/articles/tls) encrypts it, and [HTTP](/articles/http-and-the-web) carries the ask-and-answer on top. And at the far end, one machine reads the request and writes the reply.
+
+That works beautifully until it doesn't, and it fails in two ways that no amount of buying-a-bigger-box can fix. First, a single server, however powerful, can only do so much work at once — it has a finite number of CPU cores, a finite amount of memory, a finite ceiling on how many connections it can hold open. Push past that ceiling and requests queue, slow down, and time out. Second, and worse: when that one machine dies — a failed disk, a kernel panic, someone tripping over a power cable — your **entire site dies with it**. There is nowhere else for the requests to go.
+
+So here is the thing that is true of essentially every large site you use: it is **not one computer answering you**. It is a crowd of identical machines standing behind a traffic director that spreads the incoming work across them and quietly stops sending traffic to any that fall over. This article is about that director — really two overlapping roles, the **reverse proxy** and the **load balancer** — and how together they turn many fragile machines into one fast, reliable service.
+
+## The reverse proxy: a doorman in front of the servers
+
+Start with the front door. A **reverse proxy** is a server that sits *in front of* your application servers and forwards client requests to them. The client thinks it is talking to your site; it is really talking to the proxy, which turns around and talks to the machines behind it, then relays the answer back. From the outside, the proxy *is* the site.
+
+The word "reverse" is worth pinning down, because it is the misconception this article most wants to kill. A plain **forward proxy** sits in front of *clients* — think of a corporate network where every employee's browser routes out through one gateway that filters and logs. It represents the clients to the wider internet. A **reverse proxy** sits at the opposite end of the conversation: in front of the *servers*, representing them to the wider internet. Same machinery, mirror-image position. A forward proxy hides who is asking; a reverse proxy hides who is answering.
+
+Why put a doorman there at all? Because it lets you **decouple two very different jobs** that a naive setup jams into one process: *handling internet connections* and *running application code*. Accepting thousands of TCP connections, waiting on slow clients, negotiating TLS, and streaming bytes is I/O-bound work — mostly waiting. Running your application logic — querying a database, rendering a template — is the actual computation. If the same process does both, one slow application request ties up a worker that could have been accepting connections or serving a trivial static file. Separate them, and a lightweight front can juggle a huge number of connections while a pool of app servers behind it does the heavy thinking.
+
+This is exactly the problem **Nginx** was built to solve. When Igor Sysoev first released it in 2004, the dominant web servers used a *process-* or *thread-per-connection* model: every open connection cost a whole worker, and holding ten thousand connections at once meant ten thousand workers — far more than the machine could schedule. This was known as the **C10K problem** (C for *connections*, 10K for ten thousand). Nginx used an event-driven model instead — a small number of workers, each cycling through many connections, waiting on none — so a single process could hold tens of thousands of concurrent connections cheaply. That efficiency is why reverse proxies are lightweight enough to sit in front of everything.
+
+Once a proxy is there, it naturally absorbs a cluster of related jobs: it **terminates TLS** (decrypting once at the edge so the backends can speak plain HTTP among themselves), **serves static files** directly (an image or stylesheet never needs to bother an app server), and **caches** popular responses. The backends are left to do nothing but run application code.
+
+## The load balancer: many backends, one service
+
+The reverse proxy explains the front door. The **load balancer** explains what is behind it: not one application server but a pool of *identical* ones, and a rule for spreading requests across them.
+
+<LoadBalancerAnimation />
+
+The widget shows requests arriving at a balancer and being handed out to a pool of backends, each with its own load meter. Switch the algorithm and watch how the load lands. **Round-robin** simply rotates — request 1 to backend A, request 2 to B, request 3 to C, and around again — which is beautifully simple and spreads evenly *when every request costs the same*. But requests are not equal: one might be a cheap static asset, the next a heavy report. **Least-connections** sends each new request to whichever backend currently has the fewest in flight, so a backend stuck on a slow request stops being handed more work. There is also **hashing** — routing by a hash of, say, the client IP, so a given client always lands on the same backend (useful when a backend caches something per-user). Toggle between them and watch least-connections keep the meters more even when the request costs vary.
+
+Now do the important experiment. **Kill a backend.** The balancer runs periodic **health checks** — small probes that ask each backend "are you alive?" — and when one stops answering, the balancer marks it *unhealthy* and simply stops routing to it. Its share of the traffic is redistributed across the survivors, and — this is the whole point — **no requests are dropped**. The failure is routed around automatically, without a human waking up. Then bring the backend back: once its health checks pass again, it quietly rejoins the pool and starts taking its share. This is the mechanism that turns a rack of individually-unreliable machines into a service that stays up. It is the same reliability idea at the heart of [distributed consensus](/articles/distributed-consensus): you assume machines will fail, and you build the system so that failure is normal and survivable rather than catastrophic.
+
+## The arithmetic of scaling out
+
+Two numbers make the case for a crowd of machines over one big one. The first is **throughput**. If one backend can serve $r$ requests per second, then $N$ identical backends behind a balancer that spreads work evenly serve roughly
+
+$$
+R(N) \;\approx\; N \cdot r
+$$
+
+Throughput grows **linearly** with the number of backends — double the machines, roughly double the capacity — right up until something *else* becomes the bottleneck: a shared database, the network link, or the balancer itself. This is called **horizontal scaling** (adding more machines), as opposed to **vertical scaling** (buying a bigger machine), and its great virtue is that it has no single ceiling: you keep adding backends until the next shared resource saturates, then you scale *that*.
+
+The second number is **availability**, and it is the more striking one. Suppose each backend is independently up with probability $p$ — say a fairly ordinary $p = 0.99$, so each machine is down about 1% of the time. With a single server, your service is up 99% of the time: more than three days of downtime a year. Now put $N$ redundant backends behind a balancer, where the service survives as long as *at least one* backend is alive. It is down only when *all* $N$ are simultaneously down, which (for independent failures) has probability $(1-p)^N$, so availability is
+
+$$
+A(N) \;=\; 1 - (1 - p)^N
+$$
+
+Plug in $p = 0.99$. One machine gives $0.99$. Two give $1 - 0.01^2 = 0.9999$ — "four nines". Three give $1 - 0.01^3 = 0.999999$ — "six nines", about thirty seconds of downtime a year. Redundancy converts *middling* individual reliability into *excellent* aggregate reliability, and it does so exponentially in $N$. (The independence assumption is doing real work here — a shared power failure or a bad deploy that hits every machine at once breaks it — which is why serious systems spread replicas across power supplies, racks, and data centres.)
+
+There is one more piece of intuition worth making explicit, because it is *why* the reverse proxy's separation of concerns matters so much. Think of a single worker as a queue: requests line up and are served one at a time. If a worker is busy with a request that takes a long time, **everything behind it waits**, no matter how trivial. Ten instant static-file requests stuck behind one slow database query all pay the slow query's cost — a phenomenon called **head-of-line blocking**. In queueing terms, as a server's utilisation $\rho$ (the fraction of time it is busy) approaches 1, the average waiting time blows up roughly like
+
+$$
+W \;\propto\; \frac{\rho}{1 - \rho}
+$$
+
+so a server run at 95% utilisation has *far* worse latency than one run at 70% — not a little worse, dramatically worse. Two consequences fall out. First, you never want to run backends at the red line; the extra headroom that redundancy provides is also latency headroom. Second, you never want a slow request sharing a queue with fast ones — which is exactly what pulling connection-handling out to a lightweight proxy achieves.
+
+## Why decoupling actually helps
+
+That last point deserves to be *seen*, because "separation of concerns" sounds like an abstraction until you watch it fail.
+
+<ReverseProxyAnimation />
+
+The widget runs the same stream of requests through two setups. On the left is the **naive** arrangement: each web-facing server also runs the slow application code itself. Inject a slow request — one that takes a while to compute — and watch what happens to everything behind it: the trivial static-file requests, which should return instantly, pile up in the queue waiting for the slow one to finish, because the single process can only do one thing at a time. The server *looks* overloaded even though almost all the work is cheap.
+
+On the right is the **reverse-proxy** arrangement. A lightweight proxy accepts every connection, terminates TLS, and answers static-file requests itself, on the spot — those never touch an app server. Only the genuinely dynamic requests are handed off to a pool of app servers behind it. Inject the same slow request now: it occupies one app server while the proxy keeps happily serving everything else. The slow request no longer stalls the fast ones, because they are no longer in the same queue. Run both side by side and the payoff is visible — same requests, same slow query, wildly different tail latency.
+
+## Layer 4, layer 7, and the balancer's own mortality
+
+Two refinements matter in practice. The first is *where* in the stack the balancer makes its decision. A **layer 4** load balancer works at the transport layer: it routes on the connection's IP address and port, forwarding packets without ever reading their contents. It is fast and protocol-agnostic — it does not know or care that the bytes are HTTP — but it also cannot make decisions based on what the request *says*. A **layer 7** load balancer works at the application layer: it reads the HTTP request and can route by content — send `/api/*` to one pool and `/images/*` to another, pin a user by cookie, or pick a backend by the `Host` header. Layer 7 is more capable and more expensive per request; layer 4 is leaner and blind. Most real front-ends run layer 7 (that content-awareness is why a reverse proxy and a layer-7 load balancer are so often the *same* Nginx process), with layer 4 used where raw throughput dominates.
+
+The second refinement is the one people forget, and it is a beautiful trap: **the balancer itself is now a single point of failure.** You added it to route around dead backends — but every request in the entire system now flows through it. If there is exactly one balancer and it dies, the fact that all your backends are healthy is worth nothing, because nothing can reach them. So the balancer must be made redundant too: typically a pair (or more) sharing a virtual IP address, with a failover mechanism so that if the active one dies, a standby takes over the address within seconds. You do not eliminate the single point of failure by adding a load balancer; you *move* it, and then you have to eliminate it again one level up. Reliability is never a component you buy; it is a property you have to establish at every layer.
+
+This is where the internet's scaling story goes next. Reverse proxies and load balancers let you scale *within* a data centre — a crowd of machines in one place. But your users are all over the world, and the speed of light is not negotiable: a request from Tokyo to a server in Virginia pays a fat round-trip no balancer can shorten. The next step is to spread the machines *geographically* and serve each user from a location near them — the job of a [content delivery network](/articles/cdns), which takes everything here and stretches it across the planet.
+
+<KeyTakeaways>
+- A single server has two fatal limits: a **finite capacity ceiling** and a **single point of failure**. Large sites are not one big machine but a **crowd of identical machines behind a traffic director**.
+- A **reverse proxy** sits in front of servers and forwards client requests to them — the mirror image of a **forward proxy**, which sits in front of clients. It decouples connection-handling from app logic, terminates TLS, serves static files, and caches. Nginx (2004) was built for exactly this, solving the **C10K problem** of holding ten thousand connections cheaply.
+- A **load balancer** spreads requests across identical backends (round-robin, least-connections, hashing) and uses **health checks** to detect a dead backend and stop routing to it — routing around failures with no dropped requests.
+- The payoff is arithmetic: throughput scales roughly **linearly** ($R \approx N r$) and availability rises **exponentially** with redundancy ($A = 1 - (1-p)^N$ — two 99% machines give four nines).
+- Load balancing happens at **layer 4** (by IP/port) or **layer 7** (by HTTP content). And the balancer itself must be made **redundant**, or it just moves the single point of failure rather than removing it.
+</KeyTakeaways>
