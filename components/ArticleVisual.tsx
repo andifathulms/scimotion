@@ -2742,6 +2742,120 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  ethernet: c => {
+    // Four machines on a central switch; one port actively delivers a frame
+    // (gold) while the others stay dark — a switch forwards only where needed.
+    const sw = { x: 150, y: 60 }
+    const devs = [
+      { x: 40, y: 26, p: 'P0' },
+      { x: 260, y: 26, p: 'P1' },
+      { x: 40, y: 94, p: 'P2' },
+      { x: 260, y: 94, p: 'P3' },
+    ]
+    const active = 3
+    return (
+      <g>
+        {devs.map((d, i) => (
+          <line key={`l${i}`} x1={sw.x} y1={sw.y} x2={d.x} y2={d.y}
+            stroke={i === active ? c : FAINT} strokeWidth={i === active ? 2 : 1} />
+        ))}
+        <circle cx={205} cy={77} r={4} fill={GOLD} />
+        <rect x={126} y={48} width={48} height={24} rx={4} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <text x={150} y={63} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">SW</text>
+        {devs.map((d, i) => (
+          <g key={`d${i}`}>
+            <rect x={d.x - 24} y={d.y - 10} width={48} height={20} rx={3}
+              fill={i === active ? `${GOLD}22` : 'rgba(255,255,255,0.03)'}
+              stroke={i === active ? GOLD : MUTE} strokeWidth={i === active ? 1.25 : 0.75} />
+            <text x={d.x} y={d.y + 3} textAnchor="middle" fontSize={8}
+              fill={i === active ? GOLD : MUTE} fontFamily="monospace">{d.p}</text>
+          </g>
+        ))}
+      </g>
+    )
+  },
+  bgp: c => {
+    // Autonomous Systems (clouds) advertising reachability; a packet crosses the
+    // chosen AS-path from the source AS to the AS holding the destination prefix.
+    const nodes = [
+      { x: 34, y: 60, on: true },
+      { x: 104, y: 30, on: true },
+      { x: 104, y: 90, on: false },
+      { x: 186, y: 44, on: true },
+      { x: 186, y: 96, on: false },
+      { x: 262, y: 60, on: true },
+    ]
+    const faint: [number, number][] = [[0, 2], [2, 4], [4, 5], [1, 4]]
+    const path = [0, 1, 3, 5]
+    return (
+      <g>
+        {faint.map(([a, b], i) => (
+          <line key={`f${i}`} x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y} stroke={FAINT} strokeWidth={1} />
+        ))}
+        {path.slice(0, -1).map((n, i) => (
+          <line key={`p${i}`} x1={nodes[n].x} y1={nodes[n].y} x2={nodes[path[i + 1]].x} y2={nodes[path[i + 1]].y} stroke={c} strokeWidth={2} />
+        ))}
+        {nodes.map((n, i) => (
+          <g key={`n${i}`}>
+            <ellipse cx={n.x} cy={n.y} rx={16} ry={11} fill={n.on ? `${c}22` : 'rgba(255,255,255,0.03)'} stroke={n.on ? c : MUTE} strokeWidth={n.on ? 1.25 : 0.75} />
+            <text x={n.x} y={n.y + 3} textAnchor="middle" fontSize={7} fill={n.on ? c : MUTE} fontFamily="monospace">AS</text>
+          </g>
+        ))}
+        <circle cx={34} cy={60} r={3} fill={GOLD} />
+        <circle cx={262} cy={60} r={3} fill={GOLD} />
+        <text x={262} y={82} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">prefix</text>
+      </g>
+    )
+  },
+  'http-evolution': c => {
+    // Three streams multiplexed over one connection: top and bottom flow, the
+    // middle one is stalled behind a lost packet (held frames faint).
+    const px = (p: number) => 28 + p * 38
+    const cells: ReactNode[] = []
+    for (let p = 0; p < 6; p++) {
+      cells.push(<rect key={`a${p}`} x={px(p)} y={26} width={32} height={16} rx={3} fill={`${c}33`} stroke={c} strokeWidth={1} />)
+      cells.push(<rect key={`d${p}`} x={px(p)} y={78} width={32} height={16} rx={3} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1} />)
+      if (p < 2) {
+        cells.push(<rect key={`b${p}`} x={px(p)} y={52} width={32} height={16} rx={3} fill={`${c}33`} stroke={c} strokeWidth={1} />)
+      } else if (p === 2) {
+        cells.push(<rect key={`b${p}`} x={px(p)} y={52} width={32} height={16} rx={3} fill="none" stroke={c} strokeWidth={1.5} strokeDasharray="3 2" />)
+      } else {
+        cells.push(<rect key={`b${p}`} x={px(p)} y={52} width={32} height={16} rx={3} fill={FAINT} stroke={MUTE} strokeWidth={1} />)
+      }
+    }
+    return (
+      <g>
+        <rect x={16} y={18} width={268} height={84} rx={10} fill="none" stroke={MUTE} strokeWidth={1} />
+        {cells}
+        <line x1={108} y1={55} x2={132} y2={65} stroke={c} strokeWidth={1.5} />
+        <line x1={132} y1={55} x2={108} y2={65} stroke={c} strokeWidth={1.5} />
+        <text x={140} y={49} fontSize={7} fill={c} fontFamily="monospace">lost → stream stalls</text>
+        <text x={20} y={14} fontSize={7} fill={MUTE} fontFamily="monospace">one connection · many streams</text>
+      </g>
+    )
+  },
+  vpns: c => {
+    // A private packet (accent) nested inside a public outer packet (gold),
+    // riding an encrypted tunnel across the public internet to the VPN gateway.
+    return (
+      <g>
+        <rect x={10} y={46} width={28} height={28} rx={4} fill="rgba(255,255,255,0.03)" stroke={MUTE} strokeWidth={1} />
+        <text x={24} y={64} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">me</text>
+        <line x1={38} y1={60} x2={44} y2={60} stroke={MUTE} strokeWidth={1} />
+        <rect x={44} y={42} width={196} height={36} rx={18} fill={`${c}12`} stroke={`${c}66`} strokeWidth={1.25} strokeDasharray="4 3" />
+        <line x1={240} y1={60} x2={248} y2={60} stroke={`${c}66`} strokeWidth={1.25} />
+        <polyline points="80,54 86,60 80,66" fill="none" stroke={MUTE} strokeWidth={1} />
+        <polyline points="198,54 204,60 198,66" fill="none" stroke={MUTE} strokeWidth={1} />
+        <rect x={108} y={49} width={64} height={22} rx={4} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.25} />
+        <rect x={120} y={55} width={40} height={10} rx={2} fill={c} />
+        <text x={140} y={63} textAnchor="middle" fontSize={6} fill={BG} fontFamily="monospace">10.x</text>
+        <rect x={248} y={40} width={40} height={40} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <text x={268} y={57} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">VPN</text>
+        <text x={268} y={68} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">gate</text>
+        <text x={142} y={92} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">tunnel</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

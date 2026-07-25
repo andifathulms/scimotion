@@ -960,3 +960,43 @@ export const AddressExhaustionAnimation = dynamic(
   () => import('@/components/animations/AddressExhaustionAnimation').then(m => ({ default: m.AddressExhaustionAnimation })),
   { ssr: false }
 )
+
+export const SwitchLearningAnimation = dynamic(
+  () => import('@/components/animations/SwitchLearningAnimation').then(m => ({ default: m.SwitchLearningAnimation })),
+  { ssr: false }
+)
+
+export const ARPAnimation = dynamic(
+  () => import('@/components/animations/ARPAnimation').then(m => ({ default: m.ARPAnimation })),
+  { ssr: false }
+)
+
+export const BGPRoutingAnimation = dynamic(
+  () => import('@/components/animations/BGPRoutingAnimation').then(m => ({ default: m.BGPRoutingAnimation })),
+  { ssr: false }
+)
+
+export const RouteHijackAnimation = dynamic(
+  () => import('@/components/animations/RouteHijackAnimation').then(m => ({ default: m.RouteHijackAnimation })),
+  { ssr: false }
+)
+
+export const MultiplexingAnimation = dynamic(
+  () => import('@/components/animations/MultiplexingAnimation').then(m => ({ default: m.MultiplexingAnimation })),
+  { ssr: false }
+)
+
+export const QUICvsTCPAnimation = dynamic(
+  () => import('@/components/animations/QUICvsTCPAnimation').then(m => ({ default: m.QUICvsTCPAnimation })),
+  { ssr: false }
+)
+
+export const VPNTunnelAnimation = dynamic(
+  () => import('@/components/animations/VPNTunnelAnimation').then(m => ({ default: m.VPNTunnelAnimation })),
+  { ssr: false }
+)
+
+export const VPNEavesdropperAnimation = dynamic(
+  () => import('@/components/animations/VPNEavesdropperAnimation').then(m => ({ default: m.VPNEavesdropperAnimation })),
+  { ssr: false }
+)

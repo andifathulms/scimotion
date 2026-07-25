@@ -211,6 +211,14 @@ import {
   GlobalLatencyAnimation,
   NATTranslationAnimation,
   AddressExhaustionAnimation,
+  SwitchLearningAnimation,
+  ARPAnimation,
+  BGPRoutingAnimation,
+  RouteHijackAnimation,
+  MultiplexingAnimation,
+  QUICvsTCPAnimation,
+  VPNTunnelAnimation,
+  VPNEavesdropperAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -423,6 +431,14 @@ const components = {
   GlobalLatencyAnimation,
   NATTranslationAnimation,
   AddressExhaustionAnimation,
+  SwitchLearningAnimation,
+  ARPAnimation,
+  BGPRoutingAnimation,
+  RouteHijackAnimation,
+  MultiplexingAnimation,
+  QUICvsTCPAnimation,
+  VPNTunnelAnimation,
+  VPNEavesdropperAnimation,
   KeyTakeaways,
 }
 

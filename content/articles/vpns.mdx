@@ -1,0 +1,111 @@
+---
+title: "VPNs and Tunneling"
+subtitle: "How a packet sealed inside another packet reaches a private network the public internet cannot route to."
+topic: "Networks & the Internet"
+slug: "vpns"
+date: "2026-07-30"
+readTime: 10
+featured: false
+description: "A VPN builds an encrypted tunnel across the public internet by wrapping one network's packets inside another's — encapsulation — so a remote device can reach a private network as if plugged into the office wall."
+tags: ["vpn", "networking", "encapsulation", "tunneling"]
+quiz:
+  - q: "A laptop at home needs to reach a server at 10.0.0.5 on a company's private network. What is the core mechanism a VPN uses to make this possible across the public internet?"
+    options:
+      - "It asks the ISP to temporarily make 10.0.0.5 a public, routable address"
+      - "It encapsulates the private packet inside an outer packet addressed to the VPN gateway, carries it across the internet, and unwraps it on the private network"
+      - "It changes the server's address to a public one for the duration of the session"
+      - "It broadcasts the packet to every router until one happens to know the private network"
+    answer: 1
+    explanation: "Encapsulation — a packet within a packet — lets a private-addressed packet ride inside a public one to the gateway, which unwraps it onto the private network."
+  - q: "You connect to a public VPN to browse over café wifi. Which statement is the most accurate account of what the VPN protects?"
+    options:
+      - "It makes you completely anonymous and untraceable online"
+      - "It hides your destinations and content from the local network, but the VPN provider and the destination server still see your traffic"
+      - "It encrypts your traffic end to end all the way to every website you visit"
+      - "It prevents the destination website from learning anything about your request"
+    answer: 1
+    explanation: "A VPN blinds the local segment and shifts trust to the VPN operator; the provider at the exit and the destination server still see the traffic, so it is not anonymity."
+  - q: "Encapsulation wraps each original packet inside an outer packet with its own header. What is the direct cost of this?"
+    options:
+      - "The private network's addresses must all be changed to match the public internet"
+      - "The outer header consumes part of each packet, reducing the usable payload per packet below the link's MTU"
+      - "Encryption becomes impossible once a packet is nested inside another"
+      - "Routers on the public internet must be reconfigured to understand the inner header"
+    answer: 1
+    explanation: "Every packet carries an extra outer header, so the bytes available for the original payload shrink — the encapsulation overhead against a fixed MTU."
+---
+
+## A server the internet cannot reach
+
+Somewhere in a company's building sits a server with the address `10.0.0.5`. On the public internet, that address is a dead end. As the [NAT article](/articles/nat) showed, the ranges `10.x`, `172.16.x`, and `192.168.x` are reserved by RFC 1918 for *private* use, and no router out on the backbone will forward a packet toward them — the same private address means something different inside millions of separate networks at once. A packet for `10.0.0.5` launched from your home has, quite literally, nowhere to go.
+
+And yet an employee working from her kitchen table reaches that exact server every day. An administrator on the other side of the country logs into it as if his laptop were plugged straight into the office wall. Neither of them is on the private network — they are out on the ordinary, hostile public internet, the same one where you cannot route to `10.0.0.5` at all.
+
+The trick that makes this work is disarmingly simple, and it is the same trick you use with the postal system when you want to send a sealed letter through an address it could never reach on its own: **you put one envelope inside another.** The private packet, private destination and all, is tucked inside an outer packet addressed to a machine the public internet *can* reach — and the whole thing is encrypted so the postal workers along the way see only the outer address. That is a **VPN**: a Virtual Private Network.
+
+## Encapsulation: a packet inside a packet
+
+The core idea has a name — **encapsulation** — and it is worth stating precisely, because everything else is detail. To carry a packet the outer network cannot deliver, you wrap it inside a packet the outer network *can* deliver.
+
+Concretely, when the remote laptop wants to reach `10.0.0.5`:
+
+1. **Wrap.** The original packet — source: the laptop, destination: `10.0.0.5` — is taken whole and placed inside the *payload* of a brand-new outer packet. That outer packet is addressed not to `10.0.0.5` but to the **VPN gateway**, a machine sitting at the edge of the private network with a genuine public address like `203.0.113.9`.
+2. **Carry.** The outer packet is now perfectly ordinary from the internet's point of view — it is just traffic bound for `203.0.113.9`. Routers forward it hop by hop toward the gateway using the [same addressing and routing](/articles/ip-and-routing) they use for everything else. They never look inside; they only read the outer header.
+3. **Unwrap.** The gateway receives the outer packet, strips the wrapper away, and finds the original packet inside — still addressed to `10.0.0.5`. Because the gateway *is* on the private network, it simply forwards that inner packet the last short hop, and it arrives at the server as though the laptop had been in the building all along.
+4. **Return.** The server's reply makes the mirror trip: onto the gateway, wrapped in an outer packet addressed back to the laptop, carried across the public internet, and unwrapped at the laptop.
+
+That path — wrap, carry, unwrap, deliver, and the same in reverse — is the whole of a tunnel. Step through it below.
+
+<VPNTunnelAnimation />
+
+Start with **VPN: off** and press **Run**: the packet for `10.0.0.5` heads out onto the public internet and is dropped, because a private address is unroutable out there — there is nowhere for it to go. Now flip to **VPN: on** and **Step** through it one move at a time. Watch the first move especially: the private packet (violet) does not travel alone — it is sealed inside the gold outer packet addressed to the gateway, and it is *that* outer packet that crosses the internet. At the gateway the wrapper comes off and the inner packet, private destination intact, walks the final hop onto the LAN. The reply comes back wrapped the same way. A packet inside a packet reached a place the outer network can't.
+
+## Encrypting the tunnel
+
+Encapsulation alone gets the private packet across, but it does nothing to hide it. Anyone who captured that outer packet mid-flight and peeled it open would find the whole original packet sitting in the payload — destination, contents, and all. For traffic crossing a network you don't trust — a café's wifi, a hotel's LAN, the open internet — that is unacceptable. So a VPN adds the second ingredient: it **encrypts the payload** of the outer packet.
+
+This is the same idea the [TLS article](/articles/tls) develops for the web: use cryptography so that intermediaries handling your bytes see only ciphertext. In a VPN the encryption wraps the *entire inner packet*, so an observer on the path sees only two things — the outer header, addressed to the gateway, and an opaque blob where the real packet used to be. They can tell you are talking to a VPN gateway. They cannot tell *what* you are saying, or that there is a `10.0.0.5` inside at all. The common protocols that do this — **IPsec**, **WireGuard**, and TLS-based ones like **OpenVPN** — differ in their cryptographic machinery but share this shape: encapsulate, then encrypt.
+
+## The cost of a wrapper
+
+Wrapping every packet is not free, and the cost is worth making precise. Each link on the internet has a **maximum transmission unit** (MTU) — the largest packet it will carry, classically $1500$ bytes on Ethernet. The outer header and the encryption add a fixed number of bytes, call it $h$, to every single packet. Those bytes come out of the same fixed budget, so the space left for the original payload shrinks:
+
+$$\text{usable payload} = \text{MTU} - h$$
+
+The fraction of each packet that actually carries your data — the tunnel's efficiency — is then
+
+$$\eta = \frac{\text{MTU} - h}{\text{MTU}} = 1 - \frac{h}{\text{MTU}}.$$
+
+For a typical WireGuard overhead of around $h \approx 60$ bytes against a $1500$-byte MTU, $\eta \approx 1 - 60/1500 = 0.96$ — you lose roughly **4%** of capacity to the wrapper. It is a small tax, but it is paid on *every* packet, and it is the direct, unavoidable consequence of encapsulation: you cannot put a packet inside a packet without the outer one being a little bigger. It also explains a classic VPN failure mode — if the wrapped packet would exceed the MTU it must be fragmented, and a badly tuned tunnel that neither fragments nor advertises its smaller effective MTU can stall on large transfers.
+
+There is a conceptual echo here worth noticing: the wrapping can nest. A packet already carried inside a TLS record can itself be encapsulated inside a VPN's outer packet, which a lower layer frames again for the physical link. Each layer treats the layer above as opaque cargo — the same layered-envelope discipline that lets the internet compose so many independent protocols.
+
+## What a VPN is actually for
+
+Strip away the marketing and a VPN has two genuinely distinct uses, and it is easy to conflate them.
+
+The **first, and original, purpose** is the one we have been describing: securely **bridging a remote device onto a private network**. A company, a university, or a government agency runs services that are meant to live only on the internal network — file shares, internal tools, databases at `10.x` addresses. Staff who are not physically in the building still need them. The VPN gives each remote laptop an encrypted tunnel to the organization's gateway, and from the private network's point of view that laptop is simply *there*, reachable at an internal address, as if plugged into the wall. This is the core mechanism — encrypted encapsulation — doing exactly what it was built for.
+
+The **second use is privacy and geographic exit.** Here you don't have a private network to reach; instead you tunnel *all* your traffic to a VPN provider's server somewhere else and let it step out onto the internet from there. The point is what the local network can see. Consider what an observer on the path can read, with and without the tunnel.
+
+<VPNEavesdropperAnimation />
+
+Leave **VPN: off** first and press **Run**. The local observer — the café's access point, or your ISP — sits on the path and reads your traffic in the clear: the destination `bank.example`, the request, the content. That is the postcard problem. Now toggle **VPN: on**. The same local observer now sees only an encrypted tunnel to the exit at `203.0.113.9`; your real destinations and content are hidden inside the wrapper. The local segment has been blinded.
+
+But look carefully at the *second* panel, because this is where honesty matters. The traffic is not gone — it has been *moved*. The VPN provider at the exit decrypts the tunnel and sees your real destinations and content. The destination server still receives your request (now appearing to come from the exit IP). Trust did not vanish; it shifted from the café and your ISP to **the VPN operator**. A VPN encrypts *one segment* of the journey and hands the other end to whoever runs the exit.
+
+## What a VPN does not do
+
+Two misconceptions are worth correcting head-on, because both are common and both are wrong.
+
+The first is that **a VPN makes you anonymous or untraceable.** It does not. As the second widget makes plain, a VPN hides your traffic from the local network and shifts trust to the VPN operator — but the operator can see everything you tunnel to it, and the sites you visit still see your requests arriving from the exit. You are not invisible; you have simply changed *who* can watch. If the provider keeps logs, is compelled to hand them over, or is itself hostile, the privacy is only as good as your trust in that one company. A VPN is a change of vantage point, not a cloak.
+
+The second is subtler: that **a VPN is fundamentally about privacy.** That framing gets the technology backwards. A VPN's core mechanism is encrypted encapsulation, and its original, defining purpose is *securely bridging a remote device onto a private network*. The consumer privacy product is a clever repurposing of that same tunnel — real and useful, but a secondary application. If you remember one thing, let it be the mechanism: a private packet, sealed inside a public one, encrypted, carried across a network that could never have delivered it on its own, and unwrapped at the far end.
+
+<KeyTakeaways>
+- A VPN builds an encrypted **tunnel** across a public network by **encapsulation** — wrapping each original (often private, e.g. `10.0.0.5`) packet inside an outer packet addressed to the VPN **gateway**, which unwraps it onto the private network. A packet inside a packet reaches a place the outer network cannot route to.
+- **Encapsulation is the mechanism; encryption makes it private.** Protocols like IPsec, WireGuard, and OpenVPN encrypt the wrapped packet so intermediaries see only the outer header and an opaque payload — the idea the [TLS article](/articles/tls) develops for the web.
+- Wrapping costs a little: the outer header of $h$ bytes shrinks the usable payload against a fixed MTU to $\eta = 1 - h/\text{MTU}$ — a few percent, paid on every packet.
+- A VPN's **original purpose** is securely bridging a remote device onto a **private network** (the [NAT](/articles/nat) addresses you can't otherwise reach); the privacy/geographic-exit use is a repurposing of the same tunnel.
+- A VPN is **not anonymity.** It blinds the local network but the **provider at the exit and the destination server still see your traffic** — trust moves to the VPN operator, it does not vanish.
+</KeyTakeaways>
