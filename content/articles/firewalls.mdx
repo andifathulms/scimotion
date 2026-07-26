@@ -1,0 +1,114 @@
+---
+title: "Firewalls: Filtering the Traffic"
+subtitle: "A firewall is a bouncer with a list — and the good ones remember who you invited."
+topic: "Networks & the Internet"
+slug: "firewalls"
+date: "2026-07-21"
+readTime: 9
+featured: false
+description: "A firewall decides which traffic may pass by matching packets against rules on address, port, and protocol. The real leap is memory: a stateful firewall welcomes the replies to connections you started while turning away strangers who arrive uninvited."
+tags: ["networking", "firewall", "security", "packet-filtering"]
+quiz:
+  - q: "Why is a stateful firewall able to allow the reply to a connection you initiated while blocking an otherwise identical unsolicited packet aimed at the same port?"
+    options:
+      - "It inspects the payload of every packet and only blocks ones containing known malware"
+      - "It records the connections started from inside and matches returning traffic against that state, so a packet with no matching connection is treated as unsolicited and dropped"
+      - "It encrypts outbound traffic so replies can be recognised by their signature"
+      - "It assigns each internal device a public address that only trusted servers know"
+    answer: 1
+    explanation: "A stateful firewall tracks connection state, so return traffic matches a recorded outbound connection while an unsolicited inbound packet matches nothing and is blocked."
+  - q: "A firewall's rule list is 'allow TCP 443', then 'deny TCP 443', with a default-deny at the bottom. What happens to an incoming TCP packet for port 443?"
+    options:
+      - "It is denied, because a later deny rule overrides an earlier allow"
+      - "It is allowed, because rules are evaluated top-to-bottom and the first matching rule wins"
+      - "It is denied, because the default-deny at the bottom always has the final say"
+      - "It is dropped as ambiguous, because two rules match the same packet"
+    answer: 1
+    explanation: "A packet filter evaluates rules in order and applies the first match, so the earlier 'allow' decides the packet before the later 'deny' is ever considered."
+  - q: "Which statement about the limits of a firewall is correct?"
+    options:
+      - "A firewall makes a network completely safe because it blocks every possible attack"
+      - "A firewall and antivirus are the same tool with different names"
+      - "A firewall filters traffic by policy and cannot stop a malicious payload carried over a port it is configured to allow, nor does it detect malware already on a host the way antivirus does"
+      - "A firewall inspects only outbound traffic, so inbound threats are always someone else's problem"
+    answer: 2
+    explanation: "A firewall enforces which traffic may pass; it cannot stop threats riding inside permitted traffic, and detecting malware on a host is the separate job of antivirus."
+---
+
+## The bouncer with a list
+
+Every packet arriving at your network reaches a bouncer with a list. Some lists are dumb — they judge each packet alone, with no memory. The good ones remember: they know that the reply flooding back is the answer to a request you made, and that the identical packet arriving unrequested is a stranger who was never invited. That difference — memory — is most of what makes a firewall worth having.
+
+A **firewall** sits at a boundary and decides which traffic may pass and which is turned away, according to a set of **rules**. It does not care what the traffic *means*; it cares about the labels on the outside of each packet — where it is from, where it is going, and which service it is trying to reach. Everything below is a refinement of that one idea: a gatekeeper, a list, and — in the versions worth having — a memory of the conversations already under way.
+
+## What a rule actually matches
+
+The packets a firewall inspects are the same [IP](/articles/ip-and-routing) packets everything else on the internet moves. Each one carries, right there in its headers, the facts a firewall needs: a **source IP address**, a **destination IP address**, and — from the [transport layer](/articles/tcp) — a **port** and a **protocol** (TCP or UDP). A firewall rule is just a pattern over those fields paired with a verdict:
+
+> *if protocol is TCP and destination port is 443, then **allow***
+
+That is the whole grammar. A rule names some combination of address, port, and protocol, and says **allow** or **deny**. Port 443 is HTTPS, port 22 is SSH, port 53 is DNS — so a rule about a port is really a rule about a *service*. "Allow TCP 443" means "let web traffic in"; "deny TCP 22" means "no remote logins from out there."
+
+The subtlety is that a firewall does not hold a single rule but an **ordered list** of them, and order is load-bearing. A packet is tested against the rules from the top, and the **first** rule that matches decides its fate — the rest are never consulted. Formally, given a packet $p$ and rules $r_1, r_2, \dots, r_n$, the verdict is
+
+$$\text{verdict}(p) = r_k.\text{action} \quad\text{where}\quad k = \min\{\, i : r_i \text{ matches } p \,\}.$$
+
+The smallest matching index wins. Put a broad `allow` above a narrow `deny` and the `deny` is dead code; swap them and the meaning flips. This is where most real-world firewall mistakes live — not in a single wrong rule, but in the *order*.
+
+<FirewallRulesAnimation />
+
+Press **Run traffic** and watch a stream of packets — HTTPS, SSH, DNS, RDP — march toward the wall. With the starting rules ("allow TCP 443", "allow TCP 22"), only web and SSH traffic turns green and passes; everything else falls through to the implicit **default-deny** at the bottom and is dropped in red. Now edit the list. Add "allow UDP 53" and watch DNS start getting through. Then add a "deny TCP 22" rule and use the arrows to drag it *above* the allow — SSH now dies at the wall, because the first matching rule is the deny. Reorder them back and SSH revives. The list is nothing more than an ordered sequence of allow/deny patterns, and you are watching the first match decide every packet.
+
+## Stateless: judging each packet alone
+
+The firewall you just drove is a **stateless packet filter**. It treats every packet as an isolated event: a set of header fields to be matched against the list, with no knowledge of any packet that came before. It is simple, fast, and completely blind to context.
+
+That blindness is a real problem, and it shows up the moment you think about *replies*. When your laptop opens a TCP connection to a web server, the server's response packets come *back* to you — inbound, from the outside. A stateless filter looking at one of those reply packets sees only an inbound packet arriving on some port. It has no way to know that this packet is the awaited answer to a request you sent a moment ago, because it remembers nothing. Its only options are crude:
+
+- **Block all inbound**, and your own replies are dropped along with everyone else's — your outbound connections never complete.
+- **Allow inbound** on the relevant ports, and now the door is open to *anyone* — the reply you wanted and the stranger you didn't look exactly alike.
+
+There is no rule over header fields alone that says "the replies I asked for, but not the connections I didn't," because that distinction is not written in any single packet. It lives in *history* — in the fact that you sent something out first.
+
+## Stateful: remembering the conversation
+
+A **stateful firewall** closes that gap by keeping a memory. When a connection is initiated from inside, the firewall writes it into a **state table** — a record of the connection's endpoints and ports. This connects directly to how [TCP](/articles/tcp) works: a TCP connection is not a wire but *shared state*, established by the three-way handshake and identified by the four-tuple of source and destination addresses and ports. The firewall watches that handshake go by and records the connection, exactly as the two endpoints do.
+
+Now the reply is easy to recognise. When an inbound packet arrives, the firewall checks it against the state table. If it belongs to a connection *you* started, it matches a recorded entry and is **allowed** — automatically, without any standing rule that opens the port to the world. But an **unsolicited** inbound connection — a stranger opening a fresh connection to your machine — matches *no* entry in the table, because you never initiated it. So it is **blocked**. Same port, opposite fate, decided entirely by whether the connection was invited.
+
+<StatefulFirewallAnimation />
+
+Start in **stateful** mode. Press **Initiate outbound** and watch your laptop open a connection to the server: the firewall records it in the state table below, the request reaches the server, and the reply sails back in — allowed, because it matches. Now press **Unsolicited inbound** and watch a stranger try to open a connection to the *same* port: there is no matching state, so the firewall blocks it at the wall. Switch to **stateless** mode and the dilemma from the last section becomes concrete. Under "allow inbound," the reply gets in — but so does the stranger. Under "block inbound," the stranger is stopped — but so is your own reply, breaking the connection you started. Only memory lets the firewall welcome the reply while turning the stranger away.
+
+If that welcome-replies-block-strangers behaviour sounds familiar, it should: it is a close cousin of what [NAT](/articles/nat) does. A home router's translation table only has an entry for connections started from inside, so unsolicited inbound packets have nowhere to go and get dropped. That is *incidental* — a side effect of address sharing, not a security policy — whereas a stateful firewall does the same thing *on purpose*, as its whole reason for being. Same shape, different intent.
+
+## Default-deny: the posture that scales
+
+A firewall's rule list ends in a **default** verdict for packets that match nothing above, and the choice of default is the single most consequential decision in the whole configuration. There are two postures:
+
+- **Default-allow**: permit everything except what you explicitly forbid. You must enumerate every dangerous thing.
+- **Default-deny**: forbid everything except what you explicitly permit. You must enumerate every *needed* thing.
+
+Default-deny is the security best practice, and the reason is a counting argument. A machine has $2^{16} = 65{,}536$ ports per protocol. Under **default-allow**, keeping the machine safe means writing a `deny` rule for every port you don't want exposed — you are responsible for a blocklist that, to be complete, must cover essentially all $2^{16}$ of them, and any port you forget is an opening. Under **default-deny**, you write an `allow` rule only for the handful of services you actually run — perhaps 443 and 22 — and *everything else*, all $2^{16}$ ports minus your short list, is closed by the single fallback rule. A short allowlist plus one default-deny is a complete, auditable policy; a blocklist is complete only if you never forget anything, and you will. Default-deny turns a combinatorial burden into a finite one.
+
+## Where the firewall lives
+
+Firewalls come in two scales, and the distinction matters. A **network firewall** guards the boundary of a whole network — it sits where a home or office network meets the internet, and every packet crossing that border passes through it. One device protects everything behind it, which is efficient but coarse: it sees traffic between inside and outside, but not traffic *between* two machines on the same internal network.
+
+A **host firewall** runs on a single machine and filters that machine's own traffic — the packet filter built into your laptop or a server. It is finer-grained and travels with the device: a laptop's host firewall protects it on a hostile café network where no trusted network firewall exists. In practice the two are layered, an instance of **defense in depth** — the network firewall handles the coarse perimeter, and each host defends itself as well, so a threat that slips past one still meets another.
+
+Modern **next-generation firewalls** push further up the stack. A plain packet filter matches on address, port, and protocol; a next-generation firewall adds **application-layer awareness** and **deep packet inspection**, looking *inside* the traffic to identify the actual application and screen content rather than trusting that whatever is on port 443 is benign web traffic. It is a more expensive, more capable version of the same gatekeeper — but, as the next section insists, still a gatekeeper.
+
+## What a firewall does not do
+
+It is tempting to treat a firewall as a wall that makes a network *safe*. It does not, and believing it does is dangerous. A firewall filters traffic **by policy** — it enforces which connections may happen. It cannot stop a threat carried over traffic it is *configured to allow*. If you permit web traffic on port 443 — and you must, to use the web — then a malicious payload delivered over that allowed port sails straight through. The firewall did its job perfectly: the traffic matched an `allow` rule. Nothing about matching an allow rule makes the *contents* safe. A firewall reduces the *attack surface* by shutting doors you don't need; it does not inspect the character of everyone who walks through the doors you leave open. (Next-generation inspection narrows this gap but never closes it.)
+
+And a firewall is **not antivirus**. The two are often confused because both are "security software," but they do different jobs at different places. A firewall filters *network traffic* at a boundary, deciding which packets pass. Antivirus runs *on a host* and detects *malware* — malicious files and programs already present on the machine — by scanning storage and behaviour. A firewall can refuse to let a connection form; it cannot tell you that the file you downloaded over an allowed connection is a virus. That is antivirus's job. They are complementary layers, not substitutes: the firewall controls the doors, antivirus watches what got inside.
+
+<KeyTakeaways>
+- A firewall enforces a policy about which traffic may pass, matching packets on **source/destination address, port, and protocol** against an **ordered rule list** where the **first match wins**.
+- A **stateless** packet filter judges each packet in isolation and cannot tell an invited reply from an uninvited stranger; a **stateful** firewall tracks **connection state** (tied to TCP's connections), so it allows the return traffic of connections you started while blocking unsolicited inbound ones — the family resemblance to how NAT incidentally drops inbound traffic is real, but a firewall does it on purpose.
+- **Default-deny** — block everything not explicitly allowed — is best practice: a short allowlist plus one fallback rule is complete and auditable, whereas a blocklist is safe only if you never forget a port.
+- **Network** firewalls guard a boundary and **host** firewalls guard a single machine; layering them is defense in depth, and **next-generation** firewalls add application-layer awareness and deep packet inspection.
+- A firewall filters by policy — it does **not** make a network safe. It cannot stop a malicious payload carried over an allowed port, and it is **not** antivirus, which detects malware already on a host.
+</KeyTakeaways>

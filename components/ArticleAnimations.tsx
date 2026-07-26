@@ -1040,3 +1040,13 @@ export const DHCPLeaseAnimation = dynamic(
   () => import('@/components/animations/DHCPLeaseAnimation').then(m => ({ default: m.DHCPLeaseAnimation })),
   { ssr: false }
 )
+
+export const FirewallRulesAnimation = dynamic(
+  () => import('@/components/animations/FirewallRulesAnimation').then(m => ({ default: m.FirewallRulesAnimation })),
+  { ssr: false }
+)
+
+export const StatefulFirewallAnimation = dynamic(
+  () => import('@/components/animations/StatefulFirewallAnimation').then(m => ({ default: m.StatefulFirewallAnimation })),
+  { ssr: false }
+)

@@ -2977,6 +2977,41 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  firewalls: c => {
+    const green = '#34D399'
+    const hatch: ReactNode[] = []
+    for (let y = 30; y <= 94; y += 12) hatch.push(<line key={`h${y}`} x1={146} y1={y} x2={158} y2={y} stroke={`${c}55`} strokeWidth={0.75} />)
+    const rules: ReactNode[] = [16, 32, 48].map((cy, i) => (
+      <g key={`r${i}`}>
+        <rect x={12} y={cy - 6} width={54} height={12} rx={2} fill="rgba(255,255,255,0.03)" stroke={FAINT} strokeWidth={0.75} />
+        <circle cx={20} cy={cy} r={3} fill={i === 2 ? c : green} />
+        <line x1={30} y1={cy} x2={60} y2={cy} stroke={MUTE} strokeWidth={1} />
+      </g>
+    ))
+    const passed = [[188, 48], [224, 72], [262, 48]].map(([x, y], i) => (
+      <g key={`p${i}`}>
+        <rect x={x} y={y} width={16} height={16} rx={3} fill={`${green}33`} stroke={green} strokeWidth={1.25} />
+        <text x={x + 8} y={y + 11} textAnchor="middle" fontSize={8} fill={green} fontFamily="monospace">✓</text>
+      </g>
+    ))
+    const blocked = [[120, 44], [120, 80]].map(([x, y], i) => (
+      <g key={`b${i}`}>
+        <rect x={x} y={y} width={16} height={16} rx={3} fill={`${c}33`} stroke={c} strokeWidth={1.25} />
+        <line x1={x + 4} y1={y + 4} x2={x + 12} y2={y + 12} stroke={c} strokeWidth={1.5} />
+        <line x1={x + 12} y1={y + 4} x2={x + 4} y2={y + 12} stroke={c} strokeWidth={1.5} />
+      </g>
+    ))
+    return (
+      <g>
+        {rules}
+        <rect x={146} y={20} width={12} height={84} rx={2} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        {hatch}
+        <rect x={30} y={64} width={16} height={16} rx={3} fill="rgba(255,255,255,0.03)" stroke={GOLD} strokeWidth={1.25} />
+        {blocked}
+        {passed}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
