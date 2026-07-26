@@ -1020,3 +1020,13 @@ export const EmailSpoofingAnimation = dynamic(
   () => import('@/components/animations/EmailSpoofingAnimation').then(m => ({ default: m.EmailSpoofingAnimation })),
   { ssr: false }
 )
+
+export const PingAnimation = dynamic(
+  () => import('@/components/animations/PingAnimation').then(m => ({ default: m.PingAnimation })),
+  { ssr: false }
+)
+
+export const TracerouteAnimation = dynamic(
+  () => import('@/components/animations/TracerouteAnimation').then(m => ({ default: m.TracerouteAnimation })),
+  { ssr: false }
+)

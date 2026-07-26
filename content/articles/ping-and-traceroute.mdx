@@ -1,0 +1,115 @@
+---
+title: "Ping and Traceroute: Seeing the Network"
+subtitle: "The two diagnostic commands almost everyone has run, and the clever trick with a safety field that makes one of them work."
+topic: "Networks & the Internet"
+slug: "ping-and-traceroute"
+date: "2026-07-19"
+readTime: 9
+featured: false
+description: "Ping times an echo to tell you a host is alive and how far away it feels; traceroute lists every router in between by deliberately expiring packets one hop farther each time. Both ride on ICMP."
+tags: ["networking", "icmp", "ping", "traceroute"]
+quiz:
+  - q: "A friend claims that a low ping to a game server means they have a high-bandwidth connection. Why is this reasoning wrong?"
+    options:
+      - "Ping actually measures bandwidth, so a low ping means low bandwidth, not high"
+      - "Ping measures round-trip latency and whether a host responds — not throughput; a fast fibre line and a slow one can show the same ping if the distance is the same"
+      - "Ping only works over Wi-Fi, so it cannot say anything about a wired connection's speed"
+      - "A low ping always indicates packet loss, which reduces bandwidth"
+    answer: 1
+    explanation: "Ping times an ICMP Echo Request and its reply, reporting latency and reachability; bandwidth is a separate property the round-trip time says nothing about."
+  - q: "Traceroute lists every router between you and a destination. How does it actually obtain that list?"
+    options:
+      - "It asks the first router for the complete path and prints what that router returns"
+      - "It reads a route field that every IP packet carries and records each hop"
+      - "It sends probes with TTL = 1, 2, 3, …; each dies when its TTL hits zero, and the router that discarded it returns an ICMP Time Exceeded, revealing that hop"
+      - "It queries a central internet registry that maps out the path in advance"
+    answer: 2
+    explanation: "No packet is told to report its route — traceroute tricks each successive router into announcing itself by deliberately expiring a packet one hop farther every round."
+  - q: "During a traceroute, one hop shows up as three asterisks (* * *) while the hops before and after it resolve normally. What is the most likely explanation?"
+    options:
+      - "The packet was permanently lost, so the traceroute has failed and later hops are invalid"
+      - "That router is physically closer than the others, so its reply arrived too fast to measure"
+      - "That router still forwarded traffic but was configured to rate-limit or not send ICMP replies, so its Time Exceeded messages never came back"
+      - "The destination was reached early, and the asterisks mark leftover unused hops"
+    answer: 2
+    explanation: "A * hop usually means the router deprioritised, rate-limited, or blocked ICMP; it is still forwarding packets, which is why the hops beyond it still answer."
+---
+
+## Two commands that look like magic
+
+Two of the most-used commands in all of networking are almost magic tricks. `ping` tells you whether a distant machine is alive and how far away it *feels*. `traceroute` somehow lists every router between you and that machine — even though no packet is ever told to report its route.
+
+The first is easy to believe once you hear it: you shout across a canyon and time the echo. The second seems impossible. There is no field in a packet that says "each router you pass, write your name here." The [network forwards packets hop by hop](/articles/ip-and-routing) and forgets them; no packet carries a logbook. So how can a single command reconstruct the entire chain of routers on a path it was never handed?
+
+The secret is a field that exists for a completely different reason — a safeguard designed to stop packets from looping forever — turned into a way to make routers confess. This article is about ICMP, the internet's diagnostic channel; about how ping times an echo; and about the small, clever trick that lets traceroute expose a path nobody wrote down.
+
+## ICMP: the internet's diagnostic channel
+
+IP moves packets and, by design, [promises almost nothing](/articles/ip-and-routing) about whether they arrive. But a network that only ever forwards, and never says a word when something goes wrong, would be impossible to operate. If a router drops your packet because its queue is full, or because the destination is unreachable, or because the packet has been wandering too long — someone should be able to find out.
+
+That feedback channel is the **Internet Control Message Protocol (ICMP)**, defined in **RFC 792** (1981). ICMP is the internet's built-in messenger for *diagnostics and error signalling*. It rides on top of IP like any other payload, but its job is to carry news **about** the network itself: "destination unreachable," "packet too big," "time exceeded," and — most famously — the **Echo Request / Echo Reply** pair that ping is built on.
+
+ICMP is not a transport for your data. You never open an ICMP "connection." It is the network talking about its own health, and both of the tools in this article are just thin wrappers around two of its message types.
+
+## Ping: send an echo, time the bounce
+
+`ping` — written by **Mike Muuss in 1983**, and named after the sound of sonar — does exactly one thing, and does it beautifully. It sends an **ICMP Echo Request** to a target host and starts a stopwatch. A healthy host, on receiving an Echo Request, is expected to send back an **ICMP Echo Reply** carrying the same payload. When that reply arrives, ping stops the stopwatch. The elapsed time is the **round-trip time (RTT)**.
+
+From this one measurement ping reads off two things:
+
+- **Reachability.** If a reply comes back at all, the host is alive and a working path exists in both directions. If nothing comes back within a timeout, ping reports the probe as lost. Send many and you get a **packet-loss** percentage — a blunt but useful health signal.
+- **Latency.** The RTT itself, usually in milliseconds, tells you how long the round trip takes. Repeated pings give you the minimum, average, and maximum, and the spread between them (jitter) hints at congestion along the way.
+
+<PingAnimation />
+
+Try the distance presets. A ping to a machine in the same building comes back in a fraction of a millisecond; a ping to the other side of the world takes well over a hundred. Nothing about the *machines* changed — only the distance the signal must cover and back. Now flip the host to **unreachable**: the Echo Request goes out, no Echo Reply ever returns, and after a timeout ping prints "Request timed out." That is the reachability half of the tool laid bare — no reply means no confirmed path.
+
+The single most important thing to hold onto is what ping does **not** measure. A low ping does not mean a fast connection. **Ping measures latency and reachability, never bandwidth.** Round-trip time is about *delay* — how long a small packet takes to go and come back — while bandwidth is about *volume*, how many bytes per second a link can carry. A satellite link can have enormous bandwidth and a terrible ping; a thin copper line next door can have a wonderful ping and almost no bandwidth. The stopwatch times the bounce; it says nothing about the size of the pipe.
+
+## The latency floor: why distance costs milliseconds
+
+Why does distance alone add so much time? Because signals are not instantaneous. Light in a vacuum travels at $c \approx 3 \times 10^{8}\ \text{m/s}$, and in optical fibre it slows to about two-thirds of that, roughly $v \approx 2 \times 10^{8}\ \text{m/s}$. A round trip to a host at distance $d$ must cover $2d$ — there and back — so the round-trip time can never be less than
+
+$$\text{RTT} \;\ge\; \frac{2d}{v}.$$
+
+This is a hard floor set by physics, before you add a single router. Put in numbers: a host $4000\ \text{km}$ away has a floor of
+
+$$\frac{2 \times 4{,}000{,}000\ \text{m}}{2 \times 10^{8}\ \text{m/s}} = 0.04\ \text{s} = 40\ \text{ms},$$
+
+and one $16{,}000\ \text{km}$ away — about as far as you can get on Earth — sits at roughly $160\ \text{ms}$ no matter how good the equipment. Real pings run a little above these floors because each router adds a small processing and queueing delay, but the propagation term dominates over long distances. This is the precise sense in which ping tells you how far away a host *feels*: the RTT is, at minimum, twice the distance divided by the speed of light in glass.
+
+## The TTL field, and how traceroute exploits it
+
+Every IP packet carries a small counter in its header: the **Time To Live (TTL)**, also called the hop limit. Its purpose is a safety valve. Routing tables can, briefly, become inconsistent — and an inconsistency can send a packet in a circle, from router A to B to C and back to A, forever. To prevent such a packet from circulating until the end of time, **every router decrements the TTL by one** as it forwards. If a router ever decrements the TTL to **zero**, it does not forward the packet. It discards it — and, being polite, sends an **ICMP Time Exceeded** message back to the packet's source to report what happened.
+
+Under normal use the TTL just quietly counts down from some comfortable starting value (often 64) and never reaches zero on a sane path. **Traceroute**, devised by **Van Jacobson**, saw a weapon in it.
+
+Here is the trick. Traceroute sends the *first* probe with **TTL = 1**. The very first router decrements it to zero, discards it, and mails back a Time Exceeded — whose source address is that router. *Hop one, revealed.* Then traceroute sends a probe with **TTL = 2**: it survives the first router (TTL drops to 1), reaches the second, which decrements it to zero and reports back. *Hop two.* Then TTL = 3, TTL = 4, and so on. In general, the probe with
+
+$$\text{TTL} = k \quad\text{dies at hop } k,$$
+
+and each deliberately-expired packet reveals exactly one more router. The sequence $1, 2, 3, \dots$ walks the death of the packet one hop farther down the path each time, and the returning Time Exceeded messages name the killers in order. When a probe's TTL is finally large enough to reach the destination itself, the destination responds differently (it is the intended recipient, not a transit router), and traceroute knows it has arrived.
+
+<TracerouteAnimation />
+
+Step through it with **Send probe (TTL+1)**, or let it auto-run. Watch the gold probe carry its TTL rightward, the number ticking down by one at every router it passes. When the TTL hits zero, that router lights up, discards the probe, and fires an ICMP Time Exceeded back to the source — and a new line appears in the trace. Each probe reaches one hop farther than the last, and the path assembles itself from the bottom up.
+
+The crucial point, and the misconception worth killing: **traceroute never asks the network for the route.** There is no "please list your routers" request. Traceroute reconstructs the path indirectly, by tricking each router in turn into announcing itself — using a field that was only ever meant to stop packets from looping. The list you see is a byproduct of a deliberately failing series of deliveries.
+
+## The map is not the territory
+
+Notice, in the widget, the hop that stubbornly shows `* * *`. That router is still forwarding traffic perfectly well — the hops *beyond* it resolve fine — but it never sends back a Time Exceeded. Many routers **rate-limit** the ICMP messages they generate, or are configured not to emit them at all, because answering every expired probe is low-priority busywork compared with forwarding real traffic. So the hop stays anonymous: a gap in the map, not a break in the path.
+
+This is the humbling caveat for both tools. Routers and hosts may **deprioritise, rate-limit, or outright block ICMP**. A firewall that drops Echo Requests will make a perfectly healthy server look dead to ping. A router that suppresses Time Exceeded messages will appear as a `*` in traceroute even as your data sails straight through it. And because return traffic can take a *different* path than the outbound probes, a traceroute shows you one direction of an often-asymmetric journey.
+
+The lesson is not that these tools are unreliable — they are indispensable, and usually right. It is that their output is **evidence, not ground truth**. A timed-out ping is a strong hint that something is wrong, but it might just be a blocked Echo. A `*` hop is a silence, not a wall. Read ping and traceroute as a doctor reads a symptom: informative, occasionally misleading, and always to be interpreted rather than taken literally.
+
+That subtlety aside, the two commands remain the first thing almost anyone reaches for when the network misbehaves — because behind their apparent magic sit two of the simplest, most elegant ideas in networking: time an echo, and make a packet die one hop farther each time.
+
+<KeyTakeaways>
+- **ICMP** (RFC 792) is the internet's diagnostic and error-signalling channel; both ping and traceroute are thin wrappers around a couple of its message types.
+- **Ping** (Mike Muuss, 1983) sends an ICMP Echo Request and times the Echo Reply, measuring **round-trip latency and reachability** — never bandwidth. Distance sets a hard floor: $\text{RTT} \ge 2d/v$.
+- **Traceroute** (Van Jacobson) exploits the **TTL** field — a safeguard against routing loops. Probes with TTL = 1, 2, 3, … die one hop farther each time; each expiring packet triggers an **ICMP Time Exceeded** that names the router which killed it.
+- Traceroute does **not** ask the network for the route — it tricks routers into revealing themselves by deliberately expiring packets, reconstructing the path from a series of failed deliveries.
+- Routers may rate-limit or block ICMP, so a `*` hop or a timed-out ping is a **hint, not proof** — read these tools as evidence to interpret, not as ground truth.
+</KeyTakeaways>

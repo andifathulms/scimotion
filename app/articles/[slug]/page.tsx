@@ -223,6 +223,8 @@ import {
   SignalRangeAnimation,
   EmailDeliveryAnimation,
   EmailSpoofingAnimation,
+  PingAnimation,
+  TracerouteAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -447,6 +449,8 @@ const components = {
   SignalRangeAnimation,
   EmailDeliveryAnimation,
   EmailSpoofingAnimation,
+  PingAnimation,
+  TracerouteAnimation,
   KeyTakeaways,
 }
 

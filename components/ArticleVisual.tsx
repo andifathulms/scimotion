@@ -2914,6 +2914,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'ping-and-traceroute': c => {
+    const sx = 22
+    const routers = [80, 140, 200]
+    const dest = 262
+    const arcs = ['M 80 54 Q 51 38 22 54', 'M 140 52 Q 81 26 22 52', 'M 200 50 Q 111 14 22 50']
+    return (
+      <g>
+        <line x1={22} y1={60} x2={262} y2={60} stroke={MUTE} strokeWidth={1} />
+        {arcs.map((d, i) => (
+          <path key={`a${i}`} d={d} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" opacity={0.7} />
+        ))}
+        <circle cx={sx} cy={60} r={9} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <text x={sx} y={80} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">src</text>
+        {routers.map((rx, i) => (
+          <g key={`r${i}`}>
+            <circle cx={rx} cy={60} r={11} fill={`${c}1F`} stroke={c} strokeWidth={1.25} />
+            <circle cx={rx} cy={60} r={6} fill={GOLD} />
+            <text x={rx} y={63} textAnchor="middle" fontSize={8} fill={BG} fontFamily="monospace">{i + 1}</text>
+            <text x={rx} y={80} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">hop {i + 1}</text>
+          </g>
+        ))}
+        <circle cx={dest} cy={60} r={10} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={dest} y={63} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">dst</text>
+        <text x={80} y={46} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">TTL 1</text>
+        <text x={140} y={22} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">TTL 2</text>
+        <text x={200} y={10} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">TTL 3</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
