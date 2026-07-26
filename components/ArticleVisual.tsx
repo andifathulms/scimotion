@@ -3012,6 +3012,39 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'peer-to-peer': c => {
+    // A leaderless mesh of peers trading numbered pieces — no central node.
+    const peers = [
+      { x: 150, y: 16, seed: true },
+      { x: 188.11, y: 38, seed: false },
+      { x: 188.11, y: 82, seed: false },
+      { x: 150, y: 104, seed: false },
+      { x: 111.89, y: 82, seed: false },
+      { x: 111.89, y: 38, seed: false },
+    ]
+    const edges = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0], [0, 3], [1, 4], [2, 5], [0, 2], [3, 5]]
+    const pieces = [
+      { x: 169.06, y: 27, col: c },
+      { x: 169.06, y: 93, col: GOLD },
+      { x: 111.89, y: 60, col: c },
+      { x: 150, y: 46.8, col: GOLD },
+    ]
+    return (
+      <g>
+        {edges.map(([a, b], i) => (
+          <line key={`e${i}`} x1={peers[a].x} y1={peers[a].y} x2={peers[b].x} y2={peers[b].y} stroke={FAINT} strokeWidth={1} />
+        ))}
+        {pieces.map((p, i) => (
+          <rect key={`p${i}`} x={p.x - 3} y={p.y - 3} width={6} height={6} rx={1.5} fill={p.col} />
+        ))}
+        {peers.map((p, i) => (
+          <circle key={`n${i}`} cx={p.x} cy={p.y} r={9}
+            fill={p.seed ? `${GOLD}22` : `${c}22`} stroke={p.seed ? GOLD : c} strokeWidth={1.5} />
+        ))}
+        <text x={150} y={62} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">no server</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

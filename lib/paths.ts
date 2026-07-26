@@ -102,6 +102,14 @@ export const learningPaths: LearningPath[] = [
     // interdomain routing, the modern app transport, and overlays on top.
     articleSlugs: ['ethernet', 'wifi', 'bgp', 'http-evolution', 'vpns'],
   },
+  {
+    slug: 'the-internet-in-practice',
+    title: 'The Internet in Practice',
+    description:
+      'The everyday operation of the network — how a device joins it, the applications and architectures built across it, how to see inside it, and how it is defended.',
+    // Join it, use it (a classic app, then a different architecture), see it, defend it.
+    articleSlugs: ['dhcp', 'email', 'peer-to-peer', 'ping-and-traceroute', 'firewalls'],
+  },
 ]
 
 export function getPath(slug: string): LearningPath | undefined {

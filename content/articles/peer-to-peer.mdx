@@ -1,0 +1,126 @@
+---
+title: "Peer-to-Peer: The Internet Without a Center"
+subtitle: "Every article so far assumed a client asks and a server answers. Flip that — let every participant be both — and popularity stops being a problem and starts being the solution."
+topic: "Networks & the Internet"
+slug: "peer-to-peer"
+date: "2026-07-23"
+readTime: 10
+featured: false
+description: "In a peer-to-peer network there is no central server — every node is both client and server. BitTorrent splits a file into pieces and a swarm trades them, so the more people want a file, the faster everyone gets it."
+tags: ["peer-to-peer", "bittorrent", "distributed-systems", "networking"]
+quiz:
+  - q: "A single web server behind a load balancer and a BitTorrent swarm both face a sudden surge of people wanting the same file. Why do they respond in opposite ways?"
+    options:
+      - "The server encrypts each response, which slows it down, while the swarm sends plaintext"
+      - "The server's fixed upload capacity is divided among more clients as demand grows, while each new downloader in a swarm is also a new uploader, so total capacity rises with demand"
+      - "The swarm caches the file at edge locations near each user, while the server cannot"
+      - "The server can only use round-robin, while the swarm uses least-connections routing"
+    answer: 1
+    explanation: "A central server has one fixed upload budget split across all clients, so per-user speed falls as N/1; a swarm adds an uploader with every downloader, so capacity climbs as more people join."
+  - q: "What does it mean that BitTorrent can find peers 'trackerless' via a distributed hash table (DHT)?"
+    options:
+      - "The file's pieces are stored inside the DHT instead of on any peer"
+      - "Peers collectively store the index of who-has-what across themselves, keyed by the torrent's hash, so no single central tracker is needed to introduce peers"
+      - "The DHT compresses the file so it downloads faster"
+      - "Each peer must download the entire tracker database before joining"
+    answer: 1
+    explanation: "A DHT spreads the who-has-which-torrent index across the peers themselves — the same key-to-location idea as a hash table, distributed — so discovery has no central point."
+  - q: "Why does BitTorrent use tit-for-tat and rarest-piece-first rather than just letting peers download whatever they like?"
+    options:
+      - "To encrypt the transfer so it cannot be intercepted"
+      - "To keep peers uploading (not just leeching) and to keep every piece well-replicated, so the swarm stays fast and no piece becomes a bottleneck"
+      - "To guarantee the pieces arrive in their original numbered order"
+      - "To reduce the number of pieces a file must be split into"
+    answer: 1
+    explanation: "Tit-for-tat rewards peers that upload with faster downloads, and rarest-first spreads scarce pieces so the swarm never starves on a single missing block."
+---
+
+## The assumption hiding in plain sight
+
+Everything you have read in this series so far quietly assumed the same shape. [Packet switching](/articles/packet-switching), [DNS](/articles/dns), [TCP](/articles/tcp), [HTTP](/articles/http-and-the-web) — a client asks, a server answers. It is such a natural picture that its greatest weakness is easy to miss: the more people who want something, the more the single server buckles. Every new visitor is another mouth to feed from one fixed kitchen.
+
+We have spent two whole articles fighting exactly that weakness. A [load balancer](/articles/load-balancers) spreads the work across a crowd of identical machines so one box is not the ceiling; a [CDN](/articles/cdns) pushes copies out to hundreds of edges so the distant origin is not the ceiling either. Both are heroic engineering — and both exist to prop up the same fundamental arrangement: a central source that everyone else pulls from. Popularity is a cost you spend money to survive.
+
+Peer-to-peer networks flip that on its head. There is **no server**. Every participant is both — it downloads *and* uploads, consuming resources while contributing them — and the astonishing consequence is that the more people who show up wanting a file, the *faster* everyone gets it. Popularity stops being the problem. It becomes the fuel.
+
+## What "no central server" actually means
+
+In the **client-server** model, roles are fixed. A machine is either a server (it holds the resource and answers requests) or a client (it asks and receives). The server is special: it is where the file lives, the single thing that must be paid for, scaled, and kept alive.
+
+In a **peer-to-peer (P2P)** network there is no such special machine. Each node — each **peer** — is simultaneously a client and a server. It requests the parts of a resource it lacks, and it serves the parts it already has to anyone who asks. There is no central authority holding the canonical copy; the resource lives, in fragments, across the participants themselves.
+
+That single change rewrites the economics of scale. In client-server, capacity is something you *own and provision* ahead of demand. In peer-to-peer, capacity is something the crowd *brings with it* — each arrival carries its own upload bandwidth into the network. The system does not have to be built big enough for the peak; the peak builds the system.
+
+The canonical example is **BitTorrent**, designed by **Bram Cohen in 2001**. It is worth being precise here, because P2P is widely and wrongly treated as a synonym for piracy. It is not — it is an *architecture*, no more inherently illegal than HTTP is. The same design distributes Linux distributions and game patches, underpins blockchains, backs the content-addressed storage of [IPFS](https://ipfs.tech), and helps deliver some live video at scale. What P2P describes is a *shape* of network, and that shape is what makes the next part surprising.
+
+## Watch the two models diverge
+
+The clearest way to feel the difference is to crank up demand on both models at once and watch what happens to each person's download speed.
+
+<P2PvsServerAnimation />
+
+Start with a single downloader. The lone client pulls from the server at full tilt, and the lonely swarm — one peer with almost no one to trade with — is actually *slower*. This is honest: for one user, a fast central server wins. Now add downloaders, one at a time, and watch the two panels come apart.
+
+On the left, the server's fixed upload budget gets sliced ever thinner. Two clients each get half; four get a quarter; eight crawl. The **total** throughput on the left never rises — the server was always the ceiling — it just gets shared among more and more hungry clients, each one slower than the last. The server chokes on its own popularity.
+
+On the right, the opposite. Every downloader you add is also a new *uploader*, another source that others can pull pieces from in parallel. Per-peer speed climbs as sources multiply, then flattens once each peer saturates its own link — while the swarm's **total** throughput keeps rising with every arrival. Somewhere around three or four downloaders the lines cross, and from there the gap only widens. The one sentence to carry away: *a server gets slower with popularity; a swarm gets faster.*
+
+## The arithmetic of the crossover
+
+Put numbers on it and the divergence is not a trick of the animation — it is algebra.
+
+Give the central server a fixed upload capacity $C$. When $N$ clients pull at once, that budget is split among them, so each client's speed is
+
+$$
+s_{\text{server}}(N) \;=\; \frac{C}{N}.
+$$
+
+Per-user speed falls as $1/N$: double the crowd, halve everyone's share. The server's total output is pinned at $C$ no matter how many show up — the extra demand has nowhere to go but the back of the queue.
+
+Now the swarm. Let each peer contribute an upload rate $u$, and let there be a seed offering $u_0$. The swarm's **total** upload capacity is
+
+$$
+C_{\text{swarm}}(N) \;=\; u_0 + N\,u,
+$$
+
+which *rises* linearly with $N$. Because every downloader is also an uploader, adding a peer adds both a unit of demand and a unit of supply. Divide that capacity across the $N$ downloaders and each one's speed is roughly $u_0/N + u$ — it holds up instead of collapsing, bounded only by each peer's own link. One curve slides toward zero; the other holds steady while its total climbs without limit. Same demand, opposite fate.
+
+There is a second number worth naming: how finely the file is chopped. BitTorrent splits a file of size $S$ into fixed-size **pieces** of size $p$ (commonly a power of two like $256\text{ KiB}$), giving
+
+$$
+k \;=\; \left\lceil \frac{S}{p} \right\rceil
+$$
+
+numbered pieces. A one-gigabyte file at $256\text{ KiB}$ pieces is about $k \approx 4096$ of them. That large $k$ is what makes the whole trade work: with thousands of independent pieces, a peer can be pulling piece 1500 from one neighbour while handing piece 30 to another, and can start sharing any piece the instant it arrives — long before it holds the whole file.
+
+## How a file assembles itself from fragments
+
+So how does one file get built out of many partial strangers? Watch the pieces move.
+
+<SwarmPiecesAnimation />
+
+At the top sits the **seed** — the one node that starts with every piece. Around it are peers, each holding only a scattered handful. Press Run. Coloured, numbered pieces start flowing along the mesh: each peer requests a piece it lacks from any node that has it, and the moment a piece lands, that peer becomes a *new source* for it. Watch a single peer fill its row from several different neighbours at once — piece 2 from the seed, piece 5 from the peer across the ring, piece 3 from its neighbour. No one downloads the file from a single place; everyone assembles it from many.
+
+Notice the counter at the bottom tracking how many copies of each piece exist in the swarm, and which is rarest. BitTorrent deliberately fetches the **rarest piece first** — the one held by the fewest peers — so scarce pieces get replicated quickly and no single block becomes a bottleneck that everyone is stuck waiting on. Left alone, the swarm converges: piece by piece, every peer turns complete-green, having reconstructed the whole file from fragments that never lived, in full, on any one neighbour.
+
+## Finding each other without a central index
+
+A swarm can only trade pieces once its members have found one another — and finding peers is itself a place a central server could sneak back in. Historically it did: a **tracker** is a server that keeps the list of who is in a given swarm, and introduces new peers to it. Useful, but it is a single point that can fail or be shut down, which would undercut the whole "no center" promise.
+
+The modern answer is **trackerless** discovery through a **distributed hash table (DHT)**. If you have met [hash tables](/articles/hash-tables), the idea will feel familiar: a hash table turns a key straight into the location of its value. A DHT does the same thing, but *spread across all the peers* instead of living in one machine's memory. The who-is-in-this-swarm index is partitioned over the participants themselves, keyed by the torrent's hash. To find the peers for a file, your client asks the DHT for that key and is routed — in a handful of hops — to the nodes responsible for it, which return the current swarm members. No central registry, no server to take down. The index that lets peers find each other is *itself* peer-to-peer, so the architecture has no center anywhere: not for the data, and not for the directory either.
+
+## Incentives: why peers keep sharing
+
+An architecture where everyone is supposed to contribute has an obvious failure mode — what if a peer just takes, downloading pieces while uploading nothing? A swarm of pure leeches has no supply and collapses back into everyone begging from the lone seed. BitTorrent's durability comes from making cooperation the *selfish* choice.
+
+The mechanism is **tit-for-tat**. Each peer preferentially uploads to the peers that are uploading fastest *to it*, and chokes (temporarily stops serving) those that give nothing back. Contribute generously and you are rewarded with faster downloads; hoard and you are throttled. Paired with **rarest-first**, which keeps every piece well-replicated so the swarm never starves on a scarce block, these rules make a leaderless system stable without anyone in charge — the cooperation is emergent, not enforced from a center.
+
+This is the payoff of the whole idea, and the correction to two stubborn misconceptions. First, peer-to-peer is **not** merely a tool for piracy — it is a general architecture for distributing large files, software, blockchains, and more, whose legality depends entirely on *what* is shared, exactly as with the web itself. Second, downloading from many peers is **not** slower or flakier than from one server — a swarm distributes load across many sources, routes around any peer that drops out, and, as you watched, gets *faster* as it grows. The central server we assumed at the end of every request was never the only shape a network can take. Sometimes the most robust design is the one with no center at all.
+
+<KeyTakeaways>
+- In a **peer-to-peer** network there is no central server: every node is simultaneously client and server, contributing upload capacity as it consumes it — the opposite of the client-server model every earlier article assumed.
+- Because each new downloader is also a new uploader, a swarm's total capacity **rises** with demand ($C_{\text{swarm}} = u_0 + Nu$) while a central server's per-user speed **falls** as $C/N$ — popularity helps a swarm and hurts a server.
+- **BitTorrent** (Bram Cohen, 2001) splits a file into $k \approx S/p$ numbered **pieces** that a swarm trades, so a downloader assembles the whole from many sources at once and can share any piece the moment it arrives.
+- Peers find each other via a **tracker** or, trackerless, via a **distributed hash table** — the [hash-table](/articles/hash-tables) key-to-location idea spread across the peers, so even the index has no center.
+- P2P is an **architecture**, not a synonym for piracy: **tit-for-tat** and **rarest-first** keep peers cooperating, and it underpins legitimate software distribution, blockchains, and IPFS. It is what [load balancers](/articles/load-balancers) and [CDNs](/articles/cdns) work hard to fake — a source that scales *with* its audience.
+</KeyTakeaways>

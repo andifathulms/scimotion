@@ -1050,3 +1050,13 @@ export const StatefulFirewallAnimation = dynamic(
   () => import('@/components/animations/StatefulFirewallAnimation').then(m => ({ default: m.StatefulFirewallAnimation })),
   { ssr: false }
 )
+
+export const P2PvsServerAnimation = dynamic(
+  () => import('@/components/animations/P2PvsServerAnimation').then(m => ({ default: m.P2PvsServerAnimation })),
+  { ssr: false }
+)
+
+export const SwarmPiecesAnimation = dynamic(
+  () => import('@/components/animations/SwarmPiecesAnimation').then(m => ({ default: m.SwarmPiecesAnimation })),
+  { ssr: false }
+)
