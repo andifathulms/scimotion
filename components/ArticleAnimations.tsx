@@ -1010,3 +1010,13 @@ export const SignalRangeAnimation = dynamic(
   () => import('@/components/animations/SignalRangeAnimation').then(m => ({ default: m.SignalRangeAnimation })),
   { ssr: false }
 )
+
+export const EmailDeliveryAnimation = dynamic(
+  () => import('@/components/animations/EmailDeliveryAnimation').then(m => ({ default: m.EmailDeliveryAnimation })),
+  { ssr: false }
+)
+
+export const EmailSpoofingAnimation = dynamic(
+  () => import('@/components/animations/EmailSpoofingAnimation').then(m => ({ default: m.EmailSpoofingAnimation })),
+  { ssr: false }
+)

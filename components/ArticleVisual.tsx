@@ -2885,6 +2885,35 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  email: c => {
+    // An envelope relayed: sender server → (MX lookup) → recipient server → inbox.
+    return (
+      <g>
+        <line x1={56} y1={64} x2={125} y2={64} stroke={c} strokeWidth={1.5} />
+        <polygon points="125,64 118,60 118,68" fill={c} />
+        <line x1={175} y1={64} x2={244} y2={64} stroke={c} strokeWidth={1.5} />
+        <polygon points="244,64 237,60 237,68" fill={c} />
+        <rect x={6} y={48} width={50} height={32} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <rect x={125} y={48} width={50} height={32} rx={5} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <rect x={244} y={48} width={50} height={32} rx={5} fill="rgba(255,255,255,0.03)" stroke={MUTE} strokeWidth={1} />
+        <line x1={14} y1={57} x2={48} y2={57} stroke={FAINT} strokeWidth={1} />
+        <line x1={14} y1={64} x2={48} y2={64} stroke={FAINT} strokeWidth={1} />
+        <line x1={14} y1={71} x2={40} y2={71} stroke={FAINT} strokeWidth={1} />
+        <line x1={133} y1={57} x2={167} y2={57} stroke={FAINT} strokeWidth={1} />
+        <line x1={133} y1={64} x2={167} y2={64} stroke={FAINT} strokeWidth={1} />
+        <line x1={133} y1={71} x2={159} y2={71} stroke={FAINT} strokeWidth={1} />
+        <line x1={90} y1={33} x2={90} y2={64} stroke={GOLD} strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx={90} cy={22} r={11} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.25} />
+        <text x={90} y={25} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">MX</text>
+        <rect x={201} y={58} width={16} height={12} rx={1} fill={`${c}33`} stroke={c} strokeWidth={1} />
+        <polyline points="201,58 209,65 217,58" fill="none" stroke={c} strokeWidth={1} />
+        <circle cx={283} cy={54} r={2} fill={GOLD} />
+        <text x={31} y={95} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">sender</text>
+        <text x={150} y={95} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">recipient</text>
+        <text x={269} y={95} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">inbox</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

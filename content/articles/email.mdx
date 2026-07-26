@@ -1,0 +1,109 @@
+---
+title: "Email: The Internet's Oldest Application"
+subtitle: "The web gets all the attention, but email was carrying messages twenty years before the first web page — and it trusts the name on the envelope about as much as you should."
+topic: "Networks & the Internet"
+slug: "email"
+date: "2026-07-17"
+readTime: 10
+featured: false
+description: "Email is a distinct application on the internet's plumbing, older than the web. It relays store-and-forward from mail server to mail server via a DNS MX lookup, and by original design never checked who the sender claimed to be — which is why SPF, DKIM, and DMARC exist."
+tags: ["email", "smtp", "internet", "authentication"]
+quiz:
+  - q: "Alice at example.com sends a message to bob@company.com. In what sense is this not a direct device-to-device transfer?"
+    options:
+      - "The message is broadcast to every host on the network until Bob's laptop claims it"
+      - "The message relays from Alice's mail server to company.com's mail server — found via a DNS MX lookup — and waits there until Bob's client fetches it"
+      - "The two devices open a direct TCP connection and stream the message between them in real time"
+      - "The message is stored on a central internet mail authority that both parties must log into"
+    answer: 1
+    explanation: "Email is store-and-forward: it hops through mail servers, located by an MX-record lookup, and sits at the recipient's server until the recipient retrieves it — the two devices never talk directly."
+  - q: "Why can the 'From' address on a plain SMTP message not be trusted on its own?"
+    options:
+      - "Base SMTP has no built-in sender authentication, so a sending server can write any address it likes in the From line"
+      - "The From address is encrypted and only the recipient's server can decrypt it correctly"
+      - "SMTP verifies the From address against DNS on every message, but the check is slow and often skipped"
+      - "The From address is always rewritten by intermediate relays and so is meaningless by the time it arrives"
+    answer: 0
+    explanation: "SMTP was designed in a trusting era with no authentication of the sender, so the From address is as verified as the return address you scribble on an envelope — not at all."
+  - q: "A receiver runs SPF, DKIM, and DMARC on an incoming message. What does DKIM specifically contribute?"
+    options:
+      - "It lists which IP addresses are permitted to send mail for the domain"
+      - "It carries a cryptographic signature so the receiver can verify the message came from the domain and was not altered in transit"
+      - "It publishes the policy that says what to do when the other checks fail"
+      - "It encrypts the entire message body so only the recipient can read it"
+    answer: 1
+    explanation: "DKIM attaches a signature — a hash of the message signed with the domain's private key and verifiable with its published public key — proving origin and integrity, while SPF checks the sending server and DMARC ties the two into a policy."
+---
+
+## The application older than the web
+
+You type `example.com`, a page appears, and it is easy to believe you have touched "the internet". But as [HTTP and the web](/articles/http-and-the-web) argues, the web is just one **application** riding on the internet's plumbing — one conversation among many that the network is happy to carry. Email is another. And it is older. Much older.
+
+Networked email dates to around **1971**, when Ray Tomlinson, working on the ARPANET, sent a message between two machines and chose the `@` sign to separate the user from the host — `user@host`. The web would not exist for another two decades; Tim Berners-Lee proposed it in 1989. By the time the first web page loaded, people had been mailing each other across the network for twenty years. Email is the internet's oldest still-daily-used application, and billions of people open it before they open anything else.
+
+It is also, by its original design, breathtakingly trusting. The name in the `From:` line is about as verified as the return address you scribble on the back of an envelope — which is to say, not at all. A postal envelope will be delivered no matter whose name you write as the sender, and for most of email's life the same was true here. That single fact is the root of phishing, and undoing it took three protocols bolted on decades later. This article is about how email actually moves, and why that trust was there to exploit.
+
+## A message that hops, and waits
+
+Here is the misconception worth killing first: **email does not travel directly from your device to the recipient's device.** It feels like it should — you press send, they receive — but nothing about the mechanism is direct.
+
+Email is **store-and-forward**. Your message is handed to *your* mail server, which figures out where the recipient's domain accepts mail, relays the message to *that* server, and there the message is **stored**. It waits. It sits in a mailbox on the recipient's server until the recipient's mail program comes along and fetches it — which might be seconds later, or hours, or after a week's holiday. The sender and recipient are never required to be online at the same time, because the message is always resting on a server in between.
+
+That "figures out where the recipient's domain accepts mail" step is not magic — it is [DNS](/articles/dns). To deliver to `bob@company.com`, the sending server asks DNS for the **MX record** (Mail eXchanger) of `company.com`. An MX record is a domain's published answer to the question *"which server should receive my mail, and at what priority?"* It is the mail-specific cousin of the address lookup a browser does, and it is what lets a domain put its mailboxes on a completely different machine from its website.
+
+<EmailDeliveryAnimation />
+
+Step through the hops and watch what actually happens. The message leaves **Alice's client** and reaches **her own mail server** first (this submission step is SMTP). That server does the **DNS MX lookup** for the recipient's domain — a separate question to a separate system — and only then **relays** the message onward (again SMTP) to the **recipient's mail server**. Notice that the message then **stops and is stored**: nothing reaches Bob yet. The final hop only happens when **Bob's client fetches** the waiting message. Try stepping slowly through the middle: the lookup and the relay are two distinct actions, and there is no point at which Alice's laptop talks to Bob's laptop. It is a relay through servers with a DNS question in the middle, not a wire between two people.
+
+## Two jobs, two protocols: sending versus retrieving
+
+The animation quietly showed a split that trips people up, so let us name it. **Sending mail and fetching mail are different jobs done by different protocols.**
+
+**SMTP** — the Simple Mail Transfer Protocol — is for *sending and relaying* mail **between servers** (and from your client up to your first server). It is the protocol every hop in the store-and-forward chain speaks. SMTP was standardised by Jon Postel in **RFC 821 in 1982**, updated by **RFC 5321**, and it runs over [TCP](/articles/tcp) — it needs the reliable, ordered byte stream TCP manufactures, because a mail message with bytes missing or reordered is a corrupted message. SMTP pushes mail *toward* its destination.
+
+But SMTP does not deliver mail to *you*. Once a message is stored on your provider's server, your mail app has to go and get it, and that is a different conversation entirely. Retrieval uses **POP3** or **IMAP**:
+
+- **POP3** (Post Office Protocol) downloads messages to your device and traditionally deletes them from the server — a good fit for one device that keeps its own copy.
+- **IMAP** (Internet Message Access Protocol) keeps the messages on the server and syncs their state (read, filed, deleted) across every device you use — which is why your phone and laptop show the same inbox.
+
+Hold onto the asymmetry: mail is *pushed* from server to server by SMTP, then *pulled* from your server to your device by POP3 or IMAP. A single delivery from Alice to Bob crosses at least a couple of SMTP hops and ends with one IMAP or POP fetch. If we count the relays a message passes through, the hop count is small but never one:
+
+$$h = \underbrace{1}_{\text{Alice} \to \text{her server}} + \underbrace{1}_{\text{her server} \to \text{Bob's server}} + \underbrace{1}_{\text{Bob's server} \to \text{Bob}} = 3$$
+
+Real chains can be longer — a mailing list, a corporate gateway, or a spam filter adds relays — but the shape never collapses to a direct link. There is always at least one server in the middle where the message is stored and forwarded on.
+
+## The envelope nobody checked
+
+Now the consequence of email's age. SMTP was designed in the early 1980s, on a small network of research institutions where everyone more or less knew everyone. In that world, authenticating the sender would have been solving a problem nobody had. So SMTP simply **does not** authenticate the sender. The sending server states who the message is from, and the receiving server believes it.
+
+Concretely: the `From:` address is just a line of text the sending side writes, and **nothing in base SMTP checks it against reality.** A server can announce a message is from `ceo@yourbank.com` while having nothing whatsoever to do with `yourbank.com`. This is **spoofing**, and it is not a clever exploit — it is the protocol working exactly as specified. The forged `From:` line is the entire foundation of phishing: an email that *looks* like it came from your bank, your boss, or a delivery company, because the one field a human trusts is the one field the protocol never verified.
+
+<EmailSpoofingAnimation />
+
+Start with authentication **off** and send the forged message. The attacker's server, `mail.evil.example`, claims to be `security@bank.example`, and the receiver — having no way to know better — drops it straight into the inbox. That is a successful phish. Now toggle the checks **on** and send the identical message. Watch three things happen. **SPF** asks: *is `mail.evil.example` on the list of servers `bank.example` authorises to send its mail?* It is not. **DKIM** asks: *does the message carry a valid cryptographic signature from `bank.example`?* It does not — the attacker cannot produce one. And **DMARC** reads `bank.example`'s published **policy**, sees that the message fails both checks while claiming to be from that domain, and tells the receiver to reject it. Toggle back and forth: the *message never changes*, only whether the receiver bothers to verify the envelope.
+
+## SPF, DKIM, DMARC: verifying the envelope after the fact
+
+Because you cannot redesign a protocol the whole planet already runs, the fix was layered *on top* of SMTP rather than baked into it. Three mechanisms, each answering a precise question, all published in DNS so any receiver can look them up:
+
+- **SPF** (Sender Policy Framework) — *which servers are allowed to send mail for this domain?* A domain publishes a list of authorised sending IPs in a DNS record. The receiver checks whether the server that actually delivered the message is on that list. SPF authenticates the **sending server**, not the message.
+- **DKIM** (DomainKeys Identified Mail) — *is this message really from the domain, and was it altered?* The sending domain signs the message: it computes a hash of the headers and body and signs that hash with its **private key**. The receiver fetches the domain's **public key** from DNS and verifies the signature. If it checks out, the message provably came from a holder of the domain's private key and was not tampered with in transit. In spirit,
+  $$\text{sig} = \text{sign}_{\text{priv}}\big(\text{hash}(\text{message})\big), \qquad \text{verify}_{\text{pub}}(\text{sig}, \text{message}) \in \{\text{valid}, \text{invalid}\}$$
+  the same public-key idea explored in [public-key cryptography](/articles/public-key-cryptography), pointed at mail.
+- **DMARC** (Domain-based Message Authentication, Reporting and Conformance) — *what should the receiver do when SPF and DKIM disagree with the From line?* DMARC is the **policy** layer. It ties SPF and DKIM to the visible `From:` domain (a property called alignment), and lets the domain owner publish an instruction: none (just monitor), quarantine (send to spam), or reject. It also asks receivers to send back reports, so a domain can see who is sending in its name.
+
+The honest caveat: these **reduce** spoofing and phishing, they do not **eliminate** it. A domain that publishes no policy, or a weak one, is still forgeable. Attackers register *look-alike* domains (`bank-secure.example`) that pass every check because they genuinely own them. And plenty of phishing needs no spoofing at all — just a plausible story from a throwaway address. Authentication verifies the *envelope*, not the *intent*.
+
+## Why this all still matters
+
+Email endures because it made a bet that turned out to be right: keep the core dead simple, let servers store and forward on each other's behalf, and let anyone run a mail server that interoperates with every other. That openness is why no company owns email the way companies own their chat apps — and it is the same openness that left the `From:` line unguarded.
+
+Understanding the shape pays off constantly. It explains why a message can be delivered while the recipient's laptop is switched off (it is waiting on their server). It explains why your outgoing and incoming mail settings name different servers and protocols (SMTP out, IMAP in). It explains why moving your mail to a new provider is a matter of changing an MX record. And it explains why the security advice around email is what it is: the sender's name is a *claim*, authentication is how a receiver tests that claim, and even a passing check only means the envelope is consistent — never that the contents are safe. Email is the oldest application on the internet, and learning how it really moves is the best inoculation against trusting it too much.
+
+<KeyTakeaways>
+- Email is a **distinct application** on the internet's plumbing, older than the web: networked email dates to ~1971 (Ray Tomlinson, the `@` sign) and SMTP was standardised in RFC 821 in 1982 — two decades before the first web page.
+- It is **store-and-forward**, not device-to-device: a message relays from your mail server to the recipient's mail server (found via a DNS **MX-record** lookup) and waits there until the recipient's client fetches it.
+- **Sending and retrieving are different jobs**: SMTP (over TCP) sends and relays mail between servers; POP3 or IMAP is how your client pulls stored mail down to your device.
+- Base SMTP has **no sender authentication**, so the `From:` address is trivially forgeable — spoofing is the protocol working as designed, and the root of phishing.
+- **SPF, DKIM, and DMARC** were bolted on to fight back — SPF (which servers may send for a domain), DKIM (a cryptographic signature proving origin and integrity), DMARC (the policy tying them together) — but they *reduce*, not eliminate, spoofing.
+</KeyTakeaways>
