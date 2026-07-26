@@ -1030,3 +1030,13 @@ export const TracerouteAnimation = dynamic(
   () => import('@/components/animations/TracerouteAnimation').then(m => ({ default: m.TracerouteAnimation })),
   { ssr: false }
 )
+
+export const DHCPHandshakeAnimation = dynamic(
+  () => import('@/components/animations/DHCPHandshakeAnimation').then(m => ({ default: m.DHCPHandshakeAnimation })),
+  { ssr: false }
+)
+
+export const DHCPLeaseAnimation = dynamic(
+  () => import('@/components/animations/DHCPLeaseAnimation').then(m => ({ default: m.DHCPLeaseAnimation })),
+  { ssr: false }
+)

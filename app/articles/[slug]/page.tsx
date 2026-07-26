@@ -225,6 +225,8 @@ import {
   EmailSpoofingAnimation,
   PingAnimation,
   TracerouteAnimation,
+  DHCPHandshakeAnimation,
+  DHCPLeaseAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -451,6 +453,8 @@ const components = {
   EmailSpoofingAnimation,
   PingAnimation,
   TracerouteAnimation,
+  DHCPHandshakeAnimation,
+  DHCPLeaseAnimation,
   KeyTakeaways,
 }
 

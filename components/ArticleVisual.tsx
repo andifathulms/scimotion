@@ -2943,6 +2943,40 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  dhcp: c => {
+    // DORA: four labelled arrows between an address-less device and the DHCP server.
+    const L = 74, R = 226
+    const rows: { y: number; dir: number; col: string; letter: string }[] = [
+      { y: 40, dir: 1, col: GOLD, letter: 'D' },
+      { y: 56, dir: -1, col: c, letter: 'O' },
+      { y: 72, dir: 1, col: GOLD, letter: 'R' },
+      { y: 88, dir: -1, col: c, letter: 'A' },
+    ]
+    return (
+      <g>
+        <rect x={12} y={30} width={58} height={60} rx={6} fill={`${c}14`} stroke={c} strokeWidth={1.25} />
+        <rect x={230} y={30} width={58} height={60} rx={6} fill={`${GOLD}14`} stroke={GOLD} strokeWidth={1.25} />
+        <text x={41} y={24} textAnchor="middle" fontSize={9} fill={MUTE} fontFamily="monospace">device</text>
+        <text x={259} y={24} textAnchor="middle" fontSize={9} fill={MUTE} fontFamily="monospace">server</text>
+        <text x={41} y={64} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">no IP</text>
+        <text x={259} y={64} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">pool</text>
+        {rows.map(({ y, dir, col, letter }) => {
+          const x1 = dir === 1 ? L : R
+          const x2 = dir === 1 ? R : L
+          const head = dir === 1
+            ? `${R},${y} ${R - 7},${y - 4} ${R - 7},${y + 4}`
+            : `${L},${y} ${L + 7},${y - 4} ${L + 7},${y + 4}`
+          return (
+            <g key={letter}>
+              <line x1={x1} y1={y} x2={x2} y2={y} stroke={col} strokeWidth={1.5} />
+              <polygon points={head} fill={col} />
+              <text x={150} y={y - 4} textAnchor="middle" fontSize={8} fill={col} fontFamily="monospace">{letter}</text>
+            </g>
+          )
+        })}
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

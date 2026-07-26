@@ -1,0 +1,133 @@
+---
+title: "DHCP: How Your Device Joins a Network"
+subtitle: "You have never typed in an IP address to get online — in the first second on any network, your device shouts a question and a server leases it everything it needs."
+topic: "Networks & the Internet"
+slug: "dhcp"
+date: "2026-07-15"
+readTime: 9
+featured: false
+description: "How a device with no address at all joins a network: the DORA handshake that leases it an IP address, subnet mask, default gateway, and DNS server automatically — on a lease that quietly expires."
+tags: ["networking", "dhcp", "internet", "lease"]
+quiz:
+  - q: "A laptop has just connected to a wifi network and has no IP address yet. Why must its very first DHCP message be a broadcast rather than sent directly to the DHCP server?"
+    options:
+      - "Broadcasting is faster than a direct message on a local network"
+      - "The client has no address of its own and does not know the server's address, so it must shout to the whole local link and let any server answer"
+      - "DHCP servers refuse to accept directly-addressed packets for security reasons"
+      - "Broadcasting encrypts the request so other devices cannot read it"
+    answer: 1
+    explanation: "With no IP address and no knowledge of which machine is the server, the client can only reach a server by broadcasting the Discover to every host on the local link."
+  - q: "Beyond an IP address, what else does a typical DHCP lease hand a client so it can actually reach the internet?"
+    options:
+      - "A MAC address burned into a new virtual network card"
+      - "The subnet mask, the default gateway, and the addresses of DNS servers"
+      - "A public IP address that bypasses the home router's NAT"
+      - "A permanent, unchanging address reserved for that device forever"
+    answer: 1
+    explanation: "A DHCP server configures the whole picture — subnet mask, default gateway, and DNS resolver addresses — drawn from its configured pool, not just the IP."
+  - q: "Your phone had address 192.168.1.42 yesterday but shows 192.168.1.57 today. What best explains this?"
+    options:
+      - "The address is permanent and something has corrupted the network card"
+      - "DHCP addresses are leased for a limited time; an expired or non-renewed lease returns to the pool and the device may be assigned a different free address later"
+      - "The router has run out of addresses and is now sharing one address between devices"
+      - "The ISP changed the phone's public internet address"
+    answer: 1
+    explanation: "A DHCP address is a temporary lease, not property — when it expires or is not renewed the address returns to the pool, so a device can come back with a different one."
+---
+
+## The address you never typed
+
+You have never once typed in an IP address, a subnet mask, a gateway, or a DNS server to get online. You pick a wifi network, maybe enter a password, and it simply *works*. Pages load, video streams, messages send — and you were never asked for a single number.
+
+But in that first second, before your device has any address at all, something remarkable happens. Address-less and effectively mute, your laptop shouts a question into the local network — *"is there anyone here who can configure me?"* — and a server answers, handing back everything the device needs to become a full citizen of the internet: an address to be reached at, the mask that defines its local neighbourhood, the gateway that leads out, and the DNS servers that turn names into addresses. All of it arrives automatically, in a handful of messages, on a lease that will quietly expire and have to be renewed.
+
+That automatic configuration is the job of **DHCP** — the *Dynamic Host Configuration Protocol*, defined in **RFC 2131**. It is the reason joining a network feels like nothing at all.
+
+## The four things a device needs to join
+
+Everything the earlier articles in this series described quietly assumed the work DHCP does. [IP and routing](/articles/ip-and-routing) assumed your device already *had* an address and knew which gateway to hand outbound packets to. [NAT](/articles/nat) assumed it sat on a private `192.168.x` address behind the router. [DNS](/articles/dns) assumed it knew which resolver to ask. None of that is built into the hardware. A freshly-connected device knows only its own **MAC address** — the [Ethernet](/articles/ethernet) hardware address baked into its network card — and nothing else about the network it just joined.
+
+To actually participate, it needs four pieces of configuration:
+
+- an **IP address** — its own locator on this network, so packets can be addressed to it;
+- a **subnet mask** — which tells it which addresses are *local* (reachable directly) versus *remote* (needing the gateway);
+- a **default gateway** — the router to hand any packet bound for the wider internet; and
+- one or more **DNS servers** — the resolvers that turn `example.com` into an IP address.
+
+You *could* type all four in by hand, and network administrators once did. But imagine doing it for every laptop, phone, TV, thermostat, and guest device that ever joins — and keeping track of which addresses are already taken so no two machines collide on the same one. It would be miserable, error-prone, and completely unworkable at the scale of a coffee shop, let alone a campus. DHCP automates the whole thing away.
+
+## DORA: the four-message handshake
+
+The classic DHCP exchange is a four-step handshake with a memorable name: **DORA** — *Discover, Offer, Request, Acknowledge*. It is a short conversation between a client that has nothing and a server that has a pool of addresses to give.
+
+1. **Discover** — the address-less client **broadcasts** a `DHCPDISCOVER` to the whole local link: *is there a DHCP server out there?*
+2. **Offer** — a server replies with a `DHCPOFFER`, proposing a specific address plus the mask, gateway, and DNS servers.
+3. **Request** — the client answers with a `DHCPREQUEST`, formally asking for that offered address.
+4. **Acknowledge** — the server sends a `DHCPACK`, committing the lease. The client is now fully configured.
+
+<DHCPHandshakeAnimation />
+
+Step through it with the **Step** button and watch the device on the left transform. It begins **address-less** — every configuration field reads *none*. Send the **Discover** and notice it travels as a broadcast from `0.0.0.0`; the client cannot use a real source address because it does not have one yet. The **Offer** comes back carrying concrete values, but they are only *offered*, not yet yours. The **Request** claims them, and only when the **Ack** lands do the fields turn solid green: the device now holds `192.168.1.42`, a mask, a gateway, and a DNS server, and can finally reach the internet. Press **Play all** to run the whole exchange, then **Reset** and do it a step at a time to see exactly when the device stops being mute and starts being configured.
+
+Why two round-trips — why not just take the first Offer? Because a network can have more than one DHCP server, and each might send its own Offer. The explicit **Request** step lets the client publicly commit to *one* offer, so the other servers see their proposals were declined and can return those addresses to their own pools. It is a small piece of politeness that keeps multiple servers from all thinking they leased you an address.
+
+## Why the first message must be a broadcast
+
+The single most important detail in DORA is hiding in the first step: the `DHCPDISCOVER` is a **broadcast**. This is not an arbitrary choice — it is forced by the client's situation. To send a packet *directly* to the DHCP server, the client would need two things it does not have: its own IP address to put in the source field, and the server's address to aim at. It has neither. It has just joined the link and knows nothing.
+
+So it does the only thing it can. It uses the local link's ability to **broadcast** — to deliver a single frame to *every* device in the [Ethernet](/articles/ethernet) broadcast domain at once. The Discover goes out with source `0.0.0.0` ("I have no address") and destination `255.255.255.255` ("everyone on this link"). Every machine on the segment receives it; only the DHCP servers care to respond. It is the same crude-but-effective trick that ARP uses to find a MAC address when it only knows an IP: when you don't know who to ask, ask everyone.
+
+This is also why DHCP is fundamentally a **local** protocol. The Discover cannot cross a router, because routers do not forward broadcasts. On larger networks a small helper called a **DHCP relay** listens for these broadcasts and forwards them, as ordinary unicast, to a central server elsewhere — but the client itself never has to know that. From its point of view, it shouted into the dark and someone answered.
+
+## What the lease hands you beyond an address
+
+It is tempting to think DHCP just "gives you an IP address," but that undersells it. The address alone is useless. An IP address with no gateway is a device that can talk to its neighbours but never reach the internet; an address with no DNS server is a device that can reach numbered hosts but can't resolve a single name. The value of DHCP is that the `DHCPACK` configures the **whole picture**, and all of it is drawn from a **pool** the administrator configured on the server:
+
+- The **IP address** itself — on a home network, almost always one of the private [RFC 1918](/articles/nat) ranges like `192.168.1.42`, exactly the private addresses that NAT then hides behind the router's single public IP.
+- The **subnet mask** (say `255.255.255.0`), which tells the device that everything in `192.168.1.x` is a local neighbour it can reach directly, and everything else must go via the gateway.
+- The **default gateway** (`192.168.1.1`), the router that leads out to the rest of the internet.
+- The **DNS server** addresses — the [resolver](/articles/dns) the device will ask to turn names into addresses. DHCP is *how your device learns which DNS resolver to use*; you never configured it, DHCP handed it over in the lease.
+
+In one short handshake, then, your device goes from knowing nothing to knowing its address, its neighbourhood, its way out, and how to look things up. Every assumption the rest of the networking stack makes about a "configured" host is established right here.
+
+## A pool of borrowed addresses, leased not owned
+
+Here is the idea people most often get wrong: **the address is not yours.** DHCP does not *give* you an address — it **leases** one to you, for a limited time, from a finite pool. When the lease is up, if it hasn't been renewed, the address returns to the pool and can be handed to some other device.
+
+The pool is finite because address space is. A typical home network is a single `/24` — the `192.168.1.0/24` block — and the arithmetic of how many devices it can hold is exact. A `/24` leaves 8 host bits, so the block spans
+
+$$2^{32 - 24} = 2^{8} = 256 \text{ addresses.}$$
+
+But not all 256 are leasable. Two are reserved by convention: the all-zeros host `192.168.1.0` names the network itself, and the all-ones host `192.168.1.255` is the local broadcast address. That leaves
+
+$$2^{8} - 2 = 254 \text{ usable addresses,}$$
+
+and since the router typically claims one (`192.168.1.1` as the gateway), the DHCP pool has on the order of **253** addresses to lease. Plenty for a home; a real constraint for a crowded conference wifi, which is exactly where you see "network full" errors.
+
+Leases are also *temporary on purpose*, and the timing follows a simple rule. A lease has a duration $T$ — hours on a busy network, days on a quiet home one. The client does not wait until the last second to renew: RFC 2131 has it try to renew at the **half-life** of the lease, and try harder later if that fails:
+
+$$T_1 = \tfrac{1}{2}\,T \qquad T_2 = \tfrac{7}{8}\,T.$$
+
+At $T_1$ (halfway) the client quietly asks its server to extend the lease; if that works, the clock resets and the address stays put. Only if renewal keeps failing all the way past $T_2$ does the address finally lapse and return to the pool. This half-life renewal is why your address usually *doesn't* change while you're using it — but *can* change if you disconnect long enough for the lease to expire.
+
+<DHCPLeaseAnimation />
+
+**Add device** a few times and watch the server lease out addresses from the pool one by one, each with its own countdown. Let a lease run to zero and see the address turn free and return to the pool — then add another device and watch that same slot get **recycled** to a different machine. Try filling the pool completely: the "free" counter hits zero and further devices can't be served. Now hit **Reset**, add a few devices, and turn on **Auto-renew**: instead of expiring, each active lease resets its clock at the half-life, and those addresses stay locked to their devices indefinitely — the difference between a device that's actively online and one that has wandered off. **Remove device** frees an address early, just as leaving a network does.
+
+## Your address was never yours
+
+Two everyday misconceptions dissolve once you understand DHCP.
+
+The first: *my device has a fixed, permanent IP address.* It almost never does. On any normal network your address is a **temporary lease**, and it can change when you reconnect after being away, when a lease expires, or when the network is reconfigured. The stability you experience day to day is just half-life renewal quietly keeping the same lease alive — not ownership. (If you truly need a stable address, an admin configures a **reservation** that always leases the same address to a given MAC, or you set a static address by hand — but that is the exception, deliberately arranged.)
+
+The second: *you have to configure network settings manually to get online.* You don't, and you never did. DHCP does it automatically, every time, in the fraction of a second between joining and "connected." The reason you've never typed an IP address is that a protocol has been typing it for you.
+
+DHCP has deep roots. Its direct predecessor was **BOOTP** (the Bootstrap Protocol, RFC 951, 1985), which could hand a diskless workstation a fixed address at startup but had to be configured by hand for each machine. DHCP generalised it into something dynamic — a *pool*, *leases*, and *automatic* assignment — and RFC 2131 (1997) is the version running on essentially every router and network today. It is one of those protocols you never think about precisely because it works: the quiet handshake that turns an address-less device into a citizen of the internet, every single time you connect.
+
+<KeyTakeaways>
+- **DHCP (RFC 2131)** automatically configures a device the instant it joins a network — you have never typed in an IP address because a protocol does it for you.
+- The exchange is **DORA**: the address-less client **broadcasts** a Discover (it has no address and doesn't know the server), a server sends an Offer, the client sends a Request, and the server sends an Ack that commits the lease.
+- The first message *must* be a broadcast because the client has no source address and no idea which host is the server — the same "ask everyone" trick ARP uses on the local [link](/articles/ethernet).
+- A lease hands over far more than an address: the **subnet mask**, **default gateway**, and **DNS resolver** too, drawn from a configured **pool** — a `/24` home network offers $2^8 - 2 = 254$ usable addresses.
+- An address is **leased, not owned**: it's temporary, renewed at the half-life ($T_1 = \tfrac{1}{2}T$), and returns to the pool when it expires — which is why your IP can change and why you never had to configure any of it by hand.
+</KeyTakeaways>
