@@ -3220,6 +3220,29 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'the-synapse': c => (
+    <g>
+      <line x1={0} y1={60} x2={20} y2={60} stroke={c} strokeWidth={5} />
+      <ellipse cx={54} cy={60} rx={46} ry={44} fill={`${c}14`} stroke={c} strokeWidth={1.5} />
+      <circle cx={70} cy={44} r={7} fill={FAINT} stroke={c} strokeWidth={1} />
+      <circle cx={64} cy={64} r={7} fill={FAINT} stroke={c} strokeWidth={1} />
+      <circle cx={72} cy={80} r={7} fill={FAINT} stroke={c} strokeWidth={1} />
+      <circle cx={94} cy={60} r={8} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.25} />
+      <line x1={101} y1={20} x2={101} y2={100} stroke={c} strokeWidth={2} />
+      <rect x={124} y={20} width={168} height={80} rx={6} fill={FAINT} stroke={MUTE} strokeWidth={1} />
+      <line x1={124} y1={20} x2={124} y2={100} stroke={MUTE} strokeWidth={2} />
+      <rect x={124} y={40} width={9} height={12} rx={2} fill={`${c}33`} stroke={GOLD} strokeWidth={1} />
+      <rect x={124} y={58} width={9} height={12} rx={2} fill={`${c}33`} stroke={GOLD} strokeWidth={1} />
+      <rect x={124} y={76} width={9} height={12} rx={2} fill={`${c}33`} stroke={GOLD} strokeWidth={1} />
+      <circle cx={107} cy={50} r={2.5} fill={c} />
+      <circle cx={112} cy={64} r={2.5} fill={c} />
+      <circle cx={116} cy={54} r={2.5} fill={c} />
+      <circle cx={119} cy={70} r={2.5} fill={c} />
+      <circle cx={110} cy={78} r={2.5} fill={c} />
+      <circle cx={121} cy={46} r={2.5} fill={c} />
+      <text x={112} y={16} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">cleft</text>
+    </g>
+  ),
 }
 
 export function ArticleVisual({

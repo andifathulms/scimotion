@@ -1,0 +1,125 @@
+---
+title: "The Synapse: How Neurons Talk"
+subtitle: "Neurons almost never touch — every thought depends on a chemical message flung across a gap that can say yes or no."
+topic: "Biology"
+slug: "the-synapse"
+date: "2026-07-11"
+readTime: 10
+featured: false
+description: "Why the spike can't jump the gap, how a chemical synapse relays it step by step, and why the receiving neuron sums many excitatory and inhibitory inputs before deciding to fire."
+tags: ["neuroscience", "synapse", "neurotransmitter", "plasticity"]
+quiz:
+  - q: "An action potential arrives at the axon terminal but the postsynaptic neuron shows no voltage change. Which single failure is most consistent with this, at an otherwise intact chemical synapse?"
+    options:
+      - "The axon's myelin sheath has thickened, slowing conduction along the axon"
+      - "Voltage-gated calcium channels at the terminal fail to open, so vesicles never fuse to release neurotransmitter"
+      - "The postsynaptic neuron's own sodium-potassium pump has stopped"
+      - "The synaptic cleft is too narrow for the electrical signal to arc across"
+    answer: 1
+    explanation: "At a chemical synapse the arriving spike must open Ca²⁺ channels to trigger vesicle fusion; without calcium entry no transmitter is released and the postsynaptic cell hears nothing."
+  - q: "Two excitatory inputs each produce a small EPSP that alone stays well below threshold. Firing becomes far more likely when the two inputs arrive within a few milliseconds of each other rather than seconds apart. Why?"
+    options:
+      - "Simultaneous inputs raise the amplitude of each individual EPSP"
+      - "Each EPSP decays over time, so only closely-timed EPSPs overlap and sum to cross threshold — temporal summation"
+      - "Closely-timed inputs lower the neuron's threshold voltage"
+      - "The refractory period is shorter when inputs are synchronous"
+    answer: 1
+    explanation: "A single EPSP leaks away toward rest within milliseconds, so inputs must overlap in time for their depolarizations to add up to threshold."
+  - q: "In what sense is a biological neuron the inspiration for the artificial neuron in a neural network?"
+    options:
+      - "Both transmit signals as continuous analog current with no threshold"
+      - "Both weight many inputs (some positive, some negative), sum them, and produce an output only when the sum passes a threshold"
+      - "Both store their output permanently once computed"
+      - "Both require an external clock to synchronize every input"
+    answer: 1
+    explanation: "A neuron sums weighted excitatory (positive) and inhibitory (negative) inputs and fires past threshold — exactly the weighted-sum-and-threshold operation an artificial neuron performs."
+---
+
+## The gap that isn't wire
+
+Your neurons, for all the talk of being "wired together," almost never actually touch. Zoom in on the point where one neuron meets the next and you find not a splice but a gap — a cleft narrower than a wavelength of light, holding the two cells apart. And yet every thought, memory, and movement depends on a message being flung across that gap, billions of times a second, in a relay that can say *yes, fire* or *no, don't*.
+
+This is the synapse, and it completes the neuron's story. [The action potential](/articles/action-potential) explains how a single neuron builds a spike and races it down its axon. But that spike hits a dead end at the axon's tip. The next neuron is a separate cell, sealed inside its own [membrane](/articles/cell-membranes). How does the signal get across — and why doesn't evolution just fuse the two cells into a continuous wire?
+
+## Why the spike can't just jump the gap
+
+The first misconception to retire is the picture of neurons soldered together. They are not. At the vast majority of connections the presynaptic axon terminal and the postsynaptic neuron are separated by the **synaptic cleft**, a gap of roughly 20 nanometers filled with extracellular fluid.
+
+That gap is fatal to a purely electrical signal. An action potential is not a spark that can arc through space; it is a wave of ions crossing a membrane, and it dies at the end of the axon because there is no more membrane to depolarize. The charge that reaches the terminal is far too small to leap 20 nm of salt water and depolarize a whole second cell.
+
+So neurons evolved a workaround: convert the electrical spike into a **chemical** message, squirt that chemical across the cleft, and let it re-trigger electricity on the far side. The synapse is a tiny electrical-to-chemical-to-electrical relay station. That extra step looks wasteful, but it is exactly what buys the nervous system its power — because a chemical relay can be tuned, weighted, switched from excitatory to inhibitory, and strengthened with use, none of which a fused wire could do.
+
+## The chemical synapse, step by step
+
+Here is the relay in motion. Fire the presynaptic neuron and step through it.
+
+<SynapseAnimation />
+
+Press **Fire neuron** to send an action potential into the terminal, or use **Step ▸** to walk the sequence one stage at a time and watch each hand-off:
+
+1. **The spike arrives.** The action potential reaches the axon terminal and depolarizes it.
+2. **Calcium enters.** That depolarization opens **voltage-gated calcium channels**. Because Ca²⁺ is far more concentrated outside the cell, it rushes in — the same electrochemical logic that drives [ions across any membrane](/articles/cell-membranes).
+3. **Vesicles release neurotransmitter.** The calcium is the trigger: it makes **synaptic vesicles** — tiny membrane sacs pre-loaded with **neurotransmitter** molecules — fuse with the terminal membrane and dump their contents into the cleft.
+4. **Diffusion across the gap.** The transmitter molecules diffuse across the 20 nm cleft, no energy required.
+5. **Binding and a voltage change.** On the far side they bind **receptors** on the postsynaptic membrane, briefly opening ion channels and producing a small voltage change — watch the postsynaptic potential shift on the gauge at the bottom.
+6. **Clearance.** Almost immediately the transmitter is cleared — pulled back by **reuptake** into the terminal, or broken down by enzymes — so the signal is brief and the synapse resets, ready for the next spike.
+
+Now use the **excitatory / inhibitory** toggle and fire again. Notice that the *same machinery* can push the postsynaptic voltage either way: an excitatory synapse nudges it **up**, toward the [firing threshold](/articles/action-potential); an inhibitory one pushes it **down**, away from firing. This is the second misconception to kill: a synapse does not simply pass the signal along unchanged. It can excite *or* inhibit, and either way it delivers only a small nudge — not a guaranteed spike.
+
+## How fast, and how small
+
+Two numbers make the chemical relay feel concrete. First, the cleft really is tiny. Diffusion time scales with the square of distance,
+
+$$t \approx \frac{x^2}{2D},$$
+
+where $x$ is the gap and $D \approx 4 \times 10^{-10}\ \text{m}^2/\text{s}$ is a small transmitter's diffusion coefficient in water. For $x = 20\ \text{nm}$,
+
+$$t \approx \frac{(20 \times 10^{-9})^2}{2 \,(4 \times 10^{-10})} \approx 5 \times 10^{-7}\ \text{s} \approx 0.5\ \mu\text{s}.$$
+
+Crossing the gap itself is almost instantaneous — under a microsecond. The synapse's famous ~0.5 ms delay lives almost entirely in the *chemistry*: opening calcium channels and fusing vesicles, not the diffusion. The gap is short precisely so the message doesn't get lost or smeared on the way over.
+
+Second, and more important, is what the postsynaptic neuron *does* with these nudges. Each synapse delivers a small potential change with a sign (excitatory $+$, inhibitory $-$) and a strength. The neuron adds them up. If we write $x_i$ for whether input $i$ is active and $w_i$ for that synapse's strength and sign, the cell fires when
+
+$$\sum_i w_i\, x_i \;\ge\; \theta,$$
+
+with $\theta$ the threshold. Hold that expression in mind — we will meet it again in silicon.
+
+## Excitatory, inhibitory, and the firing decision
+
+A neuron is not a relay that passes each incoming spike straight through. It is a **decision-maker**. It receives thousands of synapses — many excitatory, many inhibitory — and continuously **sums** them across its membrane. Two kinds of summation matter: **spatial** (many synapses firing at once, at different places on the cell) and **temporal** (the same synapse firing repeatedly, its effects piling up before they decay). Only if the running total crosses threshold does the neuron fire its *own* action potential and pass a message on.
+
+Build that decision yourself.
+
+<SynapticIntegrationAnimation />
+
+Press **Play** and watch the membrane potential on the right jump with each input and leak back toward rest between them. Then experiment:
+
+- **Add excitatory inputs** (the `+` synapses). With enough of them arriving together, the summed depolarization crosses the gold threshold line and the neuron fires — a spike shoots up and the count climbs. This is **spatial summation**.
+- **Add an inhibitory input** (a `−` synapse). Each one drags the total back down, and you can watch a few inhibitory inputs veto an otherwise firing neuron. Inhibition is not the absence of signal; it is an active *no*.
+- **Slide the timing control.** Push it toward **synchronous** and the same excitatory inputs bunch up in time, their EPSPs overlapping before they decay — the total reaches threshold. Spread them **out** and each little bump leaks away before the next arrives, so the neuron never fires even though the inputs are identical. That is **temporal summation** made visible.
+
+The lesson is that the neuron computes. It weighs its inputs by their synaptic strengths, sums the positives and negatives, and emits an output only past threshold — never a passive conduit.
+
+## The root of the artificial neuron
+
+That weighted-sum-and-threshold picture should look familiar if you have met [how neural networks learn](/articles/neural-networks). An artificial neuron computes
+
+$$a = \sigma\!\left(\sum_i w_i x_i + b\right),$$
+
+weighting its inputs, summing them, and squashing the result — the direct silicon descendant of a real neuron summing excitatory and inhibitory synapses against a threshold. The **weights** $w_i$ in a neural network are the abstraction of **synaptic strength**: some connections matter more than others, and some (negative weights) push the other way, just as inhibitory synapses do.
+
+The resemblance runs deeper than the arithmetic, because biological synaptic strength is not fixed. Synapses **change with use** — a property called **plasticity**. A connection that is repeatedly active tends to strengthen; one that is rarely useful weakens. Loosely, neurons that fire together wire together. This adjustable strength is widely believed to be the physical basis of **learning and memory**: what you remember is, in part, a pattern of synaptic strengths written into your circuitry.
+
+That is exactly the analogy artificial networks make literal. Training a neural network *is* adjusting weights until the outputs are right — the engineered echo of a brain tuning its synapses. The biological version is messier and local; the artificial version is [gradient descent](/articles/gradient-descent) driving [backpropagation](/articles/neural-networks). But the core idea — that intelligence lives in the *strengths* of a vast web of weighted connections, tuned by experience — was borrowed straight from the synapse.
+
+## One more kind of synapse
+
+For completeness: a minority of synapses *are* direct. **Electrical synapses** join two cells through **gap junctions** — protein channels that let ions flow straight from one cytoplasm to the next, with essentially no delay. They are fast and are used where speed and synchrony matter, such as in some cardiac and reflex circuits. But they cannot easily invert a signal, weight it, or change with experience. The **chemical synapse** is the main story precisely because its extra chemical step is what makes the nervous system tunable, directional, and capable of learning.
+
+<KeyTakeaways>
+- Neurons are not wired together and do not touch — they are separated by the **synaptic cleft** (~20 nm), and the spike is carried across chemically, not electrically.
+- At a chemical synapse the arriving action potential opens **voltage-gated calcium channels**, calcium triggers **vesicles** to release **neurotransmitter**, which diffuses across the cleft, binds **receptors**, produces a small voltage change, and is then cleared by reuptake or enzymatic breakdown.
+- A synapse is not a passive relay: it can be **excitatory** or **inhibitory**, and the receiving neuron **sums** many such inputs over space and time, firing its own spike only if the total crosses **threshold** — a weighted-sum-and-threshold decision, $\sum_i w_i x_i \ge \theta$.
+- That same operation is the blueprint for the **artificial neuron** in [neural networks](/articles/neural-networks): synaptic strengths become the network's **weights**.
+- Synaptic strength changes with use (**plasticity**) — the biological root of learning and memory, and the thing a trained network's weights imitate.
+</KeyTakeaways>

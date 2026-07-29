@@ -1120,3 +1120,13 @@ export const AdderAnimation = dynamic(
   () => import('@/components/animations/AdderAnimation').then(m => ({ default: m.AdderAnimation })),
   { ssr: false }
 )
+
+export const SynapseAnimation = dynamic(
+  () => import('@/components/animations/SynapseAnimation').then(m => ({ default: m.SynapseAnimation })),
+  { ssr: false }
+)
+
+export const SynapticIntegrationAnimation = dynamic(
+  () => import('@/components/animations/SynapticIntegrationAnimation').then(m => ({ default: m.SynapticIntegrationAnimation })),
+  { ssr: false }
+)
