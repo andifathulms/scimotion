@@ -1,0 +1,127 @@
+---
+title: "Recursion: Functions That Call Themselves"
+subtitle: "How a function solves a big problem by asking a smaller version of itself — and cascades the answers back up."
+topic: "Computer Science"
+slug: "recursion"
+date: "2026-07-09"
+readTime: 10
+featured: false
+description: "The base case, the call stack, and why naive recursive Fibonacci is exponential until one cache makes it linear."
+tags: ["algorithms", "recursion", "call-stack", "divide-and-conquer"]
+quiz:
+  - q: "A recursive function is written with a correct recursive case but no base case that can ever be reached. What happens when you run it?"
+    options:
+      - "It returns immediately with a default value of zero"
+      - "The compiler rejects it, because every recursion must have a base case to type-check"
+      - "It keeps calling itself, pushing frames until the call stack is exhausted and overflows"
+      - "It silently loops forever but uses no additional memory"
+    answer: 2
+    explanation: "Without a reachable base case the descent never stops, so each call pushes another stack frame until the call stack runs out of space — a stack overflow."
+  - q: "Why does the naive recursive Fibonacci fib(n) = fib(n-1) + fib(n-2) take exponentially many calls, while memoizing it makes it linear?"
+    options:
+      - "Memoization rewrites the recursion into a faster closed-form formula"
+      - "The naive version recomputes the same subproblems in many branches; caching each of the n distinct results means every subproblem is computed only once"
+      - "Memoization runs the two recursive branches in parallel on separate cores"
+      - "The naive version is slow only because function calls are inherently expensive, which the cache avoids"
+    answer: 1
+    explanation: "The naive recursion tree has overlapping subproblems evaluated over and over, but there are only n distinct values, so caching them collapses the exponential work to linear."
+  - q: "Which statement about recursion and iteration is correct?"
+    options:
+      - "Recursion is simply a loop with nicer syntax, so the two are identical at runtime"
+      - "Any recursion can be rewritten as iteration (often with an explicit stack) and vice versa; they are equal in expressive power but are distinct models"
+      - "Iteration can express strictly more algorithms than recursion can"
+      - "Recursion is always slower than the equivalent loop, so it should be avoided"
+    answer: 1
+    explanation: "Recursion and iteration are inter-convertible and equal in power — recursion just leans on the call stack instead of an explicit loop, and neither is universally faster."
+---
+
+## To understand recursion, you must first understand recursion
+
+The joke works because the idea really is that self-referential. A recursive function solves a big problem by calling itself on a smaller version — and a smaller one, and a smaller one — until it hits a case simple enough to answer outright. Then the answers cascade back up.
+
+It sounds like it should chase its own tail forever, and the whole art is in making sure it doesn't. Consider the factorial, $n! = n \times (n-1) \times \cdots \times 1$. You can define it without ever writing a loop:
+
+```
+factorial(n):
+    if n <= 1: return 1          # base case
+    return n * factorial(n - 1)  # recursive case
+```
+
+`factorial(5)` doesn't know how to multiply five numbers. It only knows that the answer is $5 \times \text{factorial}(4)$ — and it trusts a smaller copy of itself to work out `factorial(4)`. That copy trusts a smaller copy still, down to `factorial(1)`, which needs no help at all. This is recursion: **a function that solves a problem by calling itself on a smaller instance, stopping at a base case simple enough to answer directly.**
+
+## The two parts every recursion needs
+
+Every correct recursive function has exactly two ingredients.
+
+The **recursive case** does the self-reference: it reduces the problem to a smaller instance and calls itself. In `factorial`, that's `n * factorial(n - 1)` — the same problem, one step smaller.
+
+The **base case** is where the descent stops. It answers the smallest instance outright, with no further call. For factorial that's `n <= 1: return 1`. The base case is not optional bookkeeping — it is the thing that keeps the recursion from running forever.
+
+Delete it, or write one the recursion can never reach, and you get **infinite recursion**: `factorial(n)` calls `factorial(n-1)` calls `factorial(n-2)`, sailing straight past 1 into negative numbers, calling itself with no end. In practice this doesn't spin quietly; it crashes. Each call consumes a little memory, and when that memory runs out the program dies with a **stack overflow**. To see why, we need to look at where that memory goes.
+
+## What the machine actually does: the call stack
+
+<CallStackAnimation />
+
+Pick an input `n` and step through it. Watch the stack **grow** on the way down: each call to `factorial` pushes a new **stack frame** — a small block of memory holding that call's local variables and the return address (where to resume once it finishes). The newest call sits on top. Nothing has been computed yet; each frame is parked, waiting on the call below it.
+
+When `factorial(1)` is reached, the base case fires and returns 1 without pushing anything more. Now watch the stack **unwind**: the base frame pops and hands its 1 back to the frame that was waiting; that frame computes $2 \times 1 = 2$ and pops, handing 2 up; then $3 \times 2 = 6$, and so on. The answers cascade back up exactly in reverse of the order the calls were made.
+
+This is the mechanism behind the whole trick. The call stack is a LIFO (last-in, first-out) structure — the same discipline as the stack in [depth-first graph traversal](/articles/graph-traversal), and no coincidence: **DFS's most natural implementation is recursion, and the call stack *is* its stack.** The frames remember, for free, every half-finished computation, so you never have to track the pending work yourself. It also shows why deep recursion is dangerous: a recursion millions of levels deep needs millions of live frames at once, and the stack has a fixed size. Overflow it and the program crashes.
+
+## Divide and conquer: recursion's native habitat
+
+Factorial is a warm-up — its recursion is a straight line, one call per level. Recursion earns its keep on problems that split into *multiple* smaller pieces. This is **divide-and-conquer**: break the problem into subproblems, solve each recursively, combine the results.
+
+[Merge sort](/articles/sorting-algorithms) is the archetype. To sort a list, split it in half, recursively sort each half, then merge the two sorted halves:
+
+```
+mergeSort(list):
+    if length <= 1: return list       # base case: already sorted
+    mid = length / 2
+    left  = mergeSort(list[:mid])     # recurse on each half
+    right = mergeSort(list[mid:])
+    return merge(left, right)
+```
+
+The base case — a list of one element — is trivially sorted. Everything above it is glued together by `merge`. Its cost obeys a **recurrence** that reads straight off the code: solving a problem of size $n$ means solving two of size $n/2$, plus $O(n)$ work to merge them.
+
+$$T(n) = 2\,T(n/2) + O(n)$$
+
+That recurrence solves to $T(n) = O(n \log n)$ — the recursion tree has $\log_2 n$ levels, each doing $O(n)$ work. The same shape describes [binary search](/articles/binary-search), $T(n) = T(n/2) + O(1)$, which halves the problem and throws one half away. Recursion is the natural language here because the *definition* of the algorithm is recursive: a sorted list is a merge of two sorted halves. And it is equally natural on **recursive structures** — trees and graphs — where "process this node, then recurse on its children" mirrors the shape of the data itself. That is why DFS, tree traversals, and parsers are all most cleanly written recursively.
+
+## The overlapping-subproblems trap — and its fix
+
+Divide-and-conquer works because merge sort's subproblems are all *distinct* — each recursive call sees a different slice of the list. But some recursions ask the **same question many times**, and there the naive approach falls off a cliff.
+
+The Fibonacci numbers are the classic example. The definition is a two-way recursion:
+
+$$\text{fib}(n) = \text{fib}(n-1) + \text{fib}(n-2), \qquad \text{fib}(0) = 0,\; \text{fib}(1) = 1$$
+
+Transcribe it directly and you get a function that is correct but catastrophically slow — because `fib(n-1)` and `fib(n-2)` both recompute `fib(n-3)` from scratch, which each recompute `fib(n-4)`, and so on. The recursion tree fans out with **overlapping subproblems**, and its size is exponential: a naive `fib(n)` makes exactly $2\,\text{fib}(n+1) - 1$ calls, growing like $\varphi^{\,n}$ with $\varphi = (1+\sqrt5)/2 \approx 1.618$. Computing `fib(50)` this way takes on the order of $10^{10}$ calls.
+
+<RecursionTreeAnimation />
+
+Start with **Memoize off** and step the input `n` up. Watch the tree explode — every increment multiplies the node count by roughly $1.6\times$, and the same small values like `fib(2)` appear again and again across different branches. That repetition is pure wasted work.
+
+Now flip **Memoize on**. The idea is one line: before computing `fib(k)`, check a cache; if you've computed it before, return the stored answer instead of recursing. The first time each `fib(k)` is worked out it gets stored; every later request for it becomes a **cache hit** (green) — computed once, reused, its subtree never expanded. The exponential tree collapses into a spine with green stubs: only the $n$ *distinct* subproblems do real work, so the algorithm drops from $\varphi^{\,n}$ to $O(n)$. Same recursion, same base cases, one cache — an astronomical speedup.
+
+This caching trick is exactly the bridge to **[dynamic programming](/articles/dynamic-programming)**, which is precisely "recursion plus a memo" applied wherever a problem has overlapping subproblems. Fibonacci is its "hello world"; the same move turns exponential brute force into polynomial-time algorithms for edit distance, knapsack, and sequence alignment.
+
+## Recursion and iteration are two dialects of one language
+
+Two misconceptions are worth killing off directly.
+
+**"Recursion is just a fancy loop."** Not quite. Recursion is a distinct model of computation, built on the call stack: the machine implicitly remembers every pending call for you. A loop keeps no such history unless you build it one. That said, the two are **inter-convertible and equal in expressive power**. Any loop can be rewritten as a recursion, and any recursion can be rewritten as a loop — usually by maintaining an *explicit* stack that mimics what the call stack was doing for free. (Iterative DFS is exactly this: swap the call stack for a `stack` variable.) They are different ways of *expressing* the same computations, not different powers.
+
+A special case is worth knowing: **tail recursion**, where the recursive call is the very last thing the function does, with no pending work waiting on its result. Because nothing needs the old frame anymore, some compilers optimize tail calls into a plain loop, reusing a single frame and sidestepping stack-overflow risk entirely. Rewriting `factorial` to accumulate its product in an argument makes it tail-recursive.
+
+**"Recursion is slow and should be avoided."** Only when it is done naively on overlapping subproblems — and even then, memoization fixes it, as you just saw. For divide-and-conquer and for recursive data like trees and graphs, recursion is usually the *clearest and most natural* expression of the algorithm, and its performance is perfectly competitive. The right lesson is not "avoid recursion" but "watch for repeated subproblems, and cache when you find them."
+
+<KeyTakeaways>
+- Recursion solves a problem by calling itself on a smaller instance and stopping at a **base case**; without a reachable base case you get infinite recursion and a stack overflow.
+- Each call gets its own **stack frame** pushed onto the call stack; frames pop as calls return, and that mechanism is what cascades the answers back up — the same stack DFS runs on.
+- Recursion is the natural language of **divide-and-conquer** ($T(n) = 2T(n/2) + O(n)$ for merge sort) and of recursive structures like trees and graphs.
+- Naive recursive Fibonacci is **exponential** because it recomputes overlapping subproblems; **memoization** caches the $n$ distinct results and collapses it to linear — the bridge to dynamic programming.
+- Recursion and iteration are **inter-convertible and equal in power**: recursion is not "just a loop" (it leans on the call stack), and it is not inherently slow — it is often the clearest way to express a problem.
+</KeyTakeaways>

@@ -3349,6 +3349,37 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  recursion: c => {
+    // A descending stack of factorial frames: the base case (gold) at the bottom,
+    // and the gold arrow tracing the values unwinding back up the call stack.
+    const frames = [
+      { k: 5, v: 120 },
+      { k: 4, v: 24 },
+      { k: 3, v: 6 },
+      { k: 2, v: 2 },
+      { k: 1, v: 1 },
+    ]
+    return (
+      <g>
+        {frames.map((f, i) => {
+          const y = 10 + i * 21
+          const base = f.k === 1
+          return (
+            <g key={f.k}>
+              <rect x={18} y={y} width={150} height={16} rx={3}
+                fill={base ? `${GOLD}22` : `${c}1F`} stroke={base ? GOLD : c} strokeWidth={0.9} />
+              <text x={26} y={y + 11} fontSize={8} fill={base ? GOLD : c} fontFamily="monospace">factorial({f.k})</text>
+              <text x={160} y={y + 11} textAnchor="end" fontSize={8} fill={base ? GOLD : MUTE} fontFamily="monospace">→{f.v}</text>
+            </g>
+          )
+        })}
+        <line x1={210} y1={104} x2={210} y2={22} stroke={GOLD} strokeWidth={1.25} />
+        <polygon points="210,14 206,22 214,22" fill={GOLD} />
+        <text x={222} y={60} fontSize={8} fill={MUTE} fontFamily="monospace">unwind</text>
+        <text x={222} y={72} fontSize={8} fill={MUTE} fontFamily="monospace">n × …</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

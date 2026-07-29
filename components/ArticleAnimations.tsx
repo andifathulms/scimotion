@@ -1170,3 +1170,13 @@ export const AnesthesiaDepthAnimation = dynamic(
   () => import('@/components/animations/AnesthesiaDepthAnimation').then(m => ({ default: m.AnesthesiaDepthAnimation })),
   { ssr: false }
 )
+
+export const CallStackAnimation = dynamic(
+  () => import('@/components/animations/CallStackAnimation').then(m => ({ default: m.CallStackAnimation })),
+  { ssr: false }
+)
+
+export const RecursionTreeAnimation = dynamic(
+  () => import('@/components/animations/RecursionTreeAnimation').then(m => ({ default: m.RecursionTreeAnimation })),
+  { ssr: false }
+)
