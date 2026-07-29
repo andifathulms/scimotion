@@ -3563,6 +3563,85 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <circle cx={150} cy={60} r={4} fill={GOLD} />
     </g>
   ),
+  'the-sun': c => (
+    <g>
+      <circle cx={150} cy={60} r={40} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={0.75} />
+      <circle cx={150} cy={60} r={30} fill={`${c}18`} stroke={`${c}66`} strokeWidth={0.5} />
+      <circle cx={150} cy={60} r={16} fill={`${GOLD}55`} stroke={GOLD} strokeWidth={0.75} />
+      <circle cx={150} cy={60} r={5} fill={GOLD} />
+      <polyline points="150,60 140,52 148,44 138,38 149,32" fill="none" stroke={c} strokeWidth={1} />
+      <g stroke={GOLD} strokeWidth={1}>
+        <line x1={150} y1={12} x2={150} y2={2} /><line x1={150} y1={108} x2={150} y2={118} />
+        <line x1={102} y1={60} x2={92} y2={60} /><line x1={198} y1={60} x2={208} y2={60} />
+        <line x1={116} y1={26} x2={109} y2={19} /><line x1={184} y1={26} x2={191} y2={19} />
+        <line x1={116} y1={94} x2={109} y2={101} /><line x1={184} y1={94} x2={191} y2={101} />
+      </g>
+      <circle cx={168} cy={48} r={3} fill={`${MUTE}`} />
+    </g>
+  ),
+  'hr-diagram': c => (
+    <g>
+      <line x1={40} y1={100} x2={40} y2={16} stroke={MUTE} strokeWidth={0.75} />
+      <line x1={40} y1={100} x2={280} y2={100} stroke={MUTE} strokeWidth={0.75} />
+      <line x1={70} y1={30} x2={230} y2={92} stroke={`${c}66`} strokeWidth={6} strokeLinecap="round" />
+      <circle cx={90} cy={40} r={2.5} fill="#BFDBFF" /><circle cx={120} cy={52} r={2.5} fill="#DBEAFE" />
+      <circle cx={150} cy={62} r={2.5} fill={GOLD} /><circle cx={185} cy={76} r={2.5} fill="#FDBA74" />
+      <circle cx={215} cy={88} r={2.5} fill="#F87171" />
+      <circle cx={235} cy={34} r={5} fill="#F8717199" stroke="#F87171" strokeWidth={0.75} />
+      <circle cx={200} cy={30} r={4} fill="#FCA5A5AA" />
+      <circle cx={80} cy={86} r={2} fill="#DBEAFE" /><circle cx={95} cy={90} r={2} fill="#BFDBFF" />
+      <text x={252} y={38} fontSize={7} fill={MUTE} fontFamily="monospace">giants</text>
+      <text x={150} y={112} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">hot → cool</text>
+    </g>
+  ),
+  cancer: c => (
+    <g>
+      <circle cx={70} cy={60} r={16} fill={`${MUTE}`} stroke={MUTE} strokeWidth={0.75} />
+      <circle cx={70} cy={60} r={5} fill={`${c}66`} />
+      <path d="M92,60 l16,0 M102,55 l6,5 l-6,5" fill="none" stroke={MUTE} strokeWidth={1} />
+      <g>
+        <circle cx={150} cy={44} r={11} fill={`${c}33`} stroke={c} strokeWidth={0.75} /><circle cx={150} cy={44} r={4} fill={c} />
+        <circle cx={148} cy={74} r={11} fill={`${c}33`} stroke={c} strokeWidth={0.75} /><circle cx={148} cy={74} r={4} fill={c} />
+      </g>
+      <path d="M170,52 l14,-6 M170,60 l16,0 M170,68 l14,6" fill="none" stroke={c} strokeWidth={0.75} />
+      <g fill={`${c}55`} stroke={c} strokeWidth={0.5}>
+        <circle cx={208} cy={34} r={8} /><circle cx={232} cy={48} r={8} /><circle cx={210} cy={60} r={8} />
+        <circle cx={236} cy={72} r={8} /><circle cx={212} cy={84} r={8} /><circle cx={256} cy={60} r={8} />
+      </g>
+    </g>
+  ),
+  hormones: c => (
+    <g>
+      <circle cx={44} cy={60} r={14} fill={`${c}33`} stroke={c} strokeWidth={1} />
+      <line x1={20} y1={78} x2={280} y2={78} stroke={`${c}44`} strokeWidth={4} />
+      <g fill={c}>
+        <circle cx={80} cy={72} r={3} /><circle cx={120} cy={82} r={3} /><circle cx={160} cy={74} r={3} /><circle cx={210} cy={80} r={3} />
+      </g>
+      <rect x={150} y={30} width={26} height={30} rx={3} fill={`${GOLD}18`} stroke={GOLD} strokeWidth={1} />
+      <path d="M163,44 l6,-4 6,4" fill="none" stroke={GOLD} strokeWidth={1} />
+      <rect x={95} y={32} width={24} height={28} rx={3} fill={`${MUTE}`} stroke={MUTE} strokeWidth={0.75} />
+      <rect x={205} y={32} width={24} height={28} rx={3} fill={`${MUTE}`} stroke={MUTE} strokeWidth={0.75} />
+      <text x={163} y={72} fontSize={7} fill={GOLD} textAnchor="middle" fontFamily="monospace">target</text>
+    </g>
+  ),
+  'periodic-table': c => {
+    const cells = []
+    for (let r = 0; r < 4; r++) for (let col = 0; col < 9; col++) {
+      const x = 96 + col * 12
+      const y = 24 + r * 14
+      const on = (r + col) % 3 === 0
+      cells.push(<rect key={`${r}-${col}`} x={x} y={y} width={10} height={12} rx={1}
+        fill={on ? `${c}55` : `${c}18`} stroke={`${c}66`} strokeWidth={0.4} />)
+    }
+    return (
+      <g>
+        {cells}
+        <path d="M92,18 l0,68 M92,86 l208,0" fill="none" stroke={MUTE} strokeWidth={0.5} />
+        <path d="M96,12 l108,0 M200,8 l8,4 l-8,4" fill="none" stroke={GOLD} strokeWidth={1} />
+        <text x={150} y={10} fontSize={7} fill={GOLD} textAnchor="middle" fontFamily="monospace">trend →</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

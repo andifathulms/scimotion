@@ -1305,3 +1305,48 @@ export const CoriolisWindAnimation = dynamic(
   () => import('@/components/animations/CoriolisWindAnimation').then(m => ({ default: m.CoriolisWindAnimation })),
   { ssr: false }
 )
+
+export const SolarStructureAnimation = dynamic(
+  () => import('@/components/animations/SolarStructureAnimation').then(m => ({ default: m.SolarStructureAnimation })),
+  { ssr: false }
+)
+
+export const SunspotCycleAnimation = dynamic(
+  () => import('@/components/animations/SunspotCycleAnimation').then(m => ({ default: m.SunspotCycleAnimation })),
+  { ssr: false }
+)
+
+export const HRDiagramAnimation = dynamic(
+  () => import('@/components/animations/HRDiagramAnimation').then(m => ({ default: m.HRDiagramAnimation })),
+  { ssr: false }
+)
+
+export const StellarEvolutionTrackAnimation = dynamic(
+  () => import('@/components/animations/StellarEvolutionTrackAnimation').then(m => ({ default: m.StellarEvolutionTrackAnimation })),
+  { ssr: false }
+)
+
+export const CellCycleControlAnimation = dynamic(
+  () => import('@/components/animations/CellCycleControlAnimation').then(m => ({ default: m.CellCycleControlAnimation })),
+  { ssr: false }
+)
+
+export const ClonalExpansionAnimation = dynamic(
+  () => import('@/components/animations/ClonalExpansionAnimation').then(m => ({ default: m.ClonalExpansionAnimation })),
+  { ssr: false }
+)
+
+export const HormoneReceptorAnimation = dynamic(
+  () => import('@/components/animations/HormoneReceptorAnimation').then(m => ({ default: m.HormoneReceptorAnimation })),
+  { ssr: false }
+)
+
+export const EndocrineFeedbackAnimation = dynamic(
+  () => import('@/components/animations/EndocrineFeedbackAnimation').then(m => ({ default: m.EndocrineFeedbackAnimation })),
+  { ssr: false }
+)
+
+export const ElectronShellAnimation = dynamic(
+  () => import('@/components/animations/ElectronShellAnimation').then(m => ({ default: m.ElectronShellAnimation })),
+  { ssr: false }
+)

@@ -280,6 +280,15 @@ import {
   LyticLysogenicAnimation,
   CoriolisDeflectionAnimation,
   CoriolisWindAnimation,
+  SolarStructureAnimation,
+  SunspotCycleAnimation,
+  HRDiagramAnimation,
+  StellarEvolutionTrackAnimation,
+  CellCycleControlAnimation,
+  ClonalExpansionAnimation,
+  HormoneReceptorAnimation,
+  EndocrineFeedbackAnimation,
+  ElectronShellAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -561,6 +570,15 @@ const components = {
   LyticLysogenicAnimation,
   CoriolisDeflectionAnimation,
   CoriolisWindAnimation,
+  SolarStructureAnimation,
+  SunspotCycleAnimation,
+  HRDiagramAnimation,
+  StellarEvolutionTrackAnimation,
+  CellCycleControlAnimation,
+  ClonalExpansionAnimation,
+  HormoneReceptorAnimation,
+  EndocrineFeedbackAnimation,
+  ElectronShellAnimation,
   KeyTakeaways,
 }
 
