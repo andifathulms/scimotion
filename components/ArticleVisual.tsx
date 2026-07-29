@@ -3243,6 +3243,60 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <text x={112} y={16} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">cleft</text>
     </g>
   ),
+  'cosmic-microwave-background': c => {
+    // An all-sky map of the CMB temperature anisotropies: warm (pink) and cool
+    // (blue) speckles at ~1 part in 100,000, clipped to an oval all-sky view.
+    const cx0 = 150, cy0 = 60, rx = 132, ry = 52
+    const hash = (n: number) => {
+      let h = Math.imul(n + 1, 0x9e3779b1)
+      h = Math.imul(h ^ (h >>> 15), 0x85ebca6b)
+      h ^= h >>> 13
+      return (h >>> 0) % 100
+    }
+    const tint = [c, '#F472B6', '#60A5FA', GOLD]
+    const op = [0.4, 0.8, 0.7, 0.95]
+    const cells: ReactNode[] = []
+    let n = 0
+    for (let gy = 0; gy < 9; gy++) {
+      for (let gx = 0; gx < 24; gx++) {
+        const x = 12 + gx * 12
+        const y = 10 + gy * 12
+        const ccx = x + 5, ccy = y + 5
+        if (((ccx - cx0) / rx) ** 2 + ((ccy - cy0) / ry) ** 2 > 1) continue
+        const hv = hash(n)
+        n++
+        const idx = hv < 10 ? 3 : hv < 45 ? 1 : hv < 80 ? 2 : 0
+        cells.push(<rect key={`${gx}-${gy}`} x={x} y={y} width={10} height={10} rx={2} fill={tint[idx]} opacity={op[idx]} />)
+      }
+    }
+    return (
+      <g>
+        <ellipse cx={150} cy={60} rx={132} ry={52} fill="rgba(255,255,255,0.02)" stroke={MUTE} strokeWidth={0.75} />
+        {cells}
+        <ellipse cx={150} cy={60} rx={132} ry={52} fill="none" stroke={c} strokeWidth={1} />
+      </g>
+    )
+  },
+  'rock-cycle': c => {
+    // Three rock families in a triangle, joined by clockwise transformation
+    // arrows — the rock cycle. Igneous accented gold, the other two cyan.
+    return (
+      <g>
+        <line x1={137.94} y1={34.91} x2={70.06} y2={85.09} stroke={MUTE} strokeWidth={1} />
+        <line x1={73} y1={94} x2={227} y2={94} stroke={MUTE} strokeWidth={1} />
+        <line x1={229.94} y1={85.09} x2={162.06} y2={34.91} stroke={MUTE} strokeWidth={1} />
+        <polygon points="70.06,85.09 74.11,77.12 78.87,83.56" fill={GOLD} />
+        <polygon points="227,94 219,90 219,98" fill={GOLD} />
+        <polygon points="162.06,34.91 170.87,36.44 166.11,42.88" fill={GOLD} />
+        <circle cx={150} cy={26} r={15} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1.5} />
+        <circle cx={58} cy={94} r={15} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        <circle cx={242} cy={94} r={15} fill={`${c}33`} stroke={c} strokeWidth={1.5} />
+        <text x={150} y={30} textAnchor="middle" fontSize={11} fill={GOLD} fontFamily="monospace">I</text>
+        <text x={58} y={98} textAnchor="middle" fontSize={11} fill={c} fontFamily="monospace">S</text>
+        <text x={242} y={98} textAnchor="middle" fontSize={11} fill={c} fontFamily="monospace">M</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

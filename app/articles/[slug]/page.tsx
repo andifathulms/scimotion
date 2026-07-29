@@ -245,6 +245,10 @@ import {
   AdderAnimation,
   SynapseAnimation,
   SynapticIntegrationAnimation,
+  RecombinationAnimation,
+  CMBSpectrumAnimation,
+  RockCycleAnimation,
+  RockFormationAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -491,6 +495,10 @@ const components = {
   AdderAnimation,
   SynapseAnimation,
   SynapticIntegrationAnimation,
+  RecombinationAnimation,
+  CMBSpectrumAnimation,
+  RockCycleAnimation,
+  RockFormationAnimation,
   KeyTakeaways,
 }
 

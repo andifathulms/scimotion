@@ -1130,3 +1130,23 @@ export const SynapticIntegrationAnimation = dynamic(
   () => import('@/components/animations/SynapticIntegrationAnimation').then(m => ({ default: m.SynapticIntegrationAnimation })),
   { ssr: false }
 )
+
+export const RecombinationAnimation = dynamic(
+  () => import('@/components/animations/RecombinationAnimation').then(m => ({ default: m.RecombinationAnimation })),
+  { ssr: false }
+)
+
+export const CMBSpectrumAnimation = dynamic(
+  () => import('@/components/animations/CMBSpectrumAnimation').then(m => ({ default: m.CMBSpectrumAnimation })),
+  { ssr: false }
+)
+
+export const RockCycleAnimation = dynamic(
+  () => import('@/components/animations/RockCycleAnimation').then(m => ({ default: m.RockCycleAnimation })),
+  { ssr: false }
+)
+
+export const RockFormationAnimation = dynamic(
+  () => import('@/components/animations/RockFormationAnimation').then(m => ({ default: m.RockFormationAnimation })),
+  { ssr: false }
+)
