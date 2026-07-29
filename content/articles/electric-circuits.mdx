@@ -1,0 +1,125 @@
+---
+title: "Electric Circuits and Ohm's Law"
+subtitle: "Why a light comes on instantly even though the electrons inside the wire are crawling slower than an ant."
+topic: "Physics"
+slug: "electric-circuits"
+date: "2026-07-03"
+readTime: 9
+featured: false
+description: "How current, voltage, and resistance fit together in $V = IR$ — and why charge is never used up, only energy is."
+tags: ["electricity", "ohms-law", "circuits", "current"]
+quiz:
+  - q: "In a simple series loop — battery, wire, single bulb, wire, back to the battery — you clip one ammeter into the wire feeding the bulb and another into the wire leaving it. What do they read?"
+    options:
+      - "The one before the bulb reads more, because the bulb 'uses up' some of the current"
+      - "They read exactly the same, because charge is conserved and the same current flows all the way around the loop"
+      - "The one after the bulb reads more, because the bulb adds energy to the flow"
+      - "The one after the bulb reads zero, because the current is spent lighting the bulb"
+    answer: 1
+    explanation: "Current is a flow of conserved charge, so the same current enters and leaves the bulb; what the bulb consumes is energy, not charge."
+  - q: "A resistor is connected across a fixed 9 V battery. You swap it for one with three times the resistance. By Ohm's law, what happens to the current?"
+    options:
+      - "It triples, because more resistance drives more current"
+      - "It stays the same, because the voltage is unchanged"
+      - "It falls to one third, because current equals voltage divided by resistance"
+      - "It falls to one ninth, because current depends on resistance squared"
+    answer: 2
+    explanation: "With $V$ fixed, $I = V/R$, so tripling $R$ divides the current by three."
+  - q: "You flip a wall switch and a lamp across the room lights up seemingly instantly. Why — given that individual electrons drift through copper at only millimetres per second?"
+    options:
+      - "The electrons at the switch race down the wire to the bulb at nearly the speed of light"
+      - "The bulb stores electrons in advance and releases them the moment the switch closes"
+      - "The electric field propagates through the wire near light speed and pushes the entire column of charge already in the circuit at once"
+      - "Electrons are massless, so they accelerate to light speed instantly"
+    answer: 2
+    explanation: "The field, not any individual electron, travels fast; it sets the whole column of already-present charge moving together, so current begins almost everywhere at once."
+---
+
+## Flip the switch
+
+Flip a switch and the light comes on instantly — but almost nothing about that sentence is what most people picture. The electrons in the wire are crawling slower than an ant. None of them travels from the switch to the bulb. And the current that flows out of the bulb is exactly as much as flowed in. Electricity is stranger, and simpler, than it looks.
+
+This article is about the three quantities that describe every simple circuit — **voltage**, **current**, and **resistance** — and the single equation that ties them together. Get those straight and most of the mystery dissolves, leaving a picture that is genuinely easy to reason with.
+
+## A loop, or nothing
+
+The first fact is the most important, and it is the one flip-the-switch hides: current flows **only in a complete loop**. An electric current is a flow of charge — in a metal wire, a flow of electrons — and it can only keep flowing if there is an unbroken path from a **source**, out through the components, and all the way back to the source.
+
+A battery is such a source. It maintains a **potential difference** between its two terminals: a persistent "push" that drives charge around the outside of the circuit. Connect a wire, a bulb, and a switch in a ring from one terminal to the other, and charge circulates. Break the ring anywhere — open the switch, cut a wire, loosen a connection — and everything stops at once. There is no "half a circuit." The switch on your wall does exactly one thing: it opens and closes the loop.
+
+That the source is a battery is not incidental. A battery's push comes from chemistry — two materials that "want" to exchange electrons, held apart so the exchange can only happen through the external wire. That is the subject of [electrochemistry](/articles/electrochemistry): the battery is the electrochemical origin of the voltage this whole article takes for granted.
+
+## Three quantities and one law
+
+Three quantities describe what happens in the loop.
+
+- **Voltage** ($V$, in volts) is the push — the potential difference the source provides. It is the energy given to each unit of charge.
+- **Current** ($I$, in amperes) is the flow — how much charge passes a point each second. One ampere is one coulomb per second.
+- **Resistance** ($R$, in ohms, $\Omega$) is the opposition — how much a component fights the flow. A thin filament or a long thin wire resists a lot; a thick copper conductor resists almost nothing.
+
+A time-worn analogy makes them tangible: **water in pipes**. Voltage is like the *pressure* driving water through the plumbing; current is like the *flow rate*, the litres per second going past; resistance is like a *narrow or clogged pipe* that throttles the flow. More pressure pushes more water; a narrower pipe lets less through. The analogy is imperfect — real charge does not leak out of the ends of a wire the way water sprays from an open pipe, and a circuit must be a closed loop in a way a garden hose need not be — but as a first intuition it is hard to beat.
+
+The relationship between the three is **Ohm's law**:
+
+$$V = IR$$
+
+Voltage equals current times resistance. Rearranged, $I = V/R$: for a fixed push, more resistance means less current, and less resistance means more. It is the workhorse equation of every circuit.
+
+<OhmsLawAnimation />
+
+The widget above is a single loop: a battery driving charge through a resistor, with a lamp on the top wire. Drag the two sliders and watch the readouts obey $V = IR$.
+
+- **Raise the voltage** with resistance fixed. The current climbs in proportion — the charge carriers speed up all the way around, and the lamp brightens.
+- **Raise the resistance** with voltage fixed. The current falls, the carriers slow, the lamp dims. Doubling $R$ halves $I$.
+- **Watch the blue dots.** They are evenly spaced and move at the same rate everywhere in the loop — never bunching up or thinning out. That even spacing is the whole point of the next section.
+
+## Nothing is used up
+
+Here is the misconception worth killing outright: current is **not** "used up" as it travels around a circuit. Charge is **conserved**. In a single series loop, the current is identical at every point — the same number of coulombs per second leaves the battery's terminal, passes *into* the bulb, comes *out* of the bulb, and returns to the battery. If you put an ammeter before the bulb and another after it, they read the same value. Nothing about the bulb "eats" current.
+
+What the bulb consumes is **energy**. Each unit of charge arrives carrying energy the source gave it (that is what voltage *is*), and as it pushes through the resistance it hands that energy over — to heat, to light, to motion. The charge continues on, depleted of energy but entirely intact, back to the source to be re-energised. The rate at which a component consumes energy is its **power**:
+
+$$P = VI = I^2 R = \frac{V^2}{R}$$
+
+measured in watts. The first form says power is push times flow. Substituting Ohm's law gives the other two: a resistor carrying current $I$ dissipates $I^2 R$ watts as heat, which is why a toaster wire glows and a phone charger warms up. The energy is spent; the charge is not.
+
+## Series and parallel
+
+Real circuits have more than one component, and there are two fundamentally different ways to connect them.
+
+In **series**, components sit one after another on a single loop, so the same current flows through all of them and their resistances **add**:
+
+$$R = R_1 + R_2 + \dots$$
+
+In **parallel**, components sit on separate branches that share the same two connection points, so each branch feels the **full voltage**, and the branch currents add. The combined resistance is found by adding *reciprocals*, so it is always *smaller* than any single branch:
+
+$$\frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2} + \dots$$
+
+<SeriesParallelAnimation />
+
+Toggle between the two arrangements and slide the number of bulbs.
+
+- **In series**, adding a bulb raises the total resistance, so by $I = V/R$ the one shared current *drops* — and every bulb gets dimmer. Three identical bulbs in series each shine at a ninth of a single bulb's brightness. Watch the charge dots slow to a crawl as you add more.
+- **In parallel**, each new bulb gets its own branch at the full battery voltage, so it lights at *full* brightness regardless of the others. The branch currents add, the total resistance falls, and the source has to deliver more current — the trunk wire near the battery carries the sum of all the branches. This is why your home wiring is parallel: every appliance gets the same mains voltage, and switching one on does not dim the rest.
+
+Series adds resistance and shares one current; parallel shares the voltage and adds the currents. That single distinction explains the behaviour of nearly every everyday circuit.
+
+## The electrons are crawling
+
+Return to the opening puzzle. When you flip the switch, the lamp appears to respond instantly. It is tempting to imagine electrons rocketing down the wire from the switch to the bulb near the speed of light. They do not.
+
+Individual electrons in a copper wire **drift** astonishingly slowly — on the order of *millimetres per second* for an ordinary current. At that pace, a single electron would take hours to travel from your switch to your ceiling lamp. No electron makes that trip to turn the light on. So what is fast?
+
+The **electric field**. Closing the switch establishes a field along the wire, and that field propagates near the speed of light. It reaches the entire loop almost immediately and pushes on *all* the charge already present in the wire at once — the way a full pipe delivers water from the far tap the instant you open the valve, even though the specific water molecules by your hand have barely moved. The whole column of charge, from the battery through the bulb and back, begins to shuffle forward together. The bulb lights not because electrons raced to it, but because the electrons *already inside its filament* started moving the moment the field arrived.
+
+Those fields are not a side detail; they are the deeper story of what electricity *is*. Charges and the fields they create are the subject of [electromagnetic waves](/articles/electromagnetic-waves) — the same electromagnetism that carries light and radio is what shoves the charge around your circuit.
+
+And once you can switch a current on and off reliably, you have a building block for something far larger. A [logic gate](/articles/logic-gates) is nothing but a small circuit of switches — transistors — that lets one current control another. Stack billions of them and you have a computer. Every calculation it performs bottoms out in current flowing, or not, through a loop, governed by exactly the $V = IR$ you have just met.
+
+<KeyTakeaways>
+- A current is a flow of conserved charge around a **complete loop**, driven by the voltage (the "push") a source such as a battery supplies; break the loop anywhere and the flow stops everywhere.
+- **Ohm's law** $V = IR$ ties the three quantities together: for a fixed voltage, more resistance means less current. Power $P = VI = I^2R$ is the rate at which components consume **energy**.
+- Current is **never used up** — the same current flows all the way around a series loop. It is energy the components consume, not charge, which is conserved.
+- In **series**, resistances add and one current is shared (so more bulbs dim); in **parallel**, each branch gets the full voltage and the currents add (so total resistance drops and the source delivers more).
+- Electrons **drift** millimetres per second, but the electric field propagates near light speed and pushes the whole column of charge at once — which is why the bulb lights the instant you flip the switch, not because any electron raced there.
+</KeyTakeaways>
