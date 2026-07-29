@@ -1,0 +1,106 @@
+---
+title: "Angular Momentum: Why Skaters Spin Faster"
+subtitle: "The same conserved quantity that whips a skater into a blur keeps a spinning top from ever falling over."
+topic: "Physics"
+slug: "angular-momentum"
+date: "2026-07-20"
+readTime: 10
+featured: false
+description: "How conservation of angular momentum makes a skater spin faster when she pulls her arms in, and why a spinning gyroscope precesses instead of toppling under gravity."
+tags: ["angular-momentum", "rotation", "conservation-laws", "gyroscopes"]
+quiz:
+  - q: "A skater pulls her arms in during a spin and speeds up dramatically. What actually causes the increase in angular velocity?"
+    options:
+      - "She pushes off the ice harder, adding energy to the spin"
+      - "Air resistance drops when her arms are tucked in"
+      - "Her moment of inertia falls, so ω must rise to keep L = Iω constant"
+      - "Angular momentum increases because her mass moves faster"
+    answer: 2
+    explanation: "With no external torque, angular momentum L = Iω is conserved. Pulling her arms in shrinks her moment of inertia I, so ω must rise to keep the product fixed. She adds no angular momentum — she redistributes her mass."
+  - q: "A fast-spinning gyroscope on a pivot does not fall over. Why not?"
+    options:
+      - "The spin generates a force that cancels gravity"
+      - "Gravity's torque is perpendicular to the spin's angular momentum, so it rotates L sideways (precession) instead of tipping it down"
+      - "The gyroscope is weightless while spinning"
+      - "Friction at the pivot holds it upright"
+    answer: 1
+    explanation: "Gravity still pulls down and still exerts a torque. But that torque is perpendicular to the spin angular momentum L, so τ = dL/dt swings the L vector horizontally — the axis precesses in a circle rather than falling."
+  - q: "For a spinning top, how does the precession rate Ω depend on the spin rate?"
+    options:
+      - "Faster spin makes it precess faster"
+      - "Spin rate has no effect on precession"
+      - "Faster spin makes it precess more slowly, since Ω = τ/L and L grows with spin"
+      - "Precession stops entirely above a critical spin rate"
+    answer: 2
+    explanation: "Precession rate is Ω = τ/L. Since L = Iω_spin grows with spin, a faster-spinning top has a larger L and therefore a smaller Ω — it precesses more slowly and majestically."
+---
+
+## A quantity that refuses to change
+
+Watch a figure skater launch into a spin. She starts with her arms and one leg flung wide, turning at a stately pace. Then she draws everything in toward her body — and suddenly she is a blur, spinning several times faster, having touched nothing and pushed off nothing. It looks like magic, or like free energy appearing from nowhere.
+
+It is neither. It is one of the deepest bookkeeping rules in physics: the **conservation of angular momentum**. Just as linear momentum $p = mv$ is conserved when no external force acts, angular momentum is conserved when no external *torque* acts. For rotation about a fixed axis:
+
+$$L = I\omega$$
+
+Here $\omega$ is the angular velocity (how fast she turns) and $I$ is the **moment of inertia** — the rotational analogue of mass. Unlike mass, $I$ is not a fixed number for an object; it depends on *how the mass is distributed relative to the axis*. Mass far from the axis counts far more, because $I$ sums up $m r^2$ for every bit of mass at distance $r$.
+
+## The skater, corrected
+
+Here is the misconception worth killing outright: the skater does **not** speed up because she "pushes off" or "adds energy" to the spin. She adds no angular momentum at all. The ice is nearly frictionless, so there is no external torque about her vertical axis, and $L$ is locked at whatever value she started with.
+
+What she changes is $I$. With arms extended, her mass sits far from the axis and $I$ is large. Pull the arms in, and that same mass moves close to the axis, so $I$ drops — often by a factor of three or four. Because $L = I\omega$ cannot change:
+
+$$I_\text{wide}\,\omega_\text{slow} = I_\text{tight}\,\omega_\text{fast}$$
+
+If $I$ falls to a third of its value, $\omega$ must triple. The skater is not fighting physics; she is exploiting it.
+
+<SpinningSkaterAnimation />
+
+Drag the arms in and out. Notice that the green $L$ bar never moves — it is pinned at the top. The blue moment-of-inertia bar and the gold $\omega$ bar trade off against each other in exact inverse proportion, precisely as $L = I\omega$ demands.
+
+There is a subtlety worth being honest about. Watch the purple **kinetic energy** bar: it *rises* as the arms come in. Rotational kinetic energy is
+
+$$KE = \tfrac{1}{2}I\omega^2 = \frac{L^2}{2I}$$
+
+so as $I$ shrinks, $KE$ grows. Energy is *not* conserved here — and that is not a contradiction. The skater does real work: she pulls her arms inward against the outward "centrifugal" tendency of her spinning mass, and that muscular work goes straight into the spin as extra kinetic energy. Angular momentum is conserved; energy is supplied. Both statements are true at once.
+
+## Angular momentum is a vector
+
+So far we have treated $L$ as a single number, but it is really a **vector**. It points along the axis of rotation (by the right-hand rule) and its length is $I\omega$. Conservation applies to the whole vector: absent an external torque, $L$ keeps both its magnitude *and* its direction.
+
+That directional stubbornness is why a spinning bicycle wheel resists being tilted, why a rifle bullet is spun for stability, and why a thrown football spirals true. The relationship between torque and angular momentum is the rotational version of Newton's second law:
+
+$$\vec{\tau} = \frac{d\vec{L}}{dt}$$
+
+A torque does not simply speed a rotation up or slow it down — it changes the $L$ *vector*. If the torque is along $L$, it changes the spin rate. If the torque is *perpendicular* to $L$, it changes the *direction* of $L$ while leaving its length alone. That second case is the whole secret of the gyroscope.
+
+## The gyroscope, corrected
+
+Set a fast-spinning top on a pivot and tilt it. Intuition screams that gravity should topple it. It doesn't — and the popular explanation, that a gyroscope "defies gravity," is flatly wrong. Gravity pulls down on the top's center of mass exactly as hard as ever, and it exerts a very real torque about the pivot: $\tau = mgd\sin\theta$, where $d$ is the distance from pivot to center of mass and $\theta$ is the tilt from vertical.
+
+The trick is the *direction* of that torque. The gravitational torque is horizontal and perpendicular to the spin angular momentum $L$. By $\vec{\tau} = d\vec{L}/dt$, the torque pushes the tip of the $L$ vector sideways, not downward. The axis therefore sweeps out a horizontal circle — it **precesses** — instead of falling.
+
+<GyroscopePrecessionAnimation />
+
+The green arrow is $L$ along the spin axis; the red arrow is the gravitational torque $\tau$, always perpendicular to it; and the axis traces a cone. The precession rate follows directly from $\tau = dL/dt$. In one small time step the horizontal component of $L$ (which has length $L\sin\theta$) turns through an angle $d\phi = \tau\,dt / (L\sin\theta)$, so
+
+$$\Omega = \frac{\tau}{L\sin\theta} = \frac{mgd\sin\theta}{I\omega_\text{spin}\,\sin\theta} = \frac{mgd}{I\,\omega_\text{spin}}$$
+
+The $\sin\theta$ cancels — precession rate does not depend on tilt. But it depends strongly on spin: a *faster* top has a larger $L$, so it precesses *more slowly*. Push the spin slider up in the widget and watch the majestic slow wheel of a fast top; slow the spin and the precession quickens. A dying top precesses faster and faster as friction bleeds away its spin, which is why a top's final wobble is a frantic one.
+
+## The same law, everywhere
+
+Because angular momentum is conserved, it shows up wherever things rotate. A high diver tucks to spin fast through somersaults, then opens out to slow down and enter the water cleanly — the skater's trick, airborne. A falling cat twists its front and back halves in opposite senses to right itself while keeping its total $L$ at zero. A helicopter needs a tail rotor precisely *because* angular momentum is conserved: without it, the body would spin the opposite way to the main rotor.
+
+The same conservation law governs the heavens. A collapsing gas cloud spins faster as it shrinks — the reason young stars are surrounded by fast-rotating disks and why a neutron star, the crushed core of a dead star, can spin hundreds of times per second. And it underlies [Kepler's laws](/articles/keplers-laws): a planet sweeps out equal areas in equal times precisely because the Sun's gravity exerts no torque about the planet's orbit, so the planet's orbital angular momentum is conserved — it speeds up near the Sun and slows down far away, keeping $L$ fixed. The equal-areas rule *is* angular-momentum conservation in disguise.
+
+You will meet these ideas again in other rotating and oscillating systems — the exchange of energy in [pendulum motion](/articles/pendulum-motion), the sharp response of driven systems in [resonance](/articles/resonance), and the swirling conserved quantities of [fluid dynamics](/articles/fluid-dynamics). Rotation is everywhere, and angular momentum is the ledger that keeps it honest.
+
+<KeyTakeaways>
+- Angular momentum $L = I\omega$ is conserved when no external torque acts — the skater speeds up by shrinking her moment of inertia $I$, not by adding energy or pushing off.
+- Rotational kinetic energy $\tfrac{1}{2}I\omega^2 = L^2/2I$ actually *rises* as the arms come in; the skater does work pulling them inward, so energy is supplied while $L$ stays fixed.
+- $L$ is a vector, and torque obeys $\vec{\tau} = d\vec{L}/dt$: a perpendicular torque rotates $L$ instead of changing its length.
+- A gyroscope does not defy gravity — gravity's torque is perpendicular to $L$, so the axis precesses in a circle at rate $\Omega = mgd/(I\omega_\text{spin})$, slower for faster spin.
+- The same law explains divers, falling cats, helicopter tail rotors, fast-spinning collapsed stars, and Kepler's equal-areas rule for orbiting planets.
+</KeyTakeaways>
