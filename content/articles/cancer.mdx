@@ -1,0 +1,98 @@
+---
+title: "Cancer: When Cell Division Loses Its Brakes"
+subtitle: "Not an invader from outside, but your own cells doing the one thing every cell is built to do — divide — after the controls that normally stop them have been broken one mutation at a time."
+topic: "Medicine"
+slug: "cancer"
+date: "2026-07-27"
+readTime: 10
+featured: false
+description: "Why cancer is not one disease or one mutation but an accumulation of several, how it jams the accelerator and cuts the brakes, and why it is evolution running inside your own body."
+tags: ["cancer", "cell-cycle", "mutations", "oncology"]
+quiz:
+  - q: "Why does cancer risk rise so steeply with age?"
+    options:
+      - "The immune system simply switches off after middle age, removing all defence against tumours"
+      - "Older cells divide much faster than young cells, so mistakes happen more often"
+      - "Cancer usually requires several independent mutations to accumulate in the same cell lineage, and that takes time and many divisions"
+      - "A single mutation is enough, but it takes decades for that one mutation to appear"
+    answer: 2
+    explanation: "The multi-hit model means a cell must collect a set of cooperating mutations — jamming accelerators and disabling brakes — before it becomes cancerous. Waiting for several rare events to land in one lineage is what makes age the dominant risk factor."
+  - q: "In what sense is a growing tumour an example of natural selection?"
+    options:
+      - "It is not — tumour growth is purely random and has nothing to do with selection"
+      - "Cells that happen to divide faster or evade the immune system leave more descendants, so their traits come to dominate the tumour"
+      - "The body deliberately selects the healthiest cells to form the tumour"
+      - "Tumours only grow when an outside organism selects which cells survive"
+    answer: 1
+    explanation: "Within the tissue there is variation (mutations), heritability (daughters inherit them), and differential reproduction (faster-dividing, immune-evading cells win). That is Darwin's mechanism, operating on a cell population over months rather than a species over millennia."
+  - q: "What does the TP53 gene normally do, and what happens when it is disabled?"
+    options:
+      - "It speeds up division; disabling it stops the cell from dividing at all"
+      - "It is a tumour-suppressor that halts the cycle for repair or triggers apoptosis; disabling it lets damaged cells keep dividing"
+      - "It is a proto-oncogene; disabling it prevents cancer"
+      - "It manufactures the cell wall; disabling it makes the cell burst"
+    answer: 1
+    explanation: "TP53 is a central brake — often called the guardian of the genome. It pauses the cycle so damage can be fixed, or orders apoptosis if it cannot. Losing it removes one of the cell's most important safeguards against passing damage on."
+---
+
+## The most misunderstood diagnosis
+
+Say the word "cancer" and most people picture something alien — an invader that arrives from outside, takes hold, and spreads. Almost every part of that picture is wrong, and the correct picture is stranger and, oddly, less frightening once you see it clearly.
+
+Cancer is not one disease. It is an umbrella term for hundreds of them, and they have in common a single broken behaviour: a cell of your own body dividing when it should not. Not a foreign organism, not a poison, not a thing that got in. Your own cell, running your own DNA, doing the one thing cells are built to do — copy themselves — with the controls that normally regulate that copying no longer working.
+
+To see how those controls fail, we first have to see what they are.
+
+## The cell cycle and its checkpoints
+
+Every time one cell becomes two, it runs through an ordered sequence called the [cell cycle](/articles/cell-division). It grows (G1), copies its entire genome (S phase, a feat of [DNA replication](/articles/dna-replication) across three billion letters), grows a little more and checks its work (G2), and then divides (M phase, mitosis). Left alone, a cell does not simply race around this loop. It stops at gates.
+
+These gates are the **checkpoints**, and they are the reason your body is not a tumour. At the G1 checkpoint the cell asks: is my DNA intact, do I have the resources to divide, and has anything told me to hold? At the G2 checkpoint it asks: did I copy everything correctly? A cell that finds a problem does one of two things. If the damage looks fixable, it pauses and calls in the repair machinery. If the damage is too severe, it triggers **apoptosis** — programmed cell death, a clean and deliberate self-destruct that removes the cell before it can pass its errors on.
+
+This is worth sitting with, because it inverts the usual intuition. Your cells acquire DNA damage constantly — from ultraviolet light, from ordinary metabolism, from the sheer statistics of copying billions of letters. The remarkable thing is not that damage happens; it is that almost all of it is caught and either repaired or deleted. Damaged cells being destroyed is the system working, not failing.
+
+<CellCycleControlAnimation />
+
+Two kinds of gene run this control system, and it helps to think of a car. There are **accelerators** — genes that say "divide now." In their normal form these are called **proto-oncogenes**, and they are essential: growth, healing, and development all depend on them. And there are **brakes** — **tumour-suppressor genes** like *TP53* and *RB1* that halt the cycle for repair, or order apoptosis when repair is hopeless. A healthy cell divides when the accelerators are pressed at the right moment and the brakes are released, and stops otherwise.
+
+## Why one mutation is not enough
+
+Here is the misconception that does the most damage: that cancer is a single disease caused by a single mutation, one unlucky hit and it is over. It is not, and understanding why is the key to the whole subject.
+
+A car does not run away because you tap the accelerator once. To lose control you need the accelerator stuck down *and* the brakes cut. A cell is built the same way, deliberately, with redundancy. To become cancerous a cell lineage typically has to accumulate **several** mutations that cooperate: some that jam the accelerator — turning a proto-oncogene into a permanently-on **oncogene** — and others that cut the brakes, disabling tumour-suppressors like *TP53* and defeating apoptosis. This is the **multi-hit model**. A stuck accelerator alone usually just triggers the brakes: a cell dividing when it should not is exactly what a checkpoint is built to catch, and *TP53* will often send such a cell to apoptosis. Only when the brakes are also gone does the accelerator win.
+
+If becoming cancerous requires several independent rare events landing in the *same* cell lineage, we can reason about the odds. Suppose each required mutation has a small probability $p$ of occurring in a given cell over a given time, and suppose $k$ of them are needed. Very roughly, the chance that one lineage has collected all of them scales like
+
+$$
+P(\text{cancer in a lineage}) \sim p^{\,k},
+$$
+
+a tiny number when $k$ is, say, five or six. But you have tens of trillions of cells dividing over a lifetime, and $p$ itself rises with every carcinogen and every division that copies an existing error. Multiply a minuscule per-lineage probability by an enormous number of lineages accumulating hits over decades, and the steep rise of cancer risk with **age** falls straight out of the arithmetic. Cancer is largely a disease of time because collecting a full set of cooperating mutations takes time.
+
+## Your own cells, and why cancer is not contagious
+
+The second great misconception is that cancer cells are foreign, or that cancer is something you can catch. In humans it is, with vanishingly rare exceptions, neither. A cancer cell carries *your* DNA — a corrupted copy of it, but yours. It is not a bacterium or a parasite. This is also why cancer is not contagious: there is no organism to transmit, and another person's [immune response](/articles/immune-response) would in any case recognise transplanted cells as foreign and destroy them. (Some *viruses*, such as HPV, can raise cancer risk by damaging these control genes over years — but it is the accumulated genetic damage that causes cancer, not a transmissible cancer itself.)
+
+So if the cell is your own and starts from a single ancestor, why does a tumour become such a formidable, shifting thing? Because what happens next is **evolution by [natural selection](/articles/natural-selection)**, running inside your body.
+
+<ClonalExpansionAnimation />
+
+The ingredients Darwin needs are all present in a growing mass of dividing cells. There is **variation**: every division risks new mutations, so the population is not uniform. There is **heritability**: a daughter cell inherits its parent's mutations. And there is **differential reproduction**: a cell that happens to divide a little faster, or ignore a "stop growing" signal, or slip past the immune system, leaves more descendants than its neighbours. Selection does the rest. Over many generations the faster, tougher lineages come to dominate — not by design, but because they simply out-divide the others.
+
+This is why tumours are **heterogeneous** — a patchwork of competing clones rather than a uniform lump. It is why they can trigger **angiogenesis**, coaxing the body to grow new blood vessels to feed them, and why some cells eventually acquire the ability to break away, travel, and seed new colonies elsewhere — **metastasis**, the property that makes cancer dangerous. Each of these is a trait that got selected because the cells carrying it left more descendants. A tumour is not a plan. It is what natural selection produces when it is pointed, accidentally, at your own tissue.
+
+## What this understanding buys us
+
+Framing cancer this way is not just tidy; it directs treatment. If cancer is division without brakes, then some therapies aim squarely at dividing cells — classic chemotherapy hits cells in the act of copying and splitting, which is why it also affects fast-renewing healthy tissues and produces familiar side effects. If a particular cancer is driven by one specific stuck accelerator, a **targeted therapy** can be designed to block that exact oncogene's protein. And because a tumour is a population your [immune response](/articles/immune-response) is supposed to police, **immunotherapies** work by releasing the brakes the tumour put on your own immune cells, letting them recognise and attack the cancer.
+
+The evolutionary view also explains treatment's hardest problem. If you kill 99% of a heterogeneous tumour, you may have simply *selected* for the resistant 1% — the same logic that drives [antibiotic resistance](/articles/antibiotic-resistance) in bacteria. This is why combination therapies, and strategies that try to manage rather than maximally attack a tumour, are areas of active research.
+
+None of this is medical advice, and cancer biology is vastly richer than one article can hold. But the core idea is honest and, in its way, hopeful: cancer is not an unknowable curse or an alien invader. It is a comprehensible failure of a control system we understand better every year — and understanding the mechanism is exactly how the mechanism gets outmatched.
+
+<KeyTakeaways>
+- Cancer is not one disease or one mutation. It is an umbrella for many diseases, each arising when **several** mutations accumulate in the same cell lineage — the multi-hit model.
+- Those mutations must both **jam the accelerator** (proto-oncogenes becoming oncogenes) and **cut the brakes** (disabling tumour-suppressors like *TP53* and defeating apoptosis). A stuck accelerator alone is usually caught and destroyed.
+- Because collecting a full set of cooperating mutations takes many divisions over time, cancer risk rises **steeply with age**.
+- Cancer cells are your **own** cells, not foreign invaders, and human cancer is **not contagious** — there is no organism to transmit.
+- A tumour is **evolution by natural selection** inside the body: variation, heredity, and differential reproduction select for faster-dividing, immune-evading clones, producing heterogeneity, angiogenesis, and metastasis — and this same logic shapes how treatments are designed.
+</KeyTakeaways>
