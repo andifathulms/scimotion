@@ -3317,6 +3317,38 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  anesthesia: c => {
+    // An action potential (gold pulse) halted at an anaesthetised Na+-blocked
+    // segment before it can reach the brain — the brain stays dark (no pain).
+    const before = [34, 52, 70, 88, 106]
+    const blocked = [150, 168, 186]
+    const after = [206, 224, 242]
+    const ticks: ReactNode[] = []
+    before.forEach(x => ticks.push(<line key={`b${x}`} x1={x} y1={50} x2={x} y2={70} stroke={c} strokeWidth={2} />))
+    after.forEach(x => ticks.push(<line key={`a${x}`} x1={x} y1={52} x2={x} y2={68} stroke={MUTE} strokeWidth={1.5} />))
+    const crosses: ReactNode[] = []
+    blocked.forEach(x => crosses.push(
+      <g key={`x${x}`}>
+        <line x1={x - 4} y1={52} x2={x + 4} y2={68} stroke={MUTE} strokeWidth={1.5} />
+        <line x1={x + 4} y1={52} x2={x - 4} y2={68} stroke={MUTE} strokeWidth={1.5} />
+      </g>
+    ))
+    return (
+      <g>
+        <line x1={16} y1={60} x2={200} y2={60} stroke={MUTE} strokeWidth={2} />
+        <line x1={200} y1={60} x2={250} y2={60} stroke={FAINT} strokeWidth={2} strokeDasharray="4 4" />
+        <rect x={138} y={42} width={60} height={36} rx={3} fill={FAINT} stroke={MUTE} strokeWidth={0.75} strokeDasharray="4 4" />
+        <text x={168} y={38} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">Na⁺ block</text>
+        {ticks}
+        {crosses}
+        <circle cx={118} cy={60} r={12} fill={`${c}33`} />
+        <circle cx={118} cy={60} r={5} fill={GOLD} />
+        <circle cx={270} cy={60} r={16} fill={FAINT} stroke={MUTE} strokeWidth={1.25} />
+        <path d="M 262 56 Q 266 52 270 56 Q 274 52 278 56" fill="none" stroke={MUTE} strokeWidth={0.75} />
+        <path d="M 262 64 Q 266 60 270 64 Q 274 60 278 64" fill="none" stroke={MUTE} strokeWidth={0.75} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

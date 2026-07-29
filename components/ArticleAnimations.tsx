@@ -1160,3 +1160,13 @@ export const RetinaAnimation = dynamic(
   () => import('@/components/animations/RetinaAnimation').then(m => ({ default: m.RetinaAnimation })),
   { ssr: false }
 )
+
+export const LocalAnestheticAnimation = dynamic(
+  () => import('@/components/animations/LocalAnestheticAnimation').then(m => ({ default: m.LocalAnestheticAnimation })),
+  { ssr: false }
+)
+
+export const AnesthesiaDepthAnimation = dynamic(
+  () => import('@/components/animations/AnesthesiaDepthAnimation').then(m => ({ default: m.AnesthesiaDepthAnimation })),
+  { ssr: false }
+)
