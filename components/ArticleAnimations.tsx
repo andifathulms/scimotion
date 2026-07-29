@@ -1150,3 +1150,13 @@ export const RockFormationAnimation = dynamic(
   () => import('@/components/animations/RockFormationAnimation').then(m => ({ default: m.RockFormationAnimation })),
   { ssr: false }
 )
+
+export const EyeOpticsAnimation = dynamic(
+  () => import('@/components/animations/EyeOpticsAnimation').then(m => ({ default: m.EyeOpticsAnimation })),
+  { ssr: false }
+)
+
+export const RetinaAnimation = dynamic(
+  () => import('@/components/animations/RetinaAnimation').then(m => ({ default: m.RetinaAnimation })),
+  { ssr: false }
+)

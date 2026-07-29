@@ -249,6 +249,8 @@ import {
   CMBSpectrumAnimation,
   RockCycleAnimation,
   RockFormationAnimation,
+  EyeOpticsAnimation,
+  RetinaAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -499,6 +501,8 @@ const components = {
   CMBSpectrumAnimation,
   RockCycleAnimation,
   RockFormationAnimation,
+  EyeOpticsAnimation,
+  RetinaAnimation,
   KeyTakeaways,
 }
 

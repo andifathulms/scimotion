@@ -3297,6 +3297,26 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  vision: c => {
+    // Eye cross-section: an upright object on the left, rays bent by cornea+lens
+    // to a real, inverted image on the retina at the back. All coords integer.
+    return (
+      <g>
+        <line x1={20} y1={60} x2={272} y2={60} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <ellipse cx={192} cy={60} rx={62} ry={46} fill={`${c}0F`} stroke={MUTE} strokeWidth={1} />
+        <path d="M 132 42 A 24 24 0 0 0 132 78" fill="none" stroke={c} strokeWidth={2} />
+        <ellipse cx={150} cy={60} rx={6} ry={20} fill={`${c}22`} stroke={c} strokeWidth={1.5} />
+        <path d="M 232 36 A 24 24 0 0 1 232 84" fill="none" stroke={GOLD} strokeWidth={2} />
+        <polyline points="40,60 150,60 238,60" fill="none" stroke={FAINT} strokeWidth={1} />
+        <polyline points="40,30 150,42 238,80" fill="none" stroke={MUTE} strokeWidth={0.75} />
+        <polyline points="40,30 150,78 238,80" fill="none" stroke={MUTE} strokeWidth={0.75} />
+        <line x1={40} y1={60} x2={40} y2={32} stroke={c} strokeWidth={2} />
+        <polygon points="40,30 36,38 44,38" fill={c} />
+        <line x1={238} y1={60} x2={238} y2={80} stroke={GOLD} strokeWidth={2} />
+        <polygon points="238,82 234,74 242,74" fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
