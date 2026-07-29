@@ -1,0 +1,110 @@
+---
+title: "Tidal Forces: Why the Moon Raises Two Bulges"
+subtitle: "The ocean bulges on both sides of the Earth at once — and the reason rewrites what you think gravity is doing."
+topic: "Astronomy & Cosmology"
+slug: "tidal-forces"
+date: "2026-07-15"
+readTime: 10
+featured: false
+description: "Why the Moon raises two ocean bulges (not one), why its weaker pull beats the Sun's, and how the same 1/r³ stretch locks moons and shatters them at the Roche limit."
+tags: ["tides", "gravity", "tidal-locking", "roche-limit"]
+quiz:
+  - q: "Why are there two high tides on Earth at roughly the same time — one facing the Moon and one on the opposite side?"
+    options:
+      - "The Moon pulls the near ocean up, and the Earth's spin flings the far ocean out"
+      - "The near side is pulled toward the Moon more than the Earth's centre, and the far side less, so both are stretched away from the centre"
+      - "The Sun raises the far bulge while the Moon raises the near one"
+      - "Water sloshes back and forth, so the far bulge is just the near bulge half a day later"
+    answer: 1
+    explanation: "Tides come from the difference in the Moon's pull across the Earth. The near side is pulled harder than the centre and the far side is pulled less, so relative to the centre both ends are stretched outward — two bulges."
+  - q: "The Sun is about 27 million times more massive than the Moon, yet the Moon dominates Earth's tides. Why?"
+    options:
+      - "The Sun's gravity is blocked by the atmosphere"
+      - "Tidal force falls off as 1/r³, so the Moon's ~390× smaller distance more than cancels the Sun's greater mass"
+      - "The Sun only raises tides during the day"
+      - "The Moon is denser, so its tidal pull is stronger"
+    answer: 1
+    explanation: "Raw gravity scales as 1/r², but the tidal (differential) force scales as 1/r³. The Sun's huge mass is beaten by the Moon being ~390 times closer, leaving the Moon's tidal effect about 2.2× the Sun's."
+  - q: "What happens to a loosely bound (fluid or rubble-pile) moon that drifts inside its planet's Roche limit?"
+    options:
+      - "It speeds up and escapes into a higher orbit"
+      - "It is tidally torn apart because the stretching force exceeds its own self-gravity"
+      - "It becomes tidally locked but stays whole"
+      - "It merges into the planet within one orbit"
+    answer: 1
+    explanation: "Inside the Roche limit the tidal force across the body exceeds the self-gravity holding it together, so a fluid or rubble-pile body shears apart into a ring of debris."
+---
+
+## The tide that shouldn't be there
+
+Stand on any ocean coast and the sea rises and falls roughly twice a day. One high tide makes obvious sense: the Moon is overhead, its gravity tugs the water upward, the ocean bulges toward it. But there is a *second* high tide about twelve hours later — when the Moon is on the **far side of the Earth**, pulling in the opposite direction. If the Moon simply lifts the near ocean, where does the far bulge come from?
+
+The usual mental picture — *the Moon pulls the near ocean up, so there is one bulge* — is wrong, and fixing it reveals what a tide actually is. There are **two bulges**, on opposite sides of the Earth, and they exist for the same reason at the same time. The key is that gravity is not uniform across the Earth: the Moon pulls harder on whatever is closer.
+
+## It's the difference that matters
+
+The Moon's gravitational acceleration on a chunk of matter at distance $r$ is
+
+$$g(r) = \frac{GM_{\text{Moon}}}{r^2}.$$
+
+The Earth is not a point. Its near side sits about one Earth radius *closer* to the Moon than its centre, and its far side one Earth radius *farther*. So the Moon pulls the near ocean a little **harder** than it pulls the Earth's centre, and pulls the far ocean a little **weaker** than the centre.
+
+Now stand in the Earth's own reference frame, which falls freely toward the Moon at exactly the rate the centre is pulled. What you feel is not the raw pull but the **difference** between the local pull and the pull on the centre — the *residual*, or **tidal**, force:
+
+- **Near side:** pulled toward the Moon *more* than the centre → stretched **toward** the Moon.
+- **Far side:** pulled toward the Moon *less* than the centre → the centre accelerates away from it, so it is **left behind**, stretched **away** from the Moon.
+- **The flanks** (top and bottom) are pulled slightly *inward* toward the Earth–Moon line → squeezed.
+
+The result is a stretch along the Earth–Moon axis and a squeeze across it: an egg-shaped envelope with a bulge on **both** ends. The Earth rotates through this fixed pair of bulges once a day, so most coastlines see two high tides every ~25 hours (a little over 24 because the Moon has moved along its orbit).
+
+<TidalStretchAnimation />
+
+## Why it falls off as 1/r³
+
+The size of that difference is what makes tides special. Take the gravitational acceleration $g(r) = GM/r^2$ and ask how much it changes across a small span $\Delta r$ (like the Earth's radius). That is a derivative:
+
+$$\frac{dg}{dr} = -\frac{2GM}{r^3},$$
+
+so the tidal (differential) acceleration across a body of size $\Delta r$ is approximately
+
+$$\Delta g \approx \frac{2GM}{r^3}\,\Delta r.$$
+
+Raw gravity weakens as $1/r^2$; the *tidal* force weakens far faster, as $\mathbf{1/r^3}$. Distance matters much more for tides than for ordinary gravity — which sets up the most famous surprise in the subject.
+
+## The Sun is bigger, so why does the Moon win?
+
+The Sun is about **27 million times** more massive than the Moon. Naively it should own our tides. But tides scale as $M/r^3$, and the Sun is about **390 times farther** away. Compare the two:
+
+$$\frac{\Delta g_{\text{Moon}}}{\Delta g_{\text{Sun}}} = \frac{M_{\text{Moon}}}{M_{\text{Sun}}}\left(\frac{r_{\text{Sun}}}{r_{\text{Moon}}}\right)^3 \approx \frac{1}{2.7\times10^7}\times(390)^3 \approx 2.2.$$
+
+That cube is decisive: $390^3 \approx 5.9\times10^7$, more than twice the Sun's mass advantage. So the Moon's tidal effect is about **2.2 times** the Sun's, and the nearby, feeble Moon beats the distant, mighty Sun. The belief that *the bigger Sun must dominate the tides* fails precisely because tides live on $1/r^3$, not gravity's $1/r^2$.
+
+The Sun is not irrelevant, though. When Sun, Earth, and Moon line up (new and full Moon), the two tidal stretches add, giving extra-high **spring tides**. When the Sun and Moon pull at right angles (first and last quarter), they partly cancel, giving weaker **neap tides**. The same geometry that governs orbits in [Kepler's laws](/articles/keplers-laws) sets this monthly rhythm.
+
+## Tidal locking: one face forever
+
+Tides do not just move water — they act on the solid body too, and over time they reshape orbits. The Earth raises tidal bulges on the *Moon*, and because the Moon once spun faster than it orbited, those bulges were dragged slightly ahead of the Earth–Moon line. The Earth's gravity tugging back on the offset bulges applied a **torque** that braked the Moon's spin, until its rotation period exactly matched its orbital period.
+
+That is **tidal locking**: the Moon now turns once per orbit, so it keeps the *same face* toward Earth permanently — the reason there is a "far side" we never see from the ground. The same process is slowly lengthening Earth's day (about 1.7 ms per century) and pushing the Moon outward at ~3.8 cm per year, as angular momentum shifts from Earth's spin into the Moon's orbit. Most large moons in the solar system are tidally locked to their planets for the same reason.
+
+## The Roche limit: when tides win
+
+Push the differential force far enough and it stops merely stretching a body — it tears it apart. A moon is held together by its own **self-gravity**. But self-gravity is a fixed internal budget, while the tidal stretch grows as $1/r^3$ as the moon spirals inward. At some critical distance the stretch across the moon exceeds what its gravity can hold, and the body disintegrates.
+
+For a fluid or loosely bound "rubble pile" moon, that **Roche limit** is
+
+$$d \approx 2.44\,R_{\text{planet}}\left(\frac{\rho_{\text{planet}}}{\rho_{\text{moon}}}\right)^{1/3},$$
+
+where $R_{\text{planet}}$ is the planet's radius and $\rho$ the densities. Inside this radius, a fluid moon shears into a ring of debris.
+
+<RocheLimitAnimation />
+
+This is very likely the origin of **Saturn's rings**: a moon (or a comet) that wandered inside the Roche limit and was shredded into the billions of orbiting ice chunks we see today. It is also why the giant planets have their rings *inside* the limit and their intact moons *outside* it. Bodies held by material strength rather than gravity — small, rigid, rocky ones — can survive closer in, which is why a strong spacecraft is not ripped apart by Earth. The extreme version of this stretch, "spaghettification," is what awaits anything falling toward a [black hole](/articles/black-holes), where the $1/r^3$ tidal gradient becomes lethal. And it is these same tidal interactions, playing out over billions of years, that sculpted the moons and rings we map across the [solar system](/articles/solar-system).
+
+<KeyTakeaways>
+- Tides come from the **difference** in a body's gravity across the Earth, not the raw pull — the near side is pulled more than the centre and the far side less, producing **two** bulges, not one.
+- The tidal force weakens as $1/r^3$ (from the derivative of $GM/r^2$), far faster than gravity's $1/r^2$, so distance is doubly important for tides.
+- Because of that cube, the nearby Moon beats the far bigger Sun: the Moon's tidal effect is about **2.2×** the Sun's, and alignment gives strong spring tides while right angles give weak neap tides.
+- **Tidal locking** is tides acting on the solid Moon: a torque on its bulges synchronized its spin to its orbit, so it shows Earth one face forever, while slowly pushing the Moon outward.
+- Inside the **Roche limit**, $d \approx 2.44\,R(\rho_p/\rho_m)^{1/3}$, the tidal stretch beats self-gravity and a fluid moon shatters into a ring — the likely story behind Saturn's rings.
+</KeyTakeaways>
