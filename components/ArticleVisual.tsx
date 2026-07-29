@@ -3104,6 +3104,33 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  spectroscopy: c => {
+    // Hydrogen's Balmer emission barcode on a dark band. Real line wavelengths
+    // (410.2, 434.0, 486.1, 656.3 nm), pre-rounded to integers.
+    const lines: Array<[number, number, string]> = [
+      [45, 2, '#A78BFA'],
+      [64, 2, '#8B7BF0'],
+      [106, 2, '#38BDF8'],
+      [244, 4, '#F87171'],
+    ]
+    return (
+      <g>
+        <rect x={20} y={42} width={260} height={36} rx={2} fill="#050403" stroke={c} strokeWidth={1} />
+        {lines.map(([x, w, col], i) => (
+          <rect key={i} x={x - w / 2} y={42} width={w} height={36} fill={col} />
+        ))}
+        <line x1={20} y1={82} x2={280} y2={82} stroke={MUTE} strokeWidth={0.75} />
+        {[45, 64, 106, 244].map((x, i) => (
+          <line key={i} x1={x} y1={82} x2={x} y2={85} stroke={MUTE} strokeWidth={0.75} />
+        ))}
+        <polygon points="244,34 240,28 248,28" fill={GOLD} />
+        <text x={244} y={24} textAnchor="middle" fontSize={8} fill={GOLD} fontFamily="monospace">Hα</text>
+        <text x={106} y={96} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">486</text>
+        <text x={244} y={96} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">656</text>
+        <text x={280} y={108} textAnchor="end" fontSize={7} fill={MUTE} fontFamily="monospace">λ / nm</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

@@ -235,6 +235,8 @@ import {
   FrostLineAnimation,
   CochleaFrequencyAnimation,
   HearingChainAnimation,
+  SpectralLinesAnimation,
+  IRFingerprintAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -471,6 +473,8 @@ const components = {
   FrostLineAnimation,
   CochleaFrequencyAnimation,
   HearingChainAnimation,
+  SpectralLinesAnimation,
+  IRFingerprintAnimation,
   KeyTakeaways,
 }
 

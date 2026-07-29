@@ -1,0 +1,114 @@
+---
+title: "Spectroscopy: Reading Matter with Light"
+subtitle: "We have never held a piece of a star, yet we know exactly what they are made of — because every atom stamps a unique barcode onto light."
+topic: "Chemistry"
+slug: "spectroscopy"
+date: "2026-07-04"
+readTime: 10
+featured: false
+description: "Atoms absorb and emit light only at wavelengths set by their electron energy levels, so light carries a fingerprint of composition — the basis of knowing what stars, galaxies, and unknown compounds are made of, remotely."
+tags: ["spectroscopy", "atomic-structure", "light", "astronomy"]
+quiz:
+  - q: "Why does an isolated atom absorb and emit light at only a few sharp wavelengths rather than across a continuous range?"
+    options:
+      - "Its electrons move too fast to interact with most wavelengths of light"
+      - "Its electrons occupy discrete energy levels, so only a photon whose energy exactly matches a gap between two levels can be absorbed or emitted"
+      - "The nucleus filters out all but a few colours before they reach the electrons"
+      - "Atoms are too small to interact with long-wavelength light, leaving only a few short ones"
+    answer: 1
+    explanation: "Because the allowed electron energies are discrete, only photons with energy equal to a level difference ($\\Delta E = hf$) can be absorbed or emitted, producing sharp lines rather than a continuum."
+  - q: "The dark Fraunhofer lines in the Sun's spectrum appear at exactly the same wavelengths as the bright lines a heated gas of the same element emits. Why?"
+    options:
+      - "It is a coincidence particular to hydrogen and helium"
+      - "Absorption and emission both involve the same pair of energy levels, so a given element removes and gives out light at identical wavelengths"
+      - "The dark lines are shadows cast by the bright lines elsewhere in the spectrum"
+      - "Cooler gas shifts every emitted wavelength slightly, and the shift happens to cancel"
+    answer: 1
+    explanation: "A transition between two fixed energy levels corresponds to one photon energy whether the atom is absorbing or emitting, so an element's absorption and emission lines coincide."
+  - q: "A green leaf looks green. What does that tell you about the light its pigments absorb?"
+    options:
+      - "The pigments emit green light of their own"
+      - "The pigments absorb green light most strongly"
+      - "The pigments absorb red and blue light and reflect the green they do not absorb"
+      - "The pigments absorb all colours equally, and green is what remains"
+    answer: 2
+    explanation: "An object usually appears the colour of the light it does not absorb — chlorophyll absorbs red and blue and reflects the green, which is why leaves look green."
+---
+
+## A message we could never fetch by hand
+
+We have never brought back a piece of a star, and we never will. The nearest one after the Sun is four light-years away; no probe we could build will scoop up a sample of Sirius and carry it home. And yet we can say, with real confidence, that Sirius is mostly hydrogen, that the Sun's outer layers hold sodium and calcium and iron, that a distant galaxy is enriched in oxygen. We know the composition of objects we can never touch.
+
+The secret is that every kind of atom stamps a unique barcode onto light — a pattern of exact colours it alone can emit or swallow. That barcode is set by the atom's internal structure, it is the same for every atom of that element anywhere in the universe, and it survives the trip across the galaxy essentially intact. Read the barcode in the light and you have read the matter that made it. This is spectroscopy, and it is the single most powerful tool we have for learning what things are made of without taking them apart.
+
+## Why an atom is fussy about light
+
+Start with the fact that makes all of this work: an atom's electrons cannot have just any energy. They occupy **discrete energy levels**, a fixed ladder of allowed states, and nothing in between. This is not a detail we impose — it falls out of treating the electron as a standing wave bound to the nucleus, the picture developed in [atomic structure and the periodic table](/articles/atomic-structure). A confined wave can only take certain shapes, and each shape has its own definite energy.
+
+Now bring in light. A photon carries energy proportional to its frequency,
+
+$$E = hf = \frac{hc}{\lambda},$$
+
+where $h$ is Planck's constant, $f$ the frequency, and $\lambda$ the wavelength — a photon *is* a quantum of the electromagnetic wave described in [Maxwell's equations and the nature of light](/articles/electromagnetic-waves). An electron can jump from a lower level to a higher one by **absorbing** a photon, but only if that photon delivers exactly the energy of the gap between the two levels. Deliver too little or too much and nothing happens; the photon sails past. The condition is exact:
+
+$$\Delta E = E_{\text{upper}} - E_{\text{lower}} = hf = \frac{hc}{\lambda}.$$
+
+Run it backwards and you get **emission**: an electron sitting in a higher level drops to a lower one and releases the energy difference as a single photon of precisely that wavelength. Because the levels are discrete, the gaps are discrete, and therefore the wavelengths an atom will touch are discrete too — a handful of sharp lines, not a smear.
+
+For hydrogen, the simplest atom, the pattern is clean enough to write as a formula. The visible **Balmer series** comes from electrons dropping to the $n=2$ level, and the wavelengths follow
+
+$$\frac{1}{\lambda} = R_{\text{H}}\left(\frac{1}{2^2} - \frac{1}{n^2}\right), \qquad n = 3, 4, 5, \dots$$
+
+with $R_{\text{H}}$ the Rydberg constant. Plug in $n=3$ and you get 656 nm, deep red; $n=4$ gives 486 nm, cyan; $n=5$ and $n=6$ give two violets at 434 and 410 nm. Four lines, fixed by one formula, the same in a laboratory tube and in a star. That fixed, reproducible set of lines is the barcode.
+
+## Emission and absorption: the same barcode, positive or negative
+
+Kirchhoff's laws, worked out by Gustav Kirchhoff and Robert Bunsen in the 1860s, sort the possibilities into two readings of that one barcode.
+
+Heat a gas until its atoms are excited — in a flame, a discharge tube, a hot stellar atmosphere — and they emit. Spread the light through a prism and you see a black background crossed by a few **bright lines**, one at each wavelength the element can emit. This is an **emission spectrum**.
+
+Now do the opposite. Shine a source with a continuous spectrum — a hot dense body that glows across all colours — through a *cooler* gas, and spread the transmitted light. The gas absorbs exactly its own wavelengths out of the passing beam, leaving a continuous rainbow crossed by a few **dark lines**. This is an **absorption spectrum**.
+
+Here is the point that ties the whole subject together, and it is worth being precise about: **the emission and absorption lines of an element fall at exactly the same wavelengths.** They have to — both involve the same pairs of energy levels, and a gap has one size whether an electron is climbing it or falling down it. The emission spectrum is the barcode in bright ink on black; the absorption spectrum is the same barcode punched as dark gaps out of a rainbow. Positive and negative of one image.
+
+<SpectralLinesAnimation />
+
+Pick an element and watch its characteristic bright lines appear — for hydrogen, the four Balmer lines, each tagged with the electron transition (n→2) that produced it. Then hit **Show absorption** and watch those very same lines turn into dark gaps in a continuous spectrum: same positions, inverted. The lower band is an *unknown* gas. Cycle through the elements and find the one whose lines land exactly on the unknown's — when they coincide, the widget draws the connectors and declares a match. That is spectral identification in miniature: you never sampled the unknown, you only compared barcodes.
+
+The classic real example is the Sun. In 1814 Joseph von Fraunhofer, mapping the solar spectrum, catalogued hundreds of dark lines crossing it — the **Fraunhofer lines**. He did not know what they were. Kirchhoff later did: each is a wavelength absorbed by some element in the Sun's cooler outer atmosphere, sitting in front of the hot glowing interior. The dark lines are the elements of the Sun, spelling their names in a language we had already learned in the laboratory.
+
+## Reading a star without touching it
+
+This is where spectroscopy stops being a laboratory curiosity and becomes the backbone of astronomy. Every star hangs a continuous spectrum behind a cooler outer envelope of its own gas, so every star's light arrives stamped with absorption lines. Match those lines against laboratory barcodes and you have the star's composition — the elements forged in it and inherited by it, the raw output of the process in [where the elements come from](/articles/stellar-nucleosynthesis) read directly off the sky.
+
+The most famous demonstration came in 1868. Astronomers studying the Sun's spectrum during an eclipse found a bright emission line, at 587.6 nm, that matched no element then known on Earth. Norman Lockyer proposed it belonged to a new element and named it **helium**, after *helios*, the Sun. Helium was identified in the Sun before anyone had isolated it on Earth — it was not found in a terrestrial sample until 1895, nearly three decades later. A substance was discovered on an object 150 million kilometres away, by its light alone, before it was discovered underfoot.
+
+The same method scales up without limit. The absorption lines of a distant galaxy tell us its composition; the fact that all its lines are shifted bodily toward longer wavelengths, by the [Doppler effect](/articles/doppler-effect), tells us how fast it is receding and is how we measure the expansion of the universe. The barcode carries both *what* — from the pattern of lines — and *how fast* — from where the whole pattern sits.
+
+This corrects a stubborn intuition. It feels as though you must physically sample something — hold it, weigh it, dissolve it — to know what it is made of. You do not. The light an object emits or removes from a background is already a complete inventory of its atoms, and that light will cross the galaxy to reach you. Composition is a remote-readable property.
+
+## Molecules have fingerprints too
+
+Single atoms give line spectra from electron jumps. Molecules add a second, lower-energy way to interact with light, and it lives in the **infrared**.
+
+A molecule is atoms joined by bonds, and a bond behaves like a stiff spring: it can stretch, compress, and bend, and — because it too is a quantum system — it can do so only at certain characteristic vibrational frequencies. Those frequencies fall in the infrared, at energies far smaller than the electronic jumps that make visible lines. When infrared light passes through the sample, a bond absorbs exactly the frequency that matches its own vibration, and only that frequency, for the same $\Delta E = hf$ reason as before.
+
+Crucially, the frequency depends on the *bond*, not the whole molecule: a carbonyl (C=O) bond absorbs near 1715 cm⁻¹ whether it sits in acetone or in acetic acid; an O–H stretch shows up as a broad band around 3300 cm⁻¹ wherever it appears. So the infrared spectrum of a compound is a set of dips, each pinned to a bond it contains — and the overall pattern of dips is a **fingerprint** that identifies the molecule.
+
+<IRFingerprintAnimation />
+
+Build a molecule by switching bonds on — add an O–H, a C–H, a C=O, a C–O — and watch each one carve its absorption band into the spectrum at its own fixed position. Toggle C=O and a deep sharp dip appears near 1715; toggle O–H and a broad shallow one opens up near 3300. Or pick a whole molecule — water, ethanol, acetone, acetic acid — and see its full pattern at once; when the set of bands matches a known compound, the widget names it. The lesson is direct: bonds absorb their own frequencies, and the pattern of those absorptions names the molecule. Chemists use this daily to confirm what they have made, and the same instruments, flown on spacecraft, identify the molecules in comet tails and planetary atmospheres.
+
+## A word on colour
+
+One last misconception, because it hides in plain sight. It is tempting to think an object glows or appears the colour of the light it *absorbs*. Usually it is the exact opposite.
+
+When you see a red apple, its skin is absorbing the green and blue parts of the daylight falling on it and **reflecting the red it does not absorb** — that reflected remainder is what reaches your eye. A leaf looks green because its chlorophyll absorbs red and blue and leaves the green. A blue dye transmits blue by absorbing everything else. In each case the perceived colour is the light that was *not* taken up, the complement of the absorption, not the absorption itself. (The exception is a thing that is itself emitting — a flame, a neon sign, a star — where the colour you see genuinely is the light it gives off.) Absorption spectroscopy exploits precisely this: the colours missing from the transmitted or reflected light are the ones the substance swallowed, and those missing colours are its barcode.
+
+<KeyTakeaways>
+- Atoms have discrete electron energy levels, so they absorb or emit light only at wavelengths matching a level difference, $\Delta E = hf = hc/\lambda$ — which is why each element has a unique, sharp set of spectral lines, its "barcode."
+- An **emission** spectrum shows bright lines from an excited element; an **absorption** spectrum shows dark lines where a cooler gas removes those same wavelengths from a continuous background (the Fraunhofer lines in sunlight). The two sit at *identical* wavelengths — the same barcode, positive or negative.
+- You do **not** need to sample something to know its composition: its light already carries the inventory. This is how we know what stars and galaxies are made of, and how helium was found in the Sun in 1868, decades before it was isolated on Earth. Bunsen and Kirchhoff established the method in the 1860s.
+- **Infrared** spectroscopy reads molecules: chemical bonds vibrate at characteristic frequencies and absorb matching infrared light, so the pattern of absorption bands is a fingerprint that identifies a compound.
+- An object usually appears the colour of the light it does **not** absorb — the reflected or transmitted part — not the light it absorbs; a green leaf reflects green and absorbs red and blue.
+</KeyTakeaways>

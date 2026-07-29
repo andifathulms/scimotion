@@ -1080,3 +1080,13 @@ export const HearingChainAnimation = dynamic(
   () => import('@/components/animations/HearingChainAnimation').then(m => ({ default: m.HearingChainAnimation })),
   { ssr: false }
 )
+
+export const SpectralLinesAnimation = dynamic(
+  () => import('@/components/animations/SpectralLinesAnimation').then(m => ({ default: m.SpectralLinesAnimation })),
+  { ssr: false }
+)
+
+export const IRFingerprintAnimation = dynamic(
+  () => import('@/components/animations/IRFingerprintAnimation').then(m => ({ default: m.IRFingerprintAnimation })),
+  { ssr: false }
+)
