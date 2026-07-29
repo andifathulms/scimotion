@@ -1060,3 +1060,13 @@ export const SwarmPiecesAnimation = dynamic(
   () => import('@/components/animations/SwarmPiecesAnimation').then(m => ({ default: m.SwarmPiecesAnimation })),
   { ssr: false }
 )
+
+export const SolarSystemFormationAnimation = dynamic(
+  () => import('@/components/animations/SolarSystemFormationAnimation').then(m => ({ default: m.SolarSystemFormationAnimation })),
+  { ssr: false }
+)
+
+export const FrostLineAnimation = dynamic(
+  () => import('@/components/animations/FrostLineAnimation').then(m => ({ default: m.FrostLineAnimation })),
+  { ssr: false }
+)

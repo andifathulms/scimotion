@@ -3045,6 +3045,31 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'solar-system': c => {
+    // Edge-on flattened disk: concentric flat ellipses about (150,60), the Sun
+    // at the centre, planets sitting in the plane.
+    const rings: [number, number][] = [[48, 13], [80, 22], [112, 30], [135, 36]]
+    const planets: [number, number, number, string][] = [
+      [108, 56, 2.5, MUTE],
+      [196, 64, 2.5, MUTE],
+      [40, 52, 5, c],
+      [268, 74, 6, c],
+    ]
+    return (
+      <g>
+        <line x1={15} y1={60} x2={285} y2={60} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        {rings.map(([rx, ry], i) => (
+          <ellipse key={i} cx={150} cy={60} rx={rx} ry={ry} fill="none" stroke={`${c}55`} strokeWidth={1} />
+        ))}
+        <circle cx={150} cy={60} r={20} fill={`${GOLD}22`} />
+        <circle cx={150} cy={60} r={12} fill={GOLD} />
+        {planets.map(([px, py, r, fill], i) => (
+          <circle key={`p${i}`} cx={px} cy={py} r={r} fill={fill} />
+        ))}
+        <text x={150} y={112} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">one flat disk</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

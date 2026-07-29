@@ -231,6 +231,8 @@ import {
   StatefulFirewallAnimation,
   P2PvsServerAnimation,
   SwarmPiecesAnimation,
+  SolarSystemFormationAnimation,
+  FrostLineAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -463,6 +465,8 @@ const components = {
   StatefulFirewallAnimation,
   P2PvsServerAnimation,
   SwarmPiecesAnimation,
+  SolarSystemFormationAnimation,
+  FrostLineAnimation,
   KeyTakeaways,
 }
 
