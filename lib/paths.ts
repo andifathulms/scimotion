@@ -48,7 +48,7 @@ export const learningPaths: LearningPath[] = [
     // Ordered so each article supplies what the next one assumes: kinetics and
     // equilibrium come before acids/bases (Ka is an equilibrium constant) and
     // before electrochemistry (the Nernst equation is equilibrium applied to redox).
-    articleSlugs: ['atomic-structure', 'chemical-bonding', 'intermolecular-forces', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
+    articleSlugs: ['atomic-structure', 'spectroscopy', 'chemical-bonding', 'intermolecular-forces', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
   },
   {
     slug: 'planet-earth',
@@ -57,7 +57,7 @@ export const learningPaths: LearningPath[] = [
       'The machinery of a working planet — the rock that moves beneath it, the air and ocean that carry its heat, and the carbon and radiation budgets that set its temperature.',
     // Solid earth first, then the fluid envelopes that ride on it, then the two
     // budgets — radiation and carbon — that the circulation articles feed into.
-    articleSlugs: ['plate-tectonics', 'seismic-waves', 'earths-magnetic-field', 'atmospheric-convection', 'ocean-circulation', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
+    articleSlugs: ['plate-tectonics', 'seismic-waves', 'earths-magnetic-field', 'atmospheric-convection', 'ocean-circulation', 'hurricanes', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
   },
   {
     slug: 'life-molecules-to-organisms',
@@ -66,14 +66,14 @@ export const learningPaths: LearningPath[] = [
       'Start with the principle that organises all of biology, then build upward — the code, what it folds into, how energy gets in, and how cells signal and defend.',
     // Selection first, because it is the only thing that makes the rest
     // non-arbitrary; then molecules, then energy, then cells.
-    articleSlugs: ['natural-selection', 'dna-replication', 'gene-expression', 'heredity', 'protein-folding', 'photosynthesis', 'cellular-respiration', 'cell-membranes', 'action-potential', 'immune-response'],
+    articleSlugs: ['natural-selection', 'dna-replication', 'gene-expression', 'heredity', 'cell-division', 'protein-folding', 'photosynthesis', 'cellular-respiration', 'cell-membranes', 'action-potential', 'immune-response'],
   },
   {
     slug: 'the-clinical-body',
     title: 'The Clinical Body',
     description:
       'Medicine as measurement and control — reading the heart’s electrical trace, holding glucose in range, tracking a drug through the body, seeing inside it, and losing ground to resistant bacteria.',
-    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'gas-exchange', 'glucose-insulin-regulation', 'the-kidney', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
+    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'gas-exchange', 'glucose-insulin-regulation', 'the-kidney', 'how-we-hear', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
   },
   {
     slug: 'across-the-universe',
@@ -82,7 +82,7 @@ export const learningPaths: LearningPath[] = [
       'Outward through the cosmos — from the life and death of a single star to the elements it forges, the worlds around others, the extremes of gravity, and the expansion of everything.',
     // Scale outward: one star, what stars make, other stars' planets, the most
     // extreme endpoint, and finally the whole expanding universe.
-    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'exoplanets', 'black-holes', 'gravitational-waves', 'galaxies-and-dark-matter', 'cosmic-distance-ladder', 'expanding-universe'],
+    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'solar-system', 'exoplanets', 'black-holes', 'gravitational-waves', 'galaxies-and-dark-matter', 'cosmic-distance-ladder', 'expanding-universe'],
   },
   {
     slug: 'how-the-internet-grew',

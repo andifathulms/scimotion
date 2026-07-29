@@ -1090,3 +1090,23 @@ export const IRFingerprintAnimation = dynamic(
   () => import('@/components/animations/IRFingerprintAnimation').then(m => ({ default: m.IRFingerprintAnimation })),
   { ssr: false }
 )
+
+export const CellCycleAnimation = dynamic(
+  () => import('@/components/animations/CellCycleAnimation').then(m => ({ default: m.CellCycleAnimation })),
+  { ssr: false }
+)
+
+export const CheckpointAnimation = dynamic(
+  () => import('@/components/animations/CheckpointAnimation').then(m => ({ default: m.CheckpointAnimation })),
+  { ssr: false }
+)
+
+export const HurricaneEngineAnimation = dynamic(
+  () => import('@/components/animations/HurricaneEngineAnimation').then(m => ({ default: m.HurricaneEngineAnimation })),
+  { ssr: false }
+)
+
+export const HurricaneStructureAnimation = dynamic(
+  () => import('@/components/animations/HurricaneStructureAnimation').then(m => ({ default: m.HurricaneStructureAnimation })),
+  { ssr: false }
+)

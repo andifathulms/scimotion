@@ -3131,6 +3131,64 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'cell-division': c => (
+    <g>
+      <ellipse cx={66} cy={60} rx={50} ry={36} fill={`${c}14`} stroke={MUTE} strokeWidth={1.25} />
+      <line x1={66} y1={26} x2={66} y2={94} stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+      <circle cx={22} cy={60} r={3} fill={GOLD} />
+      <circle cx={110} cy={60} r={3} fill={GOLD} />
+      <line x1={22} y1={60} x2={50} y2={50} stroke={`${c}55`} strokeWidth={0.75} />
+      <line x1={22} y1={60} x2={50} y2={70} stroke={`${c}55`} strokeWidth={0.75} />
+      <line x1={110} y1={60} x2={82} y2={50} stroke={`${c}55`} strokeWidth={0.75} />
+      <line x1={110} y1={60} x2={82} y2={70} stroke={`${c}55`} strokeWidth={0.75} />
+      <line x1={46} y1={51} x2={44} y2={69} stroke={c} strokeWidth={3} strokeLinecap="round" />
+      <line x1={53} y1={51} x2={51} y2={69} stroke={GOLD} strokeWidth={3} strokeLinecap="round" />
+      <line x1={81} y1={51} x2={83} y2={69} stroke={c} strokeWidth={3} strokeLinecap="round" />
+      <line x1={88} y1={51} x2={90} y2={69} stroke={GOLD} strokeWidth={3} strokeLinecap="round" />
+      <line x1={124} y1={60} x2={148} y2={60} stroke={MUTE} strokeWidth={1.5} />
+      <polygon points="148,60 141,56 141,64" fill={MUTE} />
+      <circle cx={200} cy={40} r={26} fill={`${c}14`} stroke={MUTE} strokeWidth={1.25} />
+      <line x1={195} y1={33} x2={193} y2={47} stroke={c} strokeWidth={3} strokeLinecap="round" />
+      <line x1={205} y1={33} x2={207} y2={47} stroke={GOLD} strokeWidth={3} strokeLinecap="round" />
+      <circle cx={244} cy={84} r={26} fill={`${c}14`} stroke={MUTE} strokeWidth={1.25} />
+      <line x1={239} y1={77} x2={237} y2={91} stroke={c} strokeWidth={3} strokeLinecap="round" />
+      <line x1={249} y1={77} x2={251} y2={91} stroke={GOLD} strokeWidth={3} strokeLinecap="round" />
+      <text x={66} y={110} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">anaphase</text>
+      <text x={222} y={16} textAnchor="middle" fontSize={8} fill={c} fontFamily="monospace">2 identical</text>
+    </g>
+  ),
+  hurricanes: c => {
+    // Top-down spiral with a clear central eye, drawing heat up from a warm
+    // ocean bar. Spiral points come from trig, so every coordinate is rounded.
+    const cx = 150, cy = 52
+    const arm = (phase: number) => {
+      const pts: string[] = []
+      for (let i = 0; i <= 32; i++) {
+        const th = phase + i * 0.29
+        const r = 7 + i * 1.15
+        const x = Math.round((cx + r * Math.cos(th)) * 100) / 100
+        const y = Math.round((cy + r * Math.sin(th) * 0.82) * 100) / 100
+        pts.push(`${x},${y}`)
+      }
+      return pts.join(' ')
+    }
+    return (
+      <g>
+        <rect x={10} y={104} width={280} height={12} rx={2} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={0.75} />
+        <text x={14} y={113} fontSize={7} fill={GOLD} fontFamily="monospace">warm ocean</text>
+        {[70, 110, 150, 190, 230].map(x => (
+          <line key={x} x1={x} y1={104} x2={x} y2={96} stroke={`${c}88`} strokeWidth={1} />
+        ))}
+        <circle cx={cx} cy={cy} r={46} fill="none" stroke={FAINT} strokeWidth={1} />
+        <polyline points={arm(0)} fill="none" stroke={c} strokeWidth={1.5} opacity={0.9} />
+        <polyline points={arm(2.09)} fill="none" stroke={c} strokeWidth={1.5} opacity={0.7} />
+        <polyline points={arm(4.19)} fill="none" stroke={c} strokeWidth={1.5} opacity={0.5} />
+        <circle cx={cx} cy={cy} r={13} fill="none" stroke={GOLD} strokeWidth={2} />
+        <circle cx={cx} cy={cy} r={7} fill="#1A1712" stroke={MUTE} strokeWidth={1} />
+        <text x={cx} y={cy + 2.5} textAnchor="middle" fontSize={6} fill={MUTE} fontFamily="monospace">eye</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({
