@@ -3189,6 +3189,37 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'logic-gates': c => {
+    // A half adder: inputs A=1, B=1 fan into an XOR (sum bit) and an AND (carry bit).
+    // 1 XOR 1 = 0 (sum), 1 AND 1 = 1 (carry) -> binary 10 = 2. All literal coords.
+    return (
+      <g>
+        <text x={12} y={39} fill={MUTE} fontSize={8} fontFamily="monospace">A</text>
+        <text x={12} y={89} fill={MUTE} fontSize={8} fontFamily="monospace">B</text>
+        <circle cx={34} cy={35} r={10} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <circle cx={34} cy={85} r={10} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+        <text x={34} y={39} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">1</text>
+        <text x={34} y={89} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">1</text>
+        <line x1={44} y1={35} x2={116} y2={28} stroke={MUTE} strokeWidth={1} />
+        <line x1={44} y1={35} x2={124} y2={78} stroke={MUTE} strokeWidth={1} />
+        <line x1={44} y1={85} x2={116} y2={44} stroke={MUTE} strokeWidth={1} />
+        <line x1={44} y1={85} x2={124} y2={92} stroke={MUTE} strokeWidth={1} />
+        <path d="M 116 18 Q 130 35 116 52" fill="none" stroke={c} strokeWidth={1.5} />
+        <path d="M 124 18 Q 158 18 176 35 Q 158 52 124 52 Q 138 35 124 18 Z" fill={`${c}18`} stroke={c} strokeWidth={1.5} />
+        <text x={147} y={38} textAnchor="middle" fontSize={7} fill={c} fontFamily="monospace">XOR</text>
+        <path d="M 124 70 L 150 70 A 15 15 0 0 1 150 100 L 124 100 Z" fill={`${GOLD}18`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={143} y={88} textAnchor="middle" fontSize={7} fill={GOLD} fontFamily="monospace">AND</text>
+        <line x1={176} y1={35} x2={247} y2={35} stroke={MUTE} strokeWidth={1} />
+        <line x1={165} y1={85} x2={247} y2={85} stroke={GOLD} strokeWidth={1.25} />
+        <text x={258} y={17} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">S</text>
+        <circle cx={258} cy={35} r={11} fill="rgba(255,255,255,0.03)" stroke={c} strokeWidth={1.25} />
+        <text x={258} y={39} textAnchor="middle" fontSize={9} fill={c} fontFamily="monospace">0</text>
+        <circle cx={258} cy={85} r={11} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1.5} />
+        <text x={258} y={89} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">1</text>
+        <text x={258} y={110} textAnchor="middle" fontSize={7} fill={MUTE} fontFamily="monospace">C</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

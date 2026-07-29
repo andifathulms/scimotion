@@ -1,0 +1,102 @@
+---
+title: "Logic Gates: How Computers Do Arithmetic"
+subtitle: "Arithmetic is not built into the machine — it emerges from cascades of tiny switches obeying dumb Boolean rules."
+topic: "Computer Science"
+slug: "logic-gates"
+date: "2026-07-05"
+readTime: 10
+featured: false
+description: "How on/off switches become logic gates, gates become adders, and adders turn binary digits into arithmetic — with no understanding anywhere in the machine."
+tags: ["logic-gates", "binary", "boolean-algebra", "hardware"]
+quiz:
+  - q: "What does it mean to say the NAND gate is 'universal'?"
+    options:
+      - "NAND is the fastest gate, so all others are implemented as NANDs for performance"
+      - "Any Boolean function whatsoever can be built by wiring together NAND gates alone — no other gate type is needed"
+      - "NAND is the only gate that can take more than two inputs"
+      - "NAND appears in every truth table as at least one row"
+    answer: 1
+    explanation: "NOT, AND, OR, and XOR can all be constructed from NAND gates alone, so a NAND is a complete basis for every Boolean function — the same is separately true of NOR."
+  - q: "A half adder cannot be chained to add multi-bit numbers, but a full adder can. What is the one thing the full adder adds?"
+    options:
+      - "A second output wire for the sum bit"
+      - "A third input — the carry-in — so it can absorb the carry produced by the column to its right"
+      - "A memory cell that stores the previous result"
+      - "A clock signal that synchronizes the two input bits"
+    answer: 1
+    explanation: "A half adder takes only two bits; a full adder takes a third carry-in input, which is exactly what lets carries ripple from one bit position into the next."
+  - q: "Why is it wrong to say a computer 'knows' how to add two numbers?"
+    options:
+      - "Because addition is actually done by a lookup table burned into memory, not computed"
+      - "Because the sum is not stored or understood anywhere — it emerges from XOR and AND gates acting on binary digits, with no representation of 'number' or 'plus'"
+      - "Because computers can only add, never subtract or multiply"
+      - "Because arithmetic is performed by software, and hardware does nothing"
+    answer: 1
+    explanation: "There is no stored knowledge of arithmetic; the correct sum falls out as an emergent behaviour of cascaded Boolean gates operating on bits."
+---
+
+## A machine that cannot add
+
+A computer cannot add. It has no concept of "two" or "plus." It is a vast city of tiny switches, each blindly obeying a rule as dumb as "turn on only if both my inputs are on." And yet, wired together in the right pattern, those mindless switches carry out every calculation you have ever asked a machine to do — your bank balance, a weather forecast, the frame you are reading this on.
+
+This is the most quietly astonishing fact in computing, and it is easy to miss because we describe machines in human words. We say the processor "computes" a sum, as if it consults some inner arithmetic the way you recall that 7 + 5 is 12. It does not. Nowhere inside the silicon is there a number, a plus sign, or an understanding of what addition means. There are only switches — billions of them — turning each other on and off.
+
+The whole story of how arithmetic gets built out of nothing but *on* and *off* is the subject of this article. It has three layers, each stacked on the one below: the **switch**, the **logic gate**, and the **adder**. By the end, "the computer adds two numbers" will have dissolved into something far stranger and more precise.
+
+## The switch is the atom of computation
+
+Start at the bottom. The physical device doing the work is the **transistor**, and for our purposes it is just an electrically controlled switch: a small voltage on its control terminal decides whether current flows between its other two terminals. On or off. That is the entire vocabulary the hardware has — two voltage levels, which we agree to call **1** and **0**.
+
+Everything above this is convention. There is nothing intrinsically numeric about a high voltage; we simply *decide* that high means 1 and low means 0. A single switch is not interesting. The magic starts when you wire a handful of them together so that the on/off state of some switches controls the on/off state of others. A small, fixed arrangement of transistors that reads one or more input bits and produces an output bit according to a fixed rule is called a **logic gate**.
+
+The rule a gate follows is a **Boolean function** — a function whose inputs and output are each a single bit. This is the hinge of the whole subject. In 1847 the mathematician **George Boole** worked out an algebra of *true* and *false* — an algebra with only two values, in which "and," "or," and "not" behave like operations. For nearly a century it was a curiosity of logic. Then in 1937 a young **Claude Shannon**, in what has been called the most important master's thesis of the century, noticed that a network of switches obeys *exactly* Boole's algebra: a switch is closed or open the way a proposition is true or false, and switches in series behave like "and," switches in parallel like "or." That single observation — that switching circuits *implement* Boolean logic — is the foundation the entire digital world is built on.
+
+## The gates, and what each one decides
+
+There are only a few gates you need, and each is defined completely by its **truth table** — a list of every possible input and the output the gate produces for it. Flip the inputs in the widget below and watch both the output and the corresponding truth-table row respond.
+
+<LogicGateAnimation />
+
+Step through the five gates. **NOT** (the inverter) has one input and simply flips it: 0 becomes 1, 1 becomes 0. **AND** turns on only when *both* inputs are on. **OR** turns on when *at least one* is on. **XOR** (exclusive-or) is the interesting one for us — it turns on exactly when the two inputs *differ*; equal inputs give 0. Try setting both inputs to 1 on XOR: the output drops to 0, because they no longer differ. Hold that behaviour in mind — it is the seed of addition.
+
+Two things are worth noticing as you play. First, an $n$-input gate has a truth table with exactly $2^n$ rows, because each input independently can be 0 or 1 — two choices, $n$ times over. A 2-input gate has $2^2 = 4$ rows; the highlighted row is just the binary reading of your current inputs. Second, look at **NAND** (AND followed by a NOT bubble). It seems unremarkable, but it has a deep property: NAND is **universal**. Every other gate — NOT, AND, OR, XOR, and any Boolean function of any size — can be built from NAND gates alone. (NOR, an OR with an inverting bubble, is universal in exactly the same way.) A chip designer could, in principle, build an entire processor from a sea of identical NAND gates. Universality means the humble NAND is a *complete* basis for computation: nothing is missing.
+
+## Binary: not just how numbers are stored, but how they are computed
+
+To do arithmetic we need numbers, and the machine has only 1s and 0s, so numbers are written in **binary** — base 2. Where decimal uses powers of ten, binary uses powers of two: the bits of $1101$ carry weights $8, 4, 2, 1$, so $1101_2 = 8 + 4 + 1 = 13$. Each bit is one switch. That much is familiar, and it is where most explanations stop — "binary is how computers store data."
+
+That framing badly undersells it. Binary is not merely a storage format that happens to be convenient for two-state switches. It is the representation in which **arithmetic itself becomes Boolean logic**. Watch what happens when you add two single bits. There are four cases:
+
+$$0+0=0, \quad 0+1=1, \quad 1+0=1, \quad 1+1=10_2$$
+
+That last case is the crux: $1 + 1$ is *two*, which in binary is $10$ — a **sum** bit of 0 and a **carry** bit of 1, exactly like $7 + 5 = 12$ carries a 1 into the tens column. So adding two bits $A$ and $B$ produces two output bits. Now compare their truth tables to the gates you just met. The sum bit is 1 precisely when $A$ and $B$ *differ* — that is XOR. The carry bit is 1 precisely when *both* are 1 — that is AND. So:
+
+$$S = A \oplus B \qquad\qquad C = A \land B$$
+
+The addition of two bits is *literally* an XOR gate and an AND gate. No table of sums is consulted; no meaning of "plus" is stored. Feed the bits in, and the correct sum-and-carry falls out of two gates. This little circuit has a name — the **half adder** — and it is the first rung from logic to arithmetic.
+
+## From half adder to full adder to a working sum
+
+The half adder has a flaw that shows up the moment you add numbers wider than one bit. When you add multi-digit numbers by hand, each column receives a carry *from the column to its right*. A half adder has nowhere to put that incoming carry — it takes only two inputs. So we upgrade it to a **full adder**, which takes three inputs: $A$, $B$, and a **carry-in** $C_{in}$. Its sum is $S = A \oplus B \oplus C_{in}$, and it emits a carry-out whenever at least two of its three inputs are 1. A full adder is just two half adders and an OR gate wired together — nothing new, only more of the same gates.
+
+Now the payoff. To add two 4-bit numbers, chain four full adders in a row: the carry-out of the bit-0 adder becomes the carry-in of bit 1, whose carry-out feeds bit 2, and so on. The carry **ripples** from the least significant bit leftward, which is why this arrangement is called a **ripple-carry adder**. Set the two input numbers below and step through the ripple to watch each column's sum and carry appear, left to right, until the full binary sum emerges.
+
+<AdderAnimation />
+
+Start in the **half adder** view and toggle $A$ and $B$: with both set to 1 you see XOR give sum 0 and AND give carry 1 — binary $10$, which is 2. Switch to the **full adder** view and flip the carry-in to confirm the third input threads through. Then open the **ripple 4-bit** view, set two numbers — try $13 + 6$ — and press *Ripple*. Follow the gold carry arrows marching from the rightmost bit to the left. The thing to notice is that no adder in the chain "knows" the answer; each full adder only computes its own bit from three inputs, and the correct total appears simply because the carries are wired to flow in the right direction. Arithmetic is XOR and AND chained together, carrying as they go.
+
+## Subtraction for free, and the big idea
+
+One elegant bonus falls out of this design. Computers represent negative numbers in **two's complement**: to negate a number you flip every bit and add 1, which in symbols is $-x = \bar{x} + 1$ (the bar is NOT applied to each bit). The reason this convention is used everywhere is that it lets the *same* ripple-carry adder perform subtraction: computing $A - B$ is just adding $A$ to the two's-complement negation of $B$. No separate subtractor circuit is needed — invert $B$'s bits, force the carry-in of the first adder to 1, and the adder you already built does subtraction. From two gates, all of integer arithmetic unfolds.
+
+Step back and the central idea comes into focus. The correct sum of two numbers is nowhere stored in the machine. It is not looked up, not remembered, not understood. It **emerges** — as the settled state of a cascade of simple Boolean gates once you apply voltages to their inputs. This is why the anthropomorphic story is not just informal but actively misleading. Saying the computer "knows" arithmetic invites you to imagine an inner accountant; the truth is a river of electrons finding the one stable configuration that the wiring permits. The machine has no numbers and no concept of addition, yet it computes every sum flawlessly, because the *structure of the wiring* is arithmetic, even though no single component is.
+
+Two corrections are worth stating plainly, because both trip people up. First: a computer does **not** have arithmetic built in the way a calculator app feels like it does — there is no stored table of sums and no understanding of number, only cascades of Boolean gates operating on binary digits. Second: binary is **not** merely how a computer stores data. It is how the machine *computes*, because in binary the operations of arithmetic *are* operations of Boolean logic — addition literally is XOR and AND on bits. Get those two ideas right and the magic trick is exposed: this is the same logical machinery that, scaled up and specialized, runs a [finite automaton](/articles/finite-automata) recognizing patterns, performs the modular arithmetic behind [public-key cryptography](/articles/public-key-cryptography), and multiplies the matrices inside a [neural network](/articles/neural-networks). All of it, in the end, is switches obeying rules as dumb as "on only if both my inputs are on."
+
+<KeyTakeaways>
+- At the lowest level a computer is transistors acting as **switches** (1 or 0); a fixed arrangement of them is a **logic gate** that computes a Boolean function — NOT, AND, OR, XOR. An $n$-input gate has a $2^n$-row truth table.
+- **NAND is universal**: every Boolean function can be built from NAND gates alone (and separately, from NOR alone), so a single gate type is a complete basis for all of computation.
+- Adding two bits *is* two gates: the sum bit is $S = A \oplus B$ (XOR) and the carry is $C = A \land B$ (AND) — that is a **half adder**. A **full adder** adds a carry-in, and chaining full adders makes a **ripple-carry adder** for multi-bit numbers. **Two's complement** lets the same adder subtract.
+- Arithmetic is **emergent, not stored**: the machine has no numbers and no concept of "plus." The correct sum is the settled state of cascaded Boolean gates on binary digits — there is no understanding anywhere in the machine.
+- This rests on **Boole's** algebra of true/false (1847) and **Shannon's** 1937 insight that switching circuits implement Boolean logic — the foundation every digital device is built on.
+</KeyTakeaways>

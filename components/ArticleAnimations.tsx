@@ -1110,3 +1110,13 @@ export const HurricaneStructureAnimation = dynamic(
   () => import('@/components/animations/HurricaneStructureAnimation').then(m => ({ default: m.HurricaneStructureAnimation })),
   { ssr: false }
 )
+
+export const LogicGateAnimation = dynamic(
+  () => import('@/components/animations/LogicGateAnimation').then(m => ({ default: m.LogicGateAnimation })),
+  { ssr: false }
+)
+
+export const AdderAnimation = dynamic(
+  () => import('@/components/animations/AdderAnimation').then(m => ({ default: m.AdderAnimation })),
+  { ssr: false }
+)

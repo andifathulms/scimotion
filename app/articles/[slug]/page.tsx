@@ -241,6 +241,8 @@ import {
   CheckpointAnimation,
   HurricaneEngineAnimation,
   HurricaneStructureAnimation,
+  LogicGateAnimation,
+  AdderAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -483,6 +485,8 @@ const components = {
   CheckpointAnimation,
   HurricaneEngineAnimation,
   HurricaneStructureAnimation,
+  LogicGateAnimation,
+  AdderAnimation,
   KeyTakeaways,
 }
 
