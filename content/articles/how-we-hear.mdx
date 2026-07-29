@@ -1,0 +1,114 @@
+---
+title: "How We Hear"
+subtitle: "The inner ear performs, in flesh, the frequency decomposition a mathematician would recognize instantly."
+topic: "Medicine"
+slug: "how-we-hear"
+date: "2026-07-06"
+readTime: 10
+featured: false
+description: "How the ear takes one jumbled pressure wave and physically pulls it apart into pure frequencies — a biological Fourier transform curled up inside your head."
+tags: ["hearing", "cochlea", "acoustics", "neuroscience"]
+quiz:
+  - q: "Two people speak the same vowel at the same pitch, yet you can tell their voices apart. What does the cochlea physically do with that single incoming pressure wave to make this possible?"
+    options:
+      - "It measures how fast the eardrum vibrates and reports that single number as the pitch"
+      - "It spreads the wave out along the basilar membrane so each component frequency peaks at a different position, decomposing the sound by location"
+      - "It amplifies the loudest frequency and discards the rest before the signal reaches the brain"
+      - "It counts the number of pressure peaks per second and converts that count directly into a voice identity"
+    answer: 1
+    explanation: "The basilar membrane's stiffness-and-width gradient makes each frequency peak at its own place — a spatial frequency decomposition, exactly what a Fourier transform computes."
+  - q: "A sound engineer turns up the volume on a steady 1 kHz test tone without changing the note. In the cochlea, what changes and what stays the same?"
+    options:
+      - "The peak moves to a new position on the basilar membrane, and the same hair cells fire"
+      - "The peak stays at the same position but the membrane there vibrates harder, so the same hair cells fire more strongly"
+      - "Both the position and the firing strength stay identical; only the eardrum moves further"
+      - "The peak splits into two positions, one for pitch and one for loudness"
+    answer: 1
+    explanation: "Pitch is frequency (which place) and loudness is amplitude (how hard) — they are different quantities, so louder means a stronger response at the same place, not a new one."
+  - q: "Years of loud-machinery exposure often robs someone of high frequencies first, and the loss is permanent. Which fact best explains the permanence?"
+    options:
+      - "The eardrum thickens with age and can no longer transmit high frequencies"
+      - "High-frequency sound travels too far into the cochlea for the nerve to reach"
+      - "Mammalian cochlear hair cells do not regenerate, so once the cells tuned to a frequency band are destroyed, that band is lost for good"
+      - "The brain simply stops paying attention to high frequencies over time"
+    answer: 2
+    explanation: "Damage is localized to hair cells at specific tonotopic places (often the high-frequency base), and because mammalian cochlear hair cells do not regrow, the loss is permanent."
+---
+
+## A violin and a flute
+
+Play the exact same note on a violin and on a flute — same pitch, held for the same length of time — and no one confuses the two. Something in the sound carries "violin" and "flute" quite apart from the note itself. And in a roaring, crowded room, where dozens of voices pile their pressure waves on top of one another into a single churning wall of noise, you can still snap to attention the instant someone says your name.
+
+Both feats are the same feat. Your eardrum receives only one thing: a single line of air pressure, rising and falling over time. Every violin, every flute, every voice in that room has already been summed together into that one wiggling quantity before it reaches you. To make sense of it, your ear does something a mathematician would recognize instantly. It takes that single jumbled pressure wave and physically pulls it apart into the pure frequencies it is made of, spreading them out along a curled-up strip of tissue inside your head. This article is about how a piece of biology performs, in flesh, the [Fourier transform](/articles/fourier-transform) — the decomposition of a signal into the sine waves hiding inside it.
+
+*(This is an explanation of the physiology of hearing, meant for curiosity and understanding. It is not clinical or diagnostic guidance.)*
+
+## The journey of a sound
+
+Before any analysis can happen, the sound has to get in. The outer ear — the visible flap and the canal behind it — is a funnel. It gathers pressure waves from a wide area and channels them onto the **eardrum**, or tympanic membrane, a taut cone of tissue that vibrates in step with the arriving pressure. This is a crucial point to hold onto: the eardrum only *transmits* the vibration. It does not sort out pitch, and it does not analyze anything. It is a drumhead moving in and out, faithfully copying the pressure pushing on it.
+
+Behind the eardrum sits an elegant problem. The analysis has to happen inside the **cochlea**, a fluid-filled spiral — and fluid is far harder to move than air. Push an airborne sound wave directly against water and almost all of its energy bounces back off the surface, the way you feel a slap when you belly-flop into a pool. The ear would be nearly deaf if sound had to cross from air to fluid unaided.
+
+The fix is three of the smallest bones in the body — the **ossicles**: the malleus, incus, and stapes (hammer, anvil, and stirrup). They bridge the eardrum to the cochlea's oval window, and they do two jobs at once. First, they act as a lever, and the eardrum is much larger than the tiny oval window they push on, so the pressure is concentrated. Together this is an **impedance match**: they convert the large, gentle motion suited to light air into the small, forceful motion needed to drive dense fluid, so the energy transfers instead of reflecting. Without the ossicles roughly 99.9% of the sound energy would be lost at the boundary. With them, hearing works.
+
+## The cochlea is a frequency analyzer
+
+Now the interesting part. Uncoil the cochlea and lay it flat, and running down its length is the **basilar membrane**. It is not uniform. At the **base**, near the oval window, it is narrow and stiff; toward the **apex**, at the far end of the spiral, it grows wider and floppier. That gradient is the whole secret.
+
+A stiff, narrow structure prefers to move at high frequencies; a wide, floppy one prefers low frequencies — the same principle by which a short taut string sounds a high note and a long slack one a low note. So when a pressure wave travels down the membrane, it does not shake the whole thing equally. It builds gradually, peaks sharply at the one position tuned to its frequency, and dies away past it. High frequencies peak near the stiff base; low frequencies peak near the floppy apex. This orderly frequency-to-place map is called **tonotopy**.
+
+<CochleaFrequencyAnimation />
+
+Start in **Pure tone** mode and drag the frequency slider. Watch the single peak slide along the membrane — high frequencies bunch up near the base on the left, low frequencies travel all the way to the apex on the right. One frequency, one place. Now switch to **Chord**: three notes at once, and three separate peaks light up simultaneously, each parked at its own position. Switch to **Harmonics** and add overtones, and the single note fans out into a comb of peaks. This is the point worth pausing on: the cochlea has taken a complicated composite wave and physically laid its ingredient frequencies out in space, side by side, sorted by pitch. That is a frequency decomposition done with tissue and fluid instead of arithmetic — a mechanical [Fourier transform](/articles/fourier-transform).
+
+Each place along the membrane is, in effect, its own finely tuned [resonator](/articles/resonance). The base rings at high frequencies, the apex at low ones, and every point in between has its own preferred frequency — a continuous ladder of resonances rather than the discrete rungs of a plucked string, but the same physics of a system responding most strongly when driven at its natural frequency.
+
+## From position to pitch
+
+Let us make the mapping precise. A pure tone is air pressure oscillating sinusoidally at some frequency $f$, the number of cycles per second, measured in hertz. It is the reciprocal of the period $T$, the time for one cycle:
+
+$$f = \frac{1}{T}$$
+
+A healthy young human ear responds to roughly
+
+$$20 \text{ Hz} \;\lesssim\; f \;\lesssim\; 20{,}000 \text{ Hz},$$
+
+three orders of magnitude, from the lowest organ rumble to a frequency above the top note of a piccolo. The basilar membrane spends its length covering this range, but not evenly: equal *distances* along the membrane correspond to equal *ratios* of frequency, not equal differences. Position $x$ therefore tracks the **logarithm** of frequency,
+
+$$x \;\propto\; \log f,$$
+
+which is why the octaves of a keyboard feel evenly spaced even though each doubles the frequency of the one below. (The full empirical form is the Greenwood function, but the logarithmic heart of it is what matters here.)
+
+The reason this spatial trick is enough to represent *any* sound is the same insight that powers the Fourier transform: a complex pressure wave is a **sum of pure sinusoids**. A voice, a chord, a slammed door — each can be written
+
+$$p(t) \;=\; \sum_{n} A_n \sin\!\left(2\pi f_n t + \phi_n\right),$$
+
+a weighted stack of sine waves at different frequencies $f_n$ with different amplitudes $A_n$. The cochlea does not need to store the whole tangled waveform. It only needs to report, at each place, how much motion is happening there — which is to say, how much of each frequency $f_n$ is present. The list of peak positions and their heights *is* the frequency recipe. The ear reads it off by location.
+
+## From motion to nerve signal
+
+A peak of vibration is not yet a sensation. Sitting atop the basilar membrane at every position are **hair cells**, each crowned with a bundle of tiny stiff hairs. When the membrane moves at that place, the bundle bends, and bending it pulls open mechanically gated ion channels. Ions rush in, the cell's voltage changes, and that change triggers the neurons of the **auditory nerve** to fire. If you have read about the [action potential](/articles/action-potential), this is the same electrochemical machinery: a stimulus depolarizes the cell past threshold and a spike races off toward the brain. The hair cell is the transducer that converts mechanical motion into the neural currency the brain understands.
+
+<HearingChainAnimation />
+
+Step through the chain with the **Next** button, or press play to watch it flow. Notice that each stage exists to solve a specific problem. The eardrum turns air pressure into motion; the ossicles solve the air-to-fluid impedance mismatch; the fluid carries the wave to the membrane; the membrane sorts it by frequency; the hair cells convert motion to voltage; the nerve carries the result onward. Pause on stage 2 in particular — the ossicles' lever is not decoration. Without that impedance match, almost nothing downstream would happen.
+
+Two quantities ride on this signal, and they are genuinely different. **Pitch** — how high or low the note sounds — is set by *which* hair cells fire, i.e. the frequency, encoded as position along the membrane. **Loudness** is set by *how hard* those cells are driven, i.e. the amplitude of the vibration, encoded as how strongly and how often the neurons fire. Turn up the volume on a steady tone and the peak does not move; the membrane simply shakes harder at the same spot. Pitch is which place; loudness is how much. Confusing the two is one of the most common misunderstandings about hearing, and the cochlea keeps them cleanly apart.
+
+## Pitch, loudness, and what breaks
+
+It is worth stating the two corrected misconceptions plainly, because the anatomy makes them easy to get wrong.
+
+First: **the eardrum does not detect pitch.** It is a passive relay, faithfully copying whatever pressure arrives. All the frequency analysis happens later, and by *position*, on the basilar membrane. A perfect eardrum with a damaged cochlea leaves you unable to distinguish pitches at all.
+
+Second: **loudness and pitch are not the same thing.** One is amplitude, the other is frequency — independent properties of a wave. You can hold pitch fixed and change loudness, or hold loudness fixed and sweep pitch. The cochlea encodes them along different axes: place for pitch, intensity of response for loudness.
+
+The tonotopic layout also explains a sobering clinical fact. Because each frequency band lives at a specific place, damage tends to be frequency-specific. Prolonged exposure to loud noise — machinery, concerts, gunfire — preferentially destroys the hair cells at particular positions, very often the high-frequency region near the base, which is why noise-induced hearing loss usually eats the top of the range first. And here mammals drew a short straw: unlike birds and fish, **mammalian cochlear hair cells do not regenerate.** Once the cells tuned to a band are gone, that band is gone permanently. A hearing aid can amplify what remains, but it cannot rebuild a stretch of silent membrane. This is the physiological reason hearing protection matters — though, again, anything about your own hearing is a conversation for a clinician, not an article.
+
+<KeyTakeaways>
+- The cochlea's basilar membrane is stiff and narrow at the base, wide and floppy at the apex, so each frequency peaks at its own position — **tonotopy**, a spatial frequency decomposition that is literally a mechanical [Fourier transform](/articles/fourier-transform).
+- The eardrum only *transmits* vibration; it detects no pitch. The ossicles amplify and **impedance-match** air to cochlear fluid, without which ~99.9% of the sound energy would reflect away.
+- **Pitch is frequency** (encoded as *which* hair cells fire) and **loudness is amplitude** (encoded as *how hard* they fire) — different quantities carried on different axes.
+- [Hair cells](/articles/action-potential) convert membrane motion into neural spikes, the same threshold-and-spike machinery as any neuron.
+- Because damage is frequency-specific and mammalian cochlear hair cells do not regenerate, noise-induced hearing loss — often high frequencies first — is permanent.
+</KeyTakeaways>

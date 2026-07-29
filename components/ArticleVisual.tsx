@@ -3070,6 +3070,40 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'how-we-hear': c => {
+    // Uncoiled basilar membrane: base (stiff, high freq) at left, apex (floppy,
+    // low freq) at right. Position maps to log-frequency; a sound wave enters at
+    // the base and peaks at its characteristic place. All emitted coords rounded.
+    const BX0 = 48, BX1 = 288, MIDY = 60, PX = 128
+    const hw = (x: number) => 4 + ((x - BX0) / (BX1 - BX0)) * 16
+    const env = (x: number) =>
+      x <= PX ? Math.exp(-(((PX - x) / 60) ** 2)) : Math.exp(-(((x - PX) / 26) ** 2))
+    const top = Array.from({ length: 13 }, (_, i) => { const x = BX0 + i * 20; return `${x},${Math.round(MIDY - hw(x))}` })
+    const bot = Array.from({ length: 13 }, (_, i) => { const x = BX1 - i * 20; return `${x},${Math.round(MIDY + hw(x))}` })
+    const membrane = [...top, ...bot].join(' ')
+    const wave = Array.from({ length: 31 }, (_, i) => { const x = BX0 + i * 8; return `${x},${Math.round(MIDY - env(x) * 26)}` }).join(' ')
+    const sound = Array.from({ length: 20 }, (_, i) => { const x = 6 + i * 2; return `${x},${Math.round(MIDY + 8 * Math.sin((x - 6) / 5))}` }).join(' ')
+    const ticks: [number, string][] = [[48, '20k'], [128, '2k'], [208, '200'], [288, '20']]
+    return (
+      <g>
+        <polyline points={sound} fill="none" stroke={c} strokeWidth={1.5} />
+        <polygon points="48,60 41,57 41,63" fill={MUTE} />
+        <polygon points={membrane} fill={`${c}14`} stroke={MUTE} strokeWidth={1} />
+        <line x1={48} y1={60} x2={288} y2={60} stroke={FAINT} strokeWidth={0.75} strokeDasharray="3 3" />
+        <line x1={128} y1={34} x2={128} y2={82} stroke={GOLD} strokeWidth={0.75} strokeDasharray="2 3" />
+        <polyline points={wave} fill="none" stroke={c} strokeWidth={2} />
+        <circle cx={128} cy={34} r={3.5} fill={GOLD} />
+        {ticks.map(([x, l]) => (
+          <g key={x}>
+            <line x1={x} y1={82} x2={x} y2={90} stroke={FAINT} strokeWidth={1} />
+            <text x={x} y={100} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">{l}</text>
+          </g>
+        ))}
+        <text x={48} y={20} fontSize={8} fill={MUTE} fontFamily="monospace">base</text>
+        <text x={288} y={20} textAnchor="end" fontSize={8} fill={MUTE} fontFamily="monospace">apex</text>
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

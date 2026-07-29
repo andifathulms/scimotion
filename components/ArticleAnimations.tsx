@@ -1070,3 +1070,13 @@ export const FrostLineAnimation = dynamic(
   () => import('@/components/animations/FrostLineAnimation').then(m => ({ default: m.FrostLineAnimation })),
   { ssr: false }
 )
+
+export const CochleaFrequencyAnimation = dynamic(
+  () => import('@/components/animations/CochleaFrequencyAnimation').then(m => ({ default: m.CochleaFrequencyAnimation })),
+  { ssr: false }
+)
+
+export const HearingChainAnimation = dynamic(
+  () => import('@/components/animations/HearingChainAnimation').then(m => ({ default: m.HearingChainAnimation })),
+  { ssr: false }
+)
