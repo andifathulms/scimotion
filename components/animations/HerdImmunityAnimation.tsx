@@ -32,12 +32,26 @@ type Stats = { infected: number; susceptible: number; gen: number; done: boolean
 
 const EMPTY_STATS: Stats = { infected: 0, susceptible: 0, gen: 0, done: false }
 
+// Deterministic PRNG (mulberry32). Seeding from a fixed counter keeps every run
+// reproducible — no Math.random(), no Date.now().
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0
+  return () => {
+    a = (a + 0x6d2b79f5) | 0
+    let t = Math.imul(a ^ (a >>> 15), 1 | a)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
 export function HerdImmunityAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const gridRef = useRef<Uint8Array>(new Uint8Array(N))
   const frameRef = useRef(0)
   const genRef = useRef(0)
+  const seedRef = useRef(1)
+  const rngRef = useRef<() => number>(mulberry32(1))
 
   const [coverage, setCoverage] = useState(0.4)
   const [r0, setR0] = useState(4)
@@ -58,13 +72,15 @@ export function HerdImmunityAnimation() {
     return { infected, susceptible, gen: genRef.current, done }
   }, [])
 
-  // Lay out a fresh population: immunise a random `coverage` fraction, then drop
-  // a single index case into one of the remaining susceptibles.
+  // Lay out a fresh population: immunise a `coverage` fraction (chosen by a seeded
+  // shuffle), then drop a single index case into one of the remaining susceptibles.
   const build = useCallback((cov: number) => {
+    const rng = mulberry32(seedRef.current * 2654435761)
+    rngRef.current = rng
     const g = new Uint8Array(N)
     const order = Array.from({ length: N }, (_, i) => i)
     for (let i = N - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
+      const j = Math.floor(rng() * (i + 1))
       const t = order[i]
       order[i] = order[j]
       order[j] = t
@@ -84,11 +100,12 @@ export function HerdImmunityAnimation() {
 
   // One generation: every infectious individual tries each of its 8 contacts with
   // probability p = R0 / 8, then recovers. Only susceptibles can be infected, so
-  // immunised neighbours simply break the chain.
+  // immunised neighbours simply break the chain of transmission.
   const step = useCallback((): boolean => {
     const g = gridRef.current
     const next = Uint8Array.from(g)
     const p = Math.min(1, r0 / NEIGHBOURS)
+    const rng = rngRef.current
     let anyInfectious = false
 
     for (let idx = 0; idx < N; idx++) {
@@ -103,7 +120,7 @@ export function HerdImmunityAnimation() {
           if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue
           const nIdx = nr * COLS + nc
           if (g[nIdx] !== SUSCEPTIBLE) continue
-          if (Math.random() < p) {
+          if (rng() < p) {
             next[nIdx] = INFECTIOUS
             anyInfectious = true
           }
@@ -122,7 +139,15 @@ export function HerdImmunityAnimation() {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    ctx.clearRect(0, 0, W, H)
+
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1
+    if (canvas.width !== Math.round(W * dpr)) {
+      canvas.width = Math.round(W * dpr)
+      canvas.height = Math.round(H * dpr)
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.fillStyle = '#0F0D0A'
+    ctx.fillRect(0, 0, W, H)
     const g = gridRef.current
 
     // Header: coverage vs the computed herd-immunity threshold
@@ -168,7 +193,8 @@ export function HerdImmunityAnimation() {
       ctx.strokeStyle = stroke
       ctx.stroke()
 
-      // Once the outbreak is over, ring the unvaccinated people who never got it.
+      // Once the outbreak is over, ring the unvaccinated people who never got it —
+      // protected only because the chains never reached them.
       if (done && s === SUSCEPTIBLE) {
         ctx.beginPath()
         ctx.arc(x + CELL / 2, y + CELL / 2, CELL * 0.46, 0, Math.PI * 2)
@@ -263,6 +289,7 @@ export function HerdImmunityAnimation() {
 
   const reseed = () => {
     cancelAnimationFrame(rafRef.current)
+    seedRef.current += 1
     build(coverage)
     setStats(collect(false))
     setRunning(true)
@@ -271,6 +298,7 @@ export function HerdImmunityAnimation() {
   const reset = () => {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
+    seedRef.current = 1
     setCoverage(0.4)
     setR0(4)
     build(0.4)
@@ -281,7 +309,7 @@ export function HerdImmunityAnimation() {
   return (
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
-        <span className="animation-label"><Play size={13} /> Interactive · Herd Immunity Threshold</span>
+        <span className="animation-label" style={{ color: C_INF }}><Play size={13} /> Interactive · Herd Immunity Threshold</span>
         <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
           <RotateCcw size={12} /> Reset
         </button>
@@ -292,7 +320,8 @@ export function HerdImmunityAnimation() {
       <div className="animation-controls flex-wrap gap-3">
         <button
           onClick={reseed}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+          style={{ background: C_INF, color: '#0F0D0A' }}
         >
           <Zap size={12} /> Introduce a case
         </button>
@@ -300,20 +329,20 @@ export function HerdImmunityAnimation() {
           <span>coverage:</span>
           <input type="range" min={0} max={0.95} step={0.05} value={coverage}
             onChange={e => setCoverage(+e.target.value)}
-            className="w-24 accent-accent-gold" />
+            className="w-24" style={{ accentColor: C_INF }} />
           <span className="font-mono">{(coverage * 100).toFixed(0)}%</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>R₀:</span>
-          <input type="range" min={1.5} max={8} step={0.5} value={r0}
+          <input type="range" min={1.5} max={12} step={0.5} value={r0}
             onChange={e => setR0(+e.target.value)}
-            className="w-20 accent-accent-gold" />
+            className="w-20" style={{ accentColor: C_MARK }} />
           <span className="font-mono">{r0.toFixed(1)}</span>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
-          need <strong className="text-text-primary">{(threshold * 100).toFixed(0)}%</strong> ·{' '}
+        <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 ml-auto">
+          <span>need <strong className="text-text-primary">{(threshold * 100).toFixed(0)}%</strong></span>
           <span style={{ color: C_REC }}>infected {((stats.infected / N) * 100).toFixed(0)}%</span>
-        </span>
+        </div>
       </div>
     </div>
   )

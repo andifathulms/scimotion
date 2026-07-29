@@ -1210,3 +1210,48 @@ export const NeutronStarDensityAnimation = dynamic(
   () => import('@/components/animations/NeutronStarDensityAnimation').then(m => ({ default: m.NeutronStarDensityAnimation })),
   { ssr: false }
 )
+
+export const TidalStretchAnimation = dynamic(
+  () => import('@/components/animations/TidalStretchAnimation').then(m => ({ default: m.TidalStretchAnimation })),
+  { ssr: false }
+)
+
+export const RocheLimitAnimation = dynamic(
+  () => import('@/components/animations/RocheLimitAnimation').then(m => ({ default: m.RocheLimitAnimation })),
+  { ssr: false }
+)
+
+export const ApertureLightGatheringAnimation = dynamic(
+  () => import('@/components/animations/ApertureLightGatheringAnimation').then(m => ({ default: m.ApertureLightGatheringAnimation })),
+  { ssr: false }
+)
+
+export const TelescopeResolutionAnimation = dynamic(
+  () => import('@/components/animations/TelescopeResolutionAnimation').then(m => ({ default: m.TelescopeResolutionAnimation })),
+  { ssr: false }
+)
+
+export const ActivationEnergyAnimation = dynamic(
+  () => import('@/components/animations/ActivationEnergyAnimation').then(m => ({ default: m.ActivationEnergyAnimation })),
+  { ssr: false }
+)
+
+export const EnzymeCycleAnimation = dynamic(
+  () => import('@/components/animations/EnzymeCycleAnimation').then(m => ({ default: m.EnzymeCycleAnimation })),
+  { ssr: false }
+)
+
+export const WalkerCirculationAnimation = dynamic(
+  () => import('@/components/animations/WalkerCirculationAnimation').then(m => ({ default: m.WalkerCirculationAnimation })),
+  { ssr: false }
+)
+
+export const ENSOFeedbackAnimation = dynamic(
+  () => import('@/components/animations/ENSOFeedbackAnimation').then(m => ({ default: m.ENSOFeedbackAnimation })),
+  { ssr: false }
+)
+
+export const ImmuneMemoryAnimation = dynamic(
+  () => import('@/components/animations/ImmuneMemoryAnimation').then(m => ({ default: m.ImmuneMemoryAnimation })),
+  { ssr: false }
+)

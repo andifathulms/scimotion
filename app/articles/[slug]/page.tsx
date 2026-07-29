@@ -261,6 +261,15 @@ import {
   SeriesParallelAnimation,
   PulsarAnimation,
   NeutronStarDensityAnimation,
+  TidalStretchAnimation,
+  RocheLimitAnimation,
+  ApertureLightGatheringAnimation,
+  TelescopeResolutionAnimation,
+  ActivationEnergyAnimation,
+  EnzymeCycleAnimation,
+  WalkerCirculationAnimation,
+  ENSOFeedbackAnimation,
+  ImmuneMemoryAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -523,6 +532,15 @@ const components = {
   SeriesParallelAnimation,
   PulsarAnimation,
   NeutronStarDensityAnimation,
+  TidalStretchAnimation,
+  RocheLimitAnimation,
+  ApertureLightGatheringAnimation,
+  TelescopeResolutionAnimation,
+  ActivationEnergyAnimation,
+  EnzymeCycleAnimation,
+  WalkerCirculationAnimation,
+  ENSOFeedbackAnimation,
+  ImmuneMemoryAnimation,
   KeyTakeaways,
 }
 

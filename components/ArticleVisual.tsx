@@ -3440,6 +3440,60 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  'tidal-forces': c => (
+    <g>
+      <line x1={110} y1={60} x2={255} y2={60} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <ellipse cx={110} cy={60} rx={42} ry={24} fill={`${c}22`} stroke={c} strokeWidth={0.75} />
+      <circle cx={110} cy={60} r={22} fill={`${c}44`} stroke={c} strokeWidth={1} />
+      <path d="M68,60 l-11,-5 M68,60 l-11,5" fill="none" stroke={c} strokeWidth={1} />
+      <path d="M152,60 l11,-5 M152,60 l11,5" fill="none" stroke={c} strokeWidth={1} />
+      <circle cx={255} cy={60} r={10} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={1} />
+    </g>
+  ),
+  telescopes: c => (
+    <g>
+      <circle cx={30} cy={30} r={6} fill={GOLD} />
+      <line x1={40} y1={45} x2={210} y2={45} stroke={`${c}66`} strokeWidth={0.75} />
+      <line x1={40} y1={60} x2={210} y2={60} stroke={`${c}66`} strokeWidth={0.75} />
+      <line x1={40} y1={75} x2={210} y2={75} stroke={`${c}66`} strokeWidth={0.75} />
+      <path d="M210,28 Q238,60 210,92" fill="none" stroke={c} strokeWidth={2} />
+      <line x1={210} y1={45} x2={176} y2={60} stroke={c} strokeWidth={1} />
+      <line x1={210} y1={60} x2={176} y2={60} stroke={c} strokeWidth={1} />
+      <line x1={210} y1={75} x2={176} y2={60} stroke={c} strokeWidth={1} />
+      <circle cx={176} cy={60} r={3} fill={GOLD} />
+    </g>
+  ),
+  enzymes: c => (
+    <g>
+      <path d="M40,88 C92,88 100,22 150,22 C200,22 208,68 260,68" fill="none" stroke={MUTE} strokeWidth={1} />
+      <path d="M40,88 C92,88 104,52 150,52 C196,52 208,68 260,68" fill="none" stroke={c} strokeWidth={1.5} />
+      <line x1={150} y1={24} x2={150} y2={50} stroke={GOLD} strokeWidth={0.75} strokeDasharray="2 2" />
+      <circle cx={40} cy={88} r={3} fill={c} />
+      <circle cx={260} cy={68} r={3} fill={GOLD} />
+    </g>
+  ),
+  'el-nino': c => (
+    <g>
+      <line x1={20} y1={45} x2={280} y2={45} stroke={c} strokeWidth={1} />
+      <line x1={20} y1={96} x2={280} y2={58} stroke={GOLD} strokeWidth={1.5} strokeDasharray="4 3" />
+      <path d="M20,45 L120,45 L64,82 L20,86 Z" fill={`${c}33`} />
+      <path d="M240,30 L72,30 M87,25 L72,30 L87,35" fill="none" stroke={c} strokeWidth={1} />
+      <circle cx={256} cy={20} r={8} fill={`${GOLD}44`} stroke={GOLD} strokeWidth={1} />
+    </g>
+  ),
+  vaccines: c => (
+    <g>
+      <rect x={30} y={52} width={70} height={16} rx={2} fill={`${c}22`} stroke={c} strokeWidth={1} />
+      <rect x={12} y={55} width={18} height={10} fill={c} />
+      <line x1={100} y1={60} x2={126} y2={60} stroke={c} strokeWidth={1.5} />
+      <g stroke={GOLD} strokeWidth={1.5} fill="none">
+        <path d="M170,76 L170,62 M170,62 L163,52 M170,62 L177,52" />
+        <path d="M212,80 L212,66 M212,66 L205,56 M212,66 L219,56" />
+        <path d="M248,72 L248,58 M248,58 L241,48 M248,58 L255,48" />
+      </g>
+      <circle cx={206} cy={40} r={6} fill={`${c}55`} stroke={c} strokeWidth={1} />
+    </g>
+  ),
 }
 
 export function ArticleVisual({
