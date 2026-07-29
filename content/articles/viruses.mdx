@@ -1,0 +1,100 @@
+---
+title: "Viruses: Alive or Not?"
+subtitle: "A set of instructions in a protein box, inert until it finds the one machine that can read it."
+topic: "Biology"
+slug: "viruses"
+date: "2026-07-23"
+readTime: 10
+featured: false
+description: "What a virus actually is, why it is not a small bacterium, how it hijacks a host cell to copy itself, and why antibiotics do nothing to it."
+tags: ["viruses", "replication", "microbiology", "host-cells"]
+quiz:
+  - q: "Why can a virus not reproduce on its own the way a bacterium can?"
+    options:
+      - "It is too small to hold enough DNA to encode reproduction"
+      - "It has no cell, no ribosomes, and no metabolism, so it must borrow a living host cell's machinery to copy itself"
+      - "It reproduces only in laboratory conditions, never in nature"
+      - "It can reproduce alone, but only very slowly"
+    answer: 1
+    explanation: "A virus is acellular — just genetic material in a protein coat. It carries no ribosomes and runs no metabolism, so the host cell's machinery does all the copying and building."
+  - q: "A patient with influenza is given an antibiotic. What does the drug do to the virus?"
+    options:
+      - "It kills the virus slowly, so recovery takes longer than with a stronger drug"
+      - "Nothing — antibiotics target bacterial structures the virus does not have"
+      - "It stops the virus from entering new cells"
+      - "It weakens the viral capsid so the immune system can finish it off"
+    answer: 1
+    explanation: "Antibiotics attack peptidoglycan walls, bacterial ribosomes, and bacterial enzymes. A virus has none of these, so the drug does nothing to it — antivirals and vaccines are the relevant tools."
+  - q: "What distinguishes the lysogenic cycle from the lytic cycle?"
+    options:
+      - "The lysogenic cycle kills the host cell faster"
+      - "In the lysogenic cycle the viral genome integrates into the host DNA and is copied passively for generations before a trigger switches it to lysis"
+      - "The lysogenic cycle needs no host cell at all"
+      - "The lysogenic cycle only occurs in animal viruses"
+    answer: 1
+    explanation: "In lysogeny the genome becomes a provirus inside the host chromosome, replicating quietly with every cell division until a stress signal induces the lytic pathway."
+---
+
+## The thing in the box
+
+Hold the question lightly for a moment: is a virus alive? Most of us carry a mental image of a virus as a very small, very nasty bug — a shrunken bacterium, a germ that swims around looking for someone to infect. That picture is wrong in almost every particular, and correcting it is the whole point of understanding what a virus is.
+
+A virus is not a cell. It is not a small cell, or a simple cell, or a cell missing a few parts. It is **acellular** — it has no cell at all. Strip it down and you find only two or three components: a length of genetic material (DNA *or* RNA, never both), a protein shell called a **capsid** that packages and protects that genome, and, in some viruses, an outer **envelope** of lipid membrane stolen from a previous host cell, studded with proteins that help the next one open its door.
+
+That is the entire object. There is no nucleus, no cytoplasm, no mitochondria. Crucially, there are no **ribosomes** — the molecular machines every living cell uses to read genetic instructions and build proteins — and there is no metabolism. A virus cannot burn sugar, generate energy, or manufacture a single protein by itself. Outside a host, it does nothing. It does not eat, grow, move under its own power, or repair itself. It simply persists, a chemically stable package, until it happens to bump into the right cell.
+
+## Not a small bacterium
+
+The comparison people reach for is bacteria, so it is worth being blunt about the gap. A bacterium is a genuine living cell: a self-contained organism with a membrane, its own ribosomes, its own metabolism, and its own copying machinery. A bacterium in a drop of nutrient broth will happily divide all night, doubling every twenty minutes, needing nothing from you. It is alive by any definition.
+
+A virus is on a different order of thing entirely, and the size difference hints at it: a typical bacterium is around a micrometre across, while a typical virus is 20 to 300 nanometres — often a hundred times smaller, small enough that we could not see one until the electron microscope arrived. But size is the least of it. The real distinction is that a bacterium *is* a cell and a virus is *not*. A bacterium contains the full toolkit for life. A virus contains only the blueprint and a box to keep it in.
+
+The animation below traces what happens when that box finds its target — and notice, at every step, which one is actually doing the work.
+
+<ViralReplicationAnimation />
+
+## Borrowed machinery
+
+Because a virus has no machinery of its own, it can reproduce in exactly one way: by hijacking a living cell and turning that cell's own factory against it. The cycle above is called the **lytic cycle**, and it runs in five moves.
+
+First, **attachment**. Proteins on the virus surface fit a specific molecule — a **receptor** — on the host cell's membrane, like a key matching one lock. Then **entry**: the genome is delivered inside, either injected through the membrane or carried in and unwrapped once past it. The empty capsid has done its job.
+
+Now the crucial move, and the one the folk picture gets exactly backwards. The virus does *not* copy itself. Instead, the host cell's **ribosomes**, enzymes, energy supply, and raw materials are commandeered. The cell reads the viral genome as though it were its own instructions and dutifully **copies that genome and builds new capsid proteins**. The virus supplies only the plan; the host supplies the labour, the parts, and the power. Then comes **assembly**, as fresh genomes and capsids snap together into complete new virions, and finally **lysis**, when the swollen cell bursts and releases them — a single infected cell can spew out $10^3$ to $10^4$ new virions — to find neighbouring cells and begin again.
+
+This is why the receptor-matching step matters so much. A virus can only enter a cell that displays a receptor its surface proteins recognise, which makes viruses strikingly **host-specific**. A virus adapted to a plant leaf cannot open an animal cell; many human viruses are fussy about which *tissue* they infect. Host specificity is not a rule imposed from outside — it falls straight out of the lock-and-key chemistry of that first attachment. The way a body eventually fights back is a separate story, told in [the immune response](/articles/immune-response), and it is the basis of how [vaccines](/articles/vaccines) train that defence in advance.
+
+## Two fates: lytic and lysogenic
+
+Bursting the cell is not the only option. Once a genome is inside, some viruses — famously the bacteriophages that infect bacteria — can take a slower, quieter road called the **lysogenic cycle**. Instead of immediately seizing the machinery, the viral genome splices itself directly into the host's own DNA, becoming a **provirus**.
+
+Now something patient happens. The provirus sits silently in the chromosome and does nothing obvious. When the host cell divides, it copies its DNA as usual — and because the viral genome is now *part* of that DNA, it gets copied too, passed automatically into both daughter cells. This is the same copying process described in [DNA replication](/articles/dna-replication): the provirus rides along for free, replicating passively through generation after generation, carried into every descendant without ever building a single new virion.
+
+Then a trigger arrives — often stress: ultraviolet light, certain chemicals, damage to the cell. This flips the switch. The provirus excises itself from the chromosome and reverts to the lytic path: copy, assemble, burst. The animation lets you follow either fate from the same starting infection.
+
+<LyticLysogenicAnimation />
+
+Toggle to **lysogenic** and watch the lime provirus persist through each division, quietly present in every cell of the growing colony, until the stress signal wakes it. That persistence is why lysogeny matters beyond virology: an integrated viral genome can sit in a host's DNA for a very long time, and whether the genes it carries get read at all is a question of [gene expression](/articles/gene-expression) — the same on/off logic the cell applies to its own genes.
+
+## The RNA twist
+
+One more wrinkle keeps viruses from fitting the tidy DNA-to-protein story. Many carry their genome as **RNA** rather than DNA, and a subset — the **retroviruses**, HIV among them — do something that once seemed to run the machinery of life in reverse. They carry an enzyme, **reverse transcriptase**, that transcribes their RNA genome *back into DNA*, which then integrates into the host chromosome much like a lysogenic provirus. Information flowing from RNA to DNA was startling enough when discovered that it reshaped the textbook picture of molecular biology. It is also why retroviral infections are so persistent: the virus writes itself permanently into the host's own genetic record.
+
+## Why antibiotics do nothing
+
+Now the practical misconception, the one that costs the most. **Antibiotics do not kill viruses.** Not weakly, not slowly — not at all.
+
+The reason follows directly from everything above. Antibiotics work by attacking structures that are unique to bacteria: the peptidoglycan **cell wall**, the bacterial **ribosome**, bacterial replication enzymes, bacterial metabolic pathways. Those targets exist because a bacterium is a self-sufficient cell full of its own machinery — exactly the machinery that our own cells build differently or lack, which is what lets a drug hit the bacterium and spare us. (For more on how a drug crosses into a cell at all, see [cell membranes](/articles/cell-membranes).)
+
+Run down that target list for a virus and every entry comes up empty. No cell wall to rupture. No bacterial ribosome to jam, because a virus carries no ribosomes and borrows the host's. No bacterial enzymes to inhibit. There is simply nothing there for an antibiotic to attack. Taking an antibiotic for a cold or the flu does nothing to the infection while still applying selective pressure to the harmless bacteria living in your body. The tools that actually work against viruses are **antivirals**, which interfere with steps in the replication cycle, and **vaccines**, which prime the immune system before exposure.
+
+## Alive, or not?
+
+So return to the opening question, honestly. A virus reproduces, evolves, and adapts — those look like signatures of life. But it has no cells, no metabolism, and no independent activity; outside a host it is as inert as a crystal. It meets some criteria for life and flatly fails others, and biologists genuinely disagree about which side of the line it falls on. Perhaps the most useful answer is that the line itself is the interesting part: a virus is neither a tiny living bug nor a dead chemical, but a genuine boundary case — a genetic message that comes to life only when it finds a machine willing, unwittingly, to read it.
+
+<KeyTakeaways>
+- A virus is **acellular**: just genetic material (DNA *or* RNA) in a protein capsid, sometimes an envelope — no cell, no ribosomes, no metabolism, no energy of its own.
+- It is **not** a small bacterium. A bacterium is a self-sufficient living cell; a virus is only a blueprint in a box, inert until it enters a host.
+- A virus cannot reproduce by itself. It **hijacks a host cell** — attach, enter, let the host's ribosomes and enzymes copy the genome and build capsids, assemble, release — so the host does all the work.
+- **Antibiotics do nothing to viruses.** They target bacterial cell walls, ribosomes, and enzymes that viruses simply do not have; antivirals and vaccines are the real tools.
+- After infection a virus may run the **lytic** cycle (copy and burst) or the **lysogenic** cycle (integrate as a provirus, replicate passively for generations, then a trigger switches it to lysis).
+</KeyTakeaways>
