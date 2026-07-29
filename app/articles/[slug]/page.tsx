@@ -255,6 +255,12 @@ import {
   AnesthesiaDepthAnimation,
   CallStackAnimation,
   RecursionTreeAnimation,
+  RedoxTransferAnimation,
+  RedoxEverywhereAnimation,
+  OhmsLawAnimation,
+  SeriesParallelAnimation,
+  PulsarAnimation,
+  NeutronStarDensityAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -511,6 +517,12 @@ const components = {
   AnesthesiaDepthAnimation,
   CallStackAnimation,
   RecursionTreeAnimation,
+  RedoxTransferAnimation,
+  RedoxEverywhereAnimation,
+  OhmsLawAnimation,
+  SeriesParallelAnimation,
+  PulsarAnimation,
+  NeutronStarDensityAnimation,
   KeyTakeaways,
 }
 

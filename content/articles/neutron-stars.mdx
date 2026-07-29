@@ -1,0 +1,110 @@
+---
+title: "Neutron Stars and Pulsars"
+subtitle: "Crush more than the Sun into a city-sized ball, spin it hundreds of times a second, and its lighthouse beam ticks past Earth like a clock."
+topic: "Astronomy & Cosmology"
+slug: "neutron-stars"
+date: "2026-07-01"
+readTime: 10
+featured: false
+description: "How a dying massive star leaves behind a ~20 km ball as dense as an atomic nucleus, why it spins so fast, and how its sweeping radio beam makes a pulsar tick with clock-like regularity."
+tags: ["neutron-stars", "pulsars", "stellar-remnants", "astrophysics"]
+quiz:
+  - q: "A pulsar sends us a sharp pulse many times a second. Does the neutron star switch its emission on and off to produce them?"
+    options:
+      - "Yes — the star pulses its magnetic field on and off like a strobe light"
+      - "No — the star emits steadily, but its beam is narrow and sweeps past Earth once per rotation, like a lighthouse"
+      - "Yes — fusion in the core flares periodically, brightening and dimming the whole star"
+      - "No — the pulses are actually caused by matter falling onto the surface at regular intervals"
+    answer: 1
+    explanation: "The beamed emission shines continuously; we see a pulse each time the rotating beam sweeps across our line of sight, so the pulse period is simply the star's rotation period."
+  - q: "As a stellar core collapses from roughly 7000 km to about 10 km, its rotation speeds up enormously. What is the reason?"
+    options:
+      - "Magnetic braking somehow reverses and pumps energy into the spin"
+      - "The supernova shock physically pushes the core to spin faster"
+      - "Angular momentum L = Iω is conserved and the moment of inertia falls as R², so the spin rate rises as 1/R² — a ~700× smaller radius means a ~490,000× faster spin"
+      - "Heat from the collapse expands the core, which always increases rotation rate"
+    answer: 2
+    explanation: "With L fixed and I ∝ R², shrinking the radius by a factor of ~700 raises the angular velocity by that factor squared, turning a leisurely spin into hundreds of turns per second."
+  - q: "A collapsing core of about 1.4 solar masses settles into a neutron star instead of a black hole. What makes the difference?"
+    options:
+      - "Its mass is below the Tolman–Oppenheimer–Volkoff limit (~2–3 solar masses), so neutron degeneracy pressure halts the collapse at a real surface"
+      - "Neutron stars form from low-mass stars, and black holes only from high-mass stars, regardless of the remnant's mass"
+      - "The core is spinning too fast to collapse any further"
+      - "Neutron stars are simply small black holes that happen to emit light"
+    answer: 0
+    explanation: "Below the TOV limit, neutron degeneracy pressure — a quantum effect — stops the collapse, leaving a solid-surfaced object held up against gravity; only above that limit does nothing halt the fall to a black hole."
+---
+
+## A city that outweighs the Sun
+
+Take something heavier than the Sun and crush it into a ball you could drive across in twenty minutes. Make it so dense that a single sugar-cube of its material would outweigh a mountain. Then spin the whole thing dozens or hundreds of times every second. That is not a thought experiment — it is a **neutron star**, and the galaxy is littered with them.
+
+The strangest part is how we found them. A neutron star fires two narrow beams of radio waves out along its magnetic poles, and as the star rotates those beams sweep around the sky like the lamp of a lighthouse. If one of them happens to swing across Earth, we catch a flash — and then, a rotation later, another, and another, arriving with a regularity that rivals an atomic clock. Objects seen this way are called **pulsars**, and this is the story of what they are, why they spin and weigh so much, and why the beam ticks the way it does.
+
+## Born from the death of a massive star
+
+A neutron star is what a big star leaves behind when it dies. A star spends its life balancing gravity against the outward push of fusion; when a massive star (very roughly **8 to 20-plus solar masses**) finally exhausts its fuel, its iron core collapses in a fraction of a second and the outer layers rebound in a **core-collapse supernova** — the subject of the [life cycle of stars](/articles/life-cycle-of-stars). What matters for us is the core that remains.
+
+That leftover core is caught between two limits. If it were light enough — below the **Chandrasekhar limit** of about **1.4 solar masses** — electron degeneracy pressure could hold it up as a white dwarf. But a core above that limit crushes its electrons and protons together into neutrons and keeps collapsing. It only stops if it stays below a *second* threshold, the **Tolman–Oppenheimer–Volkoff (TOV) limit** of roughly **2–3 solar masses**, where an even stronger quantum effect — **neutron degeneracy pressure** — slams the door and halts the fall. The result is a neutron star: a real, solid-surfaced object about **1.4 solar masses** packed into a sphere only about **20 km across**.
+
+Push past the TOV limit, though, and nothing known can hold the core up. It collapses all the way to a [black hole](/articles/black-holes). This is the crucial distinction to hold onto: a neutron star has a **surface** and is **held up** against gravity by degeneracy pressure. A black hole has neither. A neutron star is the last stable ledge on the cliff, not a small black hole.
+
+## The lighthouse in the sky
+
+In 1967, a graduate student named **Jocelyn Bell Burnell** found a signal in her radio data that pulsed every 1.337 seconds with almost unbelievable precision. It was so regular that the source was briefly, half-jokingly, labelled "LGM-1" — for *Little Green Men*. It was, of course, the first pulsar: a rotating, magnetized neutron star.
+
+The widget below is the **lighthouse model** that explains it. A neutron star spins about its axis, and its magnetic axis is *tilted* relative to that spin axis, so the two radio beams — one from each magnetic pole — trace cones on the sky as the star turns. Earth sits off to the side as a fixed detector.
+
+<PulsarAnimation />
+
+**What to try.** First, just watch the beams: they glow *steadily*. The star is not blinking. Yet the detector on the right records a sharp **pulse** every time a beam sweeps across Earth — and the spacing between those pulses is exactly one rotation. Now push the **spin** slider toward hundreds of hertz and watch the ticks crowd together, because the pulse rate is the spin rate. Finally, drag the **beam tilt**: at the right angle the cone sweeps right over us and we see a bright pulsar; tilt it away and the cone misses Earth entirely, and the detector goes silent. That last case is real — the sky is full of pulsars whose beams never point our way, so we simply cannot see them. "The star emits continuously; we see pulses because the beam sweeps past us" is the whole idea, drawn.
+
+## Why it weighs and spins the way it does
+
+Two numbers make a neutron star extreme, and both follow from the same collapse.
+
+**The density.** Mean density is just mass over volume. For $M \approx 1.4\,M_\odot$ (about $2.8\times10^{30}$ kg) squeezed into a sphere of radius $R \approx 10$ km:
+
+$$\rho = \frac{M}{\tfrac{4}{3}\pi R^3} \approx \frac{2.8\times10^{30}\ \text{kg}}{\tfrac{4}{3}\pi (10^{4}\ \text{m})^3} \approx 7\times10^{17}\ \text{kg/m}^3$$
+
+That is comparable to the density inside an **atomic nucleus** — which is no coincidence, since the star is essentially one giant nucleus of neutrons packed shoulder to shoulder. At that density a teaspoon of neutron-star matter weighs on the order of a **billion tonnes**.
+
+**The spin.** As the core collapses, its **angular momentum is conserved**:
+
+$$L = I\omega = \text{constant}$$
+
+The moment of inertia of a ball scales as $I = \tfrac{2}{5}MR^2$, so with $L$ fixed the angular velocity must rise as the radius shrinks:
+
+$$\omega \propto \frac{1}{R^2} \quad\Longrightarrow\quad \frac{\omega_{\text{final}}}{\omega_{\text{initial}}} = \left(\frac{R_{\text{initial}}}{R_{\text{final}}}\right)^2$$
+
+Collapse an Earth-sized core (~7000 km) down to ~10 km and the radius falls by a factor of about 700 — so the spin rate climbs by $700^2 \approx 490{,}000$. A core turning once every few minutes becomes a neutron star turning **hundreds of times a second**. It is the ice skater pulling in their arms, taken to a cosmic extreme. The same collapse amplifies the frozen-in magnetic field by a similar geometric factor, giving pulsars magnetic fields trillions of times stronger than Earth's — the engine that beams the radio emission.
+
+And because a pulsar's flash comes once per rotation, the observed **pulse period equals the rotation period**:
+
+$$P_{\text{pulse}} = P_{\text{rotation}}$$
+
+That single fact is why pulsars are such superb clocks: measure the ticks, and you are measuring the rotation of a star directly.
+
+## Watching the collapse run away
+
+The formulas above hide just how violent the collapse is. The widget below lets you drive it and watch radius, spin, and density race away from ordinary values all at once.
+
+<NeutronStarDensityAnimation />
+
+**What to try.** Hit **Collapse** and watch the Earth-sized core fall to a ~20 km ball. As it shrinks, the spin markers whirl faster and faster — that is $\omega \propto 1/R^2$ in action — and the density bar climbs past that of an atomic nucleus. Keep an eye on the **teaspoon** readout: for most of the collapse it is unremarkable, then in the final moments it rockets past a billion tonnes, until a single spoonful outweighs all of humanity combined. Then **scrub** the slider by hand and notice how sudden the last factor of two in size is — almost everything extreme about a neutron star happens in the final instant of the collapse.
+
+## Where neutron stars change everything
+
+Neutron stars are not just curiosities; they are laboratories and factories.
+
+Because they are among the densest objects that exist, a *pair* of them locked in a decaying orbit is one of the loudest sources of [gravitational waves](/articles/gravitational-waves) in the universe. As they spiral together they shake spacetime itself, and in 2017 the merger **GW170817** was caught in gravitational waves and, seconds to weeks later, in light — the birth of multi-messenger astronomy. Unlike black holes, neutron stars are made of matter that shreds and glows on collision, and that glow revealed something profound: the debris was forging **gold, platinum, and other heavy nuclei** by rapid neutron capture, exactly the r-process of [stellar nucleosynthesis](/articles/stellar-nucleosynthesis). The heaviest elements in your body were very likely minted in a collision like that.
+
+Two misconceptions are worth retiring for good. The first is that a pulsar **blinks on and off**. It does not — it emits continuously, and the pulse is simply its beam sweeping past us as it rotates, the same way a lighthouse looks like a flashing light even though its lamp never dims. The second is that a neutron star is basically a **small black hole**. It is not. A neutron star has a real, solid surface; it is held up against gravity by neutron degeneracy pressure; and light leaves it freely. A black hole has no surface, nothing holds it up, and light cannot escape. The neutron star is the most extreme object gravity can build *and still lose to*, stopping just short of the abyss.
+
+<KeyTakeaways>
+- A neutron star is the collapsed core left by a massive star's core-collapse supernova, held up by **neutron degeneracy pressure** — caught above the Chandrasekhar limit (~1.4 M☉, no white dwarf) but below the TOV limit (~2–3 M☉, no black hole).
+- It packs about 1.4 solar masses into a ~20 km sphere, giving it the density of an atomic nucleus — a teaspoon would weigh on the order of a billion tonnes.
+- Conservation of angular momentum ($L = I\omega$, $\omega \propto 1/R^2$) spins the collapsing core up to hundreds of turns a second, and amplifies its magnetic field enormously.
+- A **pulsar** is a rotating, magnetized neutron star whose beamed radio emission sweeps past Earth like a lighthouse; it emits *steadily*, and we see clock-like pulses because the beam sweeps by once per rotation, so the **pulse period equals the rotation period** (Bell Burnell, 1967).
+- Neutron stars are not small black holes — they have a real surface and are held up against gravity — and their mergers are prime [gravitational-wave](/articles/gravitational-waves) sources that forge the [heaviest elements](/articles/stellar-nucleosynthesis).
+</KeyTakeaways>

@@ -3380,6 +3380,66 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  redox: c => {
+    // Two species with electrons handing over: left is oxidized (state up),
+    // right is reduced (state down); gold electrons arc from reducer to oxidizer.
+    const electrons: [number, number][] = [[122, 40], [141, 34], [159, 34], [178, 40]]
+    return (
+      <g>
+        <circle cx={72} cy={60} r={28} fill={`${c}22`} stroke={c} strokeWidth={2} />
+        <circle cx={228} cy={60} r={28} fill={`${c}22`} stroke={c} strokeWidth={2} />
+        <text x={72} y={65} textAnchor="middle" fontSize={16} fill={c} fontFamily="monospace">Zn</text>
+        <text x={228} y={65} textAnchor="middle" fontSize={16} fill={c} fontFamily="monospace">Cu</text>
+        <path d="M 104 52 Q 150 14 196 52" fill="none" stroke={FAINT} strokeWidth={1} strokeDasharray="3 3" />
+        {electrons.map(([ex, ey], i) => (
+          <circle key={i} cx={ex} cy={ey} r={3.5} fill={GOLD} />
+        ))}
+        <polygon points="196,52 187,48 189,56" fill={GOLD} />
+        <text x={150} y={22} textAnchor="middle" fontSize={9} fill={GOLD} fontFamily="monospace">e⁻</text>
+        <path d="M 72 106 L 72 92 M 67 97 L 72 92 L 77 97" fill="none" stroke={GOLD} strokeWidth={1.5} />
+        <path d="M 228 92 L 228 106 M 223 101 L 228 106 L 233 101" fill="none" stroke={GOLD} strokeWidth={1.5} />
+        <text x={72} y={117} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">oxidized</text>
+        <text x={228} y={117} textAnchor="middle" fontSize={8} fill={MUTE} fontFamily="monospace">reduced</text>
+      </g>
+    )
+  },
+  'electric-circuits': c => (
+    <g>
+      <line x1={60} y1={32} x2={110} y2={32} stroke={c} strokeWidth={2} />
+      <polyline points="110,32 118,26 126,38 134,26 142,38 150,26 158,38 166,26 174,38 182,32" fill="none" stroke={c} strokeWidth={2} />
+      <line x1={182} y1={32} x2={240} y2={32} stroke={c} strokeWidth={2} />
+      <line x1={240} y1={32} x2={240} y2={88} stroke={c} strokeWidth={2} />
+      <line x1={240} y1={88} x2={60} y2={88} stroke={c} strokeWidth={2} />
+      <line x1={60} y1={32} x2={60} y2={52} stroke={c} strokeWidth={2} />
+      <line x1={60} y1={68} x2={60} y2={88} stroke={c} strokeWidth={2} />
+      <line x1={48} y1={54} x2={72} y2={54} stroke={GOLD} strokeWidth={2} />
+      <line x1={54} y1={64} x2={66} y2={64} stroke={GOLD} strokeWidth={2} />
+      <circle cx={90} cy={88} r={2.5} fill={GOLD} />
+      <circle cx={130} cy={88} r={2.5} fill={GOLD} />
+      <circle cx={170} cy={88} r={2.5} fill={GOLD} />
+      <circle cx={210} cy={88} r={2.5} fill={GOLD} />
+      <circle cx={240} cy={60} r={2.5} fill={GOLD} />
+      <text x={112} y={64} fill={MUTE} fontSize={12} fontFamily="monospace">V = IR</text>
+    </g>
+  ),
+  'neutron-stars': c => {
+    // A bright neutron star firing two opposed beam cones along its (tilted)
+    // magnetic axis, with the clock-like pulse-timing trace beneath.
+    const pulse = '12,106 44,106 47,90 50,106 94,106 97,90 100,106 144,106 147,90 150,106 194,106 197,90 200,106 244,106 247,90 250,106 288,106'
+    return (
+      <g>
+        <line x1={95} y1={18} x2={95} y2={86} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+        <polygon points="95,52 152,26 146,6" fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <polygon points="95,52 46,96 40,76" fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <line x1={95} y1={52} x2={149} y2={16} stroke={c} strokeWidth={1} opacity={0.8} />
+        <line x1={95} y1={52} x2={43} y2={86} stroke={c} strokeWidth={1} opacity={0.8} />
+        <circle cx={95} cy={52} r={15} fill={`${GOLD}33`} />
+        <circle cx={95} cy={52} r={8} fill={GOLD} />
+        <polyline points={pulse} fill="none" stroke={c} strokeWidth={1.5} />
+        <circle cx={97} cy={90} r={2.5} fill={GOLD} />
+      </g>
+    )
+  },
 }
 
 export function ArticleVisual({

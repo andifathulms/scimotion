@@ -1180,3 +1180,33 @@ export const RecursionTreeAnimation = dynamic(
   () => import('@/components/animations/RecursionTreeAnimation').then(m => ({ default: m.RecursionTreeAnimation })),
   { ssr: false }
 )
+
+export const RedoxTransferAnimation = dynamic(
+  () => import('@/components/animations/RedoxTransferAnimation').then(m => ({ default: m.RedoxTransferAnimation })),
+  { ssr: false }
+)
+
+export const RedoxEverywhereAnimation = dynamic(
+  () => import('@/components/animations/RedoxEverywhereAnimation').then(m => ({ default: m.RedoxEverywhereAnimation })),
+  { ssr: false }
+)
+
+export const OhmsLawAnimation = dynamic(
+  () => import('@/components/animations/OhmsLawAnimation').then(m => ({ default: m.OhmsLawAnimation })),
+  { ssr: false }
+)
+
+export const SeriesParallelAnimation = dynamic(
+  () => import('@/components/animations/SeriesParallelAnimation').then(m => ({ default: m.SeriesParallelAnimation })),
+  { ssr: false }
+)
+
+export const PulsarAnimation = dynamic(
+  () => import('@/components/animations/PulsarAnimation').then(m => ({ default: m.PulsarAnimation })),
+  { ssr: false }
+)
+
+export const NeutronStarDensityAnimation = dynamic(
+  () => import('@/components/animations/NeutronStarDensityAnimation').then(m => ({ default: m.NeutronStarDensityAnimation })),
+  { ssr: false }
+)

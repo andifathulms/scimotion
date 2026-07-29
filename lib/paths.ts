@@ -20,14 +20,14 @@ export const learningPaths: LearningPath[] = [
     title: 'Algorithms & Computation',
     description:
       'How machines search, sort, explore connected data, and sift the primes — the core algorithmic ideas, step by step.',
-    articleSlugs: ['logic-gates', 'binary-search', 'sorting-algorithms', 'hash-tables', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes', 'public-key-cryptography', 'neural-networks', 'distributed-consensus', 'p-vs-np', 'finite-automata', 'halting-problem'],
+    articleSlugs: ['logic-gates', 'binary-search', 'recursion', 'sorting-algorithms', 'hash-tables', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes', 'public-key-cryptography', 'neural-networks', 'distributed-consensus', 'p-vs-np', 'finite-automata', 'halting-problem'],
   },
   {
     slug: 'motion-space-and-quanta',
     title: 'Motion, Space & Quanta',
     description:
       'Start with a swinging weight, bend time with relativity, and end where classical physics breaks down entirely.',
-    articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'electromagnetic-waves', 'wave-particle-duality', 'nuclear-energy', 'superconductivity'],
+    articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'electric-circuits', 'electromagnetic-waves', 'wave-particle-duality', 'nuclear-energy', 'superconductivity'],
   },
   {
     slug: 'chance-chaos-and-information',
@@ -48,7 +48,7 @@ export const learningPaths: LearningPath[] = [
     // Ordered so each article supplies what the next one assumes: kinetics and
     // equilibrium come before acids/bases (Ka is an equilibrium constant) and
     // before electrochemistry (the Nernst equation is equilibrium applied to redox).
-    articleSlugs: ['atomic-structure', 'spectroscopy', 'chemical-bonding', 'intermolecular-forces', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'electrochemistry'],
+    articleSlugs: ['atomic-structure', 'spectroscopy', 'chemical-bonding', 'intermolecular-forces', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'redox', 'electrochemistry'],
   },
   {
     slug: 'planet-earth',
@@ -73,7 +73,7 @@ export const learningPaths: LearningPath[] = [
     title: 'The Clinical Body',
     description:
       'Medicine as measurement and control — reading the heart’s electrical trace, holding glucose in range, tracking a drug through the body, seeing inside it, and losing ground to resistant bacteria.',
-    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'gas-exchange', 'glucose-insulin-regulation', 'the-kidney', 'how-we-hear', 'vision', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
+    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'gas-exchange', 'glucose-insulin-regulation', 'the-kidney', 'how-we-hear', 'vision', 'anesthesia', 'pharmacokinetics', 'antibiotic-resistance', 'mri-imaging', 'epidemic-models'],
   },
   {
     slug: 'across-the-universe',
@@ -82,7 +82,7 @@ export const learningPaths: LearningPath[] = [
       'Outward through the cosmos — from the life and death of a single star to the elements it forges, the worlds around others, the extremes of gravity, and the expansion of everything.',
     // Scale outward: one star, what stars make, other stars' planets, the most
     // extreme endpoint, and finally the whole expanding universe.
-    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'solar-system', 'exoplanets', 'black-holes', 'gravitational-waves', 'galaxies-and-dark-matter', 'cosmic-distance-ladder', 'cosmic-microwave-background', 'expanding-universe'],
+    articleSlugs: ['life-cycle-of-stars', 'stellar-nucleosynthesis', 'solar-system', 'exoplanets', 'black-holes', 'neutron-stars', 'gravitational-waves', 'galaxies-and-dark-matter', 'cosmic-distance-ladder', 'cosmic-microwave-background', 'expanding-universe'],
   },
   {
     slug: 'how-the-internet-grew',
