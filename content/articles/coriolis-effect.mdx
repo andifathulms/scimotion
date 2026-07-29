@@ -1,0 +1,92 @@
+---
+title: "The Coriolis Effect: Curved Paths on a Spinning World"
+subtitle: "Fire a cannonball north and it lands to the east of where you aimed — not because a force pushed it, but because the ground turned beneath it."
+topic: "Earth & Climate"
+slug: "coriolis-effect"
+date: "2026-07-24"
+readTime: 10
+featured: false
+description: "Why moving air, water, and cannonballs curve on a rotating planet, why the effect scales with latitude, and why it has nothing to do with which way your sink drains."
+tags: ["coriolis", "rotation", "weather", "atmospheric-dynamics"]
+quiz:
+  - q: "A projectile is fired due north from a point in the Northern Hemisphere. Relative to the ground, which way does its path deflect?"
+    options:
+      - "To the left"
+      - "Straight north — there is no deflection over land"
+      - "Downward, because gravity dominates"
+      - "To the right"
+    answer: 3
+    explanation: "In the Northern Hemisphere the Coriolis deflection always acts to the right of the direction of motion, regardless of which way the object is heading."
+  - q: "Why does the Coriolis acceleration vanish at the equator and reach its maximum at the poles?"
+    options:
+      - "Because the planet spins faster at the poles than at the equator"
+      - "Because it depends on sin φ, the component of Earth's rotation axis perpendicular to the local ground, which is zero at the equator and one at the poles"
+      - "Because air is denser at the poles"
+      - "Because sunlight is weaker at the poles, so winds are slower"
+    answer: 1
+    explanation: "The acceleration is 2Ω v sin φ. Only the locally vertical part of the rotation vector turns horizontal motion sideways, and that component scales as sin φ — zero at the equator, maximal at the poles."
+  - q: "Someone claims the Coriolis effect makes their bathroom sink drain counterclockwise. What is wrong with this?"
+    options:
+      - "Nothing — sinks really do obey the hemisphere rule reliably"
+      - "The effect is real but only reverses in the Southern Hemisphere"
+      - "At a sink's tiny size and short drain time the Coriolis acceleration is millions of times weaker than the swirl left over from filling and the basin's shape, which entirely determine the direction"
+      - "Sinks drain the same way everywhere because water is incompressible"
+    answer: 2
+    explanation: "Coriolis matters only for large, long-lived flows. Over a sink's centimeters and seconds it is utterly negligible next to residual currents and asymmetries in the basin."
+---
+
+## A cannonball that misses to the right
+
+In 1835, the French engineer Gaspard-Gustave de Coriolis was working out the mechanics of rotating machinery — waterwheels, turbines — when he formalized an extra term that appears in the equations of motion whenever you describe things from a spinning frame of reference. That term now carries his name, and it governs the behavior of every large-scale wind and current on Earth.
+
+Here is the puzzle it solves. Fire a cannonball due north from a fixed gun. It travels in a straight line and lands where you aimed. Now put the gun on a giant rotating turntable and fire again, aiming at a target painted on the turntable. This time the ball lands well to the side of the target. No new force touched it in flight. So why did it miss?
+
+<CoriolisDeflectionAnimation />
+
+## It is not a force — it is a point of view
+
+The cannonball answer is the whole idea in miniature. Watch the ball from **above**, from a fixed point in space — the inertial frame. The ball flies in a perfectly straight line at constant speed, exactly as Newton demands, because nothing pushes it sideways. Meanwhile the turntable rotates underneath it. By the time the ball reaches the far side, the target has been carried around to a new position. The ball didn't curve; the ground turned.
+
+Now watch the same flight from **on** the turntable — the rotating frame, which is the frame we actually live in, glued to a spinning planet. From here the straight-line ball appears to bend away in a smooth arc. The curve is entirely real to us, and to predict where the ball lands we must account for it. But it is not caused by any physical push. It is what a straight line looks like when you insist on measuring it against rotating axes.
+
+That is why the Coriolis effect is called a **fictitious** or **inertial pseudo-force**, in the same family as centrifugal force. It appears in Newton's second law only as a bookkeeping term you are forced to add when your reference frame is non-inertial — when it is accelerating, and a rotating frame is always accelerating because its velocity vectors are constantly changing direction. In the honest inertial frame the term simply is not there.
+
+## The size of the deflection
+
+Coriolis's term gives the apparent sideways acceleration of a moving object as
+
+$$a_C = 2\,\Omega\, v \sin\phi$$
+
+where $\Omega \approx 7.29\times10^{-5}\ \mathrm{s^{-1}}$ is Earth's angular rotation rate, $v$ is the object's speed relative to the ground, and $\phi$ is the latitude. Three features of this little formula explain almost everything the effect does.
+
+**It scales with speed.** Something sitting still feels no Coriolis deflection at all; the faster it moves, the harder its path bends.
+
+**It flips sign between hemispheres and dies at the equator.** The $\sin\phi$ factor is the geometry of the thing. Only the component of Earth's spin axis that points *straight up out of the local ground* can twist horizontal motion sideways, and that vertical component is proportional to $\sin\phi$. At the poles ($\phi = 90°$) it is maximal; at the equator ($\phi = 0$) it is zero, so there is no horizontal deflection there. Because $\sin\phi$ changes sign across the equator, the deflection is **to the right of the motion in the Northern Hemisphere and to the left in the Southern Hemisphere** — for *any* direction of travel, not just northward.
+
+**It is genuinely weak.** Plug in a brisk wind of $v = 20\ \mathrm{m/s}$ at mid-latitude ($\phi = 45°$): $a_C \approx 2\times(7.29\times10^{-5})\times20\times0.707 \approx 2\times10^{-3}\ \mathrm{m/s^2}$, about one five-thousandth of gravity. That is tiny per second — but let it act on a wind blowing steadily for many hours over hundreds of kilometers, and the accumulated turning reshapes the entire flow.
+
+## Why storms spin
+
+Give that slow, patient turning a pressure difference to work on and you get weather. Air always starts by accelerating from high pressure toward low pressure — the **pressure-gradient force** points straight down the pressure hill, from the highs into the lows. If Earth did not rotate, air would simply pour radially into every low and fill it in.
+
+<CoriolisWindAnimation />
+
+But as the air begins to move, Coriolis nudges it sideways — to the right, in the Northern Hemisphere. The inflowing air keeps getting deflected until it is no longer heading into the low but circling *around* it. The balance it settles into, with the pressure-gradient force pulling inward and the Coriolis deflection pushing outward, is called **geostrophic** flow. The result: winds spiral **counterclockwise** around a Northern-Hemisphere low (a cyclone) and **clockwise** around a Southern-Hemisphere low. Highs spin the opposite way. Every hurricane, every mid-latitude storm you have seen wheeling on a satellite loop, owes its rotation sense to the sign of $\sin\phi$. The same steady deflection bends the equator-bound [trade winds](/articles/atmospheric-convection) into their characteristic easterly slant and organizes the [wind-driven ocean gyres](/articles/ocean-circulation) into their great basin-wide rotations. It also helps set the stage for the tropical storms explored in our piece on [hurricanes](/articles/hurricanes).
+
+## No, it does not drain your sink
+
+Which brings us to the most stubborn myth in all of geophysics: that the Coriolis effect makes toilets, sinks, and bathtubs swirl one way north of the equator and the other way south of it.
+
+It does not, and the scale argument shows why decisively. The strength of Coriolis turning relative to the flow's own inertia is captured by the **Rossby number**, $\mathrm{Ro} = v /(2\Omega L \sin\phi)$, where $L$ is the size of the flow. When $\mathrm{Ro}$ is much less than 1, rotation dominates and Coriolis rules the motion. When it is much greater than 1, the flow's own momentum dominates and Coriolis is negligible.
+
+A hurricane is hundreds of kilometers across and lasts for days: $L \sim 10^5\ \mathrm{m}$, giving a small Rossby number, so it feels rotation strongly and reliably obeys the hemisphere rule. A sink is about ten centimeters across and drains in ten seconds: $L \sim 0.1\ \mathrm{m}$, giving a Rossby number in the *thousands*. Over that size and time, the Coriolis velocity a water parcel picks up is on the order of $2\Omega L \sim 10^{-5}\ \mathrm{m/s}$ — a hundred-thousandth of a millimeter per second. The swirl left over from how you filled the basin, the shape of the bowl, the position of the drain, and the last stray current from your hand are all *orders of magnitude* larger. They completely determine the direction. Under laboratory conditions — a perfectly symmetric tank, still water left to settle for a full day, sealed from drafts — physicists have coaxed the Coriolis signal to reveal itself. Your bathroom is not that laboratory.
+
+So keep the two ideas apart. Coriolis is real, and it is the master architect of winds and currents across the planet. But it is an apparent deflection born of watching a straight line from a spinning frame, it grows with the latitude factor $\sin\phi$, and it only asserts itself over the large, slow, long-lived flows where its feeble acceleration has time and distance to add up. The whirlpool over your drain is not one of them.
+
+<KeyTakeaways>
+- The Coriolis effect is a *fictitious* inertial force: in an inertial (space) frame the object moves in a straight line while the planet turns beneath it — the curve appears only in Earth's rotating frame.
+- Its acceleration is $a_C = 2\,\Omega\, v \sin\phi$: proportional to speed, zero at the equator, maximal at the poles, and opposite in sign between hemispheres.
+- The deflection is to the **right** of motion in the Northern Hemisphere and to the **left** in the Southern Hemisphere — for any direction of travel.
+- It sets the spin of weather systems (cyclones turn counterclockwise in the north, clockwise in the south) and shapes trade winds and ocean gyres.
+- It does **not** control which way your sink drains: at a basin's tiny size and short timescale, Coriolis is thousands of times weaker than the residual swirl and the basin's shape.
+</KeyTakeaways>

@@ -1255,3 +1255,53 @@ export const ImmuneMemoryAnimation = dynamic(
   () => import('@/components/animations/ImmuneMemoryAnimation').then(m => ({ default: m.ImmuneMemoryAnimation })),
   { ssr: false }
 )
+
+export const SpinningSkaterAnimation = dynamic(
+  () => import('@/components/animations/SpinningSkaterAnimation').then(m => ({ default: m.SpinningSkaterAnimation })),
+  { ssr: false }
+)
+
+export const GyroscopePrecessionAnimation = dynamic(
+  () => import('@/components/animations/GyroscopePrecessionAnimation').then(m => ({ default: m.GyroscopePrecessionAnimation })),
+  { ssr: false }
+)
+
+export const MoleCountingAnimation = dynamic(
+  () => import('@/components/animations/MoleCountingAnimation').then(m => ({ default: m.MoleCountingAnimation })),
+  { ssr: false }
+)
+
+export const StoichiometryAnimation = dynamic(
+  () => import('@/components/animations/StoichiometryAnimation').then(m => ({ default: m.StoichiometryAnimation })),
+  { ssr: false }
+)
+
+export const FloatBitsAnimation = dynamic(
+  () => import('@/components/animations/FloatBitsAnimation').then(m => ({ default: m.FloatBitsAnimation })),
+  { ssr: false }
+)
+
+export const FloatingPointErrorAnimation = dynamic(
+  () => import('@/components/animations/FloatingPointErrorAnimation').then(m => ({ default: m.FloatingPointErrorAnimation })),
+  { ssr: false }
+)
+
+export const ViralReplicationAnimation = dynamic(
+  () => import('@/components/animations/ViralReplicationAnimation').then(m => ({ default: m.ViralReplicationAnimation })),
+  { ssr: false }
+)
+
+export const LyticLysogenicAnimation = dynamic(
+  () => import('@/components/animations/LyticLysogenicAnimation').then(m => ({ default: m.LyticLysogenicAnimation })),
+  { ssr: false }
+)
+
+export const CoriolisDeflectionAnimation = dynamic(
+  () => import('@/components/animations/CoriolisDeflectionAnimation').then(m => ({ default: m.CoriolisDeflectionAnimation })),
+  { ssr: false }
+)
+
+export const CoriolisWindAnimation = dynamic(
+  () => import('@/components/animations/CoriolisWindAnimation').then(m => ({ default: m.CoriolisWindAnimation })),
+  { ssr: false }
+)

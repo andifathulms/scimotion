@@ -3494,6 +3494,75 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <circle cx={206} cy={40} r={6} fill={`${c}55`} stroke={c} strokeWidth={1} />
     </g>
   ),
+  'angular-momentum': c => (
+    <g>
+      <circle cx={150} cy={60} r={40} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <circle cx={150} cy={60} r={7} fill={`${c}44`} stroke={c} strokeWidth={1} />
+      <line x1={150} y1={60} x2={110} y2={60} stroke={c} strokeWidth={2} />
+      <line x1={150} y1={60} x2={190} y2={60} stroke={c} strokeWidth={2} />
+      <circle cx={110} cy={60} r={6} fill={GOLD} />
+      <circle cx={190} cy={60} r={6} fill={GOLD} />
+      <path d="M150,20 a40,40 0 0 1 34,20" fill="none" stroke={c} strokeWidth={1.5} />
+      <path d="M184,40 l4,-6 M184,40 l-6,-2" fill="none" stroke={c} strokeWidth={1.5} />
+    </g>
+  ),
+  'the-mole': c => (
+    <g>
+      <line x1={150} y1={30} x2={150} y2={90} stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <rect x={40} y={44} width={70} height={32} rx={3} fill={`${c}22`} stroke={c} strokeWidth={1} />
+      <text x={75} y={65} fontSize={13} fill={c} textAnchor="middle" fontFamily="monospace">12 g</text>
+      <path d="M158,60 l14,-5 M158,60 l14,5" fill="none" stroke={GOLD} strokeWidth={1} />
+      <g fill={`${c}88`}>
+        <circle cx={205} cy={44} r={4} /><circle cx={225} cy={52} r={4} /><circle cx={245} cy={44} r={4} />
+        <circle cx={215} cy={62} r={4} /><circle cx={238} cy={64} r={4} /><circle cx={260} cy={56} r={4} />
+        <circle cx={205} cy={74} r={4} /><circle cx={228} cy={78} r={4} /><circle cx={252} cy={74} r={4} />
+      </g>
+      <text x={232} y={98} fontSize={8} fill={MUTE} textAnchor="middle" fontFamily="monospace">6.022e23</text>
+    </g>
+  ),
+  'floating-point': c => (
+    <g>
+      <rect x={30} y={50} width={16} height={20} fill={`${GOLD}55`} stroke={GOLD} strokeWidth={0.75} />
+      <rect x={48} y={50} width={70} height={20} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+      <rect x={120} y={50} width={150} height={20} fill={`${c}18`} stroke={c} strokeWidth={0.75} />
+      <line x1={64} y1={50} x2={64} y2={70} stroke={c} strokeWidth={0.4} />
+      <line x1={82} y1={50} x2={82} y2={70} stroke={c} strokeWidth={0.4} />
+      <line x1={100} y1={50} x2={100} y2={70} stroke={c} strokeWidth={0.4} />
+      <text x={38} y={45} fontSize={7} fill={GOLD} textAnchor="middle" fontFamily="monospace">s</text>
+      <text x={83} y={45} fontSize={7} fill={c} textAnchor="middle" fontFamily="monospace">exp</text>
+      <text x={195} y={45} fontSize={7} fill={c} textAnchor="middle" fontFamily="monospace">mantissa</text>
+      <text x={150} y={92} fontSize={9} fill={MUTE} textAnchor="middle" fontFamily="monospace">0.1 + 0.2 ≠ 0.3</text>
+    </g>
+  ),
+  viruses: c => (
+    <g>
+      <circle cx={150} cy={60} r={26} fill={`${c}22`} stroke={c} strokeWidth={1} />
+      <circle cx={150} cy={60} r={12} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={0.75} />
+      <path d="M150,60 q-4,-6 0,-11 q4,5 0,11" fill="none" stroke={GOLD} strokeWidth={1} />
+      <g stroke={c} strokeWidth={1}>
+        <line x1={150} y1={34} x2={150} y2={26} /><line x1={150} y1={86} x2={150} y2={94} />
+        <line x1={124} y1={60} x2={116} y2={60} /><line x1={176} y1={60} x2={184} y2={60} />
+        <line x1={132} y1={42} x2={126} y2={36} /><line x1={168} y1={42} x2={174} y2={36} />
+        <line x1={132} y1={78} x2={126} y2={84} /><line x1={168} y1={78} x2={174} y2={84} />
+      </g>
+      <g fill={c}>
+        <circle cx={150} cy={24} r={2.5} /><circle cx={150} cy={96} r={2.5} />
+        <circle cx={114} cy={60} r={2.5} /><circle cx={186} cy={60} r={2.5} />
+        <circle cx={124} cy={34} r={2.5} /><circle cx={176} cy={34} r={2.5} />
+        <circle cx={124} cy={86} r={2.5} /><circle cx={176} cy={86} r={2.5} />
+      </g>
+    </g>
+  ),
+  'coriolis-effect': c => (
+    <g>
+      <circle cx={150} cy={60} r={44} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <path d="M150,60 a44,44 0 0 1 30,32" fill="none" stroke={MUTE} strokeWidth={0.75} />
+      <line x1={150} y1={60} x2={150} y2={22} stroke={`${c}66`} strokeWidth={0.75} strokeDasharray="2 2" />
+      <path d="M150,60 Q168,38 158,20" fill="none" stroke={c} strokeWidth={2} />
+      <path d="M158,20 l-7,3 M158,20 l1,7" fill="none" stroke={c} strokeWidth={2} />
+      <circle cx={150} cy={60} r={4} fill={GOLD} />
+    </g>
+  ),
 }
 
 export function ArticleVisual({

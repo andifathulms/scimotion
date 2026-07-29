@@ -270,6 +270,16 @@ import {
   WalkerCirculationAnimation,
   ENSOFeedbackAnimation,
   ImmuneMemoryAnimation,
+  SpinningSkaterAnimation,
+  GyroscopePrecessionAnimation,
+  MoleCountingAnimation,
+  StoichiometryAnimation,
+  FloatBitsAnimation,
+  FloatingPointErrorAnimation,
+  ViralReplicationAnimation,
+  LyticLysogenicAnimation,
+  CoriolisDeflectionAnimation,
+  CoriolisWindAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -541,6 +551,16 @@ const components = {
   WalkerCirculationAnimation,
   ENSOFeedbackAnimation,
   ImmuneMemoryAnimation,
+  SpinningSkaterAnimation,
+  GyroscopePrecessionAnimation,
+  MoleCountingAnimation,
+  StoichiometryAnimation,
+  FloatBitsAnimation,
+  FloatingPointErrorAnimation,
+  ViralReplicationAnimation,
+  LyticLysogenicAnimation,
+  CoriolisDeflectionAnimation,
+  CoriolisWindAnimation,
   KeyTakeaways,
 }
 
