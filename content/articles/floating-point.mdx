@@ -1,0 +1,100 @@
+---
+title: "Floating-Point: Why 0.1 + 0.2 ≠ 0.3"
+subtitle: "How computers squeeze the infinite real number line into 64 bits — and why a little rounding is the price."
+topic: "Computer Science"
+slug: "floating-point"
+date: "2026-07-22"
+readTime: 10
+featured: false
+description: "Why 0.1 + 0.2 lands on 0.30000000000000004, how IEEE-754 packs a sign, exponent, and mantissa into 64 bits, and why float errors are deterministic, not glitches."
+tags: ["floating-point", "ieee-754", "numerical-precision", "binary"]
+quiz:
+  - q: "Why does 0.1 + 0.2 evaluate to 0.30000000000000004 in nearly every programming language?"
+    options:
+      - "The CPU's floating-point unit contains a hardware bug that most languages fail to patch"
+      - "0.1 and 0.2 are repeating fractions in binary, so each is rounded to the nearest representable double before they are even added"
+      - "The addition happens in a random order that changes the result slightly each time"
+      - "Compilers deliberately add a small offset to prevent two floats from ever being exactly equal"
+    answer: 1
+    explanation: "0.1 and 0.2 terminate in decimal but repeat forever in binary. Each is rounded to the nearest 64-bit value on the way in, and the sum of those rounded values rounds to 0.30000000000000004 — which is not the double nearest to 0.3."
+  - q: "As the magnitude of a floating-point number grows, what happens to the spacing between consecutive representable values?"
+    options:
+      - "It stays constant, because every number uses the same 64 bits"
+      - "It shrinks, because larger numbers use more of the mantissa"
+      - "It grows — the gap (ulp) doubles every time the exponent increases by one, keeping relative precision roughly constant"
+      - "It becomes random and unpredictable above a certain size"
+    answer: 2
+    explanation: "Floating-point keeps a fixed number of significant bits and slides an exponent, so absolute spacing (the ulp) doubles per binade. Relative precision stays near machine epsilon (~2.2e-16 for doubles)."
+  - q: "What is the correct way to compare two floating-point results for 'equality'?"
+    options:
+      - "Use == directly; floating-point comparison is always exact"
+      - "Round both numbers to integers first, then compare"
+      - "Check that the absolute (or relative) difference is within a small tolerance, e.g. |a − b| < ε"
+      - "Convert both to strings and compare the text"
+    answer: 2
+    explanation: "Because inputs are pre-rounded and operations round again, mathematically equal computations can land on neighboring representable values. Compare with a tolerance rather than testing exact bit equality."
+---
+
+Type `0.1 + 0.2` into almost any programming language's console and you will not get `0.3`. You get `0.30000000000000004`. This is not a bug in your language, your compiler, or your CPU. It is the direct, predictable consequence of how computers store real numbers — and once you see the mechanism, the "wrong" answer becomes the only sensible one.
+
+## The trap: computers do not store decimals exactly
+
+The intuition to unlearn is that a computer keeps `0.1` as the tidy decimal you typed. It does not. A `double` (the 64-bit IEEE-754 format used by JavaScript, Python floats, C `double`, and most everything else) stores numbers in **binary scientific notation**:
+
+$$\text{value} = (-1)^s \times 1.m \times 2^{e - 1023}$$
+
+Those 64 bits are split into three fields:
+
+- **1 sign bit** $s$ — 0 for positive, 1 for negative.
+- **11 exponent bits** $e$ — a whole number from 0 to 2047, stored with a **bias** of 1023 so it can represent negative exponents. The actual power of two is $e - 1023$.
+- **52 mantissa bits** $m$ — the fractional digits after an **implicit leading 1**. Because a normalized binary number always starts with a 1, that bit is not stored; you get 53 bits of precision for the price of 52.
+
+<FloatBitsAnimation />
+
+Toggle the bits above (the widget uses a 32-bit `float` — 1 + 8 + 23 — for legibility, but the doubling logic is identical for doubles). Watch how the exponent slides the value between **binades** (ranges $[2^b, 2^{b+1})$) while the mantissa fine-tunes the position inside each one.
+
+Here is the crux. The mantissa can only encode fractions whose denominators are powers of two: halves, quarters, eighths, and so on. In decimal, `0.1` terminates. In binary it does *not* — it is the repeating fraction $0.0\overline{0011}_2$, exactly the way $\tfrac{1}{3} = 0.333\ldots$ repeats in decimal. Since the mantissa is finite, `0.1` must be **rounded to the nearest representable value**. The double you actually get is about `0.1000000000000000055511151231257827`. Same story for `0.2`.
+
+## Why 0.1 + 0.2 misses
+
+Now add two numbers that were *already* slightly off:
+
+<FloatingPointErrorAnimation />
+
+Step through it. `0.1` snaps to its nearest double (a hair high). `0.2` snaps to its nearest double (also a hair high). Their exact sum is rounded again to the nearest representable value — and that value is `0.30000000000000004`, which sits exactly **one ulp** (unit in the last place) *above* the double nearest to `0.3`. The number line zoom makes it vivid: `0.3` and `0.1 + 0.2` land on two different, adjacent ticks of the representable grid. They are neighbors, but they are not the same bit pattern, so `0.1 + 0.2 == 0.3` is `false`.
+
+Nothing here is random. Run it a billion times and you get the identical result every time. Which brings us to the second misconception.
+
+## Floating-point error is deterministic, not a glitch
+
+It is tempting to think of floating-point error as noise — little random glitches that creep in. It is the opposite. IEEE-754 specifies **round-to-nearest** as a precise, reproducible operation: every basic arithmetic result is defined to be the exact mathematical answer rounded to the closest representable value (ties go to even). The same inputs always produce the same output on any conforming machine. The error is not chaos; it is a well-defined, bounded rounding.
+
+What *does* change is how large that rounding can be, because **representable numbers get sparser as magnitude grows**. Between `1` and `2`, doubles are spaced about $2.2 \times 10^{-16}$ apart. Between `2` and `4`, the spacing doubles. Between `4` and `8` it doubles again. Each time the exponent ticks up by one, the gap — the ulp — doubles:
+
+$$\text{ulp}(x) \approx 2^{\lfloor \log_2 |x| \rfloor - 52}$$
+
+The mantissa always carries the same 53 significant bits, so what stays constant is not absolute precision but **relative** precision, pinned near **machine epsilon**, $\varepsilon = 2^{-52} \approx 2.2 \times 10^{-16}$. That is why a double can represent numbers up to $\sim 10^{308}$ yet cannot tell `9{,}007{,}199{,}254{,}740{,}992` from the next integer up: past $2^{53}$, consecutive integers are no longer all representable.
+
+## The practical rules that follow
+
+Three consequences fall straight out of the mechanism:
+
+**Never test floats with `==`.** Two computations that are mathematically equal can land on neighboring ticks. Compare with a tolerance instead — `abs(a - b) < 1e-9` for an absolute check, or a relative epsilon for values that span many magnitudes. This is the same idea as knowing not to expect two different routes through a computation to agree to the last bit.
+
+**Beware catastrophic cancellation.** Subtracting two nearly equal numbers annihilates their leading significant digits and promotes the tiny rounding errors in their trailing digits to prominence. Computing $\sqrt{x+1} - \sqrt{x}$ directly for large $x$ loses precision badly; algebraically rewriting it as $\frac{1}{\sqrt{x+1} + \sqrt{x}}$ sidesteps the cancellation entirely. The bits were never wrong — the *order of operations* exposed them.
+
+**Know the special values.** IEEE-754 reserves patterns for the edges: `+∞` and `−∞` (overflow, or `1.0/0.0`), `NaN` (not-a-number, from `0.0/0.0` or `sqrt(-1)`), and both `+0` and `−0` (a signed zero that remembers the direction a value approached zero from). `NaN` is famously not equal to anything, *including itself* — `NaN == NaN` is `false`, which is actually the standard way to test for it.
+
+## So what is a computer *good* at?
+
+Integers, for one — a 64-bit integer counts exactly up to $9.2 \times 10^{18}$ with no rounding, which is why money is often stored in integer cents, not floating-point dollars. And for the vast landscape of scientific and graphics computation, ~16 significant decimal digits of deterministic precision is plenty; you simply respect the tolerance. Floating-point is not a flawed approximation of "real" arithmetic — it is an astonishingly good engineering compromise that squeezes a usable slice of the infinite real line into a fixed 64 bits. The representable grid is the same idea you meet whenever a continuous world is stored digitally, from the discrete keys of a [hash table](/articles/hash-tables) to the yes/no thresholds of a [binary search](/articles/binary-search) to the on/off certainty of [logic gates](/articles/logic-gates).
+
+The lesson is not "computers are bad at math." It is "computers do exactly the math you asked for, in binary, and rounded to the nearest bit — so ask accordingly."
+
+<KeyTakeaways>
+- A `double` stores numbers as $(-1)^s \times 1.m \times 2^{e-1023}$: 1 sign bit, 11 biased exponent bits, and 52 mantissa bits after an implicit leading 1 (53 bits of precision).
+- Many decimals that terminate (like `0.1`) are *repeating* fractions in binary, so they are rounded to the nearest representable value before any arithmetic even begins.
+- `0.1 + 0.2` gives `0.30000000000000004` because two pre-rounded values are added and rounded again — landing one ulp away from the double nearest `0.3`.
+- Float error is **deterministic** round-to-nearest, not random noise; the same computation always yields the same result, and the gap (ulp) doubles each binade, keeping *relative* precision near machine epsilon (~2.2e-16).
+- Never compare floats with `==` — use a tolerance; watch for catastrophic cancellation; and handle the special values `±∞`, `NaN` (never equal to itself), and signed zero.
+</KeyTakeaways>
