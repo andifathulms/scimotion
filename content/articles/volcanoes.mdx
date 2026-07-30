@@ -1,0 +1,90 @@
+---
+title: "Volcanoes: Why Some Ooze and Some Explode"
+subtitle: "Hawaii dribbles glowing rivers for years; Mount St. Helens erased a mountainside in seconds — and the difference is written into the chemistry of the melt."
+topic: "Earth & Climate"
+slug: "volcanoes"
+date: "2026-08-01"
+readTime: 10
+featured: false
+description: "Why eruption style is set by a magma's silica and dissolved gas rather than luck, and why volcanoes cluster at plate boundaries and hotspots instead of appearing at random."
+tags: ["volcanoes", "magma", "plate-tectonics", "eruptions"]
+quiz:
+  - q: "Two volcanoes tap magma at the same temperature and depth. One erupts as gentle lava flows for months; the other detonates in a Plinian ash column. What single property best predicts the difference?"
+    options:
+      - "The colour of the erupted rock, which sets how much heat it radiates"
+      - "The silica content of the magma, which controls its viscosity and therefore whether dissolved gas can escape"
+      - "The latitude of the volcano, since Coriolis forces spin the rising column"
+      - "The age of the volcano, because older vents are always more explosive"
+    answer: 1
+    explanation: "Silica polymerises the melt into a stiff network. Low-silica basalt is runny and lets gas bubble out gently (effusive); high-silica magma is viscous, traps gas until pressure shatters it (explosive). Temperature and depth being equal, silica and its control on viscosity and gas escape is the deciding factor."
+  - q: "At a subduction zone the descending oceanic plate is cold as it sinks, yet a chain of volcanoes forms in the overriding plate above it. What actually triggers the melting?"
+    options:
+      - "Friction between the two plates heats the rock past its melting point"
+      - "The sinking slab compresses the mantle, and pressure alone melts it"
+      - "Water driven out of the sinking slab lowers the melting point of the overlying mantle so it partially melts"
+      - "The slab is still molten from the mid-ocean ridge where it formed"
+    answer: 2
+    explanation: "It is not friction. Hydrous minerals in the subducting slab break down with depth and release water into the hot mantle wedge above. Dissolved water lowers the mantle's solidus (its melting temperature), so rock that was solid begins to partially melt — flux melting — and that melt rises to build the volcanic arc."
+  - q: "The Hawaiian islands form a straight chain that grows older to the northwest, away from the single active volcano at its southeastern end. What does this pattern reveal?"
+    options:
+      - "A plate boundary runs along the island chain and erupts progressively"
+      - "A roughly fixed mantle plume melts through the plate while the Pacific Plate drifts northwest over it"
+      - "Each island was built by a separate asteroid impact spaced over time"
+      - "Sea level fell in steps, exposing older volcanoes first"
+    answer: 1
+    explanation: "Hawaii is an intraplate hotspot, far from any boundary. A long-lived plume of hot mantle stays roughly fixed while the Pacific Plate slides northwest across it, so each volcano is carried off the heat source and goes extinct as a new one is born behind it — printing the plate's motion as an age-ordered island chain."
+---
+
+## First, a word that trips everyone up
+
+"Magma" and "lava" are not two names for the same thing, and the difference is more than pedantry. **Magma** is molten rock while it is still underground — a hot mix of melt, suspended crystals, and, crucially, dissolved gases held in solution by the immense pressure of the overlying rock. **Lava** is what that same material is called once it breaks the surface. The moment it erupts, the pressure that kept its gas dissolved is gone, and the story of the eruption has already been decided by what happened on the way up.
+
+That framing matters because of a second, more stubborn misconception: that all volcanoes erupt the same violent way, as if "volcano" always meant a mountain blowing its top. In reality eruption *style* runs across a huge spectrum, from lakes of lava you can (carefully) walk up to, to blasts that inject ash into the stratosphere. And the thing that sets where a given volcano falls on that spectrum is not luck. It is chemistry.
+
+## Why some ooze and some explode
+
+Two ingredients do almost all the work: **silica** and **dissolved gas**.
+
+Silica — silicon dioxide, SiO₂ — is the backbone of magma. Silica tetrahedra link up into chains and networks, and the more silica a melt contains, the more polymerised and tangled that network becomes. That tangle is exactly what viscosity measures: resistance to flow. The range is staggering. A hot, silica-poor **basaltic** magma (around 50% SiO₂) has a viscosity near $10^{2}$–$10^{3}$ pascal-seconds — runny, like cold honey. A silica-rich **rhyolitic** magma (around 70% SiO₂) can reach $10^{8}$ pascal-seconds or more — stiffer than window glass creeping on a windowsill. Between them sit the **andesitic** magmas of the great arc volcanoes.
+
+Now bring in the gas. Magma carries dissolved water vapour and carbon dioxide, and their solubility depends on pressure. Henry's law captures the intuition: the concentration a melt can hold scales with pressure,
+
+$$
+c = k_H \, P .
+$$
+
+Deep down, $P$ is enormous and the gas stays dissolved. As magma rises, $P$ falls, the melt becomes supersaturated, and gas comes out of solution as bubbles — exactly the way a shaken bottle fizzes only once you crack the cap.
+
+Here is where viscosity decides everything. In runny basalt, bubbles rise and merge and escape freely; the gas simply leaves. The magma reaches the surface already partly degassed and erupts **effusively** — glowing rivers and fountains of lava, the signature of Kilauea in Hawaii. In stiff rhyolite, bubbles cannot push through the tangled melt. They stay trapped, and as the magma keeps rising and the pressure keeps dropping, they grow and multiply, driving the internal pressure up. The magma is now a foam with nowhere to vent. When it finally fails, it fails catastrophically: the expanding gas shreds the melt into ash and pumice and blasts it skyward as an **explosive** eruption. Mount St. Helens in 1980 and Pinatubo in 1991 were this failure mode. Same planet, same heat — opposite behaviour, set by silica and gas.
+
+<MagmaViscosityAnimation />
+
+The takeaway from the slider is the whole argument in miniature: nudge silica low and the melt thins, bubbles escape, and lava oozes; nudge it high and the melt stiffens, gas is trapped, pressure climbs, and the vent detonates. It is the same coupling between chemistry and physics that recurs across the [rock cycle](/articles/rock-cycle) — composition dictating behaviour.
+
+## Volcanoes are not scattered at random
+
+Plot the world's volcanoes on a map and they do not speckle the globe evenly. They trace lines and arcs, with the majority ringing the Pacific in the famous **Ring of Fire**. That is not coincidence; it is [plate tectonics](/articles/plate-tectonics). Almost every volcano sits at one of three settings, and each melts rock by a *different* mechanism.
+
+**Subduction zones.** Where an oceanic plate dives beneath another, you might expect the cold sinking slab to *suppress* melting — and it would, if melting worked by heat alone. Instead, the slab carries water locked into its minerals. As it descends and warms, those minerals break down and release that water into the hot mantle **wedge** above. Adding water to hot rock lowers its melting temperature, its **solidus**, so mantle that was solid begins to partially melt. This is **flux melting**, and it feeds the andesitic arc volcanoes of the Andes, the Cascades, Japan, and Indonesia. Because the melt is silica-enriched and water-charged, these tend to be the dangerous, explosive ones.
+
+**Mid-ocean ridges.** Where plates pull apart, hot mantle wells up to fill the gap. Nothing heats it; instead the pressure on it drops as it rises. Since a rock's melting point climbs with pressure, releasing that pressure can push the rock across its solidus without any change in temperature at all — **decompression melting**. The result is fluid basaltic magma erupting along the 60,000-km global ridge system, most of it unseen beneath the sea (Iceland is the rare place it breaches the surface).
+
+**Hotspots.** A few volcanoes sit thousands of kilometres from any boundary. These are fed by **mantle plumes** — columns of unusually hot rock rising from deep in the mantle — which melt by decompression when they reach shallow depths. The plume stays roughly fixed while the plate slides over it, so it prints a chain of volcanoes that ages away from the active vent: **Hawaii** stretching northwest across the Pacific, and **Yellowstone** tracking across North America.
+
+<VolcanoSettingAnimation />
+
+Toggle between the three and watch the mechanism, not just the mountain: water fluxing the mantle wedge above a slab, pressure release under a spreading ridge, and a fixed plume burning a track into a drifting plate.
+
+## Hazards, and a reach into the sky
+
+The same physics that sorts eruptions into oozing and exploding also sorts their dangers. Effusive basalt flows are destructive to property but slow enough to outrun. Explosive eruptions are the killers: **pyroclastic flows** — avalanches of scorching gas and ash moving at hundreds of kilometres per hour — plus ash fall, lahars (volcanic mudflows), and the shock to aviation from ash aloft. The seismic rumble that precedes many eruptions, as magma forces rock apart, is read with the same tools used to study [seismic waves](/articles/seismic-waves) from earthquakes, and it is one of the best warnings we have.
+
+The largest explosive eruptions reach beyond the local. When Pinatubo blasted roughly 20 million tonnes of sulfur dioxide into the stratosphere in 1991, the gas formed a haze of fine **sulfate aerosols** that reflected sunlight back to space and cooled global average temperatures by about half a degree Celsius for a year or so. Tambora's 1815 eruption did worse, producing 1816's "year without a summer." Volcanoes, in other words, are not just landforms. They are a control knob on the atmosphere — one more way the solid Earth and its climate are the same system seen from two sides.
+
+<KeyTakeaways>
+- **Magma is molten rock underground; lava is that same material once it erupts.** The pressure drop on the way up is what turns dissolved gas into the bubbles that drive an eruption.
+- **Eruption style is set mainly by silica and dissolved gas, not chance.** Low-silica basaltic magma is runny, lets gas escape, and erupts effusively (Kilauea); high-silica andesitic and rhyolitic magma is viscous, traps gas until pressure shatters it, and erupts explosively (Mount St. Helens, Pinatubo).
+- **Viscosity spans a huge range** — from about $10^{2}$ Pa·s for basalt to $10^{8}$ Pa·s or more for rhyolite — because silica polymerises the melt; that stiffness is exactly what decides whether bubbles can escape.
+- **Volcanoes cluster, they do not scatter.** They form at subduction zones (water lowers the mantle's melting point — flux melting — building explosive arcs like the Ring of Fire), at mid-ocean ridges (decompression melting of upwelling mantle), and at intraplate hotspots (mantle plumes, e.g. Hawaii and Yellowstone).
+- **Explosive eruptions reach the climate.** Sulfur dioxide injected into the stratosphere forms reflective sulfate aerosols that can cool the whole planet for a year or more, as after Pinatubo in 1991 and Tambora in 1815.
+</KeyTakeaways>
