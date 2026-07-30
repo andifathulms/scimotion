@@ -1,0 +1,112 @@
+---
+title: "Momentum: The Quantity Collisions Conserve"
+subtitle: "In every crash, bounce, and recoil, one directed quantity is passed around untouched — even when energy vanishes into heat."
+topic: "Physics"
+slug: "momentum"
+date: "2026-08-02"
+readTime: 10
+featured: false
+description: "Why total momentum is always conserved in a collision, how it differs from kinetic energy, and why stretching a collision's time protects you from its force."
+tags: ["momentum", "collisions", "conservation-laws", "impulse"]
+quiz:
+  - q: "Two identical lumps of clay fly toward each other at equal speeds and stick together on impact. What happens to the total momentum and the total kinetic energy?"
+    options:
+      - "Both are conserved, because the collision is symmetric"
+      - "Momentum is destroyed but kinetic energy is conserved"
+      - "Kinetic energy is conserved but momentum is lost to the clay"
+      - "Momentum is conserved (it was zero and stays zero); kinetic energy is not — it turns into heat and deformation"
+    answer: 3
+    explanation: "With no external force, the vector sum of momentum is conserved. Equal and opposite momenta already sum to zero, so the stuck-together blob is at rest — total p is still zero. But the incoming kinetic energy had to go somewhere: in this perfectly inelastic collision it becomes heat, sound, and permanent deformation of the clay."
+  - q: "A car hits a wall and stops. An airbag deploys so the driver decelerates over 0.3 s instead of 0.03 s. For the same change in the driver's momentum, what does the longer time accomplish?"
+    options:
+      - "It reduces the change in momentum by a factor of ten"
+      - "It reduces the peak force by roughly a factor of ten, since J = F·Δt is fixed"
+      - "It increases the impulse, cushioning the impact"
+      - "It has no effect on force, only on comfort"
+    answer: 1
+    explanation: "The impulse J = F·Δt equals the change in momentum Δp, which is fixed by how fast the driver was going. Stretch Δt by ten and the average (and peak) force must fall by about ten. Airbags, crumple zones, and bending your knees all buy time to shed the same momentum more gently."
+  - q: "Which statement correctly distinguishes momentum from kinetic energy?"
+    options:
+      - "They are the same thing measured in different units"
+      - "Momentum is a scalar; kinetic energy is a vector"
+      - "Momentum is a vector (mv) conserved in all collisions with no external force; kinetic energy is a scalar (½mv²) conserved only in elastic ones"
+      - "Kinetic energy is always conserved; momentum only in elastic collisions"
+    answer: 2
+    explanation: "Momentum p = mv carries direction and is conserved in any collision with no net external force. Kinetic energy ½mv² is a direction-free scalar and is only conserved when the collision is elastic. Inelastic collisions still conserve momentum but convert some kinetic energy into other forms."
+---
+
+## The bookkeeping of motion
+
+Fire a cue ball into a rack of billiards. The ball stops dead; the pack explodes outward. A cannon fires and lurches backward. A rocket hangs in empty space, nothing to push against, yet accelerates by throwing mass out its tail. These look like unrelated tricks, but a single accounting rule governs all of them: the conservation of **momentum**.
+
+For a single object, momentum is mass times velocity:
+
+$$\vec p = m\vec v$$
+
+The arrows matter. Momentum is a **vector** — it has a direction. A two-kilogram cart rolling east at 3 m/s and an identical cart rolling west at 3 m/s have momenta that are equal in size but opposite in sign; added together, they cancel to zero. Hold on to that fact, because it is where most confusion about collisions begins.
+
+## The law: momentum is transferred, never destroyed
+
+Here is a misconception worth killing outright: that in a collision "the total momentum changes," or "the moving object just loses its momentum." It does not vanish. It is **transferred**.
+
+Think about what happens when two objects touch. By Newton's third law, whatever force object A exerts on B, object B exerts an exactly equal and opposite force back on A. They push on each other for exactly the same length of time. So the impulse delivered to B is exactly equal and opposite to the impulse delivered to A — one gains precisely what the other loses. Add the two together and the change in the *system's* total momentum is zero:
+
+$$\sum \vec p_\text{before} = \sum \vec p_\text{after}$$
+
+This holds whenever no *external* force acts on the system. The internal forces between the colliding bodies always come in equal-and-opposite pairs, so they can shuffle momentum from one object to another but can never change the grand total. The cue ball did not destroy its momentum; it handed it to the rack.
+
+<CollisionAnimation />
+
+Slide the masses and velocities around, and watch the green momentum bar. Before and after the collision, its length and direction are identical — collision after collision, elastic or not. Momentum is the quantity that refuses to change.
+
+## Kinetic energy is a different animal
+
+The tempting mistake is to treat momentum and kinetic energy as "basically the same thing." They are not, and the difference is the whole story of collisions.
+
+Kinetic energy is
+
+$$KE = \tfrac12 m v^2$$
+
+Notice two differences from $\vec p = m\vec v$. First, it depends on $v^2$, not $v$ — so it has no direction. It is a **scalar**; east and west contribute the same positive amount. Two carts closing in on each other from opposite sides both bring *positive* kinetic energy to the table, even though their momenta cancel. Second, and crucially, kinetic energy is **not** automatically conserved in a collision.
+
+- In an **elastic** collision (billiard balls, hardened steel), the objects bounce apart and the total kinetic energy after equals the total before. Both $\vec p$ and $KE$ are conserved.
+- In an **inelastic** collision, some kinetic energy is converted into heat, sound, and permanent deformation. Momentum is *still* conserved — Newton's third law does not care whether the objects dent — but kinetic energy is lost. The extreme case is a **perfectly inelastic** collision, where the objects stick together and move as one.
+
+### A worked contrast
+
+Take two 1 kg carts. Cart A moves right at 4 m/s; cart B is at rest.
+
+Total momentum before: $\vec p = (1)(4) + (1)(0) = 4\ \text{kg·m/s}$, pointing right.
+Total kinetic energy before: $KE = \tfrac12(1)(4^2) + 0 = 8\ \text{J}$.
+
+**Perfectly inelastic** (they stick): momentum conservation says $4 = (1+1)v$, so the combined 2 kg blob moves at $v = 2\ \text{m/s}$. Its kinetic energy is $\tfrac12(2)(2^2) = 4\ \text{J}$. Momentum: still 4 kg·m/s. Kinetic energy: cut in half — 4 joules went into heat and deformation.
+
+**Elastic** (equal masses): the well-known result is that A stops dead and B leaves at 4 m/s. Momentum: $(1)(0)+(1)(4) = 4\ \text{kg·m/s}$, unchanged. Kinetic energy: $\tfrac12(1)(4^2) = 8\ \text{J}$, also unchanged.
+
+Same conserved momentum in both cases. Utterly different fate for the energy. That is why momentum, not energy, is the reliable currency of collisions — it balances every single time, whereas energy only balances when nothing is lost to heat.
+
+## Impulse: change of momentum over time
+
+To change an object's momentum you must apply a force, and the longer you apply it, the more momentum you change. That product is the **impulse**:
+
+$$\vec J = \vec F\,\Delta t = \Delta \vec p$$
+
+Impulse is just the change in momentum written the other way around. And it hides one of the most life-saving ideas in physics. Suppose a driver in a crash must lose a fixed amount of momentum — that is set by how fast the car was going and cannot be argued with. The impulse $\vec J = \Delta\vec p$ is therefore *fixed*. But $\vec J = \vec F\,\Delta t$, so for a fixed impulse, **force and time trade off inversely**.
+
+Stop in a hundredth of a second against a rigid dashboard, and the force is enormous. Stretch that same stop over three tenths of a second against an airbag, and the force drops by a factor of thirty — same change in momentum, far gentler peak force. This is exactly why cars have crumple zones, why gymnasts land on thick mats, why you bend your knees when you jump down, and why a boxer rolls with a punch. None of these reduce how much momentum you must shed. They buy **time**, and time is what tames the force.
+
+<ImpulseAnimation />
+
+Both curves enclose the same area — the same impulse, the same $\Delta p$. But the short, hard collision spikes to a punishing peak, while the long, soft one stays low and survivable.
+
+## Where momentum takes you next
+
+Momentum's rotational cousin, [angular momentum](/articles/angular-momentum), obeys the very same conservation logic for spin — swap force for torque and mass for moment of inertia. The same idea of a restoring exchange between forms shows up in the steady swing of a [pendulum](/articles/pendulum-motion), where kinetic and potential energy trade places. And on the grandest scale, conservation of angular momentum is what fixes the shape of orbits in [Kepler's laws](/articles/keplers-laws), sweeping equal areas in equal times.
+
+<KeyTakeaways>
+- Momentum $\vec p = m\vec v$ is a **vector**; the total momentum of a system is conserved in any collision with no external force, because internal forces come in equal-and-opposite (Newton's third law) pairs.
+- Kinetic energy $\tfrac12 mv^2$ is a **scalar** and is conserved *only* in elastic collisions; inelastic collisions still conserve momentum but convert kinetic energy into heat, sound, and deformation.
+- In a collision momentum is **transferred, not destroyed** — one object gains exactly what the other loses, so the system total never changes.
+- A perfectly inelastic collision (objects stick) conserves momentum while losing the most kinetic energy possible consistent with that constraint.
+- Impulse $\vec J = \vec F\,\Delta t = \Delta\vec p$ means a fixed change in momentum can be delivered with a large force over a short time or a small force over a long time — airbags, crumple zones, and bending your knees all buy time to slash the peak force.
+</KeyTakeaways>
