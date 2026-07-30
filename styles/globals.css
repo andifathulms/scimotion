@@ -137,6 +137,7 @@ body {
  * page title — previously both title and h2 were 1.5rem, which flattened the
  * article title into a peer of its own sections. */
 .prose-article h2 {
+  position: relative;
   font-size: 1.75rem;
   font-weight: 700;
   margin-top: 3.5rem;
@@ -149,6 +150,7 @@ body {
 }
 
 .prose-article h3 {
+  position: relative;
   font-size: 1.25rem;
   font-weight: 600;
   margin-top: 2.5rem;
@@ -163,6 +165,36 @@ body {
  * 45-75 readability band, and a more comfortable size for long-form reading
  * than the previous 1rem. Column width and body size have to move together:
  * changing either alone moves the line length out of range. */
+/* Section anchors hang in the left margin, so revealing one on hover cannot
+ * reflow the heading. Below 64em there is no margin to hang in — and a
+ * hover-only affordance is unreachable on touch anyway — so they are dropped
+ * rather than crammed into the measure. */
+.heading-anchor {
+  position: absolute;
+  left: -1.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.prose-article h2:hover .heading-anchor,
+.prose-article h3:hover .heading-anchor,
+.heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+.heading-anchor:hover {
+  color: var(--accent-gold);
+}
+
+@media (max-width: 64em) {
+  .heading-anchor {
+    display: none;
+  }
+}
+
 /* Body copy is --text-primary. It used to be --text-secondary (60% alpha, ~6.5:1
  * on the dark base) with only the opening paragraph promoted to primary, which
  * inverted the emphasis: the lede read crisp and then the remaining ten minutes

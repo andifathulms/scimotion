@@ -44,7 +44,23 @@ export function rehypeSlugSimple() {
   const visit = (node: any) => {
     if (node.type === 'element' && /^h[1-6]$/.test(node.tagName)) {
       node.properties = node.properties || {}
-      if (!node.properties.id) node.properties.id = slugify(toText(node))
+      const text = toText(node)
+      if (!node.properties.id) node.properties.id = slugify(text)
+
+      // Trailing anchor so a section can be linked directly. Headings already
+      // carry ids and scroll-margin, but there was no way for a reader to get
+      // the URL of one. Hidden until the heading is hovered or the link is
+      // focused, and skipped by screen readers via the label on the link.
+      node.children.push({
+        type: 'element',
+        tagName: 'a',
+        properties: {
+          href: `#${node.properties.id}`,
+          className: ['heading-anchor'],
+          'aria-label': `Link to section: ${text}`,
+        },
+        children: [{ type: 'text', value: '#' }],
+      })
     }
     if (node.children) node.children.forEach(visit)
   }
