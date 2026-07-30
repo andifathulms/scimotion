@@ -20,14 +20,14 @@ export const learningPaths: LearningPath[] = [
     title: 'Algorithms & Computation',
     description:
       'How machines search, sort, explore connected data, and sift the primes — the core algorithmic ideas, step by step.',
-    articleSlugs: ['logic-gates', 'floating-point', 'binary-search', 'recursion', 'sorting-algorithms', 'hash-tables', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes', 'error-correcting-codes', 'public-key-cryptography', 'neural-networks', 'distributed-consensus', 'p-vs-np', 'finite-automata', 'halting-problem'],
+    articleSlugs: ['logic-gates', 'floating-point', 'binary-search', 'recursion', 'sorting-algorithms', 'hash-tables', 'caching', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes', 'error-correcting-codes', 'public-key-cryptography', 'neural-networks', 'distributed-consensus', 'concurrency', 'p-vs-np', 'finite-automata', 'halting-problem'],
   },
   {
     slug: 'motion-space-and-quanta',
     title: 'Motion, Space & Quanta',
     description:
       'Start with a swinging weight, bend time with relativity, and end where classical physics breaks down entirely.',
-    articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'momentum', 'angular-momentum', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'electric-circuits', 'magnetism', 'electromagnetic-waves', 'wave-particle-duality', 'nuclear-energy', 'superconductivity'],
+    articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'buoyancy', 'momentum', 'angular-momentum', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'electric-circuits', 'magnetism', 'electromagnetic-waves', 'wave-particle-duality', 'nuclear-energy', 'superconductivity'],
   },
   {
     slug: 'chance-chaos-and-information',
@@ -57,7 +57,7 @@ export const learningPaths: LearningPath[] = [
       'The machinery of a working planet — the rock that moves beneath it, the air and ocean that carry its heat, and the carbon and radiation budgets that set its temperature.',
     // Solid earth first, then the fluid envelopes that ride on it, then the two
     // budgets — radiation and carbon — that the circulation articles feed into.
-    articleSlugs: ['plate-tectonics', 'rock-cycle', 'volcanoes', 'seismic-waves', 'earths-magnetic-field', 'coriolis-effect', 'atmospheric-convection', 'ocean-circulation', 'el-nino', 'hurricanes', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
+    articleSlugs: ['plate-tectonics', 'rock-cycle', 'volcanoes', 'seismic-waves', 'earths-magnetic-field', 'coriolis-effect', 'seasons', 'atmospheric-convection', 'clouds', 'ocean-circulation', 'el-nino', 'hurricanes', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
   },
   {
     slug: 'life-molecules-to-organisms',

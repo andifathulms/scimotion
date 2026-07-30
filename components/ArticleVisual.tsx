@@ -3778,6 +3778,69 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <path d="M178,90 l14,0 M188,86 l5,4 l-5,4" fill="none" stroke={GOLD} strokeWidth={1} />
     </g>
   ),
+  concurrency: c => (
+    <g>
+      <rect x={44} y={30} width={90} height={16} rx={2} fill={`${c}22`} stroke={c} strokeWidth={0.75} />
+      <rect x={44} y={74} width={90} height={16} rx={2} fill={`${c}22`} stroke={c} strokeWidth={0.75} />
+      <text x={30} y={42} fontSize={9} fill={c} fontFamily="monospace">T1</text>
+      <text x={30} y={86} fontSize={9} fill={c} fontFamily="monospace">T2</text>
+      <rect x={150} y={50} width={26} height={20} rx={2} fill={`${GOLD}22`} stroke={GOLD} strokeWidth={1} />
+      <text x={163} y={64} fontSize={9} fill={GOLD} textAnchor="middle" fontFamily="monospace">x</text>
+      <path d="M134,38 L150,54 M134,82 L150,66" fill="none" stroke={c} strokeWidth={1} />
+      <path d="M176,54 L210,42 M176,66 L210,78" fill="none" stroke={`${MUTE}`} strokeWidth={1} />
+      <path d="M232,52 l-14,10 l14,10" fill="none" stroke="#F87171" strokeWidth={1.5} />
+      <text x={250} y={66} fontSize={9} fill="#F87171" fontFamily="monospace">race</text>
+    </g>
+  ),
+  caching: c => (
+    <g>
+      <rect x={60} y={22} width={180} height={12} rx={1} fill={`${c}66`} />
+      <rect x={72} y={40} width={156} height={12} rx={1} fill={`${c}44`} />
+      <rect x={88} y={58} width={124} height={12} rx={1} fill={`${c}2e`} />
+      <rect x={40} y={78} width={220} height={16} rx={1} fill={`${c}14`} stroke={`${c}44`} strokeWidth={0.5} />
+      <text x={150} y={31} fontSize={7} fill={BG} textAnchor="middle" fontFamily="monospace">L1 fast</text>
+      <text x={150} y={90} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">RAM slow</text>
+      <path d="M150,34 l0,4 M150,52 l0,4 M150,70 l0,4" stroke={GOLD} strokeWidth={1} />
+    </g>
+  ),
+  seasons: c => (
+    <g>
+      <circle cx={150} cy={60} r={14} fill={`${GOLD}44`} stroke={GOLD} strokeWidth={0.75} />
+      <circle cx={150} cy={60} r={6} fill={GOLD} />
+      <ellipse cx={150} cy={60} rx={120} ry={42} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <g>
+        <circle cx={30} cy={60} r={9} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <line x1={30} y1={49} x2={30} y2={71} stroke={GOLD} strokeWidth={1} transform="rotate(23 30 60)" />
+        <circle cx={270} cy={60} r={9} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+        <line x1={270} y1={49} x2={270} y2={71} stroke={GOLD} strokeWidth={1} transform="rotate(23 270 60)" />
+      </g>
+      <text x={30} y={92} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">N summer</text>
+      <text x={270} y={92} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">N winter</text>
+    </g>
+  ),
+  clouds: c => (
+    <g>
+      <path d="M90,52 a16,16 0 0 1 30,-8 a20,20 0 0 1 38,4 a14,14 0 0 1 2,28 l-64,0 a14,14 0 0 1 -6,-24 z" fill={`${c}2e`} stroke={c} strokeWidth={1} />
+      <path d="M60,30 C90,30 90,24 110,24" fill="none" stroke={`${c}66`} strokeWidth={1} strokeDasharray="3 2" />
+      <path d="M92,44 l6,-8 M98,36 l-3,-1 l0,4" fill="none" stroke={MUTE} strokeWidth={0.75} />
+      <g stroke="#93C5FD" strokeWidth={1.5}>
+        <line x1={104} y1={82} x2={100} y2={96} /><line x1={128} y1={84} x2={124} y2={100} /><line x1={152} y1={82} x2={148} y2={96} />
+      </g>
+      <text x={200} y={60} fontSize={7} fill={MUTE} fontFamily="monospace">droplets,</text>
+      <text x={200} y={72} fontSize={7} fill={MUTE} fontFamily="monospace">not vapor</text>
+    </g>
+  ),
+  buoyancy: c => (
+    <g>
+      <rect x={60} y={44} width={180} height={50} fill={`${c}18`} stroke={`${c}66`} strokeWidth={0.5} />
+      <line x1={60} y1={44} x2={240} y2={44} stroke={c} strokeWidth={1} />
+      <rect x={120} y={34} width={40} height={30} rx={2} fill={`${c}44`} stroke={c} strokeWidth={1} />
+      <path d="M140,32 l0,-14 M135,24 l5,-6 l5,6" fill="none" stroke={GOLD} strokeWidth={1.5} />
+      <path d="M140,66 l0,14 M135,74 l5,6 l5,6" fill="none" stroke="#F87171" strokeWidth={1.5} />
+      <text x={155} y={14} fontSize={7} fill={GOLD} fontFamily="monospace">Fb</text>
+      <text x={155} y={98} fontSize={7} fill="#F87171" fontFamily="monospace">mg</text>
+    </g>
+  ),
 }
 
 export function ArticleVisual({

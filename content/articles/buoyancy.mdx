@@ -1,0 +1,98 @@
+---
+title: "Buoyancy: Why Steel Ships Float"
+subtitle: "A 100,000-tonne ship rides high while a steel bolt sinks — the difference is density, not weight."
+topic: "Physics"
+slug: "buoyancy"
+date: "2026-08-13"
+readTime: 10
+featured: false
+description: "Why steel ships float while steel bolts sink: buoyancy comes from the weight of displaced fluid, and floating depends on average density, not on being heavy or light."
+tags: ["buoyancy", "archimedes", "density", "fluids"]
+quiz:
+  - q: "A solid steel bolt sinks in water, yet a 100,000-tonne steel ship floats. What is the essential reason the ship floats?"
+    options:
+      - "The ship is lighter than the bolt"
+      - "Moving ships generate lift like an aircraft wing"
+      - "Seawater exerts a special force only on large objects"
+      - "The hull encloses air, so the ship's AVERAGE density is less than water's"
+    answer: 3
+    explanation: "Floating depends on average density, not total weight. The bolt is solid steel (denser than water) so it sinks; the ship's hull traps air, dropping its average density below that of water, so it floats despite weighing far more than the bolt."
+  - q: "Archimedes' principle says the upward buoyant force on a submerged object equals which quantity?"
+    options:
+      - "The weight of the object itself"
+      - "The weight of the fluid the object displaces"
+      - "The volume of the object times gravity"
+      - "The atmospheric pressure pushing down on the fluid"
+    answer: 1
+    explanation: "The buoyant force equals the weight of the displaced fluid: F_b = ρ_fluid · V_displaced · g. A floating object settles until it displaces exactly its own weight of fluid."
+  - q: "The same sealed object sinks in fresh water but floats in mercury. Why?"
+    options:
+      - "Mercury is a metal, so it repels other objects"
+      - "The object's weight changes when placed in mercury"
+      - "Mercury is far denser, so the object displaces its own weight before fully submerging"
+      - "Mercury has no buoyant force because it is a liquid metal"
+    answer: 2
+    explanation: "Buoyant force scales with the fluid's density. In dense mercury, only a small displaced volume is needed for the displaced-fluid weight to match the object's weight, so it floats. In less dense water, even full submersion may not displace enough weight, so it sinks."
+---
+
+## Heavy is not the same as sinking
+
+Ask most people why a stone sinks but a cork floats and you will hear the same answer: the stone is heavy and the cork is light. It is one of the most durable ideas in physics, and it is wrong.
+
+An ocean-going container ship is made of steel and weighs more than a hundred thousand tonnes. A single steel bolt weighs a few grams. The bolt sinks; the ship floats. If "heavy sinks, light floats" were true, the ship — vastly heavier than the bolt — should plunge straight to the seabed. It does not. Weight alone tells you nothing about whether something floats.
+
+What actually matters is **density** — mass packed into a given volume. And the number that decides everything is how an object's *average* density compares to the fluid around it.
+
+## The rule that really governs floating
+
+An object floats if its average density is less than the fluid's, and sinks if it is greater:
+
+$$\rho_\text{object} < \rho_\text{fluid} \;\Rightarrow\; \text{floats}$$
+
+Solid steel has a density of about $7.85\ \text{g/cm}^3$, nearly eight times that of water ($1.0\ \text{g/cm}^3$). A solid steel bolt is denser than water everywhere inside it, so it sinks. The ship is also built of that same steel — but a ship is not solid. Its hull encloses an enormous volume of *air*. Average the dense steel with all that near-weightless air over the ship's total volume, and the result is well under $1.0\ \text{g/cm}^3$. The ship floats not because it is light, but because it is, on average, less dense than the sea.
+
+Crush that same ship into a solid cube of steel and it sinks instantly. Nothing about its weight changed — only its shape, and therefore its average density. Shape is the whole game.
+
+<BuoyancyAnimation />
+
+Notice what happens when you keep the object fixed and change the fluid instead. A block set to steel's density sinks in water, but raise the fluid to mercury ($13.6\ \text{g/cm}^3$) and the very same block bobs at the surface. Its weight never changed. What changed is whether the fluid it pushes aside can out-weigh it.
+
+## Where the upward push comes from
+
+Buoyancy is not a magic property of water, and it has everything to do with the fluid that gets displaced. The force comes from **pressure**, which increases with depth. Every bit of fluid has weight, so the deeper you go, the more fluid is stacked above you pressing down, and the higher the pressure.
+
+Now submerge an object. The pressure on its bottom face is larger than the pressure on its top face, because the bottom sits deeper. Pressure pushes inward on every surface, but the stronger upward push on the bottom beats the weaker downward push on the top. The leftover, a net upward force, is buoyancy. It is simply the pressure difference across the object's height.
+
+Archimedes worked out the beautifully simple result more than two thousand years ago. The net upward force equals the weight of the fluid the object pushes out of the way:
+
+$$F_b = \rho_\text{fluid}\,V_\text{displaced}\,g$$
+
+Here $\rho_\text{fluid}$ is the fluid's density, $V_\text{displaced}$ is the volume of fluid pushed aside, and $g$ is gravity. Displace a litre of water and you feel an upward force equal to the weight of a litre of water — about $9.8$ newtons — no matter what the object is made of.
+
+<DisplacementAnimation />
+
+This is why an overflow can settles the argument. Lower an object into a vessel filled to the brim and catch what spills. The **weight of the spilled fluid is exactly the buoyant force**. A solid steel cube displaces only its own small volume, so the water it pushes aside weighs far less than the cube — it sinks. Beat that identical mass of steel into a hollow hull and it displaces many times more water; once the displaced water weighs as much as the boat, the upward force matches gravity and it floats.
+
+## Floating means displacing your own weight
+
+A floating object is not weightless; it is balanced. It sinks into the fluid until the buoyant force grows to exactly equal its weight, and then it stops. At that point:
+
+$$\rho_\text{fluid}\,V_\text{displaced}\,g = \rho_\text{object}\,V_\text{object}\,g$$
+
+In plain terms, **a floating object displaces its own weight of fluid**. A ship keeps settling deeper into the water — loading more cargo pushes it down — until the water it displaces weighs as much as the fully loaded ship. Load it past that point and it displaces more than it can, water pours over the deck, and it goes under. This is why ships carry a Plimsoll line marking the safe limit.
+
+The same equation explains why the same sealed object floats in denser fluids but sinks in less dense ones. In dense salt water or mercury, a small displaced volume already weighs enough to match the object, so it rides high — this is why swimmers float more easily in the salty Dead Sea than in a freshwater lake. In a low-density fluid, even full submersion may not displace enough weight, and down it goes.
+
+## Neutral buoyancy: hovering in between
+
+If an object's average density exactly equals the fluid's, the buoyant force perfectly cancels its weight at every depth. It neither rises nor sinks — it hovers. This is **neutral buoyancy**, and living things exploit it constantly. Many fish carry a gas-filled swim bladder and adjust its volume to fine-tune their average density, hanging motionless in the water column without effort. A submarine does the same on a grand scale: flooding its ballast tanks with seawater raises its average density so it dives, and blowing the water back out with compressed air lowers the density so it rises. The submarine never gets heavier or lighter in the sense that matters — it changes how much water it effectively displaces.
+
+Buoyancy is also the engine behind related phenomena you can explore elsewhere on Scimotion. The pressure-with-depth idea sits at the heart of [fluid dynamics](/articles/fluid-dynamics), the same tug-of-war between competing forces settling to equilibrium shapes [pendulum motion](/articles/pendulum-motion), and the way a moving fluid carries and exchanges force connects to [momentum](/articles/momentum).
+
+<KeyTakeaways>
+- Floating depends on **average density**, not weight: an object floats when $\rho_\text{object} < \rho_\text{fluid}$ — which is why a heavy steel ship floats and a light steel bolt sinks.
+- A ship floats because its hull encloses air, dropping its average density below water's; crushed into solid steel, the same metal sinks.
+- Buoyancy arises from a **pressure gradient** — fluid pressure grows with depth, so the bottom of a submerged object is pushed up harder than its top is pushed down.
+- Archimedes' principle: the upward force equals the weight of displaced fluid, $F_b = \rho_\text{fluid}\,V_\text{displaced}\,g$, and a floating object displaces exactly its own weight of fluid.
+- Change the fluid and the outcome can flip: the same object floats in dense mercury or salt water but sinks in fresh water, and matching densities gives **neutral buoyancy** — the hovering trick used by fish and submarines.
+</KeyTakeaways>

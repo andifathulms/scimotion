@@ -1445,3 +1445,53 @@ export const VilliAbsorptionAnimation = dynamic(
   () => import('@/components/animations/VilliAbsorptionAnimation').then(m => ({ default: m.VilliAbsorptionAnimation })),
   { ssr: false }
 )
+
+export const RaceConditionAnimation = dynamic(
+  () => import('@/components/animations/RaceConditionAnimation').then(m => ({ default: m.RaceConditionAnimation })),
+  { ssr: false }
+)
+
+export const DeadlockAnimation = dynamic(
+  () => import('@/components/animations/DeadlockAnimation').then(m => ({ default: m.DeadlockAnimation })),
+  { ssr: false }
+)
+
+export const MemoryHierarchyAnimation = dynamic(
+  () => import('@/components/animations/MemoryHierarchyAnimation').then(m => ({ default: m.MemoryHierarchyAnimation })),
+  { ssr: false }
+)
+
+export const CacheEvictionAnimation = dynamic(
+  () => import('@/components/animations/CacheEvictionAnimation').then(m => ({ default: m.CacheEvictionAnimation })),
+  { ssr: false }
+)
+
+export const SeasonsOrbitAnimation = dynamic(
+  () => import('@/components/animations/SeasonsOrbitAnimation').then(m => ({ default: m.SeasonsOrbitAnimation })),
+  { ssr: false }
+)
+
+export const SunAngleAnimation = dynamic(
+  () => import('@/components/animations/SunAngleAnimation').then(m => ({ default: m.SunAngleAnimation })),
+  { ssr: false }
+)
+
+export const CloudFormationAnimation = dynamic(
+  () => import('@/components/animations/CloudFormationAnimation').then(m => ({ default: m.CloudFormationAnimation })),
+  { ssr: false }
+)
+
+export const PrecipitationAnimation = dynamic(
+  () => import('@/components/animations/PrecipitationAnimation').then(m => ({ default: m.PrecipitationAnimation })),
+  { ssr: false }
+)
+
+export const BuoyancyAnimation = dynamic(
+  () => import('@/components/animations/BuoyancyAnimation').then(m => ({ default: m.BuoyancyAnimation })),
+  { ssr: false }
+)
+
+export const DisplacementAnimation = dynamic(
+  () => import('@/components/animations/DisplacementAnimation').then(m => ({ default: m.DisplacementAnimation })),
+  { ssr: false }
+)

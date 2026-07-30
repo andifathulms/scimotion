@@ -308,6 +308,16 @@ import {
   RadioactiveHalfLifeAnimation,
   DigestiveTractAnimation,
   VilliAbsorptionAnimation,
+  RaceConditionAnimation,
+  DeadlockAnimation,
+  MemoryHierarchyAnimation,
+  CacheEvictionAnimation,
+  SeasonsOrbitAnimation,
+  SunAngleAnimation,
+  CloudFormationAnimation,
+  PrecipitationAnimation,
+  BuoyancyAnimation,
+  DisplacementAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -617,6 +627,16 @@ const components = {
   RadioactiveHalfLifeAnimation,
   DigestiveTractAnimation,
   VilliAbsorptionAnimation,
+  RaceConditionAnimation,
+  DeadlockAnimation,
+  MemoryHierarchyAnimation,
+  CacheEvictionAnimation,
+  SeasonsOrbitAnimation,
+  SunAngleAnimation,
+  CloudFormationAnimation,
+  PrecipitationAnimation,
+  BuoyancyAnimation,
+  DisplacementAnimation,
   KeyTakeaways,
 }
 
