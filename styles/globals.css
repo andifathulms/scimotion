@@ -246,6 +246,13 @@ body {
 
 .prose-article li > ul { list-style: circle; }
 
+/* KeyTakeaways wraps an authored markdown list inside a padded box, so the
+ * prose list's block-level bottom margin would open a gap inside the box. */
+.key-takeaways ul:last-child,
+.key-takeaways ol:last-child {
+  margin-bottom: 0;
+}
+
 .prose-article strong {
   font-weight: 600;
   color: var(--text-primary);

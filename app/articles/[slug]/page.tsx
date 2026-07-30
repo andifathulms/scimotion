@@ -9,6 +9,7 @@ import { RelatedPosts } from '@/components/RelatedPosts'
 import { TagList } from '@/components/TagList'
 import { ArticleVisual } from '@/components/ArticleVisual'
 import { TableOfContents } from '@/components/TableOfContents'
+import { TocDisclosure } from '@/components/TocDisclosure'
 import { Quiz } from '@/components/Quiz'
 import { PathNav } from '@/components/PathNav'
 import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
@@ -779,11 +780,11 @@ export default async function ArticlePage({ params }: Props) {
         </aside>
         <article className="w-full max-w-[620px] mx-auto min-w-0">
         <div className="article-intro">
-        {/* Hero */}
-        <div className="mb-8 rounded-2xl overflow-hidden border border-border">
-          <ArticleVisual slug={slug} topic={meta.topic} variant="hero" />
-        </div>
-        {/* Header */}
+        {/* Header first, then the hero.
+            The hero used to lead, so the reader met an abstract diagram before
+            learning what the article was about — and on a phone the title could
+            sit below the fold entirely. Title, subtitle and meta now establish
+            the subject, and the visual reads as a lead-in to the body. */}
         <div className="mb-8">
           <div className="mb-4">
             <TopicBadge topic={meta.topic} />
@@ -807,7 +808,16 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
         <hr className="border-border mb-8" />
+
+        {/* Hero */}
+        <div className="mb-10 rounded-2xl overflow-hidden border border-border">
+          <ArticleVisual slug={slug} topic={meta.topic} variant="hero" />
         </div>
+        </div>
+
+        {/* Section navigation for viewports below xl, where the sticky rail is
+            hidden and readers otherwise had none at all. */}
+        <TocDisclosure headings={headings} />
 
         {/* Body */}
         <div className="prose-article">
