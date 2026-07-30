@@ -166,6 +166,96 @@ body {
   color: var(--text-primary);
 }
 
+/* Tailwind's preflight resets `a` to `color: inherit; text-decoration: inherit`,
+ * so without a rule here every in-article link renders as plain body text. That
+ * silently hid the cross-article links in 135 of the articles — the internal
+ * link graph existed in the MDX and was invisible on the page. Gold matches the
+ * accent already used for the active TOC entry, and the underline carries the
+ * affordance for readers who can't separate the hue from the body colour. */
+.prose-article a {
+  color: var(--accent-gold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--accent-gold) 40%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.prose-article a:hover {
+  text-decoration-color: var(--accent-gold);
+}
+
+.prose-article a:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Preflight also strips list markers and padding, so authored bullet and
+ * numbered lists were rendering as unindented, unmarked lines. */
+.prose-article ul,
+.prose-article ol {
+  margin: 0 0 1.375rem;
+  padding-left: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+.prose-article ul { list-style: disc; }
+.prose-article ol { list-style: decimal; }
+
+.prose-article li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.prose-article li::marker {
+  color: var(--text-muted);
+}
+
+/* Nested lists sit inside a paragraph's rhythm, not the block rhythm. */
+.prose-article li > ul,
+.prose-article li > ol {
+  margin: 0.5rem 0 0;
+}
+
+.prose-article li > ul { list-style: circle; }
+
+.prose-article strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Tables carry the orbital/quantum-number reference grids in a handful of
+ * articles; preflight leaves them borderless and cramped. */
+.prose-article table {
+  width: 100%;
+  margin: 1.75rem 0;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose-article th,
+.prose-article td {
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.prose-article th {
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom-color: var(--border-hover);
+}
+
+.prose-article td {
+  color: var(--text-secondary);
+}
+
 .prose-article code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
