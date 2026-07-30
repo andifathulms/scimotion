@@ -13,7 +13,7 @@ export const learningPaths: LearningPath[] = [
     title: 'Calculus & Transforms',
     description:
       'From rotating complex numbers to approximating any function and decomposing any signal — the analytic backbone of modern math.',
-    articleSlugs: ['the-derivative', 'the-integral', 'complex-numbers', 'eulers-formula', 'taylor-series', 'newtons-method', 'gradient-descent', 'eigenvectors-and-eigenvalues', 'fourier-transform'],
+    articleSlugs: ['the-derivative', 'the-integral', 'infinity', 'complex-numbers', 'eulers-formula', 'taylor-series', 'newtons-method', 'gradient-descent', 'eigenvectors-and-eigenvalues', 'fourier-transform'],
   },
   {
     slug: 'algorithms-and-computation',
@@ -48,7 +48,7 @@ export const learningPaths: LearningPath[] = [
     // Ordered so each article supplies what the next one assumes: kinetics and
     // equilibrium come before acids/bases (Ka is an equilibrium constant) and
     // before electrochemistry (the Nernst equation is equilibrium applied to redox).
-    articleSlugs: ['atomic-structure', 'radioactivity', 'periodic-table', 'the-mole', 'spectroscopy', 'chemical-bonding', 'intermolecular-forces', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'redox', 'electrochemistry'],
+    articleSlugs: ['atomic-structure', 'radioactivity', 'periodic-table', 'the-mole', 'spectroscopy', 'chemical-bonding', 'intermolecular-forces', 'solutions', 'kinetic-theory', 'phase-transitions', 'reaction-kinetics', 'gibbs-free-energy', 'chemical-equilibrium', 'acids-and-bases', 'redox', 'electrochemistry'],
   },
   {
     slug: 'planet-earth',
@@ -66,14 +66,14 @@ export const learningPaths: LearningPath[] = [
       'Start with the principle that organises all of biology, then build upward — the code, what it folds into, how energy gets in, and how cells signal and defend.',
     // Selection first, because it is the only thing that makes the rest
     // non-arbitrary; then molecules, then energy, then cells.
-    articleSlugs: ['natural-selection', 'dna-replication', 'gene-expression', 'crispr', 'heredity', 'cell-division', 'protein-folding', 'enzymes', 'photosynthesis', 'cellular-respiration', 'cell-membranes', 'osmosis', 'action-potential', 'the-synapse', 'viruses', 'immune-response'],
+    articleSlugs: ['natural-selection', 'dna-replication', 'gene-expression', 'crispr', 'heredity', 'cell-division', 'stem-cells', 'protein-folding', 'enzymes', 'photosynthesis', 'cellular-respiration', 'cell-membranes', 'osmosis', 'action-potential', 'the-synapse', 'viruses', 'immune-response'],
   },
   {
     slug: 'the-clinical-body',
     title: 'The Clinical Body',
     description:
       'Medicine as measurement and control — reading the heart’s electrical trace, holding glucose in range, tracking a drug through the body, seeing inside it, and losing ground to resistant bacteria.',
-    articleSlugs: ['cardiac-electrical-signal', 'blood-pressure', 'gas-exchange', 'digestion', 'glucose-insulin-regulation', 'hormones', 'the-kidney', 'how-we-hear', 'vision', 'anesthesia', 'pharmacokinetics', 'antibiotic-resistance', 'cancer', 'mri-imaging', 'vaccines', 'epidemic-models'],
+    articleSlugs: ['the-heart', 'cardiac-electrical-signal', 'blood-pressure', 'gas-exchange', 'digestion', 'glucose-insulin-regulation', 'hormones', 'the-kidney', 'how-we-hear', 'vision', 'anesthesia', 'pharmacokinetics', 'antibiotic-resistance', 'cancer', 'mri-imaging', 'vaccines', 'epidemic-models'],
   },
   {
     slug: 'across-the-universe',
@@ -82,7 +82,7 @@ export const learningPaths: LearningPath[] = [
       'Outward through the cosmos — from the life and death of a single star to the elements it forges, the worlds around others, the extremes of gravity, and the expansion of everything.',
     // Scale outward: one star, what stars make, other stars' planets, the most
     // extreme endpoint, and finally the whole expanding universe.
-    articleSlugs: ['the-sun', 'life-cycle-of-stars', 'hr-diagram', 'stellar-nucleosynthesis', 'solar-system', 'comets', 'tidal-forces', 'exoplanets', 'black-holes', 'neutron-stars', 'gravitational-waves', 'galaxies-and-dark-matter', 'telescopes', 'cosmic-distance-ladder', 'cosmic-microwave-background', 'expanding-universe'],
+    articleSlugs: ['the-sun', 'life-cycle-of-stars', 'hr-diagram', 'stellar-nucleosynthesis', 'solar-system', 'the-moon', 'comets', 'tidal-forces', 'exoplanets', 'black-holes', 'neutron-stars', 'gravitational-waves', 'galaxies-and-dark-matter', 'telescopes', 'cosmic-distance-ladder', 'cosmic-microwave-background', 'expanding-universe'],
   },
   {
     slug: 'how-the-internet-grew',

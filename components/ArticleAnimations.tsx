@@ -1495,3 +1495,53 @@ export const DisplacementAnimation = dynamic(
   () => import('@/components/animations/DisplacementAnimation').then(m => ({ default: m.DisplacementAnimation })),
   { ssr: false }
 )
+
+export const MoonPhaseAnimation = dynamic(
+  () => import('@/components/animations/MoonPhaseAnimation').then(m => ({ default: m.MoonPhaseAnimation })),
+  { ssr: false }
+)
+
+export const EclipseGeometryAnimation = dynamic(
+  () => import('@/components/animations/EclipseGeometryAnimation').then(m => ({ default: m.EclipseGeometryAnimation })),
+  { ssr: false }
+)
+
+export const DifferentiationAnimation = dynamic(
+  () => import('@/components/animations/DifferentiationAnimation').then(m => ({ default: m.DifferentiationAnimation })),
+  { ssr: false }
+)
+
+export const SelfRenewalAnimation = dynamic(
+  () => import('@/components/animations/SelfRenewalAnimation').then(m => ({ default: m.SelfRenewalAnimation })),
+  { ssr: false }
+)
+
+export const DissolvingAnimation = dynamic(
+  () => import('@/components/animations/DissolvingAnimation').then(m => ({ default: m.DissolvingAnimation })),
+  { ssr: false }
+)
+
+export const SolubilityAnimation = dynamic(
+  () => import('@/components/animations/SolubilityAnimation').then(m => ({ default: m.SolubilityAnimation })),
+  { ssr: false }
+)
+
+export const HilbertHotelAnimation = dynamic(
+  () => import('@/components/animations/HilbertHotelAnimation').then(m => ({ default: m.HilbertHotelAnimation })),
+  { ssr: false }
+)
+
+export const CantorDiagonalAnimation = dynamic(
+  () => import('@/components/animations/CantorDiagonalAnimation').then(m => ({ default: m.CantorDiagonalAnimation })),
+  { ssr: false }
+)
+
+export const CardiacCycleAnimation = dynamic(
+  () => import('@/components/animations/CardiacCycleAnimation').then(m => ({ default: m.CardiacCycleAnimation })),
+  { ssr: false }
+)
+
+export const DoubleCirculationAnimation = dynamic(
+  () => import('@/components/animations/DoubleCirculationAnimation').then(m => ({ default: m.DoubleCirculationAnimation })),
+  { ssr: false }
+)

@@ -3841,6 +3841,75 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <text x={155} y={98} fontSize={7} fill="#F87171" fontFamily="monospace">mg</text>
     </g>
   ),
+  'the-moon': c => (
+    <g>
+      <circle cx={40} cy={60} r={12} fill={`${GOLD}44`} stroke={GOLD} strokeWidth={0.75} />
+      <ellipse cx={170} cy={60} rx={90} ry={34} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <g>
+        <circle cx={170} cy={26} r={7} fill={`${c}33`} stroke={c} strokeWidth={0.5} />
+        <path d="M170,19 a7,7 0 0 1 0,14 z" fill={GOLD} />
+        <circle cx={252} cy={60} r={7} fill={`${c}33`} stroke={c} strokeWidth={0.5} />
+        <path d="M252,53 a7,7 0 0 1 0,14 z" fill={GOLD} transform="rotate(90 252 60)" />
+        <circle cx={170} cy={94} r={7} fill={`${c}33`} stroke={c} strokeWidth={0.5} />
+        <path d="M170,87 a7,7 0 0 0 0,14 z" fill={GOLD} />
+        <circle cx={88} cy={60} r={7} fill={GOLD} stroke={c} strokeWidth={0.5} />
+      </g>
+      <line x1={52} y1={60} x2={78} y2={60} stroke={`${GOLD}66`} strokeWidth={0.5} />
+      <text x={150} y={112} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">phases = geometry, not shadow</text>
+    </g>
+  ),
+  'stem-cells': c => (
+    <g>
+      <circle cx={40} cy={60} r={13} fill={`${c}44`} stroke={c} strokeWidth={1} />
+      <path d="M55,54 L92,34 M55,60 L92,60 M55,66 L92,86" fill="none" stroke={`${c}66`} strokeWidth={0.75} />
+      <circle cx={104} cy={34} r={9} fill={`${c}2e`} stroke={c} strokeWidth={0.75} />
+      <circle cx={104} cy={60} r={9} fill={`${c}2e`} stroke={c} strokeWidth={0.75} />
+      <circle cx={104} cy={86} r={9} fill={`${c}2e`} stroke={c} strokeWidth={0.75} />
+      <path d="M116,30 L150,22 M116,38 L150,46 M116,60 L150,60 M116,82 L150,74 M116,90 L150,98" fill="none" stroke={`${MUTE}`} strokeWidth={0.6} />
+      <circle cx={162} cy={22} r={6} fill="#F87171" /><circle cx={162} cy={46} r={6} fill="#FBBF24" />
+      <circle cx={162} cy={60} r={6} fill="#60A5FA" /><circle cx={162} cy={74} r={6} fill="#34D399" /><circle cx={162} cy={98} r={6} fill="#F472B6" />
+      <text x={225} y={64} fontSize={7} fill={MUTE} fontFamily="monospace">potency ↓</text>
+    </g>
+  ),
+  solutions: c => (
+    <g>
+      <path d="M96,30 L96,88 Q96,96 104,96 L196,96 Q204,96 204,88 L204,30" fill={`${c}14`} stroke={c} strokeWidth={1} />
+      <line x1={96} y1={44} x2={204} y2={44} stroke={`${c}66`} strokeWidth={0.75} />
+      <g fill={GOLD}>
+        <circle cx={118} cy={60} r={2.5} /><circle cx={140} cy={72} r={2.5} /><circle cx={165} cy={58} r={2.5} /><circle cx={182} cy={78} r={2.5} /><circle cx={128} cy={84} r={2.5} /><circle cx={155} cy={86} r={2.5} />
+      </g>
+      <g fill="none" stroke={`${c}88`} strokeWidth={0.6}>
+        <circle cx={118} cy={60} r={5} /><circle cx={140} cy={72} r={5} /><circle cx={165} cy={58} r={5} /><circle cx={182} cy={78} r={5} /><circle cx={128} cy={84} r={5} /><circle cx={155} cy={86} r={5} />
+      </g>
+      <rect x={112} y={16} width={16} height={14} rx={1} fill={`${GOLD}55`} stroke={GOLD} strokeWidth={0.75} />
+      <text x={150} y={26} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">dispersed, not gone</text>
+    </g>
+  ),
+  infinity: c => (
+    <g>
+      <path d="M110,60 C110,44 134,44 150,60 C166,76 190,76 190,60 C190,44 166,44 150,60 C134,76 110,76 110,60 Z" fill="none" stroke={c} strokeWidth={2.5} />
+      <text x={150} y={30} fontSize={9} fill={GOLD} textAnchor="middle" fontFamily="monospace">ℵ₀ &lt; 𝔠</text>
+      <g fill={`${c}88`}>
+        <circle cx={60} cy={50} r={2} /><circle cx={72} cy={50} r={2} /><circle cx={84} cy={50} r={2} /><circle cx={96} cy={50} r={2} />
+      </g>
+      <g fill={GOLD}>
+        <circle cx={210} cy={50} r={2} /><circle cx={220} cy={50} r={2} /><circle cx={230} cy={50} r={2} /><circle cx={240} cy={50} r={2} /><circle cx={215} cy={44} r={2} /><circle cx={225} cy={56} r={2} /><circle cx={235} cy={44} r={2} /><circle cx={245} cy={56} r={2} />
+      </g>
+      <text x={78} y={78} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">countable</text>
+      <text x={228} y={78} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">uncountable</text>
+    </g>
+  ),
+  'the-heart': c => (
+    <g>
+      <path d="M150,90 C120,66 100,52 100,38 C100,24 116,20 126,30 C132,36 150,44 150,44 C150,44 168,36 174,30 C184,20 200,24 200,38 C200,52 180,66 150,90 Z" fill={`${c}2e`} stroke={c} strokeWidth={1.25} />
+      <line x1={150} y1={44} x2={150} y2={82} stroke={`${c}88`} strokeWidth={1} />
+      <path d="M128,40 l6,-4 M172,40 l-6,-4" fill="none" stroke={GOLD} strokeWidth={1} />
+      <text x={122} y={62} fontSize={8} fill="#F87171" textAnchor="middle" fontFamily="monospace">R</text>
+      <text x={178} y={62} fontSize={8} fill="#FCA5A5" textAnchor="middle" fontFamily="monospace">L</text>
+      <path d="M40,60 l14,0 l4,-8 l6,16 l4,-8 l14,0" fill="none" stroke={GOLD} strokeWidth={1.25} />
+      <path d="M218,60 l14,0 l4,-8 l6,16 l4,-8 l14,0" fill="none" stroke={GOLD} strokeWidth={1.25} />
+    </g>
+  ),
 }
 
 export function ArticleVisual({

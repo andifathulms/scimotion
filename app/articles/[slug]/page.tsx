@@ -318,6 +318,16 @@ import {
   PrecipitationAnimation,
   BuoyancyAnimation,
   DisplacementAnimation,
+  MoonPhaseAnimation,
+  EclipseGeometryAnimation,
+  DifferentiationAnimation,
+  SelfRenewalAnimation,
+  DissolvingAnimation,
+  SolubilityAnimation,
+  HilbertHotelAnimation,
+  CantorDiagonalAnimation,
+  CardiacCycleAnimation,
+  DoubleCirculationAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -637,6 +647,16 @@ const components = {
   PrecipitationAnimation,
   BuoyancyAnimation,
   DisplacementAnimation,
+  MoonPhaseAnimation,
+  EclipseGeometryAnimation,
+  DifferentiationAnimation,
+  SelfRenewalAnimation,
+  DissolvingAnimation,
+  SolubilityAnimation,
+  HilbertHotelAnimation,
+  CantorDiagonalAnimation,
+  CardiacCycleAnimation,
+  DoubleCirculationAnimation,
   KeyTakeaways,
 }
 
