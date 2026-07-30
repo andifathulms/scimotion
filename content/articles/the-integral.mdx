@@ -1,0 +1,108 @@
+---
+title: "The Integral: Adding Up the Infinitely Small"
+subtitle: "Slice a region into infinitely many infinitely thin rectangles, add them, and a total emerges — area, distance, accumulation — from a limit of sums."
+topic: "Mathematics"
+slug: "the-integral"
+date: "2026-08-04"
+readTime: 10
+featured: false
+description: "The integral is not just a reversed derivative. It is the limit of a sum that measures accumulated area, and the Fundamental Theorem is what ties those two ideas together."
+tags: ["calculus", "integral", "riemann-sum", "fundamental-theorem"]
+quiz:
+  - q: "What is the definite integral actually defined to be?"
+    options:
+      - "The antiderivative of the function, evaluated as a formula"
+      - "The limit of Riemann sums as the rectangle width Δx approaches zero"
+      - "The slope of the tangent line to the curve at each point"
+      - "The average value of the function over the interval"
+    answer: 1
+    explanation: "The definite integral is defined as the limit of Riemann sums — you slice the region into rectangles of width Δx, add their signed areas, and let Δx → 0. Antiderivatives are a way to COMPUTE many integrals, not the definition."
+  - q: "A car's velocity is negative (it reverses) over part of a trip. What does the integral of velocity over that part contribute to total displacement?"
+    options:
+      - "A positive amount, since area is always positive"
+      - "A negative amount, moving displacement back toward the start"
+      - "Nothing, because negative velocity is discarded"
+      - "It depends on the antiderivative chosen"
+    answer: 1
+    explanation: "The integral measures SIGNED area. Where the function is below the axis (negative velocity), it contributes a negative amount, correctly subtracting from the accumulated displacement."
+  - q: "The accumulation function A(x) = ∫ₐˣ f(t) dt has what derivative?"
+    options:
+      - "The antiderivative of f"
+      - "Zero, because A is a constant total"
+      - "f(x) itself — the height of the curve at x"
+      - "The area of the whole region under f"
+    answer: 2
+    explanation: "This is the Fundamental Theorem of Calculus: A′(x) = f(x). The rate at which accumulated area grows equals the height of the curve at the moving edge, which is exactly why differentiation and integration are inverse operations."
+---
+
+## A total hiding in a shape
+
+Suppose a car speeds up smoothly from a standstill. Its speedometer sweeps through every value between zero and its cruising speed, and you want to know how far it travelled. If the speed were constant you would just multiply: distance equals speed times time, a rectangle. But the speed never sits still, so there is no single rectangle to measure.
+
+Here is the trick that founds all of integral calculus. Chop the trip into many short time slices. Over each tiny slice the speed barely changes, so pretend it is constant and compute a little rectangle of distance. Add up all the rectangles. You will be slightly wrong — the speed did drift within each slice — but if you use thinner slices, the error shrinks. Take the slices infinitely thin and the total becomes exact.
+
+That total is the **integral**. It is not a formula you memorize; it is a *limit of sums*.
+
+## The definition is a limit of sums
+
+Take a function $f$ on an interval $[a,b]$. Cut the interval into $n$ pieces, each of width $\Delta x = \frac{b-a}{n}$. In each piece pick a sample point $x_i$ and build a rectangle of height $f(x_i)$ and width $\Delta x$. Adding their areas gives a **Riemann sum**:
+
+$$\sum_{i=1}^{n} f(x_i)\,\Delta x.$$
+
+Now refine. Make $n$ larger, $\Delta x$ smaller. As long as the sum settles toward a single number no matter how you pick the sample points, that number is the **definite integral**:
+
+$$\int_a^b f(x)\,dx \;=\; \lim_{\Delta x \to 0} \sum_{i=1}^{n} f(x_i)\,\Delta x.$$
+
+The elongated S is a stretched "sum," and $dx$ is the ghost of $\Delta x$ after it has shrunk to nothing. Watch the convergence happen — drag the rectangle count up and switch between the left, midpoint, and right rules:
+
+<RiemannSumAnimation />
+
+Notice two things. First, every rule converges to the *same* number as $n$ grows, even though for small $n$ they disagree. That common limit is what the integral *is*. Second — and this is the point most easily missed — nothing here mentions antiderivatives. The integral is defined purely by slicing and summing. That is why an integral like $\int_0^1 e^{-x^2}\,dx$ has a perfectly definite value even though $e^{-x^2}$ has no elementary antiderivative. The Riemann sum still converges; there simply is no tidy formula to shortcut it.
+
+## Correcting the "reverse a derivative" myth
+
+Ask most students what an integral is and you will hear: "it's the antiderivative — you run differentiation backwards." That is a genuine misconception about *what the object is*, even though it describes a real *method*. Reversing derivatives is how we happen to **compute** many integrals quickly. It is not the definition, and it is not always available.
+
+Keeping the definition straight matters because the integral means something concrete: **accumulated quantity**. Integrate velocity and you get distance. Integrate power and you get energy. Integrate a rate of flow and you get total volume. In every case you are adding up infinitely many infinitesimal contributions, $f(x_i)\,\Delta x$, and the sum is the accumulated total. The [derivative](/articles/the-derivative) tears a total apart into an instantaneous rate; the integral stitches rates back into a total.
+
+## Signed area, not just area
+
+Rectangles above the horizontal axis have positive height and add to the sum. Rectangles below the axis have *negative* height and subtract. So the integral measures **signed area**: regions beneath the axis count against you.
+
+This is exactly right for accumulation. If velocity goes negative because the car reverses, those slices should *reduce* your displacement, and the signed integral does precisely that. The integral of a function that dips below zero can even be zero overall, if the positive and negative regions cancel. "Area under the curve" is a fine slogan as long as you remember the sign travels with it.
+
+## The Fundamental Theorem unifies the two ideas
+
+There is a second myth worth dismantling: that area under a curve has nothing to do with slopes and derivatives. They look like opposite worlds — one adds up chunks, the other zooms into instants. The **Fundamental Theorem of Calculus** reveals they are two sides of one coin.
+
+Fix the left endpoint $a$ and let the right endpoint move. Define the **accumulation function**
+
+$$A(x) = \int_a^x f(t)\,dt,$$
+
+the signed area gathered so far as the right edge sweeps to $x$. Ask how fast $A$ grows. Push the edge right by a sliver $dx$: you add a thin strip of area whose height is $f(x)$ and width is $dx$, so $A$ increases by about $f(x)\,dx$. Dividing by $dx$, the rate of accumulation is the height itself:
+
+$$\frac{d}{dx}\int_a^x f(t)\,dt = f(x).$$
+
+The derivative of the accumulated area is the original function. Differentiation and integration are **inverse operations**. Watch it directly — as the vertical line sweeps right, area fills in on top and the accumulation curve is traced below, and the *slope* of that lower curve always matches the *height* of the upper one:
+
+<FundamentalTheoremAnimation />
+
+When $f$ dips below the axis, the accumulation function turns around and *decreases* — signed area and the inverse relationship working together. Where $f$ crosses zero, $A$ momentarily levels off, because a curve with zero slope is exactly what $A'(x) = f(x) = 0$ demands.
+
+## Why the shortcut works
+
+Now the antiderivative trick falls out as a *consequence*, not a definition. Suppose $F$ is any antiderivative of $f$, meaning $F' = f$. The accumulation function $A$ also satisfies $A' = f$, so $A$ and $F$ differ only by a constant. Evaluating at the endpoints makes the constant cancel, and you get the evaluation theorem:
+
+$$\int_a^b f(x)\,dx = F(b) - F(a).$$
+
+This is why you can integrate $x^2$ by writing $\frac{x^3}{3}$ and plugging in the limits. But the reason it works is the Fundamental Theorem, and the *thing* you are computing is still a limit of sums. When no antiderivative exists in elementary form, you fall back on the definition directly — numerically, with methods like the ones behind [Newton's method](/articles/newtons-method) for the companion problem of root-finding, or with better rules than plain rectangles.
+
+The integral, then, is the counterpart to the derivative in the great machinery of [Taylor series](/articles/taylor-series) and beyond: a limit that turns the infinitely small into a finite, meaningful total.
+
+<KeyTakeaways>
+- The definite integral $\int_a^b f\,dx$ is *defined* as the limit of Riemann sums $\sum f(x_i)\,\Delta x$ as $\Delta x \to 0$ — not as a reversed derivative.
+- It measures accumulated quantity (area, distance, total), and exists even for functions with no elementary antiderivative.
+- Integrals count *signed* area: regions below the axis subtract, which is exactly what accumulation requires.
+- The Fundamental Theorem says the accumulation function $A(x)=\int_a^x f$ has derivative $A'(x)=f(x)$, so integration and differentiation are inverse operations.
+- That inverse relationship is *why* antiderivatives evaluate integrals: $\int_a^b f = F(b)-F(a)$ whenever $F'=f$.
+</KeyTakeaways>
