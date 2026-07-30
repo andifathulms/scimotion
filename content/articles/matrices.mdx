@@ -1,0 +1,110 @@
+---
+title: "Matrices: Functions That Move Space"
+subtitle: "A matrix isn't a grid of numbers — it's a verb that grabs the whole plane and moves it."
+topic: "Mathematics"
+slug: "matrices"
+date: "2026-08-20"
+readTime: 10
+featured: false
+description: "A matrix is a linear transformation of space in disguise. Its columns tell you where the basis vectors land, and multiplication is just composition."
+tags: ["matrices", "linear-algebra", "linear-transformations", "determinant"]
+quiz:
+  - q: "The matrix M sends the basis vector ı̂ = (1,0) to (2,1) and ĵ = (0,1) to (-1,3). What is M?"
+    options:
+      - "[[2, 1], [-1, 3]]"
+      - "[[2, -1], [1, 3]]"
+      - "[[1, 3], [2, -1]]"
+      - "[[2, 1], [1, 3]]"
+    answer: 1
+    explanation: "The columns of a matrix are exactly the landing spots of the basis vectors. ı̂ → (2,1) is the first column and ĵ → (-1,3) is the second, so M = [[2, -1], [1, 3]] reading across rows."
+  - q: "A 2×2 matrix has determinant -3. What does that number tell you geometrically?"
+    options:
+      - "The transformation is impossible because area cannot be negative"
+      - "It scales every length by 3 and rotates by 90 degrees"
+      - "It scales areas by a factor of 3 and flips orientation (a reflection is involved)"
+      - "It collapses the plane onto a single line"
+    answer: 2
+    explanation: "The absolute value 3 is the area-scaling factor; the negative sign means the transformation reverses orientation, flipping the plane over as a reflection does. A zero determinant would be the collapse-to-a-line case."
+  - q: "For most pairs of matrices A and B, why is AB ≠ BA?"
+    options:
+      - "Because matrix entries are added in a special order that cannot be rearranged"
+      - "Because the product of matrices represents composing their transformations, and doing one transformation then another generally differs from the reverse order"
+      - "Because only square matrices can be multiplied, and the shapes stop matching when you swap them"
+      - "Because determinants are not preserved when you swap the factors"
+    answer: 1
+    explanation: "Matrix multiplication encodes 'do this transformation, then that one.' Rotating then shearing lands space somewhere different from shearing then rotating, so the product matrices differ even though det(AB) = det(BA)."
+---
+
+## A matrix is a verb, not a spreadsheet
+
+Most people meet matrices as grids of numbers with an arbitrary-looking rule for multiplying them — a rule you memorize, apply on an exam, and never quite believe. That framing is the single biggest obstacle to understanding linear algebra, because it hides the one idea that makes everything click.
+
+A matrix is not a table. **A matrix is a function that moves space.** Feed it a vector and it hands you back another vector — rotated, stretched, sheared, or reflected. The grid of numbers is just the compact instruction sheet for that motion. Once you see the motion, the "arbitrary" multiplication rule turns out to be the only rule it could possibly be.
+
+The functions matrices represent are special: they are **linear**. Two properties define that word. Grid lines stay straight and evenly spaced, and the origin stays fixed. Concretely, $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ and $T(c\mathbf{v}) = c\,T(\mathbf{v})$. No bending, no shifting the whole plane sideways — just a clean, uniform reshaping of space.
+
+## The columns are where the basis vectors land
+
+Here is the fact that dissolves the mystery. In two dimensions, every vector is built from two building blocks: $\hat{\imath} = (1,0)$ pointing right and $\hat{\jmath} = (0,1)$ pointing up. The vector $(3, 2)$ is literally $3\hat{\imath} + 2\hat{\jmath}$.
+
+Because the transformation is linear, if you know where $\hat{\imath}$ and $\hat{\jmath}$ go, you know where *everything* goes:
+
+$$T(3\hat{\imath} + 2\hat{\jmath}) = 3\,T(\hat{\imath}) + 2\,T(\hat{\jmath})$$
+
+The transformed vector is rebuilt from the transformed building blocks, using the same recipe. So a linear transformation is completely pinned down by just two pieces of data: where $\hat{\imath}$ lands and where $\hat{\jmath}$ lands. **Stack those two landing spots as columns and you have the matrix:**
+
+$$M = \begin{pmatrix} \color{gray}{|} & \color{gray}{|} \\ T(\hat{\imath}) & T(\hat{\jmath}) \\ \color{gray}{|} & \color{gray}{|} \end{pmatrix} = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$
+
+The first column $(a, c)$ is where $\hat{\imath}$ ends up; the second column $(b, d)$ is where $\hat{\jmath}$ ends up. That is the entire meaning of the matrix.
+
+<LinearTransformAnimation />
+
+Drag the sliders or hit a preset and watch the whole grid deform. Notice the gold $\hat{\imath}$ arrow always settles onto the first column and the blue $\hat{\jmath}$ arrow onto the second — the numbers in the readout are just their coordinates.
+
+## Why the multiplication rule looks like that
+
+Now the payoff. To apply $M$ to a vector $\mathbf{v} = (x, y)$, you rebuild $\mathbf{v}$ from the transformed basis:
+
+$$M\mathbf{v} = x\begin{pmatrix} a \\ c \end{pmatrix} + y\begin{pmatrix} b \\ d \end{pmatrix} = \begin{pmatrix} ax + by \\ cx + dy \end{pmatrix}$$
+
+That "weird" formula isn't a convention someone invented. It is exactly the statement *scale the first column by $x$, the second by $y$, and add*. Matrix-times-vector is nothing more than reassembling a vector from where the basis vectors went.
+
+## Multiplication is composition
+
+The deepest reason the multiplication rule is shaped the way it is: **the product of two matrices is the composition of their transformations.** If you apply $B$ first and then $A$, the combined motion is the single matrix $AB$. Reading right-to-left mirrors function notation, where $A(B(\mathbf{v}))$ also does $B$ first.
+
+To find the columns of $AB$, ask the usual question — where do the basis vectors go? Send $\hat{\imath}$ through $B$, then through $A$; that composite landing spot is the first column of $AB$. Grind that through and you get precisely the row-times-column rule everyone memorizes. The rule is engineered so that *matrix multiplication and function composition are the same operation*. That is why it mixes rows and columns the way it does, and why it is the natural rule rather than an arbitrary one.
+
+## Order matters: AB ≠ BA
+
+If multiplication is composition, an immediate consequence follows: **order matters, because the order you apply transformations matters.** Rotating a shape and *then* shearing it does not land in the same place as shearing and *then* rotating. Regular numbers commute; transformations of space generally do not.
+
+<MatrixCompositionAnimation />
+
+Take $A$ = rotate 90° and $B$ = a horizontal shear. Applying $B$ then $A$ gives $AB = \left(\begin{smallmatrix} 0 & -1 \\ 1 & 1 \end{smallmatrix}\right)$, while applying $A$ then $B$ gives $BA = \left(\begin{smallmatrix} 1 & -1 \\ 1 & 0 \end{smallmatrix}\right)$. Different matrices, different final shapes, same two ingredients. So whenever you see $AB \neq BA$ written down, don't read it as an algebraic quirk — read it as "do-this-then-that isn't the same as do-that-then-this," which is obviously true in the physical world.
+
+## The determinant measures area
+
+Every one of these transformations does something to area. The unit square spanned by $\hat{\imath}$ and $\hat{\jmath}$ gets carried to a parallelogram spanned by the two columns. **The determinant is the factor by which area is scaled**, and it carries a sign:
+
+$$\det\begin{pmatrix} a & b \\ c & d \end{pmatrix} = ad - bc$$
+
+Read the sign geometrically. A determinant of $2$ means areas double; $0.5$ means they halve. A **negative** determinant means the transformation flipped the plane over — orientation reversed, as a reflection does — with the magnitude still giving the area factor. And a determinant of **zero** is the interesting collapse: the transformation squashes all of space onto a line (or a point), destroying a dimension. When that happens the columns are parallel, there is no way to undo the flattening, and the matrix is **non-invertible**. In three dimensions the same number measures volume scaling instead of area.
+
+You can watch the number appear in the first widget above: the shaded parallelogram is the image of the unit square, and its area is exactly $|\det|$, turning pink the instant the determinant goes negative and orientation flips.
+
+## Identity and inverse: do nothing, and undo
+
+Two special matrices round out the picture. The **identity** $I = \left(\begin{smallmatrix} 1 & 0 \\ 0 & 1 \end{smallmatrix}\right)$ leaves $\hat{\imath}$ and $\hat{\jmath}$ exactly where they started — it is the "do nothing" transformation, the number $1$ of the matrix world. The **inverse** $A^{-1}$ is the transformation that undoes $A$: apply $A$ then $A^{-1}$ and you are back where you began, so $A^{-1}A = I$. An inverse exists precisely when $\det A \neq 0$ — you cannot undo a transformation that already threw away a dimension, which is exactly why a zero determinant means non-invertible.
+
+## Where this leads
+
+Seeing matrices as motions rather than tables pays dividends everywhere. Some transformations have special directions they only stretch and never turn — those are the [eigenvectors and eigenvalues](/articles/eigenvectors-and-eigenvalues) that reveal what a matrix is "really" doing. A 90° rotation matrix has no such real direction, and the algebra signals this by handing you [complex numbers](/articles/complex-numbers), which are themselves just rotation-and-scaling of the plane. And the whole machinery of training neural networks by [gradient descent](/articles/gradient-descent) runs on matrices moving high-dimensional space, layer after layer. In every case, the grid of numbers is the least interesting thing about a matrix. The motion is the point.
+
+<KeyTakeaways>
+- A matrix is a linear transformation of space — a function that rotates, scales, shears, or reflects — not merely a grid of numbers.
+- The columns of a matrix are exactly where the basis vectors $\hat{\imath}$ and $\hat{\jmath}$ land; multiplying a matrix by a vector just rebuilds that vector from the transformed basis.
+- The multiplication rule looks the way it does because the product of two matrices is the composition of their transformations — "do one, then the other."
+- Order matters: $AB \neq BA$ in general, because rotate-then-shear genuinely differs from shear-then-rotate.
+- The determinant is the area (or volume) scaling factor: negative means orientation flipped, zero means space collapsed to a lower dimension and the matrix has no inverse.
+</KeyTakeaways>
