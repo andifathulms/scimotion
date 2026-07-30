@@ -327,34 +327,34 @@ body {
   padding: 0.5rem 0;
 }
 
-/* Prose entrance animations */
-.prose-article h2,
-.prose-article h3,
-.prose-article p,
-.prose-article blockquote,
-.prose-article pre {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+/* Article entrance.
+ *
+ * This replaces a per-paragraph scroll reveal that set `opacity: 0` on every
+ * h2/h3/p/blockquote/pre and cleared it from an IntersectionObserver. Four
+ * problems with that on a text article: the server-rendered prose was invisible
+ * until client JS ran, so any JS failure left a blank page; jumping to a TOC
+ * anchor landed on a heading that then spent 0.55s fading in; find-in-page could
+ * scroll to text the reader could not see; and fast scrolling turned reading
+ * into a slot machine.
+ *
+ * The signature motion on this site belongs to the diagrams. Keeping the prose
+ * still makes them land harder, so the entrance is now one CSS-only fade on the
+ * header — above the fold, plays once, needs no JS, and never touches anything
+ * the reader has to scroll to. */
+@keyframes article-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.prose-article h2.prose-visible,
-.prose-article h3.prose-visible,
-.prose-article p.prose-visible,
-.prose-article blockquote.prose-visible,
-.prose-article pre.prose-visible {
-  opacity: 1;
-  transform: translateY(0);
+.article-intro > * {
+  animation: article-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+.article-intro > :nth-child(2) { animation-delay: 0.08s; }
+.article-intro > :nth-child(3) { animation-delay: 0.16s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .prose-article h2,
-  .prose-article h3,
-  .prose-article p,
-  .prose-article blockquote,
-  .prose-article pre {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .article-intro > * {
+    animation: none;
   }
 }

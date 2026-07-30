@@ -15,7 +15,6 @@ import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
-import { ProseAnimator } from '@/components/ProseAnimator'
 import { KeyTakeaways } from '@/components/KeyTakeaways'
 import { SITE_URL } from '@/lib/site'
 import {
@@ -779,6 +778,7 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </aside>
         <article className="w-full max-w-[620px] mx-auto min-w-0">
+        <div className="article-intro">
         {/* Hero */}
         <div className="mb-8 rounded-2xl overflow-hidden border border-border">
           <ArticleVisual slug={slug} topic={meta.topic} variant="hero" />
@@ -807,9 +807,9 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
         <hr className="border-border mb-8" />
+        </div>
 
         {/* Body */}
-        <ProseAnimator />
         <div className="prose-article">
           <MDXRemote
             source={content}
