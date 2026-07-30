@@ -1595,3 +1595,53 @@ export const CompressionLimitAnimation = dynamic(
   () => import('@/components/animations/CompressionLimitAnimation').then(m => ({ default: m.CompressionLimitAnimation })),
   { ssr: false }
 )
+
+export const OrbitVelocityAnimation = dynamic(
+  () => import('@/components/animations/OrbitVelocityAnimation').then(m => ({ default: m.OrbitVelocityAnimation })),
+  { ssr: false }
+)
+
+export const HohmannTransferAnimation = dynamic(
+  () => import('@/components/animations/HohmannTransferAnimation').then(m => ({ default: m.HohmannTransferAnimation })),
+  { ssr: false }
+)
+
+export const AcceleratingExpansionAnimation = dynamic(
+  () => import('@/components/animations/AcceleratingExpansionAnimation').then(m => ({ default: m.AcceleratingExpansionAnimation })),
+  { ssr: false }
+)
+
+export const DarkEnergyBudgetAnimation = dynamic(
+  () => import('@/components/animations/DarkEnergyBudgetAnimation').then(m => ({ default: m.DarkEnergyBudgetAnimation })),
+  { ssr: false }
+)
+
+export const PolymerizationAnimation = dynamic(
+  () => import('@/components/animations/PolymerizationAnimation').then(m => ({ default: m.PolymerizationAnimation })),
+  { ssr: false }
+)
+
+export const PolymerPropertyAnimation = dynamic(
+  () => import('@/components/animations/PolymerPropertyAnimation').then(m => ({ default: m.PolymerPropertyAnimation })),
+  { ssr: false }
+)
+
+export const EquilibriumShiftAnimation = dynamic(
+  () => import('@/components/animations/EquilibriumShiftAnimation').then(m => ({ default: m.EquilibriumShiftAnimation })),
+  { ssr: false }
+)
+
+export const LeChatelierPressureAnimation = dynamic(
+  () => import('@/components/animations/LeChatelierPressureAnimation').then(m => ({ default: m.LeChatelierPressureAnimation })),
+  { ssr: false }
+)
+
+export const SarcomereAnimation = dynamic(
+  () => import('@/components/animations/SarcomereAnimation').then(m => ({ default: m.SarcomereAnimation })),
+  { ssr: false }
+)
+
+export const MusclePairAnimation = dynamic(
+  () => import('@/components/animations/MusclePairAnimation').then(m => ({ default: m.MusclePairAnimation })),
+  { ssr: false }
+)

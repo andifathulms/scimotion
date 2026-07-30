@@ -3990,6 +3990,71 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <text x={155} y={98} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">frequent → shorter code</text>
     </g>
   ),
+  'orbital-mechanics': c => (
+    <g>
+      <circle cx={150} cy={60} r={16} fill={`${c}33`} stroke={c} strokeWidth={1} />
+      <ellipse cx={162} cy={60} rx={80} ry={34} fill="none" stroke={c} strokeWidth={1} />
+      <path d="M150,60 L60,60" stroke={MUTE} strokeWidth={0.5} strokeDasharray="2 2" />
+      <circle cx={82} cy={60} r={4} fill={GOLD} />
+      <path d="M82,52 l0,-10 M77,46 l5,-4 l5,4" fill="none" stroke={GOLD} strokeWidth={1} />
+      <path d="M150,60 l-14,-8" stroke="#F472B6" strokeWidth={1.25} />
+      <path d="M136,52 l4,1 l-1,4" fill="#F472B6" />
+      <text x={150} y={106} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">falling sideways</text>
+    </g>
+  ),
+  'dark-energy': c => (
+    <g>
+      <circle cx={40} cy={60} r={2} fill={`${c}cc`} /><circle cx={72} cy={44} r={2} fill={`${c}cc`} /><circle cx={64} cy={78} r={2} fill={`${c}cc`} />
+      <circle cx={150} cy={40} r={2} fill={GOLD} /><circle cx={150} cy={82} r={2} fill={GOLD} /><circle cx={150} cy={60} r={2} fill={GOLD} />
+      <circle cx={236} cy={44} r={2} fill={`${c}cc`} /><circle cx={228} cy={78} r={2} fill={`${c}cc`} /><circle cx={260} cy={60} r={2} fill={`${c}cc`} />
+      <g stroke={GOLD} strokeWidth={1} fill="none">
+        <path d="M120,60 l-16,0 M110,55 l-6,5 l6,5" />
+        <path d="M180,60 l16,0 M190,55 l6,5 l-6,5" />
+        <path d="M92,50 l-18,-4 M84,42 l-10,4 l7,7" opacity={0.6} />
+        <path d="M208,50 l18,-4 M216,42 l10,4 l-7,7" opacity={0.6} />
+      </g>
+      <text x={150} y={104} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">space stretches, faster</text>
+    </g>
+  ),
+  polymers: c => (
+    <g>
+      <polyline points="34,66 52,50 70,66 88,50 106,66 124,50 142,66 160,50 178,66 196,50 214,66 232,50 250,66 268,50"
+        fill="none" stroke={c} strokeWidth={2} />
+      <g fill={GOLD}>
+        <circle cx={34} cy={66} r={3.5} /><circle cx={52} cy={50} r={3.5} /><circle cx={70} cy={66} r={3.5} /><circle cx={88} cy={50} r={3.5} />
+        <circle cx={106} cy={66} r={3.5} /><circle cx={124} cy={50} r={3.5} /><circle cx={142} cy={66} r={3.5} /><circle cx={160} cy={50} r={3.5} />
+        <circle cx={178} cy={66} r={3.5} /><circle cx={196} cy={50} r={3.5} /><circle cx={214} cy={66} r={3.5} /><circle cx={232} cy={50} r={3.5} /><circle cx={250} cy={66} r={3.5} /><circle cx={268} cy={50} r={3.5} />
+      </g>
+      <text x={150} y={90} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">many monomers → one chain</text>
+    </g>
+  ),
+  'le-chatelier': c => (
+    <g>
+      <path d="M60,84 L150,40 L240,84" fill="none" stroke={MUTE} strokeWidth={1} />
+      <path d="M150,40 L150,32" stroke={MUTE} strokeWidth={1} />
+      <circle cx={150} cy={30} r={4} fill={c} />
+      <rect x={92} y={70} width={30} height={20} rx={2} fill={`${c}33`} stroke={c} strokeWidth={0.75} />
+      <rect x={178} y={64} width={30} height={26} rx={2} fill={`${GOLD}33`} stroke={GOLD} strokeWidth={0.75} />
+      <path d="M150,52 l24,4 M168,52 l6,4 l-4,5" fill="none" stroke={GOLD} strokeWidth={1.25} />
+      <text x={107} y={84} fontSize={9} fill={c} textAnchor="middle" fontFamily="monospace">A</text>
+      <text x={193} y={82} fontSize={9} fill={GOLD} textAnchor="middle" fontFamily="monospace">B</text>
+      <text x={150} y={104} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">stress → partial shift</text>
+    </g>
+  ),
+  muscles: c => (
+    <g>
+      <line x1={40} y1={40} x2={130} y2={40} stroke={MUTE} strokeWidth={2} />
+      <line x1={130} y1={40} x2={220} y2={80} stroke={MUTE} strokeWidth={2} />
+      <circle cx={130} cy={40} r={4} fill={GOLD} />
+      <path d="M60,44 Q100,58 126,52" fill="none" stroke={c} strokeWidth={7} strokeLinecap="round" />
+      <path d="M138,48 l-8,6 M138,48 l-4,9" fill="none" stroke={GOLD} strokeWidth={1} />
+      <g fill="none" stroke={`${c}88`} strokeWidth={1}>
+        <line x1={70} y1={70} x2={70} y2={98} /><line x1={110} y1={70} x2={110} y2={98} />
+        <polyline points="76,78 88,72 88,96 100,90" /><polyline points="76,90 88,84 88,84 100,78" />
+      </g>
+      <text x={230} y={44} fontSize={7} fill={MUTE} fontFamily="monospace">pull only</text>
+    </g>
+  ),
 }
 
 export function ArticleVisual({
