@@ -1,0 +1,111 @@
+---
+title: "Compilers: From Source Code to Silicon"
+subtitle: "The processor has never once read the code you wrote — a compiler quietly rebuilds it, stage by stage, into instructions the silicon can obey."
+topic: "Computer Science"
+slug: "compilers"
+date: "2026-08-30"
+readTime: 10
+featured: false
+description: "How a compiler translates human-readable source into machine code through lexing, parsing, and code generation — and why the compiled-vs-interpreted split is really about implementation."
+tags: ["compilers", "interpreters", "parsing", "programming-languages"]
+quiz:
+  - q: "A CPU is handed a Python source file as plain text. What does it do with it?"
+    options:
+      - "Executes the text directly, one character at a time"
+      - "Nothing useful — a CPU only executes machine code for its architecture, so the text must first be translated"
+      - "Reads the keywords and infers the programmer's intent"
+      - "Converts the letters to ASCII numbers and adds them up"
+    answer: 1
+    explanation: "A processor's only vocabulary is machine code — binary instructions defined by its instruction set. Human-readable source is inert until a compiler or interpreter translates it into those instructions."
+  - q: "In the expression x = 2 + 3 * y, why does a correct parser place the multiplication deeper in the abstract syntax tree than the addition?"
+    options:
+      - "Because * appears later in the text than +"
+      - "Because the tree stores tokens in reverse order"
+      - "Because the grammar gives * higher precedence, so it must be evaluated first — depth in the tree encodes 'evaluated first'"
+      - "Because multiplication is a slower operation and needs more time"
+    answer: 2
+    explanation: "Precedence is captured by tree shape: the deeper a subtree, the earlier it is evaluated. Putting 3 * y below the + node guarantees the machine computes the product before the sum."
+  - q: "Which statement about 'compiled' versus 'interpreted' languages is most accurate?"
+    options:
+      - "A language is intrinsically one or the other and can never be both"
+      - "Interpreted languages are never translated to machine code under any circumstances"
+      - "It describes an implementation choice, not the language — many 'interpreted' languages compile to bytecode, and JIT compilers turn hot paths into machine code at runtime"
+      - "Compiled languages skip parsing because they are already close to machine code"
+    answer: 2
+    explanation: "The distinction is about how a language is implemented. Real systems blend the two: source is often compiled to bytecode run by a virtual machine, and JIT compilers translate frequently executed code to native machine instructions while the program runs."
+---
+
+## The code you wrote is not what runs
+
+Here is a fact that sounds wrong the first time you hear it: the processor in your machine has never executed a single line of the code you wrote. Not the Python, not the JavaScript, not the C. When you type `x = 2 + 3 * y`, you are writing for a human audience — and for one very particular translator — but not for the CPU. The CPU cannot read it.
+
+A processor understands exactly one language: **machine code**, a stream of binary instructions defined by its specific architecture. An instruction might mean "load the value at this address into register 1" or "multiply register 1 by register 2." That is the entire universe of things a CPU can do. Words like `if`, `while`, and `print` do not exist down there. Neither do variable names or arithmetic expressions. They are conveniences invented for us, and something has to strip them away before the silicon can act.
+
+That something is a **compiler**. Its job is translation — and, crucially, it does not translate in one leap. It works in stages, each handing a cleaner, more structured representation to the next. Understanding those stages is understanding how a wall of human-readable text becomes the physical dance of voltages that computes your result.
+
+## From text to tokens: the lexer
+
+The first stage confronts the ugliest truth about source code: to a program, it is just a flat string of characters. `x = 2 + 3 * y` is not yet an assignment or an expression — it is the letter `x`, a space, an equals sign, another space, and so on. Spaces, tabs, and newlines carry no more meaning than the shape of the letters.
+
+The **lexer** (or scanner) makes the first cut. It groups raw characters into **tokens** — the smallest meaningful units, like words in a sentence. Our line becomes a stream:
+
+```text
+IDENT(x)  ASSIGN(=)  NUMBER(2)  PLUS(+)  NUMBER(3)  STAR(*)  IDENT(y)
+```
+
+Whitespace vanishes; each token now has a *kind*. This is not so different from how a **finite automaton** recognizes patterns character by character — in fact, lexers are classically built exactly that way, as small state machines that switch states as each character arrives. (The article on [finite-automata](/articles/finite-automata) walks through that machinery.) The output is still linear, a list, but it is a list the next stage can reason about.
+
+## From tokens to structure: the parser
+
+A list of tokens still says nothing about *structure*. Does `2 + 3 * y` mean "add 2 and 3, then multiply by y," or "multiply 3 by y, then add 2"? The tokens alone cannot tell you. The answer comes from a **grammar** — a formal set of rules describing which sequences of tokens are legal and how they nest. The **parser** applies that grammar to build an **abstract syntax tree (AST)**: a tree that captures the program's structure explicitly, discarding incidental details like parentheses and spacing.
+
+The AST for our line looks like this:
+
+```text
+      =
+     / \
+    x   +
+       / \
+      2   *
+         / \
+        3   y
+```
+
+Notice what the shape encodes. The `*` node sits *below* the `+` node, and that depth is not decorative — it means "evaluate me first." The grammar assigns multiplication a higher **precedence** than addition, so the parser buries `3 * y` deeper in the tree. When the tree is later walked bottom-up, the product is computed before the sum, and `2 + 3 * y` correctly means `2 + (3 * y)`. Precedence, associativity, and nesting all become pure geometry.
+
+<CompilerPipelineAnimation />
+
+After parsing comes **semantic analysis**: checking that the tree makes sense. Is `y` actually declared? Do the types line up — are you adding a number to a number, or accidentally to a string? This is where a compiler catches the errors an interpreter might only stumble into at runtime. Only once the tree is validated does translation proper begin.
+
+## From tree to instructions: code generation
+
+Now the compiler walks the validated AST and emits instructions. For a real CPU it emits machine code directly; many modern compilers first emit an **intermediate representation (IR)** — a simpler, architecture-neutral language — optimize *that*, and only then lower it to the target machine. Either way, our tiny tree might become something like:
+
+```text
+LOAD  R1, 3
+LOAD  R2, y
+MUL   R1, R1, R2   ; 3 * y  (done first — it was deepest)
+LOAD  R2, 2
+ADD   R1, R2, R1   ; 2 + (3*y)
+STORE x,  R1
+```
+
+Between the tree and this output sits **optimization**: the compiler may fold constants, drop dead code, or reuse registers to make the result faster or smaller — while preserving exactly what the program computes. The numbers here, ultimately, are binary; the assembly-like mnemonics are just a readable stand-in for the bit patterns that will flow through the logic gates. If you want to see where those instructions physically bottom out, the piece on [logic-gates](/articles/logic-gates) shows arithmetic emerging from nothing but switches.
+
+## Compilers versus interpreters: a false binary
+
+People often sort languages into two bins: "compiled" languages like C, and "interpreted" languages like Python. It is a tidy story, and it is wrong. The distinction is not a property of the *language* — it is a property of the *implementation*.
+
+A **compiler** translates the whole program ahead of time, producing an artifact that runs on its own. That means a slower startup (you pay the translation cost once, up front) but fast execution afterward, and errors caught before the program ever runs. An **interpreter** takes a different bargain: it walks the program statement by statement, translating and executing each as it goes. There is no separate build step, which makes it flexible and easy to debug, but it re-does translation work every run, so it is typically slower.
+
+<InterpreterCompilerAnimation />
+
+The neat binary collapses the moment you look at real systems. "Interpreted" Python does not execute your source text directly — it first **compiles** your code to **bytecode**, a compact instruction set run by a **virtual machine**. Java does the same. And **JIT (just-in-time) compilers**, found in JavaScript engines and the JVM, watch a program as it runs, notice which paths execute most often, and compile those *hot* paths to native machine code on the fly — interpreting at first, then compiling for speed. A single language can be interpreted, bytecode-compiled, and JIT-compiled all at once. The stages we walked through — lexing, parsing, code generation — happen in nearly every one of them. What differs is only *when*, and into *what*, the translation lands. The way floating-point results can vary across those layers is its own rabbit hole, taken up in [floating-point](/articles/floating-point).
+
+<KeyTakeaways>
+- A CPU executes only machine code for its specific architecture; your human-readable source must be translated first — the processor never runs the text you wrote.
+- Compilation proceeds in stages: lexing (text → tokens), parsing (tokens → an abstract syntax tree), semantic analysis/type-checking, then code generation (→ machine code or an intermediate representation), usually with optimization.
+- The AST captures structure that a flat token list cannot: tree depth encodes precedence, so `*` sits below `+` and gets evaluated first.
+- "Compiled" versus "interpreted" describes an implementation, not a language — a compiler translates everything up front for fast execution, while an interpreter translates and runs statement by statement.
+- Real systems blend both: many "interpreted" languages compile to bytecode run on a virtual machine, and JIT compilers translate hot paths to machine code while the program runs.
+</KeyTakeaways>
