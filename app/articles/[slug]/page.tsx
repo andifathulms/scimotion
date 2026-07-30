@@ -289,6 +289,15 @@ import {
   HormoneReceptorAnimation,
   EndocrineFeedbackAnimation,
   ElectronShellAnimation,
+  TonicityAnimation,
+  HammingCodeAnimation,
+  HammingDistanceAnimation,
+  MagmaViscosityAnimation,
+  VolcanoSettingAnimation,
+  CollisionAnimation,
+  ImpulseAnimation,
+  MagneticDomainAnimation,
+  CurrentFieldAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -579,6 +588,15 @@ const components = {
   HormoneReceptorAnimation,
   EndocrineFeedbackAnimation,
   ElectronShellAnimation,
+  TonicityAnimation,
+  HammingCodeAnimation,
+  HammingDistanceAnimation,
+  MagmaViscosityAnimation,
+  VolcanoSettingAnimation,
+  CollisionAnimation,
+  ImpulseAnimation,
+  MagneticDomainAnimation,
+  CurrentFieldAnimation,
   KeyTakeaways,
 }
 

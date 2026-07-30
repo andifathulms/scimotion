@@ -3642,6 +3642,75 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       </g>
     )
   },
+  osmosis: c => (
+    <g>
+      <rect x={30} y={30} width={110} height={60} fill={`${c}12`} stroke={MUTE} strokeWidth={0.5} />
+      <rect x={160} y={30} width={110} height={60} fill={`${c}12`} stroke={MUTE} strokeWidth={0.5} />
+      <line x1={150} y1={26} x2={150} y2={94} stroke={GOLD} strokeWidth={1.5} strokeDasharray="4 3" />
+      <g fill={`${c}cc`}>
+        <circle cx={55} cy={45} r={2.5} /><circle cx={85} cy={62} r={2.5} /><circle cx={115} cy={50} r={2.5} /><circle cx={70} cy={78} r={2.5} />
+        <circle cx={185} cy={42} r={2.5} /><circle cx={210} cy={55} r={2.5} /><circle cx={240} cy={48} r={2.5} /><circle cx={200} cy={72} r={2.5} /><circle cx={230} cy={78} r={2.5} /><circle cx={255} cy={64} r={2.5} />
+      </g>
+      <g fill={GOLD}>
+        <circle cx={195} cy={62} r={3.5} /><circle cx={225} cy={40} r={3.5} /><circle cx={248} cy={72} r={3.5} />
+      </g>
+      <path d="M132,60 l16,0 M142,55 l6,5 l-6,5" fill="none" stroke={c} strokeWidth={1.5} />
+      <text x={150} y={108} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">water → concentrated side</text>
+    </g>
+  ),
+  'error-correcting-codes': c => (
+    <g>
+      {[0,1,2,3,4,5,6].map(i => {
+        const x = 40 + i * 32
+        const flipped = i === 4
+        return (
+          <g key={i}>
+            <rect x={x} y={44} width={22} height={22} rx={2} fill={flipped ? `${GOLD}55` : `${c}22`} stroke={flipped ? GOLD : c} strokeWidth={flipped ? 1.25 : 0.75} />
+            <text x={x + 11} y={59} fontSize={11} fill={flipped ? GOLD : c} textAnchor="middle" fontFamily="monospace">{i % 2 === 0 ? '1' : '0'}</text>
+          </g>
+        )
+      })}
+      <path d="M155,40 l0,-14 M149,32 l6,-6 l6,6" fill="none" stroke={GOLD} strokeWidth={1.25} />
+      <text x={161} y={20} fontSize={7} fill={GOLD} textAnchor="middle" fontFamily="monospace">syndrome→bit</text>
+    </g>
+  ),
+  volcanoes: c => (
+    <g>
+      <polygon points="60,92 110,40 160,92" fill={`${c}22`} stroke={c} strokeWidth={1} />
+      <polygon points="100,52 110,40 120,52 116,66 104,66" fill={`${GOLD}33`} />
+      <path d="M110,40 C104,28 116,24 110,12" fill="none" stroke={GOLD} strokeWidth={1.5} />
+      <path d="M110,40 l-14,-10 M110,40 l14,-10 M110,40 l0,-16" stroke={`${GOLD}88`} strokeWidth={1} />
+      <polygon points="190,92 236,54 282,92" fill={`${c}18`} stroke={`${c}88`} strokeWidth={1} />
+      <path d="M236,54 l-16,10 l14,0 l-12,10" fill="none" stroke={GOLD} strokeWidth={1.5} />
+      <line x1={20} y1={92} x2={295} y2={92} stroke={MUTE} strokeWidth={0.75} />
+      <text x={110} y={104} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">explosive</text>
+      <text x={236} y={104} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">effusive</text>
+    </g>
+  ),
+  momentum: c => (
+    <g>
+      <line x1={20} y1={80} x2={280} y2={80} stroke={MUTE} strokeWidth={0.75} />
+      <rect x={70} y={52} width={30} height={28} rx={2} fill={`${c}44`} stroke={c} strokeWidth={1} />
+      <rect x={175} y={56} width={22} height={24} rx={2} fill={`${c}22`} stroke={c} strokeWidth={1} />
+      <path d="M104,66 l24,0 M120,61 l8,5 l-8,5" fill="none" stroke={c} strokeWidth={1.5} />
+      <path d="M171,66 l-16,0 M159,61 l-8,5 l8,5" fill="none" stroke={`${MUTE}`} strokeWidth={1} />
+      <line x1={70} y1={36} x2={130} y2={36} stroke={GOLD} strokeWidth={3} />
+      <path d="M130,36 l-6,-3 l0,6 z" fill={GOLD} />
+      <text x={100} y={28} fontSize={7} fill={GOLD} textAnchor="middle" fontFamily="monospace">p = mv</text>
+    </g>
+  ),
+  magnetism: c => (
+    <g>
+      <path d="M96,40 a40,26 0 1 1 0,40" fill="none" stroke={c} strokeWidth={1} />
+      <path d="M204,40 a40,26 0 1 0 0,40" fill="none" stroke={c} strokeWidth={1} />
+      <path d="M96,34 a52,34 0 1 1 0,52" fill="none" stroke={`${c}66`} strokeWidth={0.75} />
+      <path d="M204,34 a52,34 0 1 0 0,52" fill="none" stroke={`${c}66`} strokeWidth={0.75} />
+      <rect x={120} y={48} width={60} height={24} rx={2} fill={`${c}22`} stroke={c} strokeWidth={1} />
+      <rect x={120} y={48} width={30} height={24} fill="#F8717155" />
+      <text x={135} y={64} fontSize={11} fill={GOLD} textAnchor="middle" fontFamily="monospace">N</text>
+      <text x={165} y={64} fontSize={11} fill={c} textAnchor="middle" fontFamily="monospace">S</text>
+    </g>
+  ),
 }
 
 export function ArticleVisual({

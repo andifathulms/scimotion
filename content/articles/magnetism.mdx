@@ -1,0 +1,96 @@
+---
+title: "Magnetism: Moving Charges and Aligned Spins"
+subtitle: "Every magnet in the world, from a fridge note-holder to the Earth itself, traces back to one thing — electric charge in motion."
+topic: "Physics"
+slug: "magnetism"
+date: "2026-08-03"
+readTime: 10
+featured: false
+description: "Magnetism is not a force separate from electricity — it comes from moving charges and aligned electron spins, forms only closed-loop dipoles, and grips only a few metals."
+tags: ["magnetism", "magnetic-fields", "ferromagnetism", "electromagnetism"]
+quiz:
+  - q: "What is the fundamental source of every magnetic field, from a bar magnet to an electromagnet?"
+    options:
+      - "A special magnetic substance found only in iron ore"
+      - "Moving electric charge — currents in wires, and the spin and orbital motion of electrons"
+      - "The Earth's gravity acting on metal atoms"
+      - "Static electric charge sitting at rest"
+    answer: 1
+    explanation: "Every magnetic field is produced by charge in motion. In a wire that means an electric current; in a permanent magnet it means the intrinsic spin and orbital motion of electrons. A charge sitting perfectly at rest makes no magnetic field at all."
+  - q: "You cut a bar magnet exactly in half between its north and south poles. What do you get?"
+    options:
+      - "One piece that is all north, and one that is all south"
+      - "A single isolated magnetic monopole"
+      - "Two smaller magnets, each with its own north and south pole"
+      - "Two unmagnetized lumps of metal"
+    answer: 2
+    explanation: "Magnetic field lines always close into loops, so poles come only in pairs. Cutting a magnet just makes two complete dipoles. No isolated magnetic monopole — a north without a south — has ever been observed."
+  - q: "Why are iron, nickel, and cobalt strongly magnetic while copper and aluminium are not?"
+    options:
+      - "They are much denser than other metals"
+      - "Their atomic magnetic moments can align into large domains that reinforce one another"
+      - "They conduct electricity better than other metals"
+      - "All metals are equally magnetic; iron just looks shinier"
+    answer: 1
+    explanation: "Ferromagnetic metals have atomic magnetic moments that spontaneously line up into regions called domains. When the domains align, their fields add into a strong bulk magnetization. Most metals lack this cooperative alignment and are essentially non-magnetic."
+---
+
+## One force wearing two faces
+
+Rub a balloon on your hair and it sticks to a wall; that is electricity. Hold a magnet near a paperclip and it leaps across a gap; that is magnetism. For centuries these looked like two unrelated mysteries. They are not. Electricity and magnetism are two aspects of a **single electromagnetic force**, and the bridge between them is deceptively simple: **magnetism is what moving electric charge produces.**
+
+This is the first misconception worth demolishing. Magnetism is *not* a separate force that happens to live inside certain rocks. A charge sitting perfectly still makes an electric field and nothing more. Set that same charge moving — as a current in a wire, or as the ceaseless motion of electrons inside an atom — and a magnetic field appears around it. Stop the motion and the magnetic field vanishes. There is no magnetism without moving charge.
+
+The unification runs even deeper than "currents make fields." Whether a field looks electric or magnetic depends on how you are moving relative to the charges. A row of charges that looks purely electric to someone standing still looks partly magnetic to someone gliding past, because in their frame the charges are moving. James Clerk Maxwell stitched the two together in the 1860s into one set of equations, and Einstein later showed that relativity makes the pairing inevitable: **the electric and magnetic fields are two components of one thing.**
+
+## A current is a magnet
+
+The cleanest demonstration is a straight wire. Send a current $I$ through it and the wire becomes wrapped in circular magnetic field lines. The strength at distance $r$ is
+
+$$B = \frac{\mu_0 I}{2\pi r}$$
+
+where $\mu_0$ is the permeability of free space. Double the current and you double the field; move twice as far away and the field halves. The **direction** follows the right-hand rule: point your right thumb along the current, and your fingers curl the way the field lines circle the wire. Reverse the current and the field reverses with it.
+
+<CurrentFieldAnimation />
+
+Now bend that wire into a loop, then stack many loops into a coil — a **solenoid**. Inside the coil the field of every turn points the same way, so the contributions add. A tightly wound solenoid carrying current has a field almost identical to a bar magnet's: a north pole at one end, a south at the other, and closed field lines looping from one to the other outside. This is not an analogy — it is *why* an electromagnet works, and why an electric motor spins. Feed current through coils and you have made a magnet you can switch on, off, and reverse at will.
+
+The mirror image of this is the force a field exerts back on a moving charge. A charge $q$ moving with velocity $\vec{v}$ through a field $\vec{B}$ feels the **Lorentz force**
+
+$$\vec{F} = q\,\vec{v} \times \vec{B}$$
+
+The cross product means the force is perpendicular to both the motion and the field — which is exactly why a current-carrying wire in a magnetic field gets pushed sideways, the effect that turns motors and drives loudspeakers. These same moving fields, oscillating together and racing off through space, are the [electromagnetic waves](/articles/electromagnetic-waves) we call light.
+
+## Where do permanent magnets get their motion?
+
+If magnetism needs moving charge, what is moving inside a cold, static bar magnet on your desk? The answer lives inside its atoms. Every electron carries an intrinsic property called **spin**, and both that spin and the electron's orbital motion act like tiny current loops — each electron is a minuscule magnet. In most materials these atomic magnets point every which way and cancel out. In a few, they cooperate.
+
+## Domains: why only a few metals are magnetic
+
+Here is the second big misconception: **not all metals are magnetic.** Copper, aluminium, gold, and lead are barely magnetic at all. Only **ferromagnetic** materials — chiefly iron, nickel, and cobalt, plus some of their alloys — are strongly magnetic. What sets them apart is that their atomic magnetic moments spontaneously line up with their neighbours, forming microscopic regions called **domains** in which trillions of atomic magnets all point the same way.
+
+In an unmagnetized piece of iron the domains themselves point in random directions, so their fields cancel and the lump shows no net magnetism. Apply an external field and the domains that already point the right way grow at the expense of the others, and the rest rotate into line. Once most domains agree, their fields add into a strong bulk magnetization — the iron has become a magnet.
+
+<MagneticDomainAnimation />
+
+Crucially, this alignment can be undone. Heating or hammering the magnet shakes the domains and lets them tumble back into random orientations, wiping out the net field — which is why a dropped magnet weakens. Every ferromagnet has a **Curie temperature** above which thermal jostling overwhelms the alignment entirely and the material stops being magnetic. Iron's is about 770 °C. This is also the difference between a permanent magnet and a temporary one: "hard" magnetic materials hold their domain alignment stubbornly, while "soft" iron follows an applied field and relaxes the moment it is removed.
+
+## No such thing as half a magnet
+
+The third misconception is the seductive idea of a single pole — a north without a south. It never happens. Because magnetic field lines always close into complete loops, poles come strictly in pairs. Take a bar magnet and cut it in half hoping to isolate its north end, and you do not get a lone north; you get **two smaller complete magnets**, each with its own fresh north and south. Cut again and you get four dipoles. Keep going down to a single atom and you still have a dipole.
+
+This is a deep structural fact. An electric charge can be isolated — a lone electron carries negative charge with no positive partner nearby. But no experiment has ever found an isolated **magnetic monopole**. Some theories beyond the Standard Model predict they might exist somewhere in the universe, and physicists have searched hard, but none has ever been seen. As far as every magnet you will ever handle is concerned, magnetism comes only in dipoles.
+
+That closed-loop, dipole structure scales all the way up. The planet beneath you is a magnet because of currents churning in its molten core, giving it a north and south pole and a field that shelters life — the story of [Earth's magnetic field](/articles/earths-magnetic-field). And when certain metals are cooled until their electrical resistance vanishes, they expel magnetic fields entirely, a striking quantum twist explored in [superconductivity](/articles/superconductivity).
+
+## The one idea to keep
+
+Strip away the details and a single thread ties it all together. Moving charge makes magnetic fields; magnetic fields push moving charge; and the fields themselves are inseparable from the electric ones. A wire, a spinning electron, and the Earth's liquid core are all doing the same fundamental thing. Magnetism was never a force apart — it is electricity in motion, seen from the side.
+
+<KeyTakeaways>
+- Magnetism is produced by **moving electric charge** — currents in wires and the spin and orbital motion of electrons; a charge at rest makes no magnetic field.
+- Electricity and magnetism are two faces of **one electromagnetic force**: Maxwell unified them, and what looks magnetic in one frame is partly electric in another.
+- A current-carrying wire is wrapped in circular field lines ($B = \mu_0 I / 2\pi r$, right-hand rule); coil it into a solenoid and the fields add into a switchable bar-magnet field — the basis of electromagnets and motors.
+- **Magnetic monopoles do not exist**: field lines form closed loops, so poles come only in pairs. Cut a magnet in half and you get two complete dipoles, never a lone north or south.
+- Only **ferromagnetic** metals (iron, nickel, cobalt) are strongly magnetic, because their atomic moments align into **domains**; heat past the Curie temperature or a hard knock re-randomizes them and the magnetism fades.
+</KeyTakeaways>

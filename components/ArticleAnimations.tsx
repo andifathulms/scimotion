@@ -1350,3 +1350,48 @@ export const ElectronShellAnimation = dynamic(
   () => import('@/components/animations/ElectronShellAnimation').then(m => ({ default: m.ElectronShellAnimation })),
   { ssr: false }
 )
+
+export const TonicityAnimation = dynamic(
+  () => import('@/components/animations/TonicityAnimation').then(m => ({ default: m.TonicityAnimation })),
+  { ssr: false }
+)
+
+export const HammingCodeAnimation = dynamic(
+  () => import('@/components/animations/HammingCodeAnimation').then(m => ({ default: m.HammingCodeAnimation })),
+  { ssr: false }
+)
+
+export const HammingDistanceAnimation = dynamic(
+  () => import('@/components/animations/HammingDistanceAnimation').then(m => ({ default: m.HammingDistanceAnimation })),
+  { ssr: false }
+)
+
+export const MagmaViscosityAnimation = dynamic(
+  () => import('@/components/animations/MagmaViscosityAnimation').then(m => ({ default: m.MagmaViscosityAnimation })),
+  { ssr: false }
+)
+
+export const VolcanoSettingAnimation = dynamic(
+  () => import('@/components/animations/VolcanoSettingAnimation').then(m => ({ default: m.VolcanoSettingAnimation })),
+  { ssr: false }
+)
+
+export const CollisionAnimation = dynamic(
+  () => import('@/components/animations/CollisionAnimation').then(m => ({ default: m.CollisionAnimation })),
+  { ssr: false }
+)
+
+export const ImpulseAnimation = dynamic(
+  () => import('@/components/animations/ImpulseAnimation').then(m => ({ default: m.ImpulseAnimation })),
+  { ssr: false }
+)
+
+export const MagneticDomainAnimation = dynamic(
+  () => import('@/components/animations/MagneticDomainAnimation').then(m => ({ default: m.MagneticDomainAnimation })),
+  { ssr: false }
+)
+
+export const CurrentFieldAnimation = dynamic(
+  () => import('@/components/animations/CurrentFieldAnimation').then(m => ({ default: m.CurrentFieldAnimation })),
+  { ssr: false }
+)
