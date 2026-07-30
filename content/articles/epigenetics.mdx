@@ -1,0 +1,92 @@
+---
+title: "Epigenetics: The Marks Above the Genes"
+subtitle: "Every cell in your body reads the same DNA, yet a neuron and a skin cell could not be more different — because chemical marks decide which genes get read, without touching a single letter."
+topic: "Biology"
+slug: "epigenetics"
+date: "2026-08-29"
+readTime: 10
+featured: false
+description: "How chemical marks — DNA methylation and histone modifications — switch genes on and off without altering the DNA sequence, giving one genome the power to build hundreds of different cells."
+tags: ["epigenetics", "gene-regulation", "dna-methylation", "chromatin"]
+quiz:
+  - q: "A stretch of DNA picks up heavy methylation and its histones gain repressive marks, and the gene it contains falls silent. What has happened to the underlying DNA sequence?"
+    options:
+      - "The methylated bases have been permanently rewritten into a different sequence"
+      - "Nothing — the sequence is unchanged; only the packaging and accessibility of the gene have changed"
+      - "The gene has been physically deleted from the chromosome"
+      - "The A–T and G–C pairs have swapped to shut the gene down"
+    answer: 1
+    explanation: "Epigenetic marks sit on top of the DNA and its histones. They change how accessible a gene is — whether it gets read — but leave the letters of the sequence exactly as they were. That is the whole point of the word epigenetic: above the genes, not inside them."
+  - q: "A neuron and a muscle cell in the same person carry the same genome, yet behave completely differently. What best explains the difference?"
+    options:
+      - "Each cell deleted the genes it does not need as it matured"
+      - "The two cells inherited different DNA from different parents"
+      - "The two cells carry different epigenetic patterns, so each expresses a different subset of the same shared genes"
+      - "The genetic code is read in a different direction in nerve versus muscle"
+    answer: 2
+    explanation: "The DNA is essentially identical in every cell. Identity comes from the epigenetic state — which genes are marked open and read versus marked closed and silenced — not from differences in the sequence itself."
+  - q: "How does a specialised cell keep its identity when it divides into two daughter cells?"
+    options:
+      - "It cannot — each daughter must randomly re-choose an identity from scratch"
+      - "The epigenetic marks are copied along with the DNA, so the daughters inherit the same on/off pattern"
+      - "The mother cell injects finished proteins that lock the daughters into place forever"
+      - "Cell identity is not actually heritable and is re-derived only from the environment"
+    answer: 1
+    explanation: "When DNA is replicated, machinery copies the methylation and histone marks onto the new strands too. This cellular memory means a skin cell's daughters stay skin cells rather than reverting to a blank slate."
+---
+
+## The same book, read two ways
+
+Nearly every cell in your body carries the same genome — the same three-billion-letter sequence of DNA, copied faithfully each time a cell divides. The neuron carrying a signal down your spine and the skin cell flaking off your fingertip hold identical genetic text, letter for letter. And yet they could hardly be more different: one is a long electrical wire, the other a flat, tough tile in a barrier.
+
+If the text is the same, what makes the cells different? The answer is **epigenetics** — a layer of chemical marks that sits *above* the genes (that is what the prefix *epi-* means) and decides which parts of the shared text actually get read. The genome is the book; epigenetic marks are the highlighting and the sticky notes that say **read this page** or **skip this one**. The words on the page never change. What changes is which pages the cell bothers to open.
+
+This is closely tied to [gene expression](/articles/gene-expression) — the machinery that turns a gene into a working protein. Epigenetics is the control layer that decides *whether* that machinery is even allowed near a given gene in the first place.
+
+## First, kill a myth
+
+There is one misconception worth demolishing before we go any further, because almost everyone arrives with it:
+
+**Epigenetics does not change or edit your genes.** It is tempting to imagine that an epigenetic mark rewrites your DNA — that a bad diet or a stressful year literally alters your sequence. It does not. The two main kinds of epigenetic mark — **DNA methylation** (small methyl chemical tags attached to certain bases, usually cytosines) and **histone modifications** (chemical tags on the proteins that DNA is wound around) — leave the sequence completely untouched. They change how *accessible* a gene is, and therefore whether it is read, but the A's, T's, G's, and C's are exactly where they were.
+
+Contrast this with a **mutation** or with a gene-editing tool like CRISPR, which genuinely rewrite the sequence — cutting, swapping, or deleting letters. That is genetic change. Epigenetics is annotation, not editing. If DNA is the text of a play, mutations are rewriting the script; epigenetic marks are a director's notes in the margin, telling the actors which lines to perform and which to cut.
+
+## How a mark silences a gene
+
+To read a gene, the cell's transcription machinery has to physically reach the DNA. But DNA is not a bare, loose thread — it is wound around spool-like protein cores called **histones**, and each spool-plus-DNA unit is a **nucleosome**. String many nucleosomes together and you have **chromatin**, the fibre that actually makes up a chromosome.
+
+Here is the mechanism in a sentence: **marks control how tightly the chromatin is packed.** Repressive marks — heavy DNA methylation, certain histone modifications — cause the fibre to condense into a dense, compact clump. This is **closed** chromatin (heterochromatin), and the genes buried inside it are physically inaccessible, so they stay silent. Remove those marks, or add *activating* marks instead, and the fibre loosens into **open** chromatin (euchromatin). Now the transcription machinery can dock, and the gene can be expressed.
+
+The widget below lets you toggle the marks yourself. Watch what stays the same and what changes.
+
+<ChromatinMarkAnimation />
+
+Add the marks and the fibre packs into a tight ball — the readout flips the gene to **OFF** and RNA polymerase is turned away. Remove them and the fibre relaxes, the polymerase docks, and the gene reads **ON**, spooling out mRNA. The crucial detail is the row of letters along the bottom: the **DNA sequence never changes**. Open or closed, silenced or expressed, it is the same string of bases throughout. Only the packaging moves.
+
+## One genome, many cells
+
+Now scale that single switch up to a whole cell. A cell does not flip one gene — it maintains a whole *pattern* of open and closed regions across its genome, an **epigenetic state**. That pattern is what specialises it. A neuron marks its nerve-signalling genes open and its muscle genes closed; a muscle cell does the reverse. Same gene list, different subset switched on.
+
+<CellIdentityAnimation />
+
+Pick a cell type and watch the same seven genes get a different on/off pattern each time — the genome underneath is identical in every case. This is where the second big myth dissolves: **your DNA is not a fixed, unchangeable destiny.** The sequence you inherited is the same in every cell, and largely fixed for life, but what a cell *does* with that sequence is set by its epigenetic state — laid down during development, shaped in part by environment and diet, and, crucially, *remembered.*
+
+That memory is the last piece. When a cell divides, its epigenetic marks are copied onto the new DNA strands along with the sequence itself. So a skin cell's daughters inherit the skin-cell pattern and stay skin cells — they do not revert to a blank slate. This heritable **cellular memory** is why the trillions of cells built by [cell division](/articles/cell-division) from a single fertilised egg can commit to stable identities. It is also the thread that connects epigenetics to [stem cells](/articles/stem-cells): a stem cell is defined precisely by an open, uncommitted epigenetic state, and differentiation is the process of progressively marking that genome down into one specific fate.
+
+## A concrete case: silencing a whole chromosome
+
+If this all sounds abstract, biology offers a dramatic worked example: **X-chromosome inactivation.** Female mammals carry two X chromosomes, but a double dose of every X gene would be harmful. So early in development each cell picks one X and epigenetically silences almost the entire thing — blanketing it in methylation and repressive histone marks until it condenses into a tiny, inert clump called a Barr body. Nothing in the DNA is deleted; the whole chromosome is simply marked *closed*. And because the choice is remembered through division, patches of tissue descend from cells that silenced different X's. The tortoiseshell cat's blotchy coat is X-inactivation made visible — each colour patch is a clone of cells that switched off one X versus the other.
+
+A second textbook case is the **agouti mouse**, where the diet of a pregnant mother changes how heavily a coat-colour gene is methylated in her pups — shifting them from yellow and obese to brown and lean — with *no change to the gene's sequence at all.* It is one of the cleanest demonstrations that environment can tune the marks.
+
+## A careful note on inheritance
+
+The agouti mouse tempts a bigger claim: that the experiences of your life rewrite marks you pass to your children and grandchildren. Here caution is essential. In plants and some animals, *transgenerational* epigenetic inheritance is real. In **humans**, the evidence is limited and hotly debated. The reason is a built-in safeguard: between generations, the epigenome is mostly **wiped and reset** — reprogrammed in the germ cells and again in the early embryo — precisely so that each new individual starts fresh rather than carrying a parent's accumulated marks. A handful of regions escape this erasure, and intriguing human studies exist, but the popular story that "your grandmother's famine is written into your genes" runs well ahead of what the data support. Epigenetics is powerful within a lifetime and across cell divisions; claims about heredity across human generations deserve real skepticism.
+
+<KeyTakeaways>
+- Epigenetic marks — **DNA methylation** and **histone modifications** — switch genes on and off **without changing the DNA sequence**; they are annotations on the text, not edits to it (unlike mutations or CRISPR).
+- The mechanism is accessibility: repressive marks compact chromatin into a **closed** state that silences genes; removing them (or adding activating marks) **opens** it so the gene can be expressed.
+- Because every cell shares the same genome, cell identity comes from its **epigenetic pattern** — which subset of the shared genes each cell type marks on or off.
+- Marks are **copied when cells divide**, giving heritable cellular memory, so a specialised cell's daughters keep its identity rather than starting blank.
+- X-inactivation and the agouti mouse show marks silencing whole chromosomes or responding to diet — but **transgenerational inheritance in humans is limited and debated**, because the epigenome is largely reset between generations.
+</KeyTakeaways>
