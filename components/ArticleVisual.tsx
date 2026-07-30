@@ -3910,6 +3910,86 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <path d="M218,60 l14,0 l4,-8 l6,16 l4,-8 l14,0" fill="none" stroke={GOLD} strokeWidth={1.25} />
     </g>
   ),
+  'general-relativity': c => {
+    const rows = []
+    for (let i = 0; i <= 6; i++) {
+      const y = 20 + i * 13
+      const dip = 22 - Math.abs(i - 3) * 5
+      rows.push(<path key={`h${i}`} d={`M40,${y} Q150,${y + dip} 260,${y}`} fill="none" stroke={`${c}44`} strokeWidth={0.6} />)
+    }
+    for (let j = 0; j <= 8; j++) {
+      const x = 40 + j * 27.5
+      const pull = 18 - Math.abs(j - 4) * 4
+      rows.push(<path key={`v${j}`} d={`M${x},20 Q${x + (4 - j) * 3},${60} ${x},98`} fill="none" stroke={`${c}44`} strokeWidth={0.6} />)
+    }
+    return (
+      <g>
+        {rows}
+        <circle cx={150} cy={62} r={9} fill={GOLD} />
+        <circle cx={150} cy={62} r={16} fill="none" stroke={`${GOLD}55`} strokeWidth={0.75} />
+        <circle cx={214} cy={30} r={3} fill={`${c}cc`} />
+        <path d="M214,30 Q180,42 168,58" fill="none" stroke={c} strokeWidth={1} strokeDasharray="2 2" />
+      </g>
+    )
+  },
+  matrices: c => (
+    <g>
+      <line x1={40} y1={98} x2={40} y2={20} stroke={`${MUTE}`} strokeWidth={0.5} />
+      <line x1={40} y1={98} x2={130} y2={98} stroke={`${MUTE}`} strokeWidth={0.5} />
+      <rect x={40} y={58} width={40} height={40} fill={`${c}18`} stroke={`${c}66`} strokeWidth={0.6} />
+      <line x1={40} y1={98} x2={80} y2={58} stroke={GOLD} strokeWidth={0.5} strokeDasharray="2 2" />
+      <path d="M150,60 l16,-6 l0,4 M166,54 l4,4 l-4,4 l0,-4" fill="none" stroke={MUTE} strokeWidth={0.75} />
+      <polygon points="196,88 236,72 260,84 220,100" fill={`${c}2e`} stroke={c} strokeWidth={1} />
+      <line x1={196} y1={88} x2={236} y2={72} stroke={GOLD} strokeWidth={1.5} />
+      <line x1={196} y1={88} x2={220} y2={100} stroke="#F472B6" strokeWidth={1.5} />
+      <text x={228} y={30} fontSize={8} fill={c} textAnchor="middle" fontFamily="monospace">det = area</text>
+    </g>
+  ),
+  microbiome: c => (
+    <g>
+      <path d="M110,20 C150,20 150,42 122,46 C150,50 150,72 118,74 C150,78 148,98 116,100" fill="none" stroke={`${c}66`} strokeWidth={2} />
+      <g>
+        <circle cx={150} cy={34} r={5} fill="#A3E635" /><circle cx={172} cy={44} r={4} fill="#60A5FA" />
+        <ellipse cx={162} cy={60} rx={6} ry={3} fill="#FBBF24" /><circle cx={186} cy={62} r={4} fill="#34D399" />
+        <ellipse cx={152} cy={76} rx={5} ry={3} fill="#F472B6" transform="rotate(30 152 76)" /><circle cx={178} cy={82} r={4} fill="#A78BFA" />
+        <circle cx={200} cy={50} r={3} fill="#A3E635" /><circle cx={204} cy={74} r={4} fill="#60A5FA" />
+        <ellipse cx={220} cy={62} rx={6} ry={3} fill="#FBBF24" />
+      </g>
+      <text x={185} y={100} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">diverse & mostly helpful</text>
+    </g>
+  ),
+  auroras: c => (
+    <g>
+      <circle cx={40} cy={30} r={7} fill={`${GOLD}55`} stroke={GOLD} strokeWidth={0.5} />
+      <g fill={`${GOLD}aa`}>
+        <circle cx={56} cy={34} r={1.5} /><circle cx={70} cy={38} r={1.5} /><circle cx={84} cy={44} r={1.5} /><circle cx={98} cy={50} r={1.5} />
+      </g>
+      <path d="M150,100 C130,70 128,52 150,44 C172,52 170,70 150,100" fill="none" stroke={`${c}66`} strokeWidth={0.75} />
+      <path d="M110,86 q8,-30 22,-40 M120,90 q8,-32 22,-42 M150,92 q0,-34 0,-46 M180,90 q-8,-32 -22,-42 M190,86 q-8,-30 -22,-40"
+        fill="none" stroke="#4ADE80" strokeWidth={2.5} opacity={0.7} />
+      <path d="M124,60 q10,-16 26,-22 M176,60 q-10,-16 -26,-22" fill="none" stroke="#F472B6" strokeWidth={1.5} opacity={0.6} />
+      <ellipse cx={150} cy={102} rx={44} ry={6} fill={`${c}22`} />
+    </g>
+  ),
+  compression: c => (
+    <g>
+      <g fill={`${c}44`} stroke={`${c}88`} strokeWidth={0.5}>
+        <rect x={30} y={40} width={12} height={12} /><rect x={44} y={40} width={12} height={12} /><rect x={58} y={40} width={12} height={12} />
+        <rect x={30} y={54} width={12} height={12} /><rect x={44} y={54} width={12} height={12} /><rect x={58} y={54} width={12} height={12} />
+        <rect x={30} y={68} width={12} height={12} /><rect x={44} y={68} width={12} height={12} /><rect x={58} y={68} width={12} height={12} />
+      </g>
+      <path d="M82,60 l24,0 M96,54 l10,6 l-10,6" fill="none" stroke={GOLD} strokeWidth={1.5} />
+      <g fill={`${GOLD}44`} stroke={GOLD} strokeWidth={0.5}>
+        <rect x={120} y={52} width={10} height={8} /><rect x={132} y={52} width={10} height={8} />
+        <rect x={120} y={62} width={10} height={8} />
+      </g>
+      <path d="M170,44 l0,32 l14,0 M170,60 l10,0 M184,44 l0,16 M184,60 l14,0 l0,16 M198,44 l0,16 M198,76 l14,0"
+        fill="none" stroke={c} strokeWidth={1} />
+      <text x={230} y={44} fontSize={8} fill={GOLD} fontFamily="monospace">0</text>
+      <text x={230} y={78} fontSize={8} fill={GOLD} fontFamily="monospace">1</text>
+      <text x={155} y={98} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">frequent → shorter code</text>
+    </g>
+  ),
 }
 
 export function ArticleVisual({

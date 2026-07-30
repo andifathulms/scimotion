@@ -328,6 +328,16 @@ import {
   CantorDiagonalAnimation,
   CardiacCycleAnimation,
   DoubleCirculationAnimation,
+  SpacetimeCurvatureAnimation,
+  LightDeflectionAnimation,
+  LinearTransformAnimation,
+  MatrixCompositionAnimation,
+  MicrobiomeBalanceAnimation,
+  MicrobeFunctionAnimation,
+  AuroraFormationAnimation,
+  AuroraColorAnimation,
+  HuffmanTreeAnimation,
+  CompressionLimitAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -657,6 +667,16 @@ const components = {
   CantorDiagonalAnimation,
   CardiacCycleAnimation,
   DoubleCirculationAnimation,
+  SpacetimeCurvatureAnimation,
+  LightDeflectionAnimation,
+  LinearTransformAnimation,
+  MatrixCompositionAnimation,
+  MicrobiomeBalanceAnimation,
+  MicrobeFunctionAnimation,
+  AuroraFormationAnimation,
+  AuroraColorAnimation,
+  HuffmanTreeAnimation,
+  CompressionLimitAnimation,
   KeyTakeaways,
 }
 

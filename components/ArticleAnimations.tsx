@@ -1545,3 +1545,53 @@ export const DoubleCirculationAnimation = dynamic(
   () => import('@/components/animations/DoubleCirculationAnimation').then(m => ({ default: m.DoubleCirculationAnimation })),
   { ssr: false }
 )
+
+export const SpacetimeCurvatureAnimation = dynamic(
+  () => import('@/components/animations/SpacetimeCurvatureAnimation').then(m => ({ default: m.SpacetimeCurvatureAnimation })),
+  { ssr: false }
+)
+
+export const LightDeflectionAnimation = dynamic(
+  () => import('@/components/animations/LightDeflectionAnimation').then(m => ({ default: m.LightDeflectionAnimation })),
+  { ssr: false }
+)
+
+export const LinearTransformAnimation = dynamic(
+  () => import('@/components/animations/LinearTransformAnimation').then(m => ({ default: m.LinearTransformAnimation })),
+  { ssr: false }
+)
+
+export const MatrixCompositionAnimation = dynamic(
+  () => import('@/components/animations/MatrixCompositionAnimation').then(m => ({ default: m.MatrixCompositionAnimation })),
+  { ssr: false }
+)
+
+export const MicrobiomeBalanceAnimation = dynamic(
+  () => import('@/components/animations/MicrobiomeBalanceAnimation').then(m => ({ default: m.MicrobiomeBalanceAnimation })),
+  { ssr: false }
+)
+
+export const MicrobeFunctionAnimation = dynamic(
+  () => import('@/components/animations/MicrobeFunctionAnimation').then(m => ({ default: m.MicrobeFunctionAnimation })),
+  { ssr: false }
+)
+
+export const AuroraFormationAnimation = dynamic(
+  () => import('@/components/animations/AuroraFormationAnimation').then(m => ({ default: m.AuroraFormationAnimation })),
+  { ssr: false }
+)
+
+export const AuroraColorAnimation = dynamic(
+  () => import('@/components/animations/AuroraColorAnimation').then(m => ({ default: m.AuroraColorAnimation })),
+  { ssr: false }
+)
+
+export const HuffmanTreeAnimation = dynamic(
+  () => import('@/components/animations/HuffmanTreeAnimation').then(m => ({ default: m.HuffmanTreeAnimation })),
+  { ssr: false }
+)
+
+export const CompressionLimitAnimation = dynamic(
+  () => import('@/components/animations/CompressionLimitAnimation').then(m => ({ default: m.CompressionLimitAnimation })),
+  { ssr: false }
+)

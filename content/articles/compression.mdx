@@ -1,0 +1,111 @@
+---
+title: "Data Compression: Saying More With Less"
+subtitle: "How giving common symbols shorter codes shrinks your files — and why nothing can shrink them all."
+topic: "Computer Science"
+slug: "compression"
+date: "2026-08-23"
+readTime: 10
+featured: false
+description: "Why frequent symbols deserve shorter codes, how Huffman coding builds them, and the counting argument proving no lossless scheme can shrink every possible file."
+tags: ["compression", "huffman-coding", "entropy", "lossless"]
+quiz:
+  - q: "A friend claims their new tool can losslessly compress ANY file, and that re-running it shrinks the file further each time. Why is this impossible?"
+    options:
+      - "Modern CPUs cannot process the same file twice without corrupting it"
+      - "Lossless compression is only defined for text, not arbitrary binary data"
+      - "Compressed data always contains a checksum that grows on each pass"
+      - "By counting, there are more N-bit inputs than shorter strings, so any lossless scheme that shrinks some files must lengthen others; already-compressed data has little redundancy left to remove"
+    answer: 3
+    explanation: "There are 2^N inputs of length N but only 2^N − 1 strings shorter than N. A lossless (reversible) map cannot squeeze all of them into fewer slots, so some inputs must map to equal-or-longer outputs. Compression removes redundancy; once it is gone, re-compressing does nothing."
+  - q: "In Huffman coding, why must the codes be prefix-free (no codeword is a prefix of another)?"
+    options:
+      - "So that the decoder can read the bit stream unambiguously without needing separators between symbols"
+      - "So that every symbol ends up with exactly the same code length"
+      - "So that the compressed file is guaranteed to be smaller than the original"
+      - "So that the algorithm can use floating-point frequencies instead of integers"
+    answer: 0
+    explanation: "If one codeword were a prefix of another, the decoder could not tell where one symbol ends and the next begins. Prefix-free codes (equivalently, codewords sitting at the leaves of a binary tree) decode left-to-right with no ambiguity and no delimiters."
+  - q: "For a source with entropy H = 2.0 bits per symbol, what does Shannon's theorem tell us about lossless codes?"
+    options:
+      - "Every symbol must be encoded using exactly 2 bits"
+      - "The average code length can be pushed arbitrarily close to but never below 2.0 bits per symbol"
+      - "Huffman coding is the only method that can reach 2.0 bits per symbol"
+      - "The file can always be compressed to half its original size"
+    answer: 1
+    explanation: "Entropy is a hard lower bound on the average number of bits per symbol for any lossless code. You can approach it (Huffman gets within one bit per symbol; arithmetic coding gets closer), but no lossless scheme can beat it on average."
+---
+
+## The idea in one sentence
+
+Not all symbols are equally common. In English text, `e` and `t` appear constantly while `q` and `z` are rare. If we insist on spending the same number of bits on every letter — as fixed-length encodings like ASCII do — we waste space on the common ones. Data compression turns this imbalance into savings: **give frequent symbols short codes and rare symbols long codes, so the total shrinks.** The catch, which we will prove, is that this trick only works because real data is lopsided. On data with no structure, there is nothing to exploit.
+
+## Fixed-length is wasteful
+
+Suppose we want to store the string `abracadabra`. It uses five distinct letters, so a naive fixed-length code needs $\lceil \log_2 5 \rceil = 3$ bits per symbol. Eleven symbols means $11 \times 3 = 33$ bits, and every letter — the five `a`s and the lone `d` alike — costs the same three bits.
+
+But the letters are not equally frequent: `a` appears 5 times, `b` and `r` twice each, `c` and `d` once each. Spending three bits on `a`, the workhorse, is the waste we want to eliminate.
+
+## Huffman coding: shorter codes for common symbols
+
+In 1952, as a graduate student, **David Huffman** found a beautifully simple algorithm that produces an *optimal* set of variable-length codes. The construction works bottom-up:
+
+1. Start with one node per symbol, each weighted by its frequency.
+2. Repeatedly take the **two lowest-frequency** nodes and merge them into a new parent node whose frequency is the sum of the two.
+3. Continue until a single tree remains.
+4. Label every left edge `0` and every right edge `1`. Each symbol's code is the sequence of bits on the path from the root down to its leaf.
+
+Because the rarest symbols get merged first, they sink to the bottom of the tree and end up with the longest paths — the longest codes. The most frequent symbol stays near the top and gets a short code. Watch it build:
+
+<HuffmanTreeAnimation />
+
+For `abracadabra`, Huffman assigns `a → 0` (just one bit), while the rare `c` and `d` get three-bit codes like `100` and `101`. The whole string now costs 23 bits instead of 33 — a 30% saving — with no information lost.
+
+## Why prefix-free codes decode without ambiguity
+
+Variable-length codes raise an obvious worry: if `a` is `0` and `b` is `110`, how does a decoder reading `0110...` know where one symbol ends and the next begins? There are no spaces in a bit stream.
+
+The answer is that Huffman codes are **prefix-free**: no codeword is a prefix of any other. This falls out of the construction automatically, because every symbol sits at a *leaf* of the tree — you never pass through one symbol's code on your way to another's. A prefix-free code decodes greedily: start at the root, follow each incoming bit down the tree, and the instant you hit a leaf, emit that symbol and jump back to the root. The stream `0110` unambiguously reads as `a`, then `b`. No delimiters required.
+
+## The entropy floor
+
+How small can lossless compression go? In 1948, **Claude Shannon** answered this with the concept of *entropy*. If symbol $i$ occurs with probability $p_i$, the entropy of the source is
+
+$$H = -\sum_i p_i \log_2 p_i \quad \text{bits/symbol.}$$
+
+Entropy measures the average *surprise* per symbol. A source that is nearly always `a` has low entropy; a source where every symbol is equally likely has the maximum entropy of $\log_2(\text{alphabet size})$ bits. Shannon's source coding theorem says $H$ is a hard **lower bound**: the average code length
+
+$$L = \sum_i p_i \, \ell_i$$
+
+(where $\ell_i$ is the length of symbol $i$'s codeword) can never drop below $H$ for any lossless scheme. You can approach it — Huffman coding always lands within one bit of $H$, and arithmetic coding gets arbitrarily close — but you cannot beat it. For `abracadabra`, $H \approx 2.04$ bits/symbol, so about 22.4 bits is the floor; Huffman's 23 bits is nearly optimal.
+
+Compression works precisely to the extent that a source has *low entropy* — that its symbols are predictable, repetitive, or skewed. This is [information theory](/articles/information-theory) made concrete.
+
+## No compressor shrinks every file
+
+Here is the misconception worth demolishing: *"A good enough compressor can shrink any file, and I can keep re-compressing to make it smaller and smaller."* This is impossible, and the proof is a simple counting argument — the **pigeonhole principle**.
+
+Consider all files exactly $N$ bits long. There are $2^N$ of them. The strings *shorter* than $N$ bits number $2^0 + 2^1 + \dots + 2^{N-1} = 2^N - 1$ — one fewer than the inputs. A lossless compressor must be **reversible**, so it has to map distinct inputs to distinct outputs. But you cannot fit $2^N$ distinct inputs into $2^N - 1$ shorter slots. Therefore, for *any* lossless scheme, at least one $N$-bit input must map to an output that is **equal in length or longer**.
+
+<CompressionLimitAnimation />
+
+In other words, every compressor that shrinks some files must *expand* others. There is no free lunch. What real-world compressors do is bet — correctly — that the files people actually care about (text, images, code, logs) are highly redundant, so those shrink, while the rare pathological inputs that grow essentially never occur in practice.
+
+This also explains why **re-zipping a zip file does nothing**. Once a good compressor has stripped out the redundancy, the result looks statistically like random data — high entropy, no structure left to exploit. Truly random data is essentially incompressible. The same reasoning underpins why a good [hash table](/articles/hash-tables) spreads keys as if they were random: structure is what algorithms feed on, and compression is the art of finding and removing it.
+
+## Lossless is not the same as lossy
+
+A final confusion: *"compression always throws away quality."* Not so. There are two distinct families.
+
+**Lossless** compression — ZIP, PNG, FLAC — reconstructs the original *exactly*, bit for bit. It exploits two kinds of redundancy: statistical skew (some symbols are more common, handled by Huffman or arithmetic coding) and repetition (runs and repeated substrings, handled by run-length and dictionary methods like LZ77). Everything above has been about the lossless case, where the entropy floor is a genuine wall.
+
+**Lossy** compression — JPEG, MP3, most video — *deliberately* discards information that human eyes and ears barely notice: subtle color gradients, high frequencies, quiet sounds masked by loud ones. Because it is willing to lose detail, it can achieve far smaller files than the entropy bound on the original would ever allow — and it is not reversible. The right choice depends on the job. You would never store source code or a spreadsheet with a lossy codec, and you rarely need bit-perfect fidelity for a vacation photo.
+
+Compression and its cousin, [error-correcting codes](/articles/error-correcting-codes), are two sides of the same coin: one removes redundancy to save space, the other adds redundancy to survive noise. Both are governed by Shannon's mathematics of information.
+
+<KeyTakeaways>
+- **Variable-length coding** saves space by giving frequent symbols short codes and rare symbols long ones; it only helps when the data is skewed or repetitive.
+- **Huffman coding** builds an optimal prefix-free code by repeatedly merging the two lowest-frequency nodes into a tree, so rare symbols sink to the longest paths — invented by David Huffman in 1952.
+- **Prefix-free codes** (codewords at tree leaves) decode a bit stream unambiguously with no separators, because you never pass through one symbol's code to reach another's.
+- **Entropy** $H = -\sum p_i \log_2 p_i$ is Shannon's hard lower bound on the average bits per symbol; you can approach it but never beat it losslessly.
+- **No lossless compressor shrinks every file** — by the pigeonhole principle, shrinking some inputs forces others to grow, so random or already-compressed data cannot be squeezed further. Lossy schemes (JPEG, MP3) beat the floor only by discarding information.
+</KeyTakeaways>
