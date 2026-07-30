@@ -1,0 +1,104 @@
+---
+title: "Infinity: Not All Infinities Are Equal"
+subtitle: "Some infinities are strictly, provably bigger than others — and counting has nothing to do with it."
+topic: "Mathematics"
+slug: "infinity"
+date: "2026-08-17"
+readTime: 10
+featured: false
+description: "Infinity is not a number. Learn how bijections measure the size of infinite sets, why the naturals and the reals differ, and Cantor's diagonal proof."
+tags: ["infinity", "set-theory", "cantor", "cardinality"]
+quiz:
+  - q: "Why do mathematicians say the set of natural numbers and the set of even numbers have the same size?"
+    options:
+      - "Because both sets are finite once you stop counting at a large enough number"
+      - "Because the evens are a subset of the naturals, so they must be equal"
+      - "Because there exists a bijection (a perfect one-to-one pairing) between them, namely n ↔ 2n"
+      - "Because infinity plus infinity equals infinity, so all infinite sets are equal"
+    answer: 2
+    explanation: "Size for infinite sets is defined by whether a bijection exists, not by counting. The pairing n ↔ 2n matches every natural to exactly one even number with none left over, so both have cardinality ℵ₀."
+  - q: "In Cantor's diagonal argument, how is the 'missing' real number constructed from a supposed list of all reals in (0,1)?"
+    options:
+      - "By adding up every number in the list and taking the fractional part"
+      - "By taking the nth digit of the nth listed number and changing it, for every n"
+      - "By picking the largest number in the list and adding one"
+      - "By choosing the number exactly halfway between the first two entries"
+    answer: 1
+    explanation: "The constructed number differs from the nth listed number in its nth decimal place. Because it disagrees with every row at that row's own diagonal digit, it cannot appear anywhere in the list."
+  - q: "Which statement about infinity is correct?"
+    options:
+      - "Infinity is the largest number, reachable if you count long enough"
+      - "Every infinite set is the same size as every other infinite set"
+      - "Infinity is not a number; ∞ − ∞ has no defined value, and there are infinitely many different infinite sizes"
+      - "Only the natural numbers are truly infinite; all other sets are finite"
+    answer: 2
+    explanation: "Infinity is not a number you can reach or do ordinary arithmetic with. Cantor showed the reals form a strictly larger infinity than the naturals, and that the tower of infinities never ends."
+---
+
+## Infinity is not a very big number
+
+Ask most people what infinity is and you will hear something like "the biggest number there is." That answer is wrong in a way that turns out to be deep. Infinity is not a number at all — not a huge one, not the last one, not a number you could reach if only you counted long enough. Counting, by its nature, produces one finite number after another. Start at 1 and no matter how long you count, you are always at some particular finite value. You never arrive at infinity, because there is no place to arrive.
+
+You can see the trouble the moment you try ordinary arithmetic. If $\infty$ were a number, then $\infty + 1$ ought to be bigger than $\infty$. But it isn't: $\infty + 1 = \infty$. Worse, $\infty - \infty$ has no defined value at all — depending on how you set it up you could argue it is $0$, or $5$, or $\infty$. Any object that breaks subtraction this badly is not behaving like a number. So we need a completely different idea of what it means for a collection to be "infinite," and a completely different way to measure how big it is.
+
+The German mathematician **Georg Cantor** supplied both in the 1870s, and in doing so discovered something genuinely shocking: not all infinities are the same size.
+
+## Bijections: the real measuring stick
+
+Here is the key move. Forget counting. Ask instead: can I pair up the members of two sets perfectly, one to one, with nothing left over on either side? Such a perfect pairing is called a **bijection**. Two sets are defined to have the same size — the same *cardinality* — exactly when a bijection between them exists.
+
+For finite sets this matches intuition. A room has the same number of chairs as people precisely when everyone can sit with no empty chairs and no one standing — a one-to-one pairing. Cantor's insight was to keep this definition and apply it to infinite sets, where our intuitions about "how many" quietly fall apart.
+
+Consider the natural numbers $\mathbb{N} = \{1, 2, 3, \dots\}$ and the even numbers $\{2, 4, 6, \dots\}$. Surely there are "half as many" evens? No. The pairing
+
+$$n \longleftrightarrow 2n$$
+
+matches $1$ with $2$, $2$ with $4$, $3$ with $6$, and so on forever. Every natural gets exactly one even partner; every even is somebody's partner; nothing is skipped or doubled. That is a bijection, so the two sets are the *same size*, even though one looks like it should be twice as big. The same trick pairs $\mathbb{N}$ with the integers $\mathbb{Z}$ (weave back and forth: $1 \leftrightarrow 0$, $2 \leftrightarrow 1$, $3 \leftrightarrow -1$, $4 \leftrightarrow 2$, $5 \leftrightarrow -2, \dots$). Any set that can be paired with $\mathbb{N}$ this way is called **countably infinite**, and its cardinality gets the name $\aleph_0$ (aleph-null). So
+
+$$|\mathbb{N}| = |\text{evens}| = |\mathbb{Z}| = \aleph_0.$$
+
+The lesson: with infinite sets, a part can be exactly as large as the whole. This is not a paradox to be resolved away — it is the *definition* doing its job.
+
+## Hilbert's Hotel: the whole thing has room for more
+
+David Hilbert dramatized this elasticity with a hotel that has infinitely many rooms, numbered $1, 2, 3, \dots$, every one of them occupied. A finite hotel this full would have to turn a newcomer away. This one does not.
+
+<HilbertHotelAnimation />
+
+When one new guest arrives, the manager simply asks every guest to move from room $n$ to room $n+1$. Room $1$ falls empty, the newcomer moves in, and everyone still has a room. That shuffle is nothing but the bijection $n \mapsto n+1$ between $\mathbb{N}$ and $\{2, 3, 4, \dots\}$. Even an *infinite* busload of new guests fits: send each current guest from room $n$ to room $2n$, freeing up every odd-numbered room — infinitely many vacancies — for the infinitely many arrivals. The hotel absorbs more without ever building a new room, because $\aleph_0 + \aleph_0 = \aleph_0$. This is the same reason integration in [the integral](/articles/the-integral) can sum infinitely many infinitesimal slices into a finite area: infinite processes obey their own rules, not the arithmetic of finite counting.
+
+At this point it is tempting to conclude that infinity is infinity — that any two infinite sets, being both endless, must be the same size. That is the second great misconception, and Cantor demolished it.
+
+## The reals are uncountable: Cantor's diagonal argument
+
+Take the real numbers between $0$ and $1$ — every possible infinite decimal like $0.500000\dots$, $0.333\dots$, $0.141592\dots$. Cantor asked whether *these* could be paired off with the naturals, that is, arranged in a single numbered list $r_1, r_2, r_3, \dots$ that catches every one of them. He proved the answer is no, by a method so clean it feels like a magic trick: the **diagonal argument**.
+
+Suppose someone hands you any such list, claiming it contains *every* real in $(0,1)$. Write the numbers in a column, each as its infinite string of digits. Now build a brand-new number, one digit at a time, by walking down the diagonal:
+
+- For the **1st** digit of your new number, look at the **1st** digit of $r_1$ — and choose something different.
+- For the **2nd** digit, look at the **2nd** digit of $r_2$ — and choose something different.
+- For the **$n$th** digit, look at the **$n$th** digit of $r_n$ — and make yours differ.
+
+<CantorDiagonalAnimation />
+
+Follow this rule all the way down and you finish with a perfectly good real number in $(0,1)$. But where could it sit in the list? Not in row $1$: it disagrees with $r_1$ in the first digit. Not in row $2$: it disagrees with $r_2$ in the second digit. Not in row $n$, for *any* $n$: by construction it differs from $r_n$ at position $n$. Your number differs from every single entry, so it is missing from a list that was supposed to be complete. The assumption that the reals could be listed collapses.
+
+No list of reals can ever be complete, so there is no bijection between $\mathbb{R}$ and $\mathbb{N}$. The reals are **uncountable**, a strictly larger kind of infinity:
+
+$$|\mathbb{R}| > |\mathbb{N}| = \aleph_0.$$
+
+There really are more real numbers than natural numbers — even though both sets are infinite. (One technical guardrail: to dodge quirks like $0.4999\dots = 0.5000\dots$, we pick replacement digits that avoid $0$ and $9$, so the new number can't secretly equal a listed one in disguise. The widget below does exactly this.)
+
+## A tower of infinities with no top
+
+Cantor did not stop at two sizes. He proved a general theorem: for *any* set, the collection of all its subsets is strictly larger than the set itself. Apply it to $\mathbb{R}$ and you get a bigger infinity still; apply it again and you get a bigger one; and so on without end. There is no largest infinity, just as there is no largest number — the hierarchy of infinite sizes climbs forever. This same appetite for counting the uncountable underlies how we measure surprise and possibility in [information theory](/articles/information-theory), where the "amount" of information in a signal is a question about sizes of sets of outcomes.
+
+Cantor's contemporaries found all this so unsettling that some attacked him bitterly. But the diagonal argument is airtight, and today these ideas are bedrock — the reason we can speak precisely about limits, continuity, and the real line that calculus, from [the derivative](/articles/the-derivative) onward, is built on. Infinity turned out not to be a single mysterious "biggest thing," but an entire, richly ordered landscape of sizes — and the tools that map it are pairing and diagonalization, not counting.
+
+<KeyTakeaways>
+- **Infinity is not a number.** You cannot reach it by counting, and ordinary arithmetic breaks: $\infty + 1 = \infty$ and $\infty - \infty$ is undefined.
+- **Size is measured by bijections**, not counting. Two sets are the same size exactly when their members can be paired one-to-one with none left over.
+- **The naturals, evens, and integers are all the same size** ($\aleph_0$, countably infinite), because each can be perfectly paired with $\mathbb{N}$ — Hilbert's Hotel shows the whole can equal a part.
+- **The reals are uncountable.** Cantor's diagonal argument builds a real that is missing from any proposed list, proving $|\mathbb{R}| > |\mathbb{N}|$ — a strictly bigger infinity.
+- **Infinities form an endless tower.** For any set, its set of subsets is strictly larger, so there is no biggest infinity; Georg Cantor discovered this whole hierarchy.
+</KeyTakeaways>
