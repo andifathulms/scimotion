@@ -1,0 +1,106 @@
+---
+title: "Orbital Mechanics: The Art of Falling Sideways"
+subtitle: "An orbit is not a place above gravity — it is the trick of falling toward a planet and missing it forever."
+topic: "Astronomy & Cosmology"
+slug: "orbital-mechanics"
+date: "2026-08-24"
+readTime: 10
+featured: false
+description: "Why astronauts float despite full-strength gravity, why reaching orbit means going sideways not up, and why a higher orbit is a slower one."
+tags: ["orbits", "spaceflight", "escape-velocity", "gravity"]
+quiz:
+  - q: "Why do astronauts aboard the International Space Station float?"
+    options:
+      - "There is essentially no gravity at that altitude"
+      - "The station is beyond Earth's atmosphere, so nothing pulls on it"
+      - "The station and everything in it are in continuous free fall together"
+      - "The station's speed cancels out Earth's gravitational pull"
+    answer: 2
+    explanation: "Gravity at the ISS is still about 90% of its surface value. Weightlessness comes from free fall: the station and crew fall together, so nothing pushes on anything."
+  - q: "You are in a circular orbit and fire your engine prograde (forward). What happens?"
+    options:
+      - "Your whole orbit rises uniformly to a new, faster circle"
+      - "You speed up and immediately climb straight outward"
+      - "The point on the OPPOSITE side of your orbit rises, turning the circle into an ellipse"
+      - "Nothing changes until you fire again"
+    answer: 2
+    explanation: "A prograde burn adds energy at your current position, raising the altitude half an orbit away. That is why a Hohmann transfer needs a second burn to circularise."
+  - q: "Compared with a low orbit, a satellite in a higher circular orbit moves..."
+    options:
+      - "Faster, because it has more energy"
+      - "Slower, because orbital speed decreases with radius as v = √(GM/r)"
+      - "At the same speed; only the period changes"
+      - "Faster or slower depending on its mass"
+    answer: 1
+    explanation: "Circular orbital speed is v = √(GM/r), which shrinks as r grows. A higher orbit is a slower orbit — the ISS outruns a GPS satellite."
+---
+
+## The most useful wrong idea in space
+
+Ask almost anyone why astronauts float and you will hear the same answer: there is no gravity up there. It is one of the most confidently repeated facts about spaceflight, and it is completely wrong.
+
+The International Space Station orbits about 400 km up. Plug that into Newton's law of gravitation and you find that gravity there is still roughly **90% as strong** as it is at the ground. If you could somehow build a tower 400 km tall and stand on top of it, you would weigh almost exactly what you weigh now. Gravity does not switch off in space. It reaches across the entire solar system and beyond — it is the very thing holding the station in its path.
+
+So why the floating? Because the station, the astronauts, and their floating coffee droplets are all **falling** — continuously, together, forever. And falling together is what weightlessness actually is.
+
+## Weightlessness is free fall, not zero gravity
+
+Step off a diving board and, for a second or two, you are weightless. Nothing is holding you up; you and everything you carry accelerate downward at the same rate, so there is no push between you and, say, a phone in your pocket. A skydiver, a dropped elevator, a plummeting apple — all weightless. Not because gravity vanished, but because nothing is resisting it.
+
+The feeling we call *weight* is not gravity itself. It is the **normal force** — the floor pushing up on your feet, the chair pressing your back. Remove that support and let gravity act unopposed, and the sensation of weight disappears even though the force is unchanged.
+
+An orbiting spacecraft is a diving board that never ends. The station is in permanent free fall toward Earth. So is everyone inside it. Because they all fall at the same rate, there is no relative push between astronaut and wall — they float. It is not the absence of gravity. It is gravity, acting alone, on everything at once.
+
+The obvious question: if the station is always falling toward Earth, why doesn't it hit the ground?
+
+## Newton's cannonball: falling and missing
+
+Newton answered this three centuries ago with a thought experiment. Imagine a cannon on an impossibly tall mountain, firing a ball horizontally. Fire it gently and it arcs down and lands nearby. Fire it harder and it lands farther away, its curved path bending around the planet a little before it hits.
+
+Now fire it hard enough. The ball still falls — gravity never stops pulling it down — but the Earth's surface **curves away beneath it just as fast as it falls**. The ball keeps falling and keeps missing. It comes all the way around and hits the cannon in the back. That is an orbit: a projectile falling toward the planet while moving sideways so quickly that it perpetually misses.
+
+<OrbitVelocityAnimation />
+
+Everything hinges on that sideways speed. Too slow, and the ground rises to meet the falling ball — a suborbital lob, which is all that early rockets and today's space-tourism hops achieve. At exactly the right speed the fall matches the curve and you get a circle. Faster, and you overshoot into an ellipse. This is why **getting to space is mostly about going sideways, not up**. Punching straight up to 400 km and stopping would just let you fall right back down. The hard part of reaching orbit is not the altitude — it is accelerating to roughly **7.8 km/s** horizontally, about 25 times the speed of sound. Rockets pitch over and spend most of their fuel building sideways velocity, not gaining height.
+
+## How fast is fast enough?
+
+For a circular orbit, the sideways speed is set by a single tidy equation. Balancing the gravitational pull against the curvature of the path gives the **circular orbital speed**:
+
+$$v = \sqrt{\frac{GM}{r}}$$
+
+where $G$ is the gravitational constant, $M$ the mass of the planet, and $r$ the distance from its centre. Near Earth's surface this works out to about 7.8 km/s.
+
+Read that equation carefully, because it contains a genuine surprise. Speed goes as $1/\sqrt{r}$: the **larger the orbit, the slower you move**. The ISS in its low orbit races around Earth in 90 minutes at 7.7 km/s. A GPS satellite, four times higher, ambles along at 3.9 km/s and takes 12 hours per lap. A geostationary satellite, higher still, creeps at 3.1 km/s. Intuition says a "faster orbit" means going higher and quicker; the physics says the opposite. Higher orbits are slower orbits. (This is one half of what [Kepler's laws](/articles/keplers-laws) encode; the other half is that those orbits are ellipses.)
+
+## The counterintuitive burn
+
+This slower-when-higher fact makes maneuvering in space feel deeply strange. Suppose you want to climb from a low orbit to a higher one. Instinct says: point outward and thrust. Wrong. To change your orbit you fire **prograde** — straight forward, along your direction of motion.
+
+Here is the twist: firing prograde does not lift you where you are. It raises the orbit on the **opposite side**. Adding energy at one point pushes the far side of your path outward, stretching your circle into an ellipse whose high point sits half an orbit ahead. To actually settle into the higher circle you must coast up to that high point and fire *again* to speed back up and circularise. Two burns, on opposite sides of the planet. This is the **Hohmann transfer**, the most fuel-efficient way between two circular orbits.
+
+<HohmannTransferAnimation />
+
+Watch what happens to the speed during the transfer. The first burn speeds you up — but as you coast outward along the ellipse you trade that kinetic energy for altitude and **slow down**, arriving at the top moving too slowly to hold the higher circle. The second burn speeds you up again, just enough to circularise. Counterintuitively, you fire your engine twice to *speed up*, yet you end up in a slower orbit than you started in. That is the geometry of gravity, not a mistake.
+
+## Ellipses, escape, and slingshots
+
+Fire a little harder than circular and the orbit becomes an ellipse, with the planet at one focus — exactly the shape [Kepler](/articles/keplers-laws) wrung out of Mars's motion, and every orbit in the [solar system](/articles/solar-system) is one. The object speeds up as it swings close (perihelion) and slows as it drifts far out (aphelion), forever trading speed for height and back again.
+
+Keep pushing the launch speed up and eventually the ellipse stops closing. At the **escape velocity** the path opens into a parabola and then a hyperbola — a one-way trip. Setting the orbit's total energy to zero gives:
+
+$$v_{esc} = \sqrt{\frac{2GM}{r}} = \sqrt{2}\,v$$
+
+Escape speed is just $\sqrt{2} \approx 1.41$ times the local circular speed. From Earth's surface that is about 11.2 km/s. Reach it and you never come back — no engine required for the coasting, only enough speed at the start.
+
+Spacecraft cheat this budget with **gravity assists**. Fly past a moving planet on the right trajectory and you steal a sliver of its orbital momentum, whipping away faster (relative to the Sun) than you arrived — the planet slows by an utterly imperceptible amount in exchange. The Voyagers reached the outer planets, and interstellar space, on speed borrowed this way. It is the same free-fall geometry, just choreographed around a moving target. And because all of this is falling through curved spacetime, the truly precise account belongs to [general relativity](/articles/general-relativity), which corrects Newton where gravity runs strong.
+
+None of it requires escaping gravity. Orbits, transfers, escapes, and slingshots are all just different ways of falling — and the whole art of spaceflight is choosing exactly how to miss.
+
+<KeyTakeaways>
+- Astronauts float because they are in continuous **free fall** together with their spacecraft, not because gravity is absent — at the ISS, gravity is still about 90% of its surface strength.
+- Reaching orbit is mostly about going **sideways** fast (~7.8 km/s), not up: you fall toward Earth while moving so fast horizontally that you keep missing it — Newton's cannonball.
+- Circular orbital speed is $v = \sqrt{GM/r}$, so a **higher orbit is a slower orbit**. The ISS outpaces every satellite above it.
+- Firing prograde raises the **opposite** side of your orbit; changing circular orbits efficiently takes two burns — the Hohmann transfer.
+- Escape velocity is $v_{esc} = \sqrt{2GM/r}$, just $\sqrt{2}$ times circular speed; gravity assists borrow a planet's momentum to go faster still — all of it, in the end, is falling.
+</KeyTakeaways>
