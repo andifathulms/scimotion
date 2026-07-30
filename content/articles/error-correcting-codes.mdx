@@ -1,0 +1,96 @@
+---
+title: "Error-Correcting Codes: Fixing Bits Without Asking Again"
+subtitle: "A scratched CD, a cosmic ray in your RAM, a photon lost between Earth and Saturn — and the data still arrives perfect, no do-over required."
+topic: "Computer Science"
+slug: "error-correcting-codes"
+date: "2026-07-31"
+readTime: 10
+featured: false
+description: "How computers repair corrupted bits on their own using built-in redundancy — from parity to Hamming codes, syndromes, and the geometry of minimum distance."
+tags: ["error-correction", "hamming-code", "coding-theory", "parity"]
+quiz:
+  - q: "A single parity bit is appended to a byte. Two of the byte's bits then flip during transmission. What happens?"
+    options:
+      - "The parity bit flags both errors and the receiver corrects them"
+      - "The parity check still passes, so the double error slips through undetected"
+      - "The receiver requests a retransmission of just those two bits"
+      - "The parity bit flips twice and cancels, corrupting a third bit"
+    answer: 1
+    explanation: "One parity bit only records whether the number of 1s is even or odd. Two flips leave the parity unchanged, so an even number of errors is invisible to it — and even a single detected error can't be located, let alone fixed."
+  - q: "In Hamming(7,4), one bit is corrupted and the three parity checks come back as fail, ok, fail (reading p4 p2 p1). What does this tell the decoder?"
+    options:
+      - "Nothing — you must retransmit the whole word"
+      - "That exactly two bits are wrong"
+      - "The binary syndrome 101 = 5 points to position 5 as the flipped bit"
+      - "Only that an error occurred somewhere; the location is unknowable"
+    answer: 2
+    explanation: "The pass/fail pattern of the parity checks is read as a binary number, the syndrome. 101 in binary is 5, which is exactly the position of the corrupted bit, so the decoder flips bit 5 back."
+  - q: "A code has minimum Hamming distance d = 5. How many errors can it correct per codeword?"
+    options:
+      - "5 errors"
+      - "4 errors"
+      - "2 errors"
+      - "1 error"
+    answer: 2
+    explanation: "A code with minimum distance d can correct up to floor((d-1)/2) errors. For d = 5 that is floor(4/2) = 2. It can also detect up to d-1 = 4 errors when not trying to correct."
+---
+
+## The problem with asking again
+
+Here is a claim that sounds obviously true: *if a message arrives corrupted, the only fix is to send it again.* It feels like common sense. A bit flipped from 0 to 1, so the receiver must go back to the source and request a clean copy.
+
+For an enormous amount of the digital world, this is simply false. When a cosmic ray flips a bit in a spacecraft's memory near Saturn, there is no "send it again" — the round trip is over an hour, and the original may be long gone. When a scratch crosses a CD, the drive does not pause your music to phone the record label. When a cell in your computer's ECC memory glitches, nothing is re-fetched. In every one of these cases the receiver *repairs the damage on its own*, locally, using only the bits in hand. This is called **forward error correction**, and it works because the redundancy needed to fix errors was built into the message *before it was ever sent*.
+
+The trick is to spend some bits in advance. Instead of transmitting only your data, you transmit data plus carefully computed extra bits, so that the valid messages form a sparse, well-separated set. A corrupted message lands *near* exactly one valid message, and the receiver snaps it back. CDs, QR codes, deep-space probes, hard drives, SSDs, cellular signals, and ECC RAM all live or die by this idea.
+
+## Why a checksum can't save you
+
+The instinct many people have is that a checksum or a single **parity bit** already does this. It does not. A parity bit appends one extra bit chosen so the total number of 1s is even. If a single bit flips anywhere, the count becomes odd and the check fails — the error is *detected*.
+
+But detection is not correction. The parity bit tells you *that* something is wrong; it cannot tell you *which* bit is wrong, so you cannot fix it. Worse, if **two** bits flip, the count of 1s returns to even and the check passes: the error is completely invisible. One parity bit detects an odd number of errors and corrects none of them.
+
+Correction demands more structure. The leap was made by **Richard Hamming** at Bell Labs, published in 1950, after one too many weekends lost to a relay computer that would halt on a detected error and simply give up. His idea: use *several* parity checks, each covering a cleverly chosen, overlapping subset of the bits, so that the combined pattern of which checks pass and which fail encodes not just the presence of an error but its exact location.
+
+## Hamming's overlapping checks
+
+In **Hamming(7,4)**, every 4 data bits are sent as a 7-bit codeword. Three parity bits sit at positions 1, 2, and 4 — the powers of two — and the four data bits fill positions 3, 5, 6, 7. Each parity check covers exactly the positions whose number includes its bit:
+
+- check $p_1$ covers positions 1, 3, 5, 7
+- check $p_2$ covers positions 2, 3, 6, 7
+- check $p_4$ covers positions 4, 5, 6, 7
+
+Notice that every position from 1 to 7 belongs to a *unique combination* of checks — position 5 is 101 in binary, so it lives in checks $p_1$ and $p_4$ but not $p_2$. When you flip one bit, precisely the checks that cover it will fail. Read those failures as a binary number, most significant first, and you get the **syndrome** — and the syndrome *is* the position of the broken bit. Flip that bit and the message is whole again.
+
+<HammingCodeAnimation />
+
+Flip any bit in the widget and watch the three circles: the ones covering the damaged position turn red, their pass/fail pattern spells a binary number, and that number points straight at the culprit. With $n-k = 3$ parity bits there are $2^{n-k} = 8$ possible syndromes — one for "no error" and seven that name each of the seven positions exactly. That is why 7 = $2^3 - 1$ is not a coincidence: the checks are a perfect address book for single-bit faults.
+
+## The geometry: distance is everything
+
+Step back from the mechanics and a cleaner picture appears. Think of every possible 7-bit string as a point in a space, where the **Hamming distance** between two strings is the number of positions in which they differ. Encoding does not use all $2^7 = 128$ points; the 16 valid codewords are scattered so that any two differ in at least $d = 3$ places. That number, the **minimum distance** of the code, controls everything.
+
+A single-bit error moves a codeword a distance of 1 — off its point, but still closer to the original than to any other codeword. The decoder just picks the *nearest* valid codeword, and the error is undone. The general law is worth memorising:
+
+$$
+\text{detect up to } d - 1 \text{ errors}, \qquad \text{correct up to } \left\lfloor \frac{d-1}{2} \right\rfloor \text{ errors}.
+$$
+
+For $d = 3$ that is: detect 2, correct 1. To correct more, spread the codewords farther apart — a code with $d = 5$ corrects $\lfloor 4/2 \rfloor = 2$ errors, one with $d = 7$ corrects 3. The picture below uses a simple repetition code so the distance is exact and visible: watch the received word walk away from its codeword as errors accumulate, safely corrected inside the radius, then mis-decoding to the *wrong* codeword once it crosses the halfway line.
+
+<HammingDistanceAnimation />
+
+This also explains the difference between detecting and correcting the *same* code two ways. With $d = 3$ you may either correct 1 error (assume the nearest codeword is right) *or* detect 2 errors (refuse to guess, and flag them) — but not both at full strength at once, because a double error can masquerade as a single error pointing the wrong way.
+
+## The price of certainty
+
+None of this is free. Redundancy costs bits. Hamming(7,4) carries 4 real bits for every 7 sent, an overhead of 75% on the payload; its **rate** is $k/n = 4/7 \approx 0.57$. Push for more correction power and you spend even more. There is no way to cheat this: bounds like the Hamming (sphere-packing) bound and the Singleton bound put hard ceilings on how few redundant bits can protect a given number of data bits for a target distance — the non-overlapping "spheres" of correctable words around each codeword must all fit inside the finite space, and they cannot overlap. The art of coding theory, from Reed–Solomon codes on your DVDs to the LDPC and polar codes in 5G, is squeezing as close to those limits as physics and math allow. This same tension between message, noise, and redundancy is the beating heart of [information theory](/articles/information-theory).
+
+The payoff is a quiet miracle you rely on daily. A scratched disc plays through. A photo survives a flaky download. A probe three light-hours away sends home a picture, and every pixel is exact — not because nothing went wrong, but because the receiver knew, in advance, how to make it right. The same appetite for structure over brute force shows up when [hash tables](/articles/hash-tables) turn keys into addresses and when [logic gates](/articles/logic-gates) build arithmetic from switches: a little cleverness designed in early saves an unbounded amount of asking-again later.
+
+<KeyTakeaways>
+- **You can fix a corrupted message without re-sending it.** Forward error correction builds redundancy into the message ahead of time, so the receiver both detects and repairs errors locally — the principle behind CDs, QR codes, deep-space probes, SSDs, and ECC RAM.
+- **A single parity bit detects but never corrects.** It flags an odd number of flipped bits without locating any of them, and misses even numbers of errors entirely. Correction needs several overlapping checks.
+- **Hamming (1950) made checks that point at the fault.** In Hamming(7,4), three parity checks over overlapping bit subsets produce a **syndrome** — a binary number equal to the position of the flipped bit. With $n-k$ parity bits you get $2^{n-k}$ syndromes, one per correctable pattern.
+- **Minimum distance $d$ is the whole story.** A code detects up to $d-1$ errors and corrects up to $\lfloor (d-1)/2 \rfloor$; correcting more means spacing codewords farther apart in code space, decoding each received word to its nearest neighbour.
+- **Redundancy has a price and a limit.** Protection costs extra bits (Hamming(7,4) sends 7 for every 4), and sphere-packing and Singleton bounds cap how efficient any code can be — detection and correction are a genuine trade-off, not a free lunch.
+</KeyTakeaways>
