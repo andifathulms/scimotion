@@ -4055,6 +4055,77 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <text x={230} y={44} fontSize={7} fill={MUTE} fontFamily="monospace">pull only</text>
     </g>
   ),
+  epigenetics: c => (
+    <g>
+      <path d="M70,26 C110,42 110,58 70,74 C110,90 110,98 70,110 M130,26 C90,42 90,58 130,74 C90,90 90,98 130,110"
+        fill="none" stroke={`${c}88`} strokeWidth={1.5} />
+      <g stroke={`${c}44`} strokeWidth={0.75}>
+        <line x1={84} y1={34} x2={116} y2={34} /><line x1={84} y1={50} x2={116} y2={50} /><line x1={84} y1={82} x2={116} y2={82} /><line x1={84} y1={98} x2={116} y2={98} />
+      </g>
+      <circle cx={100} cy={42} r={5} fill={GOLD} /><circle cx={100} cy={90} r={5} fill={GOLD} />
+      <text x={112} y={45} fontSize={6} fill={BG} textAnchor="middle" fontFamily="monospace">Me</text>
+      <circle cx={200} cy={44} r={7} fill="none" stroke="#F87171" strokeWidth={1.5} />
+      <text x={200} y={47} fontSize={8} fill="#F87171" textAnchor="middle" fontFamily="monospace">off</text>
+      <circle cx={240} cy={44} r={7} fill="none" stroke="#4ADE80" strokeWidth={1.5} />
+      <text x={240} y={47} fontSize={8} fill="#4ADE80" textAnchor="middle" fontFamily="monospace">on</text>
+      <text x={220} y={78} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">sequence unchanged</text>
+    </g>
+  ),
+  compilers: c => (
+    <g>
+      <rect x={22} y={48} width={40} height={24} rx={2} fill={`${c}22`} stroke={c} strokeWidth={0.75} />
+      <text x={42} y={63} fontSize={7} fill={c} textAnchor="middle" fontFamily="monospace">x=2+3</text>
+      <path d="M64,60 l14,0 M74,56 l6,4 l-6,4" fill="none" stroke={GOLD} strokeWidth={1} />
+      <g fill={`${GOLD}44`} stroke={GOLD} strokeWidth={0.5}>
+        <rect x={84} y={52} width={12} height={16} /><rect x={98} y={52} width={12} height={16} /><rect x={112} y={52} width={12} height={16} />
+      </g>
+      <path d="M126,60 l14,0 M136,56 l6,4 l-6,4" fill="none" stroke={GOLD} strokeWidth={1} />
+      <circle cx={168} cy={40} r={5} fill={`${c}55`} /><circle cx={152} cy={62} r={5} fill={`${c}55`} /><circle cx={184} cy={62} r={5} fill={`${c}55`} />
+      <path d="M168,45 L152,57 M168,45 L184,57" stroke={c} strokeWidth={0.75} />
+      <path d="M192,60 l14,0 M202,56 l6,4 l-6,4" fill="none" stroke={GOLD} strokeWidth={1} />
+      <g fill={`${c}33`} stroke={`${c}88`} strokeWidth={0.5}>
+        <rect x={214} y={44} width={54} height={7} /><rect x={214} y={54} width={54} height={7} /><rect x={214} y={64} width={54} height={7} />
+      </g>
+      <text x={241} y={82} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">→ machine code</text>
+    </g>
+  ),
+  lightning: c => (
+    <g>
+      <path d="M60,20 a20,14 0 0 1 40,-2 a24,16 0 0 1 44,4 a16,12 0 0 1 4,24 l-84,0 a16,12 0 0 1 -4,-26 z" fill={`${c}22`} stroke={`${c}66`} strokeWidth={0.75} />
+      <text x={100} y={40} fontSize={9} fill="#93C5FD" textAnchor="middle" fontFamily="monospace">- - -</text>
+      <polyline points="118,50 106,68 116,68 100,96 112,80 104,80 118,62" fill={GOLD} stroke={GOLD} strokeWidth={1} />
+      <path d="M108,100 l0,-8 M103,96 l5,-4 l5,4" fill="none" stroke="#FDE047" strokeWidth={1.5} />
+      <text x={150} y={92} fontSize={7} fill="#FDE047" fontFamily="monospace">return stroke ↑</text>
+      <line x1={40} y1={104} x2={200} y2={104} stroke={MUTE} strokeWidth={0.75} />
+      <text x={230} y={30} fontSize={8} fill="#93C5FD" fontFamily="monospace">+ + +</text>
+    </g>
+  ),
+  logarithms: c => (
+    <g>
+      <line x1={30} y1={92} x2={30} y2={20} stroke={MUTE} strokeWidth={0.5} />
+      <line x1={30} y1={92} x2={278} y2={92} stroke={MUTE} strokeWidth={0.5} />
+      <path d="M30,92 C34,40 44,26 90,22 C160,18 230,16 276,15" fill="none" stroke="#F87171" strokeWidth={1.5} opacity={0.55} />
+      <path d="M30,92 L276,40" fill="none" stroke={MUTE} strokeWidth={1} strokeDasharray="3 3" opacity={0.6} />
+      <path d="M30,92 C70,70 130,58 200,52 C240,49 265,48 276,47" fill="none" stroke={c} strokeWidth={2} />
+      <text x={252} y={22} fontSize={7} fill="#F87171" fontFamily="monospace">2^n</text>
+      <text x={250} y={58} fontSize={7} fill={c} fontFamily="monospace">log n</text>
+      <text x={150} y={104} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">log grows slowest</text>
+    </g>
+  ),
+  optics: c => (
+    <g>
+      <line x1={20} y1={60} x2={280} y2={60} stroke={MUTE} strokeWidth={0.4} strokeDasharray="2 2" />
+      <ellipse cx={150} cy={60} rx={12} ry={40} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+      <circle cx={70} cy={44} r={3} fill={GOLD} />
+      <line x1={70} y1={44} x2={150} y2={44} stroke={GOLD} strokeWidth={1} />
+      <line x1={150} y1={44} x2={230} y2={78} stroke={GOLD} strokeWidth={1} />
+      <line x1={70} y1={44} x2={230} y2={78} stroke={`${GOLD}66`} strokeWidth={0.75} />
+      <circle cx={230} cy={78} r={3} fill={GOLD} />
+      <circle cx={214} cy={60} r={2.5} fill={c} /><circle cx={86} cy={60} r={2.5} fill={c} />
+      <text x={214} y={54} fontSize={7} fill={c} textAnchor="middle" fontFamily="monospace">F</text>
+      <text x={150} y={104} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">rays bend → image</text>
+    </g>
+  ),
 }
 
 export function ArticleVisual({

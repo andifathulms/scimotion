@@ -13,21 +13,21 @@ export const learningPaths: LearningPath[] = [
     title: 'Calculus & Transforms',
     description:
       'From rotating complex numbers to approximating any function and decomposing any signal — the analytic backbone of modern math.',
-    articleSlugs: ['the-derivative', 'the-integral', 'infinity', 'complex-numbers', 'eulers-formula', 'taylor-series', 'newtons-method', 'gradient-descent', 'matrices', 'eigenvectors-and-eigenvalues', 'fourier-transform'],
+    articleSlugs: ['the-derivative', 'the-integral', 'logarithms', 'infinity', 'complex-numbers', 'eulers-formula', 'taylor-series', 'newtons-method', 'gradient-descent', 'matrices', 'eigenvectors-and-eigenvalues', 'fourier-transform'],
   },
   {
     slug: 'algorithms-and-computation',
     title: 'Algorithms & Computation',
     description:
       'How machines search, sort, explore connected data, and sift the primes — the core algorithmic ideas, step by step.',
-    articleSlugs: ['logic-gates', 'floating-point', 'binary-search', 'recursion', 'sorting-algorithms', 'hash-tables', 'caching', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes', 'error-correcting-codes', 'compression', 'public-key-cryptography', 'neural-networks', 'distributed-consensus', 'concurrency', 'p-vs-np', 'finite-automata', 'halting-problem'],
+    articleSlugs: ['logic-gates', 'compilers', 'floating-point', 'binary-search', 'recursion', 'sorting-algorithms', 'hash-tables', 'caching', 'dynamic-programming', 'graph-traversal', 'sieve-of-eratosthenes', 'error-correcting-codes', 'compression', 'public-key-cryptography', 'neural-networks', 'distributed-consensus', 'concurrency', 'p-vs-np', 'finite-automata', 'halting-problem'],
   },
   {
     slug: 'motion-space-and-quanta',
     title: 'Motion, Space & Quanta',
     description:
       'Start with a swinging weight, bend time with relativity, and end where classical physics breaks down entirely.',
-    articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'buoyancy', 'momentum', 'angular-momentum', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'general-relativity', 'electric-circuits', 'magnetism', 'electromagnetic-waves', 'wave-particle-duality', 'nuclear-energy', 'superconductivity'],
+    articleSlugs: ['pendulum-motion', 'resonance', 'fluid-dynamics', 'buoyancy', 'momentum', 'angular-momentum', 'keplers-laws', 'doppler-effect', 'entropy-and-the-second-law', 'time-dilation', 'general-relativity', 'electric-circuits', 'magnetism', 'electromagnetic-waves', 'optics', 'wave-particle-duality', 'nuclear-energy', 'superconductivity'],
   },
   {
     slug: 'chance-chaos-and-information',
@@ -57,7 +57,7 @@ export const learningPaths: LearningPath[] = [
       'The machinery of a working planet — the rock that moves beneath it, the air and ocean that carry its heat, and the carbon and radiation budgets that set its temperature.',
     // Solid earth first, then the fluid envelopes that ride on it, then the two
     // budgets — radiation and carbon — that the circulation articles feed into.
-    articleSlugs: ['plate-tectonics', 'rock-cycle', 'volcanoes', 'seismic-waves', 'earths-magnetic-field', 'auroras', 'coriolis-effect', 'seasons', 'atmospheric-convection', 'clouds', 'ocean-circulation', 'el-nino', 'hurricanes', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
+    articleSlugs: ['plate-tectonics', 'rock-cycle', 'volcanoes', 'seismic-waves', 'earths-magnetic-field', 'auroras', 'coriolis-effect', 'seasons', 'atmospheric-convection', 'clouds', 'lightning', 'ocean-circulation', 'el-nino', 'hurricanes', 'water-cycle', 'ozone-layer', 'greenhouse-effect', 'carbon-cycle', 'ice-ages'],
   },
   {
     slug: 'life-molecules-to-organisms',
@@ -66,7 +66,7 @@ export const learningPaths: LearningPath[] = [
       'Start with the principle that organises all of biology, then build upward — the code, what it folds into, how energy gets in, and how cells signal and defend.',
     // Selection first, because it is the only thing that makes the rest
     // non-arbitrary; then molecules, then energy, then cells.
-    articleSlugs: ['natural-selection', 'dna-replication', 'gene-expression', 'crispr', 'heredity', 'cell-division', 'stem-cells', 'protein-folding', 'enzymes', 'photosynthesis', 'cellular-respiration', 'cell-membranes', 'osmosis', 'action-potential', 'the-synapse', 'viruses', 'microbiome', 'immune-response'],
+    articleSlugs: ['natural-selection', 'dna-replication', 'gene-expression', 'epigenetics', 'crispr', 'heredity', 'cell-division', 'stem-cells', 'protein-folding', 'enzymes', 'photosynthesis', 'cellular-respiration', 'cell-membranes', 'osmosis', 'action-potential', 'the-synapse', 'viruses', 'microbiome', 'immune-response'],
   },
   {
     slug: 'the-clinical-body',

@@ -1645,3 +1645,53 @@ export const MusclePairAnimation = dynamic(
   () => import('@/components/animations/MusclePairAnimation').then(m => ({ default: m.MusclePairAnimation })),
   { ssr: false }
 )
+
+export const ChromatinMarkAnimation = dynamic(
+  () => import('@/components/animations/ChromatinMarkAnimation').then(m => ({ default: m.ChromatinMarkAnimation })),
+  { ssr: false }
+)
+
+export const CellIdentityAnimation = dynamic(
+  () => import('@/components/animations/CellIdentityAnimation').then(m => ({ default: m.CellIdentityAnimation })),
+  { ssr: false }
+)
+
+export const CompilerPipelineAnimation = dynamic(
+  () => import('@/components/animations/CompilerPipelineAnimation').then(m => ({ default: m.CompilerPipelineAnimation })),
+  { ssr: false }
+)
+
+export const InterpreterCompilerAnimation = dynamic(
+  () => import('@/components/animations/InterpreterCompilerAnimation').then(m => ({ default: m.InterpreterCompilerAnimation })),
+  { ssr: false }
+)
+
+export const ChargeSeparationAnimation = dynamic(
+  () => import('@/components/animations/ChargeSeparationAnimation').then(m => ({ default: m.ChargeSeparationAnimation })),
+  { ssr: false }
+)
+
+export const LightningStrokeAnimation = dynamic(
+  () => import('@/components/animations/LightningStrokeAnimation').then(m => ({ default: m.LightningStrokeAnimation })),
+  { ssr: false }
+)
+
+export const LogScaleAnimation = dynamic(
+  () => import('@/components/animations/LogScaleAnimation').then(m => ({ default: m.LogScaleAnimation })),
+  { ssr: false }
+)
+
+export const LogGrowthAnimation = dynamic(
+  () => import('@/components/animations/LogGrowthAnimation').then(m => ({ default: m.LogGrowthAnimation })),
+  { ssr: false }
+)
+
+export const RefractionAnimation = dynamic(
+  () => import('@/components/animations/RefractionAnimation').then(m => ({ default: m.RefractionAnimation })),
+  { ssr: false }
+)
+
+export const LensImageAnimation = dynamic(
+  () => import('@/components/animations/LensImageAnimation').then(m => ({ default: m.LensImageAnimation })),
+  { ssr: false }
+)

@@ -1,0 +1,112 @@
+---
+title: "Optics: How Light Bends and Focuses"
+subtitle: "A straw looks snapped in half at the waterline for the same reason a lens can throw the Sun onto a wall — light changes speed when it changes materials, and that change steers it."
+topic: "Physics"
+slug: "optics"
+date: "2026-09-02"
+readTime: 10
+featured: false
+description: "Light bends when its speed changes crossing a boundary — that is refraction — and lenses harness the same effect to focus rays and form real or virtual images."
+tags: ["optics", "refraction", "lenses", "light"]
+quiz:
+  - q: "A ray of light passes from air into a block of glass. What actually makes it bend at the surface?"
+    options:
+      - "The glass is heavier, so it drags the light downward"
+      - "Light slows down in glass, and the part of the wavefront that enters first is held back, swinging the ray toward the normal"
+      - "The glass reflects the light and the bent ray is really the reflection"
+      - "Gravity inside the denser material pulls the beam"
+    answer: 1
+    explanation: "Refraction is a speed effect. The index of refraction is $n=c/v$, so a larger $n$ means slower light; the wavefront pivots because one edge enters the slow medium before the other, bending the ray toward the normal on the way in."
+  - q: "A magnifying glass held close to a stamp shows a large, upright image, but when you hold it far from a lamp it casts a small, upside-down image on the wall. Why the difference?"
+    options:
+      - "The lens physically changes shape depending on how you hold it"
+      - "The first is a real image and the second is virtual"
+      - "The object is inside the focal length in the first case (virtual, upright, magnified) and outside it in the second (real, inverted)"
+      - "Magnifying glasses only work at one fixed distance and the wall image is an illusion"
+    answer: 2
+    explanation: "Whether an image is real or virtual, upright or inverted, enlarged or reduced depends on the object distance versus the focal length, exactly as the thin-lens equation predicts. Inside $f$ you get a magnified virtual image; outside $f$ a real, inverted one."
+  - q: "Light traveling inside a glass fiber strikes the wall of the fiber at a steep angle and stays trapped, bouncing along the cable. What is happening?"
+    options:
+      - "The glass is coated with a perfect mirror"
+      - "Total internal reflection — beyond the critical angle no light can refract out, so all of it reflects"
+      - "The light has run out of energy and cannot escape"
+      - "The fiber bends the light with gravity"
+    answer: 1
+    explanation: "When light travels from a denser to a less dense medium and the angle of incidence exceeds the critical angle, Snell's law has no valid refracted solution, so the boundary reflects the light completely. This total internal reflection is what pipes signals through optical fiber."
+---
+
+## The rule that is only half true
+
+You were almost certainly taught that light travels in straight lines. Sight lines, laser beams, the sharp edge of a shadow — all of it seems to confirm it. And within a single uniform material, it is exactly right. Light in air, or in still water, or in a slab of glass, goes perfectly straight.
+
+The trouble starts at boundaries. Dip a straight straw into a glass of water and it appears to snap at the surface. Stand at the edge of a swimming pool and the bottom looks closer than it is; the pool is deeper than it looks. A coin at the bottom of a mug seems to lift and shift as you fill the mug with water. None of these are tricks of the eye in the usual sense — the light really does change direction. It bends at the surface where one material meets another.
+
+That bending is called **refraction**, and once you understand it, a surprising amount of optics falls into place: why lenses work, why a prism splits white light into a rainbow, why a diamond sparkles, and how a single strand of glass can carry a phone call across an ocean.
+
+## Light bends because it changes speed
+
+Light travels at $c \approx 3\times10^8$ m/s in a vacuum, and it never goes faster than that. But in a transparent material it effectively slows down, because the light keeps being absorbed and re-emitted by the atoms it passes. We capture that slowing with a single number, the **index of refraction**:
+
+$$n = \frac{c}{v}$$
+
+where $v$ is the speed of light in the material. Vacuum has $n = 1$ exactly; air is a hair above 1; water is about 1.33; ordinary glass is around 1.5; diamond is a hefty 2.42. A bigger $n$ means slower light. That is the whole physical basis of refraction: **a denser medium is a slower medium.**
+
+Now picture a wide beam — a marching row of wavefronts — hitting the surface of glass at an angle. One edge of the wavefront reaches the glass and slows down before the other edge does. Like a line of marchers where the left flank steps into mud first, the whole row pivots. The ray swings toward the surface's **normal** (the line perpendicular to the boundary) as it enters the slower medium, and swings away from the normal when it speeds back up on the way out.
+
+The precise bookkeeping is **Snell's law**:
+
+$$n_1 \sin\theta_1 = n_2 \sin\theta_2$$
+
+Here $\theta_1$ is the angle between the incoming ray and the normal, and $\theta_2$ is the angle of the refracted ray. Going into a denser medium ($n_2 > n_1$) forces $\theta_2 < \theta_1$: the ray bends toward the normal. Coming out into a lighter medium, it bends away.
+
+<RefractionAnimation />
+
+Drag the incidence angle and watch the wavefronts crowd together in the denser material — their spacing is the wavelength, and since the frequency cannot change at the boundary, a slower wave must have a shorter wavelength. That compression is refraction made visible.
+
+## When light cannot get out at all
+
+Push the animation the other way — light trying to leave a dense medium for a lighter one — and something dramatic happens. As the incidence angle grows, the refracted ray bends further and further from the normal, flattening toward the surface. At a particular **critical angle** $\theta_c$, the refracted ray would lie flat along the boundary, meaning $\theta_2 = 90°$. Setting $\sin\theta_2 = 1$ in Snell's law gives
+
+$$\sin\theta_c = \frac{n_2}{n_1}$$
+
+Beyond that angle, Snell's law asks for a $\sin\theta_2$ greater than 1, which is impossible. There is no escaping ray, so **all** of the light reflects back inside. This is **total internal reflection**, and it is not a metaphorical "almost all" — it is a genuinely perfect mirror made of nothing but a boundary. It is why the facets of a cut diamond flash, and, far more usefully, why an optical fiber can guide light for kilometers: the beam strikes the fiber wall beyond the critical angle every time and simply refuses to leak out.
+
+Refraction also explains rainbows. The index $n$ is not quite the same for every color — glass and water bend blue light a little more than red, because $n$ varies slightly with wavelength. So a prism, or a raindrop, sends each color off at its own angle and fans white light into a spectrum. That spreading is called **dispersion**. (If you want to know what "color" even is at the level of the wave itself, [electromagnetic waves](/articles/electromagnetic-waves) is the place to go; and the deep question of whether light is a wave or a particle is the subject of [wave-particle duality](/articles/wave-particle-duality).)
+
+## A lens is a refraction machine
+
+Here is the second thing everyone half-remembers: that a lens "just magnifies," like a zoom slider that makes things bigger. That is not what a lens does. A lens is a carefully curved piece of glass that **refracts every ray passing through it**, and the point of that curvature is to bend a whole spray of rays so they meet — to bring them to a **focus** and build an **image**.
+
+A **converging** (convex) lens is thicker in the middle. Rays arriving parallel to its axis are each bent toward the axis and cross at a single point beyond the lens: the **focal point**, a distance $f$ (the **focal length**) from the lens. A **diverging** (concave) lens is thinner in the middle and spreads parallel rays apart, as if they had come from a focal point in front of it. The fatter the curvature, the shorter the focal length and the stronger the lens.
+
+To find where a convex lens forms an image of an object, you trace just three special rays from the top of the object:
+
+- A ray arriving **parallel** to the axis leaves through the far focal point.
+- A ray through the **center** of the lens passes straight through, undeviated.
+- A ray through the **near focal point** leaves parallel to the axis.
+
+Wherever those rays cross is where the image of that point sits.
+
+<LensImageAnimation />
+
+## Real images, virtual images, and the equation that ties them together
+
+Slide the object in the animation from far away toward the lens and watch the image transform. This is the heart of the reframe, and it is governed by the **thin-lens equation**:
+
+$$\frac{1}{f} = \frac{1}{d_o} + \frac{1}{d_i}$$
+
+where $d_o$ is the object distance, $d_i$ the image distance, and $f$ the focal length. The **magnification** is $m = -d_i/d_o$; a negative $m$ means the image is inverted.
+
+When the object is **farther than the focal length** ($d_o > f$), the three rays actually converge on the far side of the lens. They cross and deposit real light there, so you could put a screen at that spot and catch the picture — a **real image**, and it comes out **inverted**. Move the object from very far in toward $f$ and this real image swells from tiny to enormous. This is precisely what happens in a camera and in your own eye: the lens throws a small, upside-down, real image onto the sensor or the retina, and your brain quietly flips it right-way-up.
+
+When the object is **closer than the focal length** ($d_o < f$), the rays leaving the lens diverge — they never meet on the far side. Trace them backward and they appear to come from a point on the *same* side as the object. That is a **virtual image**: enlarged, upright, and impossible to catch on a screen because no light actually gathers there. This is the magnifying-glass mode. A magnifying glass only magnifies while the object sits inside its focal length; pull it back past $f$ and it flips to projecting a small inverted real image instead. Same lens, opposite behavior — the difference is entirely the object distance, not the glass.
+
+So "a lens makes things bigger" is at best a description of one narrow case. What a lens really does is redirect rays to form an image whose size, orientation, and very reality depend on where the object sits relative to $f$. That single idea underlies cameras, projectors, microscopes, and [telescopes](/articles/telescopes) alike — and it is the working principle of [vision](/articles/vision) itself, where the eye's flexible lens changes its focal length to keep the world in focus on your retina.
+
+<KeyTakeaways>
+- Light travels straight only inside a uniform medium; at a boundary where its speed changes it bends — this is refraction, and it is why straws look broken, pools look shallow, and lenses work at all.
+- The index of refraction $n = c/v$ measures how much a material slows light; Snell's law $n_1\sin\theta_1 = n_2\sin\theta_2$ says a ray bends toward the normal entering a slower (denser) medium and away from it leaving one.
+- Past the critical angle, light leaving a dense medium cannot refract out and reflects completely — total internal reflection — which is what traps signals inside optical fibers; dispersion (an $n$ that varies with wavelength) is what splits white light into a rainbow.
+- A converging lens does not merely magnify; it refracts rays to a focus and forms an image, traced with three principal rays and quantified by the thin-lens equation $\tfrac1f = \tfrac1{d_o} + \tfrac1{d_i}$.
+- Object outside the focal length gives a real, inverted image (camera, eye); object inside the focal length gives a magnified, upright virtual image (magnifying glass) — the object distance versus $f$ decides everything.
+</KeyTakeaways>

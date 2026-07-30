@@ -348,6 +348,16 @@ import {
   LeChatelierPressureAnimation,
   SarcomereAnimation,
   MusclePairAnimation,
+  ChromatinMarkAnimation,
+  CellIdentityAnimation,
+  CompilerPipelineAnimation,
+  InterpreterCompilerAnimation,
+  ChargeSeparationAnimation,
+  LightningStrokeAnimation,
+  LogScaleAnimation,
+  LogGrowthAnimation,
+  RefractionAnimation,
+  LensImageAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -697,6 +707,16 @@ const components = {
   LeChatelierPressureAnimation,
   SarcomereAnimation,
   MusclePairAnimation,
+  ChromatinMarkAnimation,
+  CellIdentityAnimation,
+  CompilerPipelineAnimation,
+  InterpreterCompilerAnimation,
+  ChargeSeparationAnimation,
+  LightningStrokeAnimation,
+  LogScaleAnimation,
+  LogGrowthAnimation,
+  RefractionAnimation,
+  LensImageAnimation,
   KeyTakeaways,
 }
 
