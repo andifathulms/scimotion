@@ -1,0 +1,117 @@
+---
+title: "Concurrency: When Threads Collide"
+subtitle: "Two threads, one variable, and the quiet moment where an update vanishes without a trace."
+topic: "Computer Science"
+slug: "concurrency"
+date: "2026-08-09"
+readTime: 10
+featured: false
+description: "Why interleaving threads corrupt shared state, how locks enforce mutual exclusion to fix races, and how those same locks can deadlock in a circular wait."
+tags: ["concurrency", "race-conditions", "locks", "deadlock"]
+quiz:
+  - q: "Two threads each run `count++` once on a shared variable that starts at 0, with no synchronization. What is the set of possible final values?"
+    options:
+      - "Always 2 — each thread adds exactly one"
+      - "Either 1 or 2, depending on how the load/add/store steps interleave"
+      - "Always 1 — the second write always wins"
+      - "0, 1, or 2, because increments can also be skipped entirely"
+    answer: 1
+    explanation: "`count++` is load-modify-store. A serial interleaving gives 2, but if both threads load 0 before either stores, both store 1 and one increment is lost — final value 1. It can never be 0 (at least one store happens) or 3 (only two increments)."
+  - q: "A lock fixes the `count++` race by providing which specific guarantee?"
+    options:
+      - "It makes the `count++` instruction execute atomically in hardware"
+      - "Mutual exclusion — only one thread at a time may be inside the critical section"
+      - "It speeds up the threads so they never overlap"
+      - "It gives each thread its own private copy of count"
+    answer: 1
+    explanation: "The lock enforces mutual exclusion: a thread must hold the lock to enter the critical section, so the load-modify-store runs to completion before any other thread can touch the variable. The interleaving that lost an update becomes impossible."
+  - q: "Thread 1 holds lock A and waits for B; thread 2 holds B and waits for A. Which single change to the code reliably prevents this deadlock?"
+    options:
+      - "Give each thread a higher scheduling priority"
+      - "Make every thread acquire A and B in the same global order"
+      - "Add a third lock that guards A and B"
+      - "Replace the locks with faster spinlocks"
+    answer: 1
+    explanation: "The deadlock is a circular wait, one of the four Coffman conditions. Imposing a consistent global lock order removes the possibility of a cycle: if everyone takes A before B, no thread can hold B while waiting for A."
+---
+
+## The bug that only happens sometimes
+
+You write a counter. Two threads each increment it once. It starts at zero, so it should end at two. You run the program a thousand times and it prints `2` every time. You ship it. In production, under load, it occasionally prints `1`, and no amount of staring at the single line `count++` reveals why.
+
+The line looks atomic. It is one statement, one token of intent: *add one*. But the CPU does not have a single instruction that reads memory, adds, and writes back as one indivisible act. Underneath, `count++` is three steps:
+
+```
+load   r ← count     # read the current value into a register
+add    r ← r + 1      # compute the new value privately
+store  count ← r      # write the register back to memory
+```
+
+Between any two of those steps the scheduler is free to pause this thread and run the other one. That gap is where the update goes to die.
+
+## Interleaving and the lost update
+
+Call the threads T1 and T2. If T1 runs all three of its steps before T2 starts, everything is fine: T1 reads 0, writes 1; T2 reads 1, writes 2. But nothing forces that ordering. Consider this interleaving:
+
+```
+T1: load  r1 ← count   (r1 = 0)
+T2: load  r2 ← count   (r2 = 0)   ← T2 reads the SAME stale 0
+T1: add   r1 ← 1
+T2: add   r2 ← 1
+T1: store count ← 1
+T2: store count ← 1               ← overwrites T1's 1 with 1
+```
+
+Both threads read zero before either wrote back. Both computed one. The second store does not add to the first — it *overwrites* it with the identical value. Two increments happened; only one survived. This is a **data race**: two threads access the same location concurrently, at least one of them writing, with no ordering between them. The result depends on timing the program does not control.
+
+<RaceConditionAnimation />
+
+Step through the widget and watch the registers. In the safe interleaving each thread's store reflects the other's work. In the bad one, the two registers both hold 1 at the same time, and the shared count never climbs past it. The reason your local test passed a thousand times is that on an unloaded machine the scheduler rarely splits an increment — the odds only turn against you under contention. This is the cruelty of concurrency bugs: they are **non-deterministic**. The same binary, same input, can give different answers run to run, so they hide from the exact testing that would catch an ordinary bug.
+
+## Concurrency is not parallelism
+
+It is worth pausing on a distinction people blur. *Concurrency* is a structuring property: the program is composed of tasks whose steps can interleave in any order. *Parallelism* is an execution property: two things literally happen at the same instant on two cores. You can have concurrency without parallelism — a single core time-slicing between threads still interleaves their steps, and the lost-update race above happens on one core just fine. The bug is not that two things run at once; it is that one thread's three steps are not protected from being *split* by another. Concurrency is about correctness under interleaving. Parallelism is about speed. This article is entirely about the first. (The same reasoning underlies why agreement across machines is hard — see [distributed consensus](/articles/distributed-consensus).)
+
+## The fix: mutual exclusion
+
+The region of code that must not be interleaved — here, the whole load-modify-store — is a **critical section**. The classic tool for protecting one is a **lock** (a mutex). A thread must *acquire* the lock before entering the critical section and *release* it after. While one thread holds the lock, any other thread that tries to acquire it waits.
+
+```
+lock.acquire()
+count = count + 1     # critical section — now indivisible in effect
+lock.release()
+```
+
+The lock provides **mutual exclusion**: at most one thread is inside the critical section at any time. The interleaving that lost an update is now impossible, because T2 cannot even begin its load until T1 has released the lock, by which point T1's store is done. Toggle the lock in the widget above and the "bad interleaving" option disappears — the section is forced to run serially. Note the lock does not make `count++` atomic in the CPU; it makes the *agreed protocol* around it exclusive. Every thread must cooperate by taking the lock. A single thread that touches `count` without it reintroduces the race. Locks that fall back on primitive Boolean tests recall the humble [logic gate](/articles/logic-gates): the guarantee is only as strong as the discipline enforcing it.
+
+## Locks are not free: deadlock
+
+Adding a lock feels like a clean win, and for a single lock it usually is. The trouble starts with *two*. Suppose you protect two accounts with two locks, A and B, and you need both to transfer money. Thread 1 grabs A then reaches for B. Thread 2, doing a transfer the other direction, grabs B then reaches for A. Now:
+
+- T1 holds A, waits for B.
+- T2 holds B, waits for A.
+
+Neither will release what it holds until it gets what it wants, and neither will ever get it. This is a **deadlock**: a set of threads each blocked forever, waiting on a resource another one holds.
+
+<DeadlockAnimation />
+
+Toggle the widget to "inconsistent order" and watch the wait-for edges close into a cycle: T1 → B → T2 → A → T1. That loop is the signature of the failure.
+
+Deadlock requires four conditions to hold simultaneously — the **Coffman conditions**:
+
+1. **Mutual exclusion** — the resources cannot be shared; a lock is held by one thread at a time.
+2. **Hold and wait** — a thread holds one resource while requesting another.
+3. **No preemption** — a resource cannot be forcibly taken; it is only released voluntarily.
+4. **Circular wait** — there is a cycle of threads each waiting for the next.
+
+Break any one and deadlock cannot occur. The most practical break is the fourth. Impose a **global lock order**: number the locks and require every thread to acquire them in increasing order. If everyone takes A before B, no thread can ever hold B while waiting for A, so the cycle cannot form. Switch the widget to "global lock order" and the second thread simply waits for the first to finish, then proceeds — slower, but never stuck. Detecting a cycle after the fact is possible too, much like walking a table for an entry in [hash tables](/articles/hash-tables), but preventing the cycle by construction is cheaper and simpler.
+
+There is a deeper lesson lurking here. You might wish for a tool that inspects your program and warns you of every possible deadlock. In full generality that is as hopeless as the [halting problem](/articles/halting-problem): reasoning perfectly about all interleavings of an arbitrary program is undecidable. Which is why we lean on disciplines — consistent ordering, minimal critical sections, holding one lock at a time — rather than after-the-fact proofs.
+
+<KeyTakeaways>
+- `count++` is not atomic: it is load-modify-store, and two threads can interleave those micro-steps so that both read the same stale value and one increment is silently lost — a data race.
+- Concurrency bugs are non-deterministic. The same program on the same input can print different answers depending on scheduling, which is exactly why they survive ordinary testing.
+- Concurrency (interleaving of steps) is not parallelism (simultaneous execution). The lost-update race happens even on a single core; the hazard is a critical section being split, not two things running at once.
+- A lock fixes a race by enforcing mutual exclusion over the critical section — but only if every thread cooperates by taking it. It does not make the underlying instruction atomic.
+- Two or more locks can deadlock via circular wait. Deadlock needs all four Coffman conditions; imposing a consistent global lock order breaks the cycle and is the standard prevention.
+</KeyTakeaways>
