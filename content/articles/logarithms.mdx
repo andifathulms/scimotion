@@ -1,0 +1,106 @@
+---
+title: "Logarithms: Taming Huge Numbers"
+subtitle: "The inverse of exponentiation turns multiplication into addition and squeezes atoms and galaxies onto a single line."
+topic: "Mathematics"
+slug: "logarithms"
+date: "2026-09-01"
+readTime: 10
+featured: false
+description: "Logarithms are the inverse of exponents: they answer what power produces a number, turn multiplication into addition, and — despite the name — grow astonishingly slowly."
+tags: ["logarithms", "exponents", "log-scale", "growth"]
+quiz:
+  - q: "A colleague says a metric showing 'logarithmic growth' is about to explode and overwhelm the servers. Why is this a misreading?"
+    options:
+      - "Logarithmic growth is unpredictable, so no claim about its future can be made"
+      - "Logarithmic growth is the same as exponential growth, just measured in different units"
+      - "Logarithmic growth accelerates only after a fixed threshold is crossed"
+      - "Logarithmic growth is the inverse of exponential growth and is the slowest common growth: the input must double just to raise the output by 1"
+    answer: 3
+    explanation: "People confuse 'logarithmic' with 'exponential'. A logarithm is the inverse of an exponential, so it crawls — to make log₂ n increase by 1 you must double n. It will never explode."
+  - q: "Why does $\\log_b(xy) = \\log_b x + \\log_b y$ hold?"
+    options:
+      - "Because logarithms are defined only for products of two numbers"
+      - "Because exponents add when powers of the same base multiply: $b^p b^q = b^{p+q}$, and the logarithm reads off those exponents"
+      - "Because multiplication and addition are interchangeable for large numbers"
+      - "Because the logarithm rounds each factor to the nearest power of the base"
+    answer: 1
+    explanation: "If x = b^p and y = b^q then xy = b^(p+q). The logarithm returns the exponent, so log(xy) = p + q = log x + log y. That is why log scales turn multiplication into addition."
+  - q: "The Richter scale, decibels, pH, and stellar magnitudes are all logarithmic. What does this let them do?"
+    options:
+      - "Make small quantities appear larger than they really are"
+      - "Guarantee that every measurement is a whole number"
+      - "Compress an enormous range of ratios into a short, readable scale where each unit is a fixed multiplicative step"
+      - "Eliminate the need for units of measurement"
+    answer: 2
+    explanation: "Each unit on a log scale is a fixed ratio (×10 for Richter and pH, a set factor for decibels and magnitudes), so quantities spanning many orders of magnitude collapse into a compact, evenly spaced axis."
+---
+
+## The question a logarithm answers
+
+Exponentiation is repeated multiplication: $2^3 = 8$ means "multiply three 2s together." A logarithm runs this backwards. It asks the opposite question:
+
+$$\log_b x = y \iff b^y = x$$
+
+In words: $\log_b x$ is the **power** you must raise the base $b$ to in order to get $x$. So $\log_2 8 = 3$, because $2^3 = 8$. And $\log_{10} 1000 = 3$, because $10^3 = 1000$. The logarithm is nothing more mysterious than the exponent, pulled back out into the open.
+
+This is the reframe worth holding onto. A logarithm is not "just a button on the calculator." It is the answer to a concrete question — *what power of the base produces this number?* — and that question turns out to be one of the most useful in all of applied mathematics.
+
+## Multiplication becomes addition
+
+Here is the property that made logarithms indispensable for three centuries before electronic calculators existed. Suppose $x = b^p$ and $y = b^q$. Then $xy = b^p \cdot b^q = b^{p+q}$. Take the logarithm of both sides and you read off the exponents:
+
+$$\log_b(xy) = \log_b x + \log_b y$$
+
+Multiplying two numbers becomes **adding** their logarithms. There is a companion rule for powers, which follows the same way from $(b^p)^k = b^{pk}$:
+
+$$\log_b(x^k) = k \log_b x$$
+
+Before the 1970s, engineers multiplied large numbers by looking up their logarithms in a table, adding, and looking up the reverse. A slide rule is exactly this trick made physical: two rulers marked not in equal *distances* but in equal *ratios*, so sliding one against the other adds logarithms and multiplies the underlying numbers. Every time you say two quantities differ by "three orders of magnitude," you are adding logarithms in your head.
+
+## Any base you like: change of base
+
+You will meet three bases constantly: base 10 (scientific notation, decibels), base 2 (computer science, information), and base $e \approx 2.718$ (calculus, natural growth, written $\ln$). They are all the same idea, and one formula converts between them:
+
+$$\log_b x = \frac{\log_c x}{\log_c b}$$
+
+So $\log_2 x = \ln x / \ln 2$. Changing base only multiplies by a constant, which is why computer scientists write $O(\log n)$ without specifying a base — the base changes the constant, not the shape of the growth.
+
+## The scale that fits atoms and galaxies
+
+If each *step* along an axis represents a fixed *ratio* rather than a fixed amount, you get a logarithmic scale. On a linear axis marked 0 to a billion, the numbers 1, 10, 100, and 1000 are all crushed indistinguishably against the origin, and the billion mark is a mile away. On a log axis, each factor of ten is an equal step, so all of them spread out and become readable at once.
+
+<LogScaleAnimation />
+
+Toggle between the two axes above. The payoff of the log scale is that *equal spacing means equal ratio*. This is why so many real-world scales are logarithmic: the **Richter** scale (each unit is ×10 in ground amplitude), **decibels** (a fixed factor of loudness per step), **pH** (each unit is ×10 in hydrogen-ion concentration), and stellar **magnitudes** (each step a fixed brightness ratio, a convention inherited from the ancient Greeks). None of these could show their full range on a linear axis without either losing the small end or running off the page.
+
+## The name is a trap: logarithmic growth is *slow*
+
+Now the misconception worth dismantling. "Logarithmic growth" sounds dramatic, and people routinely assume it means something is taking off. It means the exact opposite.
+
+Because a logarithm is the *inverse* of an exponential, it is the **slowest** growth you commonly meet. Watch what it costs to make $\log_2 n$ increase:
+
+| $n$ | 2 | 4 | 8 | 16 | 32 | 1,048,576 |
+|---|---|---|---|---|---|---|
+| $\log_2 n$ | 1 | 2 | 3 | 4 | 5 | 20 |
+
+To push the logarithm up by a single unit, you have to **double** the input. Go from a thousand to a million to a billion, and $\log_2 n$ only climbs from about 10 to 20 to 30. Compare that to its inverse, the exponential $2^n$, which explodes past a billion by the time $n$ reaches 30.
+
+<LogGrowthAnimation />
+
+The three curves make the contrast physical. The exponential shoots off the top of the plot almost immediately; the linear line climbs steadily; the logarithm barely lifts off the floor, gaining just one unit each time the input doubles. Exponential explodes, logarithmic crawls — they are mirror images, not synonyms.
+
+That crawl is not a weakness; it is the whole point. It is exactly why [binary search](/articles/binary-search) is fast: halving the search space each step means only $\log_2 n$ steps are ever needed, so a billion-item sorted list is searched in about thirty comparisons. It is the same reason a log scale can hold atoms and galaxies on one axis — the vast range gets compressed precisely because the logarithm grows so grudgingly.
+
+## Where logarithms show up
+
+Once you recognize the inverse-of-an-exponential shape, you see logarithms everywhere. The natural log $\ln$ is the antiderivative of $1/x$, which is why it appears whenever you integrate a rate that falls off inversely — a fact that connects directly to [the derivative](/articles/the-derivative) and the calculus of growth. In [information theory](/articles/information-theory), the number of bits needed to identify one option out of $n$ equally likely ones is $\log_2 n$, and Shannon's entropy $-\sum p_i \log p_i$ is a weighted average of exactly such logarithms. Even [Euler's formula](/articles/eulers-formula) hides a logarithm: extending $\ln$ to the complex plane is what makes sense of raising numbers to imaginary powers.
+
+The thread through all of it is the same simple definition. A logarithm answers "what power?", it converts multiplying into adding, and — despite its reputation — it grows about as slowly as anything ever does.
+
+<KeyTakeaways>
+- A logarithm is the **inverse of an exponent**: $\log_b x = y$ means $b^y = x$, i.e. "what power of $b$ gives $x$?"
+- It turns multiplication into addition: $\log(xy) = \log x + \log y$, and powers into products: $\log(x^k) = k\log x$ — the trick behind slide rules and "orders of magnitude."
+- Change of base only multiplies by a constant, $\log_b x = \ln x / \ln b$, so the base sets the units but not the shape.
+- **Logarithmic growth is the slowest common growth, not the fastest** — the opposite of exponential. To raise $\log_2 n$ by 1 you must double $n$; that is why binary search needs only $\log_2 n$ steps.
+- Because each unit is a fixed ratio, log scales (Richter, decibels, pH, stellar magnitude) compress enormous ranges into one readable axis.
+</KeyTakeaways>
