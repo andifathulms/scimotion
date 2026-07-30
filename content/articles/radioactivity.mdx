@@ -1,0 +1,118 @@
+---
+title: "Radioactivity: Random Decay, Predictable Half-Life"
+subtitle: "No one can say when a single atom will decay, yet a mole of them halves on a schedule you can set a clock by."
+topic: "Chemistry"
+slug: "radioactivity"
+date: "2026-08-07"
+readTime: 10
+featured: false
+description: "Why individual radioactive decay is fundamentally random and memoryless, yet a large population halves like clockwork — with the decay law, half-life, decay modes, and dating."
+tags: ["radioactivity", "half-life", "nuclear-decay", "isotopes"]
+quiz:
+  - q: "You are watching a single unstable nucleus that has a half-life of one hour. It has already sat unchanged for three hours. What is the chance it decays in the next hour?"
+    options:
+      - "Very high — it is 'overdue' and must decay soon to keep the average right"
+      - "Very low — most of its kind have already decayed, so this survivor is unusually stable"
+      - "It cannot be answered without knowing the atom's exact age"
+      - "Exactly the same as it was in its first hour — the nucleus has no memory of how long it has waited"
+    answer: 3
+    explanation: "Radioactive decay is memoryless: an unstable nucleus has a fixed probability of decaying per unit time and does not age. Its past survival tells you nothing about its future; the half-life describes the population, not any individual atom's schedule."
+  - q: "A sample starts with 8 billion atoms of an isotope. After exactly three half-lives, roughly how many remain?"
+    options:
+      - "Zero — three half-lives is enough to remove them all"
+      - "About 1 billion — each half-life removes half of what is left, so 8 → 4 → 2 → 1"
+      - "About 2.7 billion — one third are gone"
+      - "About 4 billion — a half-life always removes the same fixed amount"
+    answer: 1
+    explanation: "Each half-life halves the survivors, not the original total: 8 → 4 → 2 → 1 billion. Decay is exponential, so the count keeps halving toward zero without ever quite reaching it."
+  - q: "An alpha particle and a gamma ray are emitted toward your hand. Which statement is correct?"
+    options:
+      - "The gamma ray changes the nucleus more than the alpha, because photons carry more mass"
+      - "The alpha particle is stopped by a sheet of paper, while the gamma ray needs dense material like lead to absorb it"
+      - "Both change the atomic number by two"
+      - "Alpha decay leaves the mass number unchanged; only gamma decay removes nucleons"
+    answer: 1
+    explanation: "An alpha particle (a helium-4 nucleus) is massive and charged, so it is stopped by paper. A gamma ray is a high-energy photon that penetrates deeply and needs dense shielding like lead. Alpha decay lowers the mass number by 4 and the atomic number by 2; gamma decay changes neither."
+---
+
+## The one atom you cannot predict
+
+Pick a single atom of uranium-238 and ask a simple question: *when will it decay?* The honest answer is that nobody knows, and nobody ever can. It might decay in the next second, or it might sit unchanged for longer than the current age of the universe. There is no hidden countdown ticking inside the nucleus, no internal clock winding down, no way — even in principle — to read off its fate.
+
+This is not a limit of our instruments. It is a fundamental feature of nature. Radioactive decay is **random** and **memoryless**: an unstable nucleus has a fixed probability of decaying in each interval of time, and that probability never changes. The nucleus does not age. A uranium atom that has survived four billion years is, right now, exactly as likely to decay in the next minute as one freshly forged in a supernova. The past leaves no mark.
+
+It is tempting to think a nucleus that has "waited a long time" must be overdue, or that one which has survived must be unusually sturdy. Both ideas are wrong. Each decay is an independent roll of the same loaded die, with no memory of the rolls before it.
+
+<DecayModesAnimation />
+
+## How a nucleus decays
+
+When a nucleus does decay, it sheds energy and often particles, transforming into a different nuclide. There are three classic modes, and each rearranges the nucleus — described by its atomic number $Z$ (protons) and mass number $A$ (protons plus neutrons) — in its own way.
+
+**Alpha decay** ejects an *alpha particle*: a tightly bound helium-4 nucleus, two protons and two neutrons. The parent loses two protons and two neutrons, so $Z$ drops by 2 and $A$ drops by 4. Radium-226 alpha-decays into radon-222 this way. Alpha particles are heavy and doubly charged, so they lose energy fast and are **stopped by a sheet of paper** — but if inhaled or ingested, that same intensity makes them dangerous.
+
+**Beta decay** turns a neutron into a proton inside the nucleus, spitting out a fast electron (the beta particle) and an antineutrino. The proton count rises by one, but the total nucleon count is unchanged: $Z$ increases by 1, $A$ stays the same. Beta particles are lighter and more penetrating than alphas, passing through paper but **stopped by a few millimetres of aluminium**.
+
+**Gamma decay** emits no matter at all — just a high-energy *photon*. A nucleus left in an excited state after an alpha or beta decay drops to a lower energy level and releases the difference as a gamma ray. Neither $Z$ nor $A$ changes; only the nucleus's internal energy does. Gamma rays are the most penetrating of the three and need **dense shielding such as lead** to absorb them.
+
+$$
+\begin{aligned}
+\text{alpha:} &\quad (Z,\,A) \rightarrow (Z-2,\,A-4) \\
+\text{beta:} &\quad (Z,\,A) \rightarrow (Z+1,\,A) \\
+\text{gamma:} &\quad (Z,\,A) \rightarrow (Z,\,A)
+\end{aligned}
+$$
+
+Which mode a nucleus favours depends on *why* it is unstable — whether it has too many neutrons, too many protons, or simply too much mass. Understanding that means looking at the nucleus itself, the subject of [atomic structure](/articles/atomic-structure) and, one level deeper, [nuclear energy](/articles/nuclear-energy).
+
+## Isotopes and the edge of stability
+
+Atoms of the same element always share the same number of protons, but they can carry different numbers of neutrons. These variants are **isotopes**. Carbon always has 6 protons; carbon-12, carbon-13, and carbon-14 differ only in their neutron count (6, 7, and 8).
+
+Neutrons act as nuclear glue, adding attractive strong-force binding without piling on more electrostatic repulsion between protons. But there is a sweet spot. Too few or too many neutrons for a given proton count, and the nucleus becomes unstable — it sits off the "belt of stability" and eventually decays toward it. Carbon-12 and carbon-13 are stable and last forever; carbon-14, with two extra neutrons, is radioactive and beta-decays back to nitrogen-14. Whether a given isotope is stable or radioactive is a matter of this delicate proton-neutron balance, not the element's chemistry.
+
+## From randomness to clockwork
+
+Here is the beautiful part. Individual decays are utterly unpredictable, yet gather enough atoms together and their collective behaviour becomes exquisitely regular. This is the law of large numbers at work: you cannot predict one coin flip, but a million flips will land very close to half heads.
+
+If each nucleus has a constant probability per unit time of decaying — a *decay constant* $\lambda$ — then the number of surviving nuclei $N$ falls exponentially:
+
+$$
+N(t) = N_0\, e^{-\lambda t}
+$$
+
+where $N_0$ is the starting count. This smooth curve is not programmed into any single atom; it *emerges* from the statistics of a huge population. With a mole of atoms — $6 \times 10^{23}$ of them — the random scatter is so utterly averaged out that the curve is razor-sharp.
+
+The most natural way to describe that curve is the **half-life** $t_{1/2}$: the time for half the sample to decay. Setting $N = N_0/2$ in the decay law and solving gives
+
+$$
+t_{1/2} = \frac{\ln 2}{\lambda}
+$$
+
+and the decay law can be rewritten in the form that makes halving obvious:
+
+$$
+N = N_0 \left(\tfrac{1}{2}\right)^{t / t_{1/2}}
+$$
+
+<RadioactiveHalfLifeAnimation />
+
+## Halving forever, never reaching zero
+
+A crucial misconception hides in the phrase "half-life." Each half-life removes half of *what remains* — not half of the original. After one half-life, $1/2$ of the sample is left. After two, half of that half, or $1/4$. After three, $1/8$; after four, $1/16$. The sample is never "used up" after two half-lives, or ten. Mathematically the count only approaches zero, an exponential tail that keeps halving without end. (In practice, for a finite sample of countable atoms, decay does eventually finish once the last few individuals happen to go — but the *law* itself never hits zero.)
+
+This is exactly why half-lives are so useful, and it varies enormously between isotopes: some measured in fractions of a second, others in billions of years. Uranium-238's half-life is about 4.5 billion years, roughly the age of the Earth.
+
+## Reading the clock: radiometric dating
+
+Because the halving is so reliable, radioactive decay is a natural clock. **Carbon-14 dating** is the classic example. Cosmic rays constantly produce carbon-14 in the atmosphere, and living things absorb it in a fixed ratio to ordinary carbon-12 while they eat and breathe. When an organism dies, it stops taking in fresh carbon, and its carbon-14 begins to decay with a half-life of about 5,730 years — with no replenishment.
+
+Measure how much carbon-14 is left relative to carbon-12, and the decay law tells you how long ago the organism died. One half-life gone means the sample is roughly 5,730 years old; a quarter of the original carbon-14 remaining points to about 11,500 years. For older objects — rocks, meteorites, the Earth itself — geologists use isotopes with far longer half-lives, like uranium-238 decaying to lead-206. The same statistical certainty that makes a single atom unpredictable makes the whole sample a trustworthy timekeeper. Reading these isotope ratios precisely is a job for [spectroscopy](/articles/spectroscopy) and mass spectrometry, and counting atoms in bulk is the everyday work of [the mole](/articles/the-mole).
+
+<KeyTakeaways>
+- Radioactive decay is fundamentally **random and memoryless**: an unstable nucleus has a fixed probability of decaying per unit time, never ages, and gives no hint of when it will decay. You genuinely cannot predict a single atom's fate.
+- Predictability is **statistical**. Across a huge population — a mole of atoms — the randomness averages out and the count follows $N(t) = N_0 e^{-\lambda t}$, making the half-life $t_{1/2} = \ln 2 / \lambda$ sharp and reliable.
+- Each half-life removes **half of what remains**, not half of the original: after one, two, and three half-lives, $1/2$, $1/4$, and $1/8$ are left. The sample never reaches zero.
+- The three decay modes transform the nucleus differently: **alpha** ($Z-2,\,A-4$, stopped by paper), **beta** ($Z+1,\,A$, stopped by aluminium), and **gamma** (no change to $Z$ or $A$, needs lead).
+- **Isotopes** of an element differ only in neutron count; their stability depends on the proton-neutron balance. The reliable clock this creates powers radiometric dating, from carbon-14 to uranium-lead.
+</KeyTakeaways>
