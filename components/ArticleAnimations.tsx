@@ -1395,3 +1395,53 @@ export const CurrentFieldAnimation = dynamic(
   () => import('@/components/animations/CurrentFieldAnimation').then(m => ({ default: m.CurrentFieldAnimation })),
   { ssr: false }
 )
+
+export const RiemannSumAnimation = dynamic(
+  () => import('@/components/animations/RiemannSumAnimation').then(m => ({ default: m.RiemannSumAnimation })),
+  { ssr: false }
+)
+
+export const FundamentalTheoremAnimation = dynamic(
+  () => import('@/components/animations/FundamentalTheoremAnimation').then(m => ({ default: m.FundamentalTheoremAnimation })),
+  { ssr: false }
+)
+
+export const CometOrbitAnimation = dynamic(
+  () => import('@/components/animations/CometOrbitAnimation').then(m => ({ default: m.CometOrbitAnimation })),
+  { ssr: false }
+)
+
+export const CometAsteroidAnimation = dynamic(
+  () => import('@/components/animations/CometAsteroidAnimation').then(m => ({ default: m.CometAsteroidAnimation })),
+  { ssr: false }
+)
+
+export const CrisprTargetingAnimation = dynamic(
+  () => import('@/components/animations/CrisprTargetingAnimation').then(m => ({ default: m.CrisprTargetingAnimation })),
+  { ssr: false }
+)
+
+export const CrisprRepairAnimation = dynamic(
+  () => import('@/components/animations/CrisprRepairAnimation').then(m => ({ default: m.CrisprRepairAnimation })),
+  { ssr: false }
+)
+
+export const DecayModesAnimation = dynamic(
+  () => import('@/components/animations/DecayModesAnimation').then(m => ({ default: m.DecayModesAnimation })),
+  { ssr: false }
+)
+
+export const RadioactiveHalfLifeAnimation = dynamic(
+  () => import('@/components/animations/RadioactiveHalfLifeAnimation').then(m => ({ default: m.RadioactiveHalfLifeAnimation })),
+  { ssr: false }
+)
+
+export const DigestiveTractAnimation = dynamic(
+  () => import('@/components/animations/DigestiveTractAnimation').then(m => ({ default: m.DigestiveTractAnimation })),
+  { ssr: false }
+)
+
+export const VilliAbsorptionAnimation = dynamic(
+  () => import('@/components/animations/VilliAbsorptionAnimation').then(m => ({ default: m.VilliAbsorptionAnimation })),
+  { ssr: false }
+)

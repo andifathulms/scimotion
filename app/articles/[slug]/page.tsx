@@ -298,6 +298,16 @@ import {
   ImpulseAnimation,
   MagneticDomainAnimation,
   CurrentFieldAnimation,
+  RiemannSumAnimation,
+  FundamentalTheoremAnimation,
+  CometOrbitAnimation,
+  CometAsteroidAnimation,
+  CrisprTargetingAnimation,
+  CrisprRepairAnimation,
+  DecayModesAnimation,
+  RadioactiveHalfLifeAnimation,
+  DigestiveTractAnimation,
+  VilliAbsorptionAnimation,
 } from '@/components/ArticleAnimations'
 
 // Markdown links compile to raw <a> elements, and Next only applies basePath to
@@ -597,6 +607,16 @@ const components = {
   ImpulseAnimation,
   MagneticDomainAnimation,
   CurrentFieldAnimation,
+  RiemannSumAnimation,
+  FundamentalTheoremAnimation,
+  CometOrbitAnimation,
+  CometAsteroidAnimation,
+  CrisprTargetingAnimation,
+  CrisprRepairAnimation,
+  DecayModesAnimation,
+  RadioactiveHalfLifeAnimation,
+  DigestiveTractAnimation,
+  VilliAbsorptionAnimation,
   KeyTakeaways,
 }
 

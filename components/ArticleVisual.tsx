@@ -3711,6 +3711,73 @@ const visuals: Record<string, (c: string) => ReactNode> = {
       <text x={165} y={64} fontSize={11} fill={c} textAnchor="middle" fontFamily="monospace">S</text>
     </g>
   ),
+  'the-integral': c => {
+    const bars = []
+    for (let i = 0; i < 11; i++) {
+      const x = 40 + i * 20
+      const t = (x + 10 - 40) / 220
+      const h = 8 + 64 * (1 - (2 * t - 1) * (2 * t - 1))
+      bars.push(<rect key={i} x={x} y={88 - h} width={18} height={h} fill={`${c}2e`} stroke={`${c}88`} strokeWidth={0.5} />)
+    }
+    return (
+      <g>
+        {bars}
+        <line x1={30} y1={88} x2={272} y2={88} stroke={MUTE} strokeWidth={0.75} />
+        <path d="M40,80 Q150,4 260,80" fill="none" stroke={c} strokeWidth={2} />
+        <text x={150} y={40} fontSize={13} fill={GOLD} textAnchor="middle" fontFamily="monospace">∫</text>
+      </g>
+    )
+  },
+  comets: c => (
+    <g>
+      <circle cx={230} cy={60} r={12} fill={`${GOLD}44`} stroke={GOLD} strokeWidth={0.75} />
+      <circle cx={230} cy={60} r={5} fill={GOLD} />
+      <ellipse cx={150} cy={60} rx={110} ry={40} fill="none" stroke={MUTE} strokeWidth={0.75} strokeDasharray="3 3" />
+      <circle cx={70} cy={60} r={4} fill={c} />
+      <path d="M70,60 L34,44 M70,60 L32,58 M70,60 L36,74" stroke={`${c}aa`} strokeWidth={1.5} fill="none" />
+      <path d="M70,60 L30,50" stroke="#BFDBFE" strokeWidth={1} fill="none" />
+      <path d="M70,56 l8,-4 M78,52 l-4,-2 l0,5" fill="none" stroke={MUTE} strokeWidth={0.75} />
+      <text x={52} y={92} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">tail points away</text>
+    </g>
+  ),
+  crispr: c => (
+    <g>
+      <path d="M40,44 C90,44 90,76 140,76 M40,76 C90,76 90,44 140,44" fill="none" stroke={`${c}88`} strokeWidth={1.5} />
+      <path d="M175,44 C225,44 225,76 275,76 M175,76 C225,76 225,44 275,44" fill="none" stroke={`${c}88`} strokeWidth={1.5} />
+      <g stroke={`${c}44`} strokeWidth={0.75}>
+        <line x1={55} y1={49} x2={55} y2={71} /><line x1={80} y1={52} x2={80} y2={68} /><line x1={120} y1={52} x2={120} y2={68} />
+        <line x1={195} y1={52} x2={195} y2={68} /><line x1={235} y1={52} x2={235} y2={68} /><line x1={260} y1={49} x2={260} y2={71} />
+      </g>
+      <path d="M150,30 q8,10 0,20 q-8,10 0,20" fill="none" stroke={GOLD} strokeWidth={1.5} />
+      <polygon points="150,44 162,38 162,50" fill={`${GOLD}55`} stroke={GOLD} strokeWidth={0.75} />
+      <polygon points="150,76 138,70 138,82" fill={`${GOLD}55`} stroke={GOLD} strokeWidth={0.75} />
+      <path d="M158,26 l6,-4 M164,22 l-4,-1 l1,5" fill="none" stroke={GOLD} strokeWidth={1} />
+    </g>
+  ),
+  radioactivity: c => (
+    <g>
+      <path d="M40,90 C90,90 100,80 130,60 C160,40 180,30 260,26" fill="none" stroke={c} strokeWidth={2} />
+      <line x1={40} y1={90} x2={40} y2={20} stroke={MUTE} strokeWidth={0.5} />
+      <line x1={40} y1={90} x2={272} y2={90} stroke={MUTE} strokeWidth={0.5} />
+      <line x1={95} y1={90} x2={95} y2={62} stroke={`${GOLD}66`} strokeWidth={0.5} strokeDasharray="2 2" />
+      <line x1={150} y1={90} x2={150} y2={45} stroke={`${GOLD}66`} strokeWidth={0.5} strokeDasharray="2 2" />
+      <circle cx={95} cy={62} r={2.5} fill={GOLD} /><circle cx={150} cy={45} r={2.5} fill={GOLD} />
+      <text x={95} y={100} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">½</text>
+      <text x={150} y={100} fontSize={7} fill={MUTE} textAnchor="middle" fontFamily="monospace">¼</text>
+      <text x={220} y={20} fontSize={10} fill={c} fontFamily="monospace">α β γ</text>
+    </g>
+  ),
+  digestion: c => (
+    <g>
+      <path d="M110,18 C150,18 150,40 120,44 C150,48 150,66 118,66" fill="none" stroke={c} strokeWidth={2} />
+      <ellipse cx={95} cy={58} rx={18} ry={14} fill={`${c}22`} stroke={c} strokeWidth={1.25} />
+      <path d="M95,70 C80,84 120,86 108,96 C96,106 130,104 122,110" fill="none" stroke={GOLD} strokeWidth={2.5} />
+      <path d="M122,110 C160,110 170,100 175,90" fill="none" stroke={`${c}88`} strokeWidth={2} />
+      <circle cx={100} cy={100} r={2.5} fill={GOLD} /><circle cx={116} cy={104} r={2.5} fill={GOLD} />
+      <text x={200} y={94} fontSize={7} fill={GOLD} fontFamily="monospace">absorb</text>
+      <path d="M178,90 l14,0 M188,86 l5,4 l-5,4" fill="none" stroke={GOLD} strokeWidth={1} />
+    </g>
+  ),
 }
 
 export function ArticleVisual({
