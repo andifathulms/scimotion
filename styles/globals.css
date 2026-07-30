@@ -132,22 +132,30 @@ body {
 }
 
 /* Prose styles */
+/* Section headings take much more space above than below so they read as
+ * openings rather than as floating labels. h2 sits at 1.75rem, below the 2.25rem
+ * page title — previously both title and h2 were 1.5rem, which flattened the
+ * article title into a peer of its own sections. */
 .prose-article h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-top: 2.5rem;
+  margin-top: 3.5rem;
   margin-bottom: 1rem;
   color: var(--text-primary);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
+  line-height: 1.3;
+  text-wrap: balance;
   scroll-margin-top: 80px;
 }
 
 .prose-article h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   margin-bottom: 0.75rem;
   color: var(--text-primary);
+  line-height: 1.4;
+  text-wrap: balance;
   scroll-margin-top: 80px;
 }
 
@@ -155,15 +163,31 @@ body {
  * 45-75 readability band, and a more comfortable size for long-form reading
  * than the previous 1rem. Column width and body size have to move together:
  * changing either alone moves the line length out of range. */
+/* Body copy is --text-primary. It used to be --text-secondary (60% alpha, ~6.5:1
+ * on the dark base) with only the opening paragraph promoted to primary, which
+ * inverted the emphasis: the lede read crisp and then the remaining ten minutes
+ * of the article read as de-emphasised caption text. Secondary and muted tones
+ * belong on metadata, not on the thing the reader came for.
+ *
+ * The paragraph gap has to be at least close to one line of leading (1.125 *
+ * 1.75 = 1.97rem) or the space *between* blocks reads as tighter than the space
+ * *within* them and paragraph boundaries stop registering. 1.375rem was well
+ * under that. */
 .prose-article p {
   font-size: 1.125rem;
   line-height: 1.75;
-  margin-bottom: 1.375rem;
-  color: var(--text-secondary);
+  margin-bottom: 1.875rem;
+  color: var(--text-primary);
 }
 
-.prose-article p:first-of-type {
-  color: var(--text-primary);
+/* The lede is distinguished by size, not by dimming everything after it. Scoped
+ * to direct children: the unscoped `p:first-of-type` matched the first paragraph
+ * of *any* container — a blockquote or a list item would have picked up the lede
+ * treatment too, which is harmless at equal size and obvious at 1.25rem. */
+.prose-article > p:first-of-type {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
 }
 
 /* Tailwind's preflight resets `a` to `color: inherit; text-decoration: inherit`,
@@ -195,11 +219,11 @@ body {
  * numbered lists were rendering as unindented, unmarked lines. */
 .prose-article ul,
 .prose-article ol {
-  margin: 0 0 1.375rem;
+  margin: 0 0 1.875rem;
   padding-left: 1.5rem;
   font-size: 1.125rem;
   line-height: 1.75;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .prose-article ul { list-style: disc; }
@@ -253,7 +277,7 @@ body {
 }
 
 .prose-article td {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .prose-article code {
@@ -281,10 +305,21 @@ body {
 
 .prose-article blockquote {
   border-left: 3px solid var(--accent-gold);
-  padding-left: 1rem;
-  margin: 1.5rem 0;
-  color: var(--text-secondary);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
+  color: var(--text-primary);
   font-style: italic;
+}
+
+/* At the mobile column width 1.125rem yields roughly 40 characters per line,
+ * the bottom of the readable band, where long technical terms leave a heavy
+ * rag. Hyphenation buys back the evenness; above this width the measure is
+ * comfortable enough not to need it. */
+@media (max-width: 40em) {
+  .prose-article p,
+  .prose-article li {
+    hyphens: auto;
+  }
 }
 
 .katex-display {

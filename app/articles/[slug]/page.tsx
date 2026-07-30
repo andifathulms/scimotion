@@ -788,10 +788,17 @@ export default async function ArticlePage({ params }: Props) {
           <div className="mb-4">
             <TopicBadge topic={meta.topic} />
           </div>
-          <h1 className="text-2xl font-bold text-text-primary mb-2" style={{ letterSpacing: '-0.3px' }}>
+          {/* The title was text-2xl — the exact size of a prose h2 — so it read
+              as a peer of the article's own sections rather than as the top of
+              the hierarchy. text-wrap:balance keeps the two-line titles from
+              leaving a single orphaned word. */}
+          <h1
+            className="text-3xl sm:text-4xl font-bold text-text-primary mb-3 leading-tight text-balance"
+            style={{ letterSpacing: '-0.02em' }}
+          >
             {meta.title}
           </h1>
-          <p className="text-text-secondary text-base mb-4">{meta.subtitle}</p>
+          <p className="text-text-secondary text-lg leading-relaxed mb-5">{meta.subtitle}</p>
           <div className="flex items-center gap-2 text-xs text-text-muted uppercase tracking-wider">
             <span>{meta.readTime} min read</span>
             <span>·</span>
