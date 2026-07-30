@@ -1,0 +1,102 @@
+---
+title: "General Relativity: Gravity as Curved Spacetime"
+subtitle: "Gravity is not a force pulling you down — it is the shape of spacetime, and you are coasting along the straightest path through it."
+topic: "Physics"
+slug: "general-relativity"
+date: "2026-08-19"
+readTime: 10
+featured: false
+description: "Einstein's 1915 theory recasts gravity as the curvature of spacetime: mass-energy bends geometry, objects follow geodesics, and clocks, light, and GPS all obey."
+tags: ["general-relativity", "spacetime", "gravity", "einstein"]
+quiz:
+  - q: "In general relativity, why does the Moon orbit the Earth?"
+    options:
+      - "An invisible force reaches across space and continuously pulls the Moon inward"
+      - "The Earth's mass curves the surrounding spacetime, and the Moon simply follows the straightest available path (a geodesic) through that curved geometry"
+      - "The Moon is being pushed by a stream of gravitons emitted by the Earth"
+      - "Centrifugal force flings the Moon outward and balances an inward pull"
+    answer: 1
+    explanation: "General relativity replaces the pulling force with geometry. The Earth's mass-energy curves spacetime, and a freely-falling body like the Moon coasts along a geodesic — the straightest possible path through that curvature. An orbit is a 'straight line' in curved spacetime."
+  - q: "GPS satellites carry atomic clocks. Why must their engineers apply a general-relativistic correction of roughly 38 microseconds per day?"
+    options:
+      - "The satellites move so fast that only special relativity matters; gravity plays no role"
+      - "Clocks higher in Earth's gravity well run faster than clocks on the ground, so uncorrected satellite time drifts and positions would err by kilometres each day"
+      - "The correction is purely a battery-drain effect unrelated to relativity"
+      - "General relativity has no measurable consequences outside black holes"
+    answer: 1
+    explanation: "Gravitational time dilation makes clocks deeper in a gravity well tick slower, so the higher satellite clocks run faster than ground clocks (the dominant effect), while their orbital speed slows them slightly. The net ~38 microseconds/day, left uncorrected, would push GPS positions off by kilometres daily — everyday proof GR is real."
+  - q: "What is the main problem with the popular 'bowling ball on a stretched rubber sheet' picture of gravity?"
+    options:
+      - "Nothing — it is a complete and accurate depiction of general relativity"
+      - "It is only an analogy: it secretly relies on ordinary downward gravity to work and shows only curved space, omitting the crucial curvature of time"
+      - "It exaggerates how strong gravity is near ordinary planets"
+      - "It applies only to light and not to massive objects"
+    answer: 1
+    explanation: "The rubber-sheet image is a helpful cartoon but circular: it uses real gravity (pulling the ball down into the sheet) to explain gravity, and it depicts only the warping of space. For slow-moving objects the curvature of TIME dominates the everyday fall of an apple — which the picture leaves out entirely."
+---
+
+## An elevator with no windows
+
+Imagine you wake up in a sealed elevator and feel your normal weight pressing you to the floor. Are you parked on the surface of the Earth, or is the elevator being towed through deep space with an acceleration of 9.8 metres per second squared? Einstein's answer, the seed of his whole theory, is startling: **from inside, you cannot tell the difference.** Standing in gravity and accelerating through empty space produce identical physics. This is the **equivalence principle**, and Einstein called the realisation that a person in free fall feels no gravity at all "the happiest thought of my life."
+
+Turn it around. If you cut the elevator's cable, you and everything around you fall together, weightless — a floating pen stays put beside your hand, exactly as it would drifting in deep space far from any star. Free-fall cancels gravity locally; a uniform acceleration exactly mimics it. From this simple observation Einstein built, over ten hard years, the theory he published in **1915**: **general relativity**, in which gravity is not a force at all.
+
+## Retiring the invisible tether
+
+For over two centuries physics described gravity as Isaac Newton did: a **force** reaching invisibly across empty space, each mass tugging on every other. The picture is fantastically useful — it still lands spacecraft and predicts eclipses — but Newton himself was uneasy that his force acted instantly across any distance, with no mechanism at all.
+
+General relativity offers a completely different account. **There is no force, and no tether.** Instead:
+
+$$\text{mass-energy tells spacetime how to curve; spacetime tells matter how to move.}$$
+
+That two-way conversation is captured by the **Einstein field equations**, whose compact form,
+
+$$G_{\mu\nu} = 8\pi T_{\mu\nu},$$
+
+sets the curvature of spacetime (the left side, $G_{\mu\nu}$) equal to the matter and energy present (the right side, $T_{\mu\nu}$). Put mass and energy somewhere, and the geometry of space *and time* around it warps. An object that feels no other force — a coasting planet, a falling apple, a beam of light — then simply follows the straightest available path through that curved geometry. Such a path is called a **geodesic**.
+
+This reframes everything you were taught about falling. A dropped apple is not being *pulled* by a force; it is **coasting, weightless, along a geodesic** — which is exactly why an astronaut orbiting Earth floats. The Moon is not held by an invisible string; it follows the straightest path it can through the spacetime the Earth has curved. **An orbit is a "straight line" in curved spacetime.** Newton's force law survives as an excellent *approximation* wherever gravity is weak and speeds are modest — which is almost everywhere in daily life — but the deeper truth is geometry, not pulling.
+
+## Watching a straight line curve
+
+The widget below makes the idea concrete. A grid stands in for spacetime. Drop a mass onto it and the grid warps — bunching up near the mass, gently curved far away. Now launch a test particle straight across. It bends toward the mass and can settle into an orbit, not because anything reaches out and grabs it, but because **the grid it is travelling straight across is itself curved.**
+
+<SpacetimeCurvatureAnimation />
+
+Turn the mass slider up and the curvature deepens: the same particle bends more sharply, exactly as a heavier body warps spacetime more. Watch what the particle is doing — locally, it always goes as straight as it can. The *path* curves only because the *space* does. (A caution: this top-down grid, like the famous "bowling ball on a rubber sheet," is only an **analogy**. The rubber sheet cheats — it secretly uses ordinary downward gravity to pull the ball into the fabric — and it shows only the curving of *space*. For everyday falling, the curvature of **time** matters even more, and no rubber sheet can draw it.)
+
+## Why time is the hidden ingredient
+
+Here is the part the cartoons leave out. General relativity curves **time** as well as space, and near ordinary masses the time part dominates. A clock deeper in a gravity well — closer to a mass — literally **runs slower** than a clock higher up. This is **gravitational time dilation**, and it is not an illusion of measurement; the two clocks genuinely accumulate different amounts of elapsed time. A clock at sea level ticks slightly slower than one on a mountaintop, and both tick slower than a clock far out in space.
+
+An apple "falls" because, through the curvature of time, the path that stays still in space actually costs it proper time; the geodesic that maximises the apple's own elapsed time is the one that drifts downward. Gravity, at everyday speeds, is mostly the curvature of time. This effect is the sibling of the motion-based [time dilation](/articles/time-dilation) of special relativity, and together they run wild near the extreme geometry of [black holes](/articles/black-holes), where time slows toward a standstill at the horizon.
+
+## Not just exotic black-hole stuff — it runs your phone
+
+A stubborn misconception holds that general relativity is abstract mathematics with no bearing on real life — good only for black holes and cosmology. **That is wrong.** GR is tested to exquisite precision and *used* every single day.
+
+The clearest example is in your pocket. The **Global Positioning System** works by timing signals from satellites to within billionths of a second. But those satellites sit high in Earth's gravity well, where clocks run *faster* than on the ground (a gravitational effect), while their orbital speed makes them run *slower* (a special-relativistic effect). The gravitational effect wins, and the net mismatch is about **38 microseconds per day**. Left uncorrected, that error would push your mapped position off by roughly **ten kilometres every day**. GPS engineers deliberately tune the satellite clocks to compensate — general relativity is quietly baked into every navigation fix.
+
+Three classic tests sealed the theory:
+
+- **Bending of starlight (Eddington, 1919).** GR predicts that even massless light follows curved spacetime. During a total solar eclipse, Arthur Eddington measured stars appearing shifted because their light grazed the Sun and bent — by twice the amount Newtonian gravity would give. The confirmation made Einstein world-famous overnight.
+- **Mercury's perihelion.** The point of Mercury's closest approach to the Sun slowly rotates. A tiny leftover — 43 arcseconds per century — defied Newton for decades. GR explained it exactly, from the extra curvature near the Sun.
+- **Gravitational lensing.** On cosmic scales, the light-bending Eddington saw becomes a tool. Massive galaxy clusters warp spacetime so strongly that background galaxies appear smeared into arcs and rings, letting astronomers **weigh dark matter** by the light it deflects.
+
+That same bending of light is worth watching directly.
+
+<LightDeflectionAnimation />
+
+Parallel rays streaming past a massive object are deflected inward — the closer they graze, the more they bend. A background star therefore appears *shifted* from its true position, and if the mass is large enough and the alignment good, its light arrives from several directions at once: **multiple images, or a full Einstein ring.** Notice that light has no mass for a force to pull on; it bends purely because it is following the curved geometry, just as the planet did. The [gravitational waves](/articles/gravitational-waves) rippling out from colliding black holes are yet another prediction of this same geometric theory — spacetime itself set vibrating.
+
+## What survives, and what is new
+
+None of this erases Newton. His inverse-square law is what general relativity *reduces to* when gravity is weak and speeds are small, which is why it still guides most spacecraft and reproduces [Kepler's laws](/articles/keplers-laws) of planetary motion. Einstein's achievement was not to prove Newton wrong but to reveal what gravity *is* underneath the approximation: not a force threading through space, but the curvature of a unified spacetime, shaped by everything that has mass or energy and shaping, in turn, how everything moves.
+
+<KeyTakeaways>
+- Gravity is **not a force**. In Einstein's general relativity (1915), mass-energy curves spacetime, and freely-falling objects simply follow **geodesics** — the straightest possible paths through that curved geometry. An orbit is a "straight line" in curved spacetime, and a falling apple is coasting, weightless, along one.
+- The **equivalence principle** is the foundation: free-fall feels exactly like no gravity, and steady acceleration feels exactly like gravity — you cannot tell them apart from inside a sealed box.
+- General relativity curves **time** as well as space; near ordinary masses the curvature of *time* dominates. Clocks deeper in a gravity well run slower (**gravitational time dilation**), a real, measured effect.
+- GR is tested and **used daily**, not just exotic black-hole physics: GPS corrects ~38 microseconds/day or drifts kilometres, starlight bent measurably around the Sun (Eddington, 1919), Mercury's perihelion precesses, and gravitational lensing maps dark matter.
+- The popular **"bowling ball on a rubber sheet"** is only an analogy — it secretly relies on ordinary gravity to work and shows only curved space, leaving out the crucial curvature of time. Newton's law survives as an excellent weak-field approximation.
+</KeyTakeaways>
