@@ -16,6 +16,7 @@ import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
+import { remarkDisplayMath } from '@/lib/remark-display-math'
 import { KeyTakeaways } from '@/components/KeyTakeaways'
 import { SITE_URL } from '@/lib/site'
 import {
@@ -826,7 +827,7 @@ export default async function ArticlePage({ params }: Props) {
             components={components}
             options={{
               mdxOptions: {
-                remarkPlugins: [remarkMath],
+                remarkPlugins: [remarkMath, remarkDisplayMath],
                 rehypePlugins: [rehypeSlugSimple, rehypeKatex],
               },
             }}
