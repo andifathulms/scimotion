@@ -1,0 +1,118 @@
+---
+title: "Caching: The Art of Keeping the Right Things Close"
+subtitle: "How a tiny pocket of fast memory in front of a vast slow one makes almost everything feel instant."
+topic: "Computer Science"
+slug: "caching"
+date: "2026-08-10"
+readTime: 10
+featured: false
+description: "Why a small fast cache in front of slow memory speeds everything up, why locality makes it work, and why eviction policy decides the hit rate."
+tags: ["caching", "memory-hierarchy", "locality", "lru"]
+quiz:
+  - q: "A program's working set fits comfortably in a small cache and already gets a 95% hit rate. You double the cache size. What is the most likely result?"
+    options:
+      - "The hit rate roughly doubles because the cache now holds twice as much"
+      - "Little improvement in hit rate, since the hot data already fit — you mostly added cost, latency, and energy"
+      - "Access time drops to zero because everything is now cached"
+      - "The program slows down because larger caches are always slower to search"
+    answer: 1
+    explanation: "Caching pays off by capturing the frequently reused working set, not by being large. Once that set fits, extra capacity gives diminishing returns while adding cost, access latency, and power."
+  - q: "Given fast-memory time T_fast, slow-memory time T_slow, and hit rate h, what is the average access time?"
+    options:
+      - "T_avg = h·T_slow + (1−h)·T_fast"
+      - "T_avg = (T_fast + T_slow) / 2"
+      - "T_avg = h·T_fast + (1−h)·T_slow"
+      - "T_avg = T_fast · T_slow / h"
+    answer: 2
+    explanation: "A fraction h of accesses hit the fast level (cost T_fast); the remaining (1−h) miss and pay the slow cost T_slow. The weighted average is h·T_fast + (1−h)·T_slow, so a high hit rate is what makes the slow tier almost invisible."
+  - q: "A cache is full and a new block must be loaded on a miss. Why does the choice between LRU and FIFO eviction matter?"
+    options:
+      - "It doesn't — any full cache has the same hit rate regardless of policy"
+      - "The policy decides which block is discarded, and a bad guess can evict data that is about to be reused, lowering the hit rate"
+      - "FIFO is always faster than LRU on every access pattern"
+      - "Eviction only affects how much memory the cache uses, not its speed"
+    answer: 1
+    explanation: "Eviction is a prediction about the future. LRU discards the least-recently-used block (a good proxy for temporal locality); FIFO discards the oldest-loaded one regardless of reuse. On the same access stream they can yield very different hit rates."
+---
+
+## The desk and the archive
+
+Imagine you work at a desk in front of an enormous archive room down the hall. The desk holds a handful of folders; the archive holds millions. Fetching a folder from the archive takes minutes; grabbing one already on your desk takes a second. If you had to walk to the archive for every single lookup, you would get nothing done.
+
+So you don't. You keep the folders you're actively using on the desk, and walk to the archive only when you need something new. Because real work tends to revisit the same few folders over and over, that tiny desk — a rounding error next to the archive — handles the overwhelming majority of your lookups.
+
+That is a **cache**: a small, fast store placed in front of a large, slow one. It is one of the most important ideas in computing, and it appears at every scale — inside your CPU, in your browser, on content delivery networks, in databases. But it is also widely misunderstood.
+
+## A cache is not just "extra memory"
+
+The first misconception is that a cache is simply more storage, and that a bigger cache is always better. Both halves are wrong.
+
+A cache works not because it is big, but because of **locality of reference** — a deep empirical fact about how programs behave. There are two kinds:
+
+- **Temporal locality**: data used recently is likely to be used again soon (a loop counter, a hot config value).
+- **Spatial locality**: data near recently used data is likely to be used soon (the next element of an array, the next byte of a file).
+
+A cache exploits locality by keeping a **small hot subset** — the *working set* — in fast storage. Its benefit comes from a high **hit rate**, not from its size. The clearest way to see this is the average access time. If a fraction $h$ of accesses hit the fast level and the rest fall through to the slow one:
+
+$$T_{avg} = h\,T_{fast} + (1-h)\,T_{slow}$$
+
+Suppose the fast cache takes $T_{fast} = 1\,\text{ns}$ and slow memory takes $T_{slow} = 100\,\text{ns}$. With no cache, every access costs 100 ns. Add one small cache level and reach a 95% hit rate:
+
+$$T_{avg} = 0.95 \times 1 + 0.05 \times 100 = 0.95 + 5 = 5.95\,\text{ns}$$
+
+A tiny cache holding a sliver of the data cut average latency by roughly **17×** — not by being large, but by catching the reused data. Push the hit rate to 99% and it drops to about 1.99 ns.
+
+<MemoryHierarchyAnimation />
+
+Now the key subtlety: past the working set, more cache gives **diminishing returns**. Once the hot data fit, doubling capacity barely moves $h$ — you're paying to store cold data you rarely touch. And caches are not free. Bigger caches are physically slower to search, burn more energy, take die area, and create **coherence** problems when multiple copies of the same data can disagree. Size for the working set, not for bragging rights.
+
+If this reasoning about reuse and access cost feels familiar, it is the same logic behind [hash tables](/articles/hash-tables) trading space for $O(1)$ lookup, and behind [dynamic programming](/articles/dynamic-programming), which is essentially caching the answers to subproblems so you never recompute them.
+
+## The memory hierarchy
+
+Because no single technology is both huge and fast, real machines stack many caches into a **memory hierarchy**, each level trading size for speed:
+
+- **Registers** — a few dozen slots, ~0.3 ns, right inside the CPU.
+- **L1 cache** — tens of KB, ~1 ns.
+- **L2 cache** — hundreds of KB, ~4 ns.
+- **L3 cache** — a few MB shared across cores, ~15 ns.
+- **RAM** — gigabytes, ~100 ns.
+- **Disk / network** — terabytes or the whole internet, ~10 ms and up.
+
+Each step down is bigger and cheaper per byte, but dramatically slower — the jump from RAM to disk is roughly a hundred-thousand-fold. The hierarchy works because each level acts as a cache for the one below it, and locality keeps most accesses near the top.
+
+Data doesn't move one byte at a time, either. Caches transfer fixed-size **cache lines** (typically 64 bytes). Loading a whole line is how hardware cashes in on spatial locality: touch one byte and its neighbors come along for free, which is why iterating an array in order is far faster than jumping around at random.
+
+When a lookup fails at a level, it's a **miss**, and misses come in three flavors:
+
+- **Cold (compulsory) misses**: the first-ever reference to a block — nothing could have been cached yet.
+- **Capacity misses**: the working set is bigger than the cache, so useful data got pushed out.
+- **Conflict misses**: several blocks compete for the same limited set of slots even though the cache isn't full.
+
+## Eviction: deciding what to throw away
+
+The second misconception is that what's *in* the cache doesn't matter, or that caches never go stale. A finite cache is always eventually full, so every miss forces a choice: to load a new block, you must **evict** an old one. That choice is a prediction about the future, and the **eviction policy** decides it.
+
+<CacheEvictionAnimation />
+
+Run the same access stream under two policies and the difference is stark:
+
+- **LRU (least-recently-used)** evicts the block that hasn't been touched for the longest time. It bets on temporal locality — recently used data will be used again — and usually wins.
+- **FIFO (first-in, first-out)** evicts whichever block was loaded earliest, regardless of how often it's been used since. Simpler to implement, but it can discard hot data just because it arrived long ago.
+- **Random** evicts an arbitrary block. Surprisingly competitive, and it avoids some pathological patterns.
+
+On the same sequence these policies can produce very different hit counts, which is the whole point: the *contents* of a small cache — governed by its eviction policy — matter as much as its size.
+
+There is a second way caches go wrong. A cached copy is only useful if it still matches the source. When the underlying data changes, every cached copy becomes **stale**, and the system must **invalidate** it — a notoriously hard problem, immortalized in the quip that *"there are only two hard things in computer science: cache invalidation and naming things."* Serve a stale copy and you've made something fast and wrong instead of slow and right.
+
+## Why it all matters
+
+Caching is a single idea repeated at every layer of a computer, from the registers in a CPU to a CDN edge server continents away from the origin. Each layer keeps a small hot subset close and pays the full slow cost only when it guesses wrong. Get the hit rate high — through locality and a smart eviction policy — and a vast, slow world starts to feel instant.
+
+<KeyTakeaways>
+- A cache speeds things up because of **locality of reference**, not size: it keeps a small hot working set in fast storage and wins by achieving a high hit rate.
+- Average access time is $T_{avg} = h\,T_{fast} + (1-h)\,T_{slow}$; a high hit rate makes even a very slow backing store nearly invisible.
+- Bigger is not always better — once the working set fits, extra capacity gives diminishing returns while adding latency, energy, area, and coherence cost.
+- A finite cache must **evict** on every miss, and the policy (LRU vs FIFO vs random) can change the hit rate substantially on the same access stream.
+- Cached copies go **stale** when the source changes, so correct caching also requires invalidation — one of the genuinely hard problems in computing.
+</KeyTakeaways>
