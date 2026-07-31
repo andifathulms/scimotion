@@ -26,21 +26,20 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
           <ArticleVisual slug={article.slug} topic={article.topic} />
         </div>
         <div className="flex flex-1 flex-col p-4">
-          {/* flex-wrap matters: long topic names like "Earth & Climate" used to
-              push the Interactive pill past the card's overflow-hidden edge and
-              clip it mid-word. */}
+          {/* The "Interactive" pill that used to sit beside the topic was on
+              every one of the 171 cards, so it distinguished nothing — and next
+              to a long topic name like "Astronomy & Cosmology" it was what
+              pushed the row onto a second line. The hero already makes the
+              promise. Bring it back only if non-interactive articles appear. */}
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <TopicBadge topic={article.topic} />
-            <span className="whitespace-nowrap text-xs font-medium uppercase tracking-wider text-accent-gold border border-accent-gold/25 bg-accent-gold/10 px-2 py-0.5 rounded-full">
-              Interactive
-            </span>
           </div>
           {/* The title was unclamped, so a long one could run to three lines and
               blow past its neighbours. Clamped to two, with two lines reserved
               in em (which tracks whichever of the two sizes is in play) so a
               one-line title does not drag the summary up to meet it. */}
           <h3
-            className={`font-semibold text-text-primary leading-snug mb-1.5 line-clamp-2 min-h-[2.75em] group-hover:text-accent-gold transition-colors ${featured ? 'text-xl' : 'text-sm'}`}
+            className={`font-semibold text-text-primary leading-snug mb-1.5 line-clamp-2 min-h-[2.75em] group-hover:text-accent-gold transition-colors ${featured ? 'text-xl' : 'text-base'}`}
           >
             {article.title}
           </h3>
