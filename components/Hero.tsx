@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { motion, type Variants } from 'framer-motion'
 import { HeroCanvas } from './HeroCanvas'
 
@@ -68,12 +69,16 @@ export function Hero() {
           >
             Explore articles
           </a>
-          <a
+          {/* next/link, not a raw anchor: basePath is only applied by next/link,
+              so `href="/about"` shipped as-is and the deployed button pointed at
+              the domain root instead of /scimotion/about. The "Explore articles"
+              link above is a same-page hash and is correct as a plain anchor. */}
+          <Link
             href="/about"
             className="text-sm text-text-secondary hover:text-text-primary transition-colors"
           >
             About Scimotion →
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
     </div>
