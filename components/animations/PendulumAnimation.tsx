@@ -62,6 +62,7 @@ export function PendulumAnimation() {
     const { angle, trail } = stateRef.current
     // Drawing length, not physical length — see the note by L_MIN.
     const L = toPixels(length)
+    const L_m = length
     const bobX = PIVOT_X + L * Math.sin(angle)
     const bobY = PIVOT_Y + L * Math.cos(angle)
 
@@ -130,35 +131,57 @@ export function PendulumAnimation() {
     ctx.font = '10px monospace'
     ctx.fillText(`${(angle * 180 / Math.PI).toFixed(1)}°`, PIVOT_X + 35, PIVOT_Y + 16)
 
-    // Energy bars
-    const pe = gravity * L * (1 - Math.cos(angle))
-    const totalE = gravity * L * (1 - Math.cos(stateRef.current.angle === angle && !running
-      ? (initAngle * Math.PI / 180)
-      : (initAngle * Math.PI / 180)))
-    const ke = Math.max(0, totalE - pe)
-    const normPE = totalE > 0 ? pe / totalE : 0
-    const normKE = totalE > 0 ? ke / totalE : 0
+    // Energy bars — measured from the simulation, not asserted from θ₀.
+    //
+    // These used to read: totalE = g·L·(1−cos θ₀) held constant, then
+    // ke = totalE − pe. Kinetic energy was DEFINED as the remainder, so the two
+    // bars traded off perfectly by construction. `omega`, the only state the
+    // integrator actually advances, never entered the calculation. The bars
+    // would have shown flawless conservation with a broken integrator, a
+    // negative g, or a rod that changed length mid-swing — and the article
+    // pointed at them and said "watch, they trade off perfectly", which the
+    // reader reasonably took as evidence. It was evidence of nothing.
+    //
+    // Worse, the loop damps (omega *= 0.9995), so energy really is draining
+    // away. The old display concealed exactly the effect the article's closing
+    // section is about.
+    //
+    // Per unit mass: PE = gL(1−cos θ), KE = ½L²ω². The reference is the initial
+    // energy, so the total bar starts full and visibly sinks as damping bites.
+    const { omega } = stateRef.current
+    const pe = gravity * L_m * (1 - Math.cos(angle))
+    const ke = 0.5 * L_m * L_m * omega * omega
+    const e0 = gravity * L_m * (1 - Math.cos((initAngle * Math.PI) / 180))
+    const normPE = e0 > 0 ? pe / e0 : 0
+    const normKE = e0 > 0 ? ke / e0 : 0
+    const normTot = normPE + normKE
 
-    const barX = W - 60
+    const barX = W - 78
     const barH = 100
 
     ctx.fillStyle = 'rgba(255,245,235,0.06)'
-    ctx.fillRect(barX, H - barH - 20, 16, barH)
-    ctx.fillRect(barX + 20, H - barH - 20, 16, barH)
+    for (let i = 0; i < 3; i++) ctx.fillRect(barX + i * 20, H - barH - 20, 16, barH)
 
-    ctx.fillStyle = '#A78BFA'
-    ctx.fillRect(barX, H - 20 - normPE * barH, 16, normPE * barH)
-    ctx.fillStyle = '#10B981'
-    ctx.fillRect(barX + 20, H - 20 - normKE * barH, 16, normKE * barH)
+    const bar = (i: number, v: number, colour: string) => {
+      const h = Math.max(0, Math.min(1, v)) * barH
+      ctx.fillStyle = colour
+      ctx.fillRect(barX + i * 20, H - 20 - h, 16, h)
+    }
+    bar(0, normPE, '#A78BFA')
+    bar(1, normKE, '#10B981')
+    bar(2, normTot, '#F59E0B')
 
     ctx.font = '9px monospace'
-    ctx.fillStyle = '#A78BFA'
-    ctx.fillText('PE', barX + 1, H - 8)
-    ctx.fillStyle = '#10B981'
-    ctx.fillText('KE', barX + 21, H - 8)
+    ctx.fillStyle = '#A78BFA'; ctx.fillText('PE', barX + 1, H - 8)
+    ctx.fillStyle = '#10B981'; ctx.fillText('KE', barX + 21, H - 8)
+    ctx.fillStyle = '#F59E0B'; ctx.fillText('tot', barX + 40, H - 8)
+    // The number the reader can watch fall. Without it the decay is a slowly
+    // shrinking rectangle that is easy to miss.
+    ctx.fillStyle = 'rgba(245,240,232,0.55)'
+    ctx.fillText(`${(normTot * 100).toFixed(0)}%`, barX + 38, H - barH - 26)
 
     setEnergy({ ke: normKE, pe: normPE })
-  }, [length, gravity, initAngle, running])
+  }, [length, gravity, initAngle])
 
   useEffect(() => {
     stateRef.current = { angle: initAngle * Math.PI / 180, omega: 0, trail: [] }
