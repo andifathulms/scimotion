@@ -12,12 +12,31 @@ const PIVOT_X = W / 2
 const PIVOT_Y = 40
 const DT = 0.016
 
+// Length is a real length, in metres, and it is the same L in three places: the
+// integrator, the period formula, and the article's prose. It used to be a
+// pixel count. The integrator fed those pixels straight into g/L, so it swung
+// as though the rod were 160 METRES long, while the readout divided by 1000 to
+// present the same number as 0.16 m — two different unit conventions in one
+// component, 33x apart. The pendulum you watched took 26 seconds a swing while
+// the number beside it said 0.80 s.
+//
+// The drawing scale is now a separate concern: metres map onto a fixed pixel
+// span so the bob stays on the canvas at any length. The article says a
+// 1-metre pendulum has a period of about 2 seconds; the reader can now dial
+// exactly that and time it.
+const L_MIN = 0.2
+const L_MAX = 2.0
+const PX_MIN = 60
+const PX_MAX = 220
+const toPixels = (metres: number) =>
+  PX_MIN + ((metres - L_MIN) / (L_MAX - L_MIN)) * (PX_MAX - PX_MIN)
+
 // Module scope, not inline: an object literal in the render body is a new
 // reference on every frame of a running simulation, which defeats the memos in
 // useWidgetParams. Symbols match the equation in the article body.
 const SPEC = {
   initAngle: { default: 60, min: 5, max: 85, step: 1, symbol: 'θ₀', unit: '°' },
-  length: { default: 160, min: 60, max: 220, step: 10, symbol: 'L', unit: 'px' },
+  length: { default: 1, min: L_MIN, max: L_MAX, step: 0.05, symbol: 'L', unit: 'm' },
   gravity: { default: 9.81, min: 1, max: 20, step: 0.5, symbol: 'g', unit: 'm/s²' },
 }
 
@@ -41,7 +60,8 @@ export function PendulumAnimation() {
     ctx.clearRect(0, 0, W, H)
 
     const { angle, trail } = stateRef.current
-    const L = length
+    // Drawing length, not physical length — see the note by L_MIN.
+    const L = toPixels(length)
     const bobX = PIVOT_X + L * Math.sin(angle)
     const bobY = PIVOT_Y + L * Math.cos(angle)
 
@@ -155,8 +175,9 @@ export function PendulumAnimation() {
       s.omega *= 0.9995
       s.angle += s.omega * DT
 
-      const bobX = PIVOT_X + length * Math.sin(s.angle)
-      const bobY = PIVOT_Y + length * Math.cos(s.angle)
+      const px = toPixels(length)
+      const bobX = PIVOT_X + px * Math.sin(s.angle)
+      const bobY = PIVOT_Y + px * Math.cos(s.angle)
       s.trail = [...s.trail, { x: bobX, y: bobY }].slice(-80)
 
       drawFrame()
@@ -179,7 +200,7 @@ export function PendulumAnimation() {
     drawFrame()
   }
 
-  const period = (2 * Math.PI * Math.sqrt(length / 1000 / gravity)).toFixed(2)
+  const period = (2 * Math.PI * Math.sqrt(length / gravity)).toFixed(2)
 
   return (
     <div className="animation-block" ref={ref}>
@@ -220,7 +241,7 @@ export function PendulumAnimation() {
             onChange={e => { set('length', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
-          <span>{length}px</span>
+          <span className="tabular-nums">{length.toFixed(2)} m</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Gravity <span className="text-accent-gold">g</span>:</span>
@@ -240,7 +261,7 @@ export function PendulumAnimation() {
         <EquationReadout
           formula="T = 2π√(L/g)"
           bindings={[
-            { symbol: 'L', value: `${(length / 1000).toFixed(2)} m` },
+            { symbol: 'L', value: `${length.toFixed(2)} m` },
             { symbol: 'g', value: `${gravity} m/s²` },
           ]}
           result={`${period} s`}
