@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 270
@@ -50,12 +52,19 @@ const shapeAt = (modes: Mode[], t: number, omega: number, u: number) => {
   return y
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  ratio: { default: 1, min: 0.4, max: 5.4, step: 0.01 },
+}
+
 export function StandingWaveAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
 
   const [running, setRunning] = useState(false)
-  const [ratio, setRatio] = useState(1)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('standing-wave', SPEC)
+  const { ratio } = params
 
   const tRef = useRef(0)
   const ratioRef = useRef(1)
@@ -219,7 +228,7 @@ export function StandingWaveAnimation() {
     setRunning(false)
     tRef.current = 0
     envRef.current = new Array(SAMPLES + 1).fill(0)
-    setRatio(1)
+    set('ratio', 1)
     draw()
   }
 
@@ -227,9 +236,12 @@ export function StandingWaveAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Standing Waves on a String</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -243,8 +255,8 @@ export function StandingWaveAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Drive f/f₁:</span>
-          <input type="range" min={0.4} max={5.4} step={0.01} value={ratio}
-            onChange={e => setRatio(+e.target.value)}
+          <input type="range" min={SPEC.ratio.min} max={SPEC.ratio.max} step={SPEC.ratio.step} value={ratio}
+            onChange={e => set('ratio', +e.target.value)}
             className="w-40 accent-accent-gold"
           />
           <span>{ratio.toFixed(2)}</span>
@@ -253,7 +265,7 @@ export function StandingWaveAnimation() {
           {[1, 2, 3, 4, 5].map(n => (
             <button
               key={n}
-              onClick={() => setRatio(n)}
+              onClick={() => set('ratio', n)}
               className={`px-2 py-1 rounded-md text-[11px] transition-colors ${
                 ratio === n ? 'bg-accent-gold text-bg-base' : 'bg-white/5 text-text-muted hover:text-text-secondary'
               }`}

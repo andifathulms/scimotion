@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 360
@@ -41,6 +43,12 @@ type Site = { x: number; y: number; phase: number }
 
 const rand = (lo: number, hi: number) => lo + Math.random() * (hi - lo)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  pDisplay: { default: 0, min: 0, max: 1, step: 0.001 },
+}
+
 export function RecombinationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -49,7 +57,8 @@ export function RecombinationAnimation() {
   const photonsRef = useRef<Photon[]>([])
   const sitesRef = useRef<Site[]>([])
 
-  const [pDisplay, setPDisplay] = useState(0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('recombination', SPEC)
+  const { pDisplay } = params
   const [playing, setPlaying] = useState(false)
 
   // Build the particle field once (client-only widget, so Math.random is fine).
@@ -208,7 +217,7 @@ export function RecombinationAnimation() {
     const loop = () => {
       if (playingRef.current) {
         pRef.current = Math.min(1, pRef.current + 0.0035)
-        setPDisplay(pRef.current)
+        set('pDisplay', pRef.current)
         if (pRef.current >= 1) { playingRef.current = false; setPlaying(false) }
       }
       draw()
@@ -216,24 +225,24 @@ export function RecombinationAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [draw])
+  }, [draw, set])
 
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         pRef.current = 1
-        setPDisplay(1)
+        set('pDisplay', 1)
         return
       }
       pRef.current = 0
-      setPDisplay(0)
+      set('pDisplay', 0)
       playingRef.current = true
       setPlaying(true)
     },
   })
 
   const toggle = () => {
-    if (pRef.current >= 1) { pRef.current = 0; setPDisplay(0) }
+    if (pRef.current >= 1) { pRef.current = 0; set('pDisplay', 0) }
     playingRef.current = !playingRef.current
     setPlaying(playingRef.current)
   }
@@ -242,7 +251,7 @@ export function RecombinationAnimation() {
     playingRef.current = false
     setPlaying(false)
     pRef.current = 0
-    setPDisplay(0)
+    set('pDisplay', 0)
     triggerReset()
   }
 
@@ -250,9 +259,12 @@ export function RecombinationAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Cool the universe until the fog clears</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: BG }} />
@@ -267,12 +279,12 @@ export function RecombinationAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>hot</span>
           <input
-            type="range" min={0} max={1} step={0.001} value={pDisplay}
+            type="range" min={SPEC.pDisplay.min} max={SPEC.pDisplay.max} step={SPEC.pDisplay.step} value={pDisplay}
             onChange={e => {
               playingRef.current = false
               setPlaying(false)
               pRef.current = +e.target.value
-              setPDisplay(pRef.current)
+              set('pDisplay', pRef.current)
             }}
             className="w-44 accent-accent-indigo"
           />

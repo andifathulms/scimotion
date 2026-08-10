@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, SkipForward } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -71,12 +73,19 @@ function arrow(
   ctx.fill()
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  startAngle: { default: 2.3, min: 0, max: 6.28, step: 0.02 },
+}
+
 export function PowerIterationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const [running, setRunning] = useState(false)
   const [step, setStep] = useState(0)
-  const [startAngle, setStartAngle] = useState(2.3)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('power-iteration', SPEC)
+  const { startAngle } = params
   const [preset, setPreset] = useState(0)
 
   const m = MATRICES[preset].m
@@ -258,9 +267,12 @@ export function PowerIterationAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Power iteration</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -282,8 +294,8 @@ export function PowerIterationAnimation() {
         </select>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>v₀ angle:</span>
-          <input type="range" min={0} max={6.28} step={0.02} value={startAngle}
-            onChange={e => { setRunning(false); setStep(0); setStartAngle(+e.target.value) }}
+          <input type="range" min={SPEC.startAngle.min} max={SPEC.startAngle.max} step={SPEC.startAngle.step} value={startAngle}
+            onChange={e => { setRunning(false); setStep(0); set('startAngle', +e.target.value) }}
             className="w-24 accent-accent-violet" />
           <span className="font-mono">{startAngle.toFixed(2)}</span>
         </div>

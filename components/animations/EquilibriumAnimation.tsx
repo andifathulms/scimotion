@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -43,6 +45,12 @@ function makeMols(start: Start): Mol[] {
 
 type Hist = { a: number[]; b: number[]; rf: number[]; rr: number[] }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  k: { default: 2, min: 0.25, max: 4, step: 0.25 },
+}
+
 export function EquilibriumAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -50,7 +58,8 @@ export function EquilibriumAnimation() {
   const histRef = useRef<Hist>({ a: [], b: [], rf: [], rr: [] })
   const kRef = useRef(2)
 
-  const [k, setK] = useState(2)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('equilibrium', SPEC)
+  const { k } = params
   const [start, setStart] = useState<Start>('reactant')
   const [running, setRunning] = useState(false)
   const [readout, setReadout] = useState({ a: N, b: 0 })
@@ -282,9 +291,12 @@ export function EquilibriumAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · A &#8652; B reaching equilibrium</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -305,8 +317,8 @@ export function EquilibriumAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>K:</span>
           <input
-            type="range" min={0.25} max={4} step={0.25} value={k}
-            onChange={e => setK(+e.target.value)}
+            type="range" min={SPEC.k.min} max={SPEC.k.max} step={SPEC.k.step} value={k}
+            onChange={e => set('k', +e.target.value)}
             className="w-24 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{k.toFixed(2)}</span>

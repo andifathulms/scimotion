@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -36,6 +38,12 @@ function vToY(v: number): number {
 
 let NEXT_ID = 1
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  spread: { default: 0.55, min: 0, max: 1, step: 0.05 },
+}
+
 export function SynapticIntegrationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -51,7 +59,8 @@ export function SynapticIntegrationAnimation() {
 
   const [inputs, setInputs] = useState<Input[]>([])
   const [running, setRunning] = useState(false)
-  const [spread, setSpread] = useState(0.55)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('synaptic-integration', SPEC)
+  const { spread } = params
   const [fired, setFired] = useState(0)
 
   useEffect(() => {
@@ -332,7 +341,7 @@ export function SynapticIntegrationAnimation() {
     setRunning(false)
     triggerReset()
     seed()
-    setSpread(0.55)
+    set('spread', 0.55)
     spreadRef.current = 0.55
     draw()
   }
@@ -345,12 +354,15 @@ export function SynapticIntegrationAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · The neuron sums its inputs and fires only past threshold
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -393,11 +405,11 @@ export function SynapticIntegrationAnimation() {
           <span>Timing:</span>
           <input
             type="range"
-            min={0}
-            max={1}
-            step={0.05}
+            min={SPEC.spread.min}
+            max={SPEC.spread.max}
+            step={SPEC.spread.step}
             value={spread}
-            onChange={e => setSpread(+e.target.value)}
+            onChange={e => set('spread', +e.target.value)}
             className="w-24 accent-accent-lime"
           />
           <span>{spread < 0.33 ? 'synchronous' : spread > 0.7 ? 'spread out' : 'mixed'}</span>

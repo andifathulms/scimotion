@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 620
 const H = 380
@@ -73,6 +75,12 @@ type Water = { x: number; y: number; t: number; slot: number }
 type Bubble = { x: number; y: number; vy: number; life: number }
 type Atp = { x: number; y: number; life: number }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  light: { default: 55, min: 0, max: 100, step: 1 },
+}
+
 export function PhotosynthesisAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -93,7 +101,8 @@ export function PhotosynthesisAnimation() {
   const bubblesRef = useRef<Bubble[]>([])
   const atpsRef = useRef<Atp[]>([])
 
-  const [light, setLight] = useState(55)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('photosynthesis', SPEC)
+  const { light } = params
   const [running, setRunning] = useState(false)
   const [rate, setRate] = useState(0)
   const [gradient, setGradient] = useState(0)
@@ -452,7 +461,7 @@ export function PhotosynthesisAnimation() {
     watersRef.current = []
     bubblesRef.current = []
     atpsRef.current = []
-    setLight(55)
+    set('light', 55)
     setRate(0)
     setGradient(0)
     setCycles(0)
@@ -469,9 +478,12 @@ export function PhotosynthesisAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · The thylakoid membrane: photons in, O₂ and ATP out</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -487,8 +499,8 @@ export function PhotosynthesisAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Light:</span>
           <input
-            type="range" min={0} max={100} step={1} value={light}
-            onChange={e => setLight(+e.target.value)}
+            type="range" min={SPEC.light.min} max={SPEC.light.max} step={SPEC.light.step} value={light}
+            onChange={e => set('light', +e.target.value)}
             className="w-36"
             style={{ accentColor: GOLD }}
           />

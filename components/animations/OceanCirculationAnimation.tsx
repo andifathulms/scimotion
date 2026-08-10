@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -142,13 +144,20 @@ function formatF(f: number): string {
   return `${(f / Math.pow(10, e)).toFixed(2)}e${e}`
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  omega: { default: DEFAULT_OMEGA, min: 0, max: 2, step: 0.05 },
+}
+
 export function OceanCirculationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const partsRef = useRef<Particle[]>([])
   const omegaRef = useRef(DEFAULT_OMEGA)
 
-  const [omega, setOmega] = useState(DEFAULT_OMEGA)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('ocean-circulation', SPEC)
+  const { omega } = params
   const [running, setRunning] = useState(false)
 
   useEffect(() => {
@@ -389,7 +398,7 @@ export function OceanCirculationAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setOmega(DEFAULT_OMEGA)
+    set('omega', DEFAULT_OMEGA)
     omegaRef.current = DEFAULT_OMEGA
     seed()
     settle(60)
@@ -411,12 +420,15 @@ export function OceanCirculationAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Wind-driven surface circulation
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -446,11 +458,11 @@ export function OceanCirculationAnimation() {
           <span>Rotation:</span>
           <input
             type="range"
-            min={0}
-            max={2}
-            step={0.05}
+            min={SPEC.omega.min}
+            max={SPEC.omega.max}
+            step={SPEC.omega.step}
             value={omega}
-            onChange={e => setOmega(+e.target.value)}
+            onChange={e => set('omega', +e.target.value)}
             className="w-44"
             style={{ accentColor: CYAN }}
           />

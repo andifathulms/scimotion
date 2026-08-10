@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 290
@@ -85,9 +87,16 @@ function buildRun(x0: number, R: number, L: Landscape): Run {
   return { xs, outcome, foldStep }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rug: { default: 0.25, min: 0, max: 1, step: 0.01 },
+}
+
 export function EnergyLandscapeAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [rug, setRug] = useState(0.25)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('energy-landscape', SPEC)
+  const { rug } = params
   const [land, setLand] = useState<Landscape>(() => makeLandscape())
   const [run, setRun] = useState<Run | null>(null)
   const [step, setStep] = useState(0)
@@ -254,9 +263,12 @@ export function EnergyLandscapeAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · The folding funnel</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -271,8 +283,8 @@ export function EnergyLandscapeAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Ruggedness:</span>
           <input
-            type="range" min={0} max={1} step={0.01} value={rug}
-            onChange={e => { setRunning(false); setRug(+e.target.value) }}
+            type="range" min={SPEC.rug.min} max={SPEC.rug.max} step={SPEC.rug.step} value={rug}
+            onChange={e => { setRunning(false); set('rug', +e.target.value) }}
             className="w-32 accent-accent-violet"
           />
           <span className="font-mono text-text-secondary">{rug.toFixed(2)}</span>

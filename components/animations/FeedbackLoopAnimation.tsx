@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 310
@@ -104,6 +106,12 @@ function arrow(ctx: CanvasRenderingContext2D, x: number, y: number, dx: number, 
   ctx.fill()
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  gain: { default: 3, min: 0, max: 12, step: 0.5 },
+}
+
 export function FeedbackLoopAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -116,7 +124,8 @@ export function FeedbackLoopAnimation() {
 
   const [running, setRunning] = useState(false)
   const [t, setT] = useState(0)
-  const [gain, setGain] = useState(3)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('feedback-loop', SPEC)
+  const { gain } = params
 
   const trace = useMemo(() => simulate(gain), [gain])
   const idx = Math.max(0, Math.min(N_STEPS, Math.round(t / DT)))
@@ -301,7 +310,7 @@ export function FeedbackLoopAnimation() {
     triggerReset()
     setRunning(false)
     setT(0)
-    setGain(3)
+    set('gain', 3)
   }
 
   let peak = SETPOINT
@@ -321,9 +330,12 @@ export function FeedbackLoopAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Loop gain, overshoot, and the cost of delay</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -338,8 +350,8 @@ export function FeedbackLoopAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Loop gain K:</span>
           <input
-            type="range" min={0} max={12} step={0.5} value={gain}
-            onChange={e => { setGain(+e.target.value); setT(0) }}
+            type="range" min={SPEC.gain.min} max={SPEC.gain.max} step={SPEC.gain.step} value={gain}
+            onChange={e => { set('gain', +e.target.value); setT(0) }}
             className="w-32 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{gain.toFixed(1)}</span>

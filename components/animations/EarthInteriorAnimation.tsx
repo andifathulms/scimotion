@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 400
@@ -141,13 +143,20 @@ function surfaceBand(
 
 const STATIONS = Array.from({ length: 25 }, (_, i) => (i - 12) * 15)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  origin: { default: 0, min: -180, max: 180, step: 5 },
+}
+
 export function EarthInteriorAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const progRef = useRef(0)
 
   const [running, setRunning] = useState(false)
-  const [origin, setOrigin] = useState(0) // epicentre position, degrees
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('earth-interior', SPEC)
+  const { origin } = params
   const [wave, setWave] = useState<'p' | 's'>('s')
 
   const originRef = useRef(origin)
@@ -382,7 +391,7 @@ export function EarthInteriorAnimation() {
     const x = ((e.clientX - box.left) / box.width) * W
     const y = ((e.clientY - box.top) / box.height) * H
     const deg = (Math.atan2(y - CY, x - CX) / DEG + 90 + 360) % 360
-    setOrigin(Math.round(deg > 180 ? deg - 360 : deg))
+    set('origin', Math.round(deg > 180 ? deg - 360 : deg))
   }
 
   const resetAll = () => {
@@ -390,7 +399,7 @@ export function EarthInteriorAnimation() {
     setRunning(false)
     triggerReset()
     progRef.current = 0
-    setOrigin(0)
+    set('origin', 0)
     originRef.current = 0
     setWave('s')
     waveRef.current = 's'
@@ -403,12 +412,15 @@ export function EarthInteriorAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · The shadow zones that mapped the core
         </span>
-        <button
-          onClick={resetAll}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={resetAll}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -461,11 +473,11 @@ export function EarthInteriorAnimation() {
           <span>Epicentre:</span>
           <input
             type="range"
-            min={-180}
-            max={180}
-            step={5}
+            min={SPEC.origin.min}
+            max={SPEC.origin.max}
+            step={SPEC.origin.step}
             value={origin}
-            onChange={e => setOrigin(+e.target.value)}
+            onChange={e => set('origin', +e.target.value)}
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{origin}°</span>

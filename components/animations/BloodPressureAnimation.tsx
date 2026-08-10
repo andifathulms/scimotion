@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 260
@@ -56,9 +58,16 @@ function pressureAt(t: number, dbp: number, pp: number): number {
   return dbp + norm * pp
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  compliance: { default: 1, min: 0, max: 1, step: 0.01 },
+}
+
 export function BloodPressureAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [compliance, setCompliance] = useState(1) // 1 = compliant/young, 0 = stiff
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('blood-pressure', SPEC)
+  const { compliance } = params
   const [running, setRunning] = useState(false)
   const [reducedStatic, setReducedStatic] = useState(false)
   const offsetRef = useRef(0) // elapsed seconds scrolled
@@ -177,7 +186,7 @@ export function BloodPressureAnimation() {
     setRunning(false)
     setReducedStatic(false)
     offsetRef.current = 0
-    setCompliance(1)
+    set('compliance', 1)
     compRef.current = 1
     drawTrace(0)
   }
@@ -188,12 +197,15 @@ export function BloodPressureAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Arterial pressure waveform
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -209,8 +221,8 @@ export function BloodPressureAnimation() {
           <span>Arterial compliance:</span>
           <span className="text-text-secondary">stiff</span>
           <input
-            type="range" min={0} max={1} step={0.01} value={compliance}
-            onChange={e => setCompliance(+e.target.value)}
+            type="range" min={SPEC.compliance.min} max={SPEC.compliance.max} step={SPEC.compliance.step} value={compliance}
+            onChange={e => set('compliance', +e.target.value)}
             className="w-40 accent-accent-pink"
           />
           <span className="text-text-secondary">compliant</span>

@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 372
@@ -111,6 +113,12 @@ function doubleArrow(
   }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  station: { default: 320, min: 80, max: 680, step: 10 },
+}
+
 export function SeismicWaveAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -118,7 +126,8 @@ export function SeismicWaveAnimation() {
   const tRef = useRef(0)
 
   const [running, setRunning] = useState(false)
-  const [station, setStation] = useState(320) // km from the rupture
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('seismic-wave', SPEC)
+  const { station } = params
   const [shown, setShown] = useState<Record<Phase['key'], boolean>>({ p: true, s: true, r: true })
   const [clock, setClock] = useState(0)
 
@@ -401,7 +410,7 @@ export function SeismicWaveAnimation() {
     lastRef.current = null
     tRef.current = 0
     setClock(0)
-    setStation(320)
+    set('station', 320)
     stationRef.current = 320
     setShown({ p: true, s: true, r: true })
     shownRef.current = { p: true, s: true, r: true }
@@ -417,12 +426,15 @@ export function SeismicWaveAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · P, S and surface waves leaving a rupture
         </span>
-        <button
-          onClick={resetAll}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={resetAll}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -466,11 +478,11 @@ export function SeismicWaveAnimation() {
           <span>Station:</span>
           <input
             type="range"
-            min={80}
-            max={680}
-            step={10}
+            min={SPEC.station.min}
+            max={SPEC.station.max}
+            step={SPEC.station.step}
             value={station}
-            onChange={e => setStation(+e.target.value)}
+            onChange={e => set('station', +e.target.value)}
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{station} km</span>

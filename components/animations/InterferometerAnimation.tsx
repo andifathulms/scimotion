@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 340
@@ -36,6 +38,12 @@ const TX0 = 300
 const TX1 = 560
 const DXT = (TX1 - TX0) / HISTORY_MAX
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  amp: { default: 3, min: 0, max: 5, step: 0.5 },
+}
+
 export function InterferometerAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -46,7 +54,8 @@ export function InterferometerAnimation() {
 
   const [running, setRunning] = useState(false)
   const [waveOn, setWaveOn] = useState(true)
-  const [amp, setAmp] = useState(3) // strain amplitude in units of 1e-21
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('interferometer', SPEC)
+  const { amp } = params
   const [sNow, setSNow] = useState(0)
 
   const waveRef = useRef(waveOn)
@@ -207,7 +216,7 @@ export function InterferometerAnimation() {
     triggerReset()
     setRunning(false)
     setWaveOn(true)
-    setAmp(3)
+    set('amp', 3)
     tRef.current = 0
     inHistRef.current = []
     outHistRef.current = []
@@ -222,9 +231,12 @@ export function InterferometerAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Measuring the strain with two arms</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -246,8 +258,8 @@ export function InterferometerAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>strain:</span>
-          <input type="range" min={0} max={5} step={0.5} value={amp}
-            onChange={e => setAmp(+e.target.value)}
+          <input type="range" min={SPEC.amp.min} max={SPEC.amp.max} step={SPEC.amp.step} value={amp}
+            onChange={e => set('amp', +e.target.value)}
             className="w-28" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{(amp * 0.2).toFixed(1)}×10⁻²¹</span>
         </div>

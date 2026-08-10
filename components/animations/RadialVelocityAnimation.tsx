@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -20,6 +22,12 @@ const PLOT_BOT = 260
 const PLOT_MID = (PLOT_TOP + PLOT_BOT) / 2
 const K_MAX = 46         // px amplitude that pins the RV axis (max mass)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  mass: { default: 4, min: 0.5, max: 12, step: 0.1 },
+}
+
 export function RadialVelocityAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -33,7 +41,8 @@ export function RadialVelocityAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [mass, setMass] = useState(4)   // planet mass in Jupiter masses
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('radial-velocity', SPEC)
+  const { mass } = params
   const [readout, setReadout] = useState({ rv: 0, k: 0 })
 
   // Star's reflex-orbit radius grows with planet mass (m_star held fixed).
@@ -212,9 +221,12 @@ export function RadialVelocityAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · A heavier planet, a bigger wobble</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -229,8 +241,8 @@ export function RadialVelocityAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Planet mass:</span>
           <input
-            type="range" min={0.5} max={12} step={0.1} value={mass}
-            onChange={ev => { setMass(+ev.target.value) }}
+            type="range" min={SPEC.mass.min} max={SPEC.mass.max} step={SPEC.mass.step} value={mass}
+            onChange={ev => { set('mass', +ev.target.value) }}
             className="w-36 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{mass.toFixed(1)} M<sub>J</sub></span>

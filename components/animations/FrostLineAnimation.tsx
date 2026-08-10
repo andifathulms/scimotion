@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 320
@@ -49,6 +51,12 @@ const GRAINS: Grain[] = Array.from({ length: 220 }, () => {
 
 function xOf(frac: number) { return PLOT_LEFT + frac * (PLOT_RIGHT - PLOT_LEFT) }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  frost: { default: 0.42, min: 0.2, max: 0.7, step: 0.01 },
+}
+
 export function FrostLineAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => { if (!reduced) setRunning(true) },
@@ -59,7 +67,8 @@ export function FrostLineAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [frost, setFrost] = useState(0.42) // frost-line position as fraction of disk
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('frost-line', SPEC)
+  const { frost } = params
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current
@@ -219,7 +228,7 @@ export function FrostLineAnimation() {
   const resetAll = () => {
     triggerReset(); setRunning(false)
     tRef.current = 0; lastRef.current = null
-    setFrost(0.42); draw(0)
+    set('frost', 0.42); draw(0)
   }
 
   const frostTemp = Math.round(tempAt(frost))
@@ -228,9 +237,12 @@ export function FrostLineAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · The frost line &amp; two kinds of planet</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -246,8 +258,8 @@ export function FrostLineAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Frost line:</span>
           <input
-            type="range" min={0.2} max={0.7} step={0.01} value={frost}
-            onChange={ev => setFrost(+ev.target.value)}
+            type="range" min={SPEC.frost.min} max={SPEC.frost.max} step={SPEC.frost.step} value={frost}
+            onChange={ev => set('frost', +ev.target.value)}
             className="w-40"
             style={{ accentColor: CYAN }}
           />

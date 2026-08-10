@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 620
 const H = 300
@@ -38,13 +40,20 @@ function eqOf(dG0: number): number {
   return K / (1 + K)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  dG0: { default: -4, min: -10, max: 10, step: 0.5 },
+}
+
 export function ReactionExtentAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const xiRef = useRef(0.02) // current extent of reaction
   const dG0Ref = useRef(-4)
 
-  const [dG0, setDG0] = useState(-4) // ΔG°, kJ/mol
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('reaction-extent', SPEC)
+  const { dG0 } = params
   const [running, setRunning] = useState(false)
   const [xiReadout, setXiReadout] = useState(0.02)
 
@@ -228,7 +237,7 @@ export function ReactionExtentAnimation() {
     cancelAnimationFrame(rafRef.current)
     triggerReset()
     setRunning(false)
-    setDG0(-4)
+    set('dG0', -4)
     dG0Ref.current = -4
     xiRef.current = 0.02
     setXiReadout(0.02)
@@ -241,9 +250,12 @@ export function ReactionExtentAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Free energy along the extent of reaction</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -270,8 +282,8 @@ export function ReactionExtentAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔG°:</span>
           <input
-            type="range" min={-10} max={10} step={0.5} value={dG0}
-            onChange={e => setDG0(+e.target.value)}
+            type="range" min={SPEC.dG0.min} max={SPEC.dG0.max} step={SPEC.dG0.step} value={dG0}
+            onChange={e => set('dG0', +e.target.value)}
             className="w-28 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{dG0.toFixed(1)} kJ/mol</span>

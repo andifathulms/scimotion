@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 320
@@ -596,6 +598,12 @@ function drawTransform(ctx: CanvasRenderingContext2D, phase: number, drift: numb
 
 // ---------------------------------------------------------------------------
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rate: { default: 5, min: 2, max: 10, step: 1 },
+}
+
 export function PlateTectonicsAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -604,7 +612,8 @@ export function PlateTectonicsAnimation() {
   const myrRef = useRef(0)
 
   const [mode, setMode] = useState<Mode>('divergent')
-  const [rate, setRate] = useState(5) // cm/yr
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('plate-tectonics', SPEC)
+  const { rate } = params
   const [running, setRunning] = useState(false)
   const [clock, setClock] = useState(0) // model time, Myr
 
@@ -739,7 +748,7 @@ export function PlateTectonicsAnimation() {
     setClock(0)
     setMode('divergent')
     modeRef.current = 'divergent'
-    setRate(5)
+    set('rate', 5)
     rateRef.current = 5
     draw()
   }
@@ -754,12 +763,15 @@ export function PlateTectonicsAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Plate boundaries in cross-section
         </span>
-        <button
-          onClick={resetAll}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={resetAll}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -805,11 +817,11 @@ export function PlateTectonicsAnimation() {
           <span>Rate:</span>
           <input
             type="range"
-            min={2}
-            max={10}
-            step={1}
+            min={SPEC.rate.min}
+            max={SPEC.rate.max}
+            step={SPEC.rate.step}
             value={rate}
-            onChange={e => setRate(+e.target.value)}
+            onChange={e => set('rate', +e.target.value)}
             className="w-28 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{rate} cm/yr</span>

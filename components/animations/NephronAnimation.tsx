@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -118,6 +120,12 @@ function initParticle(spread: boolean, glucoseSpill: number): Particle {
 
 const N_PARTICLES = 90
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  glucose: { default: 100, min: 80, max: 360, step: 5 },
+}
+
 export function NephronAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -126,7 +134,8 @@ export function NephronAnimation() {
   const excretedRef = useRef({ glucose: 0, urea: 0, water: 0, salt: 0 })
 
   const [running, setRunning] = useState(false)
-  const [glucose, setGlucose] = useState(100) // mg/dL
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('nephron', SPEC)
+  const { glucose } = params
   const [glucoseUrine, setGlucoseUrine] = useState(0)
 
   const spillFrac = Math.max(0, Math.min(1, (glucose - GLU_THRESHOLD) / GLU_SPAN))
@@ -376,7 +385,7 @@ export function NephronAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setGlucose(100)
+    set('glucose', 100)
     spillRef.current = 0
     setGlucoseUrine(0)
     seed()
@@ -389,12 +398,15 @@ export function NephronAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Filter everything, then reabsorb what you need
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -415,8 +427,8 @@ export function NephronAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Blood glucose:</span>
           <input
-            type="range" min={80} max={360} step={5} value={glucose}
-            onChange={e => { setGlucose(+e.target.value); setGlucoseUrine(0); excretedRef.current.glucose = 0 }}
+            type="range" min={SPEC.glucose.min} max={SPEC.glucose.max} step={SPEC.glucose.step} value={glucose}
+            onChange={e => { set('glucose', +e.target.value); setGlucoseUrine(0); excretedRef.current.glucose = 0 }}
             className="w-32 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{glucose} mg/dL</span>

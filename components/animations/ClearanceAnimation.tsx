@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 280
@@ -51,6 +53,12 @@ const urineColor = (h: number) => {
 
 type Drop = { x: number; y: number; vy: number }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  hydration: { default: 0.5, min: 0, max: 1, step: 0.01 },
+}
+
 export function ClearanceAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -58,7 +66,8 @@ export function ClearanceAnimation() {
   const frameRef = useRef(0)
   const hRef = useRef(0.5)
 
-  const [hydration, setHydration] = useState(0.5)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('clearance', SPEC)
+  const { hydration } = params
   const [running, setRunning] = useState(false)
   useEffect(() => {
     hRef.current = hydration
@@ -302,7 +311,7 @@ export function ClearanceAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setHydration(0.5)
+    set('hydration', 0.5)
     hRef.current = 0.5
     dropsRef.current = []
     frameRef.current = 0
@@ -318,12 +327,15 @@ export function ClearanceAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · A regulator, not a drain
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -344,8 +356,8 @@ export function ClearanceAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Dehydrated</span>
           <input
-            type="range" min={0} max={1} step={0.01} value={hydration}
-            onChange={e => setHydration(+e.target.value)}
+            type="range" min={SPEC.hydration.min} max={SPEC.hydration.max} step={SPEC.hydration.step} value={hydration}
+            onChange={e => set('hydration', +e.target.value)}
             className="w-44 accent-accent-pink"
           />
           <span>Overhydrated</span>

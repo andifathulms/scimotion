@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 322
@@ -38,6 +40,12 @@ type Stats = { frame: number; carriers: number; bCarriers: number; done: boolean
 
 const EMPTY_STATS: Stats = { frame: 0, carriers: 1, bCarriers: 0, done: false }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rate: { default: 1, min: 0.2, max: 2, step: 0.1 },
+}
+
 export function HorizontalTransferAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -48,7 +56,8 @@ export function HorizontalTransferAnimation() {
   const curvesRef = useRef<{ hgt: number[]; vertical: number[] }>({ hgt: [], vertical: [] })
 
   const [conjugation, setConjugation] = useState(true)
-  const [rate, setRate] = useState(1)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('horizontal-transfer', SPEC)
+  const { rate } = params
   const [running, setRunning] = useState(false)
   const [stats, setStats] = useState<Stats>(EMPTY_STATS)
 
@@ -333,7 +342,7 @@ export function HorizontalTransferAnimation() {
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
-    setRate(1)
+    set('rate', 1)
     curvesRef.current = { hgt: [], vertical: [] }
     setConjugation(true)
     build(true)
@@ -345,9 +354,12 @@ export function HorizontalTransferAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Horizontal gene transfer</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -373,8 +385,8 @@ export function HorizontalTransferAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Transfer rate:</span>
           <input
-            type="range" min={0.2} max={2} step={0.1} value={rate}
-            onChange={e => setRate(+e.target.value)}
+            type="range" min={SPEC.rate.min} max={SPEC.rate.max} step={SPEC.rate.step} value={rate}
+            onChange={e => set('rate', +e.target.value)}
             className="w-24 accent-accent-pink"
             disabled={!conjugation}
           />

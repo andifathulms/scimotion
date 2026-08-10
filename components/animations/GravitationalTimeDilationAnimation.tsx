@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -20,12 +22,19 @@ const R_EVENT = 34 // event-horizon radius in px
 // r_s; the near clock sits at radius `rOverRs` (>= 1.001, never below the horizon).
 const factor = (rOverRs: number) => Math.sqrt(Math.max(0, 1 - 1 / rOverRs))
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rOverRs: { default: 3, min: 1.02, max: 6, step: 0.01 },
+}
+
 export function GravitationalTimeDilationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const tRef = useRef(0)
   const [running, setRunning] = useState(false)
-  const [rOverRs, setROverRs] = useState(3) // near clock radius, in units of r_s
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('gravitational-time-dilation', SPEC)
+  const { rOverRs } = params
   const [farTime, setFarTime] = useState(0)
   const [nearTime, setNearTime] = useState(0)
 
@@ -155,7 +164,7 @@ export function GravitationalTimeDilationAnimation() {
     setRunning(false)
     setFarTime(0)
     setNearTime(0)
-    setROverRs(3)
+    set('rOverRs', 3)
     triggerReset()
     draw(0, 3)
   }
@@ -166,9 +175,12 @@ export function GravitationalTimeDilationAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Gravitational time dilation</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -181,8 +193,8 @@ export function GravitationalTimeDilationAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>lower the clock (r/rₛ):</span>
-          <input type="range" min={1.02} max={6} step={0.01} value={rOverRs}
-            onChange={e => setROverRs(+e.target.value)}
+          <input type="range" min={SPEC.rOverRs.min} max={SPEC.rOverRs.max} step={SPEC.rOverRs.step} value={rOverRs}
+            onChange={e => set('rOverRs', +e.target.value)}
             className="w-40" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{rOverRs.toFixed(2)}</span>
         </div>

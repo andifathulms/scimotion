@@ -2,9 +2,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 260
+
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  beta: { default: 0.6, min: 0.1, max: 0.99, step: 0.01 },
+}
 
 export function TimeDilationAnimation() {
   const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
@@ -12,7 +20,8 @@ export function TimeDilationAnimation() {
   const rafRef = useRef<number>(0)
   const tRef = useRef(0)
   const [running, setRunning] = useState(false)
-  const [beta, setBeta] = useState(0.6) // v/c
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('time-dilation', SPEC)
+  const { beta } = params
   const [tProper, setTProper] = useState(0)
   const [tCoordinate, setTCoordinate] = useState(0)
 
@@ -196,9 +205,12 @@ export function TimeDilationAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Time Dilation</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -210,8 +222,8 @@ export function TimeDilationAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>v/c:</span>
-          <input type="range" min={0.1} max={0.99} step={0.01} value={beta}
-            onChange={e => setBeta(+e.target.value)}
+          <input type="range" min={SPEC.beta.min} max={SPEC.beta.max} step={SPEC.beta.step} value={beta}
+            onChange={e => set('beta', +e.target.value)}
             className="w-28 accent-accent-gold" />
           <span className="font-mono">{(beta * 100).toFixed(0)}%</span>
         </div>

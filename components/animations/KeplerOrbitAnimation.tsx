@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -23,6 +25,12 @@ function eccentricAnomaly(M: number, e: number): number {
   return E
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  ecc: { default: 0.4, min: 0, max: 0.75, step: 0.01 },
+}
+
 export function KeplerOrbitAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => { if (!reduced) setRunning(true) },
@@ -33,7 +41,8 @@ export function KeplerOrbitAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [ecc, setEcc] = useState(0.4)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('kepler-orbit', SPEC)
+  const { ecc } = params
   const [readout, setReadout] = useState({ r: 1, v: 1 })
 
   // Semi-major axis in pixels. Chosen so the semi-minor axis stays pinned at
@@ -181,9 +190,12 @@ export function KeplerOrbitAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Equal areas in equal times</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -198,8 +210,8 @@ export function KeplerOrbitAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Eccentricity:</span>
           <input
-            type="range" min={0} max={0.75} step={0.01} value={ecc}
-            onChange={ev => { setEcc(+ev.target.value); phaseRef.current = 0; lastRef.current = null }}
+            type="range" min={SPEC.ecc.min} max={SPEC.ecc.max} step={SPEC.ecc.step} value={ecc}
+            onChange={ev => { set('ecc', +ev.target.value); phaseRef.current = 0; lastRef.current = null }}
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">e = {ecc.toFixed(2)}</span>

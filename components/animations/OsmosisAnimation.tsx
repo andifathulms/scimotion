@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 330
@@ -48,6 +50,12 @@ function inPore(y: number) {
   return PORES.some(py => Math.abs(y - py) < PORE_HW)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  delta: { default: 55, min: 0, max: 100 },
+}
+
 export function OsmosisAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -58,7 +66,8 @@ export function OsmosisAnimation() {
   const deltaRef = useRef(55)
 
   const [running, setRunning] = useState(false)
-  const [delta, setDelta] = useState(55)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('osmosis', SPEC)
+  const { delta } = params
   const [readout, setReadout] = useState({ left: 0, right: 0, eq: false })
 
   // Seed water (fixed) and solute (right count scales with the difference).
@@ -333,7 +342,7 @@ export function OsmosisAnimation() {
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 
   const onDelta = (v: number) => {
-    setDelta(v)
+    set('delta', v)
     deltaRef.current = v
     seed(v)
     if (!running) {
@@ -357,12 +366,15 @@ export function OsmosisAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Water crosses; solute cannot
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -398,8 +410,8 @@ export function OsmosisAnimation() {
           Solute difference
           <input
             type="range"
-            min={0}
-            max={100}
+            min={SPEC.delta.min}
+            max={SPEC.delta.max}
             value={delta}
             onChange={e => onDelta(Number(e.target.value))}
             className="w-32"

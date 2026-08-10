@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -99,6 +101,12 @@ function nucleiCount(rate: number): number {
   return Math.round(4 + ((rate - 1) / 9) * 56)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rate: { default: 3, min: 1, max: 10, step: 1 },
+}
+
 export function RockFormationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -109,7 +117,8 @@ export function RockFormationAnimation() {
   const runningRef = useRef(false)
 
   const [running, setRunning] = useState(false)
-  const [rate, setRate] = useState(3)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('rock-formation', SPEC)
+  const { rate } = params
   const [pct, setPct] = useState(0)
 
   const drawIgneous = useCallback((ctx: CanvasRenderingContext2D, p: number) => {
@@ -360,7 +369,7 @@ export function RockFormationAnimation() {
 
   const onRate = (v: number) => {
     rateRef.current = v
-    setRate(v)
+    set('rate', v)
     draw()
   }
 
@@ -370,12 +379,15 @@ export function RockFormationAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Three routes to rock, side by side
         </span>
-        <button
-          onClick={resetAll}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={resetAll}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -406,9 +418,9 @@ export function RockFormationAnimation() {
           <span className="text-text-secondary">slow</span>
           <input
             type="range"
-            min={1}
-            max={10}
-            step={1}
+            min={SPEC.rate.min}
+            max={SPEC.rate.max}
+            step={SPEC.rate.step}
             value={rate}
             onChange={e => onRate(+e.target.value)}
             className="w-24 accent-accent-gold"

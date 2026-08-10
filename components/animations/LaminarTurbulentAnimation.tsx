@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 250
@@ -69,12 +71,19 @@ function formatRe(re: number): string {
   return `${(re / Math.pow(10, e)).toFixed(1)}e${e}`
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  logRe: { default: DEFAULT_L, min: 2, max: 5, step: 0.01 },
+}
+
 export function LaminarTurbulentAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const dyeRef = useRef<Dye[]>([])
   const tracRef = useRef<Tracer[]>([])
-  const [logRe, setLogRe] = useState(DEFAULT_L)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('laminar-turbulent', SPEC)
+  const { logRe } = params
   const [running, setRunning] = useState(false)
   const logReRef = useRef(DEFAULT_L)
 
@@ -322,7 +331,7 @@ export function LaminarTurbulentAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setLogRe(DEFAULT_L)
+    set('logRe', DEFAULT_L)
     logReRef.current = DEFAULT_L
     seed()
     draw()
@@ -337,12 +346,15 @@ export function LaminarTurbulentAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Reynolds&rsquo;s pipe experiment
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas
@@ -372,11 +384,11 @@ export function LaminarTurbulentAnimation() {
           <span>Re:</span>
           <input
             type="range"
-            min={2}
-            max={5}
-            step={0.01}
+            min={SPEC.logRe.min}
+            max={SPEC.logRe.max}
+            step={SPEC.logRe.step}
             value={logRe}
-            onChange={e => setLogRe(+e.target.value)}
+            onChange={e => set('logRe', +e.target.value)}
             className="w-48 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{formatRe(re)}</span>

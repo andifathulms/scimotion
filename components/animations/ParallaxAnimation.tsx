@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -33,6 +35,12 @@ const nearStarX = (d: number) => SUN_X + 14 * d
 // scales as 1/d — the whole point: closer stars shift more.
 const swingPx = (d: number) => Math.min(120, 120 / d)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  dist: { default: 3, min: 1, max: 10, step: 0.5 },
+}
+
 export function ParallaxAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -46,7 +54,8 @@ export function ParallaxAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [dist, setDist] = useState(3) // distance to the nearby star, in parsecs
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('parallax', SPEC)
+  const { dist } = params
 
   const draw = useCallback((phase: number) => {
     const canvas = canvasRef.current
@@ -196,7 +205,7 @@ export function ParallaxAnimation() {
     setRunning(false)
     phaseRef.current = 0
     lastRef.current = null
-    setDist(3)
+    set('dist', 3)
   }
 
   const parallaxArcsec = 1 / dist // p (arcsec) = 1 / d (pc), by definition of the parsec
@@ -205,9 +214,12 @@ export function ParallaxAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Measure a star&apos;s distance by its shift</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -222,8 +234,8 @@ export function ParallaxAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Star distance:</span>
           <input
-            type="range" min={1} max={10} step={0.5} value={dist}
-            onChange={ev => { setDist(+ev.target.value) }}
+            type="range" min={SPEC.dist.min} max={SPEC.dist.max} step={SPEC.dist.step} value={dist}
+            onChange={ev => { set('dist', +ev.target.value) }}
             className="w-40 accent-accent-indigo"
           />
           <span className="text-text-secondary font-medium">d = {dist.toFixed(1)} pc</span>

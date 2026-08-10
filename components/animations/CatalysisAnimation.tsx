@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 620
 const H = 300
@@ -46,6 +48,12 @@ function peakOf(deltaG: number, barrier: number): { x: number; e: number } {
 
 type Attempt = { dir: 1 | -1; success: boolean; t: number }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  deltaG: { default: -18, min: -28, max: 8, step: 1 },
+}
+
 export function CatalysisAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -56,7 +64,8 @@ export function CatalysisAnimation() {
 
   const [running, setRunning] = useState(false)
   const [catalyst, setCatalyst] = useState(false)
-  const [deltaG, setDeltaG] = useState(-18)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('catalysis', SPEC)
+  const { deltaG } = params
   const [counts, setCounts] = useState({ fwd: 0, rev: 0 })
 
   const { ref, reset: triggerReset } = useAnimationTrigger({
@@ -269,7 +278,7 @@ export function CatalysisAnimation() {
     triggerReset()
     setRunning(false)
     setCatalyst(false)
-    setDeltaG(-18)
+    set('deltaG', -18)
     catRef.current = 0
     sideRef.current = 1
     attemptRef.current = { dir: 1, success: false, t: 0 }
@@ -289,9 +298,12 @@ export function CatalysisAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · A catalyst lowers the barrier, not the destination</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -316,8 +328,8 @@ export function CatalysisAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔG:</span>
           <input
-            type="range" min={-28} max={8} step={1} value={deltaG}
-            onChange={e => setDeltaG(+e.target.value)}
+            type="range" min={SPEC.deltaG.min} max={SPEC.deltaG.max} step={SPEC.deltaG.step} value={deltaG}
+            onChange={e => set('deltaG', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{deltaG} kJ/mol</span>

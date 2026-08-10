@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 const W = 600
 const H = 260
@@ -49,6 +50,12 @@ const logY = (n: number) => {
   return GR.y + GR.h - (Math.log10(v) / DECADES) * GR.h
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  k: { default: 1.15, min: 0.7, max: 1.5, step: 0.01 },
+}
+
 export function ChainReactionAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -59,7 +66,8 @@ export function ChainReactionAnimation() {
     },
   })
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [k, setK] = useState(1.15)
+  const { params, set } = useWidgetParams('chain-reaction', SPEC)
+  const { k } = params
   const [history, setHistory] = useState<number[]>([N0])
   const [running, setRunning] = useState(false)
   const historyRef = useRef<number[]>([N0])
@@ -209,8 +217,8 @@ export function ChainReactionAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>k:</span>
           <input
-            type="range" min={0.7} max={1.5} step={0.01} value={k}
-            onChange={e => setK(+e.target.value)}
+            type="range" min={SPEC.k.min} max={SPEC.k.max} step={SPEC.k.step} value={k}
+            onChange={e => set('k', +e.target.value)}
             className="w-40 accent-accent-teal"
           />
           <span className="font-mono font-medium" style={{ color: status.color }}>{k.toFixed(2)}</span>

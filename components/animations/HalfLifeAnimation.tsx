@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 250
@@ -23,6 +25,12 @@ const C_GUIDE = '#A78BFA'  // violet — current-time guide
 const firstOrder = (n: number) => Math.pow(2, -n)
 const zeroOrder = (n: number) => Math.max(0, 1 - n / ZERO_END)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  halfLife: { default: 6, min: 1, max: 24, step: 1 },
+}
+
 export function HalfLifeAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -35,7 +43,8 @@ export function HalfLifeAnimation() {
 
   const [running, setRunning] = useState(false)
   const [n, setN] = useState(0)
-  const [halfLife, setHalfLife] = useState(6)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('half-life', SPEC)
+  const { halfLife } = params
 
   const xFor = useCallback((hl: number) => PAD.left + (hl / MAX_N) * PLOT_W, [])
   const yFor = useCallback((frac: number) => PAD.top + PLOT_H - frac * PLOT_H, [])
@@ -199,7 +208,7 @@ export function HalfLifeAnimation() {
     triggerReset()
     setRunning(false)
     setN(0)
-    setHalfLife(6)
+    set('halfLife', 6)
   }
 
   const remaining = firstOrder(n)
@@ -209,9 +218,12 @@ export function HalfLifeAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · First-order vs zero-order elimination</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -226,8 +238,8 @@ export function HalfLifeAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Half-life:</span>
           <input
-            type="range" min={1} max={24} step={1} value={halfLife}
-            onChange={e => setHalfLife(+e.target.value)}
+            type="range" min={SPEC.halfLife.min} max={SPEC.halfLife.max} step={SPEC.halfLife.step} value={halfLife}
+            onChange={e => set('halfLife', +e.target.value)}
             className="w-28 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{halfLife} h</span>

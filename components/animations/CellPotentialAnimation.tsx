@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 620
 const H = 330
@@ -88,6 +90,12 @@ function terminalV(cell: Cell, depth: number): number {
   return Math.max(0, nernstE(cell, depth)) * (cC / (cC + 0.002))
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  depth: { default: 0, min: 0, max: 1, step: 0.001 },
+}
+
 export function CellPotentialAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -97,7 +105,8 @@ export function CellPotentialAnimation() {
 
   const [pair, setPair] = useState<[number, number]>([3, 6])
   const [mode, setMode] = useState<'table' | 'discharge'>('table')
-  const [depth, setDepth] = useState(0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('cell-potential', SPEC)
+  const { depth } = params
   const [running, setRunning] = useState(false)
 
   const { ref, reset: triggerReset } = useAnimationTrigger({
@@ -341,13 +350,13 @@ export function CellPotentialAnimation() {
     const tick = () => {
       const next = Math.min(1, depthRef.current + 0.0022)
       depthRef.current = next
-      setDepth(next)
+      set('depth', next)
       if (next >= 1) { setRunning(false); return }
       rafRef.current = requestAnimationFrame(tick)
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, mode])
+  }, [running, mode, set])
 
   // Refs are synced in the effects above, so redraw after any state change.
   useEffect(() => { draw() }, [pair, mode, depth, draw])
@@ -363,7 +372,7 @@ export function CellPotentialAnimation() {
     depthRef.current = 0
     pairRef.current = [3, 6]
     modeRef.current = 'table'
-    setDepth(0)
+    set('depth', 0)
     setPair([3, 6])
     setMode('table')
     draw()
@@ -375,9 +384,12 @@ export function CellPotentialAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Pick two metals, read the voltage</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -415,7 +427,7 @@ export function CellPotentialAnimation() {
           <>
             <button
               onClick={() => {
-                if (depthRef.current >= 1) { depthRef.current = 0; setDepth(0) }
+                if (depthRef.current >= 1) { depthRef.current = 0; set('depth', 0) }
                 setRunning(r => !r)
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-orange text-bg-base text-xs font-medium hover:bg-accent-orange/90 transition-colors"
@@ -425,8 +437,8 @@ export function CellPotentialAnimation() {
             <div className="flex items-center gap-2 text-xs text-text-muted">
               <span>Depth:</span>
               <input
-                type="range" min={0} max={1} step={0.001} value={depth}
-                onChange={e => { setRunning(false); setDepth(+e.target.value) }}
+                type="range" min={SPEC.depth.min} max={SPEC.depth.max} step={SPEC.depth.step} value={depth}
+                onChange={e => { setRunning(false); set('depth', +e.target.value) }}
                 className="w-32 accent-accent-orange"
               />
               <span className="font-mono text-text-secondary">{(depth * 100).toFixed(0)}%</span>

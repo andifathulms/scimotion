@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -50,6 +52,12 @@ const TICKS: { dpc: number; label: string }[] = [
   { dpc: 1e10, label: '10 Gpc' },
 ]
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  baseErr: { default: 0, min: -0.08, max: 0.08, step: 0.01 },
+}
+
 export function DistanceLadderAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -63,7 +71,8 @@ export function DistanceLadderAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [baseErr, setBaseErr] = useState(0) // fractional error injected at the parallax rung
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('distance-ladder', SPEC)
+  const { baseErr } = params
 
   const draw = useCallback((pulse: number) => {
     const canvas = canvasRef.current
@@ -181,16 +190,19 @@ export function DistanceLadderAnimation() {
     setRunning(false)
     pulseRef.current = 0
     lastRef.current = null
-    setBaseErr(0)
+    set('baseErr', 0)
   }
 
   return (
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Reach of the ladder, and how errors climb it</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -205,8 +217,8 @@ export function DistanceLadderAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Error at base rung:</span>
           <input
-            type="range" min={-0.08} max={0.08} step={0.01} value={baseErr}
-            onChange={ev => { setBaseErr(+ev.target.value) }}
+            type="range" min={SPEC.baseErr.min} max={SPEC.baseErr.max} step={SPEC.baseErr.step} value={baseErr}
+            onChange={ev => { set('baseErr', +ev.target.value) }}
             className="w-32 accent-accent-indigo"
           />
           <span className="text-text-secondary font-medium">{(baseErr * 100).toFixed(0)}%</span>

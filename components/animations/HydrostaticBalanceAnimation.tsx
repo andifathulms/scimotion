@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -36,6 +38,12 @@ function shellColor(r: number): string {
   return PINK
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  dial: { default: 1, min: 0, max: 2, step: 0.01 },
+}
+
 export function HydrostaticBalanceAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => { if (!reduced) setRunning(true) },
@@ -46,7 +54,8 @@ export function HydrostaticBalanceAnimation() {
   const vRef = useRef(0) // radial velocity
   const lastRef = useRef<number | null>(null)
 
-  const [dial, setDial] = useState(1)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('hydrostatic-balance', SPEC)
+  const { dial } = params
   const [running, setRunning] = useState(false)
   const [readout, setReadout] = useState({ r: 1, T: 1, state: 'Balanced' })
   const dialRef = useRef(1)
@@ -203,7 +212,7 @@ export function HydrostaticBalanceAnimation() {
     triggerReset()
     setRunning(false)
     rRef.current = 1; vRef.current = 0; lastRef.current = null
-    setDial(1); dialRef.current = 1
+    set('dial', 1); dialRef.current = 1
     draw()
   }
 
@@ -211,9 +220,12 @@ export function HydrostaticBalanceAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · The stellar thermostat</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -229,8 +241,8 @@ export function HydrostaticBalanceAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Fusion rate:</span>
           <input
-            type="range" min={0} max={2} step={0.01} value={dial}
-            onChange={ev => setDial(+ev.target.value)}
+            type="range" min={SPEC.dial.min} max={SPEC.dial.max} step={SPEC.dial.step} value={dial}
+            onChange={ev => set('dial', +ev.target.value)}
             className="w-36"
             style={{ accentColor: INDIGO }}
           />

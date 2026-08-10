@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 const W = 600
 const H = 260
@@ -38,6 +39,12 @@ function yAt(t: number, interval: number): number {
   return BASELINE - beat(phase) * AMP
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  bpm: { default: 72, min: 40, max: 180 },
+}
+
 export function ECGTraceAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -46,7 +53,8 @@ export function ECGTraceAnimation() {
     },
   })
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [bpm, setBpm] = useState(72)
+  const { params, set } = useWidgetParams('e-c-g-trace', SPEC)
+  const { bpm } = params
   const [running, setRunning] = useState(false)
   const [reducedStatic, setReducedStatic] = useState(false)
   const offsetRef = useRef(0) // elapsed time in seconds scrolled
@@ -157,8 +165,8 @@ export function ECGTraceAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Heart rate:</span>
           <input
-            type="range" min={40} max={180} value={bpm}
-            onChange={e => setBpm(+e.target.value)}
+            type="range" min={SPEC.bpm.min} max={SPEC.bpm.max} value={bpm}
+            onChange={e => set('bpm', +e.target.value)}
             className="w-40 accent-accent-pink"
           />
         </div>

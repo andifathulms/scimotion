@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 320
@@ -63,6 +65,12 @@ function labelFor(p: number): string {
   return STAGE_LABELS[idx]
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  stage: { default: 0, min: 0, max: 100, step: 1 },
+}
+
 export function SolarSystemFormationAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => { if (!reduced) setRunning(true) },
@@ -74,7 +82,8 @@ export function SolarSystemFormationAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [stage, setStage] = useState(0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('solar-system-formation', SPEC)
+  const { stage } = params
 
   const draw = useCallback((p: number, spin: number) => {
     const canvas = canvasRef.current
@@ -219,32 +228,35 @@ export function SolarSystemFormationAnimation() {
       // advance the collapse; rotation always turns (faster as it collapses)
       pRef.current = Math.min(1, pRef.current + dt / DURATION_MS)
       spinRef.current += (dt / 1000) * (0.6 + 2.4 * pRef.current)
-      setStage(Math.round(pRef.current * 100))
+      set('stage', Math.round(pRef.current * 100))
       draw(pRef.current, spinRef.current)
       if (pRef.current >= 1) { setRunning(false); return }
       rafRef.current = requestAnimationFrame(loop)
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, set])
 
   const toggle = () => {
-    if (pRef.current >= 1) { pRef.current = 0; spinRef.current = 0; setStage(0); setRunning(true); return }
+    if (pRef.current >= 1) { pRef.current = 0; spinRef.current = 0; set('stage', 0); setRunning(true); return }
     setRunning(r => !r)
   }
   const resetAll = () => {
     triggerReset(); setRunning(false)
     pRef.current = 0; spinRef.current = 0; lastRef.current = null
-    setStage(0); draw(0, 0)
+    set('stage', 0); draw(0, 0)
   }
 
   return (
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Cloud → disk → planets</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -260,8 +272,8 @@ export function SolarSystemFormationAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Stage:</span>
           <input
-            type="range" min={0} max={100} step={1} value={stage}
-            onChange={ev => { setRunning(false); setStage(+ev.target.value) }}
+            type="range" min={SPEC.stage.min} max={SPEC.stage.max} step={SPEC.stage.step} value={stage}
+            onChange={ev => { setRunning(false); set('stage', +ev.target.value) }}
             className="w-40"
             style={{ accentColor: INDIGO }}
           />

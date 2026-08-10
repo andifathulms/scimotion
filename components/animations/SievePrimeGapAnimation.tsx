@@ -1,6 +1,7 @@
 'use client'
 import { useState, useMemo, useEffect } from 'react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 type ViewMode = 'gaps' | 'density'
 
@@ -13,9 +14,16 @@ function computePrimes(limit: number): number[] {
   return Array.from({ length: limit - 1 }, (_, i) => i + 2).filter(n => sieve[n])
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  limit: { default: 150, min: 50, max: 500, step: 50 },
+}
+
 export function SievePrimeGapAnimation() {
   const { ref, triggered } = useAnimationTrigger()
-  const [limit, setLimit] = useState(150)
+  const { params, set } = useWidgetParams('sieve-prime-gap', SPEC)
+  const { limit } = params
   const [view, setView] = useState<ViewMode>('gaps')
   const [showEstimate, setShowEstimate] = useState(false)
   const [revealed, setRevealed] = useState(false)
@@ -152,8 +160,8 @@ export function SievePrimeGapAnimation() {
       <div className="animation-controls flex-wrap gap-3">
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Limit:</span>
-          <input type="range" min={50} max={500} step={50} value={limit}
-            onChange={e => setLimit(+e.target.value)}
+          <input type="range" min={SPEC.limit.min} max={SPEC.limit.max} step={SPEC.limit.step} value={limit}
+            onChange={e => set('limit', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span>{limit}</span>

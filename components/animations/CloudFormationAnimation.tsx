@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 380
@@ -77,11 +79,18 @@ const PUFFS: Puff[] = [
 const zToY = (z: number) => GROUND_Y - (z / Z_MAX) * (GROUND_Y - SKY_TOP)
 const PARCEL_X = 300
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rh: { default: DEFAULT_RH, min: 20, max: 95, step: 1 },
+}
+
 export function CloudFormationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
 
-  const [rh, setRh] = useState(DEFAULT_RH)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('cloud-formation', SPEC)
+  const { rh } = params
   const [running, setRunning] = useState(false)
   const [z, setZ] = useState(0)
 
@@ -232,7 +241,7 @@ export function CloudFormationAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setRh(DEFAULT_RH)
+    set('rh', DEFAULT_RH)
     rhRef.current = DEFAULT_RH
     zRef.current = 0
     setZ(0)
@@ -258,12 +267,15 @@ export function CloudFormationAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Air rises, cools, condenses
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -303,11 +315,11 @@ export function CloudFormationAnimation() {
           <span>Surface humidity:</span>
           <input
             type="range"
-            min={20}
-            max={95}
-            step={1}
+            min={SPEC.rh.min}
+            max={SPEC.rh.max}
+            step={SPEC.rh.step}
             value={rh}
-            onChange={e => setRh(+e.target.value)}
+            onChange={e => set('rh', +e.target.value)}
             className="w-32"
             style={{ accentColor: CYAN }}
           />

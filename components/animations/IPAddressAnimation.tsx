@@ -1,7 +1,9 @@
 'use client'
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 200
@@ -48,9 +50,16 @@ function cellX(bit: number): number {
   return MARGIN + group * (GROUP_W + GROUP_GAP) + within * (CELL_W + CELL_GAP)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  prefix: { default: 24, min: 8, max: 30, step: 1 },
+}
+
 export function IPAddressAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [prefix, setPrefix] = useState(24)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('i-p-address', SPEC)
+  const { prefix } = params
   const bits = bitsOf(IP)
 
   const draw = useCallback((n: number) => {
@@ -134,13 +143,13 @@ export function IPAddressAnimation() {
   const sweepRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
-      if (reduced) { setPrefix(24); return }
+      if (reduced) { set('prefix', 24); return }
       let p = 8
-      setPrefix(8)
+      set('prefix', 8)
       clearInterval(sweepRef.current)
       sweepRef.current = setInterval(() => {
         p += 1
-        setPrefix(p)
+        set('prefix', p)
         if (p >= 24) clearInterval(sweepRef.current)
       }, 70)
     },
@@ -149,7 +158,7 @@ export function IPAddressAnimation() {
 
   const reset = () => {
     clearInterval(sweepRef.current)
-    setPrefix(24)
+    set('prefix', 24)
     triggerReset()
   }
 
@@ -162,9 +171,12 @@ export function IPAddressAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · IP addresses & subnets</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -189,8 +201,8 @@ export function IPAddressAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span className="font-mono">prefix /{prefix}</span>
           <input
-            type="range" min={8} max={30} step={1} value={prefix}
-            onChange={e => { clearInterval(sweepRef.current); setPrefix(+e.target.value) }}
+            type="range" min={SPEC.prefix.min} max={SPEC.prefix.max} step={SPEC.prefix.step} value={prefix}
+            onChange={e => { clearInterval(sweepRef.current); set('prefix', +e.target.value) }}
             className="w-48"
             style={{ accentColor: CYAN }}
           />

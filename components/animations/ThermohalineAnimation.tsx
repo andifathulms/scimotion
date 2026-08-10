@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -113,13 +115,20 @@ function parcelColor(frac: number): string {
 const N_PARTICLES = 150
 const DEFAULT_FW = 0
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  fw: { default: DEFAULT_FW, min: 0, max: 0.5, step: 0.01 },
+}
+
 export function ThermohalineAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const distRef = useRef<number[]>([])
   const fwRef = useRef(DEFAULT_FW)
 
-  const [fw, setFw] = useState(DEFAULT_FW)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('thermohaline', SPEC)
+  const { fw } = params
   const [running, setRunning] = useState(false)
   const [sv, setSv] = useState(17)
 
@@ -338,7 +347,7 @@ export function ThermohalineAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setFw(DEFAULT_FW)
+    set('fw', DEFAULT_FW)
     fwRef.current = DEFAULT_FW
     seed()
     draw()
@@ -359,12 +368,15 @@ export function ThermohalineAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Overturning in cross-section
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -394,11 +406,11 @@ export function ThermohalineAnimation() {
           <span>Freshwater:</span>
           <input
             type="range"
-            min={0}
-            max={0.5}
-            step={0.01}
+            min={SPEC.fw.min}
+            max={SPEC.fw.max}
+            step={SPEC.fw.step}
             value={fw}
-            onChange={e => setFw(+e.target.value)}
+            onChange={e => set('fw', +e.target.value)}
             className="w-40"
             style={{ accentColor: CYAN }}
           />

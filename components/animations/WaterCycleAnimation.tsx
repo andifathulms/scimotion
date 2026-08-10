@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 360
@@ -69,12 +71,19 @@ function reseedTree(d: Drop) {
   d.fromLand = true
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  solar: { default: 55, min: 0, max: 100, step: 1 },
+}
+
 export function WaterCycleAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const dropsRef = useRef<Drop[]>([])
 
-  const [solar, setSolar] = useState(55)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('water-cycle', SPEC)
+  const { solar } = params
   const [running, setRunning] = useState(false)
 
   const solarRef = useRef(55)
@@ -344,7 +353,7 @@ export function WaterCycleAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setSolar(55)
+    set('solar', 55)
     solarRef.current = 55
     seed()
     settle(60)
@@ -364,12 +373,15 @@ export function WaterCycleAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · The water cycle, powered by the Sun
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -399,11 +411,11 @@ export function WaterCycleAnimation() {
           <span>Solar input / temperature:</span>
           <input
             type="range"
-            min={0}
-            max={100}
-            step={1}
+            min={SPEC.solar.min}
+            max={SPEC.solar.max}
+            step={SPEC.solar.step}
             value={solar}
-            onChange={e => setSolar(+e.target.value)}
+            onChange={e => set('solar', +e.target.value)}
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">

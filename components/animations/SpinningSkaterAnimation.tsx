@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 const W = 600
 const H = 340
@@ -30,6 +31,12 @@ const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v
 // Map arm extension fraction (0 tucked … 1 extended) to radius in metres.
 const radiusFor = (ext: number) => R_MIN + ext * (R_MAX - R_MIN)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  ext: { default: 1, min: 0, max: 1, step: 0.01 },
+}
+
 export function SpinningSkaterAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -37,7 +44,8 @@ export function SpinningSkaterAnimation() {
   const angleRef = useRef(0) // current spin phase
   const playingRef = useRef(false)
 
-  const [ext, setExt] = useState(1)
+  const { params, set } = useWidgetParams('spinning-skater', SPEC)
+  const { ext } = params
   const [playing, setPlaying] = useState(false)
 
   const draw = useCallback(() => {
@@ -188,7 +196,7 @@ export function SpinningSkaterAnimation() {
       if (reduced) {
         // static final frame: arms tucked in, spinning fast — L unchanged
         extRef.current = 0
-        setExt(0)
+        set('ext', 0)
         return
       }
       playingRef.current = true
@@ -206,7 +214,7 @@ export function SpinningSkaterAnimation() {
     setPlaying(false)
     angleRef.current = 0
     extRef.current = 1
-    setExt(1)
+    set('ext', 1)
   }
 
   const r = radiusFor(ext)
@@ -251,10 +259,10 @@ export function SpinningSkaterAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>arms</span>
           <input
-            type="range" min={0} max={1} step={0.01} value={ext}
+            type="range" min={SPEC.ext.min} max={SPEC.ext.max} step={SPEC.ext.step} value={ext}
             onChange={e => {
               extRef.current = +e.target.value
-              setExt(extRef.current)
+              set('ext', extRef.current)
             }}
             className="w-44"
             style={{ accentColor: GREEN }}

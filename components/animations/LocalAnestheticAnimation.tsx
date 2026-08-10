@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 220
@@ -23,6 +25,12 @@ const C_DEAD = '#60A5FA' // blue — where the signal dies
 const CHANNELS: number[] = []
 for (let x = FIBRE_X0 + 16; x <= FIBRE_X1 - 8; x += 18) CHANNELS.push(x)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  blockFrac: { default: 0.6, min: 0, max: 1, step: 0.05 },
+}
+
 export function LocalAnestheticAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
@@ -33,7 +41,8 @@ export function LocalAnestheticAnimation() {
 
   const [running, setRunning] = useState(false)
   const [anesthetic, setAnesthetic] = useState(true)
-  const [blockFrac, setBlockFrac] = useState(0.6)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('local-anesthetic', SPEC)
+  const { blockFrac } = params
   const [outcome, setOutcome] = useState<'travelling' | 'blocked' | 'arrived'>('travelling')
 
   const { ref } = useAnimationTrigger({
@@ -220,7 +229,7 @@ export function LocalAnestheticAnimation() {
     arrivedRef.current = false
     holdRef.current = 0
     setAnesthetic(true)
-    setBlockFrac(0.6)
+    set('blockFrac', 0.6)
     setOutcome('travelling')
     drawFrame()
   }
@@ -239,9 +248,12 @@ export function LocalAnestheticAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Blocking the pain signal</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 20 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -267,9 +279,9 @@ export function LocalAnestheticAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Channels blocked:</span>
           <input
-            type="range" min={0} max={1} step={0.05} value={blockFrac}
+            type="range" min={SPEC.blockFrac.min} max={SPEC.blockFrac.max} step={SPEC.blockFrac.step} value={blockFrac}
             disabled={!anesthetic}
-            onChange={e => setBlockFrac(+e.target.value)}
+            onChange={e => set('blockFrac', +e.target.value)}
             className="w-24 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{Math.round(blockFrac * 100)}%</span>

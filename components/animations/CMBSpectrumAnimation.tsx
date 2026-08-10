@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 360
@@ -49,13 +51,20 @@ const planck = (lam: number, T: number) => {
 const N_CELLS = 12
 const anisotropy: number[] = Array.from({ length: N_CELLS * N_CELLS }, () => Math.random() * 2 - 1)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  pDisplay: { default: 0, min: 0, max: 1, step: 0.001 },
+}
+
 export function CMBSpectrumAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const pRef = useRef(0)
   const playingRef = useRef(false)
 
-  const [pDisplay, setPDisplay] = useState(0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('c-m-b-spectrum', SPEC)
+  const { pDisplay } = params
   const [playing, setPlaying] = useState(false)
 
   const draw = useCallback(() => {
@@ -184,7 +193,7 @@ export function CMBSpectrumAnimation() {
     const loop = () => {
       if (playingRef.current) {
         pRef.current = Math.min(1, pRef.current + 0.004)
-        setPDisplay(pRef.current)
+        set('pDisplay', pRef.current)
         if (pRef.current >= 1) { playingRef.current = false; setPlaying(false) }
       }
       draw()
@@ -192,20 +201,20 @@ export function CMBSpectrumAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [draw])
+  }, [draw, set])
 
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
-      if (reduced) { pRef.current = 1; setPDisplay(1); return }
+      if (reduced) { pRef.current = 1; set('pDisplay', 1); return }
       pRef.current = 0
-      setPDisplay(0)
+      set('pDisplay', 0)
       playingRef.current = true
       setPlaying(true)
     },
   })
 
   const toggle = () => {
-    if (pRef.current >= 1) { pRef.current = 0; setPDisplay(0) }
+    if (pRef.current >= 1) { pRef.current = 0; set('pDisplay', 0) }
     playingRef.current = !playingRef.current
     setPlaying(playingRef.current)
   }
@@ -214,7 +223,7 @@ export function CMBSpectrumAnimation() {
     playingRef.current = false
     setPlaying(false)
     pRef.current = 0
-    setPDisplay(0)
+    set('pDisplay', 0)
     triggerReset()
   }
 
@@ -224,9 +233,12 @@ export function CMBSpectrumAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Run expansion and watch the spectrum cool</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: BG }} />
@@ -241,12 +253,12 @@ export function CMBSpectrumAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>then</span>
           <input
-            type="range" min={0} max={1} step={0.001} value={pDisplay}
+            type="range" min={SPEC.pDisplay.min} max={SPEC.pDisplay.max} step={SPEC.pDisplay.step} value={pDisplay}
             onChange={e => {
               playingRef.current = false
               setPlaying(false)
               pRef.current = +e.target.value
-              setPDisplay(pRef.current)
+              set('pDisplay', pRef.current)
             }}
             className="w-44 accent-accent-indigo"
           />

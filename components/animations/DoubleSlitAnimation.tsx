@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 type Dot = { y: number; opacity: number }
 type Mode = 'particle' | 'wave'
@@ -15,11 +17,18 @@ function sampleInterference(): number {
   }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  speed: { default: 5, min: 1, max: 20 },
+}
+
 export function DoubleSlitAnimation() {
   const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
   const [dots, setDots] = useState<Dot[]>([])
   const [mode, setMode] = useState<Mode>('wave')
-  const [speed, setSpeed] = useState(5)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('double-slit', SPEC)
+  const { speed } = params
   const [running, setRunning] = useState(false)
   const dotsRef = useRef<Dot[]>([])
 
@@ -60,9 +69,12 @@ export function DoubleSlitAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Double-Slit Experiment</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: 310 }}>
         <svg viewBox="0 0 500 300" className="w-full" style={{ height: 300, background: '#0F0D0A', borderRadius: 8 }}>
@@ -99,7 +111,7 @@ export function DoubleSlitAnimation() {
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
-          <input type="range" min={1} max={20} value={speed} onChange={e => setSpeed(+e.target.value)} className="w-20 accent-accent-gold" />
+          <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} value={speed} onChange={e => set('speed', +e.target.value)} className="w-20 accent-accent-gold" />
         </div>
         <span className="ml-auto text-xs text-text-secondary">Particles detected: <strong className="text-accent-teal">{dots.length}</strong></span>
       </div>

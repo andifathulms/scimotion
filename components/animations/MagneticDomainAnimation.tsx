@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 320
@@ -55,6 +57,12 @@ function angleTo(a: number, b: number) {
   return d
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  field: { default: 0, min: 0, max: 1, step: 0.02 },
+}
+
 export function MagneticDomainAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
@@ -62,7 +70,8 @@ export function MagneticDomainAnimation() {
   const domainsRef = useRef<Domain[]>(makeDomains(1))
   const fieldRef = useRef(0) // 0 = no external field, 1 = saturating
 
-  const [field, setField] = useState(0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('magnetic-domain', SPEC)
+  const { field } = params
   const [running, setRunning] = useState(false)
   const [netMag, setNetMag] = useState(0)
 
@@ -225,7 +234,7 @@ export function MagneticDomainAnimation() {
       if (reduced) {
         // Static final frame: fully magnetized.
         fieldRef.current = 1
-        setField(1)
+        set('field', 1)
         for (const d of domainsRef.current) d.angle = FIELD_DIR
         const m = draw()
         if (typeof m === 'number') setNetMag(m)
@@ -259,7 +268,7 @@ export function MagneticDomainAnimation() {
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 
   const magnetize = () => {
-    setField(1)
+    set('field', 1)
     fieldRef.current = 1
     if (!running) setRunning(true)
   }
@@ -268,7 +277,7 @@ export function MagneticDomainAnimation() {
   const demagnetize = () => {
     seedRef.current += 1
     domainsRef.current = makeDomains(seedRef.current)
-    setField(0)
+    set('field', 0)
     fieldRef.current = 0
     if (!running) setRunning(true)
   }
@@ -279,7 +288,7 @@ export function MagneticDomainAnimation() {
     triggerReset()
     seedRef.current = 1
     domainsRef.current = makeDomains(1)
-    setField(0)
+    set('field', 0)
     fieldRef.current = 0
     const m = draw()
     if (typeof m === 'number') setNetMag(m)
@@ -294,12 +303,15 @@ export function MagneticDomainAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Domains align to magnetize iron
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas
@@ -342,12 +354,12 @@ export function MagneticDomainAnimation() {
           <span>External field:</span>
           <input
             type="range"
-            min={0}
-            max={1}
-            step={0.02}
+            min={SPEC.field.min}
+            max={SPEC.field.max}
+            step={SPEC.field.step}
             value={field}
             onChange={e => {
-              setField(+e.target.value)
+              set('field', +e.target.value)
               if (!running) setRunning(true)
             }}
             className="w-32"

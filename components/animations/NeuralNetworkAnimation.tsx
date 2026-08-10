@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 316
@@ -165,10 +167,17 @@ function trainEpoch(net: Net, data: Sample[]): EpochResult {
 const toPx = (v: number) => BX + ((v + VIEW) / (2 * VIEW)) * BS
 const toPy = (v: number) => BY + ((VIEW - v) / (2 * VIEW)) * BS
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  width: { default: 10, min: 1, max: 16, step: 1 },
+}
+
 export function NeuralNetworkAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [data] = useState<Sample[]>(() => makeSpirals(60))
-  const [width, setWidth] = useState(10)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('neural-network', SPEC)
+  const { width } = params
   const [seed, setSeed] = useState(0)
   const [running, setRunning] = useState(false)
   const [epoch, setEpoch] = useState(0)
@@ -397,9 +406,12 @@ export function NeuralNetworkAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Training a 2-layer network</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -423,8 +435,8 @@ export function NeuralNetworkAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Hidden width:</span>
           <input
-            type="range" min={1} max={16} step={1} value={width}
-            onChange={e => setWidth(+e.target.value)}
+            type="range" min={SPEC.width.min} max={SPEC.width.max} step={SPEC.width.step} value={width}
+            onChange={e => set('width', +e.target.value)}
             className="w-28 accent-accent-blue"
           />
           <span className="font-mono text-text-secondary">{width}</span>

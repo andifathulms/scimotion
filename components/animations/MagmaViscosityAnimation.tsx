@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 380
@@ -47,13 +49,20 @@ function model(silica: number) {
   return { s, logVisc, riseSpeed, explosive, expansion, type }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  silica: { default: 53, min: 45, max: 75, step: 1 },
+}
+
 export function MagmaViscosityAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const runningRef = useRef(false)
 
   const silicaRef = useRef(53)
-  const [silica, setSilica] = useState(53)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('magma-viscosity', SPEC)
+  const { silica } = params
 
   const rngRef = useRef(mulberry32(0x5eed))
   const frameRef = useRef(0)
@@ -377,7 +386,7 @@ export function MagmaViscosityAnimation() {
 
   const onSilica = (v: number) => {
     silicaRef.current = v
-    setSilica(v)
+    set('silica', v)
     // switching regime should not leave stale foam/pressure hanging
     pressureRef.current = 0
     if (!runningRef.current) draw()
@@ -403,12 +412,15 @@ export function MagmaViscosityAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Drag the silica slider
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
@@ -428,9 +440,9 @@ export function MagmaViscosityAnimation() {
           </span>
           <input
             type="range"
-            min={45}
-            max={75}
-            step={1}
+            min={SPEC.silica.min}
+            max={SPEC.silica.max}
+            step={SPEC.silica.step}
             value={silica}
             onChange={e => onSilica(Number(e.target.value))}
             className="flex-1 accent-accent-teal"

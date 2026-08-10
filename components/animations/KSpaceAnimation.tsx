@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -118,6 +120,12 @@ const centred = (k: number) => (k < N / 2 ? k : k - N)
 // Acquisition order: display row 0 (top) first, so the centre fills mid-scan.
 const shifted = (r: number) => (r + N / 2) % N
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  keep: { default: 16, min: 2, max: 62, step: 2 },
+}
+
 export function KSpaceAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
@@ -125,7 +133,8 @@ export function KSpaceAnimation() {
   const [running, setRunning] = useState(false)
   const [mode, setMode] = useState<Mode>('scan')
   const [rows, setRows] = useState(0)
-  const [keep, setKeep] = useState(16)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('k-space', SPEC)
+  const { keep } = params
 
   const phantom = useMemo(() => makePhantom(), [])
   const spectrum = useMemo(() => {
@@ -321,7 +330,7 @@ export function KSpaceAnimation() {
     setRunning(false)
     setMode('scan')
     setRows(0)
-    setKeep(16)
+    set('keep', 16)
   }
 
   const pick = (m: Mode) => {
@@ -334,9 +343,12 @@ export function KSpaceAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · k-Space to Image</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -371,9 +383,9 @@ export function KSpaceAnimation() {
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Lines kept:</span>
-          <input type="range" min={2} max={62} step={2} value={keep}
+          <input type="range" min={SPEC.keep.min} max={SPEC.keep.max} step={SPEC.keep.step} value={keep}
             disabled={mode === 'scan'}
-            onChange={e => setKeep(+e.target.value)}
+            onChange={e => set('keep', +e.target.value)}
             className="w-28 accent-accent-gold disabled:opacity-30"
           />
           <span>{keep}</span>

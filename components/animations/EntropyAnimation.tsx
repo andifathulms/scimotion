@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 280
@@ -44,11 +46,18 @@ function entropy(nL: number, total: number): number {
   return lnFactorial(total) - lnFactorial(nL) - lnFactorial(total - nL)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  count: { default: 160, min: 20, max: 400, step: 20 },
+}
+
 export function EntropyAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const particlesRef = useRef<Particle[]>([])
-  const [count, setCount] = useState(160)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('entropy', SPEC)
+  const { count } = params
   const [running, setRunning] = useState(false)
   const [split, setSplit] = useState({ left: 160, right: 0 })
 
@@ -183,9 +192,12 @@ export function EntropyAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Gas expanding into a box</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -200,8 +212,8 @@ export function EntropyAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Particles:</span>
           <input
-            type="range" min={20} max={400} step={20} value={count}
-            onChange={e => { setRunning(false); setCount(+e.target.value) }}
+            type="range" min={SPEC.count.min} max={SPEC.count.max} step={SPEC.count.step} value={count}
+            onChange={e => { setRunning(false); set('count', +e.target.value) }}
             className="w-28 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{count}</span>

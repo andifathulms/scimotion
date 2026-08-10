@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -107,6 +109,12 @@ function drawSymbol(
 const TRIAL_CAP = 120
 const FRAMES_PER_TRIAL = 8
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  kids: { default: 3, min: 2, max: 5, step: 1 },
+}
+
 export function InheritanceAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -115,7 +123,8 @@ export function InheritanceAnimation() {
   const familyRef = useRef<Family>(buildFamily(3))
   const statsRef = useRef({ trials: 1, resurfaced: buildFamily(3).resurfaced ? 1 : 0 })
 
-  const [kids, setKids] = useState(3)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('inheritance', SPEC)
+  const { kids } = params
   const [running, setRunning] = useState(false)
   const [tick, setTick] = useState(0)
 
@@ -266,7 +275,7 @@ export function InheritanceAnimation() {
 
   const changeKids = (v: number) => {
     kidsRef.current = v
-    setKids(v)
+    set('kids', v)
     // The resurfacing probability depends on family size, so start the tally over.
     statsRef.current = { trials: 0, resurfaced: 0 }
     resample(true)
@@ -287,9 +296,12 @@ export function InheritanceAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Carriers across generations</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: BG }} />
@@ -309,7 +321,7 @@ export function InheritanceAnimation() {
         </button>
         <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Children</span>
-          <input type="range" min={2} max={5} step={1} value={kids}
+          <input type="range" min={SPEC.kids.min} max={SPEC.kids.max} step={SPEC.kids.step} value={kids}
             onChange={e => changeKids(+e.target.value)}
             className="w-24 accent-accent-lime" />
           <span className="font-mono text-text-secondary w-4">{kids}</span>

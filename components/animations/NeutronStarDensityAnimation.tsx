@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 360
@@ -67,6 +69,12 @@ function fmtDensity(rho: number): string {
   return `${mant.toFixed(1)}e${e} kg/m³`
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  p: { default: 0, min: 0, max: 1, step: 0.001 },
+}
+
 export function NeutronStarDensityAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -76,7 +84,8 @@ export function NeutronStarDensityAnimation() {
   const spinPhaseRef = useRef(0)
   const dirRef = useRef<1 | 0>(0) // 1 = collapsing, 0 = paused/idle
 
-  const [p, setP] = useState(0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('neutron-star-density', SPEC)
+  const { p } = params
   const [running, setRunning] = useState(false)
 
   const render = useCallback(() => {
@@ -241,12 +250,12 @@ export function NeutronStarDensityAnimation() {
     if (dirRef.current === 1) {
       pRef.current = Math.min(1, pRef.current + dt * 0.28)
       if (pRef.current >= 1) { dirRef.current = 0; setRunning(false) }
-      setP(pRef.current)
+      set('p', pRef.current)
     }
     // spin faster as it shrinks; visual rate capped so it stays watchable
     const visRate = 1.2 + pRef.current * pRef.current * 13
     spinPhaseRef.current += dt * visRate
-  }, [])
+  }, [set])
 
   useEffect(() => { render() }, [render])
 
@@ -268,7 +277,7 @@ export function NeutronStarDensityAnimation() {
     onTrigger: reduced => {
       if (reduced) {
         pRef.current = 1
-        setP(1)
+        set('p', 1)
         render()
         return
       }
@@ -278,7 +287,7 @@ export function NeutronStarDensityAnimation() {
   })
 
   const collapse = () => {
-    if (pRef.current >= 1) { pRef.current = 0; setP(0) }
+    if (pRef.current >= 1) { pRef.current = 0; set('p', 0) }
     dirRef.current = 1
     setRunning(true)
   }
@@ -290,7 +299,7 @@ export function NeutronStarDensityAnimation() {
     pRef.current = 0
     spinPhaseRef.current = 0
     lastRef.current = null
-    setP(0)
+    set('p', 0)
     render()
   }
 
@@ -298,9 +307,12 @@ export function NeutronStarDensityAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Collapse to nuclear density</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -316,8 +328,8 @@ export function NeutronStarDensityAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Scrub:</span>
           <input
-            type="range" min={0} max={1} step={0.001} value={p}
-            onChange={ev => { const v = +ev.target.value; pRef.current = v; setP(v); dirRef.current = 0; setRunning(false); render() }}
+            type="range" min={SPEC.p.min} max={SPEC.p.max} step={SPEC.p.step} value={p}
+            onChange={ev => { const v = +ev.target.value; pRef.current = v; set('p', v); dirRef.current = 0; setRunning(false); render() }}
             className="w-40"
             style={{ accentColor: ACCENT }}
           />

@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -43,13 +45,20 @@ function segsOf(pts: Pt[]): { segs: number[]; len: number } {
   return { segs, len: segs.reduce((a, b) => a + b, 0) }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  n: { default: 2, min: 1, max: 4, step: 1 },
+}
+
 export function SeriesParallelAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const offsetRef = useRef(0)
 
   const [mode, setMode] = useState<Mode>('series')
-  const [n, setN] = useState(2)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('series-parallel', SPEC)
+  const { n } = params
   const [running, setRunning] = useState(false)
 
   const modeRef = useRef<Mode>('series')
@@ -265,7 +274,7 @@ export function SeriesParallelAnimation() {
     setRunning(false)
     triggerReset()
     setMode('series')
-    setN(2)
+    set('n', 2)
     modeRef.current = 'series'
     nRef.current = 2
     offsetRef.current = 0
@@ -279,12 +288,15 @@ export function SeriesParallelAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Series vs. parallel
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas
@@ -339,11 +351,11 @@ export function SeriesParallelAnimation() {
           <span>Bulbs:</span>
           <input
             type="range"
-            min={1}
-            max={4}
-            step={1}
+            min={SPEC.n.min}
+            max={SPEC.n.max}
+            step={SPEC.n.step}
             value={n}
-            onChange={e => setN(clamp(+e.target.value, 1, 4))}
+            onChange={e => set('n', clamp(+e.target.value, 1, 4))}
             className="w-24"
             style={{ accentColor: GREEN }}
           />

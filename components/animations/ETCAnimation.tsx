@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 620
 const H = 380
@@ -75,6 +77,12 @@ function supplyResponse(s: number): number {
 type Bubble = { x: number; y: number; vy: number; life: number }
 type Atp = { x: number; y: number; life: number }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  supply: { default: 60, min: 0, max: 100, step: 1 },
+}
+
 export function ETCAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -92,7 +100,8 @@ export function ETCAnimation() {
   const bubblesRef = useRef<Bubble[]>([])
   const atpsRef = useRef<Atp[]>([])
 
-  const [supply, setSupply] = useState(60)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('e-t-c', SPEC)
+  const { supply } = params
   const [running, setRunning] = useState(false)
   const [rate, setRate] = useState(0)
   const [gradient, setGradient] = useState(0)
@@ -392,7 +401,7 @@ export function ETCAnimation() {
     spawnRef.current = 0
     bubblesRef.current = []
     atpsRef.current = []
-    setSupply(60)
+    set('supply', 60)
     setRate(0)
     setGradient(0)
     setCycles(0)
@@ -407,9 +416,12 @@ export function ETCAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · The electron transport chain and chemiosmosis</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -425,8 +437,8 @@ export function ETCAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>NADH supply:</span>
           <input
-            type="range" min={0} max={100} step={1} value={supply}
-            onChange={e => setSupply(+e.target.value)}
+            type="range" min={SPEC.supply.min} max={SPEC.supply.max} step={SPEC.supply.step} value={supply}
+            onChange={e => set('supply', +e.target.value)}
             className="w-36"
             style={{ accentColor: GOLD }}
           />
