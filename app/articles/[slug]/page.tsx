@@ -378,8 +378,23 @@ function MdxLink({ href = '', children, ...rest }: ComponentProps<'a'>) {
   )
 }
 
+// The horizontal scroll for wide reference grids used to come from
+// `display: block` on the table itself, which also strips its implicit table
+// role — ten articles were exposing their data as a flat run of cells with no
+// row or column association. The scroller is a wrapper now; the table stays a
+// table. tabIndex makes the scroll region reachable by keyboard, which is what
+// a focusable scroll container needs to be operable without a mouse.
+function MdxTable(props: ComponentProps<'table'>) {
+  return (
+    <div className="table-scroll" tabIndex={0} role="region" aria-label="Table, scrollable">
+      <table {...props} />
+    </div>
+  )
+}
+
 const components = {
   a: MdxLink,
+  table: MdxTable,
   SieveAnimation,
   FourierAnimation,
   SortingAnimation,

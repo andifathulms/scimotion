@@ -440,8 +440,20 @@ body {
   margin: 1.75rem 0;
   border-collapse: collapse;
   font-size: 0.9375rem;
-  display: block;
+}
+
+/* `display: block` on the table itself used to provide the horizontal scroll.
+ * It also drops the element's implicit table role, so the reference grids in ten
+ * articles were exposed as a flat run of cells with no row or column
+ * association and no header announcement. The scroll belongs on a wrapper; the
+ * table stays a table. */
+.prose-article .table-scroll {
   overflow-x: auto;
+  margin: 1.75rem 0;
+}
+
+.prose-article .table-scroll > table {
+  margin: 0;
 }
 
 .prose-article th,
