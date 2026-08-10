@@ -27,8 +27,8 @@ export function WidgetLink({
 
   // A reader who followed someone else's link is looking at values an author
   // did not choose. Saying so is the difference between "this is how the widget
-  // starts" and "someone pointed me at this" — and it tells them what Reset
-  // will take away.
+  // starts" and "someone pointed me at this", which changes how much weight the
+  // reader gives the configuration in front of them.
   if (hidden) {
     return restored ? (
       <span className="flex items-center gap-1 text-xs text-text-muted">

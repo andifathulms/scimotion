@@ -2,6 +2,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 600
 const H = 300
@@ -135,6 +138,15 @@ function stepGeneration(p: number, env: number, s: number, N: number): number {
   return k / N
 }
 
+// Bark colour, selection coefficient and population size. N matters as much as s
+// here — the article's point is that drift overwhelms weak selection in a small
+// population, which a reader can only find by pinning one and moving the other.
+const SPEC = {
+  env: { default: 80, min: -100, max: 100, step: 1 },
+  sel: { default: 20, min: 0, max: 50, step: 1, symbol: 's' },
+  popN: { default: 200, min: 20, max: 600, step: 10, symbol: 'N' },
+}
+
 export function NaturalSelectionAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -145,9 +157,9 @@ export function NaturalSelectionAnimation() {
   const [running, setRunning] = useState(false)
   const [tick, setTick] = useState(0)
 
-  const [env, setEnv] = useState(80)   // −100 (sooty) … +100 (lichen-pale)
-  const [sel, setSel] = useState(20)   // selection coefficient × 100
-  const [popN, setPopN] = useState(200)
+  // env: −100 (sooty) … +100 (lichen-pale); sel: selection coefficient × 100
+  const { params, set, reset: resetParams, permalink, isDefault, restored } = useWidgetParams('selection', SPEC)
+  const { env, sel, popN } = params
 
   const paramsRef = useRef({ env: 0.8, s: 0.2, N: 200 })
   useEffect(() => {
@@ -361,9 +373,7 @@ export function NaturalSelectionAnimation() {
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
-    setEnv(80)
-    setSel(20)
-    setPopN(200)
+    resetParams()
     paramsRef.current = { env: 0.8, s: 0.2, N: 200 }
     histRef.current = [0.15]
     envHistRef.current = [0.8]
@@ -378,9 +388,12 @@ export function NaturalSelectionAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Selection in a population</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -397,27 +410,41 @@ export function NaturalSelectionAnimation() {
         </button>
         <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Bark</span>
-          <input type="range" min={-100} max={100} step={1} value={env}
-            onChange={e => setEnv(+e.target.value)}
+          <input type="range" min={SPEC.env.min} max={SPEC.env.max} step={SPEC.env.step} value={env}
+            onChange={e => set('env', +e.target.value)}
             className="w-28 accent-accent-violet" />
           <span className="font-mono text-text-secondary w-12">{env > 15 ? 'pale' : env < -15 ? 'sooty' : 'mottled'}</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Selection s</span>
-          <input type="range" min={0} max={50} step={1} value={sel}
-            onChange={e => setSel(+e.target.value)}
+          <span>Selection <span className="text-accent-gold">s</span></span>
+          <input type="range" min={SPEC.sel.min} max={SPEC.sel.max} step={SPEC.sel.step} value={sel}
+            onChange={e => set('sel', +e.target.value)}
             className="w-24 accent-accent-gold" />
           <span className="font-mono text-text-secondary w-10">{(sel / 100).toFixed(2)}</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Pop N</span>
-          <input type="range" min={20} max={600} step={10} value={popN}
-            onChange={e => setPopN(+e.target.value)}
+          <span>Pop <span className="text-accent-gold">N</span></span>
+          <input type="range" min={SPEC.popN.min} max={SPEC.popN.max} step={SPEC.popN.step} value={popN}
+            onChange={e => set('popN', +e.target.value)}
             className="w-24 accent-accent-blue" />
           <span className="font-mono text-text-secondary w-8">{popN}</span>
         </label>
         <span className="text-xs" style={{ color: LIME }}>pale</span>
         <span className="text-xs" style={{ color: VIOLET }}>dark</span>
+        {/* 1/(2N) is the yardstick the article turns on: selection only reliably
+            beats drift when s exceeds it. Both numbers are on screen, so the
+            comparison is something the reader can make rather than be told. */}
+        <div className="ml-auto">
+          <EquationReadout
+            formula="drift dominates when s < 1/(2N)"
+            bindings={[
+              { symbol: 's', value: (sel / 100).toFixed(2) },
+              { symbol: 'N', value: String(popN) },
+            ]}
+            result={`1/(2N) = ${(1 / (2 * popN)).toFixed(4)}`}
+            assumption="a rule of thumb from population genetics, not a threshold the simulation enforces"
+          />
+        </div>
       </div>
     </div>
   )

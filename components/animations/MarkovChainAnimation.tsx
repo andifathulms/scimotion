@@ -2,6 +2,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 600
 const H = 300
@@ -109,13 +112,21 @@ function arrowHead(ctx: CanvasRenderingContext2D, p: Pt, ang: number, color: str
   ctx.restore()
 }
 
+// The two self-transition probabilities are the whole chain: everything else,
+// including the stationary distribution, follows from them. Speed is presentation
+// only, but it rides along so a link reproduces the pace it was found at too.
+const SPEC = {
+  pS: { default: 0.7, min: 0.05, max: 0.95, step: 0.05, symbol: 'P(S→S)' },
+  pR: { default: 0.55, min: 0.05, max: 0.95, step: 0.05, symbol: 'P(R→R)' },
+  speed: { default: 3, min: 1, max: 6, step: 1 },
+}
+
 export function MarkovChainAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const [running, setRunning] = useState(false)
-  const [pS, setPS] = useState(0.7)
-  const [pR, setPR] = useState(0.55)
-  const [speed, setSpeed] = useState(3)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('markov', SPEC)
+  const { pS, pR, speed } = params
   const [steps, setSteps] = useState(0)
 
   const curRef = useRef(0)
@@ -338,9 +349,12 @@ export function MarkovChainAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Markov Chain</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -352,25 +366,44 @@ export function MarkovChainAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>P(S→S):</span>
-          <input type="range" min={0.05} max={0.95} step={0.05} value={pS}
-            onChange={e => setPS(+e.target.value)}
+          <input type="range" min={SPEC.pS.min} max={SPEC.pS.max} step={SPEC.pS.step} value={pS}
+            onChange={e => set('pS', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{pS.toFixed(2)}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>P(R→R):</span>
-          <input type="range" min={0.05} max={0.95} step={0.05} value={pR}
-            onChange={e => setPR(+e.target.value)}
+          <input type="range" min={SPEC.pR.min} max={SPEC.pR.max} step={SPEC.pR.step} value={pR}
+            onChange={e => set('pR', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{pR.toFixed(2)}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
-          <input type="range" min={1} max={6} step={1} value={speed}
-            onChange={e => setSpeed(+e.target.value)}
+          <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} step={SPEC.speed.step} value={speed}
+            onChange={e => set('speed', +e.target.value)}
             className="w-16 accent-accent-gold" />
         </div>
-        <span className="ml-auto text-xs text-text-secondary font-mono">{steps} hops</span>
+        {/* The stationary distribution is not simulated — it is solved from the
+            two knobs, which is exactly the point the article makes: where the
+            walk ends up is a property of the matrix, not of the walk. */}
+        <div className="ml-auto flex items-center gap-3">
+          {/* Reuses `pi`, which the component already solves from the same
+              matrix it walks. A second, hand-derived expression here would be a
+              competing source of truth, and a two-state closed form would be
+              simply wrong: this is a three-state chain, and the mass the two
+              sliders leave over is split between the others on a fixed ratio. */}
+          <EquationReadout
+            formula="π = πP → π(Sunny)"
+            bindings={[
+              { symbol: 'P(S→S)', value: pS.toFixed(2) },
+              { symbol: 'P(R→R)', value: pR.toFixed(2) },
+            ]}
+            result={`${(pi[0] * 100).toFixed(1)}%`}
+            assumption="the exact long-run share, reached by power iteration on the 3×3 matrix; the walk above only converges towards it"
+          />
+          <span className="text-xs text-text-secondary font-mono shrink-0">{steps} hops</span>
+        </div>
       </div>
     </div>
   )

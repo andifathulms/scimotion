@@ -2,6 +2,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 600
 const H = 340
@@ -62,14 +65,23 @@ const momentum = (m1: number, v1: number, m2: number, v2: number) =>
 const kinetic = (m1: number, v1: number, m2: number, v2: number) =>
   0.5 * m1 * v1 * v1 + 0.5 * m2 * v2 * v2
 
+// Four knobs — the most of any widget on the site, and 8,181 reachable
+// combinations. Reproducing a particular collision by hand is exactly the case
+// addressable state exists for. `elastic` is a toggle rather than a slider and
+// stays outside the spec, which only models numeric ranges.
+const SPEC = {
+  m1: { default: DEFAULT_M1, min: 0.5, max: 4, step: 0.5, symbol: 'm₁' },
+  v1: { default: DEFAULT_V1, min: -5, max: 5, step: 0.5, symbol: 'v₁' },
+  m2: { default: DEFAULT_M2, min: 0.5, max: 4, step: 0.5, symbol: 'm₂' },
+  v2: { default: DEFAULT_V2, min: -5, max: 5, step: 0.5, symbol: 'v₂' },
+}
+
 export function CollisionAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
 
-  const [m1, setM1] = useState(DEFAULT_M1)
-  const [m2, setM2] = useState(DEFAULT_M2)
-  const [v1, setV1] = useState(DEFAULT_V1)
-  const [v2, setV2] = useState(DEFAULT_V2)
+  const { params, set, reset: resetParams, permalink, isDefault, restored } = useWidgetParams('collision', SPEC)
+  const { m1, m2, v1, v2 } = params
   const [elastic, setElastic] = useState(true)
   const [running, setRunning] = useState(false)
   const [collided, setCollided] = useState(false)
@@ -381,10 +393,7 @@ export function CollisionAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setM1(DEFAULT_M1)
-    setM2(DEFAULT_M2)
-    setV1(DEFAULT_V1)
-    setV2(DEFAULT_V2)
+    resetParams()
     setElastic(true)
     inputsRef.current = {
       m1: DEFAULT_M1,
@@ -406,12 +415,15 @@ export function CollisionAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Two carts collide
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
@@ -461,27 +473,27 @@ export function CollisionAnimation() {
         </button>
 
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>m_A</span>
+          <span className="text-accent-gold">m₁</span>
           <input
             type="range"
-            min={0.5}
-            max={4}
-            step={0.5}
+            min={SPEC.m1.min}
+            max={SPEC.m1.max}
+            step={SPEC.m1.step}
             value={m1}
-            onChange={e => setM1(+e.target.value)}
+            onChange={e => set('m1', +e.target.value)}
             className="w-20 accent-accent-blue"
           />
           <span className="text-text-secondary font-mono">{m1}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>v_A</span>
+          <span className="text-accent-gold">v₁</span>
           <input
             type="range"
-            min={-5}
-            max={5}
-            step={0.5}
+            min={SPEC.v1.min}
+            max={SPEC.v1.max}
+            step={SPEC.v1.step}
             value={v1}
-            onChange={e => setV1(+e.target.value)}
+            onChange={e => set('v1', +e.target.value)}
             className="w-20 accent-accent-blue"
           />
           <span className="text-text-secondary font-mono">
@@ -490,33 +502,50 @@ export function CollisionAnimation() {
           </span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>m_B</span>
+          <span className="text-accent-gold">m₂</span>
           <input
             type="range"
-            min={0.5}
-            max={4}
-            step={0.5}
+            min={SPEC.m2.min}
+            max={SPEC.m2.max}
+            step={SPEC.m2.step}
             value={m2}
-            onChange={e => setM2(+e.target.value)}
+            onChange={e => set('m2', +e.target.value)}
             className="w-20 accent-accent-orange"
           />
           <span className="text-text-secondary font-mono">{m2}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>v_B</span>
+          <span className="text-accent-gold">v₂</span>
           <input
             type="range"
-            min={-5}
-            max={5}
-            step={0.5}
+            min={SPEC.v2.min}
+            max={SPEC.v2.max}
+            step={SPEC.v2.step}
             value={v2}
-            onChange={e => setV2(+e.target.value)}
+            onChange={e => set('v2', +e.target.value)}
             className="w-20 accent-accent-orange"
           />
           <span className="text-text-secondary font-mono">
             {v2 > 0 ? '+' : ''}
             {v2}
           </span>
+        </div>
+        {/* Momentum is the invariant: it holds in both modes, which is what
+            separates it from kinetic energy and is the reason the article
+            bothers with the inelastic toggle at all. Shown as the total going
+            in, so the reader can check it against the carts coming out. */}
+        <div className="ml-auto">
+          <EquationReadout
+            formula="p = m₁v₁ + m₂v₂"
+            bindings={[
+              { symbol: 'm₁', value: String(m1) },
+              { symbol: 'v₁', value: String(v1) },
+              { symbol: 'm₂', value: String(m2) },
+              { symbol: 'v₂', value: String(v2) },
+            ]}
+            result={(m1 * v1 + m2 * v2).toFixed(2)}
+            assumption="conserved in both modes — unlike kinetic energy, which the inelastic collision discards"
+          />
         </div>
       </div>
     </div>

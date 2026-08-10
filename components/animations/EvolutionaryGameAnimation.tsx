@@ -2,6 +2,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 600
 const H = 300
@@ -69,6 +72,16 @@ function fitness(x: number[], m: number[][]): number[] {
   return f
 }
 
+// The starting mix and the match length. Whether tit-for-tat wins is decided by
+// the interaction of the two, and the interesting configurations are the ones
+// near the boundary — which is precisely the sort of value nobody reproduces
+// from a description.
+const SPEC = {
+  rounds: { default: 10, min: 1, max: 30, step: 1, symbol: 'n' },
+  initD: { default: 50, min: 0, max: 100, step: 1, unit: '%' },
+  initC: { default: 20, min: 0, max: 100, step: 1, unit: '%' },
+}
+
 export function EvolutionaryGameAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -76,9 +89,8 @@ export function EvolutionaryGameAnimation() {
   const [running, setRunning] = useState(false)
   const [tick, setTick] = useState(0)
 
-  const [rounds, setRounds] = useState(10)
-  const [initD, setInitD] = useState(50)
-  const [initC, setInitC] = useState(20)
+  const { params, set, reset: resetParams, permalink, isDefault, restored } = useWidgetParams('evogame', SPEC)
+  const { rounds, initD, initC } = params
 
   const start = useMemo(() => {
     const d = initD
@@ -309,9 +321,7 @@ export function EvolutionaryGameAnimation() {
   const reset = () => {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
-    setRounds(10)
-    setInitD(50)
-    setInitC(20)
+    resetParams()
     triggerReset()
   }
 
@@ -321,9 +331,12 @@ export function EvolutionaryGameAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Replicator dynamics</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -339,27 +352,42 @@ export function EvolutionaryGameAnimation() {
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Evolve</>}
         </button>
         <label className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Rounds/match</span>
-          <input type="range" min={1} max={30} step={1} value={rounds}
-            onChange={e => setRounds(+e.target.value)}
+          <span>Rounds/match <span className="text-accent-gold">n</span></span>
+          <input type="range" min={SPEC.rounds.min} max={SPEC.rounds.max} step={SPEC.rounds.step} value={rounds}
+            onChange={e => set('rounds', +e.target.value)}
             className="w-24 accent-accent-violet" />
           <span className="font-mono text-text-secondary w-6">{rounds}</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
           <span style={{ color: PINK }}>ALLD</span>
-          <input type="range" min={0} max={100} step={1} value={initD}
-            onChange={e => setInitD(Math.min(+e.target.value, 100 - initC))}
+          <input type="range" min={SPEC.initD.min} max={SPEC.initD.max} step={SPEC.initD.step} value={initD}
+            onChange={e => set('initD', Math.min(+e.target.value, 100 - initC))}
             className="w-20 accent-accent-gold" />
           <span className="font-mono text-text-secondary w-8">{initD}%</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
           <span style={{ color: BLUE }}>ALLC</span>
-          <input type="range" min={0} max={100} step={1} value={initC}
-            onChange={e => setInitC(Math.min(+e.target.value, 100 - initD))}
+          <input type="range" min={SPEC.initC.min} max={SPEC.initC.max} step={SPEC.initC.step} value={initC}
+            onChange={e => set('initC', Math.min(+e.target.value, 100 - initD))}
             className="w-20 accent-accent-gold" />
           <span className="font-mono text-text-secondary w-8">{initC}%</span>
         </label>
         <span className="text-xs font-mono" style={{ color: GREEN }}>TFT {initT}%</span>
+        {/* n is what decides whether reciprocity can pay: tit-for-tat only beats
+            defection once a match is long enough for retaliation to cost more
+            than the one round of exploitation it followed. */}
+        <div className="ml-auto">
+          <EquationReadout
+            formula="TFT resists ALLD when n > (T − R) / (R − P)"
+            bindings={[{ symbol: 'n', value: String(rounds) }]}
+            result={
+              rounds > (T - R) / (R - P)
+                ? `satisfied (n > ${((T - R) / (R - P)).toFixed(0)})`
+                : `not satisfied (needs n > ${((T - R) / (R - P)).toFixed(0)})`
+            }
+            assumption={`threshold computed from this widget's own payoff matrix (T=${T}, R=${R}, P=${P}), so it moves if the payoffs do`}
+          />
+        </div>
       </div>
     </div>
   )

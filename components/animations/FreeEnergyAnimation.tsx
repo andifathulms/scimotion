@@ -2,6 +2,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 620
 const H = 300
@@ -44,6 +47,14 @@ const REGIME_LABEL: Record<Regime, string> = {
   'high-T': 'ΔH > 0, ΔS > 0 — spontaneous only above T*',
 }
 
+// Symbols match the equation in the header and in the article body. Declared at
+// module scope so the reference is stable across the sweep's animation frames.
+const SPEC = {
+  dH: { default: -40, min: -120, max: 120, step: 5, symbol: 'ΔH', unit: 'kJ/mol' },
+  dS: { default: -100, min: -250, max: 250, step: 10, symbol: 'ΔS', unit: 'J/mol·K' },
+  temp: { default: 298, min: T_MIN, max: T_MAX, step: 5, symbol: 'T', unit: 'K' },
+}
+
 export function FreeEnergyAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -51,9 +62,8 @@ export function FreeEnergyAnimation() {
   const dHRef = useRef(-40)
   const dSRef = useRef(-100)
 
-  const [dH, setDH] = useState(-40) // kJ/mol
-  const [dS, setDS] = useState(-100) // J/(mol·K)
-  const [temp, setTemp] = useState(298) // K
+  const { params, set, reset: resetParams, permalink, isDefault, restored } = useWidgetParams('freeenergy', SPEC)
+  const { dH, dS, temp } = params
   const [running, setRunning] = useState(false)
 
   useEffect(() => { dHRef.current = dH }, [dH])
@@ -234,23 +244,23 @@ export function FreeEnergyAnimation() {
       let next = tRef.current + 4
       if (next > T_MAX) next = T_MIN
       tRef.current = next
-      setTemp(next)
+      set('temp', next)
       rafRef.current = requestAnimationFrame(tick)
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, set])
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)
     triggerReset()
     setRunning(false)
-    setDH(-40)
-    setDS(-100)
-    setTemp(298)
-    dHRef.current = -40
-    dSRef.current = -100
-    tRef.current = 298
+    // Defaults live in SPEC now, so Reset cannot drift away from the value the
+    // slider starts at — these were three separate literals repeated here.
+    resetParams()
+    dHRef.current = SPEC.dH.default
+    dSRef.current = SPEC.dS.default
+    tRef.current = SPEC.temp.default
     draw()
   }
 
@@ -261,9 +271,12 @@ export function FreeEnergyAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · ΔG = ΔH − TΔS, refereed by temperature</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -278,8 +291,8 @@ export function FreeEnergyAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔH:</span>
           <input
-            type="range" min={-120} max={120} step={5} value={dH}
-            onChange={e => setDH(+e.target.value)}
+            type="range" min={SPEC.dH.min} max={SPEC.dH.max} step={SPEC.dH.step} value={dH}
+            onChange={e => set('dH', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{dH} kJ/mol</span>
@@ -287,8 +300,8 @@ export function FreeEnergyAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔS:</span>
           <input
-            type="range" min={-250} max={250} step={10} value={dS}
-            onChange={e => setDS(+e.target.value)}
+            type="range" min={SPEC.dS.min} max={SPEC.dS.max} step={SPEC.dS.step} value={dS}
+            onChange={e => set('dS', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{dS} J/mol·K</span>
@@ -296,15 +309,27 @@ export function FreeEnergyAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>T:</span>
           <input
-            type="range" min={T_MIN} max={T_MAX} step={5} value={temp}
-            onChange={e => { setRunning(false); setTemp(+e.target.value) }}
+            type="range" min={SPEC.temp.min} max={SPEC.temp.max} step={SPEC.temp.step} value={temp}
+            onChange={e => { setRunning(false); set('temp', +e.target.value) }}
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{temp} K</span>
         </div>
-        <span className="ml-auto text-xs font-mono" style={{ color: gNow < 0 ? GREEN : ORANGE }}>
-          ΔG = {gNow.toFixed(1)} kJ/mol · {gNow < 0 ? 'spontaneous' : 'non-spontaneous'}
-        </span>
+        <div className="ml-auto flex items-center gap-3">
+          <EquationReadout
+            formula="ΔG = ΔH − TΔS"
+            bindings={[
+              { symbol: 'ΔH', value: `${dH} kJ/mol` },
+              { symbol: 'T', value: `${temp} K` },
+              { symbol: 'ΔS', value: `${dS} J/mol·K` },
+            ]}
+            result={`${gNow.toFixed(1)} kJ/mol`}
+            assumption="ΔH and ΔS held constant with temperature — the standard approximation, and the reason the line is straight"
+          />
+          <span className="text-xs font-mono shrink-0" style={{ color: gNow < 0 ? GREEN : ORANGE }}>
+            {gNow < 0 ? 'spontaneous' : 'non-spontaneous'}
+          </span>
+        </div>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         {REGIME_LABEL[regime]}. Set the signs of ΔH and ΔS, then press <em>Sweep T</em>: in the two

@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 330
@@ -32,14 +34,33 @@ function buildValues(g: number, p: number): number[] {
   return out
 }
 
+// The modulus is stored as an index into PRIMES, not as the prime itself.
+// A hash is editable text and the spec can only clamp a numeric range, so
+// pinning p directly would let "?modexp.p=24" through — a composite modulus,
+// which makes the discrete log the article is about quietly ill-defined. An
+// index cannot express a value that is not on the list.
+//
+// g and y have ranges that depend on p (2..p−2 and 0..p−2), which a static spec
+// cannot express either. Their bounds are the widest any prime allows and the
+// existing Math.min guards do the per-p clamping, exactly as they did for the
+// select.
+const SPEC = {
+  pIdx: { default: PRIMES.indexOf(23), min: 0, max: PRIMES.length - 1, step: 1 },
+  g: { default: 5, min: 2, max: PRIMES[PRIMES.length - 1] - 2, step: 1, symbol: 'g' },
+  targetIdx: { default: 6, min: 0, max: PRIMES[PRIMES.length - 1] - 2, step: 1, symbol: 'x' },
+}
+
 export function ModularExponentiationAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [p, setP] = useState(23)
-  const [g, setG] = useState(5)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('modexp', SPEC)
+  const p = PRIMES[params.pIdx]
+  // Clamped on read: a link may carry a g or y that was valid under a larger
+  // modulus than the one it also carries.
+  const g = Math.min(params.g, p - 2)
+  const targetIdx = Math.min(params.targetIdx, p - 2)
   const [idx, setIdx] = useState(-1)
   const [running, setRunning] = useState(false)
   const [speed, setSpeed] = useState(150)
-  const [targetIdx, setTargetIdx] = useState(6)
 
   const values = useMemo(() => buildValues(g, p), [g, p])
   const totalRef = useRef(values.length)
@@ -213,9 +234,9 @@ export function ModularExponentiationAnimation() {
   const changeP = (np: number) => {
     setRunning(false)
     setIdx(-1)
-    setP(np)
-    if (g > np - 2) setG(np - 2)
-    if (targetIdx > np - 2) setTargetIdx(np - 2)
+    // g and y are clamped against p at read time, so switching the modulus no
+    // longer has to write them back down.
+    set('pIdx', PRIMES.indexOf(np))
   }
 
   return (
@@ -224,9 +245,12 @@ export function ModularExponentiationAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Why the discrete log is hard
         </span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -251,8 +275,8 @@ export function ModularExponentiationAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Base g:</span>
           <input
-            type="range" min={2} max={p - 2} step={1} value={Math.min(g, p - 2)}
-            onChange={e => { setRunning(false); setIdx(-1); setG(+e.target.value) }}
+            type="range" min={SPEC.g.min} max={p - 2} step={SPEC.g.step} value={g}
+            onChange={e => { setRunning(false); setIdx(-1); set('g', +e.target.value) }}
             className="w-20 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{g}</span>
@@ -260,8 +284,8 @@ export function ModularExponentiationAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Target y:</span>
           <input
-            type="range" min={0} max={p - 2} step={1} value={Math.min(targetIdx, p - 2)}
-            onChange={e => setTargetIdx(+e.target.value)}
+            type="range" min={SPEC.targetIdx.min} max={p - 2} step={SPEC.targetIdx.step} value={targetIdx}
+            onChange={e => set('targetIdx', +e.target.value)}
             className="w-20 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{target}</span>

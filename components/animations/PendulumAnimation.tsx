@@ -2,12 +2,24 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 600
 const H = 280
 const PIVOT_X = W / 2
 const PIVOT_Y = 40
 const DT = 0.016
+
+// Module scope, not inline: an object literal in the render body is a new
+// reference on every frame of a running simulation, which defeats the memos in
+// useWidgetParams. Symbols match the equation in the article body.
+const SPEC = {
+  initAngle: { default: 60, min: 5, max: 85, step: 1, symbol: 'θ₀', unit: '°' },
+  length: { default: 160, min: 60, max: 220, step: 10, symbol: 'L', unit: 'px' },
+  gravity: { default: 9.81, min: 1, max: 20, step: 0.5, symbol: 'g', unit: 'm/s²' },
+}
 
 export function PendulumAnimation() {
   const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
@@ -16,9 +28,8 @@ export function PendulumAnimation() {
   const stateRef = useRef({ angle: Math.PI / 3, omega: 0, trail: [] as { x: number; y: number }[] })
 
   const [running, setRunning] = useState(false)
-  const [length, setLength] = useState(160)
-  const [initAngle, setInitAngle] = useState(60)
-  const [gravity, setGravity] = useState(9.81)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('pendulum', SPEC)
+  const { initAngle, length, gravity } = params
   const [, setEnergy] = useState({ ke: 0, pe: 1 })
 
   const drawFrame = useCallback(() => {
@@ -174,9 +185,12 @@ export function PendulumAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Simple Pendulum</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -188,33 +202,50 @@ export function PendulumAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
+        {/* Each label carries the symbol the equation below uses, so dragging
+            "Angle θ₀" and watching θ₀ change in the formula is one motion
+            instead of two facts the reader has to connect. Bounds come from
+            SPEC rather than being repeated here. */}
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Angle:</span>
-          <input type="range" min={5} max={85} value={initAngle}
-            onChange={e => { setInitAngle(+e.target.value); setRunning(false) }}
+          <span>Angle <span className="text-accent-gold">θ₀</span>:</span>
+          <input type="range" min={SPEC.initAngle.min} max={SPEC.initAngle.max} step={SPEC.initAngle.step} value={initAngle}
+            onChange={e => { set('initAngle', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
           <span>{initAngle}°</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Length:</span>
-          <input type="range" min={60} max={220} step={10} value={length}
-            onChange={e => { setLength(+e.target.value); setRunning(false) }}
+          <span>Length <span className="text-accent-gold">L</span>:</span>
+          <input type="range" min={SPEC.length.min} max={SPEC.length.max} step={SPEC.length.step} value={length}
+            onChange={e => { set('length', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
           <span>{length}px</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Gravity:</span>
-          <input type="range" min={1} max={20} step={0.5} value={gravity}
-            onChange={e => { setGravity(+e.target.value); setRunning(false) }}
+          <span>Gravity <span className="text-accent-gold">g</span>:</span>
+          <input type="range" min={SPEC.gravity.min} max={SPEC.gravity.max} step={SPEC.gravity.step} value={gravity}
+            onChange={e => { set('gravity', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
           <span>{gravity} m/s²</span>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
-          T ≈ <strong className="text-accent-gold">{period}s</strong>
-        </span>
+        {/* The assumption is stated because this widget makes it checkable: the
+            loop above integrates α = −(g/L)·sin θ, the exact equation, while
+            this formula is the small-angle linearisation of it. They agree near
+            θ₀ = 0 and visibly do not at the top of the slider's range. Naming
+            that is the minimum owed to a reader who can see both at once. */}
+        <div className="ml-auto">
+          <EquationReadout
+            formula="T = 2π√(L/g)"
+            bindings={[
+              { symbol: 'L', value: `${(length / 1000).toFixed(2)} m` },
+              { symbol: 'g', value: `${gravity} m/s²` },
+            ]}
+            result={`${period} s`}
+            assumption={`small-angle approximation — the simulation integrates the exact equation, so the two part company as θ₀ grows (now ${initAngle}°)`}
+          />
+        </div>
       </div>
     </div>
   )

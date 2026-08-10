@@ -2,6 +2,9 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
+import { EquationReadout } from '@/components/EquationReadout'
 
 const W = 600
 const H = 300
@@ -31,14 +34,23 @@ function counts(prev: number, sens: number, spec: number): Counts {
   return { tp, fn, fp, tn }
 }
 
+// Prevalence, sensitivity and specificity are the three numbers a screening
+// programme is actually specified by, so they are also the three worth linking
+// to. Defaults are the classic rare-disease case: a very good test, a rare
+// condition, and a posterior most people guess wrong by an order of magnitude.
+const SPEC = {
+  prev: { default: DEFAULTS.prev, min: 0.1, max: 50, step: 0.1, symbol: 'P(D)', unit: '%' },
+  sens: { default: DEFAULTS.sens, min: 50, max: 100, step: 0.5, symbol: 'P(+|D)', unit: '%' },
+  spec: { default: DEFAULTS.spec, min: 50, max: 100, step: 0.5, symbol: 'P(−|¬D)', unit: '%' },
+}
+
 export function BayesTheoremAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const revealRef = useRef(0)
   const [phase, setPhase] = useState(0)
-  const [prev, setPrev] = useState(DEFAULTS.prev)
-  const [sens, setSens] = useState(DEFAULTS.sens)
-  const [spec, setSpec] = useState(DEFAULTS.spec)
+  const { params, set, reset: resetParams, permalink, isDefault, restored } = useWidgetParams('bayes', SPEC)
+  const { prev, sens, spec } = params
 
   const c = counts(prev, sens, spec)
   const posPeople = c.tp + c.fp
@@ -179,9 +191,7 @@ export function BayesTheoremAnimation() {
 
   const reset = () => {
     triggerReset()
-    setPrev(DEFAULTS.prev)
-    setSens(DEFAULTS.sens)
-    setSpec(DEFAULTS.spec)
+    resetParams()
     revealRef.current = 0
     setPhase(p => p + 1)
   }
@@ -190,38 +200,61 @@ export function BayesTheoremAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Natural frequencies</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
       </div>
       <div className="animation-controls flex-wrap gap-x-5 gap-y-2">
         <label className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Prevalence</span>
-          <input type="range" min={0.1} max={50} step={0.1} value={prev}
-            onChange={e => setPrev(+e.target.value)}
+          <span>Prevalence <span className="text-accent-gold">P(D)</span></span>
+          <input type="range" min={SPEC.prev.min} max={SPEC.prev.max} step={SPEC.prev.step} value={prev}
+            onChange={e => set('prev', +e.target.value)}
             className="w-24 accent-accent-violet" />
           <span className="font-mono text-text-secondary w-12">{prev.toFixed(1)}%</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
-          <span>Sensitivity</span>
-          <input type="range" min={50} max={100} step={0.5} value={sens}
-            onChange={e => setSens(+e.target.value)}
+          <span>Sensitivity <span className="text-accent-gold">P(+|D)</span></span>
+          <input type="range" min={SPEC.sens.min} max={SPEC.sens.max} step={SPEC.sens.step} value={sens}
+            onChange={e => set('sens', +e.target.value)}
             className="w-24 accent-accent-gold" />
           <span className="font-mono text-text-secondary w-12">{sens.toFixed(1)}%</span>
         </label>
         <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Specificity</span>
-          <input type="range" min={50} max={100} step={0.5} value={spec}
-            onChange={e => setSpec(+e.target.value)}
+          <input type="range" min={SPEC.spec.min} max={SPEC.spec.max} step={SPEC.spec.step} value={spec}
+            onChange={e => set('spec', +e.target.value)}
             className="w-24 accent-accent-blue" />
           <span className="font-mono text-text-secondary w-12">{spec.toFixed(1)}%</span>
         </label>
-        <span className="ml-auto text-xs font-mono" style={{ color: posterior < 0.5 ? PINK : VIOLET }}>
-          posterior {(posterior * 100).toFixed(1)}%
-        </span>
+        {/* P(+) is not a slider — it is the column the dots actually land in,
+            tp + fp out of GRID². Showing it as the denominator is what makes the
+            counter-intuitive result legible: a 99%-sensitive test on a rare
+            disease produces far more false positives than true ones, and the
+            formula says so in one line. */}
+        <div className="ml-auto flex items-center gap-3">
+          <EquationReadout
+            formula="P(D|+) = P(+|D) · P(D) / P(+)"
+            bindings={[
+              { symbol: 'P(+|D)', value: `${sens.toFixed(1)}%` },
+              { symbol: 'P(D)', value: `${prev.toFixed(1)}%` },
+              { symbol: 'P(+)', value: `${((posPeople / (GRID * GRID)) * 100).toFixed(1)}%` },
+            ]}
+            result={`${(posterior * 100).toFixed(1)}%`}
+            assumption={`counted on whole people — ${GRID * GRID} of them — so each figure is rounded to the nearest dot`}
+          />
+          {/* The verdict, not just the number. Colour alone carried this before;
+              it now says which side of the coin-flip the reader is on, which is
+              the whole point of the widget. */}
+          <span className="text-xs font-mono shrink-0" style={{ color: posterior < 0.5 ? PINK : VIOLET }}>
+            {posterior < 0.5 ? 'most positives are false' : 'most positives are true'}
+          </span>
+        </div>
       </div>
     </div>
   )
