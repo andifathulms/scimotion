@@ -22,6 +22,15 @@ export type ArticleMeta = {
   featured: boolean
   description: string
   tags: string[]
+  /**
+   * Slugs this article assumes you have met, declared explicitly because the
+   * learning paths cannot express it. Paths are linear and each article belongs
+   * to exactly one, so a dependency that crosses paths — pendulum-motion needs
+   * the-derivative, which lives in Calculus & Transforms — has nowhere to live,
+   * and an article that opens its own path has no predecessor to point at even
+   * when it assumes plenty. Optional; most articles need none.
+   */
+  prerequisites: string[]
 }
 
 export type Article = {
@@ -62,6 +71,7 @@ function normalizeMeta(data: Record<string, unknown>, file: string): ArticleMeta
     featured: Boolean(data.featured),
     description: data.description as string,
     tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
+    prerequisites: Array.isArray(data.prerequisites) ? (data.prerequisites as string[]) : [],
   }
 }
 

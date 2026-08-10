@@ -25,30 +25,71 @@ const LOOKBACK = 3
  * data cannot tell the two apart, so the copy does not claim it can, and the
  * article stays readable on its own.
  */
-export function PathContext({ slug, allArticles }: { slug: string; allArticles: ArticleMeta[] }) {
+export function PathContext({
+  slug,
+  allArticles,
+  prerequisites = [],
+}: {
+  slug: string
+  allArticles: ArticleMeta[]
+  prerequisites?: string[]
+}) {
   const nav = getPathNav(slug)
-  // No path, or the reader is at the start of one: there is no earlier material
-  // to warn them about, and PathNav already handles orientation at the foot.
-  if (!nav || nav.index === 0) return null
+  const titleOf = (s: string) => allArticles.find(a => a.slug === s)?.title ?? s
 
-  const { path, index, total } = nav
-  const preceding = path.articleSlugs
-    .slice(Math.max(0, index - LOOKBACK), index)
-    .map(s => ({ slug: s, title: allArticles.find(a => a.slug === s)?.title ?? s }))
+  // Declared prerequisites come first: they are an explicit statement that this
+  // article assumes something, and unlike path position they can point outside
+  // the path. pendulum-motion opens its own path and so had no predecessor to
+  // name, while assuming calculus that lives in a different one entirely — the
+  // banner rendered nothing for exactly the reader who needed it most.
+  const declared = prerequisites.filter(s => s !== slug).map(s => ({ slug: s, title: titleOf(s) }))
+
+  // Nothing to say: no path position to report and no declared assumption.
+  if ((!nav || nav.index === 0) && declared.length === 0) return null
+
+  const preceding = nav
+    ? nav.path.articleSlugs
+        .slice(Math.max(0, nav.index - LOOKBACK), nav.index)
+        .map(s => ({ slug: s, title: titleOf(s) }))
+    : []
+  const path = nav?.path
+  const index = nav?.index ?? 0
+  const total = nav?.total ?? 0
 
   return (
     <aside className="mt-6 rounded-card border border-border bg-bg-surface px-4 py-3.5">
-      <Link
-        href={`/learn/${path.slug}`}
-        className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-text-muted hover:text-accent-gold transition-colors"
-      >
-        <Route size={13} />
-        Part {index + 1} of {total} · {path.title}
-      </Link>
+      {path && (
+        <Link
+          href={`/learn/${path.slug}`}
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-text-muted hover:text-accent-gold transition-colors"
+        >
+          <Route size={13} />
+          Part {index + 1} of {total} · {path.title}
+        </Link>
+      )}
+
+      {declared.length > 0 && (
+        <p className={`text-sm text-text-secondary ${path ? 'mt-2' : ''}`}>
+          Assumes you have met{' '}
+          {declared.map((d, i) => (
+            <span key={d.slug}>
+              {i > 0 && <span className="text-text-muted"> · </span>}
+              <Link
+                href={`/articles/${d.slug}`}
+                className="text-text-primary underline decoration-border-hover underline-offset-2 hover:decoration-accent-gold transition-colors"
+              >
+                {d.title}
+              </Link>
+            </span>
+          ))}
+          .
+        </p>
+      )}
       {/* Separated by "·", not by commas and "and". A prose list breaks down
           here because the titles contain conjunctions of their own — "Phase
           Transitions and Reaction Rates and Catalysis" reads as one garden path
           rather than as two articles. */}
+      {preceding.length > 0 && (
       <p className="mt-2 text-sm text-text-secondary">
         Reads on its own, but comes after{' '}
         {preceding.map((p, i) => (
@@ -66,6 +107,7 @@ export function PathContext({ slug, allArticles }: { slug: string; allArticles: 
           <span className="text-text-muted"> (+{index - LOOKBACK} earlier)</span>
         )}
       </p>
+      )}
     </aside>
   )
 }

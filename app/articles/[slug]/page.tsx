@@ -825,7 +825,7 @@ export default async function ArticlePage({ params }: Props) {
           {/* Only renders partway through a learning path. PathNav says much the
               same thing at the foot of the article, which means it reaches only
               the readers who already made it to the end without needing it. */}
-          <PathContext slug={slug} allArticles={allArticles} />
+          <PathContext slug={slug} allArticles={allArticles} prerequisites={meta.prerequisites} />
         </div>
 
         <hr className="border-border mb-8" />

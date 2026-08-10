@@ -7,6 +7,7 @@ date: "2026-04-08"
 readTime: 9
 featured: false
 description: "Why a pendulum keeps perfect time at small angles — and breaks down at large ones."
+prerequisites: ["the-derivative"]
 tags: ["oscillation", "mechanics", "dynamics", "energy"]
 quiz:
   - q: "Why does the small-angle approximation allow a pendulum's period to be expressed in the simple closed form T = 2 pi sqrt(L/g)?"
@@ -53,7 +54,7 @@ The negative sign means the force always points back toward equilibrium. Newton'
 
 $$mL\ddot{\theta} = -mg\sin\theta \quad\Rightarrow\quad \ddot{\theta} = -\frac{g}{L}\sin\theta$$
 
-This is exact. But it's a nonlinear differential equation — $\sin\theta$ appears, not $\theta$ itself — and nonlinear ODEs rarely have closed-form solutions.
+This is exact. But it's a nonlinear differential equation — $\sin\theta$ appears, not $\theta$ itself — and nonlinear ODEs rarely have closed-form solutions. ($\ddot{\theta}$ is the second [derivative](/articles/the-derivative) of angle with respect to time: the angular acceleration.)
 
 ## The small-angle approximation
 
@@ -61,7 +62,7 @@ For small angles (roughly $\theta < 15°$), $\sin\theta \approx \theta$ in radia
 
 $$\ddot{\theta} = -\frac{g}{L}\,\theta$$
 
-This is simple harmonic motion — the same equation as a mass on a spring. Its solution is:
+This is simple harmonic motion — the same equation as a mass on a spring, and the same one behind [resonance](/articles/resonance) and [standing waves](/articles/electromagnetic-waves). Its solution is:
 
 $$\theta(t) = \theta_0 \cos\left(\sqrt{\frac{g}{L}}\,t + \phi\right)$$
 
@@ -69,7 +70,13 @@ The angular frequency is $\omega = \sqrt{g/L}$, giving period:
 
 $$T = 2\pi\sqrt{\frac{L}{g}}$$
 
-This is Huygens' result. The period depends only on length and gravity — not on mass, not on amplitude (for small angles). A 1-metre pendulum has period $T \approx 2.0$ seconds everywhere on Earth. Doubling the length increases the period by a factor of $\sqrt{2}$, not 2.
+This is Huygens' result. The period depends only on length and gravity — not on mass, not on amplitude (for small angles).
+
+Put numbers in it. With $L = 1$ m and $g = 9.81$ m/s²:
+
+$$T = 2\pi\sqrt{\tfrac{1}{9.81}} = 2\pi\sqrt{0.1019} = 2\pi \times 0.3193 = 2.01\ \text{s}$$
+
+A 1-metre pendulum ticks once every two seconds, near enough, everywhere on Earth. That is not a coincidence of units — it is why the "seconds pendulum" of early clocks was built at about 0.994 m, and why the metre itself was once proposed as the length of a pendulum beating seconds. Doubling the length increases the period by a factor of $\sqrt{2}$, not 2.
 
 <PendulumAnimation />
 
@@ -77,11 +84,11 @@ Adjust the starting angle. At small angles (under 15°), notice how the period s
 
 ## The isochronism failure
 
-At large amplitudes, the exact period of a pendulum involves an elliptic integral:
+At large amplitudes, the exact period of a pendulum involves a complete elliptic integral of the first kind, $K(k)$ — a function tabulated since Legendre's *Traité des fonctions elliptiques* (1825) and computed today by the arithmetic–geometric mean, which is what the widget below uses:
 
 $$T = 4\sqrt{\frac{L}{g}} \int_0^{\theta_0/2} \frac{d\theta}{\sqrt{1 - k^2\sin^2\theta}}, \quad k = \sin(\theta_0/2)$$
 
-This has no simple closed form. For $\theta_0 = 90°$, the true period is about 18% longer than the small-angle formula predicts. At $\theta_0 = 180°$ (starting from horizontal), the period becomes infinite — the pendulum takes forever to pass through the top.
+This has no simple closed form. For $\theta_0 = 90°$, the true period is about 18% longer than the small-angle formula predicts — 18.0%, from $K(\sin 45°)$; the widget above prints this figure for whatever angle you set, so you can check it rather than take it. At $\theta_0 = 180°$ (starting from horizontal), the period becomes infinite — the pendulum takes forever to pass through the top.
 
 The chart below plots the true period (green) against the small-angle prediction (the flat dashed line). Drag the amplitude and watch where they diverge:
 
