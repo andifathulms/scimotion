@@ -50,16 +50,36 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
   const hasMore = shown < filtered.length
 
   return (
-    <div>
+    <section aria-labelledby="explore-heading">
+      {/* The grid used to begin with the pill row and nothing else: ten
+          unlabelled buttons were the first interactive thing on the page, with
+          no heading saying what they filtered or what they sat above. The
+          document also went straight from the hero's h1 to 171 links with no
+          intervening heading. This header names the section, restates the
+          interactivity promise once (rather than 171 times on the cards, which
+          is what the per-card "Interactive" pill was doing before it was
+          dropped for being uninformative), and puts the library's size in front
+          of the visitor while they are deciding whether to keep scrolling. */}
+      <header className="mb-6">
+        <h2 id="explore-heading" className="text-2xl font-semibold text-text-primary">
+          Browse all {articles.length} explainers
+        </h2>
+        <p className="mt-2 max-w-[600px] text-base text-text-secondary">
+          Each one is a written explanation with two interactive widgets built
+          into it. Pick a field, or just start scrolling.
+        </p>
+      </header>
+
       {/* Filter pills */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div role="group" aria-label="Filter by field" className="flex flex-wrap gap-2">
         {(['All', ...TOPICS] as const).map(t => (
           <button
             key={t}
             onClick={() => selectFilter(t)}
-            className={`relative px-4 py-1.5 rounded-full text-sm font-medium border transition-all ${
+            aria-pressed={filter === t}
+            className={`relative px-4 py-1.5 rounded-pill text-sm font-medium border transition-all ${
               filter === t
-                ? 'bg-accent-gold border-accent-gold text-bg-base'
+                ? 'bg-accent-gold border-accent-gold text-on-accent'
                 : 'border-border text-text-secondary hover:border-border-hover hover:text-text-primary'
             }`}
           >
@@ -67,6 +87,14 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
           </button>
         ))}
       </div>
+
+      {/* Always present, not only once "load more" is reachable. The count is
+          the answer to "how much is here", and it was previously withheld until
+          the visitor had already scrolled past 24 cards to find out. */}
+      <p className="mt-4 mb-8 text-sm text-text-muted" aria-live="polite">
+        Showing {shown} of {filtered.length}
+        {filter === 'All' ? '' : ` in ${filter}`}
+      </p>
 
       <AnimatePresence mode="wait">
         {filtered.length === 0 ? (
@@ -112,13 +140,10 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
             )}
 
             {hasMore && (
-              <div className="flex flex-col items-center gap-3 pt-6">
-                <p className="text-xs text-text-muted" aria-live="polite">
-                  Showing {shown} of {filtered.length} articles
-                </p>
+              <div className="flex justify-center pt-6">
                 <button
                   onClick={() => setVisible(v => v + PAGE_SIZE)}
-                  className="px-5 py-2 rounded-full border border-border text-sm font-medium text-text-secondary hover:border-border-hover hover:text-text-primary transition-colors"
+                  className="px-5 py-2 rounded-pill border border-border text-sm font-medium text-text-secondary hover:border-border-hover hover:text-text-primary transition-colors"
                 >
                   Load more
                 </button>
@@ -127,6 +152,6 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   )
 }

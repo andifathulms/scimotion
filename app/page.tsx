@@ -13,7 +13,9 @@ export default async function HomePage() {
         fieldCount={counts.filter(t => t.count > 0).length}
         pathCount={learningPaths.length}
       />
-      <div id="explore" className="pb-16">
+      {/* scroll-mt clears the sticky 56px navbar, which was otherwise landing on
+          top of the first thing the "Browse all" jump scrolled to. */}
+      <div id="explore" className="scroll-mt-20 pb-16">
         <HomepageGrid articles={articles} />
       </div>
     </div>
