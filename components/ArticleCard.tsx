@@ -21,7 +21,7 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
     <Link href={`/articles/${article.slug}`} className="block h-full group">
-      <div className="flex h-full flex-col bg-bg-surface border border-border rounded-2xl overflow-hidden hover:border-border-hover hover:bg-bg-hover transition-colors duration-200">
+      <div className="flex h-full flex-col bg-bg-surface border border-border rounded-card overflow-hidden hover:border-border-hover hover:bg-bg-hover transition-colors duration-200">
         <div className="shrink-0 overflow-hidden" style={{ height: thumbHeight }}>
           <ArticleVisual slug={article.slug} topic={article.topic} />
         </div>
@@ -43,7 +43,17 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
           >
             {article.title}
           </h3>
-          <p className="text-xs text-text-secondary line-clamp-2 mb-3">{article.description}</p>
+          {/* The description is the only sentence saying what an article is
+              about, and it was set at --text-xs in the secondary tone: the
+              smallest and faintest thing on the card. That made the grid
+              scannable for titles only, so it answered "what is this called"
+              and never "is there something here for me". --text-sm is the
+              floor for a line anyone is expected to read. */}
+          <p className="text-sm text-text-secondary line-clamp-2 mb-3">{article.description}</p>
+          {/* Metadata, and the one place --text-xs is appropriate. It reads at
+              5.1:1 now that the muted token is fixed; at the old 0.35 alpha the
+              read time and date were effectively invisible, which cost the grid
+              two genuinely useful scanning signals. */}
           <div className="mt-auto flex items-center gap-2 text-xs text-text-muted">
             <span>{article.readTime} min read</span>
             <span>·</span>
