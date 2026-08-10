@@ -326,7 +326,24 @@ export function MoonPhaseAnimation() {
         >
           <RotateCcw size={12} /> Reset
         </button>
-        <span className="text-xs text-text-muted font-mono">Drag the Moon around its orbit to change the phase.</span>
+        {/* The Moon was draggable and nothing else: the only way to set a phase
+            was a pointer. This slider writes the same `phi` the drag writes, so
+            the interaction is reachable from the keyboard and announced to a
+            screen reader, which the canvas cannot be. */}
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Orbit position:</span>
+          <input
+            type="range"
+            min={0}
+            max={359}
+            step={1}
+            value={Math.round((phi * 180) / Math.PI) % 360}
+            onChange={e => { setRunning(false); setPhi((+e.target.value * Math.PI) / 180) }}
+            className="w-32 accent-accent-gold"
+          />
+          <span className="font-mono w-24">{name}</span>
+        </label>
+        <span className="text-xs text-text-muted font-mono">Or drag the Moon around its orbit.</span>
       </div>
     </div>
   )

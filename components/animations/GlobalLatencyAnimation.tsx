@@ -288,6 +288,25 @@ export function GlobalLatencyAnimation() {
         >
           {cdnMode ? 'Show: origin only' : 'Show: nearest edge'}
         </button>
+        {/* The user marker was drag-only, so the whole point of the widget —
+            move the user, watch which edge serves them — was unreachable from a
+            keyboard. These write the same `user` the drag writes. */}
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>User west–east:</span>
+          <input
+            type="range" min={20} max={W - 20} step={5} value={user.x}
+            onChange={e => setUser(u => ({ ...u, x: +e.target.value }))}
+            className="w-28 accent-accent-gold"
+          />
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>User north–south:</span>
+          <input
+            type="range" min={20} max={H - 20} step={5} value={user.y}
+            onChange={e => setUser(u => ({ ...u, y: +e.target.value }))}
+            className="w-28 accent-accent-gold"
+          />
+        </label>
         <span className="text-xs text-text-muted">
           mode:{' '}
           <strong style={{ color: cdnMode ? GREEN : RED }}>

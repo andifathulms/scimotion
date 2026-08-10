@@ -405,6 +405,24 @@ export function HRDiagramAnimation() {
         >
           <RotateCcw size={13} /> Reset
         </button>
+        {/* A star could only be inspected by pointing at it. The slider walks
+            the same list the hit-test searches, so the readout can be reached
+            and read without a mouse. */}
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Highlight star:</span>
+          <input
+            type="range"
+            min={0}
+            max={STARS.length - 1}
+            step={1}
+            value={selected < 0 ? 0 : selected}
+            onChange={e => { const i = +e.target.value; hoverRef.current = i; setSelected(i) }}
+            className="w-28 accent-accent-gold"
+          />
+          <span className="font-mono w-20">
+            {selected < 0 ? 'none' : `${selected + 1} / ${STARS.length}`}
+          </span>
+        </label>
         <span className="ml-auto text-xs text-text-muted">Each dot is one star — not a point on the sky.</span>
       </div>
     </div>

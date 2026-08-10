@@ -552,6 +552,36 @@ export function PhaseDiagramAnimation() {
         />
       </div>
       <div className="animation-controls flex-wrap gap-3">
+        {/* The state point could only be placed by dragging on the canvas. These
+            two write the same `pt` the drag writes. Bounds follow the selected
+            substance, which is why they are read from `s` rather than declared
+            in a SPEC. */}
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Temperature:</span>
+          <input
+            type="range"
+            min={s.Tmin}
+            max={s.Tmax}
+            step={1}
+            value={Math.round(pt.T)}
+            onChange={e => { setRunning(false); setPt(v => ({ ...v, T: +e.target.value })) }}
+            className="w-28 accent-accent-teal"
+          />
+          <span className="font-mono w-14">{Math.round(pt.T)} K</span>
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Pressure:</span>
+          <input
+            type="range"
+            min={s.Lmin}
+            max={s.Lmax}
+            step={0.05}
+            value={pt.L}
+            onChange={e => { setRunning(false); setPt(v => ({ ...v, L: +e.target.value })) }}
+            className="w-28 accent-accent-teal"
+          />
+          <span className="font-mono w-20">10^{pt.L.toFixed(1)} Pa</span>
+        </label>
         <button
           onClick={() => setRunning(r => !r)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-teal text-bg-base text-xs font-medium hover:bg-accent-teal/90 transition-colors"

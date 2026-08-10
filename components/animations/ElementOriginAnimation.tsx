@@ -267,6 +267,22 @@ export function ElementOriginAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Where each element was made</span>
+        {/* An element could only be chosen by clicking its cell. A <select> is
+            the native control for picking one of a fixed named set — better here
+            than a slider over Z, because the options carry the element names a
+            screen reader needs rather than a bare atomic number. */}
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Element:</span>
+          <select
+            value={selZ}
+            onChange={e => setSelZ(+e.target.value)}
+            className="rounded border border-border bg-bg-surface px-2 py-1 text-xs text-text-secondary"
+          >
+            {ELEMENTS.map(el => (
+              <option key={el.z} value={el.z}>{el.z} · {el.name}</option>
+            ))}
+          </select>
+        </label>
         <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
           <RotateCcw size={12} /> Reset
         </button>

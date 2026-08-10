@@ -239,9 +239,40 @@ export function ComplexPlaneAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-violet text-bg-base text-xs font-medium hover:bg-accent-violet/90 transition-colors">
           Multiply z₁ by i
         </button>
-        <div className="flex flex-col gap-0.5 text-xs font-mono">
+        {/* Both points could only be positioned by dragging them on the
+            canvas. These write the same state the drag writes, one component at
+            a time, which is also the only form a screen reader can read back. */}
+        <div className="flex flex-col gap-1 text-xs font-mono">
           <span style={{ color: GOLD }}>z₁ = {fmt(z1)} · r={mod(z1).toFixed(2)} ∠{deg(z1)}°</span>
+          <div className="flex items-center gap-2">
+            <label className="flex items-center gap-1 text-text-muted">
+              <span>z₁ re</span>
+              <input type="range" min={-3} max={3} step={0.1} value={z1.re}
+                onChange={e => setZ1(clampR({ ...z1, re: +e.target.value }))}
+                className="w-20 accent-accent-gold" />
+            </label>
+            <label className="flex items-center gap-1 text-text-muted">
+              <span>z₁ im</span>
+              <input type="range" min={-3} max={3} step={0.1} value={z1.im}
+                onChange={e => setZ1(clampR({ ...z1, im: +e.target.value }))}
+                className="w-20 accent-accent-gold" />
+            </label>
+          </div>
           <span style={{ color: BLUE }}>z₂ = {fmt(z2)} · r={mod(z2).toFixed(2)} ∠{deg(z2)}°</span>
+          <div className="flex items-center gap-2">
+            <label className="flex items-center gap-1 text-text-muted">
+              <span>z₂ re</span>
+              <input type="range" min={-3} max={3} step={0.1} value={z2.re}
+                onChange={e => setZ2(clampR({ ...z2, re: +e.target.value }))}
+                className="w-20 accent-accent-blue" />
+            </label>
+            <label className="flex items-center gap-1 text-text-muted">
+              <span>z₂ im</span>
+              <input type="range" min={-3} max={3} step={0.1} value={z2.im}
+                onChange={e => setZ2(clampR({ ...z2, im: +e.target.value }))}
+                className="w-20 accent-accent-blue" />
+            </label>
+          </div>
         </div>
         <div className="flex flex-col gap-0.5 text-xs font-mono ml-auto">
           <span style={{ color: GREEN }}>z₁+z₂ = {fmt(sum)}</span>
