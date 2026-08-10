@@ -12,6 +12,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import { TocDisclosure } from '@/components/TocDisclosure'
 import { Quiz } from '@/components/Quiz'
 import { PathNav } from '@/components/PathNav'
+import { PathContext } from '@/components/PathContext'
 import { extractHeadings, rehypeSlugSimple } from '@/lib/toc'
 import type { Metadata } from 'next'
 import remarkMath from 'remark-math'
@@ -806,6 +807,10 @@ export default async function ArticlePage({ params }: Props) {
             <span>·</span>
             <span>{new Date(meta.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
           </div>
+          {/* Only renders partway through a learning path. PathNav says much the
+              same thing at the foot of the article, which means it reaches only
+              the readers who already made it to the end without needing it. */}
+          <PathContext slug={slug} allArticles={allArticles} />
         </div>
 
         <hr className="border-border mb-8" />
