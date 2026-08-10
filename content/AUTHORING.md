@@ -183,7 +183,31 @@ no content for that reader.
   is decoration: mark it `aria-hidden`. Over-labelling is as much a defect as
   no label.
 
-## 9. Learning path (optional)
+## 9. Pedagogy (required)
+
+- **A widget must not compute its answer from its conclusion.** If a quantity is
+  displayed as evidence, read it from the simulation state, not from the initial
+  conditions. The pendulum's energy bars once read `ke = totalE − pe` with
+  `totalE` fixed from θ₀, so they showed perfect conservation by construction and
+  would have done so with a broken integrator.
+- **Where a widget evaluates a law rather than testing it, say so** in an
+  `.animation-note` between the diagram and the controls. Deriving ω from a
+  constant L is a fine way to draw a consequence and not evidence for the law.
+- **One set of units.** The same symbol must mean the same thing in the
+  integrator, the readout and the prose. The pendulum once ran its physics in
+  pixels and printed metres, 33× apart.
+- **Show the working.** Use `EquationReadout`'s `steps` for the intermediate
+  values. Inputs and an answer teach that a result exists, not how it is reached.
+- **Give the reader the experiment the article says matters** — including
+  controls whose whole lesson is that moving them changes nothing.
+- **Declare `prerequisites` in frontmatter** when an article assumes another,
+  and link at first use in the sentence where the idea appears. Paths are linear
+  and cannot express a dependency that crosses them.
+- **Cite a rule where it is applied**, in the sentence, not in a footnote.
+- **State the size of an approximation, not just its existence.** "Breaks down"
+  is not a fact a reader can use; "18% long at 90°" is.
+
+## 10. Learning path (optional)
 
 If the article belongs in a sequence, add its slug to the right path in `lib/paths.ts`.
 Each article should appear in at most one path so prev/next stays unambiguous.
@@ -201,5 +225,5 @@ Each article should appear in at most one path so prev/next stays unambiguous.
 - [ ] `<KeyTakeaways>` block at the end
 - [ ] Sliders in `<label>`; canvas has role="img" + aria-label; no pointer-only
       interaction; autoplay respects reduced motion (§8)
-- [ ] Added to a learning path in `lib/paths.ts` (if applicable, §9)
+- [ ] Added to a learning path in `lib/paths.ts` (if applicable, §10)
 - [ ] `npm run build` and `npm run lint` pass
