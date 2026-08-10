@@ -1,11 +1,15 @@
 'use client'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { TopicBadge } from './TopicBadge'
 import { ArticleVisual } from './ArticleVisual'
 import type { ArticleMeta } from '@/lib/articles'
 
 export function ArticleCard({ article, featured = false }: { article: ArticleMeta; featured?: boolean }) {
+  // The lift-and-scale on hover is motion triggered by interaction, which is
+  // what 2.3.3 covers. The colour and border transitions below stay: those are
+  // the part that says "this is a link", and they do not move anything.
+  const reduce = useReducedMotion()
   const thumbHeight = featured ? 200 : 120
   return (
     // Every grid this card sits in stretches its items, but the height stopped
@@ -16,8 +20,8 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
     // dateline pinned to the bottom edge.
     <motion.div
       className="h-full"
-      whileHover={{ y: -3, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={reduce ? undefined : { y: -3, scale: 1.01 }}
+      whileTap={reduce ? undefined : { scale: 0.98 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
     <Link href={`/articles/${article.slug}`} className="block h-full group">

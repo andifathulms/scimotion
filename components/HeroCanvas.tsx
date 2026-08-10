@@ -13,6 +13,13 @@ export function HeroCanvas() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // WCAG 2.2.2 Pause, Stop, Hide (Level A): this field starts on its own,
+    // runs for as long as the page is open, and sits alongside the content the
+    // visitor came to read, with no control to stop it. There is nothing here
+    // worth pausing *to*, so under a reduced-motion preference it is painted
+    // once, as a still constellation, and the loop never starts.
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     let animId: number
     let particles: Particle[] = []
 
@@ -80,7 +87,7 @@ export function HeroCanvas() {
         ctx.fill()
       }
 
-      animId = requestAnimationFrame(draw)
+      if (!still) animId = requestAnimationFrame(draw)
     }
 
     init()

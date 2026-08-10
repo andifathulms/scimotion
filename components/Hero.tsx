@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { motion, type Variants } from 'framer-motion'
+import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { HeroCanvas } from './HeroCanvas'
 
 const container: Variants = {
@@ -12,6 +12,12 @@ const item: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 }
+
+// Reduced motion means no travel and no stagger — not a faster version of the
+// same thing. Rendering the final state directly is the honest reading of the
+// preference; a 24px rise is exactly the vestibular trigger it asks about.
+const STILL: Variants = { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+const NO_STAGGER: Variants = { hidden: {}, visible: {} }
 
 // Counts are read from the content directory by the page and passed in, rather
 // than written here as prose. The old copy made an unverifiable claim ("hands
@@ -28,6 +34,10 @@ export function Hero({
   fieldCount: number
   pathCount: number
 }) {
+  const reduce = useReducedMotion()
+  const c = reduce ? NO_STAGGER : container
+  const i = reduce ? STILL : item
+
   const stats = [
     { value: articleCount, label: 'explainers' },
     { value: fieldCount, label: 'fields' },
@@ -45,7 +55,7 @@ export function Hero({
       <HeroCanvas />
       <motion.div
         className="relative z-10 max-w-[680px]"
-        variants={container}
+        variants={c}
         initial="hidden"
         animate="visible"
       >
@@ -53,14 +63,14 @@ export function Hero({
             measured 3.9:1 — the least readable text on the landing view was the
             line whose job was to say what the site is. */}
         <motion.span
-          variants={item}
+          variants={i}
           className="inline-block text-xs font-mono uppercase tracking-widest text-accent-gold mb-4"
         >
           Interactive science explainers
         </motion.span>
 
         <motion.h1
-          variants={item}
+          variants={i}
           className="text-display font-bold text-balance text-text-primary mb-5"
         >
           Science you can{' '}
@@ -78,7 +88,7 @@ export function Hero({
         </motion.h1>
 
         <motion.p
-          variants={item}
+          variants={i}
           className="text-text-secondary text-lg mb-8 max-w-[560px]"
         >
           Read the explanation, then drag the sliders and watch the model
@@ -87,7 +97,7 @@ export function Hero({
           on purpose.
         </motion.p>
 
-        <motion.div variants={item} className="flex flex-wrap items-center gap-3">
+        <motion.div variants={i} className="flex flex-wrap items-center gap-3">
           <a
             href="#explore"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill bg-accent-gold text-on-accent text-sm font-semibold transition-opacity duration-200 hover:opacity-90"
@@ -117,7 +127,7 @@ export function Hero({
             more" branch of the grid, 24 cards down. It is the most persuasive
             fact the site has; it belongs above the fold. */}
         <motion.ul
-          variants={item}
+          variants={i}
           aria-label="The library at a glance"
           className="mt-10 flex flex-wrap items-baseline gap-x-8 gap-y-3"
         >

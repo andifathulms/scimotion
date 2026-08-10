@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { motion, AnimatePresence, type Variants } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
 import { ArticleCard } from './ArticleCard'
 import type { ArticleMeta } from '@/lib/articles'
 import { TOPICS, type Topic } from '@/lib/topics'
@@ -25,7 +25,16 @@ const cardVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 }
 
+// See Hero: under a reduced-motion preference the cards are simply present.
+// A 24-card stagger is the largest single piece of motion on the site.
+const STILL: Variants = { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+const NO_STAGGER: Variants = { hidden: {}, visible: {} }
+
 export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
+  const reduce = useReducedMotion()
+  const grid = reduce ? NO_STAGGER : gridVariants
+  const card = reduce ? STILL : cardVariants
+
   const [filter, setFilter] = useState<Topic | 'All'>('All')
   const [visible, setVisible] = useState(PAGE_SIZE)
 
@@ -132,19 +141,19 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
           <motion.div
             key={filter}
             className="space-y-4"
-            variants={gridVariants}
+            variants={grid}
             initial="hidden"
             animate="visible"
           >
             {featured && (
-              <motion.div variants={cardVariants}>
+              <motion.div variants={card}>
                 <ArticleCard article={featured} featured />
               </motion.div>
             )}
             {firstTwo.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {firstTwo.map(a => (
-                  <motion.div key={a.slug} variants={cardVariants}>
+                  <motion.div key={a.slug} variants={card}>
                     <ArticleCard article={a} />
                   </motion.div>
                 ))}
@@ -153,7 +162,7 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
             {remainingVisible.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {remainingVisible.map(a => (
-                  <motion.div key={a.slug} variants={cardVariants}>
+                  <motion.div key={a.slug} variants={card}>
                     <ArticleCard article={a} />
                   </motion.div>
                 ))}
