@@ -443,6 +443,10 @@ export function IntermolecularForceAnimation() {
           style={{ background: 'var(--color-canvas)' }}
         />
       </div>
+      {/* Honest about what this widget is. See the pedagogy note in
+          AUTHORING.md: a widget that derives a quantity from the law it is
+          illustrating cannot also be evidence for that law. */}
+      <p className="animation-note">Energies come from a lookup keyed on molecule type and size, not from a force calculation — the figures are representative magnitudes chosen to show the ordering between dispersion, dipole and hydrogen bonding, not values computed for a specific substance.</p>
       <div className="animation-controls flex-wrap gap-3">
         <div className="flex items-center gap-1">
           {(['nonpolar', 'polar', 'hbond'] as Kind[]).map(kOpt => (

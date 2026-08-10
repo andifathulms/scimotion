@@ -318,6 +318,10 @@ export function NeutronStarDensityAnimation() {
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas role="img" aria-label="Animated diagram: Collapse to nuclear density. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
+      {/* Honest about what this widget is. See the pedagogy note in
+          AUTHORING.md: a widget that derives a quantity from the law it is
+          illustrating cannot also be evidence for that law. */}
+      <p className="animation-note">Spin is computed from ω ∝ 1∕R², i.e. from the conservation law itself, not from a simulation of the collapse. The law is assumed here and its consequence drawn; the widget is an illustration of the arithmetic, not evidence for it.</p>
       <div className="animation-controls flex-wrap gap-3">
         <button
           onClick={() => (running ? setRunning(false) : collapse())}

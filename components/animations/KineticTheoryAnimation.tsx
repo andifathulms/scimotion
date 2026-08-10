@@ -359,6 +359,10 @@ export function KineticTheoryAnimation() {
           style={{ background: 'var(--color-canvas)' }}
         />
       </div>
+      {/* Honest about what this widget is. See the pedagogy note in
+          AUTHORING.md: a widget that derives a quantity from the law it is
+          illustrating cannot also be evidence for that law. */}
+      <p className="animation-note">Temperature is the input: particle speeds are drawn from it as v ∝ √T, so the panel reports the value you set rather than one measured from the particles. The relation kᵦT = ½m⟨v²⟩ is assumed in order to draw the gas, not demonstrated by it.</p>
       <div className="animation-controls flex-wrap gap-3">
         <button
           onClick={() => setRunning(r => !r)}

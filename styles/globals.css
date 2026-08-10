@@ -245,6 +245,20 @@ body {
  * a 620px column a three-knob widget always does — a uniform 12px left one
  * wrapped line sitting as close to the line above it as two controls sitting
  * side by side, so the rows stopped reading as rows. */
+/* An inline caveat about what a widget is doing, sitting between the diagram
+ * and its controls. Some widgets derive the quantity they display from the law
+ * they are illustrating — showing angular momentum "conserved" when it was held
+ * constant by construction. That is a legitimate way to draw a consequence and
+ * an illegitimate way to claim evidence, and the difference has to be visible
+ * next to the diagram rather than in a footnote or a tooltip. */
+.animation-note {
+  padding: 10px 16px;
+  border-top: 0.5px solid var(--border);
+  font-size: var(--text-xs);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
 .animation-controls {
   padding: 12px 16px;
   border-top: 0.5px solid var(--border);

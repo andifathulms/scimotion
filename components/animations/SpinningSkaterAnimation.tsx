@@ -245,6 +245,10 @@ export function SpinningSkaterAnimation() {
         <span>KE = ½I·ω² = <strong style={{ color: VIOLET }}>{ke.toFixed(1)} J</strong></span>
         {!triggered && <span className="text-text-muted">scroll to start</span>}
       </div>
+      {/* Honest about what this widget is. See the pedagogy note in
+          AUTHORING.md: a widget that derives a quantity from the law it is
+          illustrating cannot also be evidence for that law. */}
+      <p className="animation-note">Angular momentum L is held fixed here and ω is computed from it as L∕I — this evaluates the conservation law rather than testing it, so the bar cannot fail to stay level. What the widget does show is the consequence: how sharply ω has to rise when I falls.</p>
       <div className="animation-controls flex-wrap gap-3">
         <button
           onClick={togglePlay}
