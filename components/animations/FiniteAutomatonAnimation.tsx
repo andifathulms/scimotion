@@ -313,7 +313,7 @@ export function FiniteAutomatonAnimation() {
             onChange={e => setInputSafe(e.target.value)}
             placeholder="01 string"
             spellCheck={false}
-            className="w-28 rounded border border-white/10 bg-bg-hover px-2 py-1 font-mono text-text-secondary focus:border-accent-gold/60 focus:outline-none"
+            className="w-28 rounded border border-white/10 bg-bg-hover px-2 py-1 font-mono text-text-secondary focus:border-accent-gold/60"
           />
           {PRESETS.map(p => (
             <button

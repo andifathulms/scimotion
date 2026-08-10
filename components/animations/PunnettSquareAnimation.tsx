@@ -332,7 +332,7 @@ export function PunnettSquareAnimation() {
   const done = countsRef.current.total >= MAX_OFFSPRING
 
   const selectClass =
-    'bg-transparent border border-border rounded px-1.5 py-1 text-xs font-mono text-text-secondary focus:outline-none focus:border-accent-lime'
+    'bg-transparent border border-border rounded px-1.5 py-1 text-xs font-mono text-text-secondary focus:border-accent-lime'
 
   return (
     <div className="animation-block" ref={ref}>

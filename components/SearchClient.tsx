@@ -36,7 +36,7 @@ export function SearchClient({ articles }: { articles: ArticleMeta[] }) {
           onChange={e => setQuery(e.target.value)}
           autoFocus
           placeholder="Search by title, topic, or keyword…"
-          className="w-full pl-11 pr-11 py-3 rounded-pill bg-bg-surface border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-border-hover transition-colors"
+          className="w-full pl-11 pr-11 py-3 rounded-pill bg-bg-surface border border-border text-text-primary placeholder:text-text-muted focus:border-border-hover transition-colors"
           aria-label="Search articles"
         />
         {query && (
