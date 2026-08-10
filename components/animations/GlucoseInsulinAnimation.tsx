@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Utensils } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 280
@@ -69,6 +71,13 @@ function simulate(meals: Meal[], si: number, beta: number): Trace {
   return { g, ins }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  mealSize: { default: 60, min: 20, max: 110, step: 5 },
+  sensitivity: { default: 1, min: 0.15, max: 1.5, step: 0.05 },
+}
+
 export function GlucoseInsulinAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -82,8 +91,8 @@ export function GlucoseInsulinAnimation() {
   const [running, setRunning] = useState(false)
   const [t, setT] = useState(0)
   const [meals, setMeals] = useState<Meal[]>(INITIAL_MEALS)
-  const [mealSize, setMealSize] = useState(60)
-  const [sensitivity, setSensitivity] = useState(1)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('glucose-insulin', SPEC)
+  const { mealSize, sensitivity } = params
   const [betaOn, setBetaOn] = useState(true)
 
   const beta = betaOn ? 1 : 0
@@ -263,8 +272,8 @@ export function GlucoseInsulinAnimation() {
     setRunning(false)
     setT(0)
     setMeals(INITIAL_MEALS)
-    setMealSize(60)
-    setSensitivity(1)
+    set('mealSize', 60)
+    set('sensitivity', 1)
     setBetaOn(true)
   }
 
@@ -283,9 +292,12 @@ export function GlucoseInsulinAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · The postprandial excursion and its return</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -307,8 +319,8 @@ export function GlucoseInsulinAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Meal:</span>
           <input
-            type="range" min={20} max={110} step={5} value={mealSize}
-            onChange={e => setMealSize(+e.target.value)}
+            type="range" min={SPEC.mealSize.min} max={SPEC.mealSize.max} step={SPEC.mealSize.step} value={mealSize}
+            onChange={e => set('mealSize', +e.target.value)}
             className="w-20 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{mealSize} g</span>
@@ -316,8 +328,8 @@ export function GlucoseInsulinAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Insulin sensitivity:</span>
           <input
-            type="range" min={0.15} max={1.5} step={0.05} value={sensitivity}
-            onChange={e => { setSensitivity(+e.target.value); setT(0) }}
+            type="range" min={SPEC.sensitivity.min} max={SPEC.sensitivity.max} step={SPEC.sensitivity.step} value={sensitivity}
+            onChange={e => { set('sensitivity', +e.target.value); setT(0) }}
             className="w-24 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{sensitivity.toFixed(2)}×</span>

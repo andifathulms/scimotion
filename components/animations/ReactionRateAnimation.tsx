@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 620
 const H = 300
@@ -68,6 +70,13 @@ function makeParticles(T: number): Particle[] {
   })
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  temp: { default: 300, min: 200, max: 1000, step: 10 },
+  ea: { default: 20, min: 10, max: 50, step: 1 },
+}
+
 export function ReactionRateAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -75,8 +84,8 @@ export function ReactionRateAnimation() {
   const reactionsRef = useRef(0)
 
   const [running, setRunning] = useState(false)
-  const [temp, setTemp] = useState(300)
-  const [ea, setEa] = useState(20)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('reaction-rate', SPEC)
+  const { temp, ea } = params
   const [reactions, setReactions] = useState(0)
 
   const { ref, reset: triggerReset } = useAnimationTrigger({
@@ -280,8 +289,8 @@ export function ReactionRateAnimation() {
     cancelAnimationFrame(rafRef.current)
     triggerReset()
     setRunning(false)
-    setTemp(300)
-    setEa(20)
+    set('temp', 300)
+    set('ea', 20)
     reactionsRef.current = 0
     setReactions(0)
     particlesRef.current = makeParticles(300)
@@ -299,9 +308,12 @@ export function ReactionRateAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Collisions, the Boltzmann tail, and temperature</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -316,8 +328,8 @@ export function ReactionRateAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Temperature:</span>
           <input
-            type="range" min={200} max={1000} step={10} value={temp}
-            onChange={e => setTemp(+e.target.value)}
+            type="range" min={SPEC.temp.min} max={SPEC.temp.max} step={SPEC.temp.step} value={temp}
+            onChange={e => set('temp', +e.target.value)}
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{temp} K</span>
@@ -325,8 +337,8 @@ export function ReactionRateAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>E<sub>a</sub>:</span>
           <input
-            type="range" min={10} max={50} step={1} value={ea}
-            onChange={e => setEa(+e.target.value)}
+            type="range" min={SPEC.ea.min} max={SPEC.ea.max} step={SPEC.ea.step} value={ea}
+            onChange={e => set('ea', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{ea} kJ/mol</span>

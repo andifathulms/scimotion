@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -88,12 +90,19 @@ function yFor(v: number): number {
   return PLOT_B - v * (PLOT_B - PLOT_T)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  r0: { default: 2.5, min: 0.5, max: 6, step: 0.1 },
+  days: { default: 7, min: 2, max: 21, step: 1 },
+}
+
 export function SIRModelAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
 
-  const [r0, setR0] = useState(2.5)
-  const [days, setDays] = useState(7)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('s-i-r-model', SPEC)
+  const { r0, days } = params
   const [running, setRunning] = useState(false)
   const [cursor, setCursor] = useState(0)
 
@@ -284,8 +293,8 @@ export function SIRModelAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     setCursor(0)
-    setR0(2.5)
-    setDays(7)
+    set('r0', 2.5)
+    set('days', 7)
     triggerReset()
   }
 
@@ -295,9 +304,12 @@ export function SIRModelAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · SIR Epidemic Curve</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -314,15 +326,15 @@ export function SIRModelAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>R₀:</span>
-          <input type="range" min={0.5} max={6} step={0.1} value={r0}
-            onChange={e => setR0(+e.target.value)}
+          <input type="range" min={SPEC.r0.min} max={SPEC.r0.max} step={SPEC.r0.step} value={r0}
+            onChange={e => set('r0', +e.target.value)}
             className="w-24 accent-accent-gold" />
           <span className="font-mono">{r0.toFixed(1)}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>infectious days (1/γ):</span>
-          <input type="range" min={2} max={21} step={1} value={days}
-            onChange={e => setDays(+e.target.value)}
+          <input type="range" min={SPEC.days.min} max={SPEC.days.max} step={SPEC.days.step} value={days}
+            onChange={e => set('days', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{days}</span>
         </div>

@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 280
@@ -57,10 +59,17 @@ function buildRun(x0: number, eta: number): Run {
   return { pts, diverged, converged }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  eta: { default: 0.3, min: 0.02, max: 2, step: 0.01 },
+  startX: { default: 3.4, min: -3.8, max: 3.8, step: 0.05 },
+}
+
 export function GradientDescentAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [eta, setEta] = useState(0.3)
-  const [startX, setStartX] = useState(3.4)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('gradient-descent', SPEC)
+  const { eta, startX } = params
   const [run, setRun] = useState<Run>(() => buildRun(3.4, 0.3))
   const [step, setStep] = useState(0)
   const [running, setRunning] = useState(false)
@@ -247,9 +256,9 @@ export function GradientDescentAnimation() {
     const rect = canvas.getBoundingClientRect()
     const px = ((clientX - rect.left) / rect.width) * W
     const x = X_MIN + ((px - PAD.left) / PLOT_W) * (X_MAX - X_MIN)
-    setStartX(clamp(Math.round(x * 20) / 20, X_MIN + 0.2, X_MAX - 0.2))
+    set('startX', clamp(Math.round(x * 20) / 20, X_MIN + 0.2, X_MAX - 0.2))
     setRunning(false)
-  }, [])
+  }, [set])
 
   const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     draggingRef.current = true
@@ -279,9 +288,12 @@ export function GradientDescentAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Gradient descent</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -308,16 +320,16 @@ export function GradientDescentAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Learning rate η:</span>
-          <input type="range" min={0.02} max={2} step={0.01} value={eta}
-            onChange={e => setEta(+e.target.value)}
+          <input type="range" min={SPEC.eta.min} max={SPEC.eta.max} step={SPEC.eta.step} value={eta}
+            onChange={e => set('eta', +e.target.value)}
             className="w-28 accent-accent-violet"
           />
           <span className="font-mono text-text-secondary">{eta.toFixed(2)}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Start x₀:</span>
-          <input type="range" min={-3.8} max={3.8} step={0.05} value={startX}
-            onChange={e => setStartX(+e.target.value)}
+          <input type="range" min={SPEC.startX.min} max={SPEC.startX.max} step={SPEC.startX.step} value={startX}
+            onChange={e => set('startX', +e.target.value)}
             className="w-24 accent-accent-blue"
           />
           <span className="font-mono text-text-secondary">{startX.toFixed(2)}</span>

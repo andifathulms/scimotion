@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 // 2 H2 + O2 -> 2 H2O as discrete molecules combining in a whole-number MOLE
 // ratio. The user sets how many of each reactant is supplied; the widget finds
@@ -24,14 +26,21 @@ function gridSlot(i: number, ox: number, oy: number, perRow: number, dx: number,
   return { x: ox + (i % perRow) * dx, y: oy + Math.floor(i / perRow) * dy }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  h2: { default: 6, min: 0, max: 8, step: 2 },
+  o2: { default: 2, min: 0, max: 5, step: 1 },
+}
+
 export function StoichiometryAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const pRef = useRef(0) // reaction progress 0..1
   const reducedRef = useRef(false)
 
-  const [h2, setH2] = useState(6) // molecules of H2 (kept even so events are whole)
-  const [o2, setO2] = useState(2) // molecules of O2
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('stoichiometry', SPEC)
+  const { h2, o2 } = params
   const [running, setRunning] = useState(false)
 
   // stoichiometry: extent = number of "2H2 + O2" reaction events
@@ -187,12 +196,12 @@ export function StoichiometryAnimation() {
   const changeH2 = (v: number) => {
     setRunning(false)
     pRef.current = 0
-    setH2(v)
+    set('h2', v)
   }
   const changeO2 = (v: number) => {
     setRunning(false)
     pRef.current = 0
-    setO2(v)
+    set('o2', v)
   }
   const play = () => {
     if (pRef.current >= 1) pRef.current = 0
@@ -202,8 +211,8 @@ export function StoichiometryAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     pRef.current = 0
-    setH2(6)
-    setO2(2)
+    set('h2', 6)
+    set('o2', 2)
   }
 
   return (
@@ -212,12 +221,15 @@ export function StoichiometryAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Coefficients are mole ratios, not mass ratios
         </span>
-        <button
-          onClick={resetAll}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={resetAll}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
@@ -259,9 +271,9 @@ export function StoichiometryAnimation() {
           <span>H₂:</span>
           <input
             type="range"
-            min={0}
-            max={8}
-            step={2}
+            min={SPEC.h2.min}
+            max={SPEC.h2.max}
+            step={SPEC.h2.step}
             value={h2}
             onChange={e => changeH2(+e.target.value)}
             className="w-24 accent-accent-gold"
@@ -273,9 +285,9 @@ export function StoichiometryAnimation() {
           <span>O₂:</span>
           <input
             type="range"
-            min={0}
-            max={5}
-            step={1}
+            min={SPEC.o2.min}
+            max={SPEC.o2.max}
+            step={SPEC.o2.step}
             value={o2}
             onChange={e => changeO2(+e.target.value)}
             className="w-24 accent-accent-gold"

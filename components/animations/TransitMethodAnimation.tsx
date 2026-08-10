@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -32,6 +34,13 @@ function overlapArea(bigR: number, r: number, d: number): number {
   return r2 * a + R2 * b - tri
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  ratio: { default: 0.22, min: 0.06, max: 0.3, step: 0.01 },
+  impact: { default: 0.15, min: 0, max: 0.95, step: 0.01 },
+}
+
 export function TransitMethodAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -45,8 +54,8 @@ export function TransitMethodAnimation() {
   const lastRef = useRef<number | null>(null)
 
   const [running, setRunning] = useState(false)
-  const [ratio, setRatio] = useState(0.22)   // Rp / Rstar
-  const [impact, setImpact] = useState(0.15)  // impact parameter b
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('transit-method', SPEC)
+  const { ratio, impact } = params
   const [readout, setReadout] = useState({ depth: 0, flux: 1 })
 
   const planetR = useCallback((rp: number) => rp * R, [])
@@ -202,9 +211,12 @@ export function TransitMethodAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Reading planet size off the transit dip</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -219,8 +231,8 @@ export function TransitMethodAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Planet size:</span>
           <input
-            type="range" min={0.06} max={0.3} step={0.01} value={ratio}
-            onChange={ev => { setRatio(+ev.target.value) }}
+            type="range" min={SPEC.ratio.min} max={SPEC.ratio.max} step={SPEC.ratio.step} value={ratio}
+            onChange={ev => { set('ratio', +ev.target.value) }}
             className="w-28 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">R<sub>p</sub>/R<sub>★</sub> = {ratio.toFixed(2)}</span>
@@ -228,8 +240,8 @@ export function TransitMethodAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Geometry:</span>
           <input
-            type="range" min={0} max={0.95} step={0.01} value={impact}
-            onChange={ev => { setImpact(+ev.target.value) }}
+            type="range" min={SPEC.impact.min} max={SPEC.impact.max} step={SPEC.impact.step} value={impact}
+            onChange={ev => { set('impact', +ev.target.value) }}
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">b = {impact.toFixed(2)}</span>

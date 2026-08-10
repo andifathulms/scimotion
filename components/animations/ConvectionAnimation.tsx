@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 360
@@ -87,13 +89,20 @@ const dtToX = (t: number) =>
 
 const cellCentre = (i: number) => SC_L + (i + 0.5) * CELL_W
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  heat: { default: DEFAULT_HEAT, min: 0, max: 100, step: 1 },
+  rh: { default: DEFAULT_RH, min: 10, max: 100, step: 1 },
+}
+
 export function ConvectionAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const parcelsRef = useRef<Parcel[]>([])
 
-  const [heat, setHeat] = useState(DEFAULT_HEAT)
-  const [rh, setRh] = useState(DEFAULT_RH)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('convection', SPEC)
+  const { heat, rh } = params
   const [running, setRunning] = useState(false)
   const [lead, setLead] = useState({ z: 0, w: 0 })
 
@@ -455,8 +464,8 @@ export function ConvectionAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setHeat(DEFAULT_HEAT)
-    setRh(DEFAULT_RH)
+    set('heat', DEFAULT_HEAT)
+    set('rh', DEFAULT_RH)
     heatRef.current = DEFAULT_HEAT
     rhRef.current = DEFAULT_RH
     seed()
@@ -474,12 +483,15 @@ export function ConvectionAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · A parcel of air, lifted
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -509,11 +521,11 @@ export function ConvectionAnimation() {
           <span>Surface heating:</span>
           <input
             type="range"
-            min={0}
-            max={100}
-            step={1}
+            min={SPEC.heat.min}
+            max={SPEC.heat.max}
+            step={SPEC.heat.step}
             value={heat}
-            onChange={e => setHeat(+e.target.value)}
+            onChange={e => set('heat', +e.target.value)}
             className="w-28 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">
@@ -524,11 +536,11 @@ export function ConvectionAnimation() {
           <span>Humidity:</span>
           <input
             type="range"
-            min={10}
-            max={100}
-            step={1}
+            min={SPEC.rh.min}
+            max={SPEC.rh.max}
+            step={SPEC.rh.step}
             value={rh}
-            onChange={e => setRh(+e.target.value)}
+            onChange={e => set('rh', +e.target.value)}
             className="w-28 accent-accent-cyan"
           />
           <span className="text-text-secondary font-mono">

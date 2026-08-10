@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Zap } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -44,6 +46,13 @@ function mulberry32(seed: number): () => number {
   }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  coverage: { default: 0.4, min: 0, max: 0.95, step: 0.05 },
+  r0: { default: 4, min: 1.5, max: 12, step: 0.5 },
+}
+
 export function HerdImmunityAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -53,8 +62,8 @@ export function HerdImmunityAnimation() {
   const seedRef = useRef(1)
   const rngRef = useRef<() => number>(mulberry32(1))
 
-  const [coverage, setCoverage] = useState(0.4)
-  const [r0, setR0] = useState(4)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('herd-immunity', SPEC)
+  const { coverage, r0 } = params
   const [running, setRunning] = useState(false)
   const [stats, setStats] = useState<Stats>(EMPTY_STATS)
 
@@ -299,8 +308,8 @@ export function HerdImmunityAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     seedRef.current = 1
-    setCoverage(0.4)
-    setR0(4)
+    set('coverage', 0.4)
+    set('r0', 4)
     build(0.4)
     setStats(collect(false))
     triggerReset()
@@ -310,9 +319,12 @@ export function HerdImmunityAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label" style={{ color: C_INF }}><Play size={13} /> Interactive · Herd Immunity Threshold</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -327,15 +339,15 @@ export function HerdImmunityAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>coverage:</span>
-          <input type="range" min={0} max={0.95} step={0.05} value={coverage}
-            onChange={e => setCoverage(+e.target.value)}
+          <input type="range" min={SPEC.coverage.min} max={SPEC.coverage.max} step={SPEC.coverage.step} value={coverage}
+            onChange={e => set('coverage', +e.target.value)}
             className="w-24" style={{ accentColor: C_INF }} />
           <span className="font-mono">{(coverage * 100).toFixed(0)}%</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>R₀:</span>
-          <input type="range" min={1.5} max={12} step={0.5} value={r0}
-            onChange={e => setR0(+e.target.value)}
+          <input type="range" min={SPEC.r0.min} max={SPEC.r0.max} step={SPEC.r0.step} value={r0}
+            onChange={e => set('r0', +e.target.value)}
             className="w-20" style={{ accentColor: C_MARK }} />
           <span className="font-mono">{r0.toFixed(1)}</span>
         </div>

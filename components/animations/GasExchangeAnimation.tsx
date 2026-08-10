@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 290
@@ -37,10 +39,17 @@ const bloodColor = (sat: number) => {
   return `rgb(${r},${g},${b})`
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  alvO2: { default: 100, min: 40, max: 120, step: 1 },
+  thick: { default: 1, min: 0.5, max: 3, step: 0.1 },
+}
+
 export function GasExchangeAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [alvO2, setAlvO2] = useState(100) // alveolar pO2 in mmHg
-  const [thick, setThick] = useState(1) // barrier thickness, 1 = normal
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('gas-exchange', SPEC)
+  const { alvO2, thick } = params
   const [running, setRunning] = useState(false)
   const [reducedStatic, setReducedStatic] = useState(false)
 
@@ -252,8 +261,8 @@ export function GasExchangeAnimation() {
     triggerReset()
     setRunning(false)
     setReducedStatic(false)
-    setAlvO2(100)
-    setThick(1)
+    set('alvO2', 100)
+    set('thick', 1)
     alvRef.current = 100
     thickRef.current = 1
     o2Ref.current = []
@@ -269,12 +278,15 @@ export function GasExchangeAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Gas exchange at the alveolus
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -289,8 +301,8 @@ export function GasExchangeAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Alveolar pO₂:</span>
           <input
-            type="range" min={40} max={120} step={1} value={alvO2}
-            onChange={e => setAlvO2(+e.target.value)}
+            type="range" min={SPEC.alvO2.min} max={SPEC.alvO2.max} step={SPEC.alvO2.step} value={alvO2}
+            onChange={e => set('alvO2', +e.target.value)}
             className="w-32 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{alvO2}</span>
@@ -299,8 +311,8 @@ export function GasExchangeAnimation() {
           <span>Barrier:</span>
           <span className="text-text-secondary">thin</span>
           <input
-            type="range" min={0.5} max={3} step={0.1} value={thick}
-            onChange={e => setThick(+e.target.value)}
+            type="range" min={SPEC.thick.min} max={SPEC.thick.max} step={SPEC.thick.step} value={thick}
+            onChange={e => set('thick', +e.target.value)}
             className="w-28 accent-accent-pink"
           />
           <span className="text-text-secondary">thick</span>

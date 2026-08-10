@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 640
 const H = 360
@@ -59,6 +61,13 @@ function makeMolecules(T: number, pistonX: number): Molecule[] {
   }))
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  temp: { default: T_REF, min: 100, max: 700, step: 10 },
+  vol: { default: 80, min: 40, max: 100, step: 2 },
+}
+
 export function KineticTheoryAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -68,8 +77,8 @@ export function KineticTheoryAnimation() {
   const pistonRef = useRef(PIST_MIN + ((80 - 40) / 60) * (PIST_MAX - PIST_MIN))
   const pMeasRef = useRef(0) // smoothed measured pressure (px units)
 
-  const [temp, setTemp] = useState(T_REF)
-  const [vol, setVol] = useState(80)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('kinetic-theory', SPEC)
+  const { temp, vol } = params
   const [running, setRunning] = useState(false)
   const [readout, setReadout] = useState({ P: 0, V: 0, T: T_REF, PV: 0, NkT: 0 })
 
@@ -287,7 +296,7 @@ export function KineticTheoryAnimation() {
       m.vy *= factor
     })
     tempRef.current = next
-    setTemp(next)
+    set('temp', next)
     if (!running) {
       for (let i = 0; i < 60; i++) step()
       draw()
@@ -302,7 +311,7 @@ export function KineticTheoryAnimation() {
       if (m.x > pistonX - R) m.x = pistonX - R
     })
     volRef.current = next
-    setVol(next)
+    set('vol', next)
     if (!running) {
       for (let i = 0; i < 60; i++) step()
       draw()
@@ -316,8 +325,8 @@ export function KineticTheoryAnimation() {
     tempRef.current = T_REF
     volRef.current = 80
     pistonRef.current = PIST_MIN + ((80 - 40) / 60) * (PIST_MAX - PIST_MIN)
-    setTemp(T_REF)
-    setVol(80)
+    set('temp', T_REF)
+    set('vol', 80)
     init()
     setReadout({ P: 0, V: 0, T: T_REF, PV: 0, NkT: 0 })
   }
@@ -328,12 +337,15 @@ export function KineticTheoryAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Pressure from molecular collisions
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
@@ -363,9 +375,9 @@ export function KineticTheoryAnimation() {
           <span>Temp:</span>
           <input
             type="range"
-            min={100}
-            max={700}
-            step={10}
+            min={SPEC.temp.min}
+            max={SPEC.temp.max}
+            step={SPEC.temp.step}
             value={temp}
             onChange={e => onTemp(+e.target.value)}
             className="w-24 accent-accent-teal"
@@ -376,9 +388,9 @@ export function KineticTheoryAnimation() {
           <span>Volume:</span>
           <input
             type="range"
-            min={40}
-            max={100}
-            step={2}
+            min={SPEC.vol.min}
+            max={SPEC.vol.max}
+            step={SPEC.vol.step}
             value={vol}
             onChange={e => onVol(+e.target.value)}
             className="w-24 accent-accent-teal"

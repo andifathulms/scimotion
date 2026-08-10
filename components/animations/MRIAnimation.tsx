@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 340
@@ -106,14 +108,21 @@ function arrow(
   ctx.fill()
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  b0: { default: 1.5, min: 0.5, max: 3, step: 0.1 },
+  detune: { default: 0, min: -1, max: 1, step: 0.02 },
+}
+
 export function MRIAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
   const lastRef = useRef<number>(0)
 
   const [running, setRunning] = useState(false)
-  const [detune, setDetune] = useState(0) // kHz away from Larmor
-  const [b0, setB0] = useState(1.5) // tesla
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('m-r-i', SPEC)
+  const { b0, detune } = params
   const [flip, setFlip] = useState(0) // achieved flip readout, degrees
 
   const detuneRef = useRef(0)
@@ -550,9 +559,12 @@ export function MRIAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Spin, Tip, Relax</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -566,16 +578,16 @@ export function MRIAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Field B₀:</span>
-          <input type="range" min={0.5} max={3} step={0.1} value={b0}
-            onChange={e => setB0(+e.target.value)}
+          <input type="range" min={SPEC.b0.min} max={SPEC.b0.max} step={SPEC.b0.step} value={b0}
+            onChange={e => set('b0', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span>{b0.toFixed(1)} T</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>RF detuning:</span>
-          <input type="range" min={-1} max={1} step={0.02} value={detune}
-            onChange={e => setDetune(+e.target.value)}
+          <input type="range" min={SPEC.detune.min} max={SPEC.detune.max} step={SPEC.detune.step} value={detune}
+            onChange={e => set('detune', +e.target.value)}
             className="w-28 accent-accent-gold"
           />
           <span>{detune >= 0 ? '+' : ''}{detune.toFixed(2)} kHz</span>

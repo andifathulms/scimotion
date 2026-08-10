@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 270
@@ -45,6 +47,13 @@ function singlePeak(k: number): number {
   return singleDose(tmax, k, DOSE)
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  interval: { default: 8, min: 2, max: 24, step: 1 },
+  halfLife: { default: 8, min: 2, max: 24, step: 1 },
+}
+
 export function PharmacokineticsAnimation() {
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
@@ -57,8 +66,8 @@ export function PharmacokineticsAnimation() {
 
   const [running, setRunning] = useState(false)
   const [t, setT] = useState(0)
-  const [interval, setIntervalH] = useState(8)
-  const [halfLife, setHalfLife] = useState(8)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('pharmacokinetics', SPEC)
+  const { interval, halfLife } = params
   const [loading, setLoading] = useState(false)
 
   const k = Math.LN2 / halfLife
@@ -206,8 +215,8 @@ export function PharmacokineticsAnimation() {
     triggerReset()
     setRunning(false)
     setT(0)
-    setIntervalH(8)
-    setHalfLife(8)
+    set('interval', 8)
+    set('halfLife', 8)
     setLoading(false)
   }
 
@@ -221,9 +230,12 @@ export function PharmacokineticsAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Repeated dosing and the therapeutic window</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -238,8 +250,8 @@ export function PharmacokineticsAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Interval:</span>
           <input
-            type="range" min={2} max={24} step={1} value={interval}
-            onChange={e => { setIntervalH(+e.target.value); setT(0) }}
+            type="range" min={SPEC.interval.min} max={SPEC.interval.max} step={SPEC.interval.step} value={interval}
+            onChange={e => { set('interval', +e.target.value); setT(0) }}
             className="w-24 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{interval} h</span>
@@ -247,8 +259,8 @@ export function PharmacokineticsAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Half-life:</span>
           <input
-            type="range" min={2} max={24} step={1} value={halfLife}
-            onChange={e => { setHalfLife(+e.target.value); setT(0) }}
+            type="range" min={SPEC.halfLife.min} max={SPEC.halfLife.max} step={SPEC.halfLife.step} value={halfLife}
+            onChange={e => { set('halfLife', +e.target.value); setT(0) }}
             className="w-24 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{halfLife} h</span>

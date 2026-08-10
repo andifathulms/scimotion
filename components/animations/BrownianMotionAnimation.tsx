@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 280
@@ -29,14 +31,21 @@ function makeParticle(i: number): Particle {
   }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  count: { default: 3, min: 1, max: 5, step: 1 },
+  stepSize: { default: 4, min: 1, max: 12, step: 1 },
+}
+
 export function BrownianMotionAnimation() {
   const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const particlesRef = useRef<Particle[]>([])
   const [running, setRunning] = useState(false)
-  const [count, setCount] = useState(3)
-  const [stepSize, setStepSize] = useState(4)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('brownian-motion', SPEC)
+  const { count, stepSize } = params
   const [showTrail, setShowTrail] = useState(true)
   const [elapsed, setElapsed] = useState(0)
   const elapsedRef = useRef(0)
@@ -146,9 +155,12 @@ export function BrownianMotionAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Brownian Motion</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -160,15 +172,15 @@ export function BrownianMotionAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Particles:</span>
-          <input type="range" min={1} max={5} step={1} value={count}
-            onChange={e => setCount(+e.target.value)}
+          <input type="range" min={SPEC.count.min} max={SPEC.count.max} step={SPEC.count.step} value={count}
+            onChange={e => set('count', +e.target.value)}
             className="w-16 accent-accent-gold" />
           <span className="font-mono">{count}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Step:</span>
-          <input type="range" min={1} max={12} step={1} value={stepSize}
-            onChange={e => setStepSize(+e.target.value)}
+          <input type="range" min={SPEC.stepSize.min} max={SPEC.stepSize.max} step={SPEC.stepSize.step} value={stepSize}
+            onChange={e => set('stepSize', +e.target.value)}
             className="w-16 accent-accent-gold" />
           <span className="font-mono">{stepSize}px</span>
         </div>

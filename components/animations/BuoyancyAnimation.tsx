@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 340
@@ -48,6 +50,13 @@ function solve(rhoObj: number, rhoFluid: number) {
   return { weight, buoy, outcome, submerged, vDisp }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  rhoObj: { default: 0.5, min: 0.2, max: 15, step: 0.05 },
+  rhoFluid: { default: 1.0, min: 0.3, max: 14, step: 0.05 },
+}
+
 export function BuoyancyAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
@@ -55,8 +64,8 @@ export function BuoyancyAnimation() {
   const dprRef = useRef(1)
   const runningRef = useRef(false)
 
-  const [rhoObj, setRhoObj] = useState(0.5)
-  const [rhoFluid, setRhoFluid] = useState(1.0)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('buoyancy', SPEC)
+  const { rhoObj, rhoFluid } = params
   const rhoObjRef = useRef(0.5)
   const rhoFluidRef = useRef(1.0)
   useEffect(() => { rhoObjRef.current = rhoObj }, [rhoObj])
@@ -221,11 +230,11 @@ export function BuoyancyAnimation() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [draw, targetTop])
 
-  const applyFluid = (rho: number) => { setRhoFluid(rho); rhoFluidRef.current = rho; runningRef.current = true }
+  const applyFluid = (rho: number) => { set('rhoFluid', rho); rhoFluidRef.current = rho; runningRef.current = true }
 
   const resetAll = () => {
-    setRhoObj(0.5); rhoObjRef.current = 0.5
-    setRhoFluid(1.0); rhoFluidRef.current = 1.0
+    set('rhoObj', 0.5); rhoObjRef.current = 0.5
+    set('rhoFluid', 1.0); rhoFluidRef.current = 1.0
     yTopRef.current = WATER_Y - S
     runningRef.current = true
     draw()
@@ -237,9 +246,12 @@ export function BuoyancyAnimation() {
     <div ref={ref} className="animation-block">
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Density decides</span>
-        <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={resetAll} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: 210 }}>
         <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#0F0D0A', aspectRatio: `${W} / ${H}` }} />
@@ -257,8 +269,8 @@ export function BuoyancyAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Object density:</span>
           <input
-            type="range" min={0.2} max={15} step={0.05} value={rhoObj}
-            onChange={ev => { setRhoObj(+ev.target.value); rhoObjRef.current = +ev.target.value; runningRef.current = true }}
+            type="range" min={SPEC.rhoObj.min} max={SPEC.rhoObj.max} step={SPEC.rhoObj.step} value={rhoObj}
+            onChange={ev => { set('rhoObj', +ev.target.value); rhoObjRef.current = +ev.target.value; runningRef.current = true }}
             className="w-32" style={{ accentColor: STEEL }}
           />
           <span className="text-text-secondary font-medium">{rhoObj.toFixed(2)}</span>
@@ -266,8 +278,8 @@ export function BuoyancyAnimation() {
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>Fluid density:</span>
           <input
-            type="range" min={0.3} max={14} step={0.05} value={rhoFluid}
-            onChange={ev => { setRhoFluid(+ev.target.value); rhoFluidRef.current = +ev.target.value; runningRef.current = true }}
+            type="range" min={SPEC.rhoFluid.min} max={SPEC.rhoFluid.max} step={SPEC.rhoFluid.step} value={rhoFluid}
+            onChange={ev => { set('rhoFluid', +ev.target.value); rhoFluidRef.current = +ev.target.value; runningRef.current = true }}
             className="w-32" style={{ accentColor: WATER }}
           />
           <span className="text-text-secondary font-medium">{rhoFluid.toFixed(2)}</span>

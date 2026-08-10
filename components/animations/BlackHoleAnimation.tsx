@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 320
@@ -68,16 +70,23 @@ function tracePath(impact: number, rEvent: number) {
   return { pts, captured, rPhoton }
 }
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  impact: { default: 70, min: 4, max: 160, step: 1 },
+  massSolar: { default: 10, min: 1, max: 30, step: 1 },
+}
+
 export function BlackHoleAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [impact, setImpact] = useState(70)
-  const [massSolar, setMassSolar] = useState(10)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('black-hole', SPEC)
+  const { impact, massSolar } = params
   const [sweep, setSweep] = useState(false)
   const sweepRef = useRef(0)
 
   const { ref, reset: triggerReset } = useAnimationTrigger({
     onTrigger: reduced => {
-      if (reduced) { setImpact(46); setSweep(false); return }
+      if (reduced) { set('impact', 46); setSweep(false); return }
       setSweep(true)
     },
   })
@@ -187,27 +196,27 @@ export function BlackHoleAnimation() {
   useEffect(() => {
     if (!sweep) return
     sweepRef.current = 150
-    setImpact(150)
+    set('impact', 150)
     let raf = 0
     const step = () => {
       sweepRef.current -= 1.1
       if (sweepRef.current <= 8) {
-        setImpact(8)
+        set('impact', 8)
         setSweep(false)
         return
       }
-      setImpact(+sweepRef.current.toFixed(1))
+      set('impact', +sweepRef.current.toFixed(1))
       raf = requestAnimationFrame(() => setTimeout(step, 24))
     }
     raf = requestAnimationFrame(() => setTimeout(step, 24))
     return () => cancelAnimationFrame(raf)
-  }, [sweep])
+  }, [sweep, set])
 
   const reset = () => {
     triggerReset()
     setSweep(false)
-    setImpact(70)
-    setMassSolar(10)
+    set('impact', 70)
+    set('massSolar', 10)
   }
 
   const rsKm = (massSolar * RS_PER_SOLAR_KM).toFixed(1)
@@ -216,9 +225,12 @@ export function BlackHoleAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-header">
         <span className="animation-label"><Play size={13} /> Interactive · Light bending near a black hole</span>
-        <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button onClick={reset} className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors">
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
@@ -231,15 +243,15 @@ export function BlackHoleAnimation() {
         </button>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>impact b:</span>
-          <input type="range" min={4} max={160} step={1} value={impact}
-            onChange={e => { setImpact(+e.target.value); setSweep(false) }}
+          <input type="range" min={SPEC.impact.min} max={SPEC.impact.max} step={SPEC.impact.step} value={impact}
+            onChange={e => { set('impact', +e.target.value); setSweep(false) }}
             className="w-32" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{impact.toFixed(0)}px</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <span>mass:</span>
-          <input type="range" min={1} max={30} step={1} value={massSolar}
-            onChange={e => { setMassSolar(+e.target.value); setSweep(false) }}
+          <input type="range" min={SPEC.massSolar.min} max={SPEC.massSolar.max} step={SPEC.massSolar.step} value={massSolar}
+            onChange={e => { set('massSolar', +e.target.value); setSweep(false) }}
             className="w-24" style={{ accentColor: GOLD }} />
           <span className="font-mono text-text-secondary">{massSolar} M☉</span>
         </div>

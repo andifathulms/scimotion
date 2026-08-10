@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { useWidgetParams } from '@/hooks/useWidgetParams'
+import { WidgetLink } from '@/components/WidgetLink'
 
 const W = 600
 const H = 300
@@ -53,13 +55,20 @@ const DEFAULT_R = 180
 
 const clamp = (v: number, lo: number, hi: number) => (v < lo ? lo : v > hi ? hi : v)
 
+// Slider domains, declared once. The bounds on the inputs below and the values
+// restored from the URL both read from here, so they cannot drift apart.
+const SPEC = {
+  volts: { default: DEFAULT_V, min: 1, max: 12, step: 0.5 },
+  ohms: { default: DEFAULT_R, min: 30, max: 600, step: 10 },
+}
+
 export function OhmsLawAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef(0)
   const offsetRef = useRef(0)
 
-  const [volts, setVolts] = useState(DEFAULT_V)
-  const [ohms, setOhms] = useState(DEFAULT_R)
+  const { params, set, permalink, isDefault, restored } = useWidgetParams('ohms-law', SPEC)
+  const { volts, ohms } = params
   const [running, setRunning] = useState(false)
 
   const vRef = useRef(DEFAULT_V)
@@ -239,8 +248,8 @@ export function OhmsLawAnimation() {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
     triggerReset()
-    setVolts(DEFAULT_V)
-    setOhms(DEFAULT_R)
+    set('volts', DEFAULT_V)
+    set('ohms', DEFAULT_R)
     vRef.current = DEFAULT_V
     rRef.current = DEFAULT_R
     offsetRef.current = 0
@@ -254,12 +263,15 @@ export function OhmsLawAnimation() {
         <span className="animation-label">
           <Play size={13} /> Interactive · Ohm&apos;s law in one loop
         </span>
-        <button
-          onClick={reset}
-          className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-        >
-          <RotateCcw size={12} /> Reset
-        </button>
+        <div className="flex items-center gap-3">
+          <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+          <button
+            onClick={reset}
+            className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+          >
+            <RotateCcw size={12} /> Reset
+          </button>
+        </div>
       </div>
       <div className="animation-canvas">
         <canvas
@@ -290,11 +302,11 @@ export function OhmsLawAnimation() {
           <span>Voltage:</span>
           <input
             type="range"
-            min={1}
-            max={12}
-            step={0.5}
+            min={SPEC.volts.min}
+            max={SPEC.volts.max}
+            step={SPEC.volts.step}
             value={volts}
-            onChange={e => setVolts(+e.target.value)}
+            onChange={e => set('volts', +e.target.value)}
             className="w-32"
             style={{ accentColor: GOLD }}
           />
@@ -304,11 +316,11 @@ export function OhmsLawAnimation() {
           <span>Resistance:</span>
           <input
             type="range"
-            min={30}
-            max={600}
-            step={10}
+            min={SPEC.ohms.min}
+            max={SPEC.ohms.max}
+            step={SPEC.ohms.step}
             value={ohms}
-            onChange={e => setOhms(+e.target.value)}
+            onChange={e => set('ohms', +e.target.value)}
             className="w-32"
             style={{ accentColor: GREEN }}
           />
