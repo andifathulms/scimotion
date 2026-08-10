@@ -1,19 +1,38 @@
 @import 'katex/dist/katex.min.css';
 @import "tailwindcss";
 
-/* Theme tokens.
+/* Design tokens.
  *
- * The `--color-*` names are the single source of truth: Tailwind's @theme turns
- * each one into a utility (`text-text-primary`, `bg-bg-surface`, `border-border`,
- * ...). The short `--bg-base` / `--text-primary` aliases below exist only so the
+ * Everything visual resolves from this block. Tailwind's @theme turns each name
+ * into a utility, so `--color-bg-surface` becomes `bg-bg-surface`, `--text-lg`
+ * becomes `text-lg`, `--radius-card` becomes `rounded-card`, and so on. Nothing
+ * outside this file should carry a literal hex, font-size, or letter-spacing:
+ * if a value is needed twice, it belongs here first.
+ *
+ * The short `--bg-base` / `--text-primary` aliases further down exist only so the
  * hand-written CSS in this file can stay terse — they must never carry their own
  * literal values.
  *
- * This used to be two independent palettes with the same values copy-pasted, and
- * `.light` only overrode the short names. Every component styled with a Tailwind
- * utility therefore kept its dark-mode colour in light mode, which is why body
- * text rendered near-white on a cream background. Override `--color-*` here and
- * both systems flip together. */
+ * COLOUR
+ *
+ * The palette used to be two independent sets with the same values copy-pasted,
+ * and `.light` only overrode the short names. Every component styled with a
+ * Tailwind utility therefore kept its dark-mode colour in light mode, which is
+ * why body text rendered near-white on a cream background. Override `--color-*`
+ * here and both systems flip together.
+ *
+ * Every text tone clears WCAG AA (4.5:1) against every surface it can sit on —
+ * bg-base, bg-surface and bg-hover. Measured, worst surface first:
+ *
+ *   dark   primary   17.1:1   secondary  7.3:1   muted  4.8:1
+ *   light  primary   16.7:1   secondary  6.2:1   muted  4.9:1
+ *
+ * Dark `muted` was 0.35 alpha (2.9:1) and failed everywhere it was used — card
+ * datelines, path step numbers, the "showing N of M" counter. That is the same
+ * bug the light theme already fixed at 0.62; the dark side had been left behind.
+ * Borders are deliberately below 3:1: they are decoration on top of a filled
+ * surface, not the only thing marking a control. Focus, which *is* load-bearing,
+ * gets --color-focus at 9:1 instead. */
 @theme {
   --color-bg-base: #0F0D0A;
   --color-bg-surface: #1A1712;
@@ -29,10 +48,72 @@
   --color-accent-indigo: #818CF8;
   --color-accent-red: #F87171;
   --color-text-primary: #F5F0E8;
-  --color-text-secondary: rgba(245,240,232,0.6);
-  --color-text-muted: rgba(245,240,232,0.35);
+  --color-text-secondary: rgba(245,240,232,0.68);
+  --color-text-muted: rgba(245,240,232,0.52);
   --color-border: rgba(255,245,235,0.08);
   --color-border-hover: rgba(255,245,235,0.18);
+
+  /* Text that sits *on* a filled accent — the gold buttons and active pills.
+   * It tracks bg-base rather than being a fixed ink, because accent-gold flips
+   * from a bright #F59E0B on near-black to a deep #B45309 on cream: the readable
+   * foreground has to flip with it. 9.0:1 dark, 4.7:1 light. */
+  --color-on-accent: #0F0D0A;
+  --color-focus: #F59E0B;
+
+  /* TYPE SCALE
+   *
+   * One scale, ~1.2 ratio through the text sizes and widening into display.
+   * Line-height and tracking are bound to each step, so a size is chosen once
+   * and its metrics come with it — this is what removes the `letterSpacing`
+   * inline styles that were re-declared per page. Body copy starts at --text-base
+   * (16px); --text-xs is for metadata only (datelines, counters, axis labels),
+   * never for a sentence someone has to read. */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.5;
+  --text-xs--letter-spacing: 0.005em;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.7;
+  --text-xl: 1.3125rem;
+  --text-xl--line-height: 1.45;
+  --text-xl--letter-spacing: -0.01em;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.35;
+  --text-2xl--letter-spacing: -0.015em;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.25;
+  --text-3xl--letter-spacing: -0.02em;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.2;
+  --text-4xl--letter-spacing: -0.022em;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.1;
+  --text-5xl--letter-spacing: -0.025em;
+
+  /* The one display step, reserved for the hero headline. Fluid so it does not
+   * need a breakpoint variant, and capped so it cannot outgrow its measure. */
+  --text-display: clamp(2.25rem, 5.5vw, 3.25rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.03em;
+
+  /* SPACING
+   *
+   * 4px base step drives every Tailwind spacing utility (p-4 = 1rem). The three
+   * named tokens are page rhythm, so vertical spacing between major regions is
+   * set in one place rather than re-picked per route. */
+  --spacing: 0.25rem;
+  --space-gutter: 1.25rem;
+  --space-block: 2rem;
+  --space-section: 4rem;
+
+  /* RADII — three roles, not a continuum. */
+  --radius-control: 0.625rem;
+  --radius-card: 1rem;
+  --radius-pill: 9999px;
+
   --font-sans: Inter, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -62,6 +143,9 @@
   --color-accent-cyan: #0E7490;
   --color-accent-indigo: #4338CA;
   --color-accent-red: #B91C1C;
+  /* Flips with accent-gold — see --color-on-accent above. */
+  --color-on-accent: #FAF7F2;
+  --color-focus: #B45309;
 }
 
 /* Aliases for the hand-written rules below. Values come from --color-* above. */
@@ -84,12 +168,24 @@
   --text-muted: var(--color-text-muted);
   --border: var(--color-border);
   --border-hover: var(--color-border-hover);
+  --on-accent: var(--color-on-accent);
+  --focus: var(--color-focus);
 }
 
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: Inter, system-ui, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* One focus treatment for everything. Keyboard users were relying on the UA
+ * default, which is a thin blue ring that all but disappears on the near-black
+ * base — and the low-contrast borders mean an unfocused and a focused control
+ * looked identical. Gold clears 9:1 on both themes. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .animation-block {
@@ -206,7 +302,7 @@ body {
  * *within* them and paragraph boundaries stop registering. 1.375rem was well
  * under that. */
 .prose-article p {
-  font-size: 1.125rem;
+  font-size: var(--text-lg);
   line-height: 1.75;
   margin-bottom: 1.875rem;
   color: var(--text-primary);
@@ -253,7 +349,7 @@ body {
 .prose-article ol {
   margin: 0 0 1.875rem;
   padding-left: 1.5rem;
-  font-size: 1.125rem;
+  font-size: var(--text-lg);
   line-height: 1.75;
   color: var(--text-primary);
 }
