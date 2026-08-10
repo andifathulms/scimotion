@@ -31,8 +31,15 @@ export function ShareButtons({ title, url }: { title: string; url: string }) {
           className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:border-border-hover bg-bg-surface hover:bg-bg-hover transition-all text-sm text-text-secondary"
         >
           <Link2 size={15} />
-          {copied ? 'Copied!' : 'Copy link'}
+          {/* The label is the button's own accessible name, so swapping it
+              renames the control rather than reporting an event. The status
+              region is rendered whether or not it has content — one that
+              appears together with its message is usually missed. */}
+          Copy link
         </button>
+        <span role="status" className="text-sm text-text-secondary">
+          {copied ? 'Link copied' : ''}
+        </span>
       </div>
     </div>
   )

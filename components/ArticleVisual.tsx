@@ -4148,8 +4148,9 @@ export function ArticleVisual({
       height={height}
       preserveAspectRatio="xMidYMid slice"
       xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label={`${slug.replace(/-/g, ' ')} illustration`}
+      {...(variant === 'hero'
+        ? { role: 'img', 'aria-label': `Abstract diagram introducing ${slug.replace(/-/g, ' ')}` }
+        : { 'aria-hidden': true })}
       style={{ display: 'block' }}
     >
       <rect width="300" height="120" fill={BG} />

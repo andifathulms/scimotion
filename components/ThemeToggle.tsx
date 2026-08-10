@@ -15,7 +15,10 @@ export function ThemeToggle() {
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className="p-2 rounded-lg hover:bg-bg-hover transition-colors"
-      aria-label="Toggle theme"
+      // "Toggle theme" never changed, and the sun/moon icon is aria-hidden, so
+      // the current theme was unobtainable without sight. Naming the
+      // destination states it and says what pressing will do, in one string.
+      aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
     >
       {theme === 'dark' ? (
         <Sun size={18} className="text-text-secondary" />

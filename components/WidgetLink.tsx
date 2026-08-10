@@ -50,13 +50,21 @@ export function WidgetLink({
   }
 
   return (
-    <button
-      onClick={copy}
-      title="Copy a link that reopens this widget with these values"
-      className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-    >
-      {copied ? <Check size={12} /> : <Link2 size={12} />}
-      {copied ? 'Copied' : 'Link to this state'}
-    </button>
+    <>
+      <button
+        onClick={copy}
+        title="Copy a link that reopens this widget with these values"
+        className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
+      >
+        {copied ? <Check size={12} /> : <Link2 size={12} />}
+        {copied ? 'Copied' : 'Link to this state'}
+      </button>
+      {/* Swapping the label renames the button; it does not report that
+          anything happened. Kept separate and always mounted so the
+          announcement is not competing with a name change on the same node. */}
+      <span role="status" className="sr-only">
+        {copied ? 'Link copied to clipboard' : ''}
+      </span>
+    </>
   )
 }
