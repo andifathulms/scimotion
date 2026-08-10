@@ -331,7 +331,7 @@ export function FloatBitsAnimation() {
               </div>
             </div>
           </div>
-          <canvas ref={canvasRef} style={{ width: W, maxWidth: '100%', height: H, background: 'var(--color-canvas)', borderRadius: 8 }} />
+          <canvas role="img" aria-label="Animated diagram: 32-bit float (1 sign · 8 exponent · 23 mantissa). Values are reported below the diagram." ref={canvasRef} style={{ width: W, maxWidth: '100%', height: H, background: 'var(--color-canvas)', borderRadius: 8 }} />
         </div>
       </div>
 

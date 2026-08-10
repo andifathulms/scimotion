@@ -388,6 +388,8 @@ export function AtomicOrbitalAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Orbitals are probability clouds. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

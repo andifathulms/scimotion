@@ -275,6 +275,8 @@ export function OhmsLawAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Ohm&apos;s law in one loop. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

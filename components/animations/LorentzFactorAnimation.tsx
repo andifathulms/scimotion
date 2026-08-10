@@ -133,7 +133,7 @@ export function LorentzFactorAnimation() {
         <button onClick={reset} className="text-xs text-text-muted hover:text-text-secondary transition-colors">Reset</button>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
+        <canvas role="img" aria-label="Animated diagram: The Lorentz factor. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
         <label className="flex items-center gap-2 text-xs text-text-muted">

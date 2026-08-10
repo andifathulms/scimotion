@@ -539,6 +539,8 @@ export function PacketSwitchingAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Circuit vs Packet Switching. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

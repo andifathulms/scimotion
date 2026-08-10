@@ -60,7 +60,16 @@ export function EquationReadout({
   const symbolSet = useMemo(() => new Set(symbols), [symbols])
 
   return (
-    <div className="flex flex-col gap-1 text-xs">
+    // role="status" is the one piece of ARIA here that has no native
+    // equivalent: there is no element that means "announce me when I change".
+    // It matters more in this component than anywhere else on the site, because
+    // the thing it describes is a <canvas> — a reader who cannot see the diagram
+    // has the substituted equation as their only channel onto what moving a
+    // slider actually did.
+    //
+    // aria-atomic, because the formula only means anything whole: hearing "0.94"
+    // on its own is not an answer to a question.
+    <div role="status" aria-live="polite" aria-atomic="true" className="flex flex-col gap-1 text-xs">
       {/* Unicode rather than KaTeX on purpose. KaTeX renders the article's
           display math at build time with no client JS; pulling its runtime into
           a widget to typeset one line would ship ~270KB to every article for a

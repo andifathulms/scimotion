@@ -300,6 +300,8 @@ export function SeriesParallelAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Series vs. parallel. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

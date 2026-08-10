@@ -231,6 +231,8 @@ export function SpinningSkaterAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Pull the arms in and watch ω rise while L holds. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: BG, aspectRatio: `${W} / ${H}` }}

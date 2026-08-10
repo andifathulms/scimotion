@@ -324,7 +324,7 @@ export function MicrobeFunctionAnimation() {
   return (
     <div ref={ref} className="animation-block">
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
+        <canvas role="img" aria-label="Animated diagram: Microbe function. Values are reported below the diagram." ref={canvasRef} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1">

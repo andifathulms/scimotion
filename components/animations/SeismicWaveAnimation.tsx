@@ -438,6 +438,8 @@ export function SeismicWaveAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: P, S and surface waves leaving a rupture. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

@@ -302,7 +302,7 @@ export function OrbitVelocityAnimation() {
       </div>
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: BG }} />
+        <canvas role="img" aria-label="Animated diagram: Newton&apos;s cannonball: how fast to fall forever. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: BG }} />
       </div>
 
       <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1">

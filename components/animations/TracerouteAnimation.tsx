@@ -348,6 +348,8 @@ export function TracerouteAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Traceroute — dying packets confess. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

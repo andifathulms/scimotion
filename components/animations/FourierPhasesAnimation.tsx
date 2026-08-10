@@ -192,6 +192,8 @@ export function FourierPhasesAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: CANVAS_H + 20 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Phasor Visualization. Values are reported below the diagram."
           ref={canvasRef}
           width={CANVAS_W}
           height={CANVAS_H}

@@ -410,6 +410,8 @@ export function MembraneTransportAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Passive is free but downhill; active costs ATP but goes uphill. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

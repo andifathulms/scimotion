@@ -315,7 +315,7 @@ export function FirewallRulesAnimation() {
         </button>
       </div>
       <div className="animation-canvas">
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
+        <canvas role="img" aria-label="Animated diagram: Rules matched top-to-bottom. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       {/* rule list — evaluated in order, first match wins */}

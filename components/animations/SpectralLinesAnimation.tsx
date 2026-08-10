@@ -344,6 +344,8 @@ export function SpectralLinesAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Every element has a unique barcode. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

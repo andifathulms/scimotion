@@ -220,7 +220,7 @@ export function BindingEnergyAnimation() {
         <button onClick={reset} className="text-xs text-text-muted hover:text-text-secondary transition-colors">Reset</button>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
+        <canvas role="img" aria-label="Animated diagram: Binding energy per nucleon. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-2">
         <div className="flex rounded-lg border border-border overflow-hidden text-xs">

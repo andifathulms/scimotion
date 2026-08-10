@@ -248,6 +248,8 @@ export function DarkEnergyBudgetAnimation() {
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Dark energy budget. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }}

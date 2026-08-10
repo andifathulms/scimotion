@@ -274,7 +274,7 @@ export function DHCPLeaseAnimation() {
         </button>
       </div>
       <div className="animation-canvas">
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
+        <canvas role="img" aria-label="Animated diagram: The address pool &amp; leases. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono" style={{ color: MUTE }}>

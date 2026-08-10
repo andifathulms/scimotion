@@ -414,6 +414,8 @@ export function HurricaneEngineAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: The heat engine. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

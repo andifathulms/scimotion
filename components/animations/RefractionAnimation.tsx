@@ -275,6 +275,8 @@ export function RefractionAnimation() {
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Refraction &amp; Snell&apos;s law. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

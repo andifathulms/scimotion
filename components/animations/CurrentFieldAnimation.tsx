@@ -323,6 +323,8 @@ export function CurrentFieldAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Moving charge makes a magnetic field. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

@@ -330,6 +330,8 @@ export function RockCycleAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Follow a rock through its transformations. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

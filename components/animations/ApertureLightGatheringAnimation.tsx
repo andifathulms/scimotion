@@ -224,6 +224,8 @@ export function ApertureLightGatheringAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Grow the aperture and watch faint light appear. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: BG, aspectRatio: `${W} / ${H}` }}

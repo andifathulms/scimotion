@@ -302,7 +302,7 @@ export function WalkerCirculationAnimation() {
 
   return (
     <div ref={ref} className="animation-block">
-      <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }} />
+      <canvas role="img" aria-label="Animated diagram: Walker circulation. Values are reported below the diagram." ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }} />
       <div className="mt-3 px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1">
         <span>state: <span style={{ color: CYAN }}>{mode === 'elnino' ? 'El Niño (warm)' : mode === 'lanina' ? 'La Niña (cool)' : 'Neutral'}</span></span>
         <span>trades: {wind >= 0 ? `easterly ${(wind).toFixed(2)}` : `reversed ${wind.toFixed(2)}`}</span>

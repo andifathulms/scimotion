@@ -208,6 +208,8 @@ export function TelescopeResolutionAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Widen the aperture to split a double star. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: BG, aspectRatio: `${W} / ${H}` }}

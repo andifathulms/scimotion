@@ -336,6 +336,8 @@ export function SwitchLearningAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Switch learning vs hub flooding. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

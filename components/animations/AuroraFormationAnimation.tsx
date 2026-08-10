@@ -380,6 +380,8 @@ export function AuroraFormationAnimation() {
 
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Sun → field → collision → glow. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

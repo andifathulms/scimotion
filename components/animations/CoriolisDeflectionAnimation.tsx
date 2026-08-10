@@ -285,6 +285,8 @@ export function CoriolisDeflectionAnimation() {
     <div ref={ref} className="animation-block">
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Coriolis deflection. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: BG, aspectRatio: `${W} / ${H}` }}

@@ -351,6 +351,8 @@ export function ReynoldsAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Flow past a cylinder. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

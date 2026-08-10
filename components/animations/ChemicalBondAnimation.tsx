@@ -395,6 +395,8 @@ export function ChemicalBondAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: The bond as an energy well. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

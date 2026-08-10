@@ -304,6 +304,8 @@ export function MoonPhaseAnimation() {
         </span>
       </div>
       <canvas
+          role="img"
+          aria-label="Animated diagram: Moon phase. Values are reported below the diagram."
         ref={canvasRef}
         onPointerDown={onDown}
         onPointerMove={onMove}

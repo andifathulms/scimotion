@@ -250,6 +250,8 @@ export function SelfRenewalAnimation() {
 
       <div className="my-3">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Self renewal. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

@@ -255,6 +255,8 @@ export function GyroscopePrecessionAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Spin it up and watch precession slow. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: BG, aspectRatio: `${W} / ${H}` }}

@@ -336,6 +336,8 @@ export function DifferentiationAnimation() {
 
       <div className="my-3">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Differentiation. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

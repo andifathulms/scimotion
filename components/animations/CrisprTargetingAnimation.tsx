@@ -303,6 +303,8 @@ export function CrisprTargetingAnimation() {
   return (
     <div className="animation-block" ref={ref}>
       <canvas
+          role="img"
+          aria-label="Animated diagram: CRISPR targeting. Values are reported below the diagram."
         ref={canvasRef}
         width={W}
         height={H}

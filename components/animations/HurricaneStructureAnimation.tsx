@@ -312,6 +312,8 @@ export function HurricaneStructureAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Structure and the Coriolis band. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

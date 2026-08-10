@@ -282,6 +282,8 @@ export function IRFingerprintAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Bonds absorb their own frequencies. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

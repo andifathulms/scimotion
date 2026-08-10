@@ -230,6 +230,8 @@ export function LogGrowthAnimation() {
 
       <div className="mt-3">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Log growth. Values are reported below the diagram."
           ref={canvasRef}
           className="w-full rounded-lg"
           style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }}

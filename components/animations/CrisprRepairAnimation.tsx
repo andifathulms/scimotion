@@ -263,6 +263,8 @@ export function CrisprRepairAnimation() {
   return (
     <div className="animation-block" ref={ref}>
       <canvas
+          role="img"
+          aria-label="Animated diagram: CRISPR repair. Values are reported below the diagram."
         ref={canvasRef}
         width={W}
         height={H}

@@ -293,6 +293,8 @@ export function CardiacCycleAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: VH + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: The cardiac cycle. Values are reported below the diagram."
           ref={canvasRef}
           width={VW}
           height={VH}

@@ -339,6 +339,8 @@ export function ClearanceAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: A regulator, not a drain. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

@@ -246,6 +246,8 @@ export function DoubleCirculationAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: VH + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Double circulation (figure-eight). Values are reported below the diagram."
           ref={canvasRef}
           width={VW}
           height={VH}

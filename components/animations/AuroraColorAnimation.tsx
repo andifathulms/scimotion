@@ -367,6 +367,8 @@ export function AuroraColorAnimation() {
 
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Altitude and gas set the color. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

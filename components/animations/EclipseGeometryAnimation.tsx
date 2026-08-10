@@ -267,6 +267,8 @@ export function EclipseGeometryAnimation() {
         </span>
       </div>
       <canvas
+          role="img"
+          aria-label="Animated diagram: Eclipse geometry. Values are reported below the diagram."
         ref={canvasRef}
         style={{ width: '100%', maxWidth: W, aspectRatio: `${W} / ${H}`, background: 'var(--color-canvas)', borderRadius: 8 }}
       />

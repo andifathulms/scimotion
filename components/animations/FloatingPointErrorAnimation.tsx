@@ -261,7 +261,7 @@ export function FloatingPointErrorAnimation() {
       </div>
 
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} style={{ width: W, maxWidth: '100%', height: H, background: 'var(--color-canvas)', borderRadius: 8 }} />
+        <canvas role="img" aria-label="Animated diagram: Why 0.1 + 0.2 ≠ 0.3. Values are reported below the diagram." ref={canvasRef} style={{ width: W, maxWidth: '100%', height: H, background: 'var(--color-canvas)', borderRadius: 8 }} />
       </div>
 
       {/* readout row */}

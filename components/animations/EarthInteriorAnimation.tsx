@@ -424,6 +424,8 @@ export function EarthInteriorAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: The shadow zones that mapped the core. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

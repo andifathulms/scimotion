@@ -342,6 +342,8 @@ export function DNSHierarchyAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: The namespace tree &amp; who is authoritative. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

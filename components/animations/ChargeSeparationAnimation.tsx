@@ -340,6 +340,8 @@ export function ChargeSeparationAnimation() {
     <div className="animation-block" ref={ref}>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Charge separation. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

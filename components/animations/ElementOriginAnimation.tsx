@@ -273,6 +273,8 @@ export function ElementOriginAnimation() {
       </div>
       <div className="animation-canvas">
         <canvas
+          role="img"
+          aria-label="Animated diagram: Where each element was made. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

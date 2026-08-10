@@ -480,6 +480,8 @@ export function PhaseTransitionAnimation() {
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
         <canvas
+          role="img"
+          aria-label="Animated diagram: Heating one gram of ice from −30 °C. Values are reported below the diagram."
           ref={canvasRef}
           width={W}
           height={H}

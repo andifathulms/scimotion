@@ -206,7 +206,7 @@ export function GraphTraversalAnimation() {
         </button>
       </div>
       <div className="animation-canvas">
-        <canvas ref={canvasRef} width={600} height={340} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
+        <canvas role="img" aria-label="Animated diagram: Graph Traversal. Values are reported below the diagram." ref={canvasRef} width={600} height={340} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       {/* Step message */}
