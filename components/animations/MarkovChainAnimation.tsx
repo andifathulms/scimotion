@@ -384,26 +384,26 @@ export function MarkovChainAnimation() {
             onChange={e => set('speed', +e.target.value)}
             className="w-16 accent-accent-gold" />
         </div>
+      </div>
+      <div className="animation-readout">
         {/* The stationary distribution is not simulated — it is solved from the
             two knobs, which is exactly the point the article makes: where the
             walk ends up is a property of the matrix, not of the walk. */}
-        <div className="ml-auto flex items-center gap-3">
-          {/* Reuses `pi`, which the component already solves from the same
-              matrix it walks. A second, hand-derived expression here would be a
-              competing source of truth, and a two-state closed form would be
-              simply wrong: this is a three-state chain, and the mass the two
-              sliders leave over is split between the others on a fixed ratio. */}
-          <EquationReadout
-            formula="π = πP → π(Sunny)"
-            bindings={[
-              { symbol: 'P(S→S)', value: pS.toFixed(2) },
-              { symbol: 'P(R→R)', value: pR.toFixed(2) },
-            ]}
-            result={`${(pi[0] * 100).toFixed(1)}%`}
-            assumption="the exact long-run share, reached by power iteration on the 3×3 matrix; the walk above only converges towards it"
-          />
-          <span className="text-xs text-text-secondary font-mono shrink-0">{steps} hops</span>
-        </div>
+        {/* Reuses `pi`, which the component already solves from the same
+            matrix it walks. A second, hand-derived expression here would be a
+            competing source of truth, and a two-state closed form would be
+            simply wrong: this is a three-state chain, and the mass the two
+            sliders leave over is split between the others on a fixed ratio. */}
+        <EquationReadout
+          formula="π = πP → π(Sunny)"
+          bindings={[
+            { symbol: 'P(S→S)', value: pS.toFixed(2) },
+            { symbol: 'P(R→R)', value: pR.toFixed(2) },
+          ]}
+          result={`${(pi[0] * 100).toFixed(1)}%`}
+          assumption="the exact long-run share, reached by power iteration on the 3×3 matrix; the walk above only converges towards it"
+        />
+        <span className="text-xs text-text-secondary font-mono shrink-0">{steps} hops</span>
       </div>
     </div>
   )

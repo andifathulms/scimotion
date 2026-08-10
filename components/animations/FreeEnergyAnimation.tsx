@@ -315,21 +315,21 @@ export function FreeEnergyAnimation() {
           />
           <span className="font-mono text-text-secondary">{temp} K</span>
         </div>
-        <div className="ml-auto flex items-center gap-3">
-          <EquationReadout
-            formula="ΔG = ΔH − TΔS"
-            bindings={[
-              { symbol: 'ΔH', value: `${dH} kJ/mol` },
-              { symbol: 'T', value: `${temp} K` },
-              { symbol: 'ΔS', value: `${dS} J/mol·K` },
-            ]}
-            result={`${gNow.toFixed(1)} kJ/mol`}
-            assumption="ΔH and ΔS held constant with temperature — the standard approximation, and the reason the line is straight"
-          />
-          <span className="text-xs font-mono shrink-0" style={{ color: gNow < 0 ? GREEN : ORANGE }}>
-            {gNow < 0 ? 'spontaneous' : 'non-spontaneous'}
-          </span>
-        </div>
+      </div>
+      <div className="animation-readout">
+        <EquationReadout
+          formula="ΔG = ΔH − TΔS"
+          bindings={[
+            { symbol: 'ΔH', value: `${dH} kJ/mol` },
+            { symbol: 'T', value: `${temp} K` },
+            { symbol: 'ΔS', value: `${dS} J/mol·K` },
+          ]}
+          result={`${gNow.toFixed(1)} kJ/mol`}
+          assumption="ΔH and ΔS held constant with temperature — the standard approximation, and the reason the line is straight"
+        />
+        <span className="text-xs font-mono shrink-0" style={{ color: gNow < 0 ? GREEN : ORANGE }}>
+          {gNow < 0 ? 'spontaneous' : 'non-spontaneous'}
+        </span>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         {REGIME_LABEL[regime]}. Set the signs of ΔH and ΔS, then press <em>Sweep T</em>: in the two

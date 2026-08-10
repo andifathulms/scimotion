@@ -230,22 +230,22 @@ export function PendulumAnimation() {
           />
           <span>{gravity} m/s²</span>
         </div>
+      </div>
+      <div className="animation-readout">
         {/* The assumption is stated because this widget makes it checkable: the
-            loop above integrates α = −(g/L)·sin θ, the exact equation, while
-            this formula is the small-angle linearisation of it. They agree near
-            θ₀ = 0 and visibly do not at the top of the slider's range. Naming
-            that is the minimum owed to a reader who can see both at once. */}
-        <div className="ml-auto">
-          <EquationReadout
-            formula="T = 2π√(L/g)"
-            bindings={[
-              { symbol: 'L', value: `${(length / 1000).toFixed(2)} m` },
-              { symbol: 'g', value: `${gravity} m/s²` },
-            ]}
-            result={`${period} s`}
-            assumption={`small-angle approximation — the simulation integrates the exact equation, so the two part company as θ₀ grows (now ${initAngle}°)`}
-          />
-        </div>
+              loop above integrates α = −(g/L)·sin θ, the exact equation, while
+              this formula is the small-angle linearisation of it. They agree near
+              θ₀ = 0 and visibly do not at the top of the slider's range. Naming
+              that is the minimum owed to a reader who can see both at once. */}
+        <EquationReadout
+          formula="T = 2π√(L/g)"
+          bindings={[
+            { symbol: 'L', value: `${(length / 1000).toFixed(2)} m` },
+            { symbol: 'g', value: `${gravity} m/s²` },
+          ]}
+          result={`${period} s`}
+          assumption={`small-angle approximation — the simulation integrates the exact equation, so the two part company as θ₀ grows (now ${initAngle}°)`}
+        />
       </div>
     </div>
   )

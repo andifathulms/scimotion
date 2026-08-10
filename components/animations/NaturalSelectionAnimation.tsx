@@ -431,20 +431,20 @@ export function NaturalSelectionAnimation() {
         </label>
         <span className="text-xs" style={{ color: LIME }}>pale</span>
         <span className="text-xs" style={{ color: VIOLET }}>dark</span>
+      </div>
+      <div className="animation-readout">
         {/* 1/(2N) is the yardstick the article turns on: selection only reliably
-            beats drift when s exceeds it. Both numbers are on screen, so the
-            comparison is something the reader can make rather than be told. */}
-        <div className="ml-auto">
-          <EquationReadout
-            formula="drift dominates when s < 1/(2N)"
-            bindings={[
-              { symbol: 's', value: (sel / 100).toFixed(2) },
-              { symbol: 'N', value: String(popN) },
-            ]}
-            result={`1/(2N) = ${(1 / (2 * popN)).toFixed(4)}`}
-            assumption="a rule of thumb from population genetics, not a threshold the simulation enforces"
-          />
-        </div>
+              beats drift when s exceeds it. Both numbers are on screen, so the
+              comparison is something the reader can make rather than be told. */}
+        <EquationReadout
+          formula="drift dominates when s < 1/(2N)"
+          bindings={[
+            { symbol: 's', value: (sel / 100).toFixed(2) },
+            { symbol: 'N', value: String(popN) },
+          ]}
+          result={`1/(2N) = ${(1 / (2 * popN)).toFixed(4)}`}
+          assumption="a rule of thumb from population genetics, not a threshold the simulation enforces"
+        />
       </div>
     </div>
   )

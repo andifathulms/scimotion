@@ -373,21 +373,21 @@ export function EvolutionaryGameAnimation() {
           <span className="font-mono text-text-secondary w-8">{initC}%</span>
         </label>
         <span className="text-xs font-mono" style={{ color: GREEN }}>TFT {initT}%</span>
+      </div>
+      <div className="animation-readout">
         {/* n is what decides whether reciprocity can pay: tit-for-tat only beats
-            defection once a match is long enough for retaliation to cost more
-            than the one round of exploitation it followed. */}
-        <div className="ml-auto">
-          <EquationReadout
-            formula="TFT resists ALLD when n > (T − R) / (R − P)"
-            bindings={[{ symbol: 'n', value: String(rounds) }]}
-            result={
-              rounds > (T - R) / (R - P)
-                ? `satisfied (n > ${((T - R) / (R - P)).toFixed(0)})`
-                : `not satisfied (needs n > ${((T - R) / (R - P)).toFixed(0)})`
-            }
-            assumption={`threshold computed from this widget's own payoff matrix (T=${T}, R=${R}, P=${P}), so it moves if the payoffs do`}
-          />
-        </div>
+              defection once a match is long enough for retaliation to cost more
+              than the one round of exploitation it followed. */}
+        <EquationReadout
+          formula="TFT resists ALLD when n > (T − R) / (R − P)"
+          bindings={[{ symbol: 'n', value: String(rounds) }]}
+          result={
+            rounds > (T - R) / (R - P)
+              ? `satisfied (n > ${((T - R) / (R - P)).toFixed(0)})`
+              : `not satisfied (needs n > ${((T - R) / (R - P)).toFixed(0)})`
+          }
+          assumption={`threshold computed from this widget's own payoff matrix (T=${T}, R=${R}, P=${P}), so it moves if the payoffs do`}
+        />
       </div>
     </div>
   )

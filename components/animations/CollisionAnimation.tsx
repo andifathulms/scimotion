@@ -530,23 +530,23 @@ export function CollisionAnimation() {
             {v2}
           </span>
         </div>
+      </div>
+      <div className="animation-readout">
         {/* Momentum is the invariant: it holds in both modes, which is what
-            separates it from kinetic energy and is the reason the article
-            bothers with the inelastic toggle at all. Shown as the total going
-            in, so the reader can check it against the carts coming out. */}
-        <div className="ml-auto">
-          <EquationReadout
-            formula="p = m₁v₁ + m₂v₂"
-            bindings={[
-              { symbol: 'm₁', value: String(m1) },
-              { symbol: 'v₁', value: String(v1) },
-              { symbol: 'm₂', value: String(m2) },
-              { symbol: 'v₂', value: String(v2) },
-            ]}
-            result={(m1 * v1 + m2 * v2).toFixed(2)}
-            assumption="conserved in both modes — unlike kinetic energy, which the inelastic collision discards"
-          />
-        </div>
+              separates it from kinetic energy and is the reason the article
+              bothers with the inelastic toggle at all. Shown as the total going
+              in, so the reader can check it against the carts coming out. */}
+        <EquationReadout
+          formula="p = m₁v₁ + m₂v₂"
+          bindings={[
+            { symbol: 'm₁', value: String(m1) },
+            { symbol: 'v₁', value: String(v1) },
+            { symbol: 'm₂', value: String(m2) },
+            { symbol: 'v₂', value: String(v2) },
+          ]}
+          result={(m1 * v1 + m2 * v2).toFixed(2)}
+          assumption="conserved in both modes — unlike kinetic energy, which the inelastic collision discards"
+        />
       </div>
     </div>
   )

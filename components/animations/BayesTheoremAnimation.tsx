@@ -232,29 +232,29 @@ export function BayesTheoremAnimation() {
             className="w-24 accent-accent-blue" />
           <span className="font-mono text-text-secondary w-12">{spec.toFixed(1)}%</span>
         </label>
+      </div>
+      <div className="animation-readout">
         {/* P(+) is not a slider — it is the column the dots actually land in,
-            tp + fp out of GRID². Showing it as the denominator is what makes the
-            counter-intuitive result legible: a 99%-sensitive test on a rare
-            disease produces far more false positives than true ones, and the
-            formula says so in one line. */}
-        <div className="ml-auto flex items-center gap-3">
-          <EquationReadout
-            formula="P(D|+) = P(+|D) · P(D) / P(+)"
-            bindings={[
-              { symbol: 'P(+|D)', value: `${sens.toFixed(1)}%` },
-              { symbol: 'P(D)', value: `${prev.toFixed(1)}%` },
-              { symbol: 'P(+)', value: `${((posPeople / (GRID * GRID)) * 100).toFixed(1)}%` },
-            ]}
-            result={`${(posterior * 100).toFixed(1)}%`}
-            assumption={`counted on whole people — ${GRID * GRID} of them — so each figure is rounded to the nearest dot`}
-          />
-          {/* The verdict, not just the number. Colour alone carried this before;
-              it now says which side of the coin-flip the reader is on, which is
-              the whole point of the widget. */}
-          <span className="text-xs font-mono shrink-0" style={{ color: posterior < 0.5 ? PINK : VIOLET }}>
-            {posterior < 0.5 ? 'most positives are false' : 'most positives are true'}
-          </span>
-        </div>
+              tp + fp out of GRID². Showing it as the denominator is what makes the
+              counter-intuitive result legible: a 99%-sensitive test on a rare
+              disease produces far more false positives than true ones, and the
+              formula says so in one line. */}
+        <EquationReadout
+          formula="P(D|+) = P(+|D) · P(D) / P(+)"
+          bindings={[
+            { symbol: 'P(+|D)', value: `${sens.toFixed(1)}%` },
+            { symbol: 'P(D)', value: `${prev.toFixed(1)}%` },
+            { symbol: 'P(+)', value: `${((posPeople / (GRID * GRID)) * 100).toFixed(1)}%` },
+          ]}
+          result={`${(posterior * 100).toFixed(1)}%`}
+          assumption={`counted on whole people — ${GRID * GRID} of them — so each figure is rounded to the nearest dot`}
+        />
+        {/* The verdict, not just the number. Colour alone carried this before;
+            it now says which side of the coin-flip the reader is on, which is
+            the whole point of the widget. */}
+        <span className="text-xs font-mono shrink-0" style={{ color: posterior < 0.5 ? PINK : VIOLET }}>
+          {posterior < 0.5 ? 'most positives are false' : 'most positives are true'}
+        </span>
       </div>
     </div>
   )
