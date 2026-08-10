@@ -389,6 +389,15 @@ export function CollisionAnimation() {
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 
+  // Same helpers and the same resolve() the loop uses, evaluated once per
+  // render for the readout.
+  const after = resolve({ m1, m2, v1, v2, elastic })
+  const pBefore = momentum(m1, v1, m2, v2)
+  const pAfter = momentum(m1, after.u1, m2, after.u2)
+  const keBefore = kinetic(m1, v1, m2, v2)
+  const keAfter = kinetic(m1, after.u1, m2, after.u2)
+  const keLostPct = keBefore > 0 ? ((keBefore - keAfter) / keBefore) * 100 : 0
+
   const reset = () => {
     cancelAnimationFrame(rafRef.current)
     setRunning(false)
@@ -534,20 +543,39 @@ export function CollisionAnimation() {
         </label>
       </div>
       <div className="animation-readout">
-        {/* Momentum is the invariant: it holds in both modes, which is what
-              separates it from kinetic energy and is the reason the article
-              bothers with the inelastic toggle at all. Shown as the total going
-              in, so the reader can check it against the carts coming out. */}
+        {/* Before and after, not just before.
+            This previously read `result={(m1 * v1 + m2 * v2)}` — the slider
+            inputs — so it printed the same number whether or not the carts had
+            collided, and asserted "conserved in both modes" while being
+            structurally incapable of showing it. A quantity that cannot change
+            demonstrates nothing about what is conserved.
+            u₁ and u₂ come from resolve(), the same function the simulation
+            steps with, so this reports the model rather than restating the
+            premise — and it shows the intermediate velocities, not only the
+            totals they add up to. */}
         <EquationReadout
           formula="p = m₁v₁ + m₂v₂"
           bindings={[
             { symbol: 'm₁', value: String(m1) },
-            { symbol: 'v₁', value: String(v1) },
+            { symbol: 'v₁', value: `${v1} → ${after.u1.toFixed(2)}` },
             { symbol: 'm₂', value: String(m2) },
-            { symbol: 'v₂', value: String(v2) },
+            { symbol: 'v₂', value: `${v2} → ${after.u2.toFixed(2)}` },
           ]}
-          result={(m1 * v1 + m2 * v2).toFixed(2)}
-          assumption="conserved in both modes — unlike kinetic energy, which the inelastic collision discards"
+          result={`${pBefore.toFixed(2)} → ${pAfter.toFixed(2)} kg·m/s`}
+          assumption="Momentum is conserved in both modes; the two figures are equal by construction of the collision rule, which is what makes it a rule rather than an observation."
+        />
+        <EquationReadout
+          formula="KE = ½m₁v₁² + ½m₂v₂²"
+          bindings={[
+            { symbol: 'v₁', value: `${after.u1.toFixed(2)} m/s after` },
+            { symbol: 'v₂', value: `${after.u2.toFixed(2)} m/s after` },
+          ]}
+          result={`${keBefore.toFixed(2)} → ${keAfter.toFixed(2)} J`}
+          assumption={
+            elastic
+              ? 'Elastic: kinetic energy is conserved too. This is the case where the two readouts agree, and it is the special case, not the normal one.'
+              : `Inelastic: ${keLostPct.toFixed(0)}% of the kinetic energy has gone into deformation, sound and heat. This model does not track where — it only accounts for what is missing.`
+          }
         />
       </div>
     </div>
