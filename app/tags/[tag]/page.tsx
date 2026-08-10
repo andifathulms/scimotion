@@ -32,7 +32,7 @@ export default async function TagPage({ params }: Props) {
       <Link href="/tags" className="text-xs text-text-muted hover:text-text-primary transition-colors">
         ← All tags
       </Link>
-      <h1 className="text-2xl font-bold text-text-primary mt-3 mb-1">
+      <h1 className="text-3xl font-bold text-text-primary mt-3 mb-1">
         #{decoded}
       </h1>
       <p className="text-text-secondary text-sm mb-8">

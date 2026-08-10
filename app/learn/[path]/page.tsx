@@ -33,7 +33,7 @@ export default async function PathPage({ params }: Props) {
       <Link href="/learn" className="text-xs text-text-muted hover:text-text-primary transition-colors">
         ← All paths
       </Link>
-      <h1 className="text-2xl font-bold text-text-primary mt-3 mb-2">
+      <h1 className="text-3xl font-bold text-text-primary mt-3 mb-2">
         {p.title}
       </h1>
       <p className="text-text-secondary text-base mb-2">{p.description}</p>

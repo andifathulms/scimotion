@@ -15,7 +15,7 @@ export default async function LearnPage() {
 
   return (
     <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-2xl font-bold text-text-primary mb-2">
+      <h1 className="text-3xl font-bold text-text-primary mb-2">
         Learning paths
       </h1>
       <p className="text-text-secondary text-base mb-10 max-w-2xl">

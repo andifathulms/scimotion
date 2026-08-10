@@ -14,7 +14,7 @@ export default async function TopicsPage() {
 
   return (
     <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-2xl font-bold text-text-primary mb-1">
+      <h1 className="text-3xl font-bold text-text-primary mb-1">
         Browse by field
       </h1>
       <p className="text-text-secondary text-sm mb-8">

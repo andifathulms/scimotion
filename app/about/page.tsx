@@ -18,7 +18,7 @@ export default async function AboutPage() {
 
   return (
     <div className="max-w-[680px] mx-auto px-5 py-12">
-      <h1 className="text-4xl font-bold text-text-primary mb-8">
+      <h1 className="text-3xl font-bold text-text-primary mb-8">
         About Scimotion
       </h1>
       <p className="text-text-secondary text-base leading-relaxed mb-6">
