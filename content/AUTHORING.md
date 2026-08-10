@@ -150,7 +150,35 @@ existing value. `MarkovChainAnimation` reuses its `pi`; a second, hand-written
 stationary formula in the readout would have been a competing source of truth,
 and — because that chain has three states, not two — a wrong one.
 
-## 8. Learning path (optional)
+## 8. Accessibility (required)
+
+The widget is the article. If it is unreachable or unreadable, the article has
+no content for that reader.
+
+- **Every slider lives inside a `<label>`.** Implicit association — no `id`, no
+  `htmlFor`, no `aria-label`. A `<span>` next to the input is adjacency, not a
+  name; a screen reader announces "slider, 60" and never says of what.
+- **Every `<canvas>` carries `role="img"` and an `aria-label`** describing what is
+  drawn. Fallback content between the tags is the native mechanism, but screen
+  readers surface that subtree inconsistently, so this is the reliable form. Say
+  what the picture shows, not what the widget is called.
+- **Anything the pointer can do, the keyboard must do too.** If a value can be
+  set by dragging on the canvas, it needs a control that writes the same state.
+  Drag is an enhancement, never the only route. Prefer a slider; use `<select>`
+  when the choice is one of a fixed named set.
+- **State the reader changes should be announced.** `<EquationReadout>` is
+  already `role="status"`; a bespoke readout needs the same, and should be
+  `aria-atomic` if it only means anything whole.
+- **Never signal state with colour alone.** A correct/incorrect or on/off state
+  needs a shape, an icon or text beside the hue.
+- **Autoplay must respect `prefers-reduced-motion`** — `useAnimationTrigger`
+  hands the callback a `reduced` flag; use it. Motion the reader explicitly
+  starts by pressing Play is fine.
+- **Do not label what is already named.** A visual sitting beside its own title
+  is decoration: mark it `aria-hidden`. Over-labelling is as much a defect as
+  no label.
+
+## 9. Learning path (optional)
 
 If the article belongs in a sequence, add its slug to the right path in `lib/paths.ts`.
 Each article should appear in at most one path so prev/next stays unambiguous.
@@ -166,5 +194,7 @@ Each article should appear in at most one path so prev/next stays unambiguous.
 - [ ] Body follows the section flow, primary + secondary animations embedded
 - [ ] 3-question quiz in frontmatter
 - [ ] `<KeyTakeaways>` block at the end
-- [ ] Added to a learning path in `lib/paths.ts` (if applicable, §8)
+- [ ] Sliders in `<label>`; canvas has role="img" + aria-label; no pointer-only
+      interaction; autoplay respects reduced motion (§8)
+- [ ] Added to a learning path in `lib/paths.ts` (if applicable, §9)
 - [ ] `npm run build` and `npm run lint` pass
