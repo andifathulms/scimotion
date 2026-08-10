@@ -82,7 +82,7 @@ export function Navbar() {
             href="/search"
             aria-label="Search articles"
             aria-current={isActive('/search') ? 'page' : undefined}
-            className={`p-2 rounded-control transition-colors hover:bg-bg-hover ${
+            className={`p-2 rounded-lg transition-colors hover:bg-bg-hover ${
               isActive('/search') ? 'text-accent-gold' : 'text-text-secondary'
             }`}
           >
@@ -91,7 +91,7 @@ export function Navbar() {
           <ThemeToggle />
           {/* Mobile hamburger */}
           <button
-            className="sm:hidden p-2 rounded-control text-text-secondary hover:bg-bg-hover transition-colors"
+            className="sm:hidden p-2 rounded-lg text-text-secondary hover:bg-bg-hover transition-colors"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label={open ? 'Close menu' : 'Open menu'}

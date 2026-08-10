@@ -21,7 +21,7 @@ export function SearchClient({ articles }: { articles: ArticleMeta[] }) {
 
   return (
     <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-2xl font-bold text-text-primary mb-6" style={{ letterSpacing: '-0.3px' }}>
+      <h1 className="text-2xl font-bold text-text-primary mb-6">
         Search
       </h1>
 
@@ -36,7 +36,7 @@ export function SearchClient({ articles }: { articles: ArticleMeta[] }) {
           onChange={e => setQuery(e.target.value)}
           autoFocus
           placeholder="Search by title, topic, or keyword…"
-          className="w-full pl-11 pr-11 py-3 rounded-full bg-bg-surface border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-border-hover transition-colors"
+          className="w-full pl-11 pr-11 py-3 rounded-pill bg-bg-surface border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-border-hover transition-colors"
           aria-label="Search articles"
         />
         {query && (

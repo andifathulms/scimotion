@@ -796,7 +796,7 @@ export default async function ArticlePage({ params }: Props) {
               leaving a single orphaned word. */}
           <h1
             className="text-3xl sm:text-4xl font-bold text-text-primary mb-3 leading-tight text-balance"
-            style={{ letterSpacing: '-0.02em' }}
+           
           >
             {meta.title}
           </h1>
@@ -811,7 +811,7 @@ export default async function ArticlePage({ params }: Props) {
         <hr className="border-border mb-8" />
 
         {/* Hero */}
-        <div className="mb-10 rounded-2xl overflow-hidden border border-border">
+        <div className="mb-10 rounded-card overflow-hidden border border-border">
           <ArticleVisual slug={slug} topic={meta.topic} variant="hero" />
         </div>
         </div>

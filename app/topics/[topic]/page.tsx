@@ -33,7 +33,7 @@ export default async function TopicPage({ params }: Props) {
       <Link href="/topics" className="text-xs text-text-muted hover:text-text-primary transition-colors">
         ← All fields
       </Link>
-      <h1 className="text-2xl font-bold text-text-primary mt-3 mb-2" style={{ letterSpacing: '-0.3px' }}>
+      <h1 className="text-2xl font-bold text-text-primary mt-3 mb-2">
         {topic}
       </h1>
       <p className="text-text-secondary text-sm leading-relaxed mb-1 max-w-[620px]">

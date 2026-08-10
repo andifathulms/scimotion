@@ -18,7 +18,7 @@ export default async function AboutPage() {
 
   return (
     <div className="max-w-[680px] mx-auto px-5 py-12">
-      <h1 className="text-4xl font-bold text-text-primary mb-8" style={{ letterSpacing: '-0.5px' }}>
+      <h1 className="text-4xl font-bold text-text-primary mb-8">
         About Scimotion
       </h1>
       <p className="text-text-secondary text-base leading-relaxed mb-6">
@@ -42,7 +42,7 @@ export default async function AboutPage() {
           <Link
             key={topic}
             href={`/topics/${topicToSlug(topic)}`}
-            className="group block bg-bg-surface border border-border rounded-2xl p-5 hover:border-border-hover hover:bg-bg-hover transition-colors"
+            className="group block bg-bg-surface border border-border rounded-card p-5 hover:border-border-hover hover:bg-bg-hover transition-colors"
           >
             <div className="flex items-center justify-between mb-3">
               <TopicBadge topic={topic} />
@@ -56,13 +56,13 @@ export default async function AboutPage() {
       <div className="flex flex-col sm:flex-row gap-3">
         <Link
           href="/"
-          className="flex-1 text-center py-3 rounded-full bg-accent-gold text-bg-base font-medium hover:bg-accent-gold/90 transition-colors"
+          className="flex-1 text-center py-3 rounded-pill bg-accent-gold text-on-accent font-medium hover:bg-accent-gold/90 transition-colors"
         >
           Start reading →
         </Link>
         <Link
           href="/learn"
-          className="flex-1 text-center py-3 rounded-full border border-border text-text-secondary font-medium hover:border-border-hover hover:text-text-primary transition-colors"
+          className="flex-1 text-center py-3 rounded-pill border border-border text-text-secondary font-medium hover:border-border-hover hover:text-text-primary transition-colors"
         >
           Follow a path
         </Link>

@@ -14,7 +14,7 @@ export default async function TopicsPage() {
 
   return (
     <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-2xl font-bold text-text-primary mb-1" style={{ letterSpacing: '-0.3px' }}>
+      <h1 className="text-2xl font-bold text-text-primary mb-1">
         Browse by field
       </h1>
       <p className="text-text-secondary text-sm mb-8">
@@ -25,7 +25,7 @@ export default async function TopicsPage() {
           <Link
             key={topic}
             href={`/topics/${topicToSlug(topic)}`}
-            className="group block bg-bg-surface border border-border rounded-2xl p-5 hover:border-border-hover hover:bg-bg-hover transition-colors"
+            className="group block bg-bg-surface border border-border rounded-card p-5 hover:border-border-hover hover:bg-bg-hover transition-colors"
           >
             <div className="flex items-center justify-between mb-3">
               <TopicBadge topic={topic} />

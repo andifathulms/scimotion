@@ -8,7 +8,7 @@ export function TagList({ tags }: { tags: string[] }) {
         <Link
           key={tag}
           href={`/tags/${encodeURIComponent(tag)}`}
-          className="text-xs text-text-muted hover:text-accent-gold border border-border hover:border-border-hover rounded-full px-2.5 py-0.5 transition-colors"
+          className="text-xs text-text-muted hover:text-accent-gold border border-border hover:border-border-hover rounded-pill px-2.5 py-0.5 transition-colors"
         >
           #{tag}
         </Link>

@@ -11,7 +11,7 @@ export function PathNav({ slug, allArticles }: { slug: string; allArticles: Arti
   const { path, index, total, prevSlug, nextSlug } = nav
 
   return (
-    <div className="my-10 rounded-2xl border border-border bg-bg-surface p-5">
+    <div className="my-10 rounded-card border border-border bg-bg-surface p-5">
       <Link
         href={`/learn/${path.slug}`}
         className="flex items-center gap-2 text-xs uppercase tracking-wider text-text-muted hover:text-accent-gold transition-colors mb-4"

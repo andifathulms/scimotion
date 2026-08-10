@@ -109,8 +109,7 @@
   --space-block: 2rem;
   --space-section: 4rem;
 
-  /* RADII — three roles, not a continuum. */
-  --radius-control: 0.625rem;
+  /* RADII — two roles: the card surface, and anything pill-shaped. */
   --radius-card: 1rem;
   --radius-pill: 9999px;
 

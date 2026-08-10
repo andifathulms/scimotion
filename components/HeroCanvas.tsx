@@ -16,6 +16,21 @@ export function HeroCanvas() {
     let animId: number
     let particles: Particle[] = []
 
+    // The accent was written into the canvas as a literal rgba(245,158,11,...),
+    // so the constellation stayed pitched for the near-black base and washed out
+    // on the cream one — the only part of the hero that did not follow the theme.
+    // Canvas takes no CSS variables, so read the token once and build the two
+    // strokes from it. next-themes swaps the class on <html>, which remounts
+    // nothing here; the field is decorative and re-reads on the next resize.
+    // strokeStyle is reassigned once per connected pair per frame, so the colour
+    // is resolved to channels up front rather than re-parsed as a function
+    // string on every line.
+    const accent = getComputedStyle(canvas).getPropertyValue('--color-accent-gold').trim()
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent)
+    const [r, g, b] = m ? m.slice(1).map(h => parseInt(h, 16)) : [245, 158, 11]
+    const tint = (alpha: number) => `rgba(${r},${g},${b},${alpha})`
+    const dotColor = tint(0.45)
+
     const init = () => {
       const W = canvas.offsetWidth
       const H = canvas.offsetHeight
@@ -49,7 +64,7 @@ export function HeroCanvas() {
           if (dist < 120) {
             const alpha = (1 - dist / 120) * 0.35
             ctx.beginPath()
-            ctx.strokeStyle = `rgba(245,158,11,${alpha})`
+            ctx.strokeStyle = tint(alpha)
             ctx.lineWidth = 0.8
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
@@ -60,7 +75,7 @@ export function HeroCanvas() {
 
       for (const p of particles) {
         ctx.beginPath()
-        ctx.fillStyle = 'rgba(245,158,11,0.45)'
+        ctx.fillStyle = dotColor
         ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2)
         ctx.fill()
       }

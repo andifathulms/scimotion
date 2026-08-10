@@ -15,7 +15,7 @@ export default async function LearnPage() {
 
   return (
     <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-2xl font-bold text-text-primary mb-2" style={{ letterSpacing: '-0.3px' }}>
+      <h1 className="text-2xl font-bold text-text-primary mb-2">
         Learning paths
       </h1>
       <p className="text-text-secondary text-base mb-10 max-w-2xl">
@@ -27,7 +27,7 @@ export default async function LearnPage() {
           <Link
             key={path.slug}
             href={`/learn/${path.slug}`}
-            className="group block rounded-2xl border border-border bg-bg-surface p-6 hover:border-border-hover hover:bg-bg-hover transition-colors"
+            className="group block rounded-card border border-border bg-bg-surface p-6 hover:border-border-hover hover:bg-bg-hover transition-colors"
           >
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-lg font-semibold text-text-primary group-hover:text-accent-gold transition-colors">
