@@ -35,9 +35,37 @@ const toPixels = (metres: number) =>
 // reference on every frame of a running simulation, which defeats the memos in
 // useWidgetParams. Symbols match the equation in the article body.
 const SPEC = {
-  initAngle: { default: 60, min: 5, max: 85, step: 1, symbol: 'θ₀', unit: '°' },
+  // 175°, not 85°. Every large-amplitude claim in the article — ~18% long at
+  // 90°, diverging at 180° — sat outside the old ceiling, so the paragraph and
+  // the widget underneath it described different ranges.
+  initAngle: { default: 60, min: 5, max: 175, step: 1, symbol: 'θ₀', unit: '°' },
   length: { default: 1, min: L_MIN, max: L_MAX, step: 0.05, symbol: 'L', unit: 'm' },
   gravity: { default: 9.81, min: 1, max: 20, step: 0.5, symbol: 'g', unit: 'm/s²' },
+  // Mass exists so that moving it does nothing. The article's least intuitive
+  // claim is that the period is independent of mass, and the widget previously
+  // gave a reader arriving with the opposite intuition no way to find out they
+  // were wrong. A null result is only teachable if the control exists.
+  mass: { default: 1, min: 0.1, max: 10, step: 0.1, symbol: 'm', unit: 'kg' },
+  // Damping was already running at a fixed 0.9995 per step, unmentioned. The
+  // article devotes a section to it. b = 0 is now reachable, which is the only
+  // setting where "energy is conserved" is literally true.
+  damping: { default: 0.5, min: 0, max: 3, step: 0.1, symbol: 'b' },
+}
+
+// Per-step velocity retention. b is a friendlier scale than the raw factor:
+// b = 0 is frictionless, b = 0.5 reproduces the old fixed 0.9995.
+const retention = (b: number) => 1 - b * 0.001
+
+// Exact period / small-angle period, via the arithmetic-geometric mean — the
+// standard closed form for the complete elliptic integral K(k) that the article
+// quotes. Used to state the size of the approximation's error at the angle the
+// reader has actually chosen, rather than leaving "breaks down" unquantified.
+function exactRatio(deg: number): number {
+  const k = Math.sin((deg * Math.PI) / 360)
+  let a = 1
+  let b = Math.sqrt(1 - k * k)
+  for (let i = 0; i < 40; i++) [a, b] = [(a + b) / 2, Math.sqrt(a * b)]
+  return 1 / a
 }
 
 export function PendulumAnimation() {
@@ -48,7 +76,7 @@ export function PendulumAnimation() {
 
   const [running, setRunning] = useState(false)
   const { params, set, permalink, isDefault, restored } = useWidgetParams('pendulum', SPEC)
-  const { initAngle, length, gravity } = params
+  const { initAngle, length, gravity, mass, damping } = params
   const [, setEnergy] = useState({ ke: 0, pe: 1 })
 
   const drawFrame = useCallback(() => {
@@ -149,9 +177,9 @@ export function PendulumAnimation() {
     // Per unit mass: PE = gL(1−cos θ), KE = ½L²ω². The reference is the initial
     // energy, so the total bar starts full and visibly sinks as damping bites.
     const { omega } = stateRef.current
-    const pe = gravity * L_m * (1 - Math.cos(angle))
-    const ke = 0.5 * L_m * L_m * omega * omega
-    const e0 = gravity * L_m * (1 - Math.cos((initAngle * Math.PI) / 180))
+    const pe = mass * gravity * L_m * (1 - Math.cos(angle))
+    const ke = 0.5 * mass * L_m * L_m * omega * omega
+    const e0 = mass * gravity * L_m * (1 - Math.cos((initAngle * Math.PI) / 180))
     const normPE = e0 > 0 ? pe / e0 : 0
     const normKE = e0 > 0 ? ke / e0 : 0
     const normTot = normPE + normKE
@@ -179,14 +207,17 @@ export function PendulumAnimation() {
     // shrinking rectangle that is easy to miss.
     ctx.fillStyle = 'rgba(245,240,232,0.55)'
     ctx.fillText(`${(normTot * 100).toFixed(0)}%`, barX + 38, H - barH - 26)
+    // Absolute joules, so mass is visibly doing something. It scales the energy
+    // and cancels out of the period — which is the whole point of the m slider.
+    ctx.fillText(`E₀ = ${e0.toFixed(1)} J`, barX - 24, H - barH - 38)
 
     setEnergy({ ke: normKE, pe: normPE })
-  }, [length, gravity, initAngle])
+  }, [length, gravity, initAngle, mass])
 
   useEffect(() => {
     stateRef.current = { angle: initAngle * Math.PI / 180, omega: 0, trail: [] }
     drawFrame()
-  }, [initAngle, length, gravity, drawFrame])
+  }, [initAngle, length, gravity, mass, drawFrame])
 
   useEffect(() => {
     if (!running) { cancelAnimationFrame(animRef.current); return }
@@ -195,7 +226,7 @@ export function PendulumAnimation() {
       const s = stateRef.current
       const alpha = -(gravity / length) * Math.sin(s.angle)
       s.omega += alpha * DT
-      s.omega *= 0.9995
+      s.omega *= retention(damping)
       s.angle += s.omega * DT
 
       const px = toPixels(length)
@@ -208,7 +239,7 @@ export function PendulumAnimation() {
     }
     animRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(animRef.current)
-  }, [running, length, gravity, drawFrame])
+  }, [running, length, gravity, damping, drawFrame])
 
   useEffect(() => {
     if (triggered && !running) {
@@ -276,6 +307,22 @@ export function PendulumAnimation() {
         </label>
       </div>
       <div className="animation-readout">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Mass <span className="text-accent-gold">m</span>:</span>
+          <input type="range" min={SPEC.mass.min} max={SPEC.mass.max} step={SPEC.mass.step} value={mass}
+            onChange={e => set('mass', +e.target.value)}
+            className="w-20 accent-accent-gold"
+          />
+          <span className="tabular-nums">{mass.toFixed(1)} kg</span>
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          <span>Damping <span className="text-accent-gold">b</span>:</span>
+          <input type="range" min={SPEC.damping.min} max={SPEC.damping.max} step={SPEC.damping.step} value={damping}
+            onChange={e => set('damping', +e.target.value)}
+            className="w-20 accent-accent-gold"
+          />
+          <span className="tabular-nums">{damping === 0 ? 'none' : damping.toFixed(1)}</span>
+        </label>
         {/* The assumption is stated because this widget makes it checkable: the
               loop above integrates α = −(g/L)·sin θ, the exact equation, while
               this formula is the small-angle linearisation of it. They agree near
@@ -288,7 +335,7 @@ export function PendulumAnimation() {
             { symbol: 'g', value: `${gravity} m/s²` },
           ]}
           result={`${period} s`}
-          assumption={`small-angle approximation — the simulation integrates the exact equation, so the two part company as θ₀ grows (now ${initAngle}°)`}
+          assumption={`Small-angle approximation. The simulation integrates the exact equation, so the two part company as θ₀ grows: at ${initAngle}° the true period is about ${((exactRatio(initAngle) - 1) * 100).toFixed(0)}% longer than this. Exact value from the complete elliptic integral K(sin θ₀⁄2), evaluated by arithmetic–geometric mean.`}
         />
       </div>
     </div>
