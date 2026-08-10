@@ -327,7 +327,7 @@ export function SuperconductivityAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Temperature:</span>
           <input
             type="range" min={0} max={TMAX} step={0.1} value={temp}
@@ -335,7 +335,7 @@ export function SuperconductivityAnimation() {
             className="w-36 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{temp.toFixed(1)} K</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           {temp < TC ? `paired ${Math.round(f * 100)}% · R = 0` : `R = ${resistance(temp).toFixed(3)}`}
         </span>

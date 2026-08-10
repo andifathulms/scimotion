@@ -373,7 +373,7 @@ export function ReynoldsAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Re:</span>
           <input
             type="range"
@@ -385,7 +385,7 @@ export function ReynoldsAnimation() {
             className="w-48 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{formatRe(re)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           regime: <strong style={{ color: reg.color }}>{reg.name}</strong>
         </span>

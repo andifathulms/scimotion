@@ -403,7 +403,7 @@ export function AuroraFormationAnimation() {
         >
           <Play size={12} /> {running ? 'Pause' : 'Play'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Solar-wind intensity:</span>
           <input
             type="range"
@@ -416,7 +416,7 @@ export function AuroraFormationAnimation() {
             style={{ accentColor: CYAN }}
           />
           <span className="font-mono text-text-secondary">{stormLabel}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           stronger storm → brighter, more particles funneled to the poles
         </span>

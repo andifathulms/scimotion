@@ -269,7 +269,7 @@ export function GreenhouseEffectAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Greenhouse gases (IR opacity ε):</span>
           <input
             type="range" min={0} max={0.95} step={0.01} value={eps}
@@ -277,7 +277,7 @@ export function GreenhouseEffectAnimation() {
             className="w-40 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{eps.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           T<sub>s</sub> = {readout.ts.toFixed(1)} K → {target.toFixed(1)} K
         </span>

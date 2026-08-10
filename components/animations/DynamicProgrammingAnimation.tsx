@@ -248,14 +248,14 @@ export function DynamicProgrammingAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input
             type="range" min={60} max={600} step={20} value={660 - speed}
             onChange={e => setSpeed(660 - +e.target.value)}
             className="w-20 accent-accent-gold"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Cells filled <strong className="text-accent-gold">{cellsDone}</strong> / {fillCount}
           {idx >= steps.length - 1 && <span style={{ color: PINK }} className="ml-3">distance = {table[M][N]}</span>}

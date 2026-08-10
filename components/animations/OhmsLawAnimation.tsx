@@ -298,7 +298,7 @@ export function OhmsLawAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Voltage:</span>
           <input
             type="range"
@@ -311,8 +311,8 @@ export function OhmsLawAnimation() {
             style={{ accentColor: GOLD }}
           />
           <span className="text-text-secondary font-mono">{volts.toFixed(1)} V</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Resistance:</span>
           <input
             type="range"
@@ -325,7 +325,7 @@ export function OhmsLawAnimation() {
             style={{ accentColor: GREEN }}
           />
           <span className="text-text-secondary font-mono">{Math.round(ohms)} Ω</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs font-mono" style={{ color: GOLD }}>
           I = {(I * 1000).toFixed(0)} mA
         </span>

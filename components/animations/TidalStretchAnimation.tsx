@@ -265,7 +265,7 @@ export function TidalStretchAnimation() {
         >
           <Play size={12} /> Subtract centre pull
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>distance r:</span>
           <input
             type="range"
@@ -278,7 +278,7 @@ export function TidalStretchAnimation() {
             style={{ accentColor: ACCENT }}
           />
           <span className="font-mono text-text-secondary">{rUnits} R⊕</span>
-        </div>
+        </label>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Each arrow is the pull the Moon exerts on that point. Raw, they all point roughly one way. Subtract the pull

@@ -189,7 +189,7 @@ export function GravitationalLensingAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>lens mass:</span>
           <input
             type="range" min={0} max={100} step={1} value={Math.round(mass * 100)}
@@ -197,7 +197,7 @@ export function GravitationalLensingAnimation() {
             className="w-36" style={{ accentColor: ACCENT }}
           />
           <span className="font-mono text-text-secondary">{Math.round(mass * 100)}%</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Einstein radius ∝ <strong className="font-mono" style={{ color: ACCENT }}>√mass</strong>
         </span>

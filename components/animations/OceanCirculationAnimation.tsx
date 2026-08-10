@@ -454,7 +454,7 @@ export function OceanCirculationAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Rotation:</span>
           <input
             type="range"
@@ -469,7 +469,7 @@ export function OceanCirculationAnimation() {
           <span className="font-mono text-text-secondary">
             {omega.toFixed(2)}×
           </span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">{label}</span>
       </div>
     </div>

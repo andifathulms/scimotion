@@ -238,7 +238,7 @@ export function RadialVelocityAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Planet mass:</span>
           <input
             type="range" min={SPEC.mass.min} max={SPEC.mass.max} step={SPEC.mass.step} value={mass}
@@ -246,7 +246,7 @@ export function RadialVelocityAnimation() {
             className="w-36 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{mass.toFixed(1)} M<sub>J</sub></span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           wobble K ∝ <strong className="text-accent-gold">{readout.k.toFixed(2)}</strong>
           {'  ·  '}

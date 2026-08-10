@@ -382,7 +382,7 @@ export function HorizontalTransferAnimation() {
         >
           Conjugation {conjugation ? 'on' : 'off'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Transfer rate:</span>
           <input
             type="range" min={SPEC.rate.min} max={SPEC.rate.max} step={SPEC.rate.step} value={rate}
@@ -391,7 +391,7 @@ export function HorizontalTransferAnimation() {
             disabled={!conjugation}
           />
           <span className="text-text-secondary font-mono">×{rate.toFixed(1)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           carriers {stats.carriers}/{N_CELLS} · species B {stats.bCarriers}/{N_CELLS / 2}
         </span>

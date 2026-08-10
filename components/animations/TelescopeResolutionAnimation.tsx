@@ -234,7 +234,7 @@ export function TelescopeResolutionAnimation() {
         >
           <RotateCcw size={13} /> Reset
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>D</span>
           <input
             type="range" min={D_MIN} max={D_MAX} step={0.005} value={dDisplay}
@@ -246,7 +246,7 @@ export function TelescopeResolutionAnimation() {
             }}
             className="w-44 accent-accent-indigo"
           />
-        </div>
+        </label>
       </div>
     </div>
   )

@@ -472,7 +472,7 @@ export function CollisionAnimation() {
           {elastic ? 'Make inelastic (stick)' : 'Make elastic (bounce)'}
         </button>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span className="text-accent-gold">m₁</span>
           <input
             type="range"
@@ -484,8 +484,8 @@ export function CollisionAnimation() {
             className="w-20 accent-accent-blue"
           />
           <span className="text-text-secondary font-mono">{m1}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span className="text-accent-gold">v₁</span>
           <input
             type="range"
@@ -500,8 +500,8 @@ export function CollisionAnimation() {
             {v1 > 0 ? '+' : ''}
             {v1}
           </span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span className="text-accent-gold">m₂</span>
           <input
             type="range"
@@ -513,8 +513,8 @@ export function CollisionAnimation() {
             className="w-20 accent-accent-orange"
           />
           <span className="text-text-secondary font-mono">{m2}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span className="text-accent-gold">v₂</span>
           <input
             type="range"
@@ -529,7 +529,7 @@ export function CollisionAnimation() {
             {v2 > 0 ? '+' : ''}
             {v2}
           </span>
-        </div>
+        </label>
       </div>
       <div className="animation-readout">
         {/* Momentum is the invariant: it holds in both modes, which is what

@@ -368,22 +368,22 @@ export function ResonanceAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Drive ω/ω₀:</span>
           <input type="range" min={0.2} max={2.2} step={0.02} value={ratio}
             onChange={e => setRatio(+e.target.value)}
             className="w-28 accent-accent-gold"
           />
           <span>{ratio.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Damping γ:</span>
           <input type="range" min={0.75} max={6} step={0.05} value={gamma}
             onChange={e => setGamma(+e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span>{gamma.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Q ≈ <strong className="text-accent-gold">{q.toFixed(1)}</strong> · amplitude{' '}
           <strong className="text-accent-gold">{amp.toFixed(2)}×</strong> static

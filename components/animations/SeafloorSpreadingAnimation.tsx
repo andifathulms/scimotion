@@ -413,7 +413,7 @@ export function SeafloorSpreadingAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Half-rate:</span>
           <input
             type="range"
@@ -425,8 +425,8 @@ export function SeafloorSpreadingAnimation() {
             className="w-28 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{rate} cm/yr</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Probe:</span>
           <input
             type="range"
@@ -438,7 +438,7 @@ export function SeafloorSpreadingAnimation() {
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{probe} km</span>
-        </div>
+        </label>
       </div>
       <div className="animation-controls flex-wrap gap-3 text-xs text-text-muted">
         <span>

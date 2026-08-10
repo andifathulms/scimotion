@@ -384,7 +384,7 @@ export function DiffieHellmanAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Alice&apos;s a:</span>
           <input
             type="range" min={2} max={P - 2} step={1} value={a}
@@ -392,8 +392,8 @@ export function DiffieHellmanAnimation() {
             className="w-20 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{a}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Bob&apos;s b:</span>
           <input
             type="range" min={2} max={P - 2} step={1} value={b}
@@ -401,7 +401,7 @@ export function DiffieHellmanAnimation() {
             className="w-20 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{b}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Step <strong className="text-accent-gold">{step + 1}</strong> / {N}
           <span className="ml-3">shared key {shared}</span>

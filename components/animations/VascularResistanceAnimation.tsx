@@ -222,7 +222,7 @@ export function VascularResistanceAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Vessel radius:</span>
           <input
             type="range" min={SPEC.radius.min} max={SPEC.radius.max} step={SPEC.radius.step} value={radius}
@@ -230,7 +230,7 @@ export function VascularResistanceAnimation() {
             className="w-44 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{radius.toFixed(2)}×</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           flow <strong style={{ color: GREEN }}>{(flowRel * 100).toFixed(0)}%</strong>{' '}
           · resistance <strong style={{ color: GOLD }}>{(resistRel * 100).toFixed(0)}%</strong>

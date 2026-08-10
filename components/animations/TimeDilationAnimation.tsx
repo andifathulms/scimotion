@@ -220,13 +220,13 @@ export function TimeDilationAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>v/c:</span>
           <input type="range" min={SPEC.beta.min} max={SPEC.beta.max} step={SPEC.beta.step} value={beta}
             onChange={e => set('beta', +e.target.value)}
             className="w-28 accent-accent-gold" />
           <span className="font-mono">{(beta * 100).toFixed(0)}%</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs font-mono text-text-secondary">
           γ = <strong className="text-accent-gold">{gamma(beta).toFixed(4)}</strong>
           &nbsp;·&nbsp; τ={tProper}s &nbsp;→&nbsp; t={tCoordinate}s

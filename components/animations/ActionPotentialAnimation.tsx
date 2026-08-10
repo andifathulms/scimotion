@@ -210,14 +210,14 @@ export function ActionPotentialAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} step={SPEC.speed.step} value={speed}
             onChange={e => set('speed', +e.target.value)}
             className="w-20 accent-accent-gold"
           />
           <span>{speed}×</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: PHASE_COLORS[phase], borderColor: `${PHASE_COLORS[phase]}30`, background: `${PHASE_COLORS[phase]}10` }}

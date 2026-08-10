@@ -135,15 +135,15 @@ export function SieveAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Limit:</span>
           <input type="range" min={20} max={150} value={limit} onChange={e => setLimit(+e.target.value)} className="w-20 accent-accent-gold" />
           <span>{limit}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={50} max={500} step={50} value={600 - speed} onChange={e => setSpeed(600 - +e.target.value)} className="w-20 accent-accent-gold" />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">Primes found: <strong className="text-accent-gold">{primeCount}</strong></span>
       </div>
     </div>

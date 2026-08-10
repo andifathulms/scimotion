@@ -318,22 +318,22 @@ export function GradientDescentAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Run</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Learning rate η:</span>
           <input type="range" min={SPEC.eta.min} max={SPEC.eta.max} step={SPEC.eta.step} value={eta}
             onChange={e => set('eta', +e.target.value)}
             className="w-28 accent-accent-violet"
           />
           <span className="font-mono text-text-secondary">{eta.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Start x₀:</span>
           <input type="range" min={SPEC.startX.min} max={SPEC.startX.max} step={SPEC.startX.step} value={startX}
             onChange={e => set('startX', +e.target.value)}
             className="w-24 accent-accent-blue"
           />
           <span className="font-mono text-text-secondary">{startX.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           {run.diverged && done
             ? <strong style={{ color: ARROW }}>diverged — η above the stability ceiling</strong>

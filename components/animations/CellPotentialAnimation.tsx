@@ -434,7 +434,7 @@ export function CellPotentialAnimation() {
             >
               {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Discharge</>}
             </button>
-            <div className="flex items-center gap-2 text-xs text-text-muted">
+            <label className="flex items-center gap-2 text-xs text-text-muted">
               <span>Depth:</span>
               <input
                 type="range" min={SPEC.depth.min} max={SPEC.depth.max} step={SPEC.depth.step} value={depth}
@@ -442,7 +442,7 @@ export function CellPotentialAnimation() {
                 className="w-32 accent-accent-orange"
               />
               <span className="font-mono text-text-secondary">{(depth * 100).toFixed(0)}%</span>
-            </div>
+            </label>
           </>
         )}
         <span className="ml-auto text-xs font-mono text-text-secondary">

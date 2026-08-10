@@ -149,7 +149,7 @@ export function HarmonicLawAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Planet:</span>
           <input
             type="range" min={0} max={PLANETS.length - 1} step={1} value={selected}
@@ -157,7 +157,7 @@ export function HarmonicLawAnimation() {
             className="w-40 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{p.name}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           a = <strong className="text-accent-gold">{p.a.toFixed(3)} AU</strong>
           {'  ·  '}

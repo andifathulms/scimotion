@@ -191,13 +191,13 @@ export function GravitationalTimeDilationAnimation() {
           style={{ background: GOLD, color: '#0F0D0A' }}>
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>lower the clock (r/rₛ):</span>
           <input type="range" min={SPEC.rOverRs.min} max={SPEC.rOverRs.max} step={SPEC.rOverRs.step} value={rOverRs}
             onChange={e => set('rOverRs', +e.target.value)}
             className="w-40" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{rOverRs.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs font-mono text-text-secondary">
           √(1 − rₛ/r) = <strong style={{ color: GOLD }}>{f.toFixed(3)}</strong>
           &nbsp;·&nbsp; far {farTime}s → near {nearTime}s

@@ -630,12 +630,12 @@ export function ConsensusAnimation() {
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs transition-colors ${partition ? 'border-accent-pink text-accent-pink' : 'border-border text-text-secondary hover:bg-bg-hover'}`}>
           <Split size={12} /> {partition ? 'Heal network' : 'Partition'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} step={SPEC.speed.step} value={speed}
             onChange={e => set('speed', +e.target.value)}
             className="w-16 accent-accent-gold" />
-        </div>
+        </label>
       </div>
     </div>
   )

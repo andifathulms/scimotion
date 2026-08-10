@@ -345,7 +345,7 @@ export function MilankovitchAnimation() {
           {toggle(oblOn, C_BLUE, 'obliquity', () => setOblOn(v => !v))}
           {toggle(precOn, C_VIOLET, 'precession', () => setPrecOn(v => !v))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Scrub:</span>
           <input
             type="range" min={T_NOW} max={T_OLD} step={1}
@@ -353,7 +353,7 @@ export function MilankovitchAnimation() {
             onChange={e => { setRunning(false); setCursor(T_OLD - +e.target.value) }}
             className="w-28 accent-accent-blue"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           {at === 0 ? 'now' : `${at.toFixed(0)} kyr BP`} · e={ecc(at).toFixed(3)} · ε={obliq(at).toFixed(1)}° · Q={q.toFixed(0)} W m⁻²
         </span>

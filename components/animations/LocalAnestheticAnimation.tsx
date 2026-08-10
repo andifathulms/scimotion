@@ -276,7 +276,7 @@ export function LocalAnestheticAnimation() {
         >
           Local anaesthetic: {anesthetic ? 'on' : 'off'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Channels blocked:</span>
           <input
             type="range" min={SPEC.blockFrac.min} max={SPEC.blockFrac.max} step={SPEC.blockFrac.step} value={blockFrac}
@@ -285,7 +285,7 @@ export function LocalAnestheticAnimation() {
             className="w-24 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{Math.round(blockFrac * 100)}%</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: statusColor, borderColor: `${statusColor}30`, background: `${statusColor}10` }}

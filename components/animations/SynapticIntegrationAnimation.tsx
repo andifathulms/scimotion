@@ -401,7 +401,7 @@ export function SynapticIntegrationAnimation() {
         >
           − Remove
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Timing:</span>
           <input
             type="range"
@@ -413,7 +413,7 @@ export function SynapticIntegrationAnimation() {
             className="w-24 accent-accent-lime"
           />
           <span>{spread < 0.33 ? 'synchronous' : spread > 0.7 ? 'spread out' : 'mixed'}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           fired: <strong className="text-accent-gold">{fired}</strong>
         </span>

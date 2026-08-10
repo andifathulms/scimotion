@@ -505,7 +505,7 @@ export function PhaseTransitionAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Burner:</span>
           <input
             type="range"
@@ -517,7 +517,7 @@ export function PhaseTransitionAnimation() {
             className="w-28 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{rate}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           {Math.round(energy)} J g⁻¹ · {s.T.toFixed(1)} °C ·{' '}
           {s.latentTotal > 0 ? `${Math.round(s.frac * 100)}% converted` : s.phase}

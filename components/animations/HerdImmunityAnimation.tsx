@@ -337,20 +337,20 @@ export function HerdImmunityAnimation() {
         >
           <Zap size={12} /> Introduce a case
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>coverage:</span>
           <input type="range" min={SPEC.coverage.min} max={SPEC.coverage.max} step={SPEC.coverage.step} value={coverage}
             onChange={e => set('coverage', +e.target.value)}
             className="w-24" style={{ accentColor: C_INF }} />
           <span className="font-mono">{(coverage * 100).toFixed(0)}%</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>R₀:</span>
           <input type="range" min={SPEC.r0.min} max={SPEC.r0.max} step={SPEC.r0.step} value={r0}
             onChange={e => set('r0', +e.target.value)}
             className="w-20" style={{ accentColor: C_MARK }} />
           <span className="font-mono">{r0.toFixed(1)}</span>
-        </div>
+        </label>
         <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 ml-auto">
           <span>need <strong className="text-text-primary">{(threshold * 100).toFixed(0)}%</strong></span>
           <span style={{ color: C_REC }}>infected {((stats.infected / N) * 100).toFixed(0)}%</span>

@@ -132,7 +132,7 @@ export function PendulumPeriodAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>θ₀:</span>
           <input
             type="range" min={5} max={175} value={deg}
@@ -140,7 +140,7 @@ export function PendulumPeriodAnimation() {
             className="w-44 accent-accent-teal"
           />
           <span className="text-text-secondary font-medium">{deg}°</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           True period is <strong className="text-accent-gold">{pct}%</strong> longer than the small-angle formula
         </span>

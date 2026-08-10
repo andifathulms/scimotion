@@ -256,7 +256,7 @@ export function SpinningSkaterAnimation() {
         >
           <RotateCcw size={13} /> Reset
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>arms</span>
           <input
             type="range" min={SPEC.ext.min} max={SPEC.ext.max} step={SPEC.ext.step} value={ext}
@@ -268,7 +268,7 @@ export function SpinningSkaterAnimation() {
             style={{ accentColor: GREEN }}
           />
           <span>{ext > 0.5 ? 'out' : 'in'}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

@@ -316,7 +316,7 @@ export function RefractionAnimation() {
           )}
         </button>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>θ₁</span>
           <input
             type="range"
@@ -328,9 +328,9 @@ export function RefractionAnimation() {
             className="w-28 accent-accent-blue"
           />
           <span className="text-text-secondary font-mono">{angleDeg}°</span>
-        </div>
+        </label>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n₂</span>
           <input
             type="range"
@@ -343,7 +343,7 @@ export function RefractionAnimation() {
             style={{ accentColor: GREEN }}
           />
           <span className="text-text-secondary font-mono">{n2.toFixed(2)}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

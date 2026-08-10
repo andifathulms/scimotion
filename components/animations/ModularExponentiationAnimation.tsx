@@ -272,7 +272,7 @@ export function ModularExponentiationAnimation() {
             {PRIMES.map(v => <option key={v} value={v}>{v}</option>)}
           </select>
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Base g:</span>
           <input
             type="range" min={SPEC.g.min} max={p - 2} step={SPEC.g.step} value={g}
@@ -280,8 +280,8 @@ export function ModularExponentiationAnimation() {
             className="w-20 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{g}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Target y:</span>
           <input
             type="range" min={SPEC.targetIdx.min} max={p - 2} step={SPEC.targetIdx.step} value={targetIdx}
@@ -289,15 +289,15 @@ export function ModularExponentiationAnimation() {
             className="w-20 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{target}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input
             type="range" min={30} max={300} step={30} value={330 - speed}
             onChange={e => setSpeed(330 - +e.target.value)}
             className="w-20 accent-accent-gold"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Plotted <strong className="text-accent-gold">{Math.max(0, Math.min(idx + 1, values.length))}</strong> / {values.length}
         </span>

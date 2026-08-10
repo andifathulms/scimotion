@@ -279,7 +279,7 @@ export function ReactionExtentAnimation() {
         >
           Release from ξ = 1
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔG°:</span>
           <input
             type="range" min={SPEC.dG0.min} max={SPEC.dG0.max} step={SPEC.dG0.step} value={dG0}
@@ -287,7 +287,7 @@ export function ReactionExtentAnimation() {
             className="w-28 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{dG0.toFixed(1)} kJ/mol</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           ξ {xiReadout.toFixed(2)} · K = {K.toFixed(2)}
         </span>

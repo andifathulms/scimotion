@@ -109,10 +109,10 @@ export function DoubleSlitAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} value={speed} onChange={e => set('speed', +e.target.value)} className="w-20 accent-accent-gold" />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">Particles detected: <strong className="text-accent-teal">{dots.length}</strong></span>
       </div>
     </div>

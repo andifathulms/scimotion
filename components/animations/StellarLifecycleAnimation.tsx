@@ -305,7 +305,7 @@ export function StellarLifecycleAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> {elapsedRef.current >= 1 ? 'Replay' : 'Play'}</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Mass:</span>
           <input
             type="range" min={-1} max={1.602} step={0.01} value={Math.log10(mass)}
@@ -314,7 +314,7 @@ export function StellarLifecycleAnimation() {
             style={{ accentColor: INDIGO }}
           />
           <span className="text-text-secondary font-medium">{mass < 1 ? mass.toFixed(2) : mass.toFixed(1)} M☉</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           MS life ≈ <strong style={{ color: INDIGO }}>{fmtAge(life)}</strong>
         </span>

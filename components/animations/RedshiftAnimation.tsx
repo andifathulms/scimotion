@@ -232,7 +232,7 @@ export function RedshiftAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Recession:</span>
           <input
             type="range" min={BETA_MIN} max={BETA_MAX} step={0.01} value={beta}
@@ -240,7 +240,7 @@ export function RedshiftAnimation() {
             className="w-40 accent-accent-teal"
           />
           <span className="text-text-secondary font-medium">β = {beta.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           z = <strong className="text-accent-gold">{zr.toFixed(3)}</strong>
           {'  ·  '}

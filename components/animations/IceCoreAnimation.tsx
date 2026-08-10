@@ -377,22 +377,22 @@ export function IceCoreAnimation() {
         >
           Show present-day CO₂
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Zoom:</span>
           <input
             type="range" min={25} max={OLDEST} step={5} value={windowKyr}
             onChange={e => { setNow(YOUNGEST); setWindowKyr(+e.target.value) }}
             className="w-24 accent-accent-blue"
           />
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Pan:</span>
           <input
             type="range" min={YOUNGEST} max={OLDEST} step={1} value={clampedCenter}
             onChange={e => { setRunning(false); setNow(YOUNGEST); setCenter(+e.target.value) }}
             className="w-24 accent-accent-violet"
           />
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: viewColor, borderColor: `${viewColor}30`, background: `${viewColor}10` }}

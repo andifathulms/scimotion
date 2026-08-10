@@ -310,19 +310,19 @@ export function PacketReassemblyAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Run</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Packets:</span>
           <input type="range" min={4} max={10} step={1} value={n}
             onChange={e => { const v = +e.target.value; setN(v); resend(v, spread) }}
             className="w-20 accent-accent-gold" />
           <span className="font-mono text-text-secondary">{n}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Delay spread:</span>
           <input type="range" min={0} max={100} step={1} value={Math.round(spread * 100)}
             onChange={e => { const v = +e.target.value / 100; setSpread(v); resend(n, v) }}
             className="w-20 accent-accent-gold" />
-        </div>
+        </label>
       </div>
     </div>
   )

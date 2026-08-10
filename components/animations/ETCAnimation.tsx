@@ -434,7 +434,7 @@ export function ETCAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>NADH supply:</span>
           <input
             type="range" min={SPEC.supply.min} max={SPEC.supply.max} step={SPEC.supply.step} value={supply}
@@ -443,7 +443,7 @@ export function ETCAnimation() {
             style={{ accentColor: GOLD }}
           />
           <span className="text-text-secondary font-mono">{supply}%</span>
-        </div>
+        </label>
         <span className="text-xs font-mono" style={{ color: relRate > 0.05 ? LIME : PINK }}>
           rate {(relRate * 100).toFixed(0)}% · gradient {(gradient * 100 / 1.4).toFixed(0)}%
         </span>

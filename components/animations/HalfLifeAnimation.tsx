@@ -235,7 +235,7 @@ export function HalfLifeAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Half-life:</span>
           <input
             type="range" min={SPEC.halfLife.min} max={SPEC.halfLife.max} step={SPEC.halfLife.step} value={halfLife}
@@ -243,7 +243,7 @@ export function HalfLifeAnimation() {
             className="w-28 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{halfLife} h</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           {n.toFixed(2)} half-lives · {(n * halfLife).toFixed(1)} h ·{' '}
           <strong style={{ color: C_FIRST }}>{(remaining * 100).toFixed(2)}% left</strong> ·{' '}

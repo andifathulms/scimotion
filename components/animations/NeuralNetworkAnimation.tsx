@@ -432,7 +432,7 @@ export function NeuralNetworkAnimation() {
         >
           <Shuffle size={12} /> New weights
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Hidden width:</span>
           <input
             type="range" min={SPEC.width.min} max={SPEC.width.max} step={SPEC.width.step} value={width}
@@ -440,7 +440,7 @@ export function NeuralNetworkAnimation() {
             className="w-28 accent-accent-blue"
           />
           <span className="font-mono text-text-secondary">{width}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           epoch <strong className="font-mono text-accent-gold">{epoch}</strong>
           {' · '}loss <strong className="font-mono" style={{ color: GOLD }}>{stats.loss.toFixed(4)}</strong>

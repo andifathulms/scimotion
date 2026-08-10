@@ -207,10 +207,10 @@ export function SortingAnimation() {
         >
           {(['Bubble Sort', 'Insertion Sort', 'Merge Sort', 'Quick Sort'] as Algorithm[]).map(a => <option key={a}>{a}</option>)}
         </select>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={20} max={300} step={10} value={320 - speed} onChange={e => setSpeed(320 - +e.target.value)} className="w-20 accent-accent-gold" />
-        </div>
+        </label>
         <span className="text-xs text-text-secondary">
           Comparisons: <strong className="text-accent-orange">{comparisons}</strong> · Swaps: <strong className="text-accent-teal">{swaps}</strong>
         </span>

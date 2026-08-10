@@ -173,13 +173,13 @@ export function BinarySearchAnimation() {
             </option>
           </select>
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={200} max={1500} step={100} value={1700 - speed}
             onChange={e => setSpeed(1700 - +e.target.value)}
             className="w-20 accent-accent-gold"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Step <strong className="text-accent-gold">{Math.max(0, stepIdx + 1)}</strong> / {steps.length}
         </span>

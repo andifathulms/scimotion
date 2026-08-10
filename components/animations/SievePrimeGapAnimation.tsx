@@ -158,14 +158,14 @@ export function SievePrimeGapAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Limit:</span>
           <input type="range" min={SPEC.limit.min} max={SPEC.limit.max} step={SPEC.limit.step} value={limit}
             onChange={e => set('limit', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span>{limit}</span>
-        </div>
+        </label>
         {view === 'density' && (
           <label className="flex items-center gap-2 text-xs text-text-muted cursor-pointer">
             <input

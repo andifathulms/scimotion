@@ -214,7 +214,7 @@ export function NeuronThresholdAnimation() {
         >
           <Zap size={12} /> Stimulate
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Stimulus:</span>
           <input
             type="range" min={SPEC.stimulus.min} max={SPEC.stimulus.max} value={stimulus}
@@ -225,7 +225,7 @@ export function NeuronThresholdAnimation() {
           <span className={willFire ? 'text-accent-pink' : 'text-text-muted'}>
             {willFire ? '≥ threshold' : '< threshold'}
           </span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={

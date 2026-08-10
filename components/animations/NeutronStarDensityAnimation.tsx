@@ -325,7 +325,7 @@ export function NeutronStarDensityAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> {p >= 1 ? 'Collapse again' : 'Collapse the core'}</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Scrub:</span>
           <input
             type="range" min={SPEC.p.min} max={SPEC.p.max} step={SPEC.p.step} value={p}
@@ -333,7 +333,7 @@ export function NeutronStarDensityAnimation() {
             className="w-40"
             style={{ accentColor: ACCENT }}
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           collapse <strong className="font-mono" style={{ color: ACCENT }}>{Math.round(p * 100)}%</strong>
         </span>

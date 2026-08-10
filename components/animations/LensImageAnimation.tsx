@@ -359,7 +359,7 @@ export function LensImageAnimation() {
           )}
         </button>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>object distance</span>
           <input
             type="range"
@@ -372,7 +372,7 @@ export function LensImageAnimation() {
             style={{ accentColor: GREEN }}
           />
           <span className="text-text-secondary font-mono">{doV.toFixed(2)}</span>
-        </div>
+        </label>
 
         <span className="text-xs text-text-muted">
           drag across <span style={{ color: GOLD }}>F</span> to flip the image

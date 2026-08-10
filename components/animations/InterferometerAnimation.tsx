@@ -256,13 +256,13 @@ export function InterferometerAnimation() {
         >
           {waveOn ? 'Wave injected' : 'Inject wave'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>strain:</span>
           <input type="range" min={SPEC.amp.min} max={SPEC.amp.max} step={SPEC.amp.step} value={amp}
             onChange={e => set('amp', +e.target.value)}
             className="w-28" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{(amp * 0.2).toFixed(1)}×10⁻²¹</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           differential shift <strong className="font-mono" style={{ color: sNow >= 0 ? ACCENT : BLUE }}>{sNow >= 0 ? '+' : '−'}</strong>
         </span>

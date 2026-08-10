@@ -325,7 +325,7 @@ export function CatalysisAnimation() {
         >
           {catalyst ? 'Catalyst: on' : 'Catalyst: off'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔG:</span>
           <input
             type="range" min={SPEC.deltaG.min} max={SPEC.deltaG.max} step={SPEC.deltaG.step} value={deltaG}
@@ -333,7 +333,7 @@ export function CatalysisAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{deltaG} kJ/mol</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           E<sub>a</sub> fwd {eaF.toFixed(0)} · rev {eaR.toFixed(0)} · crossings {counts.fwd}/{counts.rev} ·
           K = {K.toExponential(1)} ·{' '}

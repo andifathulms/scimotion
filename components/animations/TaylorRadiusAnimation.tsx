@@ -184,7 +184,7 @@ export function TaylorRadiusAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Terms (N):</span>
           <input
             type="range" min={1} max={N_MAX} value={n}
@@ -193,7 +193,7 @@ export function TaylorRadiusAnimation() {
             style={{ accentColor: ACCENT }}
           />
           <span className="text-text-secondary font-medium w-6">{n}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           More terms tighten the fit only inside (−1, 1]
         </span>

@@ -326,7 +326,7 @@ export function PulsarAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Spin it</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Spin:</span>
           <input
             type="range" min={Math.log10(0.5)} max={Math.log10(700)} step={0.01}
@@ -336,8 +336,8 @@ export function PulsarAnimation() {
             style={{ accentColor: ACCENT }}
           />
           <span className="font-mono text-text-secondary">{spinHz < 10 ? spinHz.toFixed(1) : Math.round(spinHz)} Hz</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Beam tilt:</span>
           <input
             type="range" min={5} max={85} step={1} value={alphaDeg}
@@ -346,7 +346,7 @@ export function PulsarAnimation() {
             style={{ accentColor: GOLD }}
           />
           <span className="font-mono text-text-secondary">{alphaDeg}°</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Period <strong className="font-mono" style={{ color: ACCENT }}>{periodMs >= 1 ? periodMs.toFixed(1) : periodMs.toFixed(2)} ms</strong>
           {' · '}

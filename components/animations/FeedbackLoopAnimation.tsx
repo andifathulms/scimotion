@@ -347,7 +347,7 @@ export function FeedbackLoopAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Loop gain K:</span>
           <input
             type="range" min={SPEC.gain.min} max={SPEC.gain.max} step={SPEC.gain.step} value={gain}
@@ -355,7 +355,7 @@ export function FeedbackLoopAnimation() {
             className="w-32 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{gain.toFixed(1)}</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: regimeColor, borderColor: `${regimeColor}30`, background: `${regimeColor}10` }}

@@ -207,7 +207,7 @@ export function KeplerOrbitAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Eccentricity:</span>
           <input
             type="range" min={SPEC.ecc.min} max={SPEC.ecc.max} step={SPEC.ecc.step} value={ecc}
@@ -215,7 +215,7 @@ export function KeplerOrbitAnimation() {
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">e = {ecc.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           r = <strong className="text-accent-gold">{readout.r.toFixed(2)}a</strong>
           {'  ·  '}

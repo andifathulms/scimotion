@@ -257,13 +257,13 @@ export function EigenvectorAnimation() {
   const e = eigen(a, b, c, d)
 
   const slider = (label: string, value: number, set: (n: number) => void) => (
-    <div className="flex items-center gap-1.5 text-xs text-text-muted">
+    <label className="flex items-center gap-1.5 text-xs text-text-muted">
       <span className="font-mono">{label}:</span>
       <input type="range" min={-2.5} max={2.5} step={0.1} value={value}
         onChange={ev => { setRunning(false); set(+ev.target.value) }}
         className="w-16 accent-accent-violet" />
       <span className="font-mono w-8">{value.toFixed(1)}</span>
-    </div>
+    </label>
   )
 
   return (
@@ -282,12 +282,12 @@ export function EigenvectorAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>v → Av:</span>
           <input type="range" min={0} max={1} step={0.01} value={t}
             onChange={ev => { setRunning(false); setT(+ev.target.value) }}
             className="w-20 accent-accent-gold" />
-        </div>
+        </label>
         {slider('a', a, setA)}
         {slider('b', b, setB)}
         {slider('c', c, setC)}

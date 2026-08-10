@@ -223,13 +223,13 @@ export function PhasorWaveAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>ω:</span>
           <input type="range" min={SPEC.omega.min} max={SPEC.omega.max} step={SPEC.omega.step} value={omega}
             onChange={e => set('omega', +e.target.value)}
             className="w-32 accent-accent-violet" />
           <span className="font-mono">{omega.toFixed(1)}×</span>
-        </div>
+        </label>
         <span className="ml-auto font-mono text-xs text-accent-violet">
           e<sup>iωt</sup> → sin projection traces the wave
         </span>

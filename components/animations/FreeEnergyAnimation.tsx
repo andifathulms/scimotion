@@ -288,7 +288,7 @@ export function FreeEnergyAnimation() {
         >
           {running ? <><Pause size={12} /> Sweeping T</> : <><Play size={12} /> Sweep T</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔH:</span>
           <input
             type="range" min={SPEC.dH.min} max={SPEC.dH.max} step={SPEC.dH.step} value={dH}
@@ -296,8 +296,8 @@ export function FreeEnergyAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{dH} kJ/mol</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>ΔS:</span>
           <input
             type="range" min={SPEC.dS.min} max={SPEC.dS.max} step={SPEC.dS.step} value={dS}
@@ -305,8 +305,8 @@ export function FreeEnergyAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{dS} J/mol·K</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>T:</span>
           <input
             type="range" min={SPEC.temp.min} max={SPEC.temp.max} step={SPEC.temp.step} value={temp}
@@ -314,7 +314,7 @@ export function FreeEnergyAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary">{temp} K</span>
-        </div>
+        </label>
       </div>
       <div className="animation-readout">
         <EquationReadout

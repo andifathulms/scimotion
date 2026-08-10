@@ -496,7 +496,7 @@ export function PhotosynthesisAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Light:</span>
           <input
             type="range" min={SPEC.light.min} max={SPEC.light.max} step={SPEC.light.step} value={light}
@@ -505,7 +505,7 @@ export function PhotosynthesisAnimation() {
             style={{ accentColor: GOLD }}
           />
           <span className="text-text-secondary font-mono">{light}%</span>
-        </div>
+        </label>
         <span className="text-xs font-mono" style={{ color: relRate > 0.05 ? LIME : PINK }}>
           rate {(relRate * 100).toFixed(0)}% · ΔpH {(3 * Math.min(1, gradient)).toFixed(1)}
         </span>

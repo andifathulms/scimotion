@@ -231,7 +231,7 @@ export function ParallaxAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Star distance:</span>
           <input
             type="range" min={SPEC.dist.min} max={SPEC.dist.max} step={SPEC.dist.step} value={dist}
@@ -239,7 +239,7 @@ export function ParallaxAnimation() {
             className="w-40 accent-accent-indigo"
           />
           <span className="text-text-secondary font-medium">d = {dist.toFixed(1)} pc</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           parallax p = 1/d = <strong className="text-accent-indigo">{parallaxArcsec.toFixed(2)}&Prime;</strong>
         </span>

@@ -238,7 +238,7 @@ export function HydrostaticBalanceAnimation() {
         >
           <Play size={12} /> {running ? 'Pause' : 'Play'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Fusion rate:</span>
           <input
             type="range" min={SPEC.dial.min} max={SPEC.dial.max} step={SPEC.dial.step} value={dial}
@@ -247,7 +247,7 @@ export function HydrostaticBalanceAnimation() {
             style={{ accentColor: INDIGO }}
           />
           <span className="text-text-secondary font-medium">{dial.toFixed(2)}×</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           <strong style={{ color: readout.state.startsWith('Fusion off') ? PINK : readout.state === 'Balanced' ? INDIGO : GOLD }}>
             {readout.state}

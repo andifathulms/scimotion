@@ -225,14 +225,14 @@ export function DerivativeFunctionAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>x:</span>
           <input type="range" min={X_MIN} max={X_MAX} step={0.02} value={x0}
             onChange={e => { setX0(+e.target.value); setRunning(false) }}
             className="w-28 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary w-10">{x0.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           Top = f · Bottom = f′ · green when the tangent goes flat
         </span>

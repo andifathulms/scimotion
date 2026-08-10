@@ -278,7 +278,7 @@ export function PumpingLemmaAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span className="font-mono">n (a’s):</span>
           <input
             type="range"
@@ -291,7 +291,7 @@ export function PumpingLemmaAnimation() {
           <span className="text-text-secondary font-mono font-medium">
             aⁿbⁿ, n = {n}
           </span>
-        </div>
+        </label>
 
         <div className="flex items-center gap-2 text-xs text-text-muted ml-auto">
           <button

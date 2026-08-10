@@ -299,7 +299,7 @@ export function SATReductionAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>variables n:</span>
           <input
             type="range" min={N_MIN} max={N_MAX} value={n}
@@ -307,7 +307,7 @@ export function SATReductionAnimation() {
             className="w-40 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{n}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           brute force at 10⁹/s:{' '}
           {extrapolate.map((k, i) => (

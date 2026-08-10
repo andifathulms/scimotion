@@ -371,7 +371,7 @@ export function KineticTheoryAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Temp:</span>
           <input
             type="range"
@@ -383,8 +383,8 @@ export function KineticTheoryAnimation() {
             className="w-24 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{temp} K</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Volume:</span>
           <input
             type="range"
@@ -395,7 +395,7 @@ export function KineticTheoryAnimation() {
             onChange={e => onVol(+e.target.value)}
             className="w-24 accent-accent-teal"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           P·V {readout.PV.toFixed(0)} · NkᵦT {readout.NkT.toFixed(0)}
         </span>

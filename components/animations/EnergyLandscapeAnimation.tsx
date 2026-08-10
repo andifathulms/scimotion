@@ -280,7 +280,7 @@ export function EnergyLandscapeAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Drop chain</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Ruggedness:</span>
           <input
             type="range" min={SPEC.rug.min} max={SPEC.rug.max} step={SPEC.rug.step} value={rug}
@@ -288,7 +288,7 @@ export function EnergyLandscapeAnimation() {
             className="w-32 accent-accent-violet"
           />
           <span className="font-mono text-text-secondary">{rug.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           {finished
             ? outcome === 'folded'

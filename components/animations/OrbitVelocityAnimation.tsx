@@ -319,7 +319,7 @@ export function OrbitVelocityAnimation() {
         >
           {playing ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Launch</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>speed:</span>
           <input
             type="range"
@@ -331,7 +331,7 @@ export function OrbitVelocityAnimation() {
             className="w-40"
             style={{ accentColor: INDIGO }}
           />
-        </div>
+        </label>
         <span className="text-xs text-text-muted font-mono ml-auto self-center">
           {path === 'suborbital' ? 'too slow — gravity wins, it crashes'
             : path === 'circular' ? 'just right — falling, but missing forever'

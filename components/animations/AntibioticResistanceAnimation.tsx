@@ -403,7 +403,7 @@ export function AntibioticResistanceAnimation() {
         >
           {stats.done ? <><RotateCcw size={12} /> Run again</> : running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Dose:</span>
           <input
             type="range" min={0} max={DOSE_MAX} step={0.5} value={dose}
@@ -411,7 +411,7 @@ export function AntibioticResistanceAnimation() {
             className="w-32 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{dose.toFixed(1)}</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={

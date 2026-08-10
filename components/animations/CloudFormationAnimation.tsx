@@ -311,7 +311,7 @@ export function CloudFormationAnimation() {
         >
           <Play size={12} /> Play
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Surface humidity:</span>
           <input
             type="range"
@@ -324,7 +324,7 @@ export function CloudFormationAnimation() {
             style={{ accentColor: CYAN }}
           />
           <span className="text-text-secondary font-mono">{rh}%</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           {z > lcl ? (
             <strong style={{ color: VIOLET }}>condensing on nuclei</strong>

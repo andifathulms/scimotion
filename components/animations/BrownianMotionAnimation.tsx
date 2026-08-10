@@ -170,20 +170,20 @@ export function BrownianMotionAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Particles:</span>
           <input type="range" min={SPEC.count.min} max={SPEC.count.max} step={SPEC.count.step} value={count}
             onChange={e => set('count', +e.target.value)}
             className="w-16 accent-accent-gold" />
           <span className="font-mono">{count}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Step:</span>
           <input type="range" min={SPEC.stepSize.min} max={SPEC.stepSize.max} step={SPEC.stepSize.step} value={stepSize}
             onChange={e => set('stepSize', +e.target.value)}
             className="w-16 accent-accent-gold" />
           <span className="font-mono">{stepSize}px</span>
-        </div>
+        </label>
         <label className="flex items-center gap-1.5 text-xs text-text-muted cursor-pointer">
           <input type="checkbox" checked={showTrail} onChange={e => setShowTrail(e.target.checked)}
             className="accent-accent-gold" />

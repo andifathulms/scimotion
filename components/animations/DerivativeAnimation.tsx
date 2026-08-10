@@ -225,22 +225,22 @@ export function DerivativeAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>h:</span>
           <input type="range" min={0} max={100} step={0.5} value={t}
             onChange={e => { setT(+e.target.value); setRunning(false) }}
             className="w-24 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary w-14">{h.toFixed(3)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>base x:</span>
           <input type="range" min={A_MIN} max={A_MAX} step={0.05} value={a}
             onChange={e => setA(+e.target.value)}
             className="w-20 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary w-10">{a.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           quotient <strong style={{ color: GOLD }}>{quotient.toFixed(4)}</strong>
           {' → '}

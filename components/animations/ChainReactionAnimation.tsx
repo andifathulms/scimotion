@@ -214,7 +214,7 @@ export function ChainReactionAnimation() {
         <button onClick={restart} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-teal text-bg-base text-xs font-medium hover:opacity-90 transition-opacity">
           <Play size={12} /> Run
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>k:</span>
           <input
             type="range" min={SPEC.k.min} max={SPEC.k.max} step={SPEC.k.step} value={k}
@@ -222,7 +222,7 @@ export function ChainReactionAnimation() {
             className="w-40 accent-accent-teal"
           />
           <span className="font-mono font-medium" style={{ color: status.color }}>{k.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs font-mono font-medium" style={{ color: status.color }}>{status.label}</span>
       </div>
       <p className="mt-2 text-xs text-text-muted">

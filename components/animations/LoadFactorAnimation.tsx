@@ -251,7 +251,7 @@ export function LoadFactorAnimation() {
         >
           <Maximize2 size={12} /> Resize ×2
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>α:</span>
           <input
             type="range" min={0.02} max={A_MAX} step={0.01} value={alpha}
@@ -259,7 +259,7 @@ export function LoadFactorAnimation() {
             className="w-40 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{alpha.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           capacity <strong className="text-accent-gold">{cap}</strong>
           <span className="ml-3">worst probes ≈ {openProbes(alpha) >= P_MAX ? '∞' : openProbes(alpha).toFixed(1)}</span>

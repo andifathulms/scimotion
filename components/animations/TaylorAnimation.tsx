@@ -178,14 +178,14 @@ export function TaylorAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Terms:</span>
           <input type="range" min={1} max={maxTerms} value={terms}
             onChange={e => { setTerms(+e.target.value); setRunning(false) }}
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary w-36">{termLabel}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           Faint = exact · Bright = approximation
         </span>

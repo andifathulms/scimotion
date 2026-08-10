@@ -195,7 +195,7 @@ export function StandardErrorAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input
             type="range" min={N_MIN} max={N_MAX} value={n}
@@ -203,7 +203,7 @@ export function StandardErrorAnimation() {
             className="w-40 accent-accent-violet"
           />
           <span className="text-text-secondary font-medium">{n}</span>
-        </div>
+        </label>
         <div className="ml-auto flex gap-4 text-xs">
           <span className="text-text-secondary">σ = <strong className="text-accent-violet">{SIGMA.toFixed(1)}</strong></span>
           <span className="text-text-secondary">SE = <strong className="text-accent-violet">{se(n).toFixed(3)}</strong></span>

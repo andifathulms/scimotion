@@ -305,13 +305,13 @@ export function CongestionControlAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors">
           <Zap size={12} /> Inject loss
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Bandwidth:</span>
           <input type="range" min={6} max={WIN_MAX} step={1} value={cap}
             onChange={e => changeCap(+e.target.value)}
             className="w-20 accent-accent-gold" />
           <span>{cap}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

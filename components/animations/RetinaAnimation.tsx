@@ -298,7 +298,7 @@ export function RetinaAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Point of interest:</span>
           <input
             type="range"
@@ -312,7 +312,7 @@ export function RetinaAnimation() {
             }}
             className="w-44 accent-accent-gold"
           />
-        </div>
+        </label>
         <button
           onClick={jumpBlindSpot}
           className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 text-text-muted hover:text-text-secondary transition-colors"

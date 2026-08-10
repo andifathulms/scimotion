@@ -162,14 +162,14 @@ export function ECGTraceAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Heart rate:</span>
           <input
             type="range" min={SPEC.bpm.min} max={SPEC.bpm.max} value={bpm}
             onChange={e => set('bpm', +e.target.value)}
             className="w-40 accent-accent-pink"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           <strong className="text-accent-pink">{bpm}</strong> BPM
         </span>

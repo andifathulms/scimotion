@@ -198,7 +198,7 @@ export function IPAddressAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span className="font-mono">prefix /{prefix}</span>
           <input
             type="range" min={SPEC.prefix.min} max={SPEC.prefix.max} step={SPEC.prefix.step} value={prefix}
@@ -206,7 +206,7 @@ export function IPAddressAnimation() {
             className="w-48"
             style={{ accentColor: CYAN }}
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted font-mono">
           {fmt(networks)} × {fmt(hostAddrs)} = {fmt(Math.pow(2, 32))} total
         </span>

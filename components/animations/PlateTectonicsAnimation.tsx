@@ -813,7 +813,7 @@ export function PlateTectonicsAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Rate:</span>
           <input
             type="range"
@@ -825,7 +825,7 @@ export function PlateTectonicsAnimation() {
             className="w-28 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{rate} cm/yr</span>
-        </div>
+        </label>
       </div>
       <div className="animation-controls flex-wrap gap-3 text-xs text-text-muted">
         <span>

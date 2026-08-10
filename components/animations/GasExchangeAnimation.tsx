@@ -298,7 +298,7 @@ export function GasExchangeAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Alveolar pO₂:</span>
           <input
             type="range" min={SPEC.alvO2.min} max={SPEC.alvO2.max} step={SPEC.alvO2.step} value={alvO2}
@@ -306,8 +306,8 @@ export function GasExchangeAnimation() {
             className="w-32 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{alvO2}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Barrier:</span>
           <span className="text-text-secondary">thin</span>
           <input
@@ -316,7 +316,7 @@ export function GasExchangeAnimation() {
             className="w-28 accent-accent-pink"
           />
           <span className="text-text-secondary">thick</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           O₂ flux <strong style={{ color: PINK }}>{Math.round(fluxRel * 100)}%</strong>
           <span className="text-text-muted"> · barrier {barrierPx > 0 ? (0.5 * thick).toFixed(1) : ''}µm</span>

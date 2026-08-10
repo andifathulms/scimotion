@@ -395,7 +395,7 @@ export function AuroraColorAnimation() {
         >
           <Play size={12} /> {running ? 'Pause' : 'Play'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Altitude:</span>
           <input
             type="range"
@@ -408,7 +408,7 @@ export function AuroraColorAnimation() {
             style={{ accentColor: CYAN }}
           />
           <span className="font-mono text-text-secondary">{Math.round(altitude)} km</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           each color is a specific atomic transition
         </span>

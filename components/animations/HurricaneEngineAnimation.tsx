@@ -436,7 +436,7 @@ export function HurricaneEngineAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Sea temp:</span>
           <input
             type="range"
@@ -450,7 +450,7 @@ export function HurricaneEngineAnimation() {
             style={{ accentColor: CYAN }}
           />
           <span className="font-mono text-text-secondary">{sst.toFixed(1)}°C</span>
-        </div>
+        </label>
         <button
           onClick={() => setLand(l => !l)}
           className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"

@@ -280,7 +280,7 @@ export function GyroscopePrecessionAnimation() {
         >
           <RotateCcw size={13} /> Reset
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>spin</span>
           <input
             type="range" min={OMEGA_MIN} max={OMEGA_MAX} step={5} value={spin}
@@ -291,7 +291,7 @@ export function GyroscopePrecessionAnimation() {
             className="w-44"
             style={{ accentColor: GREEN }}
           />
-        </div>
+        </label>
       </div>
     </div>
   )

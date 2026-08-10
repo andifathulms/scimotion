@@ -304,7 +304,7 @@ export function CochleaFrequencyAnimation() {
           ))}
         </div>
         {mode === 'pure' && (
-          <div className="flex items-center gap-2 text-xs text-text-muted">
+          <label className="flex items-center gap-2 text-xs text-text-muted">
             <span>Frequency:</span>
             <input
               type="range"
@@ -318,10 +318,10 @@ export function CochleaFrequencyAnimation() {
             <span className="tabular-nums" style={{ color: PINK }}>
               {pureFreq >= 1000 ? `${(pureFreq / 1000).toFixed(2)} kHz` : `${pureFreq} Hz`}
             </span>
-          </div>
+          </label>
         )}
         {mode === 'harmonics' && (
-          <div className="flex items-center gap-2 text-xs text-text-muted">
+          <label className="flex items-center gap-2 text-xs text-text-muted">
             <span>Overtones:</span>
             <input
               type="range"
@@ -333,7 +333,7 @@ export function CochleaFrequencyAnimation() {
               className="w-24 accent-accent-gold"
             />
             <span className="tabular-nums">{nHarm}</span>
-          </div>
+          </label>
         )}
         <span className="ml-auto text-xs text-text-secondary">
           {mode === 'pure' ? (

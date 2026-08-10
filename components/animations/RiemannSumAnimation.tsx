@@ -201,14 +201,14 @@ export function RiemannSumAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input type="range" min={N_MIN} max={N_MAX} step={1} value={n}
             onChange={e => { setN(+e.target.value); setRunning(false) }}
             className="w-28 accent-accent-gold"
           />
           <span className="font-mono text-text-secondary w-8">{n}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

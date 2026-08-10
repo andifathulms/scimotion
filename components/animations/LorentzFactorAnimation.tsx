@@ -136,7 +136,7 @@ export function LorentzFactorAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>v/c:</span>
           <input
             type="range" min={0} max={BETA_MAX} step={0.001} value={beta}
@@ -144,7 +144,7 @@ export function LorentzFactorAnimation() {
             className="w-40 accent-accent-teal"
           />
           <span className="text-text-secondary font-medium font-mono">{(beta * 100).toFixed(1)}%</span>
-        </div>
+        </label>
         <div className="ml-auto flex gap-4 text-xs">
           {notes.map(([b, g]) => (
             <span key={b} className="text-text-secondary font-mono">

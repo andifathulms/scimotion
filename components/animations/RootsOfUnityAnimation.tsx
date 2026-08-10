@@ -218,13 +218,13 @@ export function RootsOfUnityAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-violet text-bg-base text-xs font-medium hover:bg-accent-violet/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Walk ωᵏ</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input type="range" min={SPEC.n.min} max={SPEC.n.max} step={SPEC.n.step} value={n}
             onChange={e => changeN(+e.target.value)}
             className="w-40 accent-accent-violet" />
           <span className="font-mono">{n}</span>
-        </div>
+        </label>
         <span className="ml-auto font-mono text-xs" style={{ color: VIOLET }}>
           n points, spaced 360°/n apart
         </span>

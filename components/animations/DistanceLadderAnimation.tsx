@@ -214,7 +214,7 @@ export function DistanceLadderAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Error at base rung:</span>
           <input
             type="range" min={SPEC.baseErr.min} max={SPEC.baseErr.max} step={SPEC.baseErr.step} value={baseErr}
@@ -222,7 +222,7 @@ export function DistanceLadderAnimation() {
             className="w-32 accent-accent-indigo"
           />
           <span className="text-text-secondary font-medium">{(baseErr * 100).toFixed(0)}%</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           a base error propagates <strong className="text-accent-pink">all the way up</strong>
         </span>

@@ -407,7 +407,7 @@ export function WaterCycleAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Solar input / temperature:</span>
           <input
             type="range"
@@ -422,7 +422,7 @@ export function WaterCycleAnimation() {
             ΔT {dT >= 0 ? '+' : ''}
             {dT.toFixed(1)} °C
           </span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           evaporation ≈ precipitation ≈ {evap} · vapour aloft {vapour} (×10³ km³)
         </span>

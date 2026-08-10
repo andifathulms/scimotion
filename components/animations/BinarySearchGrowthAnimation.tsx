@@ -132,7 +132,7 @@ export function BinarySearchGrowthAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input
             type="range" min={1} max={N_MAX} value={n}
@@ -140,7 +140,7 @@ export function BinarySearchGrowthAnimation() {
             className="w-40 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{n}</span>
-        </div>
+        </label>
         <div className="ml-auto flex gap-4 text-xs">
           {big.map(b => (
             <span key={b} className="text-text-secondary">

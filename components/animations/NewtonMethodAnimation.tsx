@@ -239,14 +239,14 @@ export function NewtonMethodAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Start x₀:</span>
           <input type="range" min={-4} max={4} step={0.1} value={startX}
             onChange={e => setStartX(+e.target.value)}
             className="w-20 accent-accent-gold"
           />
           <span className="font-mono">{startX.toFixed(1)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           {converged && root !== null
             ? <>Root ≈ <strong className="text-accent-gold font-mono">{root.toFixed(6)}</strong> in {iterates.length - 1} steps</>

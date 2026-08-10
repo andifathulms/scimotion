@@ -160,7 +160,7 @@ export function HubbleDiagramAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>H₀:</span>
           <input
             type="range" min={H0_MIN} max={H0_MAX} step={0.1} value={h0}
@@ -168,7 +168,7 @@ export function HubbleDiagramAnimation() {
             className="w-40 accent-accent-indigo"
           />
           <span className="text-text-secondary font-medium">{h0.toFixed(1)} km/s/Mpc</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Hubble time 1/H₀ ≈ <strong className="text-accent-gold">{age.toFixed(1)} Gyr</strong>
         </span>

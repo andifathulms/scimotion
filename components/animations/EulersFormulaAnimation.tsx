@@ -232,20 +232,20 @@ export function EulersFormulaAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>θ:</span>
           <input type="range" min={0} max={Math.PI * 4} step={0.05} value={angle}
             onChange={e => { setRunning(false); const v = +e.target.value; setAngle(v); angleRef.current = v; draw(v) }}
             className="w-24 accent-accent-gold" />
           <span className="font-mono">{angle.toFixed(2)} rad</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={0.5} max={3} step={0.5} value={speed}
             onChange={e => setSpeed(+e.target.value)}
             className="w-16 accent-accent-gold" />
           <span className="font-mono">{speed}×</span>
-        </div>
+        </label>
         <span className="ml-auto font-mono text-xs text-accent-gold">
           e<sup>iθ</sup> = {Math.cos(angle).toFixed(3)} + {Math.sin(angle).toFixed(3)}i
         </span>

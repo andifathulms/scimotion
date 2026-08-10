@@ -262,13 +262,13 @@ export function QuorumAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>N:</span>
           <input type="range" min={3} max={9} step={1} value={n}
             onChange={e => setSize(+e.target.value)}
             className="w-24 accent-accent-gold" />
           <span className="font-mono text-text-secondary">{n}</span>
-        </div>
+        </label>
         <button onClick={randomize}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors">
           <Shuffle size={12} /> Random quorums

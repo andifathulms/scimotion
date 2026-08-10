@@ -121,7 +121,7 @@ export function SingleParticleBuildupAnimation() {
         <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-teal text-bg-base text-xs font-medium hover:bg-accent-teal/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input
             type="range" min={SPEC.speed.min} max={SPEC.speed.max} value={speed}
@@ -129,7 +129,7 @@ export function SingleParticleBuildupAnimation() {
             className="w-24 accent-accent-teal"
           />
           <span className="text-text-secondary font-medium">{speed}/frame</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">Electrons landed: <strong className="text-accent-teal">{count.toLocaleString()}</strong></span>
       </div>
     </div>

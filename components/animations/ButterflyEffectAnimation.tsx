@@ -277,7 +277,7 @@ export function ButterflyEffectAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>ε:</span>
           <input
             type="range" min={SPEC.expo.min} max={SPEC.expo.max} step={SPEC.expo.step} value={expo}
@@ -285,7 +285,7 @@ export function ButterflyEffectAnimation() {
             className="w-28 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">1e{expo}</span>
-        </div>
+        </label>
         <span className="text-xs text-text-secondary font-mono">
           t = {tNow.toFixed(1)} · |A−B| = {current.toExponential(1)}
         </span>

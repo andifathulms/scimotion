@@ -232,13 +232,13 @@ export function CLTAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n =</span>
           <input type="range" min={SPEC.n.min} max={SPEC.n.max} step={SPEC.n.step} value={n}
             onChange={e => set('n', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{n}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">{total} samples drawn</span>
       </div>
     </div>

@@ -440,7 +440,7 @@ export function CalvinCycleAnimation() {
         >
           Photorespiration: {photo ? 'on' : 'off (C4 pump)'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>CO₂:</span>
           <input
             type="range" min={SPEC.co2.min} max={SPEC.co2.max} step={SPEC.co2.step} value={co2}
@@ -450,7 +450,7 @@ export function CalvinCycleAnimation() {
             style={{ accentColor: LIME }}
           />
           <span className="text-text-secondary font-mono">{co2Conc(co2).toFixed(0)} µM</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs font-mono" style={{ color: oxyTurn ? PINK : LIME }}>
           v_o/v_c = {ratio.toFixed(2)} · {ledger.turns} turns · {ledger.exported} G3P out
         </span>

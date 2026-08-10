@@ -235,7 +235,7 @@ export function ComplexityGrowthAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input
             type="range" min={1} max={N_MAX} value={n}
@@ -243,7 +243,7 @@ export function ComplexityGrowthAnimation() {
             className="w-44 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{n}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           time assumes <strong className="text-text-secondary">10⁹ operations / second</strong>
         </span>

@@ -314,7 +314,7 @@ export function EquilibriumAnimation() {
           {startBtn('product', 'all B')}
           {startBtn('mixed', '50/50')}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>K:</span>
           <input
             type="range" min={SPEC.k.min} max={SPEC.k.max} step={SPEC.k.step} value={k}
@@ -322,7 +322,7 @@ export function EquilibriumAnimation() {
             className="w-24 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{k.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           A {readout.a} · B {readout.b} · [B]/[A] = {readout.a > 0 ? (readout.b / readout.a).toFixed(2) : '∞'}
         </span>

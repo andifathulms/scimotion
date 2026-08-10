@@ -255,7 +255,7 @@ export function FrostLineAnimation() {
         >
           <Play size={12} /> {running ? 'Pause drift' : 'Animate dust'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Frost line:</span>
           <input
             type="range" min={SPEC.frost.min} max={SPEC.frost.max} step={SPEC.frost.step} value={frost}
@@ -264,7 +264,7 @@ export function FrostLineAnimation() {
             style={{ accentColor: CYAN }}
           />
           <span className="text-text-secondary font-medium">disk temp here ≈ {frostTemp} K</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           <strong style={{ color: GOLD }}>rock</strong> condenses everywhere · <strong style={{ color: CYAN }}>ice</strong> only past the line
         </span>

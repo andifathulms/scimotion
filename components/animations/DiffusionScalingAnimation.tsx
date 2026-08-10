@@ -140,7 +140,7 @@ export function DiffusionScalingAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>t:</span>
           <input
             type="range" min={0} max={T_MAX} value={t}
@@ -148,8 +148,8 @@ export function DiffusionScalingAnimation() {
             className="w-40 accent-accent-pink"
           />
           <span className="text-text-secondary font-medium">{t}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>D (temperature):</span>
           <input
             type="range" min={0.5} max={6} step={0.5} value={D}
@@ -157,7 +157,7 @@ export function DiffusionScalingAnimation() {
             className="w-28 accent-accent-pink"
           />
           <span className="text-text-secondary font-medium font-mono">{D.toFixed(1)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           twice as far → <strong className="text-accent-pink">4×</strong> the time
         </span>

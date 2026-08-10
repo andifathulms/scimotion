@@ -363,7 +363,7 @@ export function PrecipitationAnimation() {
         >
           <Play size={12} /> Play
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Updraft strength:</span>
           <input
             type="range"
@@ -376,7 +376,7 @@ export function PrecipitationAnimation() {
             style={{ accentColor: CYAN }}
           />
           <span className="text-text-secondary font-mono">{updraft.toFixed(1)} m/s</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-muted">
           {falling ? (
             <strong style={{ color: BLUE }}>falling as rain</strong>

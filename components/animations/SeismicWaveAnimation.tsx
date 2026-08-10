@@ -474,7 +474,7 @@ export function SeismicWaveAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Station:</span>
           <input
             type="range"
@@ -486,7 +486,7 @@ export function SeismicWaveAnimation() {
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{station} km</span>
-        </div>
+        </label>
       </div>
       <div className="animation-controls flex-wrap gap-3 text-xs text-text-muted">
         <span>

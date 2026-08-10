@@ -469,7 +469,7 @@ export function EarthInteriorAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Epicentre:</span>
           <input
             type="range"
@@ -481,7 +481,7 @@ export function EarthInteriorAnimation() {
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{origin}°</span>
-        </div>
+        </label>
       </div>
       <div className="animation-controls flex-wrap gap-3 text-xs text-text-muted">
         <span>Drag on the globe to move the quake — the shadow moves with it, never with the Earth.</span>

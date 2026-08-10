@@ -337,7 +337,7 @@ export function EmailDeliveryAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input
             type="range"
@@ -348,7 +348,7 @@ export function EmailDeliveryAnimation() {
             onChange={e => setSpeed(2000 - +e.target.value)}
             className="w-20 accent-accent-gold"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           servers in the path: <strong style={{ color: RED }}>2</strong>
         </span>

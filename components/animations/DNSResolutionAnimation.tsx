@@ -354,7 +354,7 @@ export function DNSResolutionAnimation() {
             ))}
           </select>
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input
             type="range"
@@ -365,7 +365,7 @@ export function DNSResolutionAnimation() {
             onChange={e => setSpeed(1320 - +e.target.value)}
             className="w-20 accent-accent-gold"
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           server queries: <strong style={{ color: RED }}>{Math.min(hops, spec.tiers.length)}</strong>
         </span>

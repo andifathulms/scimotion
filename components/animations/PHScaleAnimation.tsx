@@ -326,7 +326,7 @@ export function PHScaleAnimation() {
         />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>pH:</span>
           <input
             type="range" min={0} max={14} step={0.1} value={pH}
@@ -334,7 +334,7 @@ export function PHScaleAnimation() {
             className="w-40 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{pH.toFixed(1)}</span>
-        </div>
+        </label>
         <button
           onClick={() => nudge(-1)}
           className="px-2 py-1 rounded text-xs font-medium border transition-colors"

@@ -247,7 +247,7 @@ export function PharmacokineticsAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Interval:</span>
           <input
             type="range" min={SPEC.interval.min} max={SPEC.interval.max} step={SPEC.interval.step} value={interval}
@@ -255,8 +255,8 @@ export function PharmacokineticsAnimation() {
             className="w-24 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{interval} h</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Half-life:</span>
           <input
             type="range" min={SPEC.halfLife.min} max={SPEC.halfLife.max} step={SPEC.halfLife.step} value={halfLife}
@@ -264,7 +264,7 @@ export function PharmacokineticsAnimation() {
             className="w-24 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{halfLife} h</span>
-        </div>
+        </label>
         <button
           onClick={() => { setLoading(l => !l); setT(0) }}
           className="px-2 py-1 rounded text-xs font-medium border transition-colors"

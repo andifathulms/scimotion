@@ -306,7 +306,7 @@ export function MaxwellBoltzmannAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Temp:</span>
           <input
             type="range"
@@ -318,7 +318,7 @@ export function MaxwellBoltzmannAnimation() {
             className="w-24 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{temp} K</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           v_rms {Math.round(cur.vrms)} m/s
         </span>

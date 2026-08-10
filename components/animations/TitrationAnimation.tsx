@@ -294,7 +294,7 @@ export function TitrationAnimation() {
         >
           {weak ? 'Weak acid' : 'Strong acid'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Titrant added:</span>
           <input
             type="range" min={0} max={V_MAX} step={0.1} value={v}
@@ -302,8 +302,8 @@ export function TitrationAnimation() {
             className="w-28 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{v.toFixed(1)} mL</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>pKa:</span>
           <input
             type="range" min={3} max={8} step={0.05} value={pKa}
@@ -312,7 +312,7 @@ export function TitrationAnimation() {
             className="w-24 accent-accent-gold disabled:opacity-35"
           />
           <span className="text-text-secondary font-mono">{weak ? pKa.toFixed(2) : '—'}</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: statusColor, borderColor: `${statusColor}30`, background: `${statusColor}10` }}

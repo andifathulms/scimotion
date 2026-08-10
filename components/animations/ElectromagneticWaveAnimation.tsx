@@ -229,7 +229,7 @@ export function ElectromagneticWaveAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Frequency:</span>
           <input
             type="range" min={0.6} max={2.6} step={0.05} value={freq}
@@ -237,7 +237,7 @@ export function ElectromagneticWaveAnimation() {
             className="w-36 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{freq.toFixed(2)}× · λ = {lambda.toFixed(0)} px</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           at the probe: <strong className="text-accent-violet">∂E/∂x = −∂B/∂t = {slope.toFixed(2)}</strong>
         </span>

@@ -241,20 +241,20 @@ export function BlackHoleAnimation() {
           style={{ background: ACCENT, color: '#0F0D0A' }}>
           <Play size={12} /> Sweep b → capture
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>impact b:</span>
           <input type="range" min={SPEC.impact.min} max={SPEC.impact.max} step={SPEC.impact.step} value={impact}
             onChange={e => { set('impact', +e.target.value); setSweep(false) }}
             className="w-32" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{impact.toFixed(0)}px</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>mass:</span>
           <input type="range" min={SPEC.massSolar.min} max={SPEC.massSolar.max} step={SPEC.massSolar.step} value={massSolar}
             onChange={e => { set('massSolar', +e.target.value); setSweep(false) }}
             className="w-24" style={{ accentColor: GOLD }} />
           <span className="font-mono text-text-secondary">{massSolar} M☉</span>
-        </div>
+        </label>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Event horizon <strong className="font-mono" style={{ color: GOLD }}>rₛ ≈ {rsKm} km</strong> for {massSolar} solar masses ·

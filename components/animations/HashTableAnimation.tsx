@@ -295,15 +295,15 @@ export function HashTableAnimation() {
             <option value={MISSING}>{MISSING} (absent)</option>
           </select>
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input
             type="range" min={120} max={900} step={40} value={1020 - speed}
             onChange={e => setSpeed(1020 - +e.target.value)}
             className="w-20 accent-accent-gold"
           />
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Capacity:</span>
           <input
             type="range" min={4} max={CAP_MAX} step={1} value={capacity}
@@ -311,7 +311,7 @@ export function HashTableAnimation() {
             className="w-24 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{capacity}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Placed <strong className="text-accent-gold">{placedCount}</strong> / {KEYS.length}
           <span className="ml-3">α = {alpha}</span>

@@ -250,7 +250,7 @@ export function CMBSpectrumAnimation() {
         >
           {playing ? 'Pause' : pDisplay >= 1 ? 'Replay' : 'Expand ▸'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>then</span>
           <input
             type="range" min={SPEC.pDisplay.min} max={SPEC.pDisplay.max} step={SPEC.pDisplay.step} value={pDisplay}
@@ -263,7 +263,7 @@ export function CMBSpectrumAnimation() {
             className="w-44 accent-accent-indigo"
           />
           <span>now</span>
-        </div>
+        </label>
         <span className="ml-auto font-mono text-xs text-text-muted">
           T = <strong className="text-accent-indigo">{liveT >= 10 ? Math.round(liveT) : liveT.toFixed(3)} K</strong>
         </span>

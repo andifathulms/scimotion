@@ -246,7 +246,7 @@ export function LogGrowthAnimation() {
         >
           <Play size={12} /> {running ? 'Pause' : 'Play'}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input
             type="range"
@@ -260,7 +260,7 @@ export function LogGrowthAnimation() {
             className="w-40"
             style={{ accentColor: VIOLET }}
           />
-        </div>
+        </label>
         <button
           onClick={resetAll}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-bg-hover text-text-secondary"

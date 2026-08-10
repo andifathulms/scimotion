@@ -283,7 +283,7 @@ export function MoleCountingAnimation() {
           Set: {mode}
         </button>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>{mode === 'moles' ? 'moles:' : 'grams:'}</span>
           <input
             type="range"
@@ -297,7 +297,7 @@ export function MoleCountingAnimation() {
           <span className="text-text-secondary font-mono">
             {mode === 'moles' ? `${amount.toFixed(2)} mol` : `${amount.toFixed(0)} g`}
           </span>
-        </div>
+        </label>
       </div>
 
       <p className="mt-2 px-1 text-xs text-text-muted">

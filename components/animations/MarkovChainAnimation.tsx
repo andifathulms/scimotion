@@ -364,26 +364,26 @@ export function MarkovChainAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Walk</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>P(S→S):</span>
           <input type="range" min={SPEC.pS.min} max={SPEC.pS.max} step={SPEC.pS.step} value={pS}
             onChange={e => set('pS', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{pS.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>P(R→R):</span>
           <input type="range" min={SPEC.pR.min} max={SPEC.pR.max} step={SPEC.pR.step} value={pR}
             onChange={e => set('pR', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{pR.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} step={SPEC.speed.step} value={speed}
             onChange={e => set('speed', +e.target.value)}
             className="w-16 accent-accent-gold" />
-        </div>
+        </label>
       </div>
       <div className="animation-readout">
         {/* The stationary distribution is not simulated — it is solved from the

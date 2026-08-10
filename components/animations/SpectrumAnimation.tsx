@@ -288,7 +288,7 @@ export function SpectrumAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Wavelength:</span>
           <input
             type="range" min={0} max={1} step={0.002} value={p}
@@ -296,7 +296,7 @@ export function SpectrumAnimation() {
             className="w-48 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{fmtLambda(lam)}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           band: <strong className="text-accent-gold">{bandOf(lam).name}</strong>
           {'  ·  '}

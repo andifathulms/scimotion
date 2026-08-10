@@ -255,7 +255,7 @@ export function SpacetimeCurvatureAnimation() {
         >
           <RotateCcw size={12} /> Reset
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>mass:</span>
           <input
             type="range" min={5} max={100} step={1} value={Math.round(mass * 100)}
@@ -263,7 +263,7 @@ export function SpacetimeCurvatureAnimation() {
             className="w-36" style={{ accentColor: GREEN }}
           />
           <span className="font-mono text-text-secondary">{Math.round(mass * 100)}%</span>
-        </div>
+        </label>
       </div>
 
       <p className="mt-2 text-xs text-text-muted">

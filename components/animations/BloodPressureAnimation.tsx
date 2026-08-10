@@ -217,7 +217,7 @@ export function BloodPressureAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Arterial compliance:</span>
           <span className="text-text-secondary">stiff</span>
           <input
@@ -226,7 +226,7 @@ export function BloodPressureAnimation() {
             className="w-40 accent-accent-pink"
           />
           <span className="text-text-secondary">compliant</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           <strong className="text-accent-pink">{Math.round(sbp)}/{Math.round(dbp)}</strong>{' '}
           mmHg · MAP <strong style={{ color: GOLD }}>{Math.round(MAP)}</strong>

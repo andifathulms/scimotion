@@ -285,7 +285,7 @@ export function MeissnerEffectAnimation() {
         >
           <Flame size={12} /> Warm
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Temperature:</span>
           <input
             type="range" min={0} max={TMAX} step={0.1} value={temp}
@@ -293,7 +293,7 @@ export function MeissnerEffectAnimation() {
             className="w-32 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{temp.toFixed(1)} K</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           {f > 0 ? `expelled ${Math.round(f * 100)}% · λ = ${lambdaPx(f).toFixed(1)}` : 'field penetrates'}
         </span>

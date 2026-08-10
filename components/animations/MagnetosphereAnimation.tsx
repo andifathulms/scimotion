@@ -348,7 +348,7 @@ export function MagnetosphereAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Solar wind:</span>
           <input
             type="range"
@@ -362,7 +362,7 @@ export function MagnetosphereAnimation() {
           <span className="text-text-secondary font-mono">
             {wind < 0.75 ? 'calm' : wind > 1.35 ? 'storm' : 'normal'}
           </span>
-        </div>
+        </label>
       </div>
       <div className="animation-controls flex-wrap gap-3 text-xs text-text-muted">
         <span>

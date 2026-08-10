@@ -265,13 +265,13 @@ export function MemoryHierarchyAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-accent-gold text-bg-base">
           <Play size={12} /> Play request
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Hit rate:</span>
           <input type="range" min={0} max={100} step={1} value={Math.round(hitRate * 100)}
             onChange={e => onHitRate(+e.target.value / 100)}
             className="w-28 accent-accent-blue" />
           <span className="text-text-secondary">{(hitRate * 100).toFixed(0)}%</span>
-        </div>
+        </label>
       </div>
     </div>
   )

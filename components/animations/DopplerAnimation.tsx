@@ -223,7 +223,7 @@ export function DopplerAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Source speed:</span>
           <input
             type="range" min={SPEC.mach.min} max={SPEC.mach.max} step={SPEC.mach.step} value={mach}
@@ -236,7 +236,7 @@ export function DopplerAnimation() {
             className="w-36 accent-accent-gold"
           />
           <span className="text-text-secondary font-medium">{mach.toFixed(2)}× wave speed</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           {readout.ratio === null
             ? <strong className="text-accent-pink">ahead of the shock — silent</strong>

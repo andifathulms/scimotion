@@ -256,7 +256,7 @@ export function RotationCurveAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>dark-matter halo mass:</span>
           <input
             type="range" min={0} max={100} step={1} value={Math.round(halo * 100)}
@@ -264,7 +264,7 @@ export function RotationCurveAnimation() {
             className="w-36" style={{ accentColor: ACCENT }}
           />
           <span className="font-mono text-text-secondary">{Math.round(halo * 100)}%</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           predicted outer v = <strong className="font-mono" style={{ color: match ? GOLD : ACCENT }}>{outerPred}</strong> ·
           observed = <strong className="font-mono" style={{ color: GOLD }}>{outerObs}</strong> km/s

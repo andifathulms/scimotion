@@ -203,7 +203,7 @@ export function HemoglobinAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>pO₂:</span>
           <input
             type="range" min={0} max={PO2_MAX} step={1} value={pO2}
@@ -211,7 +211,7 @@ export function HemoglobinAnimation() {
             className="w-40 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{pO2}</span>
-        </div>
+        </label>
         <button
           onClick={() => setBohr(b => !b)}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${

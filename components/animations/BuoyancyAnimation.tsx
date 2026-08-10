@@ -266,7 +266,7 @@ export function BuoyancyAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Object density:</span>
           <input
             type="range" min={SPEC.rhoObj.min} max={SPEC.rhoObj.max} step={SPEC.rhoObj.step} value={rhoObj}
@@ -274,8 +274,8 @@ export function BuoyancyAnimation() {
             className="w-32" style={{ accentColor: STEEL }}
           />
           <span className="text-text-secondary font-medium">{rhoObj.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Fluid density:</span>
           <input
             type="range" min={SPEC.rhoFluid.min} max={SPEC.rhoFluid.max} step={SPEC.rhoFluid.step} value={rhoFluid}
@@ -283,7 +283,7 @@ export function BuoyancyAnimation() {
             className="w-32" style={{ accentColor: WATER }}
           />
           <span className="text-text-secondary font-medium">{rhoFluid.toFixed(2)}</span>
-        </div>
+        </label>
       </div>
 
       <div className="animation-controls flex-wrap gap-3">

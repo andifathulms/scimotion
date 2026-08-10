@@ -217,22 +217,22 @@ export function FourierPhasesAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Freq:</span>
           <input type="range" min={SPEC.freq.min} max={SPEC.freq.max} step={SPEC.freq.step} value={freq}
             onChange={e => { set('freq', +e.target.value); traceRef.current = [] }}
             className="w-20 accent-accent-gold"
           />
           <span>{freq}×</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Amp:</span>
           <input type="range" min={SPEC.amp.min} max={SPEC.amp.max} step={SPEC.amp.step} value={amp}
             onChange={e => { set('amp', +e.target.value); traceRef.current = [] }}
             className="w-20 accent-accent-gold"
           />
           <span>{amp.toFixed(1)}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

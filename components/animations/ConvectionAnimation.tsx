@@ -517,7 +517,7 @@ export function ConvectionAnimation() {
             </>
           )}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Surface heating:</span>
           <input
             type="range"
@@ -531,8 +531,8 @@ export function ConvectionAnimation() {
           <span className="text-text-secondary font-mono">
             Γ = {gamma.toFixed(1)} K/km
           </span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Humidity:</span>
           <input
             type="range"
@@ -546,7 +546,7 @@ export function ConvectionAnimation() {
           <span className="text-text-secondary font-mono">
             {rh}% · LCL {Math.round(lcl)} m
           </span>
-        </div>
+        </label>
         <span className="text-xs text-text-secondary font-mono">
           top {(lead.z / 1000).toFixed(1)} km · w = {lead.w.toFixed(1)} m/s
         </span>

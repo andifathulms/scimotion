@@ -381,7 +381,7 @@ export function KSpaceAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Lines kept:</span>
           <input type="range" min={SPEC.keep.min} max={SPEC.keep.max} step={SPEC.keep.step} value={keep}
             disabled={mode === 'scan'}
@@ -389,7 +389,7 @@ export function KSpaceAnimation() {
             className="w-28 accent-accent-gold disabled:opacity-30"
           />
           <span>{keep}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           <strong style={{ color: PINK }}>{N}×{N}</strong> real 2-D DFT
         </span>

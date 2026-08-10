@@ -403,7 +403,7 @@ export function GeodynamoAnimation() {
         >
           <Zap size={12} /> Trigger reversal
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Core vigour:</span>
           <input
             type="range"
@@ -415,7 +415,7 @@ export function GeodynamoAnimation() {
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{Math.round(vigour * 100)}%</span>
-        </div>
+        </label>
       </div>
       <div className="animation-controls flex-wrap gap-3 text-xs text-text-muted">
         <span>

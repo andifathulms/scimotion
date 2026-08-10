@@ -292,13 +292,13 @@ export function PowerIterationAnimation() {
           className="px-2 py-1.5 rounded-lg border border-border bg-bg-surface text-xs text-text-secondary">
           {MATRICES.map((mm, i) => <option key={mm.name} value={i}>{mm.name}</option>)}
         </select>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>v₀ angle:</span>
           <input type="range" min={SPEC.startAngle.min} max={SPEC.startAngle.max} step={SPEC.startAngle.step} value={startAngle}
             onChange={e => { setRunning(false); setStep(0); set('startAngle', +e.target.value) }}
             className="w-24 accent-accent-violet" />
           <span className="font-mono">{startAngle.toFixed(2)}</span>
-        </div>
+        </label>
         <span className="ml-auto font-mono text-xs text-accent-violet">
           ρ<sub>{step}</sub> = {cur.rq.toFixed(4)} → λ₁ = {lambda.toFixed(4)}
         </span>

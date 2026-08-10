@@ -270,7 +270,7 @@ export function TerminationAnimation() {
       </div>
 
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>step budget:</span>
           <input
             type="range" min={0} max={BUDGETS.length - 1} value={budgetIdx}
@@ -278,7 +278,7 @@ export function TerminationAnimation() {
             className="w-40 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{fmt(budget)}</span>
-        </div>
+        </label>
         <button
           onClick={() => setPlaying(true)}
           className="rounded border border-white/10 px-2 py-1 text-xs text-text-muted hover:text-text-secondary transition-colors"

@@ -350,7 +350,7 @@ export function MagneticDomainAnimation() {
         >
           <RotateCcw size={12} /> Heat / hammer (demagnetize)
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>External field:</span>
           <input
             type="range"
@@ -365,7 +365,7 @@ export function MagneticDomainAnimation() {
             className="w-32"
             style={{ accentColor: GREEN }}
           />
-        </div>
+        </label>
       </div>
     </div>
   )

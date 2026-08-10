@@ -460,7 +460,7 @@ export function IntermolecularForceAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Size:</span>
           <input
             type="range"
@@ -477,8 +477,8 @@ export function IntermolecularForceAnimation() {
             aria-label="Molecular size"
           />
           <span className="font-mono text-text-secondary">{size}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>T:</span>
           <input
             type="range"
@@ -495,7 +495,7 @@ export function IntermolecularForceAnimation() {
             aria-label="Temperature"
           />
           <span className="font-mono text-text-secondary w-14">{temp} °C</span>
-        </div>
+        </label>
         <button
           onClick={() => setRunning(r => !r)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors"

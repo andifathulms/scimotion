@@ -253,14 +253,14 @@ export function StandingWaveAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Drive f/f₁:</span>
           <input type="range" min={SPEC.ratio.min} max={SPEC.ratio.max} step={SPEC.ratio.step} value={ratio}
             onChange={e => set('ratio', +e.target.value)}
             className="w-40 accent-accent-gold"
           />
           <span>{ratio.toFixed(2)}</span>
-        </div>
+        </label>
         <div className="flex items-center gap-1.5">
           {[1, 2, 3, 4, 5].map(n => (
             <button

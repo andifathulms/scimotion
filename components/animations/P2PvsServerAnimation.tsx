@@ -321,7 +321,7 @@ export function P2PvsServerAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors disabled:opacity-40">
           <Plus size={12} /> More downloaders
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Downloaders:</span>
           <input
             type="range" min={N_MIN} max={N_MAX} step={1} value={n}
@@ -329,7 +329,7 @@ export function P2PvsServerAnimation() {
             className="w-28 accent-accent-red"
           />
           <span className="text-text-secondary font-medium">{n}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

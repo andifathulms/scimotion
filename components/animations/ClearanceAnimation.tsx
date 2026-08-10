@@ -353,7 +353,7 @@ export function ClearanceAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Dehydrated</span>
           <input
             type="range" min={SPEC.hydration.min} max={SPEC.hydration.max} step={SPEC.hydration.step} value={hydration}
@@ -361,7 +361,7 @@ export function ClearanceAnimation() {
             className="w-44 accent-accent-pink"
           />
           <span>Overhydrated</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: PINK, borderColor: `${PINK}30`, background: `${PINK}10` }}

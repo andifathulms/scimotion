@@ -215,7 +215,7 @@ export function LinearTransformAnimation() {
   const dShown = det(shown)
 
   const slider = (label: string, i: number) => (
-    <div className="flex items-center gap-1.5 text-xs text-text-muted">
+    <label className="flex items-center gap-1.5 text-xs text-text-muted">
       <span className="font-mono">{label}</span>
       <input
         type="range"
@@ -228,7 +228,7 @@ export function LinearTransformAnimation() {
         style={{ accentColor: VIOLET }}
       />
       <span className="font-mono w-8">{mat[i].toFixed(1)}</span>
-    </div>
+    </label>
   )
 
   return (

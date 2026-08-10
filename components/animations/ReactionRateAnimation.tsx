@@ -325,7 +325,7 @@ export function ReactionRateAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Temperature:</span>
           <input
             type="range" min={SPEC.temp.min} max={SPEC.temp.max} step={SPEC.temp.step} value={temp}
@@ -333,8 +333,8 @@ export function ReactionRateAnimation() {
             className="w-32 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{temp} K</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>E<sub>a</sub>:</span>
           <input
             type="range" min={SPEC.ea.min} max={SPEC.ea.max} step={SPEC.ea.step} value={ea}
@@ -342,7 +342,7 @@ export function ReactionRateAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{ea} kJ/mol</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           <strong style={{ color: C_HOT }}>rate ×{relText}</strong> vs 300 K · +10 K → ×{per10.toFixed(2)} · {reactions} reactions
         </span>

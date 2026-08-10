@@ -244,7 +244,7 @@ export function RadioactiveHalfLifeAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Time:</span>
           <input
             type="range" min={0} max={MAX_T} step={0.01} value={t}
@@ -253,7 +253,7 @@ export function RadioactiveHalfLifeAnimation() {
             style={{ accentColor: ORANGE }}
           />
           <span className="text-text-secondary font-mono">{t.toFixed(2)}</span>
-        </div>
+        </label>
         <button
           onClick={reset}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-bg-hover text-text-secondary ml-auto"

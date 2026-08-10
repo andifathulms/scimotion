@@ -206,30 +206,30 @@ export function PendulumAnimation() {
             "Angle θ₀" and watching θ₀ change in the formula is one motion
             instead of two facts the reader has to connect. Bounds come from
             SPEC rather than being repeated here. */}
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Angle <span className="text-accent-gold">θ₀</span>:</span>
           <input type="range" min={SPEC.initAngle.min} max={SPEC.initAngle.max} step={SPEC.initAngle.step} value={initAngle}
             onChange={e => { set('initAngle', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
           <span>{initAngle}°</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Length <span className="text-accent-gold">L</span>:</span>
           <input type="range" min={SPEC.length.min} max={SPEC.length.max} step={SPEC.length.step} value={length}
             onChange={e => { set('length', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
           <span>{length}px</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Gravity <span className="text-accent-gold">g</span>:</span>
           <input type="range" min={SPEC.gravity.min} max={SPEC.gravity.max} step={SPEC.gravity.step} value={gravity}
             onChange={e => { set('gravity', +e.target.value); setRunning(false) }}
             className="w-20 accent-accent-gold"
           />
           <span>{gravity} m/s²</span>
-        </div>
+        </label>
       </div>
       <div className="animation-readout">
         {/* The assumption is stated because this widget makes it checkable: the

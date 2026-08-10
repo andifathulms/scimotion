@@ -499,13 +499,13 @@ export function TCPHandshakeAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors">
           <Scissors size={12} /> Drop next
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Receiver window:</span>
           <input type="range" min={1} max={RECV_WINDOW_MAX} step={1} value={win}
             onChange={e => changeWindow(+e.target.value)}
             className="w-16 accent-accent-gold" />
           <span>{win}</span>
-        </div>
+        </label>
       </div>
     </div>
   )

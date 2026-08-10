@@ -324,20 +324,20 @@ export function SIRModelAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Run</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>R₀:</span>
           <input type="range" min={SPEC.r0.min} max={SPEC.r0.max} step={SPEC.r0.step} value={r0}
             onChange={e => set('r0', +e.target.value)}
             className="w-24 accent-accent-gold" />
           <span className="font-mono">{r0.toFixed(1)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>infectious days (1/γ):</span>
           <input type="range" min={SPEC.days.min} max={SPEC.days.max} step={SPEC.days.step} value={days}
             onChange={e => set('days', +e.target.value)}
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{days}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           <span style={{ color: C_MARK }}>Rt {rt.toFixed(2)}</span> ·{' '}
           <span style={{ color: C_I }}>peak {(traj.peakI * 100).toFixed(1)}%</span> ·{' '}

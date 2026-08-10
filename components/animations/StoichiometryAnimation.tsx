@@ -267,7 +267,7 @@ export function StoichiometryAnimation() {
           <Play size={12} /> {running ? 'Pause' : 'Play'}
         </button>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>H₂:</span>
           <input
             type="range"
@@ -279,9 +279,9 @@ export function StoichiometryAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{h2} mol</span>
-        </div>
+        </label>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>O₂:</span>
           <input
             type="range"
@@ -293,7 +293,7 @@ export function StoichiometryAnimation() {
             className="w-24 accent-accent-gold"
           />
           <span className="text-text-secondary font-mono">{o2} mol</span>
-        </div>
+        </label>
 
         <span className="ml-auto text-xs font-mono" style={{ color: ORANGE }}>
           limiting: {limiting}

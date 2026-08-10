@@ -347,7 +347,7 @@ export function SeriesParallelAnimation() {
             Parallel
           </button>
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Bulbs:</span>
           <input
             type="range"
@@ -360,7 +360,7 @@ export function SeriesParallelAnimation() {
             style={{ accentColor: GREEN }}
           />
           <span className="text-text-secondary font-mono">{n}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs font-mono" style={{ color: GOLD }}>
           total R = {Math.round(totalR)} Ω
         </span>

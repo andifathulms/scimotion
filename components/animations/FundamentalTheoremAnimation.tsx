@@ -222,13 +222,13 @@ export function FundamentalTheoremAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Sweep x</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>x:</span>
           <input type="range" min={X0} max={X1} step={0.01} value={x}
             onChange={e => { setX(+e.target.value); setRunning(false) }}
             className="w-40 accent-accent-gold"
           />
-        </div>
+        </label>
       </div>
     </div>
   )

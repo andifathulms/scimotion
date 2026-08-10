@@ -249,7 +249,7 @@ export function LogisticMapAnimation() {
         <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>r:</span>
           <input
             type="range" min={R_MIN} max={R_MAX} step={0.001} value={r}
@@ -257,7 +257,7 @@ export function LogisticMapAnimation() {
             className="w-52 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{r.toFixed(3)}</span>
-        </div>
+        </label>
         <span className="text-xs text-text-secondary">
           behaviour: <strong style={{ color: period === 0 ? BLUE : VIOLET }}>{label}</strong>
         </span>

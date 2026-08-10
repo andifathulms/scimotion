@@ -269,7 +269,7 @@ export function SolarSystemFormationAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> {pRef.current >= 1 ? 'Replay' : 'Play'}</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Stage:</span>
           <input
             type="range" min={SPEC.stage.min} max={SPEC.stage.max} step={SPEC.stage.step} value={stage}
@@ -277,7 +277,7 @@ export function SolarSystemFormationAnimation() {
             className="w-40"
             style={{ accentColor: INDIGO }}
           />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Radius <strong style={{ color: INDIGO }}>↓</strong> · spin <strong style={{ color: GOLD }}>↑</strong> · flattening into a plane
         </span>

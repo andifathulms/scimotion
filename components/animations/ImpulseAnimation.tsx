@@ -309,7 +309,7 @@ export function ImpulseAnimation() {
           )}
         </button>
 
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Cushion / contact time:</span>
           <input
             type="range"
@@ -324,7 +324,7 @@ export function ImpulseAnimation() {
           <span className="text-text-secondary font-mono">
             {(tSoft * 1000).toFixed(0)} ms
           </span>
-        </div>
+        </label>
       </div>
     </div>
   )

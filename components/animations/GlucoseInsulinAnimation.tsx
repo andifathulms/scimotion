@@ -316,7 +316,7 @@ export function GlucoseInsulinAnimation() {
         >
           <Utensils size={12} /> Eat now
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Meal:</span>
           <input
             type="range" min={SPEC.mealSize.min} max={SPEC.mealSize.max} step={SPEC.mealSize.step} value={mealSize}
@@ -324,8 +324,8 @@ export function GlucoseInsulinAnimation() {
             className="w-20 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{mealSize} g</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Insulin sensitivity:</span>
           <input
             type="range" min={SPEC.sensitivity.min} max={SPEC.sensitivity.max} step={SPEC.sensitivity.step} value={sensitivity}
@@ -333,7 +333,7 @@ export function GlucoseInsulinAnimation() {
             className="w-24 accent-accent-pink"
           />
           <span className="text-text-secondary font-mono">{sensitivity.toFixed(2)}×</span>
-        </div>
+        </label>
         <button
           onClick={() => { setBetaOn(b => !b); setT(0) }}
           className="px-2 py-1 rounded text-xs font-medium border transition-colors"

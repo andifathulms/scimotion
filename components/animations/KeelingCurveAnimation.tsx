@@ -288,7 +288,7 @@ export function KeelingCurveAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Zoom:</span>
           <input
             type="range" min={MIN_WINDOW} max={SPAN} step={0.5} value={windowYears}
@@ -296,8 +296,8 @@ export function KeelingCurveAnimation() {
             className="w-28 accent-accent-blue"
           />
           <span className="text-text-secondary font-mono">{windowYears.toFixed(0)} yr</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Pan:</span>
           <input
             type="range" min={T0} max={T1} step={0.25} value={center}
@@ -305,7 +305,7 @@ export function KeelingCurveAnimation() {
             className="w-28 accent-accent-violet"
           />
           <span className="text-text-secondary font-mono">{lo.toFixed(0)}–{hi.toFixed(0)}</span>
-        </div>
+        </label>
         <span
           className="px-2 py-1 rounded text-xs font-medium border"
           style={{ color: viewColor, borderColor: `${viewColor}30`, background: `${viewColor}10` }}

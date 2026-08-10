@@ -576,22 +576,22 @@ export function MRIAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Field B₀:</span>
           <input type="range" min={SPEC.b0.min} max={SPEC.b0.max} step={SPEC.b0.step} value={b0}
             onChange={e => set('b0', +e.target.value)}
             className="w-24 accent-accent-gold"
           />
           <span>{b0.toFixed(1)} T</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        </label>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>RF detuning:</span>
           <input type="range" min={SPEC.detune.min} max={SPEC.detune.max} step={SPEC.detune.step} value={detune}
             onChange={e => set('detune', +e.target.value)}
             className="w-28 accent-accent-gold"
           />
           <span>{detune >= 0 ? '+' : ''}{detune.toFixed(2)} kHz</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary">
           Larmor <strong className="text-accent-gold">{larmor.toFixed(1)} MHz</strong> · tip{' '}
           <strong className="text-accent-gold">{tipPct}%</strong> · flip{' '}

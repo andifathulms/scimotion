@@ -209,7 +209,7 @@ export function EntropyAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Particles:</span>
           <input
             type="range" min={SPEC.count.min} max={SPEC.count.max} step={SPEC.count.step} value={count}
@@ -217,7 +217,7 @@ export function EntropyAnimation() {
             className="w-28 accent-accent-teal"
           />
           <span className="font-mono text-text-secondary">{count}</span>
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary font-mono">
           {split.left} | {split.right} · S/k<sub>B</sub> = {S.toFixed(2)}
         </span>

@@ -113,10 +113,10 @@ export function CardiacAnimation() {
         <button onClick={() => setRunning(r => !r)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Speed:</span>
           <input type="range" min={300} max={1500} step={100} value={1800 - speed} onChange={e => setSpeed(1800 - +e.target.value)} className="w-20 accent-accent-gold" />
-        </div>
+        </label>
         <span className="ml-auto text-xs text-text-secondary capitalize">
           Phase: <strong className="text-accent-teal">{['Idle', 'SA Node fires', 'Atria contract', 'AV delay', 'Ventricles contract', 'Reset'][phase]}</strong>
         </span>

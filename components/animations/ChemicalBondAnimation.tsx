@@ -412,7 +412,7 @@ export function ChemicalBondAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-gold text-bg-base text-xs font-medium hover:bg-accent-gold/90 transition-colors">
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Distance:</span>
           <input
             type="range"
@@ -425,7 +425,7 @@ export function ChemicalBondAnimation() {
             aria-label="Internuclear distance in angstroms"
           />
           <span className="font-mono w-14">{r.toFixed(2)} Å</span>
-        </div>
+        </label>
         <button
           onClick={() => { setRunning(false); rRef.current = RE; setR(RE) }}
           className="px-3 py-1.5 rounded-lg border border-border text-xs text-text-secondary hover:bg-bg-hover transition-colors">

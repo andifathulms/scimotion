@@ -356,7 +356,7 @@ export function EyeOpticsAnimation() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>Object distance:</span>
           <input
             type="range"
@@ -370,7 +370,7 @@ export function EyeOpticsAnimation() {
             }}
             className="w-40 accent-accent-gold"
           />
-        </div>
+        </label>
         {eye !== 'normal' && (
           <label className="flex items-center gap-1.5 text-xs text-text-muted cursor-pointer">
             <input

@@ -188,7 +188,7 @@ export function MemoizationTreeAnimation() {
           />
           Memoize
         </label>
-        <div className="flex items-center gap-2 text-xs text-text-muted">
+        <label className="flex items-center gap-2 text-xs text-text-muted">
           <span>n:</span>
           <input
             type="range" min={N_MIN} max={N_MAX} value={n}
@@ -196,7 +196,7 @@ export function MemoizationTreeAnimation() {
             className="w-32 accent-accent-blue"
           />
           <span className="text-text-secondary font-medium">{n}</span>
-        </div>
+        </label>
         <div className="ml-auto flex gap-4 text-xs">
           <span style={{ color: PINK }}>naive: <strong>{naiveCalls}</strong> calls</span>
           <span style={{ color: GREEN }}>memo: <strong>{memoCalls}</strong> calls</span>
