@@ -166,9 +166,14 @@ no content for that reader.
   set by dragging on the canvas, it needs a control that writes the same state.
   Drag is an enhancement, never the only route. Prefer a slider; use `<select>`
   when the choice is one of a fixed named set.
-- **State the reader changes should be announced.** `<EquationReadout>` is
-  already `role="status"`; a bespoke readout needs the same, and should be
-  `aria-atomic` if it only means anything whole.
+- **Wrap the summary readout in `<WidgetStatus>`.** Never put a bare
+  `aria-live` on it. Most widgets re-render every animation frame, and a live
+  region on a value moving at 60Hz queues an utterance per frame — the reader
+  falls behind or is talked over, and hears less than they would from silence.
+  `WidgetStatus` announces only once a value has held still for 900ms, and never
+  announces the first one. `<EquationReadout>` already does this internally.
+  Keep standing caveats out of the announced element: a caution repeated on
+  every settle buries the number it qualifies.
 - **Never signal state with colour alone.** A correct/incorrect or on/off state
   needs a shape, an icon or text beside the hue.
 - **Autoplay must respect `prefers-reduced-motion`** — `useAnimationTrigger`
