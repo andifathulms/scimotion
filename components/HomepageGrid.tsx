@@ -70,22 +70,43 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
         </p>
       </header>
 
-      {/* Filter pills */}
-      <div role="group" aria-label="Filter by field" className="flex flex-wrap gap-2">
-        {(['All', ...TOPICS] as const).map(t => (
-          <button
-            key={t}
-            onClick={() => selectFilter(t)}
-            aria-pressed={filter === t}
-            className={`relative px-4 py-1.5 rounded-pill text-sm font-medium border transition-all ${
-              filter === t
-                ? 'bg-accent-gold border-accent-gold text-on-accent'
-                : 'border-border text-text-secondary hover:border-border-hover hover:text-text-primary'
-            }`}
-          >
-            {t}
-          </button>
-        ))}
+      {/* Filter pills.
+       *
+       * Ten pills at roughly four per row is three wrapped rows on a 375px
+       * viewport — around 120px of the first screen spent on a control, on top
+       * of a hero that grew when the stat strip landed, before a single article
+       * is visible. Below `sm` they become one horizontally scrollable row:
+       * same buttons, same order, same behaviour, one row tall.
+       *
+       * The negative margin and matching padding let the row bleed to the screen
+       * edges inside the page's px-5 gutter, so a half-visible pill at the right
+       * edge signals there is more to scroll. The fade is pointer-events-none
+       * and hidden from assistive tech; it sits over the strip, not in it. */}
+      <div className="relative -mx-5 sm:mx-0">
+        <div
+          role="group"
+          aria-label="Filter by field"
+          className="flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
+        >
+          {(['All', ...TOPICS] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => selectFilter(t)}
+              aria-pressed={filter === t}
+              className={`relative shrink-0 px-4 py-1.5 rounded-pill text-sm font-medium border transition-all ${
+                filter === t
+                  ? 'bg-accent-gold border-accent-gold text-on-accent'
+                  : 'border-border text-text-secondary hover:border-border-hover hover:text-text-primary'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-bg-base to-transparent sm:hidden"
+        />
       </div>
 
       {/* Always present, not only once "load more" is reachable. The count is
