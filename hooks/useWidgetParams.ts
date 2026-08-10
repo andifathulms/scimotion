@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 /**
  * Addressable widget state.
@@ -15,10 +15,16 @@ import { useCallback, useMemo, useState } from 'react'
  * slider's min/max/step, the value restored from a link, and the symbol the
  * equation readout binds to (see components/EquationReadout.tsx).
  *
- * Nothing is written to the URL while the reader plays. The link is built only
- * when they ask for it, which keeps the address bar quiet, avoids the
- * replaceState throttling browsers apply to rapid history writes during a slider
- * drag, and means the page a reader shares is one they deliberately chose.
+ * State lives in the URL, so it survives a refresh and can be handed to someone
+ * else. Writes are debounced and go through replaceState: a slider drag emits a
+ * value per frame, and both the history entry per frame and the throttle
+ * browsers apply to rapid history writes (Safari: 100 per 30s) are avoided by
+ * waiting for the drag to stop. replaceState also does not scroll, which
+ * assigning to location.hash would.
+ *
+ * Returning to the defaults removes the keys rather than writing them out, so a
+ * reader who resets gets the plain article URL back instead of a long one that
+ * encodes "unchanged".
  *
  * Declare the spec at module scope, not inline in the component:
  *
@@ -50,6 +56,10 @@ export type ParamValues<S extends WidgetSpec> = { [K in keyof S]: number }
 // because an article carries two of them and both may be pinned in one link.
 const KEY = (id: string, param: string) => `${id}.${param}`
 const IS_PARAM = /^[^.=&]+\.[^.=&]+$/
+
+// Long enough to sit past the end of a slider drag, short enough that a reader
+// who changes one value and immediately hits refresh keeps it.
+const WRITE_DELAY_MS = 400
 
 function readHash(): URLSearchParams {
   if (typeof window === 'undefined') return new URLSearchParams()
@@ -139,6 +149,29 @@ export function useWidgetParams<S extends WidgetSpec>(id: string, spec: S) {
     () => Object.entries(params).every(([k, v]) => v === spec[k].default),
     [params, spec]
   )
+
+  // Persist to the URL so a refresh does not throw the reader's configuration
+  // away. Debounced past the end of a drag; see the note at the top of the file.
+  //
+  // The first pass is skipped when the widget is untouched and nothing was
+  // restored, so simply scrolling an article past a widget does not rewrite its
+  // address. Any heading anchor already in the hash is dropped by paramsOnly —
+  // the reader stays where they are, since replaceState does not scroll.
+  const touched = !isDefault || restored !== null
+  useEffect(() => {
+    if (!touched) return
+    const timer = setTimeout(() => {
+      const hash = paramsOnly(readHash())
+      for (const [k, v] of Object.entries(params)) {
+        if (v === spec[k].default) hash.delete(KEY(id, k))
+        else hash.set(KEY(id, k), String(v))
+      }
+      const str = hash.toString()
+      const { pathname, search } = window.location
+      window.history.replaceState(null, '', `${pathname}${search}${str ? `#${str}` : ''}`)
+    }, WRITE_DELAY_MS)
+    return () => clearTimeout(timer)
+  }, [params, spec, id, touched])
 
   return { params, set, reset, permalink, restored: restored !== null, isDefault }
 }
