@@ -14,7 +14,7 @@ export function RelatedPosts({
 
   return (
     <div className="py-8">
-      <h2 className="text-base font-semibold text-text-primary mb-6">You might also like</h2>
+      <h2 className="text-xl font-semibold text-text-primary mb-6">You might also like</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {related.map(article => (
           <ArticleCard key={article.slug} article={article} />
