@@ -47,6 +47,7 @@ export function EquationReadout({
   formula,
   bindings,
   result,
+  steps,
   assumption,
 }: {
   /** Plain text, e.g. "T = 2π√(L/g)". Unicode, not KaTeX — see note below. */
@@ -54,6 +55,19 @@ export function EquationReadout({
   bindings: Binding[]
   /** The value the formula evaluates to right now, already formatted. */
   result?: string
+  /**
+   * The working: the formula with its numbers substituted in, and any
+   * intermediate quantity, on the way to `result`. e.g. for T = 2π√(L∕g):
+   *
+   *   ['L∕g = 1.00 ∕ 9.81 = 0.102 s²', '√0.102 = 0.319 s', '2π × 0.319 = 2.01 s']
+   *
+   * The readout previously showed the formula, the inputs and the answer, and
+   * nothing between them — which is the same gap the prose has. A reader who
+   * cannot already do the calculation learns that the answer exists, not how it
+   * is reached. Only three of 171 articles contain a worked example, so for most
+   * readers this is the only place the arithmetic is ever shown.
+   */
+  steps?: string[]
   assumption?: string
 }) {
   // Free energy sweeps temperature on a rAF loop and Markov walks on a timer,
@@ -99,6 +113,16 @@ export function EquationReadout({
           </>
         )}
       </span>
+      {steps && steps.length > 0 && (
+        <ol className="font-mono text-text-muted flex flex-col gap-0.5">
+          {steps.map(line => (
+            <li key={line} className="flex gap-1.5">
+              <span aria-hidden="true" className="select-none opacity-50">=</span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ol>
+      )}
       <span className="font-mono text-text-muted">
         {bindings.map((b, i) => (
           <Fragment key={b.symbol}>

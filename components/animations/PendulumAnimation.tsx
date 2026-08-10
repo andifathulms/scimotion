@@ -335,6 +335,14 @@ export function PendulumAnimation() {
             { symbol: 'g', value: `${gravity} m/s²` },
           ]}
           result={`${period} s`}
+          // The arithmetic the article states the answer to and never performs.
+          // At the default 1.00 m this reads 2.01 s — the "about 2.0 seconds"
+          // the prose asserts, now with the three steps that produce it.
+          steps={[
+            `L ∕ g = ${length.toFixed(2)} ∕ ${gravity} = ${(length / gravity).toFixed(4)} s²`,
+            `√${(length / gravity).toFixed(4)} = ${Math.sqrt(length / gravity).toFixed(4)} s`,
+            `2π × ${Math.sqrt(length / gravity).toFixed(4)} = ${period} s`,
+          ]}
           assumption={`Small-angle approximation. The simulation integrates the exact equation, so the two part company as θ₀ grows: at ${initAngle}° the true period is about ${((exactRatio(initAngle) - 1) * 100).toFixed(0)}% longer than this. Exact value from the complete elliptic integral K(sin θ₀⁄2), evaluated by arithmetic–geometric mean.`}
         />
       </div>
