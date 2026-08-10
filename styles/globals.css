@@ -60,6 +60,21 @@
   --color-on-accent: #0F0D0A;
   --color-focus: #F59E0B;
 
+  /* The drawing surface inside a widget.
+   *
+   * Deliberately the SAME value on both themes, which is why it is its own token
+   * and not an alias of bg-base. The 339 widgets draw with cream strokes, gold
+   * highlights and topic accents chosen against a near-black field; flipping the
+   * canvas to cream would need every one of those colour constants re-pitched,
+   * and until that happens a light canvas is an unreadable one. Against the white
+   * surface of a light-mode animation block it reads as an instrument panel,
+   * which is the honest description of what it is.
+   *
+   * This was the literal '#0F0D0A' repeated in 299 files. Naming it does not
+   * change a pixel; it makes the decision findable, and makes reversing it a
+   * one-line edit instead of a 299-file sweep. */
+  --color-canvas: #0F0D0A;
+
   /* TYPE SCALE
    *
    * One scale, ~1.2 ratio through the text sizes and widening into display.
@@ -169,6 +184,13 @@
   --border-hover: var(--color-border-hover);
   --on-accent: var(--color-on-accent);
   --focus: var(--color-focus);
+  /* Also pins --color-canvas against tree-shaking. Every other theme variable is
+   * referenced from a Tailwind utility somewhere in the markup; this one is
+   * referenced only from `style={{ background: 'var(--color-canvas)' }}` inside
+   * component JS, which the CSS build cannot see. Naming it here gives it a
+   * stylesheet reference, so a future version that drops unused theme variables
+   * cannot silently turn 299 widget canvases transparent. */
+  --canvas: var(--color-canvas);
 }
 
 body {

@@ -179,7 +179,7 @@ export function IPAddressAnimation() {
         </div>
       </div>
       <div className="animation-canvas">
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       <div className="grid grid-cols-3 gap-2 text-xs">

@@ -161,7 +161,7 @@ export function CacheEvictionAnimation() {
         </button>
       </div>
 
-      <div className="animation-canvas" style={{ background: '#0F0D0A' }}>
+      <div className="animation-canvas" style={{ background: 'var(--color-canvas)' }}>
         {/* Policy toggle */}
         <div className="flex items-center gap-1 mb-4">
           <span className="text-xs text-text-muted mr-2">Eviction policy:</span>

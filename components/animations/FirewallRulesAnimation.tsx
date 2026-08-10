@@ -315,7 +315,7 @@ export function FirewallRulesAnimation() {
         </button>
       </div>
       <div className="animation-canvas">
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       {/* rule list — evaluated in order, first match wins */}

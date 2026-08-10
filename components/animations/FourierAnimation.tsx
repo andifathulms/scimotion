@@ -97,7 +97,7 @@ export function FourierAnimation() {
         </button>
       </div>
       <div className="animation-canvas" style={{ minHeight: 280 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
         {/* Spectrum bars */}
         <div className="mt-4 flex items-end gap-3 h-16 px-2">
           {waves.map((w, i) => (

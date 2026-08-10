@@ -153,7 +153,7 @@ export function DeadlockAnimation() {
       </div>
 
       <div className="animation-canvas">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: '#0F0D0A' }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }}>
           {/* Hold edges (thread holds lock): solid, thread-colored */}
           {cur.holdA !== 0 && edge(cur.holdA === 1 ? T1 : T2, LA, threadColor(cur.holdA), false, 'hA')}
           {cur.holdB !== 0 && edge(cur.holdB === 1 ? T1 : T2, LB, threadColor(cur.holdB), false, 'hB')}

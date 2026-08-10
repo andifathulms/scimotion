@@ -160,7 +160,7 @@ export function CallStackAnimation() {
       </div>
 
       <div className="animation-canvas">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: '#0F0D0A' }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }}>
           {/* Stack baseline */}
           <line x1={cx - 130} y1={baseY + 3} x2={cx + 130} y2={baseY + 3} stroke="rgba(255,245,235,0.18)" strokeWidth={1.5} />
           <text x={cx} y={baseY + 20} textAnchor="middle" fontSize={11} fill={MUTE} fontFamily="monospace">

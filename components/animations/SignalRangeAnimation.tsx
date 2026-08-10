@@ -333,7 +333,7 @@ export function SignalRangeAnimation() {
           onPointerUp={onUp}
           onPointerLeave={onUp}
           className="w-full rounded-lg cursor-pointer touch-none"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
         />
       </div>
       <div className="animation-controls flex-wrap gap-3">

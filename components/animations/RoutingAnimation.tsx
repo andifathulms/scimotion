@@ -366,7 +366,7 @@ export function RoutingAnimation() {
           height={H}
           onClick={onCanvasClick}
           className="w-full rounded-lg cursor-pointer"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
         />
       </div>
 

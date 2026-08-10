@@ -428,7 +428,7 @@ export function EarthInteriorAnimation() {
           width={W}
           height={H}
           className="w-full rounded-lg cursor-crosshair"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
           onPointerDown={place}
           onPointerMove={e => {
             if (e.buttons === 1) place(e)

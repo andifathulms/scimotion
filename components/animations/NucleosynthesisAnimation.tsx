@@ -352,7 +352,7 @@ export function NucleosynthesisAnimation() {
         </button>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
       <div className="animation-controls flex-wrap gap-2">
         <div className="flex rounded-lg border border-border overflow-hidden text-xs">

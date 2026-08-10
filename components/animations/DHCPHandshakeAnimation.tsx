@@ -330,7 +330,7 @@ export function DHCPHandshakeAnimation() {
         </button>
       </div>
       <div className="animation-canvas">
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       {/* Step tracker + narration */}

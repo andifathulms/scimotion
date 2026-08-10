@@ -321,7 +321,7 @@ export function PHScaleAnimation() {
           width={W}
           height={H}
           className="w-full rounded-lg cursor-pointer"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
           onClick={e => pick(e.clientX, e.currentTarget.getBoundingClientRect())}
         />
       </div>

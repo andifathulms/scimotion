@@ -225,7 +225,7 @@ export function ComplexPlaneAnimation() {
           width={W}
           height={H}
           className="w-full rounded-lg touch-none cursor-grab"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
           onPointerDown={pick}
           onPointerMove={move}
           onPointerUp={release}

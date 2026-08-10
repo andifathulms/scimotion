@@ -354,7 +354,7 @@ export function RouteHijackAnimation() {
           width={W}
           height={H}
           className="w-full rounded-lg"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
         />
       </div>
 

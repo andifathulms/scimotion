@@ -280,7 +280,7 @@ export function ElementOriginAnimation() {
           onMouseLeave={() => setHoverZ(null)}
           onClick={e => { const z = hitTest(e); if (z !== null) setSelZ(z) }}
           className="w-full rounded-lg cursor-pointer"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
         />
       </div>
       <div className="animation-controls">

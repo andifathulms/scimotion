@@ -347,7 +347,7 @@ export function DNSHierarchyAnimation() {
           height={H}
           onClick={handleClick}
           className="w-full rounded-lg cursor-pointer"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
         />
       </div>
       <div className="animation-controls flex-wrap gap-3">

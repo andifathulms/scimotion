@@ -282,7 +282,7 @@ export function ViralReplicationAnimation() {
 
   return (
     <div className="animation-block" ref={ref}>
-      <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+      <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 mt-3">
         <span style={{ color: cur.color }}>{cur.label}</span>
         <span>{cur.desc}</span>

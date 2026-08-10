@@ -168,7 +168,7 @@ export function RecursionTreeAnimation() {
       </div>
 
       <div className="animation-canvas">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: '#0F0D0A' }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }}>
           {tree.edges.map(([a, b], i) => {
             if (b.order >= visible) return null
             return (

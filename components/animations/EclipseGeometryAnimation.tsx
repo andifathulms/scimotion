@@ -268,7 +268,7 @@ export function EclipseGeometryAnimation() {
       </div>
       <canvas
         ref={canvasRef}
-        style={{ width: '100%', maxWidth: W, aspectRatio: `${W} / ${H}`, background: '#0F0D0A', borderRadius: 8 }}
+        style={{ width: '100%', maxWidth: W, aspectRatio: `${W} / ${H}`, background: 'var(--color-canvas)', borderRadius: 8 }}
       />
       <div className="animation-controls flex-wrap gap-3">
         <button

@@ -309,7 +309,7 @@ export function MoonPhaseAnimation() {
         onPointerMove={onMove}
         onPointerUp={onUp}
         onPointerCancel={onUp}
-        style={{ width: '100%', maxWidth: W, aspectRatio: `${W} / ${H}`, background: '#0F0D0A', borderRadius: 8, touchAction: 'none', cursor: 'pointer' }}
+        style={{ width: '100%', maxWidth: W, aspectRatio: `${W} / ${H}`, background: 'var(--color-canvas)', borderRadius: 8, touchAction: 'none', cursor: 'pointer' }}
       />
       <div className="animation-controls flex-wrap gap-3">
         <button

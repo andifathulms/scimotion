@@ -203,7 +203,7 @@ export function RaceConditionAnimation() {
       </div>
 
       <div className="animation-canvas">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: '#0F0D0A' }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }}>
           {thread(1, 30)}
           {thread(2, 370)}
 

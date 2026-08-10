@@ -301,7 +301,7 @@ export function GradientDescentAnimation() {
           width={W}
           height={H}
           className="w-full rounded-lg cursor-ew-resize touch-none"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}

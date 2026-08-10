@@ -77,7 +77,7 @@ export function DoubleSlitAnimation() {
         </div>
       </div>
       <div className="animation-canvas" style={{ minHeight: 310 }}>
-        <svg viewBox="0 0 500 300" className="w-full" style={{ height: 300, background: '#0F0D0A', borderRadius: 8 }}>
+        <svg viewBox="0 0 500 300" className="w-full" style={{ height: 300, background: 'var(--color-canvas)', borderRadius: 8 }}>
           {/* Particle gun */}
           <rect x={10} y={130} width={40} height={40} rx={4} fill="#F59E0B" opacity={0.6} />
           <text x={30} y={148} textAnchor="middle" fontSize={8} fill="#F5F0E8" opacity={0.7}>GUN</text>

@@ -236,7 +236,7 @@ export function StoichiometryAnimation() {
         <canvas
           ref={canvasRef}
           className="w-full rounded-lg"
-          style={{ background: '#0F0D0A', height: 'auto' }}
+          style={{ background: 'var(--color-canvas)', height: 'auto' }}
         />
       </div>
 

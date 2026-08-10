@@ -132,7 +132,7 @@ export function HammingCodeAnimation() {
       </div>
 
       <div className="animation-canvas" style={{ minHeight: 300 }}>
-        <svg viewBox="0 0 480 380" className="w-full rounded-lg" style={{ background: '#0F0D0A', maxHeight: 380 }} role="img" aria-label="Hamming(7,4) Venn diagram of three parity checks over seven bit positions">
+        <svg viewBox="0 0 480 380" className="w-full rounded-lg" style={{ background: 'var(--color-canvas)', maxHeight: 380 }} role="img" aria-label="Hamming(7,4) Venn diagram of three parity checks over seven bit positions">
           {/* parity-check circles */}
           {CIRCLES.map(c => {
             const failed = c.check === 1 ? c1 === 1 : c.check === 2 ? c2 === 1 : c4 === 1

@@ -196,7 +196,7 @@ export function InterpreterCompilerAnimation() {
 
   return (
     <div ref={ref} className="animation-block">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: '#0F0D0A' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }}>
         {renderColumn('comp', 'COMPILER', BLUE, comp)}
         {renderColumn('interp', 'INTERPRETER', ORANGE, interp)}
       </svg>

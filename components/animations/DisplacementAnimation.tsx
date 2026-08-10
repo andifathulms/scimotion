@@ -251,7 +251,7 @@ export function DisplacementAnimation() {
         </button>
       </div>
       <div className="animation-canvas" style={{ minHeight: 200 }}>
-        <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: '#0F0D0A', aspectRatio: `${W} / ${H}` }} />
+        <canvas ref={canvasRef} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }} />
       </div>
 
       <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1">

@@ -307,7 +307,7 @@ export function CrisprTargetingAnimation() {
         width={W}
         height={H}
         className="w-full rounded-lg"
-        style={{ background: '#0F0D0A', aspectRatio: `${W} / ${H}` }}
+        style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }}
       />
       <div className="mt-3 px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1">
         <span>

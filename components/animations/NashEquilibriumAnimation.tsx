@@ -451,7 +451,7 @@ export function NashEquilibriumAnimation() {
           height={H}
           onClick={onCanvasClick}
           className="w-full rounded-lg cursor-pointer"
-          style={{ background: '#0F0D0A' }}
+          style={{ background: 'var(--color-canvas)' }}
         />
       </div>
       <div className="animation-controls flex-wrap gap-x-4 gap-y-2">

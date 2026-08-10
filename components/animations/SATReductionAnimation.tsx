@@ -284,7 +284,7 @@ export function SATReductionAnimation() {
         <button onClick={restart} className="text-xs text-text-muted hover:text-text-secondary transition-colors">Reset</button>
       </div>
       <div className="animation-canvas" style={{ minHeight: H + 10 }}>
-        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: '#0F0D0A' }} />
+        <canvas ref={canvasRef} width={W} height={H} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }} />
       </div>
 
       <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">

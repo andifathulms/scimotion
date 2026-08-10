@@ -340,7 +340,7 @@ export function ElectronShellAnimation() {
         <canvas
           ref={canvasRef}
           className="w-full rounded-lg"
-          style={{ background: '#0F0D0A', width: '100%', height: 'auto', aspectRatio: `${W} / ${H}` }}
+          style={{ background: 'var(--color-canvas)', width: '100%', height: 'auto', aspectRatio: `${W} / ${H}` }}
         />
       </div>
       <div

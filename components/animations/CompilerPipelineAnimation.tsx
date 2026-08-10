@@ -129,7 +129,7 @@ export function CompilerPipelineAnimation() {
 
   return (
     <div ref={ref} className="animation-block">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: '#0F0D0A' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg" style={{ background: 'var(--color-canvas)' }}>
         {/* Pipeline bar */}
         {STAGES.map((s, i) => {
           const bw = 132

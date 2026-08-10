@@ -331,7 +331,7 @@ export function FloatBitsAnimation() {
               </div>
             </div>
           </div>
-          <canvas ref={canvasRef} style={{ width: W, maxWidth: '100%', height: H, background: '#0F0D0A', borderRadius: 8 }} />
+          <canvas ref={canvasRef} style={{ width: W, maxWidth: '100%', height: H, background: 'var(--color-canvas)', borderRadius: 8 }} />
         </div>
       </div>
 

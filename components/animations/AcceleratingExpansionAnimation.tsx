@@ -315,7 +315,7 @@ export function AcceleratingExpansionAnimation() {
         <canvas
           ref={canvasRef}
           className="w-full rounded-lg"
-          style={{ background: '#0F0D0A', aspectRatio: `${W} / ${H}` }}
+          style={{ background: 'var(--color-canvas)', aspectRatio: `${W} / ${H}` }}
         />
       </div>
 
