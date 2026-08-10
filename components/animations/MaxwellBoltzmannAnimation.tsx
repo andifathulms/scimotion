@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 640
 const H = 340
@@ -321,9 +322,9 @@ export function MaxwellBoltzmannAnimation() {
           />
           <span className="font-mono text-text-secondary">{temp} K</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           v_rms {Math.round(cur.vrms)} m/s
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

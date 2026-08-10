@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -358,9 +359,9 @@ export function PHScaleAnimation() {
         >
           Blood, pH 7.4
         </button>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           [H⁺] = {h.toExponential(2)} M · [OH⁻] = {oh.toExponential(2)} M
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

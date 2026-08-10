@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -285,13 +286,13 @@ export function ProofreadingAnimation() {
             {on[g] ? '✓' : '✕'} {L.short}
           </button>
         ))}
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           error rate <strong className="text-accent-pink">{rate.toExponential(0)}</strong> ·{' '}
           <strong className="text-text-primary">
             {perGenome >= 1000 ? perGenome.toExponential(1) : perGenome < 10 ? perGenome.toFixed(1) : Math.round(perGenome).toLocaleString()}
           </strong>{' '}
           per genome
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 330
@@ -384,10 +385,10 @@ export function ResonanceAnimation() {
           />
           <span>{gamma.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Q ≈ <strong className="text-accent-gold">{q.toFixed(1)}</strong> · amplitude{' '}
           <strong className="text-accent-gold">{amp.toFixed(2)}×</strong> static
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

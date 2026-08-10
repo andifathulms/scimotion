@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 360
@@ -393,9 +394,9 @@ export function RespirationAnimation() {
         <span className="text-xs font-mono" style={{ color: o2 ? LIME : PINK }}>
           {o2 ? '~30 ATP / glucose' : '2 ATP / glucose'}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           ATP {Math.floor(atp)} · glucose processed {glucose}
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Toggle oxygen off and watch the yield collapse from about thirty ATP to two — the whole reason you have to breathe.

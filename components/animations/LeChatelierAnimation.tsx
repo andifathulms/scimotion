@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -260,9 +261,9 @@ export function LeChatelierAnimation() {
         {btn('expand 2V', () => perturb(s => { s.V = Math.min(4, s.V * 2) }, 'expand', GOLD), 'bg-accent-teal/15 text-accent-teal hover:bg-accent-teal/25')}
         {btn('heat +15 K', () => perturb(s => { s.T = Math.min(343, s.T + 15) }, 'heat', VIOLET), 'bg-accent-teal/15 text-accent-teal hover:bg-accent-teal/25')}
         {btn('cool −15 K', () => perturb(s => { s.T = Math.max(268, s.T - 15) }, 'cool', VIOLET), 'bg-accent-teal/15 text-accent-teal hover:bg-accent-teal/25')}
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           Q = {readout.q.toFixed(2)} · K = {readout.K.toFixed(2)} · {Math.round(readout.T)} K
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

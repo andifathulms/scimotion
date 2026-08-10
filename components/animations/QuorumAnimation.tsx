@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -273,9 +274,9 @@ export function QuorumAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors">
           <Shuffle size={12} /> Random quorums
         </button>
-        <span className="ml-auto text-xs font-mono text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs font-mono text-text-secondary">
           overlap {overlap} · tolerates f = {tolerance(n)}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

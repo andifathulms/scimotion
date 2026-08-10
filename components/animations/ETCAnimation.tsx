@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -447,9 +448,9 @@ export function ETCAnimation() {
         <span className="text-xs font-mono" style={{ color: relRate > 0.05 ? LIME : PINK }}>
           rate {(relRate * 100).toFixed(0)}% · gradient {(gradient * 100 / 1.4).toFixed(0)}%
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           ATP {atp} · H₂O {water}
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Raise the supply and the ATP output rises with it; oxygen quietly accepts every spent electron at complex IV and leaves as water.

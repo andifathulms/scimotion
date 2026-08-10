@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 336
@@ -366,9 +367,9 @@ export function DNSResolutionAnimation() {
             className="w-20 accent-accent-gold"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           server queries: <strong style={{ color: RED }}>{Math.min(hops, spec.tiers.length)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -441,11 +442,11 @@ export function NeuralNetworkAnimation() {
           />
           <span className="font-mono text-text-secondary">{width}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           epoch <strong className="font-mono text-accent-gold">{epoch}</strong>
           {' · '}loss <strong className="font-mono" style={{ color: GOLD }}>{stats.loss.toFixed(4)}</strong>
           {' · '}accuracy <strong className="font-mono" style={{ color: stats.acc > 0.95 ? GREEN : PINK }}>{(stats.acc * 100).toFixed(0)}%</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Gold rings mark points the network currently misclassifies. Two hidden layers of the chosen width, tanh activations, full-batch gradient descent with momentum.

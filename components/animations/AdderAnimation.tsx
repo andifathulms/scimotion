@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -419,7 +420,7 @@ export function AdderAnimation() {
               >
                 <ChevronRight size={12} /> Step
               </button>
-              <span className="text-text-secondary font-medium">{step}/{NBITS}</span>
+              <WidgetStatus className="text-text-secondary font-medium">{step}/{NBITS}</WidgetStatus>
             </div>
           </>
         )}

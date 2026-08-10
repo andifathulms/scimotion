@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -317,10 +318,10 @@ export function GasExchangeAnimation() {
           />
           <span className="text-text-secondary">thick</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           O₂ flux <strong style={{ color: PINK }}>{Math.round(fluxRel * 100)}%</strong>
           <span className="text-text-muted"> · barrier {barrierPx > 0 ? (0.5 * thick).toFixed(1) : ''}µm</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

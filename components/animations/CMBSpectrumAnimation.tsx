@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -264,9 +265,9 @@ export function CMBSpectrumAnimation() {
           />
           <span>now</span>
         </label>
-        <span className="ml-auto font-mono text-xs text-text-muted">
+        <WidgetStatus className="ml-auto font-mono text-xs text-text-muted">
           T = <strong className="text-accent-indigo">{liveT >= 10 ? Math.round(liveT) : liveT.toFixed(3)} K</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

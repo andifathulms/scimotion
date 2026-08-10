@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 290
@@ -322,7 +323,7 @@ export function StationaryDistributionAnimation() {
             </button>
           ))}
         </div>
-        <span className="ml-auto text-xs text-text-secondary font-mono">step {stepCount}/{MAX_STEPS}</span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">step {stepCount}/{MAX_STEPS}</WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -198,7 +199,7 @@ export function MemoizationTreeAnimation() {
           <span className="text-text-secondary font-medium">{n}</span>
         </label>
         <div className="ml-auto flex gap-4 text-xs">
-          <span style={{ color: PINK }}>naive: <strong>{naiveCalls}</strong> calls</span>
+          <WidgetStatus style={{ color: PINK }}>naive: <strong>{naiveCalls}</strong> calls</WidgetStatus>
           <span style={{ color: GREEN }}>memo: <strong>{memoCalls}</strong> calls</span>
           <span className="text-text-secondary">{speedup.toFixed(1)}× fewer</span>
         </div>

@@ -1,5 +1,6 @@
 'use client'
 import { Fragment, useMemo } from 'react'
+import { useSettledAnnounce } from '@/hooks/useSettledAnnounce'
 
 /**
  * Binds an article's equation to the widget's controls.
@@ -55,21 +56,31 @@ export function EquationReadout({
   result?: string
   assumption?: string
 }) {
+  // Free energy sweeps temperature on a rAF loop and Markov walks on a timer,
+  // so this component's values move every frame in some widgets. It was a plain
+  // aria-live="polite", which is exactly the per-frame firehose that
+  // useSettledAnnounce exists to prevent — the same failure the bespoke readouts
+  // had, in the one component that had already been "fixed".
+  const { ref, text, live } = useSettledAnnounce<HTMLDivElement>()
   const symbols = useMemo(() => bindings.map(b => b.symbol), [bindings])
   const parts = useHighlighted(formula, symbols)
   const symbolSet = useMemo(() => new Set(symbols), [symbols])
 
   return (
-    // role="status" is the one piece of ARIA here that has no native
-    // equivalent: there is no element that means "announce me when I change".
-    // It matters more in this component than anywhere else on the site, because
-    // the thing it describes is a <canvas> — a reader who cannot see the diagram
-    // has the substituted equation as their only channel onto what moving a
+    // This matters more here than anywhere else on the site: the thing the
+    // equation describes is a <canvas>, so for a reader who cannot see the
+    // diagram the substituted formula is the only channel onto what moving a
     // slider actually did.
     //
-    // aria-atomic, because the formula only means anything whole: hearing "0.94"
-    // on its own is not an answer to a question.
-    <div role="status" aria-live="polite" aria-atomic="true" className="flex flex-col gap-1 text-xs">
+    // aria-atomic, because a formula only means something whole — hearing
+    // "0.94" on its own answers no question.
+    <div className="flex flex-col gap-1 text-xs">
+    {/* The ref covers the formula and its substitution only. The assumption is
+        a standing caveat, not a value: repeating "small-angle approximation —
+        the simulation integrates the exact equation..." on every settle would
+        bury the number it qualifies. It stays outside the announced text and
+        inside the accessibility tree, where it can be read once. */}
+    <div ref={ref} aria-hidden="true" className="flex flex-col gap-1">
       {/* Unicode rather than KaTeX on purpose. KaTeX renders the article's
           display math at build time with no client JS; pulling its runtime into
           a widget to typeset one line would ship ~270KB to every article for a
@@ -97,7 +108,11 @@ export function EquationReadout({
           </Fragment>
         ))}
       </span>
-      {assumption && <span className="text-text-muted italic">{assumption}</span>}
+    </div>
+    {assumption && <span className="text-text-muted italic">{assumption}</span>}
+    <span role="status" aria-live={live} aria-atomic="true" className="sr-only">
+      {text}
+    </span>
     </div>
   )
 }

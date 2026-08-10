@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -449,11 +450,11 @@ export function ProteinFoldingAnimation() {
             </button>
           ))}
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           tried <strong className="font-mono" style={{ color: C_TRACE }}>{cur.tried.toLocaleString()}</strong> ·{' '}
           E = <strong className="font-mono" style={{ color: C_TRACE }}>{cur.e}</strong> ·{' '}
           best <strong className="font-mono" style={{ color: C_BEST }}>{cur.best}</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         <span style={{ color: C_H }}>●</span> hydrophobic ({nH} of {N}) ·{' '}

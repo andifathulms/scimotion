@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -263,9 +264,9 @@ export function InterferometerAnimation() {
             className="w-28" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{(amp * 0.2).toFixed(1)}×10⁻²¹</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           differential shift <strong className="font-mono" style={{ color: sNow >= 0 ? ACCENT : BLUE }}>{sNow >= 0 ? '+' : '−'}</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         The laser is split down two perpendicular {ARM_KM}-km arms and recombined at the detector. Inject a wave and watch

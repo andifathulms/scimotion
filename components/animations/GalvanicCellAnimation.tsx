@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 340
@@ -448,9 +449,9 @@ export function GalvanicCellAnimation() {
         <span className="text-xs text-text-muted font-mono">
           charge passed: {charge.toFixed(1)}
         </span>
-        <span className="ml-auto text-xs font-mono" style={{ color: current > 0.05 ? GREEN : '#F472B6' }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: current > 0.05 ? GREEN : '#F472B6' }}>
           I = {(current * 100).toFixed(0)}% · imbalance {(imbalance * 100).toFixed(0)}%
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

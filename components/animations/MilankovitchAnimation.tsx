@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 380
@@ -354,9 +355,9 @@ export function MilankovitchAnimation() {
             className="w-28 accent-accent-blue"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {at === 0 ? 'now' : `${at.toFixed(0)} kyr BP`} · e={ecc(at).toFixed(3)} · ε={obliq(at).toFixed(1)}° · Q={q.toFixed(0)} W m⁻²
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -327,13 +328,13 @@ export function CloudFormationAnimation() {
           />
           <span className="text-text-secondary font-mono">{rh}%</span>
         </label>
-        <span className="ml-auto text-xs text-text-muted">
+        <WidgetStatus className="ml-auto text-xs text-text-muted">
           {z > lcl ? (
             <strong style={{ color: VIOLET }}>condensing on nuclei</strong>
           ) : (
             <span>below dew point altitude</span>
           )}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

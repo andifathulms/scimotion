@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -361,10 +362,10 @@ export function MITMAnimation() {
             Off
           </button>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           outcome:{' '}
           <strong style={{ color: checking ? GREEN : RED }}>{checking ? 'protected' : 'exposed'}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

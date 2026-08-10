@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 type Phase = 0 | 1 | 2 | 3 | 4 | 5
 
@@ -117,9 +118,9 @@ export function CardiacAnimation() {
           <span>Speed:</span>
           <input type="range" min={300} max={1500} step={100} value={1800 - speed} onChange={e => setSpeed(1800 - +e.target.value)} className="w-20 accent-accent-gold" />
         </label>
-        <span className="ml-auto text-xs text-text-secondary capitalize">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary capitalize">
           Phase: <strong className="text-accent-teal">{['Idle', 'SA Node fires', 'Atria contract', 'AV delay', 'Ventricles contract', 'Reset'][phase]}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

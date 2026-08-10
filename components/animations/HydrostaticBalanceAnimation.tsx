@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -248,11 +249,11 @@ export function HydrostaticBalanceAnimation() {
           />
           <span className="text-text-secondary font-medium">{dial.toFixed(2)}×</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <strong style={{ color: readout.state.startsWith('Fusion off') ? PINK : readout.state === 'Balanced' ? INDIGO : GOLD }}>
             {readout.state}
           </strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Nudge fusion <strong className="text-text-secondary">up</strong> and the star expands and cools until fusion falls back;

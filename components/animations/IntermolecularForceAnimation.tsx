@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 640
 const H = 380
@@ -504,9 +505,9 @@ export function IntermolecularForceAnimation() {
         >
           {running ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Heat past boiling</>}
         </button>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {E.toFixed(1)} kJ/mol · boils {tb} °C
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

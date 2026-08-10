@@ -2,6 +2,7 @@
 import { useRef, useEffect, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -207,9 +208,9 @@ export function IPAddressAnimation() {
             style={{ accentColor: CYAN }}
           />
         </label>
-        <span className="ml-auto text-xs text-text-muted font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-muted font-mono">
           {fmt(networks)} × {fmt(hostAddrs)} = {fmt(Math.pow(2, 32))} total
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

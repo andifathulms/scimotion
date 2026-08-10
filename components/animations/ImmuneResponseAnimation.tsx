@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Syringe } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 270
@@ -290,12 +291,12 @@ export function ImmuneResponseAnimation() {
         >
           {primed ? 'Immunological memory present' : 'Naive — no memory yet'}
         </span>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           day <strong className="text-text-primary">{day.toFixed(0)}</strong> ·{' '}
           <span style={{ color: C_PATHOGEN }}>load {(pathogen * 100).toFixed(0)}</span> ·{' '}
           <span style={{ color: C_ANTIBODY }}>titre {(antibody * 100).toFixed(0)}</span> ·{' '}
           <span style={{ color: C_MEMORY }}>memory {(memory * 100).toFixed(0)}</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

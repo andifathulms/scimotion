@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -198,9 +199,9 @@ export function GravitationalLensingAnimation() {
           />
           <span className="font-mono text-text-secondary">{Math.round(mass * 100)}%</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Einstein radius ∝ <strong className="font-mono" style={{ color: ACCENT }}>√mass</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         The foreground mass (violet, mostly invisible) bends the light of the blue background galaxy behind it. With little mass the light travels

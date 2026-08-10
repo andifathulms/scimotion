@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, SkipForward } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -299,9 +300,9 @@ export function PowerIterationAnimation() {
             className="w-24 accent-accent-violet" />
           <span className="font-mono">{startAngle.toFixed(2)}</span>
         </label>
-        <span className="ml-auto font-mono text-xs text-accent-violet">
+        <WidgetStatus className="ml-auto font-mono text-xs text-accent-violet">
           ρ<sub>{step}</sub> = {cur.rq.toFixed(4)} → λ₁ = {lambda.toFixed(4)}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

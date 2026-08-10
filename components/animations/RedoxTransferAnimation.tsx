@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -291,11 +292,11 @@ export function RedoxTransferAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <span className="ml-auto text-xs font-mono" style={{ color: VIOLET }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: VIOLET }}>
           Zn {p < 0.03 ? '0' : '+' + ((eProgress(p, 0) > 0.02 ? 1 : 0) + (eProgress(p, 1) > 0.02 ? 1 : 0))}
           {'  ·  '}
           Cu +{2 - ((eProgress(p, 0) >= 1 ? 1 : 0) + (eProgress(p, 1) >= 1 ? 1 : 0))}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

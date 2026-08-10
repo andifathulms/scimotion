@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -169,9 +170,9 @@ export function HubbleDiagramAnimation() {
           />
           <span className="text-text-secondary font-medium">{h0.toFixed(1)} km/s/Mpc</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Hubble time 1/H₀ ≈ <strong className="text-accent-gold">{age.toFixed(1)} Gyr</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

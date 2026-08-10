@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Send, Cookie, XCircle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -353,11 +354,11 @@ export function CookieStateAnimation() {
         >
           <XCircle size={12} /> Clear cookie
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {hasCookie
             ? <>session <strong className="text-accent-gold">active</strong></>
             : <>server sees a <strong style={{ color: RED }}>stranger</strong></>}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw, Maximize2 } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 290
@@ -260,10 +261,10 @@ export function LoadFactorAnimation() {
           />
           <span className="text-text-secondary font-medium">{alpha.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           capacity <strong className="text-accent-gold">{cap}</strong>
           <span className="ml-3">worst probes ≈ {openProbes(alpha) >= P_MAX ? '∞' : openProbes(alpha).toFixed(1)}</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -489,10 +490,10 @@ export function CellCycleAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <span style={{ color: LIME }}>chromosome 1</span> ·{' '}
           <span style={{ color: BLUE }}>chromosome 2</span> — each daughter gets one of each
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

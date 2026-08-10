@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const A = 'KITTEN'
 const B = 'SITTING'
@@ -256,10 +257,10 @@ export function DynamicProgrammingAnimation() {
             className="w-20 accent-accent-gold"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Cells filled <strong className="text-accent-gold">{cellsDone}</strong> / {fillCount}
           {idx >= steps.length - 1 && <span style={{ color: PINK }} className="ml-3">distance = {table[M][N]}</span>}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

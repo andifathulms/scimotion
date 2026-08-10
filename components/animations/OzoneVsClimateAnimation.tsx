@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 360
@@ -304,9 +305,9 @@ export function OzoneVsClimateAnimation() {
         >
           {co2 ? 'CO₂: on (right)' : 'CO₂: off (right)'}
         </button>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           UV to surface {readout.uv} · warming +{readout.warm.toFixed(2)}
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         The two toggles are wired to different halves of the sky and never touch each other. Switch CFCs on

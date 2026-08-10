@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -282,9 +283,9 @@ export function PharmacokineticsAnimation() {
         >
           {status}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           t = {t.toFixed(0)} h · C = {conc.toFixed(0)} · accumulation ×{accumulation.toFixed(2)} · ~{dosesToSteady} doses to steady state
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

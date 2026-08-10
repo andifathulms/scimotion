@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -370,9 +371,9 @@ export function MagnetosphereAnimation() {
         <span>
           dayside is compressed, nightside drawn into a tail; some particles funnel to the poles
         </span>
-        <span className="ml-auto font-mono">
+        <WidgetStatus className="ml-auto font-mono">
           standoff ≈ {(standoffOf(wind) / 15).toFixed(1)} R<sub>E</sub>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

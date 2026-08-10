@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Timer } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 380
@@ -269,11 +270,11 @@ export function ReverseProxyAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-accent-red text-accent-red text-xs hover:bg-bg-hover transition-colors">
           <Timer size={12} /> Inject slow request
         </button>
-        <span className="ml-auto text-xs text-text-muted">
+        <WidgetStatus className="ml-auto text-xs text-text-muted">
           <span style={{ color: GREEN }}>■</span> static&nbsp;&nbsp;
           <span style={{ color: BLUE }}>■</span> dynamic&nbsp;&nbsp;
           <span style={{ color: RED }}>■</span> slow
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

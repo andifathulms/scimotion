@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 340
@@ -293,9 +294,9 @@ export function SelfRenewalAnimation() {
         >
           <RotateCcw size={12} /> Reset
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <span style={{ color: LIME }}>stem</span> · <span style={{ color: VIOLET }}>specialized</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

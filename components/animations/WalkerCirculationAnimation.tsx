@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -310,7 +311,7 @@ export function WalkerCirculationAnimation() {
         <span>Peru upwelling: {upwell < 0.1 ? 'off' : `${upwell.toFixed(2)}`}</span>
       </div>
       <div className="animation-controls flex-wrap gap-3 mt-3">
-        <span className="flex items-center gap-1.5 text-xs text-text-muted"><Play size={13} /> phase</span>
+        <WidgetStatus className="flex items-center gap-1.5 text-xs text-text-muted"><Play size={13} /> phase</WidgetStatus>
         {btn('normal', 'Normal')}
         {btn('elnino', 'El Niño')}
         {btn('lanina', 'La Niña')}

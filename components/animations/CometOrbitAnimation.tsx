@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -286,11 +287,11 @@ export function CometOrbitAnimation() {
         >
           {playing ? <><Pause size={12} /> Pause</> : <><Play size={12} /> Play</>}
         </button>
-        <span className="text-xs text-text-muted font-mono ml-auto self-center">
+        <WidgetStatus className="text-xs text-text-muted font-mono ml-auto self-center">
           {readout.r < R_MIN_AU + 4 ? 'racing through perihelion — tail longest'
             : readout.r > R_MAX_AU - 4 ? 'crawling at aphelion — nearly tail-less'
             : readout.lead ? 'outbound: tail leads the way' : 'inbound: tail trails behind'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

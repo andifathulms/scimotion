@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Snowflake, Droplet } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 640
 const H = 380
@@ -361,9 +362,9 @@ export function WaterAnomalyAnimation() {
         <span className="text-xs text-text-muted font-mono">
           {freezePct < 10 ? 'liquid' : freezePct > 90 ? 'ice' : `${freezePct}% frozen`}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {(RHO_LIQUID - (RHO_LIQUID - RHO_ICE) * (freezePct / 100)).toFixed(3)} g/cm³
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

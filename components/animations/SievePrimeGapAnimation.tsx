@@ -1,6 +1,7 @@
 'use client'
 import { useState, useMemo, useEffect } from 'react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 type ViewMode = 'gaps' | 'density'
@@ -177,9 +178,9 @@ export function SievePrimeGapAnimation() {
             Show π(n) ≈ n/ln(n)
           </label>
         )}
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {primes.length} primes · {gaps.filter(g => g.gap === 2).length} twin pairs
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

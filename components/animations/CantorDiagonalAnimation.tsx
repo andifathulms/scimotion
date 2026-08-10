@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const VIOLET = '#A78BFA'
 const N = 8 // rows in the (necessarily incomplete) list
@@ -206,9 +207,9 @@ export function CantorDiagonalAnimation() {
         >
           Step
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Diagonal digit <strong className="text-accent-gold">{phase}</strong> / {MAX_PHASE}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -592,11 +593,11 @@ export function MRIAnimation() {
           />
           <span>{detune >= 0 ? '+' : ''}{detune.toFixed(2)} kHz</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Larmor <strong className="text-accent-gold">{larmor.toFixed(1)} MHz</strong> · tip{' '}
           <strong className="text-accent-gold">{tipPct}%</strong> · flip{' '}
           <strong className="text-accent-gold">{flip.toFixed(0)}°</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 270
@@ -160,9 +161,9 @@ export function LearningRateAnimation() {
             </span>
           ))}
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           k = <strong className="font-mono text-accent-gold">{k}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

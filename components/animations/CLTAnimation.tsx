@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -239,7 +240,7 @@ export function CLTAnimation() {
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{n}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">{total} samples drawn</span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">{total} samples drawn</WidgetStatus>
       </div>
     </div>
   )

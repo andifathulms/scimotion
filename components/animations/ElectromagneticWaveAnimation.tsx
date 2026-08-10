@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -238,9 +239,9 @@ export function ElectromagneticWaveAnimation() {
           />
           <span className="text-text-secondary font-medium">{freq.toFixed(2)}× · λ = {lambda.toFixed(0)} px</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           at the probe: <strong className="text-accent-violet">∂E/∂x = −∂B/∂t = {slope.toFixed(2)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

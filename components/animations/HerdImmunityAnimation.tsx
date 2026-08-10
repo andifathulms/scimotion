@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Zap } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -352,7 +353,7 @@ export function HerdImmunityAnimation() {
           <span className="font-mono">{r0.toFixed(1)}</span>
         </label>
         <div className="px-3 py-2 rounded-lg bg-bg-surface border border-border text-xs font-mono text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-1 ml-auto">
-          <span>need <strong className="text-text-primary">{(threshold * 100).toFixed(0)}%</strong></span>
+          <WidgetStatus>need <strong className="text-text-primary">{(threshold * 100).toFixed(0)}%</strong></WidgetStatus>
           <span style={{ color: C_REC }}>infected {((stats.infected / N) * 100).toFixed(0)}%</span>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -334,11 +335,11 @@ export function CatalysisAnimation() {
           />
           <span className="text-text-secondary font-mono">{deltaG} kJ/mol</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           E<sub>a</sub> fwd {eaF.toFixed(0)} · rev {eaR.toFixed(0)} · crossings {counts.fwd}/{counts.rev} ·
           K = {K.toExponential(1)} ·{' '}
           <strong style={{ color: C_CAT }}>rate ×{speedup.toExponential(1)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Toggle the catalyst and watch what changes and what does not. The hill collapses; the two dashed

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -325,12 +326,12 @@ export function HammingDistanceAnimation() {
         >
           <ChevronRight size={12} /> Add error
         </button>
-        <span className="text-xs text-text-muted font-mono ml-auto self-center">
+        <WidgetStatus className="text-xs text-text-muted font-mono ml-auto self-center">
           {errors === 0 ? 'valid codeword'
             : errors <= T_CORRECT ? 'inside correction radius → fixed'
             : errors < N ? 'beyond radius → mis-decodes'
             : 'landed on the other codeword'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

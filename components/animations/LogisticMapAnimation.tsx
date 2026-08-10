@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 330
@@ -261,9 +262,9 @@ export function LogisticMapAnimation() {
         <span className="text-xs text-text-secondary">
           behaviour: <strong style={{ color: period === 0 ? BLUE : VIOLET }}>{label}</strong>
         </span>
-        <span className="ml-auto text-xs text-text-muted font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-muted font-mono">
           {done ? 'sweep complete' : 'sweeping r…'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

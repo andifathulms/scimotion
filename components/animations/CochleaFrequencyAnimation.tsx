@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -335,7 +336,7 @@ export function CochleaFrequencyAnimation() {
             <span className="tabular-nums">{nHarm}</span>
           </label>
         )}
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {mode === 'pure' ? (
             <>
               peaks at <strong style={{ color: PINK }}>{Math.round(activePlace * 100)}%</strong> toward the apex
@@ -345,7 +346,7 @@ export function CochleaFrequencyAnimation() {
               spread out by <strong className="text-accent-gold">location</strong>
             </>
           )}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

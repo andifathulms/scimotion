@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 306
@@ -402,10 +403,10 @@ export function DiffieHellmanAnimation() {
           />
           <span className="text-text-secondary font-medium">{b}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Step <strong className="text-accent-gold">{step + 1}</strong> / {N}
           <span className="ml-3">shared key {shared}</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

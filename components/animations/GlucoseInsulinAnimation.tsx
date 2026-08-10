@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Utensils } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -351,9 +352,9 @@ export function GlucoseInsulinAnimation() {
         >
           {inBand ? 'inside the band' : glucose > BAND_HI ? 'above the band' : 'below the band'}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           t = {t.toFixed(1)} h · G = {glucose.toFixed(0)} · I = {insulin.toFixed(0)} · peak {peak.toFixed(0)} · {aboveBand.toFixed(1)} h above 140
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

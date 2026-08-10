@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -244,11 +245,11 @@ export function HalfLifeAnimation() {
           />
           <span className="text-text-secondary font-mono">{halfLife} h</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {n.toFixed(2)} half-lives · {(n * halfLife).toFixed(1)} h ·{' '}
           <strong style={{ color: C_FIRST }}>{(remaining * 100).toFixed(2)}% left</strong> ·{' '}
           {(cleared * 100).toFixed(1)}% cleared
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         First-order elimination removes a constant <em>fraction</em> per unit time, so the curve halves

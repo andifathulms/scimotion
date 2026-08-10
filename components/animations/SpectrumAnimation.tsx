@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -297,11 +298,11 @@ export function SpectrumAnimation() {
           />
           <span className="text-text-secondary font-medium">{fmtLambda(lam)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           band: <strong className="text-accent-gold">{bandOf(lam).name}</strong>
           {'  ·  '}
           <strong className="text-accent-violet">{fmtEnergy(HC_EV_M / lam)}</strong> per photon
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

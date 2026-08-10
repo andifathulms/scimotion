@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -289,14 +290,14 @@ export function EnergyLandscapeAnimation() {
           />
           <span className="font-mono text-text-secondary">{rug.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {finished
             ? outcome === 'folded'
               ? <>folded in <strong className="font-mono" style={{ color: C_NATIVE }}>{run?.foldStep}</strong> steps</>
               : <strong style={{ color: C_CURVE }}>trapped — a misfolded intermediate</strong>
             : <>descending · step <strong className="font-mono" style={{ color: C_BALL }}>{step}</strong></>
           }
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Reset redraws the ruggedness with fresh bumps, so the same setting gives a different landscape each time.

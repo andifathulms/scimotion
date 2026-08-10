@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -552,9 +553,9 @@ export function ConvectionAnimation() {
         <span className="text-xs text-text-secondary font-mono">
           top {(lead.z / 1000).toFixed(1)} km · w = {lead.w.toFixed(1)} m/s
         </span>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <strong style={{ color: verdict.color }}>{verdict.name}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

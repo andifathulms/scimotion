@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -836,10 +837,10 @@ export function PlateTectonicsAnimation() {
         <span>
           quakes: <strong className="text-text-secondary">{info.quakes}</strong>
         </span>
-        <span className="ml-auto font-mono">
+        <WidgetStatus className="ml-auto font-mono">
           {clock.toFixed(1)} Myr · {Math.round(displacement).toLocaleString('en-US')} km ·{' '}
           {info.example}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

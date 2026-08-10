@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw, Flame } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -316,7 +317,7 @@ export function CDNEdgeAnimation() {
           edge:{' '}
           <strong style={{ color: warm ? GOLD : RED }}>{warm ? 'warm (cached)' : 'cold (empty)'}</strong>
         </span>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           requests: <strong style={{ color: RED }}>{reqCount}</strong>
           {lastLatency !== null && wasHit !== null && (
             <>
@@ -326,7 +327,7 @@ export function CDNEdgeAnimation() {
               </strong>
             </>
           )}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

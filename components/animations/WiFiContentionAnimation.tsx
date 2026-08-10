@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Plus, Minus } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -392,7 +393,7 @@ export function WiFiContentionAnimation() {
             disabled={count <= MIN_DEV}>
             <Minus size={12} /> Device
           </button>
-          <span className="text-xs font-mono text-text-secondary tabular-nums">{count} sharing</span>
+          <WidgetStatus className="text-xs font-mono text-text-secondary tabular-nums">{count} sharing</WidgetStatus>
           <button onClick={() => rebuild(Math.min(MAX_DEV, count + 1))}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors disabled:opacity-40"
             disabled={count >= MAX_DEV}>

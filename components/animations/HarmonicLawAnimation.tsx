@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 290
@@ -158,7 +159,7 @@ export function HarmonicLawAnimation() {
           />
           <span className="text-text-secondary font-medium">{p.name}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           a = <strong className="text-accent-gold">{p.a.toFixed(3)} AU</strong>
           {'  ·  '}
           T = <strong className="text-accent-gold">{p.T.toFixed(3)} yr</strong>
@@ -166,7 +167,7 @@ export function HarmonicLawAnimation() {
           e = <strong className="text-accent-gold">{p.e.toFixed(4)}</strong>
           {'  ·  '}
           T²/a³ = <strong className="text-accent-gold">{ratio.toFixed(4)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

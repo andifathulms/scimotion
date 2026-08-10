@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 const W = 600
@@ -170,9 +171,9 @@ export function ECGTraceAnimation() {
             className="w-40 accent-accent-pink"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <strong className="text-accent-pink">{bpm}</strong> BPM
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

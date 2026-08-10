@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 322
@@ -424,9 +425,9 @@ export function AntibioticResistanceAnimation() {
         >
           {inWindow ? 'inside the selection window' : dose >= MIC_R ? 'above both MICs' : 'below both MICs'}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           gen {stats.gen} · alive {live}/{N} · resistant {pct}%
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

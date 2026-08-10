@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -319,9 +320,9 @@ export function RadiationSpectrumAnimation() {
             <span style={{ color: on[g.key] ? g.color : undefined }}>{g.name}</span>
           </label>
         ))}
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           sunlight {stats.sun.toFixed(0)}% · Earth IR {stats.earth.toFixed(0)}%
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

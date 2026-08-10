@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 420
@@ -332,12 +333,12 @@ export function OrbitVelocityAnimation() {
             style={{ accentColor: INDIGO }}
           />
         </label>
-        <span className="text-xs text-text-muted font-mono ml-auto self-center">
+        <WidgetStatus className="text-xs text-text-muted font-mono ml-auto self-center">
           {path === 'suborbital' ? 'too slow — gravity wins, it crashes'
             : path === 'circular' ? 'just right — falling, but missing forever'
             : path === 'elliptical' ? 'bound but eccentric — rises then falls back'
             : 'past escape — hyperbolic, gone for good'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

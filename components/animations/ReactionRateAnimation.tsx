@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -343,9 +344,9 @@ export function ReactionRateAnimation() {
           />
           <span className="text-text-secondary font-mono">{ea} kJ/mol</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           <strong style={{ color: C_HOT }}>rate ×{relText}</strong> vs 300 K · +10 K → ×{per10.toFixed(2)} · {reactions} reactions
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Blue molecules carry less than the barrier energy; orange ones carry more. Collisions happen

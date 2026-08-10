@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -350,7 +351,7 @@ export function HurricaneStructureAnimation() {
           />
           <span className="font-mono text-text-secondary">{lat.toFixed(0)}°</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">{label}</span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">{label}</WidgetStatus>
       </div>
     </div>
   )

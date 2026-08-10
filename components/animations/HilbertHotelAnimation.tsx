@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const VIOLET = '#A78BFA'
 const ROOMS = 12 // visible rooms; the hotel continues past the ellipsis
@@ -304,9 +305,9 @@ export function HilbertHotelAnimation() {
           </button>
         </div>
 
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Phase <strong className="text-accent-gold">{phase}</strong> / {MAX_PHASE}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

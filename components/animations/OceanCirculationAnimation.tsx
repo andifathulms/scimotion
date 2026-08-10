@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -472,7 +473,7 @@ export function OceanCirculationAnimation() {
             {omega.toFixed(2)}×
           </span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">{label}</span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">{label}</WidgetStatus>
       </div>
     </div>
   )

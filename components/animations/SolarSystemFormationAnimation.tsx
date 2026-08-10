@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -278,9 +279,9 @@ export function SolarSystemFormationAnimation() {
             style={{ accentColor: INDIGO }}
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Radius <strong style={{ color: INDIGO }}>↓</strong> · spin <strong style={{ color: GOLD }}>↑</strong> · flattening into a plane
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Conservation of angular momentum spins the shrinking cloud up and flattens it into a disk — so every planet ends up orbiting the same way, in the same plane.

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 260
@@ -180,9 +181,9 @@ export function NewtonConvergenceAnimation() {
             Bisection (linear)
           </span>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Newton @ k={Math.min(step, N_ITER)}: <strong className="font-mono" style={{ color: NEWTON }}>{correctDigits}</strong> correct digits
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

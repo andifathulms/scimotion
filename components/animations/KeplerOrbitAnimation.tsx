@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -216,11 +217,11 @@ export function KeplerOrbitAnimation() {
           />
           <span className="text-text-secondary font-medium">e = {ecc.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           r = <strong className="text-accent-gold">{readout.r.toFixed(2)}a</strong>
           {'  ·  '}
           speed = <strong className="text-accent-gold">{readout.v.toFixed(2)}×</strong> circular
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

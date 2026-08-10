@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Zap } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -423,10 +424,10 @@ export function GeodynamoAnimation() {
         <span>
           convection + rotation drive an induction loop that regenerates the field
         </span>
-        <span className="ml-auto font-mono">
+        <WidgetStatus className="ml-auto font-mono">
           field:{' '}
           <strong style={{ color: strength > 40 ? CYAN : GOLD }}>{strength}%</strong> of full
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

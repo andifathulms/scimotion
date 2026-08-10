@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -445,9 +446,9 @@ export function CellPotentialAnimation() {
             </label>
           </>
         )}
-        <span className="ml-auto text-xs font-mono text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs font-mono text-text-secondary">
           {cell.anode.sym} | {cell.cathode.sym} · E°cell = {cell.e0.toFixed(2)} V · n = {cell.n}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

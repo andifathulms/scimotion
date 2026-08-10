@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -435,7 +436,7 @@ export function NephronAnimation() {
           />
           <span className="text-text-secondary font-mono">{glucose} mg/dL</span>
         </label>
-        <span
+        <WidgetStatus
           className="px-2 py-1 rounded text-xs font-medium border"
           style={
             spillFrac > 0
@@ -444,7 +445,7 @@ export function NephronAnimation() {
           }
         >
           {spillFrac > 0 ? 'above renal threshold → glucosuria' : 'below 180 mg/dL → glucose fully reclaimed'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

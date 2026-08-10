@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 260
@@ -141,9 +142,9 @@ export function PendulumPeriodAnimation() {
           />
           <span className="text-text-secondary font-medium">{deg}°</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           True period is <strong className="text-accent-gold">{pct}%</strong> longer than the small-angle formula
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

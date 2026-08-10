@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Zap, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -226,7 +227,7 @@ export function NeuronThresholdAnimation() {
             {willFire ? '≥ threshold' : '< threshold'}
           </span>
         </label>
-        <span
+        <WidgetStatus
           className="px-2 py-1 rounded text-xs font-medium border"
           style={
             outcome === 'fired'
@@ -237,7 +238,7 @@ export function NeuronThresholdAnimation() {
           }
         >
           {outcome === 'fired' ? 'FIRED — full spike' : outcome === 'subthreshold' ? 'No spike — passive bump' : 'Awaiting stimulus'}
-        </span>
+        </WidgetStatus>
         <span className="ml-auto text-xs text-text-secondary max-w-[260px]">
           Above threshold, a bigger stimulus does <strong className="text-accent-pink">not</strong> make a bigger spike.
         </span>

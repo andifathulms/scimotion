@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -315,9 +316,9 @@ export function StellarLifecycleAnimation() {
           />
           <span className="text-text-secondary font-medium">{mass < 1 ? mass.toFixed(2) : mass.toFixed(1)} M☉</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           MS life ≈ <strong style={{ color: INDIGO }}>{fmtAge(life)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Phase: <strong className="text-text-secondary font-mono">{readout.phase}</strong> ·

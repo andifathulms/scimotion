@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -113,7 +114,7 @@ export function DoubleSlitAnimation() {
           <span>Speed:</span>
           <input type="range" min={SPEC.speed.min} max={SPEC.speed.max} value={speed} onChange={e => set('speed', +e.target.value)} className="w-20 accent-accent-gold" />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">Particles detected: <strong className="text-accent-teal">{dots.length}</strong></span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">Particles detected: <strong className="text-accent-teal">{dots.length}</strong></WidgetStatus>
       </div>
     </div>
   )

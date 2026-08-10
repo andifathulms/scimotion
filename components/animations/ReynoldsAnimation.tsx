@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 280
@@ -388,9 +389,9 @@ export function ReynoldsAnimation() {
           />
           <span className="text-text-secondary font-mono">{formatRe(re)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           regime: <strong style={{ color: reg.color }}>{reg.name}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

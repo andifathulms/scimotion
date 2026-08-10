@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 type Step = { type: 'compare' | 'swap'; indices: [number, number] }
 type Algorithm = 'Bubble Sort' | 'Insertion Sort' | 'Merge Sort' | 'Quick Sort'
@@ -211,9 +212,9 @@ export function SortingAnimation() {
           <span>Speed:</span>
           <input type="range" min={20} max={300} step={10} value={320 - speed} onChange={e => setSpeed(320 - +e.target.value)} className="w-20 accent-accent-gold" />
         </label>
-        <span className="text-xs text-text-secondary">
+        <WidgetStatus className="text-xs text-text-secondary">
           Comparisons: <strong className="text-accent-orange">{comparisons}</strong> · Swaps: <strong className="text-accent-teal">{swaps}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

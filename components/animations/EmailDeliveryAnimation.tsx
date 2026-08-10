@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -349,9 +350,9 @@ export function EmailDeliveryAnimation() {
             className="w-20 accent-accent-gold"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           servers in the path: <strong style={{ color: RED }}>2</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

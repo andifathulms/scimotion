@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, RotateCcw, Send } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -327,10 +328,10 @@ export function HTTPRequestAnimation() {
             {PATHS.map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           same IP <strong className="text-accent-cyan">{SERVER_IP}</strong> →{' '}
           <strong style={{ color: found ? GREEN : RED }}>{status}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

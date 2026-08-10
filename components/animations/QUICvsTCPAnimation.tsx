@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Scissors } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -383,11 +384,11 @@ export function QUICvsTCPAnimation() {
             QUIC
           </button>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {mode === 'tcp'
             ? <>one loss <strong style={{ color: RED }}>stalls all streams</strong></>
             : <>one loss <strong style={{ color: GREEN }}>stalls only its own</strong></>}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

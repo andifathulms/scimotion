@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -451,9 +452,9 @@ export function CalvinCycleAnimation() {
           />
           <span className="text-text-secondary font-mono">{co2Conc(co2).toFixed(0)} µM</span>
         </label>
-        <span className="ml-auto text-xs font-mono" style={{ color: oxyTurn ? PINK : LIME }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: oxyTurn ? PINK : LIME }}>
           v_o/v_c = {ratio.toFixed(2)} · {ledger.turns} turns · {ledger.exported} G3P out
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Drop the CO₂ concentration — as on a hot, dry day with the stomata shut — and watch the pink oxygenation turns take over the wheel.

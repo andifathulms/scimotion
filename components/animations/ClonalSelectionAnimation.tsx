@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -288,10 +289,10 @@ export function ClonalSelectionAnimation() {
         >
           {PHASE_LABEL[phase]}
         </span>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           round <strong className="text-text-primary">{cloneCount > 0 ? round : 0}</strong> ·{' '}
           <strong className="text-accent-pink">{cloneCount.toLocaleString()}</strong> clone{cloneCount === 1 ? '' : 's'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

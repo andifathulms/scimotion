@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -383,7 +384,7 @@ export function FunctionalGroupAnimation() {
             </button>
           ))}
         </div>
-        <span className="ml-auto font-mono text-xs text-text-muted">{GROUPS[idx].family}</span>
+        <WidgetStatus className="ml-auto font-mono text-xs text-text-muted">{GROUPS[idx].family}</WidgetStatus>
       </div>
     </div>
   )

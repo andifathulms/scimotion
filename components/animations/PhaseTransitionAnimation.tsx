@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -520,10 +521,10 @@ export function PhaseTransitionAnimation() {
           />
           <span className="font-mono text-text-secondary">{rate}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {Math.round(energy)} J g⁻¹ · {s.T.toFixed(1)} °C ·{' '}
           {s.latentTotal > 0 ? `${Math.round(s.frac * 100)}% converted` : s.phase}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

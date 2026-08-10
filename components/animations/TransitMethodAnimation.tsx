@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -246,9 +247,9 @@ export function TransitMethodAnimation() {
           />
           <span className="text-text-secondary font-medium">b = {impact.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           depth = <strong className="text-accent-gold">{(readout.depth * 100).toFixed(2)}%</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 360
@@ -611,9 +612,9 @@ export function PhaseDiagramAnimation() {
             </button>
           ))}
         </div>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {pt.T.toFixed(0)} K · {fmtP(P)} · {reg}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

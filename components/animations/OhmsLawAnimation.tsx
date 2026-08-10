@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -328,9 +329,9 @@ export function OhmsLawAnimation() {
           />
           <span className="text-text-secondary font-mono">{Math.round(ohms)} Ω</span>
         </label>
-        <span className="ml-auto text-xs font-mono" style={{ color: GOLD }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: GOLD }}>
           I = {(I * 1000).toFixed(0)} mA
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

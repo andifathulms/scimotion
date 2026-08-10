@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -317,10 +318,10 @@ export function CarbonCycleAnimation() {
         >
           {regime}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           year {years.toFixed(0)} · {stock.toFixed(0)} GtC · {(stock / GTC_PER_PPM).toFixed(0)} ppm
           {emissions > 0 ? ` · airborne ${airborne.toFixed(0)}%` : ''}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

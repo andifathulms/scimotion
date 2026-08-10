@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 330
@@ -336,9 +337,9 @@ export function SuperconductivityAnimation() {
           />
           <span className="font-mono text-text-secondary">{temp.toFixed(1)} K</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {temp < TC ? `paired ${Math.round(f * 100)}% · R = 0` : `R = ${resistance(temp).toFixed(3)}`}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

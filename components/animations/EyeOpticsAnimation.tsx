@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -382,9 +383,9 @@ export function EyeOpticsAnimation() {
             <span style={{ color: corrected ? VIOLET : undefined }}>corrective lens</span>
           </label>
         )}
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           drag the object · watch the <strong style={{ color: BLUE }}>lens</strong> reshape to keep focus
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

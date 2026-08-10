@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 388
@@ -305,9 +306,9 @@ export function ElementOriginAnimation() {
         <span className="font-mono text-xs text-text-muted">
           Hover or tap any element — the colour is where it was forged.
         </span>
-        <span className="ml-auto font-mono text-xs text-text-muted">
+        <WidgetStatus className="ml-auto font-mono text-xs text-text-muted">
           {sel.sym}: {ORIGINS.find(o => o.key === sel.origin)?.label}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

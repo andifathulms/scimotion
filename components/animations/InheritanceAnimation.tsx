@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -326,7 +327,7 @@ export function InheritanceAnimation() {
             className="w-24 accent-accent-lime" />
           <span className="font-mono text-text-secondary w-4">{kids}</span>
         </label>
-        <span className="text-xs" style={{ color: VIOLET }}>Aa carrier</span>
+        <WidgetStatus className="text-xs" style={{ color: VIOLET }}>Aa carrier</WidgetStatus>
         <span className="text-xs" style={{ color: PINK }}>aa affected</span>
       </div>
     </div>

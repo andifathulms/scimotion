@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 384
@@ -399,9 +400,9 @@ export function IceCoreAnimation() {
         >
           {view}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {at.toFixed(0)} kyr BP · {temp(at).toFixed(1)} °C · {co2(at).toFixed(0)} ppm
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

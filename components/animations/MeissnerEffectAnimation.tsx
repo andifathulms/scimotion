@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw, Snowflake, Flame } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 340
@@ -294,9 +295,9 @@ export function MeissnerEffectAnimation() {
           />
           <span className="font-mono text-text-secondary">{temp.toFixed(1)} K</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           {f > 0 ? `expelled ${Math.round(f * 100)}% · λ = ${lambdaPx(f).toFixed(1)}` : 'field penetrates'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

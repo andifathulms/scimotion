@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -315,11 +316,11 @@ export function CometAsteroidAnimation() {
         >
           {playing ? <><Pause size={12} /> Pause</> : <><Play size={12} /> {warmth >= 1 ? 'Replay' : 'Play'}</>}
         </button>
-        <span className="text-xs text-text-muted font-mono ml-auto self-center">
+        <WidgetStatus className="text-xs text-text-muted font-mono ml-auto self-center">
           {warmth < 0.15 ? 'both dark and inert, far from the Sun'
             : warmth < 0.7 ? 'only the icy comet reacts to the heat'
             : 'comet blazing; asteroid still just rock'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

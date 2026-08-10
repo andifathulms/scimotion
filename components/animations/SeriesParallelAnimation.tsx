@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -363,9 +364,9 @@ export function SeriesParallelAnimation() {
           />
           <span className="text-text-secondary font-mono">{n}</span>
         </label>
-        <span className="ml-auto text-xs font-mono" style={{ color: GOLD }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: GOLD }}>
           total R = {Math.round(totalR)} Ω
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

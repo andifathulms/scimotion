@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -227,10 +228,10 @@ export function TimeDilationAnimation() {
             className="w-28 accent-accent-gold" />
           <span className="font-mono">{(beta * 100).toFixed(0)}%</span>
         </label>
-        <span className="ml-auto text-xs font-mono text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs font-mono text-text-secondary">
           γ = <strong className="text-accent-gold">{gamma(beta).toFixed(4)}</strong>
           &nbsp;·&nbsp; τ={tProper}s &nbsp;→&nbsp; t={tCoordinate}s
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

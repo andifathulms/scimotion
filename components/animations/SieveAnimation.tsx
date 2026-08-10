@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 type Cell = { value: number; isPrime: boolean; isEliminated: boolean; isCurrent: boolean }
 
@@ -144,7 +145,7 @@ export function SieveAnimation() {
           <span>Speed:</span>
           <input type="range" min={50} max={500} step={50} value={600 - speed} onChange={e => setSpeed(600 - +e.target.value)} className="w-20 accent-accent-gold" />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">Primes found: <strong className="text-accent-gold">{primeCount}</strong></span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">Primes found: <strong className="text-accent-gold">{primeCount}</strong></WidgetStatus>
       </div>
     </div>
   )

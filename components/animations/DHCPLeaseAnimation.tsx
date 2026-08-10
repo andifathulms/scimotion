@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Plus, Minus } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -309,7 +310,7 @@ export function DHCPLeaseAnimation() {
         >
           Auto-renew: {autoRenew ? 'on' : 'off'}
         </button>
-        <span className="ml-auto text-xs text-text-muted">{running ? 'leases ticking…' : 'add a device to start'}</span>
+        <WidgetStatus className="ml-auto text-xs text-text-muted">{running ? 'leases ticking…' : 'add a device to start'}</WidgetStatus>
       </div>
     </div>
   )

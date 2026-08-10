@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const ACCENT = '#60A5FA'
 const N = 3 // input length in bits
@@ -220,7 +221,7 @@ export function CompressionLimitAnimation() {
         <span>Original: <span className="text-text-secondary">{origBits}</span> bits</span>
         <span>Compressed: <span style={{ color: mode === 'structured' ? ACCENT : '#F59E0B' }}>{compBits}</span> bits</span>
         <span>Verdict: <span style={{ color: mode === 'structured' ? ACCENT : '#F59E0B' }}>{verdict}</span></span>
-        <span className="ml-auto">Routed {routed} / {inputs.length}</span>
+        <WidgetStatus className="ml-auto">Routed {routed} / {inputs.length}</WidgetStatus>
       </div>
 
       {/* Controls */}

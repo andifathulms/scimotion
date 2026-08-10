@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -442,9 +443,9 @@ export function CellCycleControlAnimation() {
         >
           {brokenBrakes ? '✓ ' : ''}Broken brakes (lost suppressor)
         </button>
-        <span className="ml-auto text-xs" style={{ color: PINK }}>
+        <WidgetStatus className="ml-auto text-xs" style={{ color: PINK }}>
           checkpoints ✋ = the brakes
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

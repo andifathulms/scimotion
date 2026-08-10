@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 280
@@ -220,9 +221,9 @@ export function HemoglobinAnimation() {
         >
           Bohr shift: {bohr ? 'on' : 'off'}
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           delivered lungs→tissue <strong style={{ color: bohr ? GOLD : PINK }}>{delivered}%</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

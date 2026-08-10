@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 290
@@ -319,9 +320,9 @@ export function TitrationAnimation() {
         >
           {status}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           pH = {pH.toFixed(2)} · slope {slope.toFixed(2)} pH/mL
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -265,10 +266,10 @@ export function RotationCurveAnimation() {
           />
           <span className="font-mono text-text-secondary">{Math.round(halo * 100)}%</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           predicted outer v = <strong className="font-mono" style={{ color: match ? GOLD : ACCENT }}>{outerPred}</strong> ·
           observed = <strong className="font-mono" style={{ color: GOLD }}>{outerObs}</strong> km/s
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         With no halo, the prediction from visible mass alone (blue) rolls over into the Keplerian <span className="font-mono">1/√r</span> decline,

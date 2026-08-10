@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -376,9 +377,9 @@ export function LensImageAnimation() {
           <span className="text-text-secondary font-mono">{doV.toFixed(2)}</span>
         </label>
 
-        <span className="text-xs text-text-muted">
+        <WidgetStatus className="text-xs text-text-muted">
           drag across <span style={{ color: GOLD }}>F</span> to flip the image
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

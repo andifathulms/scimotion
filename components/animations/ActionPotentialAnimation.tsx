@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -224,9 +225,9 @@ export function ActionPotentialAnimation() {
         >
           {PHASE_LABELS[phase]}
         </span>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {voltage.toFixed(0)} mV · <strong className="text-accent-pink">{fired}</strong> action potential{fired !== 1 ? 's' : ''}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

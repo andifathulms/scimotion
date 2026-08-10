@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -416,9 +417,9 @@ export function SynapticIntegrationAnimation() {
           />
           <span>{spread < 0.33 ? 'synchronous' : spread > 0.7 ? 'spread out' : 'mixed'}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           fired: <strong className="text-accent-gold">{fired}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -247,11 +248,11 @@ export function RadialVelocityAnimation() {
           />
           <span className="text-text-secondary font-medium">{mass.toFixed(1)} M<sub>J</sub></span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           wobble K ∝ <strong className="text-accent-gold">{readout.k.toFixed(2)}</strong>
           {'  ·  '}
           RV = <strong className={readout.rv > 0 ? 'text-accent-blue' : 'text-accent-pink'}>{readout.rv >= 0 ? '+' : ''}{readout.rv.toFixed(2)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

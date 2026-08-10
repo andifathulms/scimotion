@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 270
@@ -241,12 +242,12 @@ export function DerivativeAnimation() {
           />
           <span className="font-mono text-text-secondary w-10">{a.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           quotient <strong style={{ color: GOLD }}>{quotient.toFixed(4)}</strong>
           {' → '}
           f′ <strong style={{ color: VIOLET }}>{exact.toFixed(4)}</strong>
           <span style={{ color: err < 0.01 ? GREEN : 'inherit' }}> (gap {err.toFixed(4)})</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -338,11 +339,11 @@ export function SIRModelAnimation() {
             className="w-20 accent-accent-gold" />
           <span className="font-mono">{days}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <span style={{ color: C_MARK }}>Rt {rt.toFixed(2)}</span> ·{' '}
           <span style={{ color: C_I }}>peak {(traj.peakI * 100).toFixed(1)}%</span> ·{' '}
           <span style={{ color: C_R }}>attack rate {(traj.attack * 100).toFixed(0)}%</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -323,9 +324,9 @@ export function EquilibriumAnimation() {
           />
           <span className="font-mono text-text-secondary">{k.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           A {readout.a} · B {readout.b} · [B]/[A] = {readout.a > 0 ? (readout.b / readout.a).toFixed(2) : '∞'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

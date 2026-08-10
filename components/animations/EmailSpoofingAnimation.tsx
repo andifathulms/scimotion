@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Send } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -326,10 +327,10 @@ export function EmailSpoofingAnimation() {
           />
           <span>SPF · DKIM · DMARC</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           verdict:{' '}
           <strong style={{ color: auth ? GREEN : RED }}>{auth ? 'rejected' : 'delivered'}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

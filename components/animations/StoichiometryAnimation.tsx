@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -297,9 +298,9 @@ export function StoichiometryAnimation() {
           <span className="text-text-secondary font-mono">{o2} mol</span>
         </label>
 
-        <span className="ml-auto text-xs font-mono" style={{ color: ORANGE }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: ORANGE }}>
           limiting: {limiting}
-        </span>
+        </WidgetStatus>
       </div>
 
       <p className="mt-2 px-1 text-xs text-text-muted">

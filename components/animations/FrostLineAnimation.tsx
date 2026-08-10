@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -265,9 +266,9 @@ export function FrostLineAnimation() {
           />
           <span className="text-text-secondary font-medium">disk temp here ≈ {frostTemp} K</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <strong style={{ color: GOLD }}>rock</strong> condenses everywhere · <strong style={{ color: CYAN }}>ice</strong> only past the line
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Slide the frost line: worlds forming <strong style={{ color: GOLD }}>inside</strong> it stay small and rocky; only <strong style={{ color: GREEN }}>outside</strong> it, where ices condense, do cores grow big enough to capture gas and become giants.

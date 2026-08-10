@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const KEYS = ['apple', 'mango', 'cherry', 'plum', 'fig', 'pear', 'kiwi', 'lemon', 'grape', 'olive']
 const MISSING = 'papaya'
@@ -312,11 +313,11 @@ export function HashTableAnimation() {
           />
           <span className="text-text-secondary font-medium">{capacity}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Placed <strong className="text-accent-gold">{placedCount}</strong> / {KEYS.length}
           <span className="ml-3">α = {alpha}</span>
           <span className="ml-3" style={{ color: longest >= 3 ? PINK : undefined }}>longest chain {longest}</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

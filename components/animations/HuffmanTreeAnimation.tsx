@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const ACCENT = '#60A5FA'
 
@@ -323,7 +324,7 @@ export function HuffmanTreeAnimation() {
         <span>Fixed-length: <span className="text-accent-orange">{fixedTotal}</span> bits ({fixedBitsPer}/sym)</span>
         <span>Huffman: <span className="text-accent-teal">{done ? huffTotal : '…'}</span> bits</span>
         <span>Saved: <span style={{ color: ACCENT }}>{done ? `${saved} bits (${Math.round((saved / fixedTotal) * 100)}%)` : '…'}</span></span>
-        <span className="ml-auto">Merge {Math.min(stepIdx + 1, steps.length)} / {steps.length}</span>
+        <WidgetStatus className="ml-auto">Merge {Math.min(stepIdx + 1, steps.length)} / {steps.length}</WidgetStatus>
       </div>
 
       {/* Controls */}

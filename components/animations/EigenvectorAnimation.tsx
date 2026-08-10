@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -304,11 +305,11 @@ export function EigenvectorAnimation() {
           ))}
           <option value={`${a},${b},${c},${d}`}>custom</option>
         </select>
-        <span className="ml-auto font-mono text-xs" style={{ color: e.real ? '#F59E0B' : '#F472B6' }}>
+        <WidgetStatus className="ml-auto font-mono text-xs" style={{ color: e.real ? '#F59E0B' : '#F472B6' }}>
           {e.real
             ? `λ = ${e.l1.toFixed(2)}, ${e.l2.toFixed(2)}`
             : `λ = ${e.l1.toFixed(2)} ± ${e.im.toFixed(2)}i`}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -295,9 +296,9 @@ export function ShannonEntropyAnimation() {
           />
           <span className="font-mono text-text-secondary w-9">{bias.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs font-mono" style={{ color: hNow > hMax - 0.02 ? GREEN : VIOLET }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: hNow > hMax - 0.02 ? GREEN : VIOLET }}>
           H = {hNow.toFixed(3)} / {hMax.toFixed(0)} bits
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

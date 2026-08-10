@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw, StepForward } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const BLUE = '#60A5FA'
 
@@ -252,9 +253,9 @@ export function CacheEvictionAnimation() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-text-secondary text-xs hover:bg-bg-hover transition-colors">
           <StepForward size={12} /> Step
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Access <strong className="text-accent-gold">{Math.max(0, idx + 1)}</strong> / {steps.length}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

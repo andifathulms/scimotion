@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 260
@@ -247,12 +248,12 @@ export function NewtonMethodAnimation() {
           />
           <span className="font-mono">{startX.toFixed(1)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {converged && root !== null
             ? <>Root ≈ <strong className="text-accent-gold font-mono">{root.toFixed(6)}</strong> in {iterates.length - 1} steps</>
             : <>Step <strong className="text-accent-gold">{step}</strong> / {iterates.length - 1}</>
           }
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

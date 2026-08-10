@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -347,11 +348,11 @@ export function PulsarAnimation() {
           />
           <span className="font-mono text-text-secondary">{alphaDeg}°</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Period <strong className="font-mono" style={{ color: ACCENT }}>{periodMs >= 1 ? periodMs.toFixed(1) : periodMs.toFixed(2)} ms</strong>
           {' · '}
           <strong className="font-mono" style={{ color: seen ? GOLD : PINK }}>{seen ? 'pulses seen' : 'beam misses us'}</strong>
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         The two beams shine <strong>continuously</strong> — the star does not switch on and off. As it rotates, the

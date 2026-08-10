@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -509,9 +510,9 @@ export function PhotosynthesisAnimation() {
         <span className="text-xs font-mono" style={{ color: relRate > 0.05 ? LIME : PINK }}>
           rate {(relRate * 100).toFixed(0)}% · ΔpH {(3 * Math.min(1, gradient)).toFixed(1)}
         </span>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           O₂ {o2} · ATP {atp} · NADPH {nadph} · rate/photon {(perPhoton * 100).toFixed(0)}%
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Every O₂ that leaves is assembled from two water molecules drawn in at photosystem II — none of it comes from CO₂.

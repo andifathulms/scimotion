@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -288,9 +289,9 @@ export function ReactionExtentAnimation() {
           />
           <span className="font-mono text-text-secondary">{dG0.toFixed(1)} kJ/mol</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           ξ {xiReadout.toFixed(2)} · K = {K.toFixed(2)}
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Press <em>Roll</em> and the mixture slides downhill to the bottom of the bowl — equilibrium —

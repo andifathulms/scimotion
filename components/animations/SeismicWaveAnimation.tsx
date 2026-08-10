@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -500,9 +501,9 @@ export function SeismicWaveAnimation() {
             {gap.toFixed(1)} × {KM_PER_SP_SECOND.toFixed(2)} = {Math.round(gap * KM_PER_SP_SECOND)} km
           </strong>
         </span>
-        <span className="ml-auto font-mono">
+        <WidgetStatus className="ml-auto font-mono">
           {clock.toFixed(0)} s · {lead.toFixed(0)} s of P-before-S warning
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

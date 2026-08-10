@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw, ChevronRight } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 240
@@ -291,9 +292,9 @@ export function FloatingPointErrorAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <span className="text-text-secondary font-medium text-xs self-center">
+        <WidgetStatus className="text-text-secondary font-medium text-xs self-center">
           {step + 1}/{STEPS.length}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

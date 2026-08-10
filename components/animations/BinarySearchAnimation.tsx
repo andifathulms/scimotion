@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Play, Pause, RotateCcw, Shuffle } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 type StepState = { lo: number; hi: number; mid: number; found: boolean; notFound: boolean }
 
@@ -180,9 +181,9 @@ export function BinarySearchAnimation() {
             className="w-20 accent-accent-gold"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Step <strong className="text-accent-gold">{Math.max(0, stepIdx + 1)}</strong> / {steps.length}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 280
@@ -218,7 +219,7 @@ export function BayesUpdateAnimation() {
             className="w-24 accent-accent-gold" />
           <span className="font-mono text-text-secondary w-12">{lr.toFixed(1)}×</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">{count}/{MAX_STEPS}</span>
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">{count}/{MAX_STEPS}</WidgetStatus>
       </div>
     </div>
   )

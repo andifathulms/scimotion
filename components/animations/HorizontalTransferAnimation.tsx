@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -392,9 +393,9 @@ export function HorizontalTransferAnimation() {
           />
           <span className="text-text-secondary font-mono">×{rate.toFixed(1)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary font-mono">
           carriers {stats.carriers}/{N_CELLS} · species B {stats.bCarriers}/{N_CELLS / 2}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

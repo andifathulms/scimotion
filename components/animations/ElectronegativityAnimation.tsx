@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -343,9 +344,9 @@ export function ElectronegativityAnimation() {
           ))}
           <option value="custom">custom</option>
         </select>
-        <span className="ml-auto font-mono text-xs" style={{ color: reg.color }}>
+        <WidgetStatus className="ml-auto font-mono text-xs" style={{ color: reg.color }}>
           {(lam * 100).toFixed(0)}% ionic
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

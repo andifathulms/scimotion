@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw, Flame } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 420
@@ -338,11 +339,11 @@ export function HohmannTransferAnimation() {
         >
           <Flame size={12} /> Burn 2
         </button>
-        <span className="text-xs text-text-muted font-mono ml-auto self-center">
+        <WidgetStatus className="text-xs text-text-muted font-mono ml-auto self-center">
           {phase === 'low' ? 'in low orbit — fire prograde at periapsis'
             : phase === 'transfer' ? (atApoapsis ? 'at apoapsis — circularise with burn 2' : 'coasting up the ellipse, slowing down')
             : 'circularised — higher orbit, but SLOWER'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

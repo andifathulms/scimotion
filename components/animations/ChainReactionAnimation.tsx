@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 
 const W = 600
@@ -223,7 +224,7 @@ export function ChainReactionAnimation() {
           />
           <span className="font-mono font-medium" style={{ color: status.color }}>{k.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs font-mono font-medium" style={{ color: status.color }}>{status.label}</span>
+        <WidgetStatus className="ml-auto text-xs font-mono font-medium" style={{ color: status.color }}>{status.label}</WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Each fission releases neutrons; on average <strong className="font-mono" style={{ color: status.color }}>k</strong> of them

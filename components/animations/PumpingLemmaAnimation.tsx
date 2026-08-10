@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 344
@@ -314,7 +315,7 @@ export function PumpingLemmaAnimation() {
           >
             {playing ? 'pause' : 'play'}
           </button>
-          <span className="text-text-secondary font-medium">{step}/{n}</span>
+          <WidgetStatus className="text-text-secondary font-medium">{step}/{n}</WidgetStatus>
         </div>
       </div>
     </div>

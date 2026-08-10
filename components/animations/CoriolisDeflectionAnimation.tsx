@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 400
@@ -306,7 +307,7 @@ export function CoriolisDeflectionAnimation() {
         <span>
           apparent deflection = <strong style={{ color: CYAN }}>{deflectLabel}</strong>
         </span>
-        <span className="ml-auto">t = {(prog * 100).toFixed(0)}%</span>
+        <WidgetStatus className="ml-auto">t = {(prog * 100).toFixed(0)}%</WidgetStatus>
       </div>
 
       <div className="animation-controls flex-wrap gap-3">

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 340
@@ -243,7 +244,7 @@ export function ComplexPlaneAnimation() {
             canvas. These write the same state the drag writes, one component at
             a time, which is also the only form a screen reader can read back. */}
         <div className="flex flex-col gap-1 text-xs font-mono">
-          <span style={{ color: GOLD }}>z₁ = {fmt(z1)} · r={mod(z1).toFixed(2)} ∠{deg(z1)}°</span>
+          <WidgetStatus style={{ color: GOLD }}>z₁ = {fmt(z1)} · r={mod(z1).toFixed(2)} ∠{deg(z1)}°</WidgetStatus>
           <div className="flex items-center gap-2">
             <label className="flex items-center gap-1 text-text-muted">
               <span>z₁ re</span>

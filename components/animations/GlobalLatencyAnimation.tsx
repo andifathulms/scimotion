@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -307,12 +308,12 @@ export function GlobalLatencyAnimation() {
             className="w-28 accent-accent-gold"
           />
         </label>
-        <span className="text-xs text-text-muted">
+        <WidgetStatus className="text-xs text-text-muted">
           mode:{' '}
           <strong style={{ color: cdnMode ? GREEN : RED }}>
             {cdnMode ? 'CDN — nearest edge' : 'single origin'}
           </strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

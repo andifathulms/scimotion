@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -241,11 +242,11 @@ export function RedshiftAnimation() {
           />
           <span className="text-text-secondary font-medium">β = {beta.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           z = <strong className="text-accent-gold">{zr.toFixed(3)}</strong>
           {'  ·  '}
           classical would say <strong className="text-accent-violet">{zc.toFixed(3)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

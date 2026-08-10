@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -379,13 +380,13 @@ export function PrecipitationAnimation() {
           />
           <span className="text-text-secondary font-mono">{updraft.toFixed(1)} m/s</span>
         </label>
-        <span className="ml-auto text-xs text-text-muted">
+        <WidgetStatus className="ml-auto text-xs text-text-muted">
           {falling ? (
             <strong style={{ color: BLUE }}>falling as rain</strong>
           ) : (
             <span>held aloft, coalescing</span>
           )}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

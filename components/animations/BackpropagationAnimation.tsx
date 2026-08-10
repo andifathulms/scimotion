@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw, ChevronRight, ChevronLeft } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 330
@@ -404,13 +405,13 @@ export function BackpropagationAnimation() {
         >
           <ChevronRight size={12} /> Step
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {STEPS[step].phase === 'backward'
             ? <strong style={{ color: PINK }}>backward pass</strong>
             : STEPS[step].phase === 'forward'
               ? <strong style={{ color: BLUE }}>forward pass</strong>
               : <span className="text-text-muted">2-2-1 network · 9 parameters</span>}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

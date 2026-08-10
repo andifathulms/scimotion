@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -329,9 +330,9 @@ export function GeneticCodeAnimation() {
             {pr.label}
           </button>
         ))}
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           codon <strong className="font-mono" style={{ color: '#A3E635' }}>{codon}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

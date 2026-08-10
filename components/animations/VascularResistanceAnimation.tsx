@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -233,10 +234,10 @@ export function VascularResistanceAnimation() {
           />
           <span className="text-text-secondary font-mono">{radius.toFixed(2)}×</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           flow <strong style={{ color: GREEN }}>{(flowRel * 100).toFixed(0)}%</strong>{' '}
           · resistance <strong style={{ color: GOLD }}>{(resistRel * 100).toFixed(0)}%</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

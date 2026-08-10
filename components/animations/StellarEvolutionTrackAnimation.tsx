@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 420
@@ -374,9 +375,9 @@ export function StellarEvolutionTrackAnimation() {
             10 M☉
           </button>
         </div>
-        <span className="ml-auto text-xs text-text-muted">
+        <WidgetStatus className="ml-auto text-xs text-text-muted">
           {mass === 'low' ? 'ends as a white dwarf' : 'ends in supernova → neutron star'}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 320
@@ -368,9 +369,9 @@ export function HuffmanCodingAnimation() {
             ))}
           </select>
         </label>
-        <span className="ml-auto text-xs font-mono" style={{ color: done ? GOLD : VIOLET }}>
+        <WidgetStatus className="ml-auto text-xs font-mono" style={{ color: done ? GOLD : VIOLET }}>
           {done ? `${avg.toFixed(3)} bits/symbol vs H = ${hVal.toFixed(3)}` : `merge ${step} / ${built.merges}`}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

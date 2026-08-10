@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -447,7 +448,7 @@ export function SeafloorSpreadingAnimation() {
           model clock: <strong className="font-mono text-text-secondary">{tau.toFixed(2)} Ma</strong> before
           present
         </span>
-        <span className="ml-auto">
+        <WidgetStatus className="ml-auto">
           crust {probe} km out is{' '}
           <strong className="font-mono" style={{ color: GOLD }}>
             {age.toFixed(2)} Myr
@@ -463,7 +464,7 @@ export function SeafloorSpreadingAnimation() {
           ) : (
             <span>older than this 6 Myr window</span>
           )}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 300
@@ -319,9 +320,9 @@ export function RetinaAnimation() {
         >
           Land it on the blind spot
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           drift from the <strong style={{ color: PINK }}>fovea</strong> and watch detail and colour collapse
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

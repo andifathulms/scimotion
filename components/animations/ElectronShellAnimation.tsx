@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 400
@@ -372,9 +373,9 @@ export function ElectronShellAnimation() {
         >
           + Add electron
         </button>
-        <span className="ml-auto text-xs text-text-muted font-mono">
+        <WidgetStatus className="ml-auto text-xs text-text-muted font-mono">
           {z} / {MAX_Z} electrons
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

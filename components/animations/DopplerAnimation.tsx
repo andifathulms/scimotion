@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -237,11 +238,11 @@ export function DopplerAnimation() {
           />
           <span className="text-text-secondary font-medium">{mach.toFixed(2)}× wave speed</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {readout.ratio === null
             ? <strong className="text-accent-pink">ahead of the shock — silent</strong>
             : <>heard at <strong className="text-accent-gold">{readout.ratio.toFixed(2)}×</strong> the emitted pitch ({readout.label})</>}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

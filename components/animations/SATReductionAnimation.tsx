@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Play } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 620
 const H = 320
@@ -308,7 +309,7 @@ export function SATReductionAnimation() {
           />
           <span className="text-text-secondary font-medium">{n}</span>
         </label>
-        <span className="ml-auto text-xs text-text-muted">
+        <WidgetStatus className="ml-auto text-xs text-text-muted">
           brute force at 10⁹/s:{' '}
           {extrapolate.map((k, i) => (
             <span key={k}>
@@ -316,7 +317,7 @@ export function SATReductionAnimation() {
               n={k} → <strong className="text-text-secondary">{fmtSeconds(k * Math.log10(2) - 9)}</strong>
             </span>
           ))}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

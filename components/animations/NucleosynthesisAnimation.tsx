@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 384
@@ -365,9 +366,9 @@ export function NucleosynthesisAnimation() {
             </button>
           ))}
         </div>
-        <span className="ml-auto font-mono text-xs text-text-muted">
+        <WidgetStatus className="ml-auto font-mono text-xs text-text-muted">
           {RUNGS[stage].name} · BE/A {RUNGS[stage].be.toFixed(2)} MeV
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

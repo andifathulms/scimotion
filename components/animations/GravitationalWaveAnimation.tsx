@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -298,9 +299,9 @@ export function GravitationalWaveAnimation() {
           </div>
           <span className="font-mono text-text-secondary">{Math.round(progress * 100)}%</span>
         </div>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           GW frequency <strong className="font-mono" style={{ color: ACCENT }}>×{freqRel.toFixed(1)}</strong> the starting value
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Two compact masses spiral inward, radiating gravitational waves. Watch the ring of free test masses on the right:

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 360
@@ -395,10 +396,10 @@ export function CheckpointAnimation() {
         >
           {gatesOn ? 'Disable checkpoints' : 'Checkpoints: disabled'}
         </button>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <span style={{ color: GOLD }}>brake holds</span> ·{' '}
           <span style={{ color: PINK }}>brake cut = cancer</span>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

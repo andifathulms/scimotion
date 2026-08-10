@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 
 const W = 600
 const H = 340
@@ -382,7 +383,7 @@ export function IsomerAnimation() {
             ))}
           </div>
         )}
-        <span className="ml-auto font-mono text-xs text-text-muted hidden sm:inline">{cur.bpNote}</span>
+        <WidgetStatus className="ml-auto font-mono text-xs text-text-muted hidden sm:inline">{cur.bpNote}</WidgetStatus>
       </div>
     </div>
   )

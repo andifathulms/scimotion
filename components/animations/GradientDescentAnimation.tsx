@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -336,7 +337,7 @@ export function GradientDescentAnimation() {
           />
           <span className="font-mono text-text-secondary">{startX.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           {run.diverged && done
             ? <strong style={{ color: ARROW }}>diverged — η above the stability ceiling</strong>
             : settled
@@ -345,7 +346,7 @@ export function GradientDescentAnimation() {
                 ? <><strong style={{ color: ARROW }}>oscillating</strong> — never settles at η={eta.toFixed(2)}</>
                 : <>step <strong className="font-mono" style={{ color: BALL }}>{step}</strong> · x={curX.toFixed(3)} · loss {loss(curX).toFixed(3)}</>
           }
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">Drag anywhere on the plot to move the starting point into the other basin.</p>
     </div>

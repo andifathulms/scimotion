@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -198,10 +199,10 @@ export function GravitationalTimeDilationAnimation() {
             className="w-40" style={{ accentColor: ACCENT }} />
           <span className="font-mono text-text-secondary">{rOverRs.toFixed(2)}</span>
         </label>
-        <span className="ml-auto text-xs font-mono text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs font-mono text-text-secondary">
           √(1 − rₛ/r) = <strong style={{ color: GOLD }}>{f.toFixed(3)}</strong>
           &nbsp;·&nbsp; far {farTime}s → near {nearTime}s
-        </span>
+        </WidgetStatus>
       </div>
       <p className="mt-2 text-xs text-text-muted">
         Slide the near clock toward the horizon and its ticks — and the light it sends up — slow together.

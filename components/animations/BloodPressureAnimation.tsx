@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -227,10 +228,10 @@ export function BloodPressureAnimation() {
           />
           <span className="text-text-secondary">compliant</span>
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           <strong className="text-accent-pink">{Math.round(sbp)}/{Math.round(dbp)}</strong>{' '}
           mmHg · MAP <strong style={{ color: GOLD }}>{Math.round(MAP)}</strong>
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )

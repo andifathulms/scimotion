@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { useAnimationTrigger } from '@/hooks/useAnimationTrigger'
+import { WidgetStatus } from '@/components/WidgetStatus'
 import { useWidgetParams } from '@/hooks/useWidgetParams'
 import { WidgetLink } from '@/components/WidgetLink'
 
@@ -298,9 +299,9 @@ export function ModularExponentiationAnimation() {
             className="w-20 accent-accent-gold"
           />
         </label>
-        <span className="ml-auto text-xs text-text-secondary">
+        <WidgetStatus className="ml-auto text-xs text-text-secondary">
           Plotted <strong className="text-accent-gold">{Math.max(0, Math.min(idx + 1, values.length))}</strong> / {values.length}
-        </span>
+        </WidgetStatus>
       </div>
     </div>
   )
