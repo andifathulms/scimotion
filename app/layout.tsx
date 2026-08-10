@@ -3,15 +3,17 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { SITE_URL } from '@/lib/site'
+import { SITE_URL, SITE_DESCRIPTION } from '@/lib/site'
 import '../styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Scimotion — Science you can see move',
-  description: 'A science blog where every concept is explained with interactive animations.',
+  title: 'Scimotion — Science you can play with',
+  // One description for the tab, the feed and the manifest, rather than three
+  // near-copies that drift.
+  description: SITE_DESCRIPTION,
   alternates: {
     types: { 'application/rss+xml': `${SITE_URL}/feed.xml` },
   },
