@@ -76,7 +76,81 @@ Close the body with 3–5 bullets in the standard box:
 </KeyTakeaways>
 ```
 
-## 7. Learning path (optional)
+## 7. Addressable state and equation binding
+
+Any widget with a slider should declare its parameters through `useWidgetParams`
+instead of a bare `useState` per knob. One declaration then drives three things
+that used to be written out separately and could drift apart: the slider bounds,
+the value restored from a shared link, and the symbol the equation readout picks
+out.
+
+```tsx
+// Module scope. An object literal in the render body is a fresh reference every
+// frame, which defeats the memos inside the hook.
+const SPEC = {
+  length: { default: 160, min: 60, max: 220, step: 10, symbol: 'L', unit: 'px' },
+  gravity: { default: 9.81, min: 1, max: 20, step: 0.5, symbol: 'g', unit: 'm/s²' },
+}
+
+export function ThingAnimation() {
+  const { params, set, reset: resetParams, permalink, isDefault, restored } =
+    useWidgetParams('thing', SPEC)          // 'thing' namespaces the URL keys
+  const { length, gravity } = params
+  ...
+  <div className="animation-header">
+    <span className="animation-label">…</span>
+    <div className="flex items-center gap-3">
+      <WidgetLink permalink={permalink} hidden={isDefault} restored={restored} />
+      <button onClick={reset}>Reset</button>
+    </div>
+  </div>
+  ...
+  <input type="range" min={SPEC.length.min} max={SPEC.length.max}
+         step={SPEC.length.step} value={length}
+         onChange={e => set('length', +e.target.value)} />
+```
+
+Rules:
+
+- **Take bounds from `SPEC`, never re-type them on the input.** The whole point is
+  that the restored value and the reachable value are the same set.
+- **If `reset()` restored slider defaults, call the hook's `resetParams()`** rather
+  than re-listing the literals. If Reset only replays the simulation, leave it.
+- **A parameter that must not be an arbitrary number in its range does not belong
+  in the spec as itself.** The spec clamps a numeric interval and nothing else.
+  Store an index into a list instead — `ModularExponentiationAnimation` keeps its
+  modulus as an index into `PRIMES`, because a hash is editable text and a
+  composite modulus would silently invalidate the article's subject.
+- **Ranges that depend on another parameter** cannot be expressed. Give the spec
+  the widest bounds any configuration allows and clamp on read.
+
+Then bind the article's equation to the controls with `<EquationReadout>`:
+
+```tsx
+<EquationReadout
+  formula="T = 2π√(L/g)"                       // plain unicode, not KaTeX
+  bindings={[{ symbol: 'L', value: '0.22 m' }, { symbol: 'g', value: '9.81 m/s²' }]}
+  result="0.94 s"
+  assumption="small-angle approximation — the simulation integrates the exact equation"
+/>
+```
+
+Put the same symbol on the slider label (`Length <span className="text-accent-gold">L</span>`)
+so dragging the knob and watching the letter change is one motion.
+
+**`assumption` is not optional decoration.** Printing a formula next to a running
+simulation makes any disagreement between the two visible and checkable, which is
+the point — but it means an idealisation presented as the answer is now a lie the
+reader can catch. If the formula is a linearisation, a steady-state, or holds
+something constant that the simulation varies, say so. Name the assumption;
+do not compute the error.
+
+**Do not derive a quantity here that the component already computes.** Reuse the
+existing value. `MarkovChainAnimation` reuses its `pi`; a second, hand-written
+stationary formula in the readout would have been a competing source of truth,
+and — because that chain has three states, not two — a wrong one.
+
+## 8. Learning path (optional)
 
 If the article belongs in a sequence, add its slug to the right path in `lib/paths.ts`.
 Each article should appear in at most one path so prev/next stays unambiguous.
@@ -86,8 +160,11 @@ Each article should appear in at most one path so prev/next stays unambiguous.
 - [ ] `content/articles/<slug>.mdx` with complete, valid frontmatter
 - [ ] Unique hero entry in `components/ArticleVisual.tsx`
 - [ ] Two animation components, registered in `ArticleAnimations.tsx` + page map
+- [ ] Sliders declared through `useWidgetParams`, with `<WidgetLink>` in the header (§7)
+- [ ] `<EquationReadout>` binding the article's equation to those sliders, with
+      its `assumption` stated if the formula is an idealisation (§7)
 - [ ] Body follows the section flow, primary + secondary animations embedded
 - [ ] 3-question quiz in frontmatter
 - [ ] `<KeyTakeaways>` block at the end
-- [ ] Added to a learning path in `lib/paths.ts` (if applicable)
+- [ ] Added to a learning path in `lib/paths.ts` (if applicable, §8)
 - [ ] `npm run build` and `npm run lint` pass
