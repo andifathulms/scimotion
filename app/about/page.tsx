@@ -5,6 +5,7 @@ import { getAllArticles, getTopicCounts } from '@/lib/articles'
 import { learningPaths } from '@/lib/paths'
 import { TOPIC_DESCRIPTIONS, topicToSlug } from '@/lib/topics'
 import { TopicBadge } from '@/components/TopicBadge'
+import { AtomMark } from '@/components/AtomMark'
 
 export const metadata: Metadata = pageMetadata({
   title: 'About',
@@ -27,7 +28,9 @@ export default async function AboutPage() {
       {/* The page frame matches the other nav routes; the prose keeps its own
           measure. At the full 1100px these paragraphs would run to roughly 110
           characters a line, well outside the 45-75 band the rest of the site
-          sets its body copy to. */}
+          sets its body copy to. The mark fills the space that measure leaves
+          over, and only appears once there is actually space for it. */}
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,680px)_1fr] lg:items-center">
       <div className="max-w-[680px]">
       <p className="text-text-secondary text-base leading-relaxed mb-6">
         Science is often taught as a set of facts to memorize. Scimotion exists to change that — every concept here is explained the way it actually works: through motion, interaction, and visual intuition.
@@ -43,6 +46,8 @@ export default async function AboutPage() {
         <Link href="/learn" className="text-accent-gold hover:underline">{pathCount} learning paths</Link>{' '}
         that thread them into ordered sequences.
       </p>
+      </div>
+      <AtomMark className="hidden lg:block w-[220px] justify-self-center" />
       </div>
 
       <h2 className="text-xl font-semibold text-text-primary mb-6">What we cover</h2>

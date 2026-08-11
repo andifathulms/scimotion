@@ -244,6 +244,47 @@ body {
  * a 620px column a three-knob widget always does — a uniform 12px left one
  * wrapped line sitting as close to the line above it as two controls sitting
  * side by side, so the rows stopped reading as rows. */
+/* The decorative atom beside the About intro. Pure CSS so the page stays a
+ * server component with no client JavaScript, and so the motion runs on the
+ * compositor rather than the main thread.
+ *
+ * The electrons ride the same ellipse the orbit is drawn from, via offset-path,
+ * so a dot cannot drift off its orbit the way hand-tuned keyframes would.
+ *
+ * They are hidden unless offset-path is actually supported. Without it the dots
+ * do not degrade politely — they fall back to the SVG origin and sit in the
+ * top-left corner, which reads as a bug rather than as a still mark. The orbits
+ * and nucleus alone are a perfectly good static logo. */
+.atom-electron {
+  display: none;
+}
+
+@supports (offset-path: path('M 0 0')) {
+  .atom-electron {
+    display: block;
+    offset-rotate: 0deg;
+    animation: atom-orbit 7.8s linear infinite;
+  }
+}
+
+@keyframes atom-orbit {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* The mark is decoration, so under a reduced-motion preference it simply stops.
+ * Holding the electrons at a third of the way apart keeps the composition the
+ * animation was designed around rather than collapsing all three onto one
+ * point. */
+@media (prefers-reduced-motion: reduce) {
+  .atom-electron {
+    animation: none;
+  }
+  .atom-mark g:nth-child(1) .atom-electron { offset-distance: 0%; }
+  .atom-mark g:nth-child(2) .atom-electron { offset-distance: 33%; }
+  .atom-mark g:nth-child(3) .atom-electron { offset-distance: 66%; }
+}
+
 /* An inline caveat about what a widget is doing, sitting between the diagram
  * and its controls. Some widgets derive the quantity they display from the law
  * they are illustrating — showing angular momentum "conserved" when it was held
