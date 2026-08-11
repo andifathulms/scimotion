@@ -20,10 +20,15 @@ export default async function AboutPage() {
   const pathCount = learningPaths.length
 
   return (
-    <div className="max-w-[680px] mx-auto px-5 py-12">
+    <div className="max-w-[1100px] mx-auto px-5 py-12">
       <h1 className="text-3xl font-bold text-text-primary mb-8">
         About Scimotion
       </h1>
+      {/* The page frame matches the other nav routes; the prose keeps its own
+          measure. At the full 1100px these paragraphs would run to roughly 110
+          characters a line, well outside the 45-75 band the rest of the site
+          sets its body copy to. */}
+      <div className="max-w-[680px]">
       <p className="text-text-secondary text-base leading-relaxed mb-6">
         Science is often taught as a set of facts to memorize. Scimotion exists to change that — every concept here is explained the way it actually works: through motion, interaction, and visual intuition.
       </p>
@@ -38,9 +43,10 @@ export default async function AboutPage() {
         <Link href="/learn" className="text-accent-gold hover:underline">{pathCount} learning paths</Link>{' '}
         that thread them into ordered sequences.
       </p>
+      </div>
 
       <h2 className="text-xl font-semibold text-text-primary mb-6">What we cover</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
         {counts.map(({ topic, count }) => (
           <Link
             key={topic}
@@ -56,7 +62,7 @@ export default async function AboutPage() {
         ))}
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 max-w-[680px]">
         <Link
           href="/"
           className="flex-1 text-center py-3 rounded-pill bg-accent-gold text-on-accent font-medium hover:bg-accent-gold/90 transition-colors"
