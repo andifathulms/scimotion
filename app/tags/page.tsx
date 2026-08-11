@@ -1,11 +1,13 @@
 import { getAllTags } from '@/lib/articles'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
-  title: 'Tags — Scimotion',
+export const metadata: Metadata = pageMetadata({
+  title: 'Tags',
   description: 'Browse interactive science articles by tag.',
-}
+  path: '/tags',
+})
 
 // A tag used more than once connects articles; a tag used once is a label on a
 // single article and cannot lead anywhere else. 367 of the 471 tags are in the

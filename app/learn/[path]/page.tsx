@@ -4,6 +4,7 @@ import { TopicBadge } from '@/components/TopicBadge'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 
 type Props = { params: Promise<{ path: string }> }
 
@@ -15,7 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { path } = await params
   const p = getPath(path)
   if (!p) return {}
-  return { title: `${p.title} — Scimotion`, description: p.description }
+  // p.description is the same sentence printed under the heading.
+  return pageMetadata({ title: p.title, description: p.description, path: `/learn/${path}` })
 }
 
 export default async function PathPage({ params }: Props) {

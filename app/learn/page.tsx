@@ -3,11 +3,13 @@ import { getAllArticles } from '@/lib/articles'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
-  title: 'Learning Paths — Scimotion',
+export const metadata: Metadata = pageMetadata({
+  title: 'Learning Paths',
   description: 'Curated, ordered reading sequences that build concepts from the ground up.',
-}
+  path: '/learn',
+})
 
 export default async function LearnPage() {
   const articles = await getAllArticles()

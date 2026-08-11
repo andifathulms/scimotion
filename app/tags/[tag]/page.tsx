@@ -3,6 +3,7 @@ import { ArticleCard } from '@/components/ArticleCard'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 
 type Props = { params: Promise<{ tag: string }> }
 
@@ -14,10 +15,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params
   const decoded = decodeURIComponent(tag)
-  return {
-    title: `#${decoded} — Scimotion`,
+  return pageMetadata({
+    title: `#${decoded}`,
     description: `Interactive science articles tagged “${decoded}”.`,
-  }
+    path: `/tags/${encodeURIComponent(decoded)}`,
+  })
 }
 
 export default async function TagPage({ params }: Props) {

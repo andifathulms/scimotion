@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 import { getTopicCounts } from '@/lib/articles'
 import { TOPIC_DESCRIPTIONS, topicToSlug } from '@/lib/topics'
 import { TopicBadge } from '@/components/TopicBadge'
 
-export const metadata: Metadata = {
-  title: 'Topics — Scimotion',
-  description: 'Browse interactive science articles by field — mathematics, physics, chemistry, biology, earth & climate, computer science and medicine.',
-}
+export const metadata: Metadata = pageMetadata({
+  title: 'Topics',
+  description:
+    'Browse interactive science articles by field — mathematics, physics, chemistry, biology, earth & climate, computer science and medicine.',
+  path: '/topics',
+})
 
 export default async function TopicsPage() {
   const counts = await getTopicCounts()

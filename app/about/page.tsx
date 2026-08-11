@@ -1,14 +1,17 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 import { getAllArticles, getTopicCounts } from '@/lib/articles'
 import { learningPaths } from '@/lib/paths'
 import { TOPIC_DESCRIPTIONS, topicToSlug } from '@/lib/topics'
 import { TopicBadge } from '@/components/TopicBadge'
 
-export const metadata: Metadata = {
-  title: 'About — Scimotion',
-  description: 'Scimotion explains science through motion and interaction — every concept built from first principles, then handed to you with the controls.',
-}
+export const metadata: Metadata = pageMetadata({
+  title: 'About',
+  description:
+    'Scimotion explains science through motion and interaction — every concept built from first principles, then handed to you with the controls.',
+  path: '/about',
+})
 
 export default async function AboutPage() {
   const [articles, counts] = await Promise.all([getAllArticles(), getTopicCounts()])

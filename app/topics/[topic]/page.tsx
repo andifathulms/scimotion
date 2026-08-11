@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 import { getArticlesByTopic } from '@/lib/articles'
 import { TOPICS, TOPIC_DESCRIPTIONS, topicToSlug, slugToTopic } from '@/lib/topics'
 import { ArticleCard } from '@/components/ArticleCard'
@@ -15,10 +16,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: slug } = await params
   const topic = slugToTopic(slug)
   if (!topic) return {}
-  return {
-    title: `${topic} — Scimotion`,
+  // Same string the page renders in its standfirst — see lib/metadata.
+  return pageMetadata({
+    title: topic,
     description: TOPIC_DESCRIPTIONS[topic],
-  }
+    path: `/topics/${slug}`,
+  })
 }
 
 export default async function TopicPage({ params }: Props) {
