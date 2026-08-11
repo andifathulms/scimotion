@@ -255,6 +255,23 @@ body {
  * do not degrade politely — they fall back to the SVG origin and sit in the
  * top-left corner, which reads as a bug rather than as a still mark. The orbits
  * and nucleus alone are a perfectly good static logo. */
+/* Tuned per theme, for the reason the accent palette is: 0.35 of a bright
+ * #F59E0B on near-black reads as a confident outline, while 0.35 of the deeper
+ * #B45309 on cream washes out. Measured against their own backgrounds, the dark
+ * orbit sits at 2.06:1 and the light one at 1.63:1 — the same stroke looking
+ * about a fifth fainter. 0.5 brings light to 2.05:1 and the two themes match.
+ *
+ * Specificity, not a custom property: `.light` is declared before `:root` in
+ * this file, so a variable set in both would be won by `:root` and the override
+ * would silently do nothing. */
+.atom-orbit {
+  opacity: 0.35;
+}
+
+.light .atom-orbit {
+  opacity: 0.5;
+}
+
 .atom-electron {
   display: none;
 }

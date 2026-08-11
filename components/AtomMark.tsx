@@ -34,7 +34,7 @@ export function AtomMark({ className = '' }: { className?: string }) {
             fill="none"
             stroke="var(--color-accent-gold)"
             strokeWidth="1.5"
-            opacity="0.35"
+            className="atom-orbit"
           />
           {/* Each electron starts a third of the way around its own orbit, so
               the three never bunch at the same point. */}
