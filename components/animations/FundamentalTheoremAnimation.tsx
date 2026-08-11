@@ -41,7 +41,7 @@ export function FundamentalTheoremAnimation() {
   const [x, setX] = useState(X0)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) setX(X1)
       else setRunning(true)
@@ -173,7 +173,7 @@ export function FundamentalTheoremAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     const tick = (now: number) => {
       const dt = now - last
@@ -189,7 +189,7 @@ export function FundamentalTheoremAnimation() {
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
-  }, [running])
+  }, [running, visible])
 
   const resetAll = () => {
     triggerReset()

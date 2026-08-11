@@ -38,7 +38,7 @@ export function CellIdentityAnimation() {
   const [cell, setCell] = useState<CellKey>('neuron')
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         divRef.current = 1
@@ -241,7 +241,7 @@ export function CellIdentityAnimation() {
 
   // Play: step through each cell type, dividing at each stop.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let idx = ORDER.indexOf(cellRef.current)
     startDivision()
     const id = setInterval(() => {
@@ -251,7 +251,7 @@ export function CellIdentityAnimation() {
       if (idx === ORDER.length - 1) setRunning(false)
     }, 2200)
     return () => clearInterval(id)
-  }, [running, startDivision])
+  }, [running, startDivision, visible])
 
   const info = CELLS[cell]
   const onList = GENES.filter(g => info.on.has(g)).join(', ')

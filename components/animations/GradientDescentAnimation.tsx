@@ -76,7 +76,7 @@ export function GradientDescentAnimation() {
   const [running, setRunning] = useState(false)
   const draggingRef = useRef(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) return
       setStep(0)
@@ -238,7 +238,7 @@ export function GradientDescentAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStep(s => {
         if (s >= run.pts.length - 1) {
@@ -249,7 +249,7 @@ export function GradientDescentAnimation() {
       })
     }, 420)
     return () => clearInterval(id)
-  }, [running, run])
+  }, [running, run, visible])
 
   const pickX = useCallback((clientX: number) => {
     const canvas = canvasRef.current

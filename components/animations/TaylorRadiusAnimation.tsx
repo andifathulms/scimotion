@@ -28,7 +28,7 @@ function partialSum(x: number, n: number): number {
 }
 
 export function TaylorRadiusAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(8); return }
       setN(1)
@@ -155,7 +155,7 @@ export function TaylorRadiusAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setN(prev => {
@@ -166,7 +166,7 @@ export function TaylorRadiusAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 320))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

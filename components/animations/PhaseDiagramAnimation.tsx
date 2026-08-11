@@ -148,7 +148,7 @@ export function PhaseDiagramAnimation() {
   const stateRef = useRef({ s, pt })
   stateRef.current = { s, pt }
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -457,7 +457,7 @@ export function PhaseDiagramAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -465,7 +465,7 @@ export function PhaseDiagramAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

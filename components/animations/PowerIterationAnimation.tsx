@@ -91,7 +91,7 @@ export function PowerIterationAnimation() {
 
   const m = MATRICES[preset].m
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setStep(MAX_STEPS); return }
       setRunning(true)
@@ -235,7 +235,7 @@ export function PowerIterationAnimation() {
   }, [history, m])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     const tick = (now: number) => {
       if (now - last > 700) {
@@ -249,7 +249,7 @@ export function PowerIterationAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
   useEffect(() => { draw(Math.min(step, MAX_STEPS)) }, [step, draw])
 

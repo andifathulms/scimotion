@@ -194,7 +194,7 @@ export function IsomerAnimation() {
   const [variant, setVariant] = useState(0)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) return
       setRunning(true)
@@ -290,7 +290,7 @@ export function IsomerAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     lastRef.current = performance.now()
     const tick = (now: number) => {
       if (now - lastRef.current > 1800) {
@@ -305,7 +305,7 @@ export function IsomerAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw(mode, variant)

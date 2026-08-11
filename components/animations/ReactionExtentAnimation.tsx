@@ -60,7 +60,7 @@ export function ReactionExtentAnimation() {
 
   useEffect(() => { dG0Ref.current = dG0 }, [dG0])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -212,7 +212,7 @@ export function ReactionExtentAnimation() {
   useEffect(() => { draw() }, [draw, dG0])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const dG0v = dG0Ref.current
       const xiEq = eqOf(dG0v)
@@ -226,7 +226,7 @@ export function ReactionExtentAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const releaseFrom = (xi0: number) => {
     xiRef.current = xi0

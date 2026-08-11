@@ -189,7 +189,7 @@ export function NeuralNetworkAnimation() {
   const epochRef = useRef(0)
   const rafRef = useRef<number | null>(null)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) return
       setRunning(true)
@@ -363,7 +363,7 @@ export function NeuralNetworkAnimation() {
   }, [width, seed, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let alive = true
     const tick = () => {
       if (!alive) return
@@ -389,7 +389,7 @@ export function NeuralNetworkAnimation() {
       alive = false
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
-  }, [running, data, draw])
+  }, [running, data, draw, visible])
 
   const restart = () => {
     setRunning(false)

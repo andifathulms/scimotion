@@ -156,7 +156,7 @@ export function HuffmanTreeAnimation() {
   const rafRef = useRef<number>(0)
   const lastTickRef = useRef<number>(0)
 
-  const { ref, triggered } = useAnimationTrigger({
+  const { ref, triggered, visible } = useAnimationTrigger({
     onTrigger: (reduced) => {
       if (reduced) setStepIdx(steps.length) // static final frame
       else setRunning(true)
@@ -167,7 +167,7 @@ export function HuffmanTreeAnimation() {
 
   // RAF-driven stepping (deterministic 900ms cadence via timestamps).
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = (t: number) => {
       if (lastTickRef.current === 0) lastTickRef.current = t
       if (t - lastTickRef.current >= 900) {
@@ -181,7 +181,7 @@ export function HuffmanTreeAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, steps.length])
+  }, [running, steps.length, visible])
 
   useEffect(() => {
     if (stepIdx >= steps.length) setRunning(false)

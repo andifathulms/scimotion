@@ -121,7 +121,7 @@ function drawArrow(
 }
 
 export function ChainOfTrustAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setIdx(totalRef.current - 1)
@@ -371,7 +371,7 @@ export function ChainOfTrustAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setIdx(i => {
         if (i >= steps.length - 1) {
@@ -382,7 +382,7 @@ export function ChainOfTrustAnimation() {
       })
     }, 900)
     return () => clearInterval(id)
-  }, [running, steps.length])
+  }, [running, steps.length, visible])
 
   const resetAll = () => {
     triggerReset()

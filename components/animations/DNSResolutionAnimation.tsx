@@ -97,7 +97,7 @@ function drawArrow(
 }
 
 export function DNSResolutionAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setIdx(totalRef.current - 1)
@@ -267,7 +267,7 @@ export function DNSResolutionAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setIdx(i => {
         if (i >= steps.length - 1) {
@@ -278,7 +278,7 @@ export function DNSResolutionAnimation() {
       })
     }, speed)
     return () => clearInterval(id)
-  }, [running, speed, steps.length])
+  }, [running, speed, steps.length, visible])
 
   const resetAll = () => {
     triggerReset()

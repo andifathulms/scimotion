@@ -200,7 +200,7 @@ export function CloudFormationAnimation() {
     ctx.fillText('humid surface air', SKY_L + 6, GROUND_Y + 9)
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         zRef.current = Z_MAX - 400
@@ -217,7 +217,7 @@ export function CloudFormationAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       zRef.current = Math.min(Z_MAX - 200, zRef.current + RISE_PER_FRAME)
       setZ(zRef.current)
@@ -230,7 +230,7 @@ export function CloudFormationAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

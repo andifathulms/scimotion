@@ -426,7 +426,7 @@ export function ConvectionAnimation() {
     [step]
   )
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         settle(140)
@@ -444,7 +444,7 @@ export function ConvectionAnimation() {
   }, [seed, settle, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const l = step()
       draw()
@@ -453,7 +453,7 @@ export function ConvectionAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

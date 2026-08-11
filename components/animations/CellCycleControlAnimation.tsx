@@ -63,6 +63,20 @@ export function CellCycleControlAnimation() {
   const [divisions, setDivisions] = useState(0)
 
   const stateRef = useRef({ stuckAccel, brokenBrakes, running, stage, prog, divisions })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // Static final frame: a single completed division with controls intact.
+        cyclesRef.current = 0
+        setStage('divided')
+        setProg(0)
+        setDivisions(1)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     stateRef.current = { stuckAccel, brokenBrakes, running, stage, prog, divisions }
   }, [stuckAccel, brokenBrakes, running, stage, prog, divisions])
@@ -349,7 +363,7 @@ export function CellCycleControlAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const loop = () => {
       frame += 1
@@ -359,21 +373,8 @@ export function CellCycleControlAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, stepCycle])
+  }, [running, stepCycle, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // Static final frame: a single completed division with controls intact.
-        cyclesRef.current = 0
-        setStage('divided')
-        setProg(0)
-        setDivisions(1)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

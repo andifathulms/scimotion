@@ -13,7 +13,7 @@ function buildECGSegment(phase: Phase): number[] {
 }
 
 export function CardiacAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const [phase, setPhase] = useState<Phase>(0)
   const [running, setRunning] = useState(false)
   const [speed, setSpeed] = useState(800)
@@ -40,7 +40,7 @@ export function CardiacAnimation() {
   }, [triggered]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setPhase(p => {
         const next = ((p + 1) % 6) as Phase
@@ -58,7 +58,7 @@ export function CardiacAnimation() {
       })
     }, speed)
     return () => clearInterval(id)
-  }, [running, speed])
+  }, [running, speed, visible])
 
   const saColor = phase === 1 ? '#FB923C' : '#64748b'
   const avColor = phase === 3 ? '#FB923C' : '#64748b'

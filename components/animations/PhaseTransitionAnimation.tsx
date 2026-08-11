@@ -140,7 +140,7 @@ export function PhaseTransitionAnimation() {
   const { rate } = params
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -424,7 +424,7 @@ export function PhaseTransitionAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       energyRef.current = Math.min(EMAX, energyRef.current + rateRef.current * 3)
       step()
@@ -439,7 +439,7 @@ export function PhaseTransitionAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     rateRef.current = rate

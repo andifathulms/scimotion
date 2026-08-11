@@ -47,7 +47,7 @@ function clamp(v: number, min: number, max: number) {
 }
 
 export function NewtonMethodAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [fn, setFn] = useState<Func>('cubic')
   const [startX, setStartX] = useState(FUNCS.cubic.initX)
@@ -184,7 +184,7 @@ export function NewtonMethodAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStep(s => {
         const next = s + 1
@@ -197,7 +197,7 @@ export function NewtonMethodAnimation() {
       })
     }, 900)
     return () => clearInterval(id)
-  }, [running, iterates])
+  }, [running, iterates, visible])
 
   useEffect(() => {
     if (triggered && step === 0) {

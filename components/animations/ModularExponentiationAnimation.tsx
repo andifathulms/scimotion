@@ -67,7 +67,7 @@ export function ModularExponentiationAnimation() {
   const totalRef = useRef(values.length)
   useEffect(() => { totalRef.current = values.length }, [values.length])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setIdx(totalRef.current - 1); return }
       setIdx(-1)
@@ -216,7 +216,7 @@ export function ModularExponentiationAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setIdx(i => {
         if (i >= values.length - 1) { setRunning(false); return i }
@@ -224,7 +224,7 @@ export function ModularExponentiationAnimation() {
       })
     }, speed)
     return () => clearInterval(id)
-  }, [running, speed, values.length])
+  }, [running, speed, values.length, visible])
 
   const resetAll = () => {
     triggerReset()

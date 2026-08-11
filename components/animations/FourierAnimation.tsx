@@ -51,7 +51,7 @@ function drawWaves(canvas: HTMLCanvasElement, waves: Wave[], cursor: number) {
 }
 
 export function FourierAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [waves, setWaves] = useState<Wave[]>([
     { freq: 1, amp: 0.8 },
@@ -72,14 +72,14 @@ export function FourierAnimation() {
   }, [triggered]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let x = 0
     const id = setInterval(() => {
       x = (x + 3) % W
       setCursor(x)
     }, 30)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const resetAll = () => {
     triggerReset()

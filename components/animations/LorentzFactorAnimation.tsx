@@ -14,7 +14,7 @@ const PLOT_H = H - PAD.top - PAD.bottom
 const gammaOf = (b: number) => 1 / Math.sqrt(1 - b * b)
 
 export function LorentzFactorAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setBeta(0.87); return }
       setBeta(0)
@@ -102,7 +102,7 @@ export function LorentzFactorAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setBeta(prev => {
@@ -113,7 +113,7 @@ export function LorentzFactorAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 40))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

@@ -50,7 +50,7 @@ export function LinearTransformAnimation() {
   const [t, setT] = useState(0)
   const [mat, setMat] = useState<Mat>(PRESETS[2].m) // shear by default
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         tRef.current = 1
@@ -162,7 +162,7 @@ export function LinearTransformAnimation() {
   }, [running, t, mat, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     const tick = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000)
@@ -178,7 +178,7 @@ export function LinearTransformAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, mat, draw])
+  }, [running, mat, draw, visible])
 
   const play = () => {
     tRef.current = 0

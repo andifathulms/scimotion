@@ -52,6 +52,19 @@ export function CheckpointAnimation() {
   const [flash, setFlash] = useState(0) // brief pulse when a division happens
 
   const cfgRef = useRef({ damage, gatesOn })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // No motion: show a healthy cell that has completed a few divisions.
+        setGen(3)
+        setStatus('running')
+        setPos(0.5)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     cfgRef.current = { damage, gatesOn }
   }, [damage, gatesOn])
@@ -267,7 +280,7 @@ export function CheckpointAnimation() {
 
   // Main loop: move the cell around the cycle, enforce gates, count divisions.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       setFlash(f => (f > 0 ? f - 1 : f))
       setPos(prev => {
@@ -300,20 +313,8 @@ export function CheckpointAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // No motion: show a healthy cell that has completed a few divisions.
-        setGen(3)
-        setStatus('running')
-        setPos(0.5)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

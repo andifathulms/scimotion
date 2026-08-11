@@ -51,7 +51,7 @@ export function OzoneVsClimateAnimation() {
   const [co2, setCo2] = useState(false)
   const [readout, setReadout] = useState({ uv: 0, warm: 0 })
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -192,7 +192,7 @@ export function OzoneVsClimateAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const yOzone = kmToY(OZONE_KM)
     const yTropo = kmToY(TROPOPAUSE_KM)
 
@@ -256,7 +256,7 @@ export function OzoneVsClimateAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const toggleCfc = () => { const n = !cfc; setCfc(n); cfcRef.current = n }
   const toggleCo2 = () => { const n = !co2; setCo2(n); co2Ref.current = n }

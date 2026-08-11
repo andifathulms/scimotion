@@ -338,7 +338,7 @@ export function AtomicOrbitalAnimation() {
     setCount(out.length)
   }, [sampleDot])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         fillAll()
@@ -349,7 +349,7 @@ export function AtomicOrbitalAnimation() {
   })
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       if (dotsRef.current.length < MAX_DOTS) {
         const next = dotsRef.current.slice()
@@ -365,7 +365,7 @@ export function AtomicOrbitalAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, sampleDot, draw])
+  }, [running, sampleDot, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

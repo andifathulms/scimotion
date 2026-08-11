@@ -86,7 +86,7 @@ export function GreenhouseEffectAnimation() {
 
   useEffect(() => { epsRef.current = eps }, [eps])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         tsRef.current = eqTemp(epsRef.current)
@@ -210,7 +210,7 @@ export function GreenhouseEffectAnimation() {
   useEffect(() => { draw() }, [draw, eps, readout])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       const e = epsRef.current
@@ -227,7 +227,7 @@ export function GreenhouseEffectAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const onEps = (v: number) => {
     setEps(v)

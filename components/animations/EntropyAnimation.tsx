@@ -62,7 +62,7 @@ export function EntropyAnimation() {
   const [running, setRunning] = useState(false)
   const [split, setSplit] = useState({ left: 160, right: 0 })
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -153,7 +153,7 @@ export function EntropyAnimation() {
   }, [count, init])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       particlesRef.current.forEach(p => {
@@ -177,7 +177,7 @@ export function EntropyAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)

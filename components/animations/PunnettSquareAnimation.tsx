@@ -97,6 +97,30 @@ export function PunnettSquareAnimation() {
   const [tick, setTick] = useState(0)
 
   const paramsRef = useRef({ mode, p1A, p2A, p1B, p2B })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // No motion: simulate a solid sample in one shot so the ratio is already visible.
+        const cur = paramsRef.current
+        const g1 = gametes(cur.mode, cur.p1A, cur.p1B)
+        const g2 = gametes(cur.mode, cur.p2A, cur.p2B)
+        const classify = cur.mode === 'mono' ? classifyMono : classifyDi
+        const c = countsRef.current
+        while (c.total < 400) {
+          const gi = g1[Math.floor(Math.random() * g1.length)]
+          const gj = g2[Math.floor(Math.random() * g2.length)]
+          const gt = offspring(cur.mode, gi, gj)
+          c.pheno[classify(gt)]++
+          if (cur.mode === 'mono') c.geno[gt]++
+          c.total++
+        }
+        setTick(t => t + 1)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     paramsRef.current = { mode, p1A, p2A, p1B, p2B }
     // Any change of the cross invalidates the tally — start counting over.
@@ -267,7 +291,7 @@ export function PunnettSquareAnimation() {
 
   // Simulation loop: add offspring in small batches until the cap is reached.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       frameRef.current += 1
       if (frameRef.current % FRAMES_PER_BATCH === 0) {
@@ -294,31 +318,8 @@ export function PunnettSquareAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // No motion: simulate a solid sample in one shot so the ratio is already visible.
-        const cur = paramsRef.current
-        const g1 = gametes(cur.mode, cur.p1A, cur.p1B)
-        const g2 = gametes(cur.mode, cur.p2A, cur.p2B)
-        const classify = cur.mode === 'mono' ? classifyMono : classifyDi
-        const c = countsRef.current
-        while (c.total < 400) {
-          const gi = g1[Math.floor(Math.random() * g1.length)]
-          const gj = g2[Math.floor(Math.random() * g2.length)]
-          const gt = offspring(cur.mode, gi, gj)
-          c.pheno[classify(gt)]++
-          if (cur.mode === 'mono') c.geno[gt]++
-          c.total++
-        }
-        setTick(t => t + 1)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

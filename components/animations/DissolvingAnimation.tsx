@@ -303,7 +303,7 @@ export function DissolvingAnimation() {
     setReadout({ crystal: TOTAL - dissolved, dissolved, polar: true })
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         if (polarRef.current) {
@@ -329,7 +329,7 @@ export function DissolvingAnimation() {
   }, [draw, refreshReadout])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let f = 0
     const tick = () => {
       step()
@@ -340,7 +340,7 @@ export function DissolvingAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw, refreshReadout])
+  }, [running, step, draw, refreshReadout, visible])
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 

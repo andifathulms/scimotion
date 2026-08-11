@@ -42,7 +42,7 @@ const SPEC = {
 }
 
 export function SingleParticleBuildupAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         const seed = Array.from({ length: 3000 }, samplePoint)
@@ -86,7 +86,7 @@ export function SingleParticleBuildupAnimation() {
   useEffect(() => { draw() }, [draw, count])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       for (let i = 0; i < speed; i++) pointsRef.current.push(samplePoint())
@@ -95,7 +95,7 @@ export function SingleParticleBuildupAnimation() {
     }
     raf = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf)
-  }, [running, speed])
+  }, [running, speed, visible])
 
   const reset = () => {
     triggerReset()

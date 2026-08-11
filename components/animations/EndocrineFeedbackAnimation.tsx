@@ -49,6 +49,20 @@ export function EndocrineFeedbackAnimation() {
   const histRef = useRef<number[]>([])
   const frameRef = useRef(0)
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // Static final frame: converge to the set point, no loop.
+        resetSim()
+        for (let i = 0; i < 400; i++) stepSim()
+        setUi({ level: levelRef.current, drive: driveRef.current })
+        draw()
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   const resetSim = useCallback(() => {
     levelRef.current = SET
     driveRef.current = BASE_DRIVE
@@ -267,7 +281,7 @@ export function EndocrineFeedbackAnimation() {
 
   // --- Loop ---
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       // Two substeps per frame for smoother, faster convergence.
       stepSim(); stepSim()
@@ -277,25 +291,12 @@ export function EndocrineFeedbackAnimation() {
     }
     animRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(animRef.current)
-  }, [running, stepSim, draw])
+  }, [running, stepSim, draw, visible])
 
   useEffect(() => {
     if (!running) draw()
   }, [running, draw])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // Static final frame: converge to the set point, no loop.
-        resetSim()
-        for (let i = 0; i < 400; i++) stepSim()
-        setUi({ level: levelRef.current, drive: driveRef.current })
-        draw()
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const reset = () => {
     triggerReset()

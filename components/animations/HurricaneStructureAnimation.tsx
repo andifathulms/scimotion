@@ -245,7 +245,7 @@ export function HurricaneStructureAnimation() {
     [step]
   )
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         settle(240)
@@ -263,7 +263,7 @@ export function HurricaneStructureAnimation() {
   }, [seed, settle, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -271,7 +271,7 @@ export function HurricaneStructureAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

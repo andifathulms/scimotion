@@ -25,7 +25,7 @@ const SPEC = {
 }
 
 export function DoubleSlitAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const [dots, setDots] = useState<Dot[]>([])
   const [mode, setMode] = useState<Mode>('wave')
   const { params, set, permalink, isDefault, restored } = useWidgetParams('double-slit', SPEC)
@@ -55,7 +55,7 @@ export function DoubleSlitAnimation() {
   }, [triggered]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       for (let i = 0; i < speed; i++) {
         const y = mode === 'wave' ? sampleInterference() : Math.random() * 280 + 10
@@ -64,7 +64,7 @@ export function DoubleSlitAnimation() {
       setDots([...dotsRef.current])
     }, 50)
     return () => clearInterval(id)
-  }, [running, speed, mode])
+  }, [running, speed, mode, visible])
 
   return (
     <div className="animation-block" ref={ref}>

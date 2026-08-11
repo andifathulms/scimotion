@@ -78,7 +78,7 @@ export function CalvinCycleAnimation() {
   const [ledger, setLedger] = useState({ ...ledgerRef.current })
   const [oxyTurn, setOxyTurn] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -374,7 +374,7 @@ export function CalvinCycleAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -382,7 +382,7 @@ export function CalvinCycleAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => { if (!running) draw() }, [running, photo, co2, draw])
 

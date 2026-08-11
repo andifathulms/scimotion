@@ -59,7 +59,7 @@ function buildModel(): Model {
 }
 
 export function DynamicProgrammingAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setIdx(totalRef.current - 1); return }
       setIdx(-1)
@@ -202,7 +202,7 @@ export function DynamicProgrammingAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setIdx(i => {
         if (i >= steps.length - 1) { setRunning(false); return i }
@@ -210,7 +210,7 @@ export function DynamicProgrammingAnimation() {
       })
     }, speed)
     return () => clearInterval(id)
-  }, [running, speed, steps.length])
+  }, [running, speed, steps.length, visible])
 
   const resetAll = () => {
     triggerReset()

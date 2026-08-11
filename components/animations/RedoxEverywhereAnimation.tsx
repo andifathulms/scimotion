@@ -114,7 +114,7 @@ export function RedoxEverywhereAnimation() {
   const [proc, setProc] = useState<Proc>(PROCS[0])
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => { if (!reduced) setRunning(true) },
   })
 
@@ -249,7 +249,7 @@ export function RedoxEverywhereAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       offsetRef.current = (offsetRef.current + procRef.current.speed) % PATH_LEN
       tRef.current += 1
@@ -258,7 +258,7 @@ export function RedoxEverywhereAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => { if (!running) draw() }, [running, proc, draw])
 

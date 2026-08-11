@@ -89,7 +89,7 @@ export function ReactionRateAnimation() {
   const { temp, ea } = params
   const [reactions, setReactions] = useState(0)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -232,7 +232,7 @@ export function ReactionRateAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const Ea = ea
     const T = temp
@@ -284,7 +284,7 @@ export function ReactionRateAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw, temp, ea])
+  }, [running, draw, temp, ea, visible])
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

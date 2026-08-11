@@ -80,7 +80,7 @@ export function RespirationAnimation() {
   const [atp, setAtp] = useState(0)
   const [glucose, setGlucose] = useState(0)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -331,7 +331,7 @@ export function RespirationAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -339,7 +339,7 @@ export function RespirationAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => { if (!running) draw() }, [running, o2, draw])
 

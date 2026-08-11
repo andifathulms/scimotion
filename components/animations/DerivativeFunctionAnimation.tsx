@@ -67,7 +67,7 @@ export function DerivativeFunctionAnimation() {
   const [x0, setX0] = useState(X_MIN)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -176,7 +176,7 @@ export function DerivativeFunctionAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     const tick = (now: number) => {
       const dt = now - last
@@ -191,7 +191,7 @@ export function DerivativeFunctionAnimation() {
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
-  }, [running])
+  }, [running, visible])
 
   const resetAll = () => {
     triggerReset()

@@ -13,7 +13,7 @@ function buildCells(limit: number): Cell[] {
 }
 
 export function SieveAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const [limit, setLimit] = useState(50)
   const [speed, setSpeed] = useState(200)
   const [cells, setCells] = useState<Cell[]>(() => buildCells(50))
@@ -53,7 +53,7 @@ export function SieveAnimation() {
   }, [triggered]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       const s = stateRef.current
       let { currentPrime, multipleIdx, cells: currentCells } = s
@@ -97,7 +97,7 @@ export function SieveAnimation() {
       setPrimeCount(currentCells.filter(c => c.isPrime).length)
     }, speed)
     return () => clearInterval(id)
-  }, [running, speed, limit])
+  }, [running, speed, limit, visible])
 
   return (
     <div className="animation-block" ref={ref}>

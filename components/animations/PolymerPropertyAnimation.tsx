@@ -94,6 +94,20 @@ export function PolymerPropertyAnimation() {
   const structRef = useRef<Structure>('tangled')
   const [readout, setReadout] = useState({ strain: 0, released: false })
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      const c = canvasRef.current
+      if (c) setupCanvas(c)
+      if (reduced) {
+        frameRef.current = 100      // a stretched frame as the static view
+        draw(100, structRef.current)
+        setReadout(strainAt(100, structRef.current))
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   const draw = useCallback((frame: number, s: Structure) => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -215,7 +229,7 @@ export function PolymerPropertyAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       frameRef.current += 1
       const s = structRef.current
@@ -225,21 +239,8 @@ export function PolymerPropertyAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      const c = canvasRef.current
-      if (c) setupCanvas(c)
-      if (reduced) {
-        frameRef.current = 100      // a stretched frame as the static view
-        draw(100, structRef.current)
-        setReadout(strainAt(100, structRef.current))
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   useEffect(() => {
     const c = canvasRef.current

@@ -211,7 +211,7 @@ export function EnzymeCycleAnimation() {
     draw()
   }, [draw])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         // One static frame: enzyme mid-release, having already turned over once.
@@ -228,7 +228,7 @@ export function EnzymeCycleAnimation() {
   })
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const phase = PHASES[phaseRef.current]
       tRef.current += phase.speed
@@ -247,7 +247,7 @@ export function EnzymeCycleAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

@@ -29,7 +29,7 @@ function ratio(deg: number): number {
 }
 
 export function PendulumPeriodAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setDeg(90); return }
       setDeg(5)
@@ -101,7 +101,7 @@ export function PendulumPeriodAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setDeg(prev => {
@@ -112,7 +112,7 @@ export function PendulumPeriodAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 35))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

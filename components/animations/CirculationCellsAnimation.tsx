@@ -355,7 +355,7 @@ export function CirculationCellsAnimation() {
     [step]
   )
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         settle(60)
@@ -372,7 +372,7 @@ export function CirculationCellsAnimation() {
   }, [seed, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -380,7 +380,7 @@ export function CirculationCellsAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

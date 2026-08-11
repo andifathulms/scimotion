@@ -35,6 +35,14 @@ export function HemoglobinAnimation() {
   const [bohr, setBohr] = useState(false)
   const [running, setRunning] = useState(false)
   const runRef = useRef(false)
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) { setPO2(TISSUE_PO2); return }
+      setPO2(LUNG_PO2)
+      setRunning(true)
+    },
+  })
+
   useEffect(() => { runRef.current = running })
 
   const p50 = bohr ? P50_BOHR : P50_NORMAL
@@ -157,7 +165,7 @@ export function HemoglobinAnimation() {
 
   // on trigger, sweep the point from the lungs down to the tissues once
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setPO2(prev => {
@@ -168,15 +176,8 @@ export function HemoglobinAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 30))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) { setPO2(TISSUE_PO2); return }
-      setPO2(LUNG_PO2)
-      setRunning(true)
-    },
-  })
 
   const reset = () => {
     triggerReset()

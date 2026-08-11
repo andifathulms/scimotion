@@ -64,6 +64,13 @@ export function SynapticIntegrationAnimation() {
   const { spread } = params
   const [fired, setFired] = useState(0)
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) draw()
+      else setRunning(true)
+    },
+  })
+
   useEffect(() => {
     inputsRef.current = inputs
   }, [inputs])
@@ -301,7 +308,7 @@ export function SynapticIntegrationAnimation() {
   }, [seed, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       stepSim()
       draw()
@@ -309,14 +316,8 @@ export function SynapticIntegrationAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, stepSim, draw])
+  }, [running, stepSim, draw, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) draw()
-      else setRunning(true)
-    },
-  })
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 

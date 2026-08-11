@@ -70,7 +70,7 @@ const W = 600
 const H = 300
 
 export function InterpreterCompilerAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setFrame(TOTAL)
@@ -84,7 +84,7 @@ export function InterpreterCompilerAnimation() {
   const rafRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       setFrame(f => {
         if (f >= TOTAL) {
@@ -99,7 +99,7 @@ export function InterpreterCompilerAnimation() {
     return () => {
       if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current)
     }
-  }, [running])
+  }, [running, visible])
 
   const play = useCallback(() => {
     if (frame >= TOTAL) setFrame(0)

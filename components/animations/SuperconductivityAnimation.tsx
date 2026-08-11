@@ -66,7 +66,7 @@ export function SuperconductivityAnimation() {
   const [temp, setTemp] = useState(16)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -281,7 +281,7 @@ export function SuperconductivityAnimation() {
   }, [ionPos])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -289,7 +289,7 @@ export function SuperconductivityAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   // Redraw on temperature change (and for the paused / reduced-motion case).
   useEffect(() => {

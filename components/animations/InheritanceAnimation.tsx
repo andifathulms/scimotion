@@ -130,6 +130,16 @@ export function InheritanceAnimation() {
   const [tick, setTick] = useState(0)
 
   // Seed one honest family on mount (stats seeded from that same family).
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        resample(true)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     const f = buildFamily(3)
     familyRef.current = f
@@ -248,7 +258,7 @@ export function InheritanceAnimation() {
 
   // Auto-run: keep drawing fresh families and tallying how often the trait returns.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       frameRef.current += 1
       if (frameRef.current % FRAMES_PER_TRIAL === 0) {
@@ -262,17 +272,8 @@ export function InheritanceAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, resample])
+  }, [running, resample, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        resample(true)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const changeKids = (v: number) => {
     kidsRef.current = v

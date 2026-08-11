@@ -90,7 +90,7 @@ export function EmailDeliveryAnimation() {
   const [running, setRunning] = useState(false)
   const [speed, setSpeed] = useState(1000)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setIdx(STEPS.length - 1)
@@ -274,7 +274,7 @@ export function EmailDeliveryAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setIdx(i => {
         if (i >= STEPS.length - 1) {
@@ -285,7 +285,7 @@ export function EmailDeliveryAnimation() {
       })
     }, speed)
     return () => clearInterval(id)
-  }, [running, speed])
+  }, [running, speed, visible])
 
   const resetAll = () => {
     triggerReset()

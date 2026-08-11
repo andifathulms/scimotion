@@ -127,11 +127,11 @@ export function RaceConditionAnimation() {
     if (reduced) setStep(999) // one static final frame, no loop
     else setRunning(true)
   }, [])
-  const { ref } = useAnimationTrigger({ onTrigger })
+  const { ref, visible } = useAnimationTrigger({ onTrigger })
 
   // rAF stepping loop (no setInterval): advance roughly once per 1000ms.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (!last) last = t
@@ -149,7 +149,7 @@ export function RaceConditionAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, steps])
+  }, [running, steps, visible])
 
   const reset = useCallback(() => {
     cancelAnimationFrame(rafRef.current)

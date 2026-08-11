@@ -36,7 +36,7 @@ export function LogScaleAnimation() {
   const [running, setRunning] = useState(false)
   const [sel, setSel] = useState(VALUES.length - 1) // highlighted value index
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setLogMode(true)
@@ -176,7 +176,7 @@ export function LogScaleAnimation() {
   // Animation loop: ease the morph toward the current mode, then scan the
   // highlighted value through the set.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       const target = logMode ? 1 : 0
@@ -192,7 +192,7 @@ export function LogScaleAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, logMode, draw])
+  }, [running, logMode, draw, visible])
 
   const toggleMode = () => {
     setLogMode(m => !m)

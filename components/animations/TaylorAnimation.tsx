@@ -108,7 +108,7 @@ function drawChart(
 }
 
 export function TaylorAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [fn, setFn] = useState<Func>('sin')
   const [terms, setTerms] = useState(1)
@@ -132,7 +132,7 @@ export function TaylorAnimation() {
   }, [triggered]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setTerms(t => {
         if (t >= maxTerms) { setRunning(false); return t }
@@ -140,7 +140,7 @@ export function TaylorAnimation() {
       })
     }, 700)
     return () => clearInterval(id)
-  }, [running, maxTerms])
+  }, [running, maxTerms, visible])
 
   const resetAll = () => {
     triggerReset()

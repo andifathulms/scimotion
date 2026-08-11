@@ -51,7 +51,7 @@ export function RiemannSumAnimation() {
   const [rule, setRule] = useState<Rule>('mid')
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) setN(60)
       else setRunning(true)
@@ -140,7 +140,7 @@ export function RiemannSumAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     let acc = n
     const tick = (now: number) => {
@@ -156,7 +156,7 @@ export function RiemannSumAnimation() {
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
-  }, [running]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [running, visible]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetAll = () => {
     triggerReset()

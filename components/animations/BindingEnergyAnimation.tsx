@@ -59,7 +59,7 @@ const NUCLEI: Nucleus[] = [
 ]
 
 export function BindingEnergyAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       setSel(5)
       if (reduced) { setT(1); setRunning(false); return }
@@ -180,7 +180,7 @@ export function BindingEnergyAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setT(prev => {
@@ -191,7 +191,7 @@ export function BindingEnergyAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 30))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const pick = (i: number) => {
     setSel(i)

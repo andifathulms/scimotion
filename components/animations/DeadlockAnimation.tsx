@@ -64,10 +64,10 @@ export function DeadlockAnimation() {
     if (reduced) setStep(999) // one static final frame, no loop
     else setRunning(true)
   }, [])
-  const { ref } = useAnimationTrigger({ onTrigger })
+  const { ref, visible } = useAnimationTrigger({ onTrigger })
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (!last) last = t
@@ -85,7 +85,7 @@ export function DeadlockAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, steps])
+  }, [running, steps, visible])
 
   const reset = useCallback(() => {
     cancelAnimationFrame(rafRef.current)

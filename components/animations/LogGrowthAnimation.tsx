@@ -33,7 +33,7 @@ export function LogGrowthAnimation() {
   const [n, setN] = useState(N_MAX)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setN(N_MAX)
@@ -185,7 +185,7 @@ export function LogGrowthAnimation() {
   }, [draw, n])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (!last) last = t
@@ -203,7 +203,7 @@ export function LogGrowthAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

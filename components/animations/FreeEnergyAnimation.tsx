@@ -70,7 +70,7 @@ export function FreeEnergyAnimation() {
   useEffect(() => { dSRef.current = dS }, [dS])
   useEffect(() => { tRef.current = temp }, [temp])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -238,7 +238,7 @@ export function FreeEnergyAnimation() {
   useEffect(() => { draw() }, [draw, dH, dS, temp])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       // Sweep temperature up, then wrap around, so the flip is unmissable.
       let next = tRef.current + 4
@@ -249,7 +249,7 @@ export function FreeEnergyAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, set])
+  }, [running, set, visible])
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)

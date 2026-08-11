@@ -234,7 +234,7 @@ export function LensImageAnimation() {
     }
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         draw()
@@ -257,7 +257,7 @@ export function LensImageAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (last === 0) last = t
@@ -280,7 +280,7 @@ export function LensImageAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   // redraw when slider changes while paused
   useEffect(() => {

@@ -215,7 +215,7 @@ export function FunctionalGroupAnimation() {
   const [idx, setIdx] = useState(1)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         idxRef.current = 1
@@ -320,7 +320,7 @@ export function FunctionalGroupAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     lastRef.current = performance.now()
     const tick = (now: number) => {
       if (now - lastRef.current > 1600) {
@@ -333,7 +333,7 @@ export function FunctionalGroupAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw(idx)

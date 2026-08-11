@@ -46,7 +46,7 @@ export function LearningRateAnimation() {
   const [step, setStep] = useState(N_ITER)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setStep(N_ITER); return }
       setStep(0)
@@ -123,7 +123,7 @@ export function LearningRateAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStep(s => {
         if (s >= N_ITER) { setRunning(false); return N_ITER }
@@ -131,7 +131,7 @@ export function LearningRateAnimation() {
       })
     }, 140)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

@@ -79,7 +79,7 @@ export function ActivationEnergyAnimation() {
   const [enzyme, setEnzyme] = useState(false)
   const [stats, setStats] = useState({ attempts: 0, crossings: 0 })
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -257,7 +257,7 @@ export function ActivationEnergyAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       // Ease the barrier toward its target so the collapse is visible.
       const target = enzyme ? 1 : 0
@@ -291,7 +291,7 @@ export function ActivationEnergyAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, enzyme, draw])
+  }, [running, enzyme, draw, visible])
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

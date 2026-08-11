@@ -64,7 +64,7 @@ export function HearingChainAnimation() {
     stageRef.current = stage
   }, [stage])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: (reduced) => {
       if (!reduced) setRunning(true)
     },
@@ -266,12 +266,12 @@ export function HearingChainAnimation() {
 
   // While playing, advance through the stages on a slow timer.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStage((p) => (p + 1) % STAGES.length)
     }, 2600)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const resetAll = () => {
     triggerReset()

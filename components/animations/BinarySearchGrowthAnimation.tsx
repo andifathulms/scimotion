@@ -18,7 +18,7 @@ function fmt(n: number): string {
 }
 
 export function BinarySearchGrowthAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(N_MAX); return }
       setN(1)
@@ -100,7 +100,7 @@ export function BinarySearchGrowthAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setN(prev => {
@@ -111,7 +111,7 @@ export function BinarySearchGrowthAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 45))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

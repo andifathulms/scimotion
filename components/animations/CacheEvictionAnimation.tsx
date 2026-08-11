@@ -100,17 +100,7 @@ export function CacheEvictionAnimation() {
   }
 
   // Auto-advance loop while running (setTimeout chain; deterministic, no rAF needed for DOM).
-  useEffect(() => {
-    if (!running) return
-    if (idx >= steps.length - 1) {
-      setRunning(false)
-      return
-    }
-    timerRef.current = window.setTimeout(() => setIdx(i => Math.min(i + 1, steps.length - 1)), 900)
-    return clearTimer
-  }, [running, idx, steps.length])
-
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setIdx(steps.length - 1) // static final frame
@@ -119,6 +109,17 @@ export function CacheEvictionAnimation() {
       }
     },
   })
+
+  useEffect(() => {
+    if (!running || !visible) return
+    if (idx >= steps.length - 1) {
+      setRunning(false)
+      return
+    }
+    timerRef.current = window.setTimeout(() => setIdx(i => Math.min(i + 1, steps.length - 1)), 900)
+    return clearTimer
+  }, [running, idx, steps.length, visible])
+
 
   const play = useCallback(() => {
     if (idx >= steps.length - 1) setIdx(-1)

@@ -180,7 +180,7 @@ export function BackpropagationAnimation() {
   const rafRef = useRef<number | null>(null)
   const startRef = useRef(0)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setStep(STEPS.length - 1); setT(1); return }
       setStep(0)
@@ -203,7 +203,7 @@ export function BackpropagationAnimation() {
   }, [step])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStep(s => {
         if (s >= STEPS.length - 1) { setRunning(false); return s }
@@ -211,7 +211,7 @@ export function BackpropagationAnimation() {
       })
     }, 1700)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current

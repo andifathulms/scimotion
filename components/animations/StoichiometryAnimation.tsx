@@ -53,7 +53,7 @@ export function StoichiometryAnimation() {
   const leftO2 = o2 - usedO2
   const limiting = h2 / 2 < o2 ? 'H₂' : o2 < h2 / 2 ? 'O₂' : 'balanced'
 
-  const { ref, triggered } = useAnimationTrigger({
+  const { ref, triggered, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       reducedRef.current = reduced
       if (reduced) {
@@ -162,7 +162,7 @@ export function StoichiometryAnimation() {
 
   // animation loop
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       pRef.current = Math.min(1, pRef.current + 0.012)
       draw()
@@ -174,7 +174,7 @@ export function StoichiometryAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   // redraw on any state / setting change + reduced-motion static frame
   useEffect(() => {

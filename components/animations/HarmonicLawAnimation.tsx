@@ -31,7 +31,7 @@ const X_TICKS: [number, string][] = [[0.3, '0.3'], [1, '1'], [3, '3'], [10, '10'
 const Y_TICKS: [number, string][] = [[0.1, '0.1'], [1, '1'], [10, '10'], [100, '100']]
 
 export function HarmonicLawAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setRevealed(PLANETS.length); return }
       setRevealed(0)
@@ -120,7 +120,7 @@ export function HarmonicLawAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setRevealed(prev => {
         if (prev >= PLANETS.length) { setRunning(false); return prev }
@@ -128,7 +128,7 @@ export function HarmonicLawAnimation() {
       })
     }, 320)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

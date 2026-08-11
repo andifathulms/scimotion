@@ -83,7 +83,7 @@ export function KineticTheoryAnimation() {
   const [running, setRunning] = useState(false)
   const [readout, setReadout] = useState({ P: 0, V: 0, T: T_REF, PV: 0, NkT: 0 })
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -269,7 +269,7 @@ export function KineticTheoryAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       step()
@@ -282,7 +282,7 @@ export function KineticTheoryAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

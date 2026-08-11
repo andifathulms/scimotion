@@ -350,7 +350,7 @@ export function NephronAnimation() {
     }
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) draw()
       else setRunning(true)
@@ -363,7 +363,7 @@ export function NephronAnimation() {
   }, [seed, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       step()
@@ -374,7 +374,7 @@ export function NephronAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

@@ -41,7 +41,7 @@ export function LeChatelierAnimation() {
   const [running, setRunning] = useState(false)
   const [readout, setReadout] = useState({ a: 1, b: 1, q: 1, K: 1, T: T0, V: 1 })
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -184,7 +184,7 @@ export function LeChatelierAnimation() {
   }, [init])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       const s = sysRef.current
@@ -217,7 +217,7 @@ export function LeChatelierAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw, push])
+  }, [running, draw, push, visible])
 
   const perturb = (fn: (s: Sys) => void, label: string, color: string) => {
     fn(sysRef.current)

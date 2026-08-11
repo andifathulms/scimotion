@@ -58,7 +58,7 @@ const SPEC = {
 }
 
 export function ChainReactionAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       historyRef.current = [N0]
       setHistory([N0])
@@ -170,7 +170,7 @@ export function ChainReactionAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       const hist = historyRef.current
@@ -187,7 +187,7 @@ export function ChainReactionAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 420))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const restart = () => {
     historyRef.current = [N0]

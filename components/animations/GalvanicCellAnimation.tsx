@@ -117,7 +117,7 @@ export function GalvanicCellAnimation() {
   const [imbalance, setImbalance] = useState(0)
   const [charge, setCharge] = useState(0)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -385,7 +385,7 @@ export function GalvanicCellAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -393,7 +393,7 @@ export function GalvanicCellAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => { if (!running) draw() }, [running, bridge, draw])
 

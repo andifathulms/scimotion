@@ -123,7 +123,7 @@ export function HuffmanCodingAnimation() {
   const hVal = entropyBits(freqs)
   const avg = avgBits(freqs, built.codes)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setStep(built.merges)
@@ -310,7 +310,7 @@ export function HuffmanCodingAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let timer: ReturnType<typeof setTimeout>
     const tick = () => {
       setStep(prev => {
@@ -324,7 +324,7 @@ export function HuffmanCodingAnimation() {
     }
     timer = setTimeout(tick, 900)
     return () => clearTimeout(timer)
-  }, [running, built.merges])
+  }, [running, built.merges, visible])
 
   const reset = () => {
     triggerReset()

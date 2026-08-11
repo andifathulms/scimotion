@@ -31,7 +31,7 @@ function binarySearchSteps(arr: number[], target: number): StepState[] {
 }
 
 export function BinarySearchAnimation() {
-  const { ref, triggered, reset: triggerReset } = useAnimationTrigger()
+  const { ref, triggered, reset: triggerReset, visible } = useAnimationTrigger()
   const [arr, setArr] = useState<number[]>(() => makeArray(18))
   const [target, setTarget] = useState<number>(0)
   const [steps, setSteps] = useState<StepState[]>([])
@@ -62,7 +62,7 @@ export function BinarySearchAnimation() {
   }, [triggered]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStepIdx(i => {
         const next = i + 1
@@ -72,7 +72,7 @@ export function BinarySearchAnimation() {
       })
     }, speed)
     return () => clearInterval(id)
-  }, [running, steps, speed])
+  }, [running, steps, speed, visible])
 
   const resetAll = () => {
     triggerReset()

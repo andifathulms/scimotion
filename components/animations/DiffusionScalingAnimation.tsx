@@ -16,7 +16,7 @@ function rms(t: number, D: number): number {
 }
 
 export function DiffusionScalingAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setT(T_MAX); return }
       setT(0)
@@ -111,7 +111,7 @@ export function DiffusionScalingAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setT(prev => {
@@ -122,7 +122,7 @@ export function DiffusionScalingAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 35))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

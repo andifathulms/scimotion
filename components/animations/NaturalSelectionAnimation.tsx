@@ -162,6 +162,23 @@ export function NaturalSelectionAnimation() {
   const { env, sel, popN } = params
 
   const paramsRef = useRef({ env: 0.8, s: 0.2, N: 200 })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // No motion: compute the sweep in one shot and show the finished run.
+        const hist = histRef.current
+        const cur = paramsRef.current
+        while (hist.length < 90) {
+          hist.push(stepGeneration(hist[hist.length - 1], cur.env, cur.s, cur.N))
+          envHistRef.current.push(cur.env)
+        }
+        setTick(t => t + 1)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     paramsRef.current = { env: env / 100, s: sel / 100, N: popN }
   }, [env, sel, popN])
@@ -326,7 +343,7 @@ export function NaturalSelectionAnimation() {
   }, [draw, tick])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       frameRef.current += 1
       if (frameRef.current % FRAMES_PER_GEN === 0) {
@@ -344,24 +361,8 @@ export function NaturalSelectionAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // No motion: compute the sweep in one shot and show the finished run.
-        const hist = histRef.current
-        const cur = paramsRef.current
-        while (hist.length < 90) {
-          hist.push(stepGeneration(hist[hist.length - 1], cur.env, cur.s, cur.N))
-          envHistRef.current.push(cur.env)
-        }
-        setTick(t => t + 1)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const restart = () => {
     histRef.current = [0.15]

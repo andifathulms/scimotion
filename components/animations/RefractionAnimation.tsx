@@ -200,7 +200,7 @@ export function RefractionAnimation() {
     ctx.fill()
   }, [solve])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         phaseRef.current = 0
@@ -224,7 +224,7 @@ export function RefractionAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (last === 0) last = t
@@ -236,7 +236,7 @@ export function RefractionAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   // redraw when inputs change while paused
   useEffect(() => {

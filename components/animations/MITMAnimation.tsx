@@ -69,7 +69,7 @@ function drawLock(ctx: CanvasRenderingContext2D, x: number, y: number, color: st
 }
 
 export function MITMAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setIdx(totalRef.current - 1)
@@ -273,7 +273,7 @@ export function MITMAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setIdx(i => {
         if (i >= steps.length - 1) {
@@ -284,7 +284,7 @@ export function MITMAnimation() {
       })
     }, 1100)
     return () => clearInterval(id)
-  }, [running, steps.length])
+  }, [running, steps.length, visible])
 
   const resetAll = () => {
     triggerReset()

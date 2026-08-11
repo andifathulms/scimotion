@@ -349,7 +349,7 @@ export function HurricaneEngineAnimation() {
     [step]
   )
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         settle(160)
@@ -367,7 +367,7 @@ export function HurricaneEngineAnimation() {
   }, [seed, settle, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const s = step()
       draw()
@@ -376,7 +376,7 @@ export function HurricaneEngineAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

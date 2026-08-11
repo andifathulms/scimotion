@@ -40,7 +40,7 @@ export function MicrostatesAnimation() {
   const [n, setN] = useState(N_MAX)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(N_MAX); return }
       setN(N_MIN)
@@ -156,7 +156,7 @@ export function MicrostatesAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     let timer: ReturnType<typeof setTimeout>
     const step = () => {
@@ -168,7 +168,7 @@ export function MicrostatesAnimation() {
     }
     raf = requestAnimationFrame(() => { timer = setTimeout(step, 30) })
     return () => { cancelAnimationFrame(raf); clearTimeout(timer) }
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

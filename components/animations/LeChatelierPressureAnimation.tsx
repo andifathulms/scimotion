@@ -81,7 +81,7 @@ export function LeChatelierPressureAnimation() {
     molsRef.current = mols
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -201,7 +201,7 @@ export function LeChatelierPressureAnimation() {
   }, [init])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       const rng = rngRef.current
@@ -298,7 +298,7 @@ export function LeChatelierPressureAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, hot, targetW, kOf, draw])
+  }, [running, hot, targetW, kOf, draw, visible])
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)

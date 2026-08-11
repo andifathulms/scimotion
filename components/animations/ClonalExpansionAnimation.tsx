@@ -72,6 +72,21 @@ export function ClonalExpansionAnimation() {
 
   const key = (x: number, y: number) => y * COLS + x
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // Static frame: run the full simulation instantly to a final tumour.
+        initSim()
+        for (let i = 0; i < 40; i++) stepGen()
+        draw()
+        return
+      }
+      initSim()
+      draw()
+      setRunning(true)
+    },
+  })
+
   const initSim = useCallback(() => {
     const cx = Math.floor(COLS / 2)
     const cy = Math.floor(ROWS / 2)
@@ -214,7 +229,7 @@ export function ClonalExpansionAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const loop = () => {
       frame += 1
@@ -226,22 +241,8 @@ export function ClonalExpansionAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, stepGen, draw])
+  }, [running, stepGen, draw, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // Static frame: run the full simulation instantly to a final tumour.
-        initSim()
-        for (let i = 0; i < 40; i++) stepGen()
-        draw()
-        return
-      }
-      initSim()
-      draw()
-      setRunning(true)
-    },
-  })
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

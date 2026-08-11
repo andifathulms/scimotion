@@ -47,7 +47,7 @@ function buildBisection(): number[] {
 }
 
 export function NewtonConvergenceAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setStep(N_ITER); return }
       setStep(0)
@@ -139,7 +139,7 @@ export function NewtonConvergenceAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setStep(s => {
         if (s >= N_ITER) { setRunning(false); return N_ITER }
@@ -147,7 +147,7 @@ export function NewtonConvergenceAnimation() {
       })
     }, 320)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

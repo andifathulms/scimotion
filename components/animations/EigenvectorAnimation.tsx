@@ -95,7 +95,7 @@ export function EigenvectorAnimation() {
   const [c, setC] = useState(1)
   const [d, setD] = useState(2)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setT(1); return }
       setRunning(true)
@@ -226,7 +226,7 @@ export function EigenvectorAnimation() {
   }, [a, b, c, d])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     const tick = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000)
@@ -239,7 +239,7 @@ export function EigenvectorAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   // Static redraw whenever the matrix or the slider changes while paused.
   useEffect(() => {

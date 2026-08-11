@@ -69,7 +69,7 @@ export function CatalysisAnimation() {
   const { deltaG } = params
   const [counts, setCounts] = useState({ fwd: 0, rev: 0 })
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -236,7 +236,7 @@ export function CatalysisAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       // Ease the barrier towards its target so the drop is visible, not abrupt.
       const target = catalyst ? 1 : 0
@@ -272,7 +272,7 @@ export function CatalysisAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, catalyst, draw, deltaG])
+  }, [running, catalyst, draw, deltaG, visible])
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

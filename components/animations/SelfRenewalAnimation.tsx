@@ -56,6 +56,18 @@ export function SelfRenewalAnimation() {
   const [running, setRunning] = useState(false)
 
   const stateRef = useRef({ mode, round, prog, running })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      reducedRef.current = reduced
+      if (reduced) {
+        setRound(MAX_ROUND)
+        setProg(0)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     stateRef.current = { mode, round, prog, running }
   }, [mode, round, prog, running])
@@ -178,7 +190,7 @@ export function SelfRenewalAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       setProg(prev => {
         const next = prev + 0.02
@@ -198,19 +210,8 @@ export function SelfRenewalAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      reducedRef.current = reduced
-      if (reduced) {
-        setRound(MAX_ROUND)
-        setProg(0)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const atEnd = round >= MAX_ROUND
 

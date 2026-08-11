@@ -124,6 +124,18 @@ export function CellCycleAnimation() {
   const [running, setRunning] = useState(false)
 
   const stateRef = useRef({ phaseIdx, prog, running })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // No motion: jump straight to the finished two-daughter frame.
+        setPhaseIdx(PHASES.length - 1)
+        setProg(1)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     stateRef.current = { phaseIdx, prog, running }
   }, [phaseIdx, prog, running])
@@ -382,7 +394,7 @@ export function CellCycleAnimation() {
 
   // Auto-run: advance progress within a phase, then step to the next phase.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       setProg(prev => {
         const next = prev + 0.018
@@ -401,19 +413,8 @@ export function CellCycleAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // No motion: jump straight to the finished two-daughter frame.
-        setPhaseIdx(PHASES.length - 1)
-        setProg(1)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const atEnd = phaseIdx >= PHASES.length - 1 && prog >= 1
 

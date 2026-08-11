@@ -241,7 +241,7 @@ export function PrecipitationAnimation() {
     setR(rRef.current)
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         // static final frame: a fallen raindrop
@@ -265,7 +265,7 @@ export function PrecipitationAnimation() {
   }, [seed, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -273,7 +273,7 @@ export function PrecipitationAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

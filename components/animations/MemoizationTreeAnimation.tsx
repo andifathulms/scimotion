@@ -53,7 +53,7 @@ function buildTree(n: number, memo: boolean): { nodes: Node[]; leaves: number } 
 }
 
 export function MemoizationTreeAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setRevealed(Number.MAX_SAFE_INTEGER); return }
       setRevealed(0)
@@ -147,7 +147,7 @@ export function MemoizationTreeAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setRevealed(v => {
         if (v >= nodes.length) { setRunning(false); return nodes.length }
@@ -155,7 +155,7 @@ export function MemoizationTreeAnimation() {
       })
     }, 28)
     return () => clearInterval(id)
-  }, [running, nodes.length])
+  }, [running, nodes.length, visible])
 
   const replay = useCallback(() => {
     setRevealed(0)

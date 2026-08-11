@@ -69,7 +69,7 @@ export function EquilibriumAnimation() {
     kRef.current = k
   }, [k])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -229,7 +229,7 @@ export function EquilibriumAnimation() {
   }, [k])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       const K = kRef.current
@@ -267,7 +267,7 @@ export function EquilibriumAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)

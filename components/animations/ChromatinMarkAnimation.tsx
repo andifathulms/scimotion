@@ -49,7 +49,7 @@ export function ChromatinMarkAnimation() {
   const [c, setC] = useState(0) // mirror of cRef for the readout
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         cRef.current = 1
@@ -258,7 +258,7 @@ export function ChromatinMarkAnimation() {
 
   // Play: auto-cycle open ↔ closed a couple of times, then settle.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let n = 0
     const id = setInterval(() => {
       setTarget(t => (t > 0.5 ? 0 : 1))
@@ -268,7 +268,7 @@ export function ChromatinMarkAnimation() {
       }
     }, 2000)
     return () => clearInterval(id)
-  }, [running])
+  }, [running, visible])
 
   const closedNow = c > 0.5
   const markState = c > 0.15 ? (c > 0.85 ? 'present' : 'being added') : 'none'

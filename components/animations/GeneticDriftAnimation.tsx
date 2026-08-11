@@ -76,6 +76,23 @@ export function GeneticDriftAnimation() {
   const [sel, setSel] = useState(4)     // selection coefficient × 100
 
   const paramsRef = useRef({ N: 25, s: 0.04 })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        const runs = runsRef.current
+        const cur = paramsRef.current
+        while (runs[0].path.length < MAX_GENS) {
+          for (const run of runs) {
+            run.path.push(stepGeneration(run.path[run.path.length - 1], cur.s, cur.N))
+          }
+        }
+        setTick(t => t + 1)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     paramsRef.current = { N: popN, s: sel / 100 }
   }, [popN, sel])
@@ -250,7 +267,7 @@ export function GeneticDriftAnimation() {
   }, [draw, tick])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       const runs = runsRef.current
       const cur = paramsRef.current
@@ -270,7 +287,7 @@ export function GeneticDriftAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
   const restart = useCallback(() => {
     runsRef.current = freshRuns()
@@ -285,22 +302,6 @@ export function GeneticDriftAnimation() {
     setTick(t => t + 1)
   }, [popN, sel])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        const runs = runsRef.current
-        const cur = paramsRef.current
-        while (runs[0].path.length < MAX_GENS) {
-          for (const run of runs) {
-            run.path.push(stepGeneration(run.path[run.path.length - 1], cur.s, cur.N))
-          }
-        }
-        setTick(t => t + 1)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const resetAll = () => {
     cancelAnimationFrame(rafRef.current)

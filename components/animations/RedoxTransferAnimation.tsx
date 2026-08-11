@@ -51,7 +51,7 @@ export function RedoxTransferAnimation() {
   const [running, setRunning] = useState(false)
   const [p, setP] = useState(0)  // display progress, clamped to [0,1]
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { pRef.current = 1; setP(1); return }
       setRunning(true)
@@ -225,7 +225,7 @@ export function RedoxTransferAnimation() {
 
   // --- Animation loop -----------------------------------------------------
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       let pr = pRef.current
       if (holdRef.current) {
@@ -243,7 +243,7 @@ export function RedoxTransferAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => { if (!running) draw(p) }, [running, p, draw])
 

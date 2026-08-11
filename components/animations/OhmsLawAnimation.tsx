@@ -217,7 +217,7 @@ export function OhmsLawAnimation() {
     offsetRef.current += clamp(I * 90, 0.3, 11)
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) draw()
       else setRunning(true)
@@ -229,7 +229,7 @@ export function OhmsLawAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -237,7 +237,7 @@ export function OhmsLawAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

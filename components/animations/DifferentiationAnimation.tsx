@@ -102,6 +102,18 @@ export function DifferentiationAnimation() {
   const [running, setRunning] = useState(false)
 
   const stateRef = useRef({ start, revealDepth, prog, running })
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      reducedRef.current = reduced
+      if (reduced) {
+        setRevealDepth(maxRelDepth(stateRef.current.start))
+        setProg(1)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   useEffect(() => {
     stateRef.current = { start, revealDepth, prog, running }
   }, [start, revealDepth, prog, running])
@@ -234,7 +246,7 @@ export function DifferentiationAnimation() {
 
   // Auto-run: fade in the frontier level, then commit to the next one.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       setProg(prev => {
         const next = prev + 0.035
@@ -254,19 +266,8 @@ export function DifferentiationAnimation() {
     }
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running])
+  }, [running, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      reducedRef.current = reduced
-      if (reduced) {
-        setRevealDepth(maxRelDepth(stateRef.current.start))
-        setProg(1)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const maxRel = maxRelDepth(start)
   const atEnd = revealDepth >= maxRel && prog >= 1

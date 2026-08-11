@@ -70,6 +70,17 @@ export function MemoryHierarchyAnimation() {
 
   const avg = hitRate * FAST.time + (1 - hitRate) * SLOW.time
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        tRef.current = 1
+        draw(1)
+      } else {
+        setRunning(true)
+      }
+    },
+  })
+
   const draw = useCallback((t: number) => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -200,22 +211,12 @@ export function MemoryHierarchyAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     startRef.current = 0
     rafRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, loop])
+  }, [running, loop, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        tRef.current = 1
-        draw(1)
-      } else {
-        setRunning(true)
-      }
-    },
-  })
 
   useEffect(() => {
     draw(tRef.current)

@@ -81,6 +81,20 @@ export function PolymerizationAnimation() {
   const mechRef = useRef<Mechanism>('addition')
   const [units, setUnits] = useState(1)
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      const c = canvasRef.current
+      if (c) setupCanvas(c)
+      if (reduced) {
+        unitsRef.current = MAX
+        setUnits(MAX)
+        draw(MAX, mechRef.current)
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   const draw = useCallback((u: number, m: Mechanism) => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -186,7 +200,7 @@ export function PolymerizationAnimation() {
 
   // --- Animation loop -----------------------------------------------------
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       let u = unitsRef.current
       if (holdRef.current > 0) {
@@ -203,21 +217,8 @@ export function PolymerizationAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      const c = canvasRef.current
-      if (c) setupCanvas(c)
-      if (reduced) {
-        unitsRef.current = MAX
-        setUnits(MAX)
-        draw(MAX, mechRef.current)
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   useEffect(() => {
     const c = canvasRef.current

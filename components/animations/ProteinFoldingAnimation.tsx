@@ -238,7 +238,7 @@ export function ProteinFoldingAnimation() {
   const [frame, setFrame] = useState(0)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setFrame(run.frames.length - 1); return }
       setFrame(0)
@@ -252,7 +252,7 @@ export function ProteinFoldingAnimation() {
   }, [seq, mode])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const id = setInterval(() => {
       setFrame(f => {
         if (f >= run.frames.length - 1) { setRunning(false); return run.frames.length - 1 }
@@ -260,7 +260,7 @@ export function ProteinFoldingAnimation() {
       })
     }, 34)
     return () => clearInterval(id)
-  }, [running, run])
+  }, [running, run, visible])
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current

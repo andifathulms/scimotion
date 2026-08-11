@@ -19,7 +19,7 @@ const INS = { x: W - 188, y: PAD.top + 6, w: 170, h: 74 }
 const se = (n: number) => SIGMA / Math.sqrt(n)
 
 export function StandardErrorAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(N_MAX); return }
       setN(N_MIN)
@@ -163,7 +163,7 @@ export function StandardErrorAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let raf = 0
     const step = () => {
       setN(prev => {
@@ -175,7 +175,7 @@ export function StandardErrorAnimation() {
     }
     raf = requestAnimationFrame(() => setTimeout(step, 40))
     return () => cancelAnimationFrame(raf)
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

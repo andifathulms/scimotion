@@ -67,7 +67,7 @@ function fmtTime(l10sec: number): string {
 }
 
 export function ComplexityGrowthAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) { setN(N_MAX); return }
       setN(1)
@@ -187,7 +187,7 @@ export function ComplexityGrowthAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let timer = 0
     let raf = 0
     const step = () => {
@@ -199,7 +199,7 @@ export function ComplexityGrowthAnimation() {
     }
     timer = window.setTimeout(() => { raf = requestAnimationFrame(step) }, 120)
     return () => { window.clearTimeout(timer); cancelAnimationFrame(raf) }
-  }, [running])
+  }, [running, visible])
 
   const reset = () => {
     triggerReset()

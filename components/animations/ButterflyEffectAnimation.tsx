@@ -85,6 +85,10 @@ export function ButterflyEffectAnimation() {
 
   const eps = Math.pow(10, expo)
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => { if (!reduced) setRunning(true) },
+  })
+
   const init = useCallback((e: number) => {
     stateRef.current = {
       a: { ...START },
@@ -217,7 +221,7 @@ export function ButterflyEffectAnimation() {
   }, [eps, init, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const s = stateRef.current
       for (let i = 0; i < STEPS_PER_FRAME && s.t < T_MAX; i++) {
@@ -238,11 +242,8 @@ export function ButterflyEffectAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => { if (!reduced) setRunning(true) },
-  })
 
   const reset = () => {
     cancelAnimationFrame(rafRef.current)

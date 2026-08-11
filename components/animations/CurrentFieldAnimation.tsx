@@ -259,7 +259,7 @@ export function CurrentFieldAnimation() {
     needleRef.current += angleTo(needleRef.current, targetNeedle()) * 0.15
   }, [targetNeedle])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         needleRef.current = targetNeedle()
@@ -276,7 +276,7 @@ export function CurrentFieldAnimation() {
   }, [draw, targetNeedle])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       step()
       draw()
@@ -284,7 +284,7 @@ export function CurrentFieldAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   // Redraw immediately when settings change while paused.
   useEffect(() => {

@@ -62,7 +62,7 @@ export function MaxwellBoltzmannAnimation() {
   const [species, setSpecies] = useState('N2')
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -201,7 +201,7 @@ export function MaxwellBoltzmannAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       // Sweep temperature up and down so the curve visibly broadens and shifts.
@@ -221,7 +221,7 @@ export function MaxwellBoltzmannAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

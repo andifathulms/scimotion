@@ -68,7 +68,7 @@ const H = 300
 const FRAMES_PER_STAGE = 78
 
 export function CompilerPipelineAnimation() {
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         setStage(STAGES.length - 1)
@@ -83,7 +83,7 @@ export function CompilerPipelineAnimation() {
   const frameRef = useRef(0)
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       frameRef.current += 1
       if (frameRef.current >= FRAMES_PER_STAGE) {
@@ -102,7 +102,7 @@ export function CompilerPipelineAnimation() {
     return () => {
       if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current)
     }
-  }, [running])
+  }, [running, visible])
 
   const play = useCallback(() => {
     if (stage >= STAGES.length - 1) {

@@ -249,7 +249,7 @@ export function WaterReservoirAnimation() {
     })
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         draw()
@@ -266,7 +266,7 @@ export function WaterReservoirAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       frameRef.current += 1
       draw()
@@ -274,7 +274,7 @@ export function WaterReservoirAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

@@ -68,7 +68,7 @@ export function MatrixCompositionAnimation() {
   const [running, setRunning] = useState(false)
   const [phase, setPhase] = useState(0)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         pRef.current = 2
@@ -178,7 +178,7 @@ export function MatrixCompositionAnimation() {
   }, [running, phase, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = performance.now()
     const tick = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000)
@@ -194,7 +194,7 @@ export function MatrixCompositionAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const play = () => {
     pRef.current = 0

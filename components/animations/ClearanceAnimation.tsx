@@ -272,7 +272,7 @@ export function ClearanceAnimation() {
     )
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) draw()
       else setRunning(true)
@@ -284,7 +284,7 @@ export function ClearanceAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const h = hRef.current
       const flow = urineFlow(h)
@@ -300,7 +300,7 @@ export function ClearanceAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

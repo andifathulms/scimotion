@@ -46,7 +46,7 @@ export function RocheLimitAnimation() {
   const rafRef = useRef(0)
   const disruptedRef = useRef(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         // Static final frame: moon torn into a debris ring at the Roche limit.
@@ -154,7 +154,7 @@ export function RocheLimitAnimation() {
 
   // Migration + shredding loop.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const step = () => {
       rotRef.current += 1
       if (!disruptedRef.current) {
@@ -178,7 +178,7 @@ export function RocheLimitAnimation() {
     }
     rafRef.current = requestAnimationFrame(step)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     draw()

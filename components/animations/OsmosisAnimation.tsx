@@ -306,7 +306,7 @@ export function OsmosisAnimation() {
     setReadout({ left, right, eq: deltaRef.current === 0 || rise >= riseEq - 0.6 })
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         // Draw a single static final frame at osmotic equilibrium.
@@ -326,7 +326,7 @@ export function OsmosisAnimation() {
   }, [seed, draw, refreshReadout])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       step()
@@ -337,7 +337,7 @@ export function OsmosisAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw, refreshReadout])
+  }, [running, step, draw, refreshReadout, visible])
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 

@@ -197,7 +197,7 @@ export function ImpulseAnimation() {
     ctx.textAlign = 'left'
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         playRef.current = T_MAX
@@ -221,7 +221,7 @@ export function ImpulseAnimation() {
   }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (last === 0) last = t
@@ -234,7 +234,7 @@ export function ImpulseAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw()

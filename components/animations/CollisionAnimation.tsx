@@ -327,7 +327,7 @@ export function CollisionAnimation() {
     }
   }, [])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         // static final frame: show the resolved (after) state
@@ -363,7 +363,7 @@ export function CollisionAnimation() {
   }, [seed, draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let last = 0
     const tick = (t: number) => {
       if (last === 0) last = t
@@ -375,7 +375,7 @@ export function CollisionAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, step, draw])
+  }, [running, step, draw, visible])
 
   // redraw when inputs change while paused
   useEffect(() => {

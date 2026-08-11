@@ -68,6 +68,19 @@ export function HormoneReceptorAnimation() {
   const molsRef = useRef<Mol[]>([])
   const cellsRef = useRef<Cell[]>(freshCells())
 
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
+    onTrigger: reduced => {
+      if (reduced) {
+        // One static final frame: fast-forward the simulation, no loop.
+        resetSim()
+        for (let i = 0; i < 260; i++) stepSim()
+        draw()
+        return
+      }
+      setRunning(true)
+    },
+  })
+
   const resetSim = useCallback(() => {
     frameRef.current = 0
     spawnCountRef.current = 0
@@ -305,7 +318,7 @@ export function HormoneReceptorAnimation() {
 
   // --- Animation loop ---
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const loop = () => {
       stepSim()
       draw()
@@ -313,25 +326,13 @@ export function HormoneReceptorAnimation() {
     }
     animRef.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(animRef.current)
-  }, [running, stepSim, draw])
+  }, [running, stepSim, draw, visible])
 
   // Keep a frame painted when idle / after mode change.
   useEffect(() => {
     if (!running) draw()
   }, [running, mode, draw])
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
-    onTrigger: reduced => {
-      if (reduced) {
-        // One static final frame: fast-forward the simulation, no loop.
-        resetSim()
-        for (let i = 0; i < 260; i++) stepSim()
-        draw()
-        return
-      }
-      setRunning(true)
-    },
-  })
 
   const switchMode = (m: Mode) => {
     setMode(m)

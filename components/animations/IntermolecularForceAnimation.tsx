@@ -118,7 +118,7 @@ export function IntermolecularForceAnimation() {
   const [temp, setTemp] = useState(-40)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         tempRef.current = 130
@@ -368,7 +368,7 @@ export function IntermolecularForceAnimation() {
 
   // Autoplay: heat the sample up past its boiling point, then hold.
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     const tick = () => {
       const kd = kindRef.current
       const sz = sizeRef.current
@@ -387,7 +387,7 @@ export function IntermolecularForceAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, stepMolecules, draw])
+  }, [running, stepMolecules, draw, visible])
 
   // keep the picture live (jostling) even while paused
   useEffect(() => {

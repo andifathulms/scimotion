@@ -49,7 +49,7 @@ export function OzoneCycleAnimation() {
 
   const density = () => slotsRef.current.filter(s => s.present).length / NUM_SLOTS
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (!reduced) setRunning(true)
     },
@@ -185,7 +185,7 @@ export function OzoneCycleAnimation() {
   useEffect(() => { draw() }, [draw])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
 
     const spawnCl = () => {
       clRef.current = { x: slotX(2), y: 30, tx: slotX(2), ty: slotCY, seeking: true }
@@ -285,7 +285,7 @@ export function OzoneCycleAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   const toggleChlorine = () => {
     const next = !chlorine

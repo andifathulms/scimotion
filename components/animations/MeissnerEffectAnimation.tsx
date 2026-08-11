@@ -51,7 +51,7 @@ export function MeissnerEffectAnimation() {
   const [temp, setTemp] = useState(16)
   const [running, setRunning] = useState(false)
 
-  const { ref, reset: triggerReset } = useAnimationTrigger({
+  const { ref, reset: triggerReset, visible } = useAnimationTrigger({
     onTrigger: reduced => {
       if (reduced) {
         tempRef.current = 2
@@ -226,7 +226,7 @@ export function MeissnerEffectAnimation() {
   }, [])
 
   useEffect(() => {
-    if (!running) return
+    if (!running || !visible) return
     let frame = 0
     const tick = () => {
       const d = targetRef.current - tempRef.current
@@ -239,7 +239,7 @@ export function MeissnerEffectAnimation() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [running, draw])
+  }, [running, draw, visible])
 
   useEffect(() => {
     if (!running) draw()
