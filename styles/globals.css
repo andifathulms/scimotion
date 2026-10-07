@@ -460,34 +460,112 @@ body {
   background: radial-gradient(circle, color-mix(in srgb, var(--t) 20%, transparent), transparent 70%);
 }
 
+/* WIDGET FRAME — "instrument panel"
+ *
+ * These rules restyle the chrome of all 339 widgets without touching their
+ * files. They are unlayered, so they win over the Tailwind utilities the widgets
+ * carry (utilities live in a cascade layer), which is what lets one stylesheet
+ * widen a `w-20` slider or lift a `text-xs` label everywhere at once.
+ *
+ * The canvas inside stays dark on both themes (see --color-canvas); this frame
+ * is what flips. */
 .animation-block {
+  position: relative;
   background: var(--bg-surface);
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
+  border: 1px solid var(--border-hover);
+  border-radius: 18px;
   overflow: hidden;
-  margin: 2rem 0;
+  margin: 2.75rem 0;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--text-primary) 4%, transparent) inset, 0 24px 48px -32px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-sans);
+}
+
+.animation-block:focus {
+  outline: none;
+}
+
+.animation-block:focus-visible,
+.animation-block:focus-within {
+  border-color: color-mix(in srgb, var(--accent-gold) 40%, var(--border-hover));
 }
 
 .animation-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  border-bottom: 0.5px solid var(--border);
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
 }
 
+/* The label's play icon becomes the live indicator: muted when idle, the cool
+ * --live colour with a halo while the model runs. `data-running` is set by
+ * WidgetKeys, which watches each widget's play button. */
 .animation-label {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent-gold);
+  gap: 9px;
+  min-width: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.animation-label > svg {
+  display: none;
+}
+
+.animation-label::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.animation-block[data-running] .animation-label::before {
+  background: var(--live);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent), 0 0 10px var(--live);
+}
+
+/* Keyboard hint, shown only once the reader is inside the widget — where it is
+ * true and useful — rather than as permanent chrome on 339 headers. */
+.animation-block[data-keys]:focus-within .animation-label::after {
+  content: "Space play/pause · R reset";
+  margin-left: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 40em) {
+  .animation-block[data-keys]:focus-within .animation-label::after { content: none; }
 }
 
 .animation-canvas {
-  padding: 20px;
+  padding: 16px;
   min-height: 200px;
+}
+
+/* Controls: readable labels and sliders long enough to aim. The widgets set
+ * 64–96px sliders and 13px labels; on a 620px column that left most of the row
+ * empty and the thumb hard to hit precisely. */
+.animation-controls label,
+.animation-readout label {
+  font-size: var(--text-sm);
+}
+
+.animation-block input[type="range"]:is(.w-16, .w-20, .w-24) {
+  width: 7.5rem;
+}
+
+.animation-block input[type="range"] {
+  height: 1.375rem;
+  cursor: pointer;
 }
 
 /* Controls tier.
@@ -604,21 +682,24 @@ body {
  * article title into a peer of its own sections. */
 .prose-article h2 {
   position: relative;
-  font-size: 1.75rem;
+  font-family: var(--font-display);
+  font-size: 1.875rem;
   font-weight: 700;
-  margin-top: 3.5rem;
+  margin-top: 3.75rem;
   margin-bottom: 1rem;
   color: var(--text-primary);
-  letter-spacing: -0.4px;
-  line-height: 1.3;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
   text-wrap: balance;
   scroll-margin-top: 80px;
 }
 
 .prose-article h3 {
   position: relative;
-  font-size: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.3125rem;
   font-weight: 600;
+  letter-spacing: -0.012em;
   margin-top: 2.5rem;
   margin-bottom: 0.75rem;
   color: var(--text-primary);
@@ -671,10 +752,17 @@ body {
  * 1.75 = 1.97rem) or the space *between* blocks reads as tighter than the space
  * *within* them and paragraph boundaries stop registering. 1.375rem was well
  * under that. */
-.prose-article p {
-  font-size: var(--text-lg);
-  line-height: 1.75;
-  margin-bottom: 1.875rem;
+/* Widgets mount inside .prose-article, so every prose rule for p, ul, ol and li
+ * excludes .animation-block content. Before this, a widget's caption <p> picked
+ * up the body size and a 1.875rem bottom margin from the article around it. */
+/* Prose is set in Newsreader, a face drawn for long reading on screens. Its
+ * x-height is smaller than Geist's, so the size steps up to 1.1875rem (19px):
+ * the same apparent size, and ~66 characters on the 620px column. */
+.prose-article p:not(.animation-block *) {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  margin-bottom: 1.625rem;
   color: var(--text-primary);
 }
 
@@ -683,8 +771,8 @@ body {
  * of *any* container — a blockquote or a list item would have picked up the lede
  * treatment too, which is harmless at equal size and obvious at 1.25rem. */
 .prose-article > p:first-of-type {
-  font-size: 1.25rem;
-  line-height: 1.7;
+  font-size: 1.375rem;
+  line-height: 1.6;
   margin-bottom: 2rem;
 }
 
@@ -715,19 +803,20 @@ body {
 
 /* Preflight also strips list markers and padding, so authored bullet and
  * numbered lists were rendering as unindented, unmarked lines. */
-.prose-article ul,
-.prose-article ol {
+.prose-article ul:not(.animation-block *),
+.prose-article ol:not(.animation-block *) {
   margin: 0 0 1.875rem;
   padding-left: 1.5rem;
-  font-size: var(--text-lg);
-  line-height: 1.75;
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.7;
   color: var(--text-primary);
 }
 
-.prose-article ul { list-style: disc; }
-.prose-article ol { list-style: decimal; }
+.prose-article ul:not(.animation-block *) { list-style: disc; }
+.prose-article ol:not(.animation-block *) { list-style: decimal; }
 
-.prose-article li {
+.prose-article li:not(.animation-block *) {
   margin-bottom: 0.5rem;
   padding-left: 0.25rem;
 }
@@ -761,6 +850,7 @@ body {
 .prose-article table {
   width: 100%;
   margin: 1.75rem 0;
+  font-family: var(--font-sans);
   border-collapse: collapse;
   font-size: 0.9375rem;
 }
@@ -823,6 +913,7 @@ body {
 .prose-article blockquote {
   border-left: 3px solid var(--accent-gold);
   padding-left: 1.25rem;
+  font-family: var(--font-serif);
   margin: 2rem 0;
   color: var(--text-primary);
   font-style: italic;
@@ -833,8 +924,8 @@ body {
  * rag. Hyphenation buys back the evenness; above this width the measure is
  * comfortable enough not to need it. */
 @media (max-width: 40em) {
-  .prose-article p,
-  .prose-article li {
+  .prose-article p:not(.animation-block *),
+  .prose-article li:not(.animation-block *) {
     hyphens: auto;
   }
 }

@@ -24,15 +24,15 @@ export function Quiz({ questions }: { questions: QuizQuestion[] }) {
   }
 
   return (
-    <div className="my-10 rounded-card border border-border bg-bg-surface overflow-hidden">
+    <div className="my-12 rounded-[18px] border border-border-hover bg-bg-surface overflow-hidden">
       <div className="flex items-center gap-2 px-5 py-3 border-b border-border">
         <GraduationCap size={16} className="text-accent-gold" />
-        <span className="text-sm font-semibold text-text-primary">Check your understanding</span>
+        <span className="font-display text-base font-semibold text-text-primary">Check your understanding</span>
         {/* The live region is rendered unconditionally and filled later. A
             region that appears at the same moment as its content is frequently
             missed: assistive tech has to be observing the node before it
             changes. */}
-        <span role="status" className="ml-auto text-sm font-medium text-text-secondary">
+        <span role="status" className="ml-auto font-mono text-sm font-medium text-text-secondary">
           {submitted && (
             <>
               <span aria-hidden="true">{score} / {questions.length}</span>
@@ -51,7 +51,7 @@ export function Quiz({ questions }: { questions: QuizQuestion[] }) {
           // grouping, no exposed selected state, and selection signalled only by
           // border and background colour.
           <fieldset key={qi}>
-            <legend className="text-sm font-medium text-text-primary mb-3">
+            <legend className="text-[0.9375rem] font-medium text-text-primary mb-3">
               {qi + 1}. {q.q}
             </legend>
             <div className="space-y-2">
@@ -82,7 +82,7 @@ export function Quiz({ questions }: { questions: QuizQuestion[] }) {
                       className="peer sr-only"
                     />
                     <span
-                      className={`flex items-start gap-2.5 rounded-lg border px-3.5 py-2.5 text-sm transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus ${cls}`}
+                      className={`flex items-start gap-2.5 rounded-control border px-3.5 py-3 text-sm transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus ${cls}`}
                     >
                       <span className="mt-0.5 shrink-0">
                         {submitted && isCorrect && <Check size={15} className="text-accent-teal" />}
@@ -104,7 +104,7 @@ export function Quiz({ questions }: { questions: QuizQuestion[] }) {
               })}
             </div>
             {submitted && (
-              <p className="mt-2.5 text-xs text-text-secondary leading-relaxed border-l-2 border-border pl-3">
+              <p className="mt-2.5 text-sm text-text-secondary leading-relaxed border-l-2 border-accent-gold/40 pl-3">
                 {q.explanation}
               </p>
             )}
@@ -124,7 +124,7 @@ export function Quiz({ questions }: { questions: QuizQuestion[] }) {
               onClick={() => allAnswered && setSubmitted(true)}
               aria-disabled={!allAnswered}
               aria-describedby="quiz-progress"
-              className="px-4 py-2 rounded-lg bg-accent-gold text-on-accent text-sm font-medium hover:bg-accent-gold/90 transition-colors aria-disabled:cursor-not-allowed aria-disabled:bg-bg-hover aria-disabled:text-text-muted aria-disabled:hover:bg-bg-hover"
+              className="px-4 py-2.5 rounded-control bg-accent-gold text-on-accent text-sm font-semibold hover:brightness-110 transition-colors aria-disabled:cursor-not-allowed aria-disabled:bg-bg-hover aria-disabled:text-text-muted aria-disabled:hover:bg-bg-hover"
             >
               Check answers
             </button>

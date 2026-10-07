@@ -19,6 +19,7 @@ import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import { remarkDisplayMath } from '@/lib/remark-display-math'
 import { KeyTakeaways } from '@/components/KeyTakeaways'
+import { WidgetKeys } from '@/components/WidgetKeys'
 import { SITE_URL } from '@/lib/site'
 import {
   SieveAnimation,
@@ -780,6 +781,7 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <>
       <ReadingProgress />
+      <WidgetKeys />
       {/* Grid rather than flex so the column widths are declared rather than
           emergent. The old flex layout asked for 224 + 680 + 224 + 80 of gap =
           1208px inside a max-w-[1100px] container, so the article — the only
@@ -792,7 +794,7 @@ export default async function ArticlePage({ params }: Props) {
       <div className="max-w-[1190px] mx-auto px-5 py-12 grid gap-10 grid-cols-1 justify-center xl:grid-cols-[14rem_minmax(0,620px)_14rem]">
         <aside className="hidden xl:block">
           <div className="sticky top-20">
-            <TableOfContents headings={headings} />
+            <TableOfContents headings={headings} readTime={meta.readTime} />
           </div>
         </aside>
         <article className="w-full max-w-[620px] mx-auto min-w-0">
@@ -810,16 +812,18 @@ export default async function ArticlePage({ params }: Props) {
               as a peer of the article's own sections rather than as the top of
               the hierarchy. text-wrap:balance keeps the two-line titles from
               leaving a single orphaned word. */}
-          <h1
-            className="text-3xl sm:text-4xl font-bold text-text-primary mb-3 leading-tight text-balance"
-           
-          >
+          <h1 className="font-display text-4xl sm:text-5xl font-bold text-text-primary mb-4">
             {meta.title}
           </h1>
-          <p className="text-text-secondary text-lg leading-relaxed mb-5">{meta.subtitle}</p>
-          <div className="flex items-center gap-2 text-xs text-text-muted uppercase tracking-wider">
+          {/* The dek is set in the reading face, italic, so the switch from
+              interface to prose happens here rather than at the first
+              paragraph. */}
+          <p className="font-serif italic text-xl leading-snug text-text-secondary mb-5">{meta.subtitle}</p>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-text-muted">
             <span>{meta.readTime} min read</span>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
+            <span>{meta.widgets} interactive widgets</span>
+            <span aria-hidden="true">·</span>
             <span>{new Date(meta.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
           </div>
           {/* Only renders partway through a learning path. PathNav says much the
