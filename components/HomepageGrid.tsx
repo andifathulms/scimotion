@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react'
 import { ArticleCard } from './ArticleCard'
 import { TopicGlyph } from './TopicGlyph'
+import { ContinueReading } from './ContinueReading'
 import type { ArticleMeta } from '@/lib/articles'
 import { TOPICS, topicVar, type Topic } from '@/lib/topics'
 
@@ -48,6 +49,7 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
 
   return (
     <section aria-labelledby="explore-heading">
+      <ContinueReading articles={articles} />
       <header className="mb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
         <div>
           <h2 id="explore-heading" className="font-display text-3xl font-bold text-text-primary">

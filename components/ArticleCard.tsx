@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Play } from 'lucide-react'
 import { TopicBadge } from './TopicBadge'
 import { ArticleVisual } from './ArticleVisual'
+import { ReadMark } from './ReadMark'
 import { topicVar } from '@/lib/topics'
 import type { ArticleMeta } from '@/lib/articles'
 
@@ -67,6 +68,7 @@ export function ArticleCard({ article, featured = false }: { article: ArticleMet
           <span>{article.readTime} min</span>
           <span aria-hidden="true">·</span>
           <span>{date}</span>
+          <ReadMark slug={article.slug} className="ml-auto" />
         </div>
       </div>
     </Link>

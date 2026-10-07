@@ -2,8 +2,9 @@
 import { useState } from 'react'
 import { Check, X, RotateCcw, GraduationCap } from 'lucide-react'
 import type { QuizQuestion } from '@/lib/articles'
+import { saveQuiz } from '@/hooks/useProgress'
 
-export function Quiz({ questions }: { questions: QuizQuestion[] }) {
+export function Quiz({ questions, slug }: { questions: QuizQuestion[]; slug: string }) {
   const [selected, setSelected] = useState<(number | null)[]>(() => questions.map(() => null))
   const [submitted, setSubmitted] = useState(false)
 
@@ -121,7 +122,12 @@ export function Quiz({ questions }: { questions: QuizQuestion[] }) {
                 why. This stays focusable and points at the counter that
                 explains it. */}
             <button
-              onClick={() => allAnswered && setSubmitted(true)}
+              onClick={() => {
+                if (!allAnswered) return
+                setSubmitted(true)
+                // Kept so the up-next card can show how this one went.
+                saveQuiz(slug, score, questions.length)
+              }}
               aria-disabled={!allAnswered}
               aria-describedby="quiz-progress"
               className="px-4 py-2.5 rounded-control bg-accent-gold text-on-accent text-sm font-semibold hover:brightness-110 transition-colors aria-disabled:cursor-not-allowed aria-disabled:bg-bg-hover aria-disabled:text-text-muted aria-disabled:hover:bg-bg-hover"

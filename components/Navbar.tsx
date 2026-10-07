@@ -80,7 +80,8 @@ export function Navbar() {
         <div className="flex items-center gap-1">
           <Link
             href="/search"
-            aria-label="Search articles"
+            data-search-trigger
+            aria-label="Search articles (⌘K)"
             aria-current={isActive('/search') ? 'page' : undefined}
             className={`p-2 rounded-lg transition-colors hover:bg-bg-hover ${
               isActive('/search') ? 'text-accent-gold' : 'text-text-secondary'

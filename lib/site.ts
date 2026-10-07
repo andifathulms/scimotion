@@ -10,3 +10,7 @@ export const SITE_NAME = 'Scimotion'
 // directory instead.
 export const SITE_DESCRIPTION =
   'Interactive science explainers. Read the concept, then drag the sliders and watch the model respond — every article ships with two hand-built widgets.'
+
+// The GitHub Pages subpath, for the few URLs next/link cannot prefix — a fetch
+// of a static file, for one. Mirrors the default in next.config.mjs.
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '/scimotion'

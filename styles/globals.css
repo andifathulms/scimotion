@@ -460,6 +460,69 @@ body {
   background: radial-gradient(circle, color-mix(in srgb, var(--t) 20%, transparent), transparent 70%);
 }
 
+/* COMMAND PALETTE — a native <dialog>; see CommandPalette.tsx. */
+.command-palette {
+  width: min(640px, calc(100vw - 2rem));
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 1px solid var(--border-hover);
+  border-radius: 18px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: 0 40px 80px -24px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* The palette's input is the only control in an open modal, with a caret in
+ * it; the global focus ring drew a second box inside the dialog's own frame. */
+.command-palette input:focus-visible {
+  outline: none;
+}
+
+.command-palette::backdrop {
+  background: color-mix(in srgb, var(--bg-base) 60%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .command-palette[open] {
+    animation: palette-in 0.18s var(--ease-out-soft);
+  }
+}
+
+@keyframes palette-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+}
+
+/* Mobile contents: a <dialog> pinned to the bottom edge as a sheet. */
+.toc-sheet {
+  width: 100%;
+  max-width: 640px;
+  max-height: 75vh;
+  margin: auto auto 0;
+  padding: 12px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+  border: 1px solid var(--border-hover);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  overflow-y: auto;
+}
+
+.toc-sheet::backdrop {
+  background: color-mix(in srgb, var(--bg-base) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toc-sheet[open] {
+    animation: sheet-in 0.25s var(--ease-out-soft);
+  }
+}
+
+@keyframes sheet-in {
+  from { transform: translateY(40px); opacity: 0; }
+}
+
 /* WIDGET FRAME — "instrument panel"
  *
  * These rules restyle the chrome of all 339 widgets without touching their

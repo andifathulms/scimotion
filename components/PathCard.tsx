@@ -1,7 +1,13 @@
+'use client'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
+import { useProgress } from '@/hooks/useProgress'
 
 export type PathStep = { slug: string; title: string; readTime: number }
+
+// Progress comes from the reader's own visits (hooks/useProgress). The server
+// render is the not-started state, so the static HTML is the same for everyone
+// and hydration fills in ticks, the lit route and a "Continue" target.
 
 // How many steps a card lists. The old card listed every title — up to twenty —
 // so the grid was a wall of text with ragged heights, and nothing on it said
@@ -24,10 +30,20 @@ export function PathCard({
   accent: string
   steps: PathStep[]
 }) {
+  const { read } = useProgress()
   const minutes = steps.reduce((n, s) => n + s.readTime, 0)
-  const first = steps[0]
-  const preview = steps.slice(0, PREVIEW)
+  const readCount = steps.filter(s => read[s.slug]).length
+  const complete = readCount === steps.length && steps.length > 0
+  // The next stop is the first unread one; a finished path points back to the
+  // start for a re-read.
+  const currentIndex = complete ? 0 : Math.max(0, steps.findIndex(s => !read[s.slug]))
+  const current = steps[currentIndex]
+  // Show the window around where the reader is, with one finished step for
+  // context, rather than always the first four.
+  const from = Math.min(Math.max(0, currentIndex - 1), Math.max(0, steps.length - PREVIEW))
+  const preview = steps.slice(from, from + PREVIEW)
   const more = steps.length - preview.length
+  const verb = complete ? 'Read again' : readCount > 0 ? 'Continue' : 'Start'
 
   return (
     <article
@@ -46,46 +62,67 @@ export function PathCard({
       </div>
       <p className="-mt-2 text-sm text-text-secondary">{description}</p>
 
-      {/* The route as a line of stops: its length is the information. */}
-      <div aria-hidden="true" className="flex items-center">
-        {steps.map((s, i) => (
-          <span key={s.slug} className="contents">
-            {i > 0 && <span className="h-[3px] flex-1 bg-bg-raised" />}
-            <span
-              className={`size-[11px] shrink-0 rounded-full border-2 ${
-                i === 0
-                  ? 'border-(--t) bg-bg-surface shadow-[0_0_0_4px_color-mix(in_srgb,var(--t)_22%,transparent)]'
-                  : 'border-bg-raised bg-bg-surface'
-              }`}
-            />
-          </span>
-        ))}
+      {/* The route as a line of stops: its length is the information, and the
+          lit part is how far along the reader is. */}
+      <div>
+        <div aria-hidden="true" className="flex items-center">
+          {steps.map((s, i) => {
+            const done = !!read[s.slug]
+            return (
+              <span key={s.slug} className="contents">
+                {i > 0 && <span className={`h-[3px] flex-1 ${done && read[steps[i - 1].slug] ? 'bg-(--t)' : 'bg-bg-raised'}`} />}
+                <span
+                  className={`size-[11px] shrink-0 rounded-full border-2 ${
+                    done
+                      ? 'border-(--t) bg-(--t)'
+                      : i === currentIndex
+                        ? 'border-(--t) bg-bg-surface shadow-[0_0_0_4px_color-mix(in_srgb,var(--t)_22%,transparent)]'
+                        : 'border-bg-raised bg-bg-surface'
+                  }`}
+                />
+              </span>
+            )
+          })}
+        </div>
+        <p className="mt-2.5 flex justify-between font-mono text-xs text-text-muted">
+          <span>{complete ? 'Path complete' : readCount > 0 ? `${readCount} of ${steps.length} read` : 'Not started'}</span>
+          <span>{Math.round((readCount / Math.max(1, steps.length)) * 100)}%</span>
+        </p>
       </div>
 
       <ol className="flex flex-col">
-        {preview.map((s, i) => (
-          <li key={s.slug} className="border-t border-border first:border-t-0">
-            <Link
-              href={`/articles/${s.slug}`}
-              className={`grid grid-cols-[1.5rem_minmax(0,1fr)_auto] items-center gap-3 py-2.5 text-sm transition-colors hover:text-text-primary ${
-                i === 0 ? 'font-medium text-text-primary' : 'text-text-secondary'
-              }`}
-            >
-              <span className={`text-center font-mono text-xs ${i === 0 ? 'text-(--t)' : 'text-text-muted'}`}>{i + 1}</span>
-              <span className="truncate">{s.title}</span>
-              <span className="font-mono text-xs text-text-muted">{s.readTime} min</span>
-            </Link>
-          </li>
-        ))}
+        {preview.map(s => {
+          const i = steps.indexOf(s)
+          const done = !!read[s.slug]
+          const isCurrent = i === currentIndex
+          return (
+            <li key={s.slug} className="border-t border-border first:border-t-0">
+              <Link
+                href={`/articles/${s.slug}`}
+                className={`grid grid-cols-[1.5rem_minmax(0,1fr)_auto] items-center gap-3 py-2.5 text-sm transition-colors hover:text-text-primary ${
+                  isCurrent ? 'font-medium text-text-primary' : done ? 'text-text-muted' : 'text-text-secondary'
+                }`}
+              >
+                <span className={`text-center font-mono text-xs ${isCurrent || done ? 'text-(--t)' : 'text-text-muted'}`}>{i + 1}</span>
+                <span className="truncate">{s.title}</span>
+                {done ? (
+                  <Check size={13} strokeWidth={2.5} className="text-(--t)" aria-label="Read" />
+                ) : (
+                  <span className="font-mono text-xs text-text-muted">{s.readTime} min</span>
+                )}
+              </Link>
+            </li>
+          )
+        })}
       </ol>
 
       <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
-        {first && (
+        {current && (
           <Link
-            href={`/articles/${first.slug}`}
+            href={`/articles/${current.slug}`}
             className="inline-flex max-w-full items-center gap-2 rounded-control bg-(--t) px-4 py-2.5 text-sm font-semibold text-bg-base transition-[filter] hover:brightness-110"
           >
-            <span className="truncate">Start · {first.title.split(":")[0]}</span>
+            <span className="truncate">{verb} · {current.title.split(":")[0]}</span>
             <ArrowRight size={15} aria-hidden="true" className="shrink-0" />
           </Link>
         )}

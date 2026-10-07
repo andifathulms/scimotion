@@ -20,6 +20,8 @@ import rehypeKatex from 'rehype-katex'
 import { remarkDisplayMath } from '@/lib/remark-display-math'
 import { KeyTakeaways } from '@/components/KeyTakeaways'
 import { WidgetKeys } from '@/components/WidgetKeys'
+import { ArticleTracker } from '@/components/ArticleTracker'
+import { TocSheet } from '@/components/TocSheet'
 import { SITE_URL } from '@/lib/site'
 import {
   SieveAnimation,
@@ -782,6 +784,7 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <ReadingProgress />
       <WidgetKeys />
+      <TocSheet headings={headings} />
       {/* Grid rather than flex so the column widths are declared rather than
           emergent. The old flex layout asked for 224 + 680 + 224 + 80 of gap =
           1208px inside a max-w-[1100px] container, so the article — the only
@@ -857,8 +860,9 @@ export default async function ArticlePage({ params }: Props) {
             }}
           />
         </div>
+        <ArticleTracker slug={slug} />
 
-        <Quiz questions={quiz} />
+        <Quiz questions={quiz} slug={slug} />
 
         <PathNav slug={slug} allArticles={allArticles} />
 

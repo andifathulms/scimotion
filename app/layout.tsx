@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Geist, Geist_Mono, Newsreader } from 'next/font/go
 import { ThemeProvider } from 'next-themes'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { CommandPalette } from '@/components/CommandPalette'
 import { SITE_URL, SITE_DESCRIPTION } from '@/lib/site'
 import '../styles/globals.css'
 
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main id="main" tabIndex={-1}>{children}</main>
           <Footer />
+          <CommandPalette />
         </ThemeProvider>
       </body>
     </html>
