@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
-import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
+import { useMemo, useState } from 'react'
 import { ArticleCard } from './ArticleCard'
+import { TopicGlyph } from './TopicGlyph'
 import type { ArticleMeta } from '@/lib/articles'
-import { TOPICS, type Topic } from '@/lib/topics'
+import { TOPICS, topicVar, type Topic } from '@/lib/topics'
 
 // Every article used to render at once — 171 cards, each inlining a full SVG
 // visual, for 929 KB of HTML before a visitor had filtered anything. A page of
@@ -12,31 +12,21 @@ import { TOPICS, type Topic } from '@/lib/topics'
 // and tag indexes.
 const PAGE_SIZE = 24
 
-const gridVariants: Variants = {
-  // 0.07 was fine when nothing past the third row was ever looked at. Against a
-  // bounded page it is the difference between the last card arriving at 1.7s and
-  // at 0.7s, so the stagger reads as one motion rather than a queue.
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.03 } },
-}
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-}
-
-// See Hero: under a reduced-motion preference the cards are simply present.
-// A 24-card stagger is the largest single piece of motion on the site.
-const STILL: Variants = { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-const NO_STAGGER: Variants = { hidden: {}, visible: {} }
+// The card entrance is a CSS animation (`.card-rise`), staggered by an inline
+// delay. It used to be a Framer variant whose initial state was opacity:0 — in
+// the server-rendered HTML too, so the whole grid was invisible until hydration.
+// Capped so the 24th card does not arrive a second after the first.
+const stagger = (i: number) => ({ animationDelay: `${Math.min(i, 8) * 30}ms` })
 
 export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
-  const reduce = useReducedMotion()
-  const grid = reduce ? NO_STAGGER : gridVariants
-  const card = reduce ? STILL : cardVariants
-
   const [filter, setFilter] = useState<Topic | 'All'>('All')
   const [visible, setVisible] = useState(PAGE_SIZE)
+
+  const counts = useMemo(() => {
+    const m = new Map<Topic, number>()
+    for (const a of articles) m.set(a.topic, (m.get(a.topic) ?? 0) + 1)
+    return m
+  }, [articles])
 
   // Switching topics starts a new list, so the page count has to start over too
   // — otherwise picking a topic after several "Load more" presses would dump
@@ -49,139 +39,106 @@ export function HomepageGrid({ articles }: { articles: ArticleMeta[] }) {
   const filtered = filter === 'All' ? articles : articles.filter(a => a.topic === filter)
   const featured = filtered.find(a => a.featured)
   const rest = filtered.filter(a => !a.featured)
-  const firstTwo = rest.slice(0, 2)
-  const remaining = rest.slice(2)
 
-  // The featured card and the two-up row are part of the page, not extra to it.
-  const leadCount = (featured ? 1 : 0) + firstTwo.length
-  const remainingVisible = remaining.slice(0, Math.max(0, visible - leadCount))
-  const shown = leadCount + remainingVisible.length
+  // The featured card is part of the page, not extra to it.
+  const leadCount = featured ? 1 : 0
+  const restVisible = rest.slice(0, Math.max(0, visible - leadCount))
+  const shown = leadCount + restVisible.length
   const hasMore = shown < filtered.length
 
   return (
     <section aria-labelledby="explore-heading">
-      {/* The grid used to begin with the pill row and nothing else: ten
-          unlabelled buttons were the first interactive thing on the page, with
-          no heading saying what they filtered or what they sat above. The
-          document also went straight from the hero's h1 to 171 links with no
-          intervening heading. This header names the section, restates the
-          interactivity promise once (rather than 171 times on the cards, which
-          is what the per-card "Interactive" pill was doing before it was
-          dropped for being uninformative), and puts the library's size in front
-          of the visitor while they are deciding whether to keep scrolling. */}
-      <header className="mb-6">
-        <h2 id="explore-heading" className="text-2xl font-semibold text-text-primary">
-          Browse all {articles.length} explainers
-        </h2>
-        <p className="mt-2 max-w-[600px] text-base text-text-secondary">
-          Each one is a written explanation with two interactive widgets built
-          into it. Pick a field, or just start scrolling.
+      <header className="mb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+        <div>
+          <h2 id="explore-heading" className="font-display text-3xl font-bold text-text-primary">
+            Explore the library
+          </h2>
+          <p className="mt-2 max-w-[600px] text-base text-text-secondary">
+            Each explainer is written prose with interactive widgets built into
+            it. Pick a field, or just start scrolling.
+          </p>
+        </div>
+        {/* Always present: the count is the answer to "how much is here". */}
+        <p className="font-mono text-xs text-text-muted" aria-live="polite">
+          Showing {shown} of {filtered.length}
+          {filter === 'All' ? '' : ` in ${filter}`}
         </p>
       </header>
 
-      {/* Filter pills.
+      {/* Filter rail.
        *
-       * Ten pills at roughly four per row is three wrapped rows on a 375px
-       * viewport — around 120px of the first screen spent on a control, on top
-       * of a hero that grew when the stat strip landed, before a single article
-       * is visible. Below `sm` they become one horizontally scrollable row:
-       * same buttons, same order, same behaviour, one row tall.
-       *
-       * The negative margin and matching padding let the row bleed to the screen
-       * edges inside the page's px-5 gutter, so a half-visible pill at the right
-       * edge signals there is more to scroll. The fade is pointer-events-none
-       * and hidden from assistive tech; it sits over the strip, not in it. */}
-      <div className="relative -mx-5 sm:mx-0">
+       * One row at every width, scrolling sideways when it overflows: ten
+       * wrapping pills used to cost two rows on desktop and three on a phone.
+       * It sticks under the navbar while the grid scrolls, so changing field
+       * never means scrolling back up. The negative margin lets it bleed to the
+       * screen edge inside the page gutter, so a half-visible chip at the edge
+       * signals there is more to scroll. */}
+      <div className="sticky top-14 z-20 -mx-5 mb-6 border-b border-border bg-bg-base/85 px-5 py-3 backdrop-blur-md">
         <div
           role="group"
           aria-label="Filter by field"
-          className="flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
+          className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {(['All', ...TOPICS] as const).map(t => (
-            <button
-              key={t}
-              onClick={() => selectFilter(t)}
-              aria-pressed={filter === t}
-              className={`relative shrink-0 px-4 py-1.5 rounded-pill text-sm font-medium border transition-all ${
-                filter === t
-                  ? 'bg-accent-gold border-accent-gold text-on-accent'
-                  : 'border-border text-text-secondary hover:border-border-hover hover:text-text-primary'
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {(['All', ...TOPICS] as const).map(t => {
+            const active = filter === t
+            const count = t === 'All' ? articles.length : counts.get(t) ?? 0
+            return (
+              <button
+                key={t}
+                onClick={() => selectFilter(t)}
+                aria-pressed={active}
+                style={t === 'All' ? undefined : ({ '--t': topicVar(t) } as React.CSSProperties)}
+                className={`flex shrink-0 items-center gap-2 rounded-control border px-3 py-2 text-sm font-medium transition-colors ${
+                  active
+                    ? 'border-text-primary bg-text-primary text-bg-base'
+                    : 'border-border bg-bg-surface text-text-secondary hover:border-border-hover hover:text-text-primary'
+                }`}
+              >
+                {t !== 'All' && (
+                  <span className={active ? '' : 'text-(--t)'}>
+                    <TopicGlyph topic={t} size={13} />
+                  </span>
+                )}
+                {t}
+                <span className={`font-mono text-[0.6875rem] ${active ? 'opacity-60' : 'text-text-muted'}`}>{count}</span>
+              </button>
+            )
+          })}
         </div>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-bg-base to-transparent sm:hidden"
-        />
       </div>
 
-      {/* Always present, not only once "load more" is reachable. The count is
-          the answer to "how much is here", and it was previously withheld until
-          the visitor had already scrolled past 24 cards to find out. */}
-      <p className="mt-4 mb-8 text-sm text-text-muted" aria-live="polite">
-        Showing {shown} of {filtered.length}
-        {filter === 'All' ? '' : ` in ${filter}`}
-      </p>
+      {filtered.length === 0 ? (
+        <p className="py-16 text-center text-text-muted">No articles yet in this topic. Check back soon.</p>
+      ) : (
+        // Keyed on the filter so a new field remounts and replays the entrance.
+        <div key={filter} className="space-y-4">
+          {featured && (
+            <div className="card-rise">
+              <ArticleCard article={featured} featured />
+            </div>
+          )}
+          {restVisible.length > 0 && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {restVisible.map((a, i) => (
+                <div key={a.slug} className="card-rise" style={stagger(i + leadCount)}>
+                  <ArticleCard article={a} />
+                </div>
+              ))}
+            </div>
+          )}
 
-      <AnimatePresence mode="wait">
-        {filtered.length === 0 ? (
-          <motion.p
-            key="empty"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-text-muted text-center py-16"
-          >
-            No articles yet in this topic — check back soon.
-          </motion.p>
-        ) : (
-          <motion.div
-            key={filter}
-            className="space-y-4"
-            variants={grid}
-            initial="hidden"
-            animate="visible"
-          >
-            {featured && (
-              <motion.div variants={card}>
-                <ArticleCard article={featured} featured />
-              </motion.div>
-            )}
-            {firstTwo.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {firstTwo.map(a => (
-                  <motion.div key={a.slug} variants={card}>
-                    <ArticleCard article={a} />
-                  </motion.div>
-                ))}
-              </div>
-            )}
-            {remainingVisible.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {remainingVisible.map(a => (
-                  <motion.div key={a.slug} variants={card}>
-                    <ArticleCard article={a} />
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {hasMore && (
-              <div className="flex justify-center pt-6">
-                <button
-                  onClick={() => setVisible(v => v + PAGE_SIZE)}
-                  className="px-5 py-2 rounded-pill border border-border text-sm font-medium text-text-secondary hover:border-border-hover hover:text-text-primary transition-colors"
-                >
-                  Load more
-                </button>
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {hasMore && (
+            <div className="flex justify-center pt-6">
+              <button
+                onClick={() => setVisible(v => v + PAGE_SIZE)}
+                className="rounded-control border border-border-hover bg-bg-surface px-5 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-bg-hover"
+              >
+                Load {Math.min(PAGE_SIZE, filtered.length - shown)} more
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </section>
   )
 }

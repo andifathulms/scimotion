@@ -1,71 +1,74 @@
-'use client'
 import Link from 'next/link'
-import { motion, useReducedMotion } from 'framer-motion'
+import { Play } from 'lucide-react'
 import { TopicBadge } from './TopicBadge'
 import { ArticleVisual } from './ArticleVisual'
+import { topicVar } from '@/lib/topics'
 import type { ArticleMeta } from '@/lib/articles'
 
+// The field colour drives the card through a local --t: a tint over the
+// thumbnail, the hover border and the glow under the lift. Every card used to
+// share one grey and one shape, with the field visible only in a 12px pill.
+//
+// Hover is CSS, not a Framer spring: a 2px lift with no scale (scaling a card
+// resamples its text and makes it shimmer), and none at all under
+// prefers-reduced-motion. The border and glow still change there — those are
+// what say "this is a link", and they do not move anything.
 export function ArticleCard({ article, featured = false }: { article: ArticleMeta; featured?: boolean }) {
-  // The lift-and-scale on hover is motion triggered by interaction, which is
-  // what 2.3.3 covers. The colour and border transitions below stay: those are
-  // the part that says "this is a link", and they do not move anything.
-  const reduce = useReducedMotion()
-  const thumbHeight = featured ? 200 : 120
+  const date = new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+
   return (
-    // Every grid this card sits in stretches its items, but the height stopped
-    // at this wrapper: the Link and the card below it sized to their content, so
-    // a row of cards ended up with ragged bottoms wherever a title wrapped to a
-    // second line or the badges wrapped to a second row. The full-height chain
-    // plus `mt-auto` on the meta row keeps the card filling its row and the
-    // dateline pinned to the bottom edge.
-    <motion.div
-      className="h-full"
-      whileHover={reduce ? undefined : { y: -3, scale: 1.01 }}
-      whileTap={reduce ? undefined : { scale: 0.98 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+    // Every grid this card sits in stretches its items; the full-height chain
+    // plus `mt-auto` on the meta row keeps rows flush at the bottom edge.
+    <Link
+      href={`/articles/${article.slug}`}
+      style={{ '--t': topicVar(article.topic) } as React.CSSProperties}
+      className={`article-card group flex h-full overflow-hidden rounded-card border border-border bg-bg-surface ${
+        featured ? 'flex-col md:flex-row' : 'flex-col'
+      }`}
     >
-    <Link href={`/articles/${article.slug}`} className="block h-full group">
-      <div className="flex h-full flex-col bg-bg-surface border border-border rounded-card overflow-hidden hover:border-border-hover hover:bg-bg-hover transition-colors duration-200">
-        <div className="shrink-0 overflow-hidden" style={{ height: thumbHeight }}>
-          <ArticleVisual slug={article.slug} topic={article.topic} />
+      <div
+        className={`article-card-thumb relative shrink-0 overflow-hidden [&>svg]:absolute [&>svg]:inset-0 [&>svg]:h-full ${
+          featured
+            ? 'h-[200px] border-b border-border md:h-auto md:min-h-[260px] md:flex-[1.15] md:border-b-0 md:border-r'
+            : 'h-[132px] border-b border-border'
+        }`}
+      >
+        <ArticleVisual slug={article.slug} topic={article.topic} />
+        <span
+          aria-hidden="true"
+          className="absolute bottom-2.5 right-2.5 inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-black/60 px-2 py-1 font-mono text-[0.6875rem] text-[#F3EEE6] opacity-0 backdrop-blur-sm transition-[opacity,transform] duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-safe:translate-y-1 motion-safe:group-hover:translate-y-0"
+        >
+          <Play size={10} fill="currentColor" />
+          {article.widgets} {article.widgets === 1 ? 'widget' : 'widgets'}
+        </span>
+      </div>
+
+      <div className={`flex flex-1 flex-col gap-2 ${featured ? 'p-5 md:justify-center md:p-8' : 'p-4'}`}>
+        {featured && (
+          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-accent-gold">Featured</span>
+        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <TopicBadge topic={article.topic} />
         </div>
-        <div className="flex flex-1 flex-col p-4">
-          {/* The "Interactive" pill that used to sit beside the topic was on
-              every one of the 171 cards, so it distinguished nothing — and next
-              to a long topic name like "Astronomy & Cosmology" it was what
-              pushed the row onto a second line. The hero already makes the
-              promise. Bring it back only if non-interactive articles appear. */}
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <TopicBadge topic={article.topic} />
-          </div>
-          {/* The title was unclamped, so a long one could run to three lines and
-              blow past its neighbours. Clamped to two, with two lines reserved
-              in em (which tracks whichever of the two sizes is in play) so a
-              one-line title does not drag the summary up to meet it. */}
-          <h3
-            className={`font-semibold text-text-primary leading-snug mb-1.5 line-clamp-2 min-h-[2.75em] group-hover:text-accent-gold transition-colors ${featured ? 'text-xl' : 'text-base'}`}
-          >
-            {article.title}
-          </h3>
-          {/* The description is the only sentence saying what an article is
-              about, and it was set at --text-xs in the secondary tone: the
-              smallest and faintest thing on the card. That made the grid
-              scannable for titles only, so it answered "what is this called"
-              and never "is there something here for me". --text-sm is the
-              floor for a line anyone is expected to read. */}
-          <p className="text-sm text-text-secondary line-clamp-2 mb-3">{article.description}</p>
-          {/* Metadata, and the one place --text-xs is appropriate. It reads at
-              5.1:1 now that the muted token is fixed; at the old 0.35 alpha the
-              read time and date were effectively invisible, which cost the grid
-              two genuinely useful scanning signals. */}
-          <div className="mt-auto flex items-center gap-2 text-xs text-text-muted">
-            <span>{article.readTime} min read</span>
-            <span>·</span>
-            <span>{new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-          </div>
+        {/* Clamped to two lines, with two lines reserved in em so a one-line
+            title does not drag the summary up to meet it. */}
+        <h3
+          className={`font-display font-semibold text-text-primary line-clamp-2 transition-colors group-hover:text-(--t) ${
+            featured ? 'text-2xl md:text-3xl' : 'min-h-[2.6em] text-[1.0625rem] leading-[1.3] tracking-[-0.012em]'
+          }`}
+        >
+          {article.title}
+        </h3>
+        {/* --text-sm is the floor for a line anyone is expected to read. */}
+        <p className={`text-text-secondary ${featured ? 'line-clamp-3 text-base' : 'line-clamp-2 text-sm'}`}>
+          {article.description}
+        </p>
+        <div className="mt-auto flex flex-wrap items-center gap-x-2 gap-y-1 pt-1 font-mono text-xs text-text-muted">
+          <span>{article.readTime} min</span>
+          <span aria-hidden="true">·</span>
+          <span>{date}</span>
         </div>
       </div>
     </Link>
-    </motion.div>
   )
 }

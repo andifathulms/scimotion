@@ -1,146 +1,122 @@
-'use client'
 import Link from 'next/link'
-import { motion, useReducedMotion, type Variants } from 'framer-motion'
-import { HeroCanvas } from './HeroCanvas'
+import { ArrowRight, Search } from 'lucide-react'
+import { HeroDemo } from './HeroDemo'
 
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
-}
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-}
-
-// Reduced motion means no travel and no stagger — not a faster version of the
-// same thing. Rendering the final state directly is the honest reading of the
-// preference; a 24px rise is exactly the vestibular trigger it asks about.
-const STILL: Variants = { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-const NO_STAGGER: Variants = { hidden: {}, visible: {} }
-
-// Counts are read from the content directory by the page and passed in, rather
-// than written here as prose. The old copy made an unverifiable claim ("hands
-// you the controls") and named nothing; a first-time visitor had to click into
-// an article to find out whether any of it was true. A real number and four
-// named concepts do that work in the time it takes to read one line — and they
-// cannot drift out of date, because adding an article updates them.
+// The hero is the demo. The headline makes the promise on the left and the
+// instrument on the right keeps it, already moving, in the same first screen —
+// the pendulum used to sit below 450px of decorative constellation, and the
+// headline above it shipped at opacity:0 until Framer Motion ran, so slow
+// connections, no-JS readers and link unfurlers saw neither.
+//
+// This is a server component now. The entrance is CSS (`.hero-rise` in
+// globals.css), which runs without JavaScript and is dropped entirely under a
+// reduced-motion preference. Counts are read from the content directory by the
+// page, so they cannot drift out of date.
 export function Hero({
   articleCount,
+  widgetCount,
   fieldCount,
   pathCount,
 }: {
   articleCount: number
+  widgetCount: number
   fieldCount: number
   pathCount: number
 }) {
-  const reduce = useReducedMotion()
-  const c = reduce ? NO_STAGGER : container
-  const i = reduce ? STILL : item
-
   const stats = [
     { value: articleCount, label: 'explainers' },
+    { value: widgetCount, label: 'live widgets' },
     { value: fieldCount, label: 'fields' },
     { value: pathCount, label: 'learning paths' },
   ]
 
   return (
-    <div
-      className="relative overflow-hidden flex items-center py-16 sm:py-24"
-      style={{
-        background:
-          'radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--color-accent-gold) 8%, transparent) 0%, transparent 65%)',
-      }}
-    >
-      <HeroCanvas />
-      <motion.div
-        className="relative z-10 max-w-[680px]"
-        variants={c}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Full-strength accent, not a 0.6 alpha of it. The faded version
-            measured 3.9:1 — the least readable text on the landing view was the
-            line whose job was to say what the site is. */}
-        <motion.span
-          variants={i}
-          className="inline-block text-xs font-mono uppercase tracking-widest text-accent-gold mb-4"
-        >
+    <div className="hero relative grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-12 lg:py-20">
+      <div className="hero-rise relative z-10 min-w-0">
+        <span className="inline-block font-mono text-xs uppercase tracking-[0.14em] text-accent-gold">
           Interactive science explainers
-        </motion.span>
+        </span>
 
-        <motion.h1
-          variants={i}
-          className="text-display font-bold text-balance text-text-primary mb-5"
-        >
+        <h1 className="mt-5 font-display text-display font-bold text-text-primary">
           Science you can{' '}
-          <span
-            style={{
-              backgroundImage:
-                'linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-orange))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
+          <span className="relative whitespace-nowrap text-accent-gold">
+            play
+            {/* A sine wave for an underline: the site's subject, at the size of
+                a flourish. Decorative, so hidden from assistive tech. */}
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 120 10"
+              preserveAspectRatio="none"
+              className="absolute inset-x-0 -bottom-[0.14em] h-[0.2em] w-full overflow-visible"
+            >
+              <path
+                d="M0 5 Q 7.5 -1 15 5 T 30 5 T 45 5 T 60 5 T 75 5 T 90 5 T 105 5 T 120 5"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+          </span>{' '}
+          with.
+        </h1>
+
+        <p className="mt-6 max-w-[34rem] text-lg text-text-secondary">
+          Read the explanation, then grab the controls and watch the model
+          respond: pendulums, Fourier transforms, Bayes&apos; theorem, black
+          holes. Every article ships with hand-built widgets you can break on
+          purpose.
+        </p>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          {/* next/link, not a raw anchor: basePath is only applied by next/link,
+              so a bare href="/learn" would point at the domain root on the
+              GitHub Pages subpath. "Browse all" is a same-page hash and is
+              correct as a plain anchor. */}
+          <Link
+            href="/learn"
+            className="inline-flex items-center gap-2 rounded-control bg-accent-gold px-5 py-3 text-sm font-semibold text-on-accent shadow-[0_10px_28px_-12px_var(--color-accent-gold)] transition-[filter,transform] duration-200 hover:brightness-110 motion-safe:active:scale-[0.98]"
           >
-            play with.
-          </span>
-        </motion.h1>
-
-        <motion.p
-          variants={i}
-          className="text-text-secondary text-lg mb-8 max-w-[560px]"
-        >
-          Read the explanation, then drag the sliders and watch the model
-          respond — pendulums, Fourier transforms, Bayes&apos; theorem, black
-          holes. Every article ships with two hand-built widgets you can break
-          on purpose.
-        </motion.p>
-
-        <motion.div variants={i} className="flex flex-wrap items-center gap-3">
+            Start a learning path
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
           <a
             href="#explore"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill bg-accent-gold text-on-accent text-sm font-semibold transition-opacity duration-200 hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-control border border-border-hover bg-bg-surface px-5 py-3 text-sm font-semibold text-text-primary transition-colors hover:bg-bg-hover"
           >
             Browse all {articleCount}
           </a>
-          {/* next/link, not a raw anchor: basePath is only applied by next/link,
-              so `href="/about"` shipped as-is and the deployed button pointed at
-              the domain root instead of /scimotion/about. The "Browse all" link
-              above is a same-page hash and is correct as a plain anchor. */}
           <Link
-            href="/learn"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-border text-text-secondary text-sm font-semibold hover:border-border-hover hover:text-text-primary transition-colors"
+            href="/search"
+            data-search-trigger
+            className="hidden items-center gap-2 rounded-control px-3 py-3 text-sm text-text-secondary sm:inline-flex transition-colors hover:text-text-primary"
           >
-            Follow a path
+            <Search size={15} aria-hidden="true" />
+            Search
+            <kbd className="rounded-[5px] border border-border bg-bg-hover px-1.5 py-0.5 font-mono text-[0.6875rem] text-text-muted">
+              ⌘K
+            </kbd>
           </Link>
-          <Link
-            href="/about"
-            className="text-sm text-text-secondary hover:text-text-primary transition-colors sm:ml-2"
-          >
-            About →
-          </Link>
-        </motion.div>
+        </div>
 
-        {/* The scale of the library was previously visible only on the About
-            page, which a first-time visitor never opens, and inside the "load
-            more" branch of the grid, 24 cards down. It is the most persuasive
-            fact the site has; it belongs above the fold. */}
-        <motion.ul
-          variants={i}
+        {/* The scale of the library is the most persuasive fact the site has;
+            it belongs above the fold. */}
+        <ul
           aria-label="The library at a glance"
-          className="mt-10 flex flex-wrap items-baseline gap-x-8 gap-y-3"
+          className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-border pt-6"
         >
           {stats.map(({ value, label }) => (
-            <li key={label} className="flex items-baseline gap-2">
-              <span className="text-2xl font-semibold text-text-primary tabular-nums">
-                {value}
-              </span>
-              <span className="text-sm text-text-secondary">{label}</span>
+            <li key={label} className="flex flex-col gap-1">
+              <span className="font-display text-2xl font-bold tabular-nums text-text-primary">{value}</span>
+              <span className="text-xs text-text-muted">{label}</span>
             </li>
           ))}
-        </motion.ul>
-      </motion.div>
+        </ul>
+      </div>
+
+      <div className="hero-rise hero-rise-late relative z-10 min-w-0">
+        <HeroDemo />
+      </div>
     </div>
   )
 }

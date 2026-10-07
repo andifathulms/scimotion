@@ -31,6 +31,11 @@ export type ArticleMeta = {
    * when it assumes plenty. Optional; most articles need none.
    */
   prerequisites: string[]
+  /**
+   * How many interactive widgets the body mounts, counted from the MDX rather
+   * than declared, so the "2 widgets" on a card cannot disagree with the page.
+   */
+  widgets: number
 }
 
 export type Article = {
@@ -55,7 +60,11 @@ function normalizeTopic(value: unknown, file: string): Topic {
   return value as Topic
 }
 
-function normalizeMeta(data: Record<string, unknown>, file: string): ArticleMeta {
+// Widgets are mounted as <SomethingAnimation /> elements — see ArticleAnimations.
+const WIDGET_TAG = /<[A-Z]\w*Animation\b/g
+const countWidgets = (content: string) => content.match(WIDGET_TAG)?.length ?? 0
+
+function normalizeMeta(data: Record<string, unknown>, file: string, content: string): ArticleMeta {
   for (const field of REQUIRED_FIELDS) {
     if (data[field] === undefined || data[field] === null) {
       throw new Error(`Article "${file}" is missing required frontmatter field: ${field}`)
@@ -72,6 +81,7 @@ function normalizeMeta(data: Record<string, unknown>, file: string): ArticleMeta
     description: data.description as string,
     tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
     prerequisites: Array.isArray(data.prerequisites) ? (data.prerequisites as string[]) : [],
+    widgets: countWidgets(content),
   }
 }
 
@@ -79,8 +89,8 @@ export async function getAllArticles(): Promise<ArticleMeta[]> {
   const files = fs.readdirSync(articlesDir).filter(f => f.endsWith('.mdx'))
   const articles = files.map(file => {
     const raw = fs.readFileSync(path.join(articlesDir, file), 'utf-8')
-    const { data } = matter(raw)
-    return normalizeMeta(data, file)
+    const { data, content } = matter(raw)
+    return normalizeMeta(data, file, content)
   })
   return articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
@@ -90,7 +100,7 @@ export async function getArticleBySlug(slug: string): Promise<Article> {
   const raw = fs.readFileSync(file, 'utf-8')
   const { data, content } = matter(raw)
   const quiz = Array.isArray(data.quiz) ? (data.quiz as QuizQuestion[]) : []
-  return { meta: normalizeMeta(data, `${slug}.mdx`), content, quiz }
+  return { meta: normalizeMeta(data, `${slug}.mdx`, content), content, quiz }
 }
 
 export async function getAllTags(): Promise<{ tag: string; count: number }[]> {

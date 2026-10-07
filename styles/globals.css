@@ -285,6 +285,149 @@ body {
   border-radius: 2px;
 }
 
+/* HERO
+ *
+ * A sodium glow behind the instrument and a faint lab-grid behind everything,
+ * masked to fade out — atmosphere drawn in CSS, where the constellation canvas
+ * it replaces cost a client component and a rAF loop on the landing page. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -3rem 0 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 60% at 78% 42%, color-mix(in srgb, var(--accent-gold) 13%, transparent), transparent 70%),
+    linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 48px 48px;
+  mask-image: radial-gradient(70% 80% at 60% 40%, #000 30%, transparent 80%);
+}
+
+/* The entrance runs in CSS, from the server-rendered markup, so the headline is
+ * readable without JavaScript. `both` holds the first frame only for the
+ * fraction of a second the animation runs. */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero-rise {
+  animation: hero-rise 0.7s var(--ease-out-soft) both;
+}
+
+.hero-rise-late {
+  animation-delay: 0.12s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise { animation: none; }
+}
+
+/* "This model is running." A cool dot with a soft halo, used on the hero
+ * instrument and on every widget header. Off is a plain muted dot — the state
+ * is carried by colour and by the halo's presence, not by colour alone. */
+.live-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.live-dot[data-on] {
+  background: var(--live);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent), 0 0 10px var(--live);
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  50% { opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot[data-on] { animation: none; }
+}
+
+/* Preset chips: the "try this" first move under an instrument. Dashed until
+ * hovered, so they read as suggestions rather than as primary controls. */
+.try-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.try-row > span {
+  margin-right: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.try-row button {
+  padding: 5px 10px;
+  border: 1px dashed var(--border-hover);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.try-row button:hover,
+.try-row button[aria-pressed="true"] {
+  border-style: solid;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.try-row button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent-gold) 10%, transparent);
+}
+
+/* ARTICLE CARD
+ *
+ * --t is the card's field colour, set inline by ArticleCard. The thumbnail
+ * takes a soft wash of it from the top-left; on hover the border picks it up
+ * and a glow in the same hue sits under the 2px lift. */
+.article-card {
+  transition: border-color 0.2s, box-shadow 0.25s var(--ease-out-soft), transform 0.25s var(--ease-out-soft);
+}
+
+.article-card:hover,
+.article-card:focus-visible {
+  border-color: color-mix(in srgb, var(--t) 45%, var(--border));
+  box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--t) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .article-card:hover { transform: translateY(-2px); }
+}
+
+.article-card-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 15% 0%, color-mix(in srgb, var(--t) 18%, transparent), transparent 60%);
+}
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.card-rise {
+  animation: card-rise 0.45s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-rise { animation: none; }
+}
+
 .animation-block {
   background: var(--bg-surface);
   border: 0.5px solid var(--border);

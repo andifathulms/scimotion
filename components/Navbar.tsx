@@ -37,8 +37,8 @@ export function Navbar() {
           <svg width="22" height="22" viewBox="0 0 512 512" aria-hidden="true" className="rounded-[5px]">
             <defs>
               <linearGradient id="scimotion-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f0a838" />
-                <stop offset="100%" stopColor="#d97c1a" />
+                <stop offset="0%" stopColor="#FFC266" />
+                <stop offset="100%" stopColor="#F29A1F" />
               </linearGradient>
             </defs>
             <rect x="0" y="0" width="512" height="512" rx="115" fill="url(#scimotion-logo-gradient)" />
@@ -47,10 +47,10 @@ export function Navbar() {
               <ellipse cx="44" cy="44" rx="38" ry="16" fill="none" stroke="#0e0d0c" strokeWidth="2.5" opacity="0.85" transform="rotate(60 44 44)" />
               <ellipse cx="44" cy="44" rx="38" ry="16" fill="none" stroke="#0e0d0c" strokeWidth="2.5" opacity="0.85" transform="rotate(120 44 44)" />
               <circle cx="44" cy="44" r="19" fill="#0e0d0c" />
-              <path d="M39 34 L58 44 L39 54 Z" fill="#f0a838" />
+              <path d="M39 34 L58 44 L39 54 Z" fill="#FFB245" />
             </g>
           </svg>
-          <span className="font-semibold text-text-primary text-sm tracking-tight">Scimotion</span>
+          <span className="font-display font-bold text-text-primary text-[0.9375rem] tracking-[-0.01em]">Scimotion</span>
         </Link>
 
         {/* Center links — desktop. The active item is marked by weight and a
