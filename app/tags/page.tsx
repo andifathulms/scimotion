@@ -2,6 +2,7 @@ import { getAllTags } from '@/lib/articles'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
+import { PageHeader } from '@/components/PageHeader'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Tags',
@@ -26,38 +27,45 @@ export default async function TagsPage() {
   const singles = tags.filter(t => t.count < RECURRING)
 
   return (
-    <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-3xl font-bold text-text-primary mb-2">Browse by tag</h1>
-      <p className="text-base text-text-secondary mb-10">
-        {tags.length} tags across the library. {recurring.length} of them join two or
-        more articles.
-      </p>
+    <div className="max-w-[1100px] mx-auto px-5 py-14">
+      <PageHeader
+        eyebrow="Tags"
+        title="Browse by tag"
+        description="Tags cut across fields: entropy turns up in physics, chemistry and information theory alike. The bigger the tag, the more articles it connects."
+        meta={`${tags.length} tags · ${recurring.length} join two or more articles`}
+      />
 
       <section aria-labelledby="recurring-tags" className="mb-12">
         <h2
           id="recurring-tags"
-          className="text-xs font-medium uppercase tracking-wider text-text-muted mb-4"
+          className="font-mono text-xs uppercase tracking-[0.12em] text-text-muted mb-5"
         >
           Tags that connect articles
         </h2>
-        <div className="flex flex-wrap gap-2.5">
-          {recurring.map(({ tag, count }) => (
-            <Link
-              key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
-              className="flex items-center gap-1.5 rounded-pill border border-border-hover bg-bg-surface px-3.5 py-1.5 text-sm text-text-primary transition-colors hover:border-accent-gold hover:text-accent-gold"
-            >
-              #{tag}
-              <span className="text-text-muted tabular-nums">{count}</span>
-            </Link>
-          ))}
+        {/* Sized in three steps by how many articles a tag joins, so the
+            connective tissue of the library is visible at a glance. Three steps,
+            not a continuous scale: a cloud of twenty font sizes reads as noise. */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          {recurring.map(({ tag, count }) => {
+            const tier = count >= 6 ? 'px-4 py-2 text-lg font-semibold' : count >= 3 ? 'px-3.5 py-1.5 text-base font-medium' : 'px-3 py-1.5 text-sm'
+            return (
+              <Link
+                key={tag}
+                href={`/tags/${encodeURIComponent(tag)}`}
+                className={`flex items-center gap-2 rounded-pill border border-border-hover bg-bg-surface text-text-primary transition-colors hover:border-accent-gold hover:text-accent-gold ${tier}`}
+              >
+                <span><span className="text-text-muted">#</span>{tag}</span>
+                <span className="font-mono text-xs font-normal text-text-muted tabular-nums">{count}</span>
+              </Link>
+            )
+          })}
         </div>
       </section>
 
       <section aria-labelledby="single-tags">
         <h2
           id="single-tags"
-          className="text-xs font-medium uppercase tracking-wider text-text-muted mb-4"
+          className="font-mono text-xs uppercase tracking-[0.12em] text-text-muted mb-4"
         >
           Used once — {singles.length}
         </h2>

@@ -1,9 +1,10 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
 import { getArticlesByTopic } from '@/lib/articles'
-import { TOPICS, TOPIC_DESCRIPTIONS, topicToSlug, slugToTopic } from '@/lib/topics'
+import { TOPICS, TOPIC_DESCRIPTIONS, topicToSlug, slugToTopic, topicVar } from '@/lib/topics'
+import { PageHeader } from '@/components/PageHeader'
+import { TopicGlyph } from '@/components/TopicGlyph'
 import { ArticleCard } from '@/components/ArticleCard'
 
 type Props = { params: Promise<{ topic: string }> }
@@ -32,19 +33,16 @@ export default async function TopicPage({ params }: Props) {
   const articles = await getArticlesByTopic(topic)
 
   return (
-    <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <Link href="/topics" className="text-xs text-text-muted hover:text-text-primary transition-colors">
-        ← All fields
-      </Link>
-      <h1 className="text-3xl font-bold text-text-primary mt-3 mb-2">
-        {topic}
-      </h1>
-      <p className="text-text-secondary text-sm leading-relaxed mb-1 max-w-[620px]">
-        {TOPIC_DESCRIPTIONS[topic]}
-      </p>
-      <p className="text-text-muted text-xs mb-8">
-        {articles.length} {articles.length === 1 ? 'article' : 'articles'}
-      </p>
+    <div className="max-w-[1100px] mx-auto px-5 py-14">
+      <PageHeader
+        back={{ href: '/topics', label: 'All fields' }}
+        eyebrow="Field"
+        title={topic}
+        icon={<TopicGlyph topic={topic} size={34} />}
+        description={TOPIC_DESCRIPTIONS[topic]}
+        meta={`${articles.length} ${articles.length === 1 ? 'article' : 'articles'} · ${articles.reduce((n, a) => n + a.widgets, 0)} widgets`}
+        accent={topicVar(topic)}
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {articles.map(a => (
           <ArticleCard key={a.slug} article={a} />

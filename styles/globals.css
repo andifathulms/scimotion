@@ -428,6 +428,38 @@ body {
   .card-rise { animation: none; }
 }
 
+/* Index-page header glow, in the page's field or path colour when it has one.
+ * isolation keeps the z-index:-1 glow inside the header rather than behind the
+ * page. */
+.page-header {
+  isolation: isolate;
+}
+
+.page-header[data-accent]::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  top: -6rem;
+  width: min(560px, 90vw);
+  height: 320px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--t) 16%, transparent), transparent);
+}
+
+/* A path card's colour, as a soft light in its top corner. */
+.path-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -70px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--t) 20%, transparent), transparent 70%);
+}
+
 .animation-block {
   background: var(--bg-surface);
   border: 0.5px solid var(--border);

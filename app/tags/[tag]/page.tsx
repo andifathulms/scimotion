@@ -1,7 +1,7 @@
 import { getAllTags, getArticlesByTag } from '@/lib/articles'
 import { ArticleCard } from '@/components/ArticleCard'
+import { PageHeader } from '@/components/PageHeader'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
 
@@ -30,16 +30,13 @@ export default async function TagPage({ params }: Props) {
   if (articles.length === 0) notFound()
 
   return (
-    <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <Link href="/tags" className="text-xs text-text-muted hover:text-text-primary transition-colors">
-        ← All tags
-      </Link>
-      <h1 className="text-3xl font-bold text-text-primary mt-3 mb-1">
-        #{decoded}
-      </h1>
-      <p className="text-text-secondary text-sm mb-8">
-        {articles.length} {articles.length === 1 ? 'article' : 'articles'}
-      </p>
+    <div className="max-w-[1100px] mx-auto px-5 py-14">
+      <PageHeader
+        back={{ href: '/tags', label: 'All tags' }}
+        eyebrow="Tag"
+        title={`#${decoded}`}
+        meta={`${articles.length} ${articles.length === 1 ? 'article' : 'articles'}`}
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {articles.map(a => (
           <ArticleCard key={a.slug} article={a} />

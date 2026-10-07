@@ -1,3 +1,5 @@
+import type { Topic } from './topics'
+
 export type LearningPath = {
   slug: string
   title: string
@@ -137,4 +139,13 @@ export function getPathNav(articleSlug: string): PathNav | null {
     }
   }
   return null
+}
+
+// A path's colour is the field most of its articles belong to. Paths cross
+// fields on purpose, so this is a majority, not a rule — but it gives each path
+// card and page a stable identity without a second colour table to maintain.
+export function dominantTopic<T extends { topic: Topic }>(items: T[]): Topic | undefined {
+  const tally = new Map<Topic, number>()
+  for (const { topic } of items) tally.set(topic, (tally.get(topic) ?? 0) + 1)
+  return [...tally.entries()].sort((a, b) => b[1] - a[1])[0]?.[0]
 }

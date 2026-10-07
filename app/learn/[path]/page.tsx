@@ -1,8 +1,11 @@
-import { learningPaths, getPath } from '@/lib/paths'
+import { learningPaths, getPath, dominantTopic } from '@/lib/paths'
 import { getAllArticles } from '@/lib/articles'
+import { topicVar } from '@/lib/topics'
 import { TopicBadge } from '@/components/TopicBadge'
+import { PageHeader } from '@/components/PageHeader'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
 
@@ -16,7 +19,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { path } = await params
   const p = getPath(path)
   if (!p) return {}
-  // p.description is the same sentence printed under the heading.
   return pageMetadata({ title: p.title, description: p.description, path: `/learn/${path}` })
 }
 
@@ -29,33 +31,54 @@ export default async function PathPage({ params }: Props) {
   const items = p.articleSlugs
     .map(slug => articles.find(a => a.slug === slug))
     .filter((a): a is NonNullable<typeof a> => Boolean(a))
+  const topic = dominantTopic(items)
+  const accent = topic ? topicVar(topic) : 'var(--color-accent-gold)'
+  const minutes = items.reduce((n, a) => n + a.readTime, 0)
 
   return (
-    <div className="max-w-[760px] mx-auto px-5 py-12">
-      <Link href="/learn" className="text-xs text-text-muted hover:text-text-primary transition-colors">
-        ← All paths
-      </Link>
-      <h1 className="text-3xl font-bold text-text-primary mt-3 mb-2">
-        {p.title}
-      </h1>
-      <p className="text-text-secondary text-base mb-2">{p.description}</p>
-      <p className="text-xs text-text-muted uppercase tracking-wider mb-10">{items.length} articles</p>
+    <div className="max-w-[820px] mx-auto px-5 py-14" style={{ '--t': accent } as React.CSSProperties}>
+      <PageHeader
+        back={{ href: '/learn', label: 'All paths' }}
+        eyebrow={`Learning path · ${items.length} parts`}
+        title={p.title}
+        description={p.description}
+        meta={`About ${Math.round(minutes / 60) || 1} ${Math.round(minutes / 60) === 1 ? 'hour' : 'hours'} of reading · ${items.reduce((n, a) => n + a.widgets, 0)} widgets`}
+        accent={accent}
+      />
 
-      <ol className="relative border-l border-border ml-3">
+      {items[0] && (
+        <Link
+          href={`/articles/${items[0].slug}`}
+          className="mb-12 inline-flex items-center gap-2 rounded-control bg-(--t) px-5 py-3 text-sm font-semibold text-bg-base transition-[filter] hover:brightness-110"
+        >
+          Start with {items[0].title}
+          <ArrowRight size={16} aria-hidden="true" />
+        </Link>
+      )}
+
+      {/* A route, drawn: the rule is the line the stops sit on. */}
+      <ol className="relative ml-4 border-l-2 border-bg-raised">
         {items.map((a, i) => (
-          <li key={a.slug} className="relative pl-8 pb-8 last:pb-0">
-            <span className="absolute -left-[13px] top-0 w-6 h-6 rounded-full bg-bg-surface border border-border-hover flex items-center justify-center text-xs text-text-secondary">
+          <li key={a.slug} className="relative pb-6 pl-9 last:pb-0">
+            <span
+              aria-hidden="true"
+              className="absolute -left-[15px] top-4 flex size-7 items-center justify-center rounded-full border-2 border-(--t) bg-bg-base font-mono text-xs font-medium text-(--t)"
+            >
               {i + 1}
             </span>
-            <Link href={`/articles/${a.slug}`} className="group block">
-              <div className="flex items-center gap-2 mb-1">
+            <Link
+              href={`/articles/${a.slug}`}
+              className="group block rounded-card border border-border bg-bg-surface p-5 transition-colors hover:border-[color-mix(in_srgb,var(--t)_45%,var(--color-border))]"
+            >
+              <div className="mb-2 flex flex-wrap items-center gap-2">
                 <TopicBadge topic={a.topic} />
-                <span className="text-xs text-text-muted">{a.readTime} min</span>
+                <span className="font-mono text-xs text-text-muted">{a.readTime} min</span>
               </div>
-              <h2 className="text-base font-semibold text-text-primary group-hover:text-accent-gold transition-colors">
+              <h2 className="font-display text-lg font-semibold text-text-primary transition-colors group-hover:text-(--t)">
+                <span className="sr-only">Part {i + 1}: </span>
                 {a.title}
               </h2>
-              <p className="text-sm text-text-secondary leading-relaxed mt-1">{a.description}</p>
+              <p className="mt-1 text-sm text-text-secondary">{a.description}</p>
             </Link>
           </li>
         ))}

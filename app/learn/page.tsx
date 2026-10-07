@@ -1,9 +1,10 @@
-import { learningPaths } from '@/lib/paths'
+import { learningPaths, dominantTopic } from '@/lib/paths'
 import { getAllArticles } from '@/lib/articles'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { topicVar } from '@/lib/topics'
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata'
+import { PageHeader } from '@/components/PageHeader'
+import { PathCard } from '@/components/PathCard'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Learning Paths',
@@ -13,43 +14,34 @@ export const metadata: Metadata = pageMetadata({
 
 export default async function LearnPage() {
   const articles = await getAllArticles()
-  const titleOf = (slug: string) => articles.find(a => a.slug === slug)?.title ?? slug
+  const totalMinutes = articles.reduce((n, a) => n + a.readTime, 0)
 
   return (
-    <div className="max-w-[1100px] mx-auto px-5 py-12">
-      <h1 className="text-3xl font-bold text-text-primary mb-2">
-        Learning paths
-      </h1>
-      <p className="text-text-secondary text-base mb-10 max-w-2xl">
-        Curated sequences that build understanding step by step. Follow one start to finish, or dip into any article along the way.
-      </p>
+    <div className="max-w-[1100px] mx-auto px-5 py-14">
+      <PageHeader
+        eyebrow="Learning paths"
+        title="Follow a syllabus"
+        description="Curated sequences that build understanding step by step. Follow one from start to finish, or dip into any article along the way."
+        meta={`${learningPaths.length} paths · ${articles.length} articles · about ${Math.round(totalMinutes / 60)} hours of reading`}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {learningPaths.map(path => (
-          <Link
-            key={path.slug}
-            href={`/learn/${path.slug}`}
-            className="group block rounded-card border border-border bg-bg-surface p-6 hover:border-border-hover hover:bg-bg-hover transition-colors"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-semibold text-text-primary group-hover:text-accent-gold transition-colors">
-                {path.title}
-              </h2>
-              <ArrowRight size={18} className="text-text-muted group-hover:text-accent-gold transition-colors" />
-            </div>
-            <p className="text-sm text-text-secondary leading-relaxed mb-4">{path.description}</p>
-            <ol className="space-y-1.5">
-              {path.articleSlugs.map((slug, i) => (
-                <li key={slug} className="flex items-center gap-2.5 text-sm text-text-muted">
-                  <span className="shrink-0 w-5 h-5 rounded-full bg-bg-hover border border-border flex items-center justify-center text-[11px]">
-                    {i + 1}
-                  </span>
-                  {titleOf(slug)}
-                </li>
-              ))}
-            </ol>
-          </Link>
-        ))}
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
+        {learningPaths.map(path => {
+          const items = path.articleSlugs
+            .map(slug => articles.find(a => a.slug === slug))
+            .filter((a): a is NonNullable<typeof a> => Boolean(a))
+          const topic = dominantTopic(items)
+          return (
+            <PathCard
+              key={path.slug}
+              slug={path.slug}
+              title={path.title}
+              description={path.description}
+              accent={topic ? topicVar(topic) : 'var(--color-accent-gold)'}
+              steps={items.map(a => ({ slug: a.slug, title: a.title, readTime: a.readTime }))}
+            />
+          )
+        })}
       </div>
     </div>
   )
