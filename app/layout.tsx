@@ -1,12 +1,33 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Bricolage_Grotesque, Geist, Geist_Mono, Newsreader } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { SITE_URL, SITE_DESCRIPTION } from '@/lib/site'
 import '../styles/globals.css'
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
+// Four faces, one job each — see TYPE FAMILIES in styles/globals.css. Each is
+// exposed as a variable on <html> and mapped to a Tailwind family there, so a
+// component asks for `font-display` or `font-serif` and never names a font.
+//
+// Newsreader is not preloaded: it is used only in article prose, so preloading
+// it would put a font every other route never paints on the critical path.
+const display = Bricolage_Grotesque({
+  subsets: ['latin'],
+  display: 'swap',
+  axes: ['opsz'],
+  variable: '--font-bricolage',
+})
+const sans = Geist({ subsets: ['latin'], display: 'swap', variable: '--font-geist' })
+const mono = Geist_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-geist-mono' })
+const serif = Newsreader({
+  subsets: ['latin'],
+  display: 'swap',
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  preload: false,
+  variable: '--font-newsreader',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -21,11 +42,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${display.variable} ${sans.variable} ${mono.variable} ${serif.variable}`}
+    >
       <head>
-        <meta name="theme-color" content="#0F0D0A" />
+        <meta name="theme-color" content="#0E0D0C" />
       </head>
-      <body className={inter.className}>
+      <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {/* Article pages put the table-of-contents rail before the article in
               the DOM, so reaching the prose costs about nineteen tabs: five nav

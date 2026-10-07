@@ -47,3 +47,25 @@ export function topicToSlug(topic: Topic): string {
 export function slugToTopic(slug: string): Topic | undefined {
   return TOPICS.find(t => topicToSlug(t) === slug)
 }
+
+// Which --topic-* token each field draws its colour from. The values are CSS
+// variable names rather than hexes so the colour flips with the theme; the hexes
+// live once, in styles/globals.css. Record<Topic, …> for the same reason as the
+// descriptions above: a new field will not compile until it has a colour.
+const TOPIC_TOKEN: Record<Topic, string> = {
+  Mathematics: 'mathematics',
+  Physics: 'physics',
+  Chemistry: 'chemistry',
+  Biology: 'biology',
+  'Earth & Climate': 'earth',
+  'Astronomy & Cosmology': 'astronomy',
+  'Computer Science': 'cs',
+  'Networks & the Internet': 'networks',
+  Medicine: 'medicine',
+}
+
+// `var(--topic-physics)` etc. Components set it as a local `--t` and derive
+// tints from it with color-mix, so one field colour drives badge, glow and rule.
+export function topicVar(topic: Topic): string {
+  return `var(--topic-${TOPIC_TOKEN[topic]})`
+}

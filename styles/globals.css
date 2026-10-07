@@ -12,31 +12,44 @@
  * hand-written CSS in this file can stay terse — they must never carry their own
  * literal values.
  *
- * COLOUR
+ * COLOUR — "Sodium & Carbon"
  *
- * The palette used to be two independent sets with the same values copy-pasted,
- * and `.light` only overrode the short names. Every component styled with a
- * Tailwind utility therefore kept its dark-mode colour in light mode, which is
- * why body text rendered near-white on a cream background. Override `--color-*`
- * here and both systems flip together.
+ * The brand accent is the sodium D-line, 589 nm: the amber of a sodium-vapour
+ * lamp and the most famous line in spectroscopy. It keeps the name accent-gold
+ * because 372 widget play buttons are written against that utility.
  *
- * Every text tone clears WCAG AA (4.5:1) against every surface it can sit on —
- * bg-base, bg-surface and bg-hover. Measured, worst surface first:
+ * Text tones are solid colours, not alpha blends of the primary. An alpha tone
+ * changes contrast with whatever it lands on, so the same "muted" read 5.1:1 on
+ * the base and less on a raised panel. Neutrals carry a slight warm bias toward
+ * the accent, and there are now four surface steps (base, surface, hover,
+ * raised) so a panel, the control inside it and the track inside that stack
+ * visibly. Measured, worst surface first:
  *
- *   dark   primary   17.1:1   secondary  7.3:1   muted  4.8:1
- *   light  primary   16.7:1   secondary  6.2:1   muted  4.9:1
+ *   dark   primary  13.2:1   secondary  7.2:1   muted  4.6:1
+ *   light  primary  13.6:1   secondary  6.0:1   muted  4.4:1 (raised only;
+ *          4.9:1 on every surface text actually sits on)
  *
- * Dark `muted` was 0.35 alpha (2.9:1) and failed everywhere it was used — card
- * datelines, path step numbers, the "showing N of M" counter. That is the same
- * bug the light theme already fixed at 0.62; the dark side had been left behind.
- * Borders are deliberately below 3:1: they are decoration on top of a filled
- * surface, not the only thing marking a control. Focus, which *is* load-bearing,
- * gets --color-focus at 9:1 instead. */
+ * TWO ACCENT FAMILIES, ON PURPOSE
+ *
+ * --color-accent-* is the widget palette. The 339 widgets draw their canvases
+ * with literal hexes and colour their labels with these utilities, so "Wave 2"
+ * in violet matches the violet line it labels. Re-pitching these would break
+ * that pairing in every widget, so they keep their values.
+ *
+ * --color-topic-* is the interface palette for the nine fields. All nine share
+ * one OKLCH lightness and chroma (L 0.79 / C 0.115 dark, L 0.50 / C 0.13 light)
+ * and differ only in hue, so no field reads louder than another. Every one
+ * clears AA as text: 9.0–9.9:1 on dark surfaces, 4.8–6.4:1 on light ones.
+ * Physics and Earth are nudged a step darker on light to clear the hover tone.
+ * Borders stay deliberately below 3:1 — they are decoration on a filled surface,
+ * not the only thing marking a control. Focus, which *is* load-bearing, gets
+ * --color-focus. */
 @theme {
-  --color-bg-base: #0F0D0A;
-  --color-bg-surface: #1A1712;
-  --color-bg-hover: #252018;
-  --color-accent-gold: #F59E0B;
+  --color-bg-base: #0E0D0C;
+  --color-bg-surface: #161412;
+  --color-bg-hover: #1F1C19;
+  --color-bg-raised: #29251F;
+  --color-accent-gold: #FFB245;
   --color-accent-orange: #FB923C;
   --color-accent-violet: #A78BFA;
   --color-accent-teal: #10B981;
@@ -46,18 +59,31 @@
   --color-accent-cyan: #22D3EE;
   --color-accent-indigo: #818CF8;
   --color-accent-red: #F87171;
-  --color-text-primary: #F5F0E8;
-  --color-text-secondary: rgba(245,240,232,0.68);
-  --color-text-muted: rgba(245,240,232,0.52);
-  --color-border: rgba(255,245,235,0.08);
-  --color-border-hover: rgba(255,245,235,0.18);
+  --color-topic-mathematics: #C6AAFA;
+  --color-topic-physics: #63D2AF;
+  --color-topic-chemistry: #F8A27C;
+  --color-topic-biology: #9ACB7F;
+  --color-topic-earth: #4AD0DD;
+  --color-topic-astronomy: #A1B6FF;
+  --color-topic-cs: #78C2FF;
+  --color-topic-networks: #FC9C9F;
+  --color-topic-medicine: #EF9CCB;
+  --color-text-primary: #F3EEE6;
+  --color-text-secondary: #B9B1A5;
+  --color-text-muted: #948C80;
+  --color-border: rgba(255,236,214,0.09);
+  --color-border-hover: rgba(255,236,214,0.18);
+
+  /* "Something is running." The one cool colour in the interface, used only for
+   * the live indicator on a playing widget, so it never competes with the
+   * accent for meaning. */
+  --color-live: #7BD0F9;
 
   /* Text that sits *on* a filled accent — the gold buttons and active pills.
-   * It tracks bg-base rather than being a fixed ink, because accent-gold flips
-   * from a bright #F59E0B on near-black to a deep #B45309 on cream: the readable
-   * foreground has to flip with it. 9.0:1 dark, 4.7:1 light. */
-  --color-on-accent: #0F0D0A;
-  --color-focus: #F59E0B;
+   * It flips with accent-gold, from a bright sodium on near-black to a deep
+   * amber on paper. 10.3:1 dark, 5.2:1 light. */
+  --color-on-accent: #1A1206;
+  --color-focus: #FFB245;
 
   /* The drawing surface inside a widget.
    *
@@ -67,21 +93,16 @@
    * canvas to cream would need every one of those colour constants re-pitched,
    * and until that happens a light canvas is an unreadable one. Against the white
    * surface of a light-mode animation block it reads as an instrument panel,
-   * which is the honest description of what it is.
-   *
-   * This was the literal '#0F0D0A' repeated in 299 files. Naming it does not
-   * change a pixel; it makes the decision findable, and makes reversing it a
-   * one-line edit instead of a 299-file sweep. */
+   * which is the honest description of what it is. */
   --color-canvas: #0F0D0A;
 
   /* TYPE SCALE
    *
    * One scale, ~1.2 ratio through the text sizes and widening into display.
    * Line-height and tracking are bound to each step, so a size is chosen once
-   * and its metrics come with it — this is what removes the `letterSpacing`
-   * inline styles that were re-declared per page. Body copy starts at --text-base
-   * (16px); --text-xs is for metadata only (datelines, counters, axis labels),
-   * never for a sentence someone has to read. */
+   * and its metrics come with it. Body copy starts at --text-base (16px);
+   * --text-xs is for metadata only (datelines, counters, axis labels), never for
+   * a sentence someone has to read. */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.5;
   --text-xs--letter-spacing: 0.005em;
@@ -92,26 +113,28 @@
   --text-lg: 1.125rem;
   --text-lg--line-height: 1.7;
   --text-xl: 1.3125rem;
-  --text-xl--line-height: 1.45;
-  --text-xl--letter-spacing: -0.01em;
+  --text-xl--line-height: 1.4;
+  --text-xl--letter-spacing: -0.012em;
   --text-2xl: 1.5rem;
-  --text-2xl--line-height: 1.35;
-  --text-2xl--letter-spacing: -0.015em;
+  --text-2xl--line-height: 1.3;
+  --text-2xl--letter-spacing: -0.018em;
   --text-3xl: 1.875rem;
-  --text-3xl--line-height: 1.25;
-  --text-3xl--letter-spacing: -0.02em;
+  --text-3xl--line-height: 1.2;
+  --text-3xl--letter-spacing: -0.024em;
   --text-4xl: 2.25rem;
-  --text-4xl--line-height: 1.2;
-  --text-4xl--letter-spacing: -0.022em;
+  --text-4xl--line-height: 1.1;
+  --text-4xl--letter-spacing: -0.03em;
   --text-5xl: 3rem;
-  --text-5xl--line-height: 1.1;
-  --text-5xl--letter-spacing: -0.025em;
+  --text-5xl--line-height: 1.04;
+  --text-5xl--letter-spacing: -0.034em;
 
   /* The one display step, reserved for the hero headline. Fluid so it does not
-   * need a breakpoint variant, and capped so it cannot outgrow its measure. */
-  --text-display: clamp(2.25rem, 5.5vw, 3.25rem);
-  --text-display--line-height: 1.08;
-  --text-display--letter-spacing: -0.03em;
+   * need a breakpoint variant, and capped so it cannot outgrow its measure.
+   * Bricolage's optical-size axis tightens it as it grows, which is what lets
+   * the leading sit below 1 without the lines colliding. */
+  --text-display: clamp(2.5rem, 6vw, 4.25rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.038em;
 
   /* SPACING
    *
@@ -123,30 +146,50 @@
   --space-block: 2rem;
   --space-section: 4rem;
 
-  /* RADII — two roles: the card surface, and anything pill-shaped. */
+  /* RADII — the card surface, the smaller control inside one, and pills. */
   --radius-card: 1rem;
+  --radius-control: 0.625rem;
   --radius-pill: 9999px;
 
-  --font-sans: Inter, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* TYPE FAMILIES
+ *
+ * Four faces, one job each. The faces are self-hosted by next/font, which
+ * exposes each as a CSS variable on <html>; `inline` makes the utilities read
+ * those variables directly instead of through a :root copy that would resolve
+ * before the font class exists.
+ *
+ *   display  Bricolage Grotesque — headlines, card titles, big numbers
+ *   sans     Geist — interface: nav, buttons, labels, descriptions
+ *   serif    Newsreader — article prose only, where reading is the task
+ *   mono     Geist Mono — readouts, slider values, metadata
+ *
+ * --font-mono used to name JetBrains Mono, which was never loaded, so all 523
+ * font-mono uses in the widgets were silently falling back to the OS mono. */
+@theme inline {
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-geist), system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
 }
 
 /* next-themes puts the theme class on <html>, the same element as :root, so a
  * `.light` override here wins and the aliases below resolve to the new values. */
 .light {
-  --color-bg-base: #FAF7F2;
+  --color-bg-base: #F6F4EF;
   --color-bg-surface: #FFFFFF;
-  --color-bg-hover: #F1EBE1;
-  --color-text-primary: #1A1712;
-  --color-text-secondary: rgba(26,23,18,0.68);
-  /* 0.62 is the point where muted text clears WCAG AA (4.5:1) on the cream
-   * background; the dark-mode 0.35 lands at 1.4:1 here and is unreadable. */
-  --color-text-muted: rgba(26,23,18,0.62);
-  --color-border: rgba(26,23,18,0.1);
-  --color-border-hover: rgba(26,23,18,0.2);
-  /* Accents are tuned per theme: the dark-mode set is pitched for a near-black
-   * background and is too pale to read as text on cream. */
-  --color-accent-gold: #B45309;
+  --color-bg-hover: #EEEBE4;
+  --color-bg-raised: #E4E0D7;
+  --color-text-primary: #1A1714;
+  --color-text-secondary: #57514A;
+  --color-text-muted: #6B645B;
+  --color-border: rgba(30,24,16,0.1);
+  --color-border-hover: rgba(30,24,16,0.2);
+  /* Widget accents are tuned per theme: the dark-mode set is pitched for a
+   * near-black background and is too pale to read as text on paper. */
+  --color-accent-gold: #A05600;
   --color-accent-orange: #C2410C;
   --color-accent-violet: #6D28D9;
   --color-accent-teal: #047857;
@@ -156,9 +199,19 @@
   --color-accent-cyan: #0E7490;
   --color-accent-indigo: #4338CA;
   --color-accent-red: #B91C1C;
+  --color-topic-mathematics: #6F4FA1;
+  --color-topic-physics: #00704F;
+  --color-topic-chemistry: #9D4616;
+  --color-topic-biology: #40731A;
+  --color-topic-earth: #006C7B;
+  --color-topic-astronomy: #4A5BAC;
+  --color-topic-cs: #0068A7;
+  --color-topic-networks: #A03E46;
+  --color-topic-medicine: #954074;
+  --color-live: #006A96;
   /* Flips with accent-gold — see --color-on-accent above. */
-  --color-on-accent: #FAF7F2;
-  --color-focus: #B45309;
+  --color-on-accent: #FFF8EE;
+  --color-focus: #A05600;
 }
 
 /* Aliases for the hand-written rules below. Values come from --color-* above. */
@@ -179,6 +232,8 @@
   --text-primary: var(--color-text-primary);
   --text-secondary: var(--color-text-secondary);
   --text-muted: var(--color-text-muted);
+  --bg-raised: var(--color-bg-raised);
+  --live: var(--color-live);
   --border: var(--color-border);
   --border-hover: var(--color-border-hover);
   --on-accent: var(--color-on-accent);
@@ -190,12 +245,34 @@
    * stylesheet reference, so a future version that drops unused theme variables
    * cannot silently turn 299 widget canvases transparent. */
   --canvas: var(--color-canvas);
+  /* Same reason: the topic colours are read as `var(--topic-…)` from inline
+   * styles (see topicVar in lib/topics.ts), never from a utility class. */
+  --topic-mathematics: var(--color-topic-mathematics);
+  --topic-physics: var(--color-topic-physics);
+  --topic-chemistry: var(--color-topic-chemistry);
+  --topic-biology: var(--color-topic-biology);
+  --topic-earth: var(--color-topic-earth);
+  --topic-astronomy: var(--color-topic-astronomy);
+  --topic-cs: var(--color-topic-cs);
+  --topic-networks: var(--color-topic-networks);
+  --topic-medicine: var(--color-topic-medicine);
 }
 
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings take the display face by default; a utility on the element still
+ * wins, because this sits in the base layer below them. */
+@layer base {
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
 }
 
 /* One focus treatment for everything. Keyboard users were relying on the UA
@@ -546,7 +623,7 @@ body {
 }
 
 .prose-article code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.875rem;
   background: var(--bg-hover);
   padding: 0.125rem 0.375rem;

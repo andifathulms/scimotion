@@ -3,20 +3,23 @@ import type { ReactElement, ReactNode } from 'react'
 
 import type { Topic } from '@/lib/topics'
 
+// The dark-theme topic colours from globals.css. Literal rather than var(),
+// because these visuals always sit on the dark canvas — like the widgets, they
+// do not flip with the theme, so they take the dark set on both.
 const ACCENT: Record<Topic, string> = {
-  Mathematics: '#A78BFA',
-  Physics: '#10B981',
-  Chemistry: '#FB923C',
-  Biology: '#A3E635',
-  'Earth & Climate': '#22D3EE',
-  'Astronomy & Cosmology': '#818CF8',
-  'Computer Science': '#60A5FA',
-  'Networks & the Internet': '#F87171',
-  Medicine: '#F472B6',
+  Mathematics: '#C6AAFA',
+  Physics: '#63D2AF',
+  Chemistry: '#F8A27C',
+  Biology: '#9ACB7F',
+  'Earth & Climate': '#4AD0DD',
+  'Astronomy & Cosmology': '#A1B6FF',
+  'Computer Science': '#78C2FF',
+  'Networks & the Internet': '#FC9C9F',
+  Medicine: '#EF9CCB',
 }
 
 const BG = '#1A1712'
-const GOLD = '#F59E0B'
+const GOLD = '#FFB245'
 const MUTE = 'rgba(245,240,232,0.35)'
 const FAINT = 'rgba(255,245,235,0.08)'
 
